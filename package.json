@@ -1,0 +1,35 @@
+{
+  "name": "ix",
+  "version": "2.0.0",
+  "description": "The Interactive Extensions for JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/**/*.js | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReactiveX/IxJS.git"
+  },
+  "keywords": [
+    "Iterator",
+    "Iterable",
+    "Promise",
+    "Async"
+  ],
+  "author": "ReactiveX",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ReactiveX/IxJS/issues"
+  },
+  "homepage": "https://github.com/ReactiveX/IxJS#readme",
+  "devDependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.3",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.4.0",
+    "webpack": "^2.1.0-beta.2"
+  },
+  "dependencies": {
+    "inherits": "^2.0.1"
+  }
+}
