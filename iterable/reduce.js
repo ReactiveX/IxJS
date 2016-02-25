@@ -7,7 +7,7 @@ function reduceFn (source, func, seed) {
   while (1) {
     var next = iterator.next();
     if (next.done) { return accumulate; }
-    accumulate = func(accumulate, next.value, i++, source);
+    accumulate = func(accumulate, next.value, i++);
   }
 }
 
@@ -21,7 +21,7 @@ function reduceFn1 (source, func) {
   while (1) {
     next = iterator.next();
     if (next.done) { return accumulate; }
-    accumulate = func(accumulate, next.value, i++, source);
+    accumulate = func(accumulate, next.value, i++);
   }
 }
 
