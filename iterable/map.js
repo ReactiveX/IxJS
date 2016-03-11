@@ -19,7 +19,7 @@ inherits(MapIterator, Iterator);
 MapIterator.prototype.next = function () {
   var next = this._it.next();
   if (next.done) { return doneIterator; }
-  return { done: false, value: this._fn(next, this._i++) };
+  return { done: false, value: this._fn(next.value, this._i++) };
 };
 
 function innerMap(fn, self) {

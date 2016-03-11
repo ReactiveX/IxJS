@@ -28,9 +28,9 @@ function reduceFn1 (source, func) {
 module.exports = function reduce (/* source, fn, seed */) {
   var source = arguments[0], fn = arguments[1];
   if (arguments.length === 3) {
-    return reduceFn(source, fn);
+    return reduceFn1(source, fn, arguments[2]);    
   } else if (arguments.length === 2) {
-    return reduceFn1(source, fn, arguments[2]);
+    return reduceFn(source, fn);
   } else {
     throw new Error('Invalid arguments');
   }

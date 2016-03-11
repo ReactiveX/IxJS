@@ -1,7 +1,7 @@
 'use strict';
 
 function isSymbol (x) {
-  return global.Symbol === 'function' && typeof x === 'symbol';
+  return typeof Symbol === 'function' && typeof x === 'symbol';
 }
 
 var $iterator$ = isSymbol(global.Symbol.iterator) ?

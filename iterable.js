@@ -5,6 +5,9 @@ var $iterator$ = require('./symbol').iterator;
 
 function Iterable(source) {
   if (!(this instanceof Iterable)) { return new Iterable(source); }
+  if (source === undefined) {
+    return;
+  }
   if (typeof source[$iterator$] !== 'function') {
     throw new TypeError('source must be iterable');
   }
@@ -20,6 +23,22 @@ Iterable.prototype.forEach = function (fn, thisArg) {
   while (!(next = it.next()).done) {
     fun(next.value, i++);
   }
+};
+
+Iterable.addToObject = function (operators) {
+  Object.keys(operators).forEach(function (operator) {
+    Iterable[operator] = operators[operator];
+  });
+};
+
+Iterable.addToPrototype = function (operators) {
+  Object.keys(operators).forEach(function (operator) {
+    Iterable.prototype[operator] = function () {
+      var args = [this];
+      args.push.apply(args, arguments);
+      return operators[operator].apply(null, args);
+    };
+  });
 };
 
 module.exports = Iterable;
