@@ -2,8 +2,11 @@
 
 var $iterator$ = require('./symbol').iterator;
 
-function Iterator() {
-
+function Iterator(it) {
+  if (it === undefined) {
+    return;
+  }
+  this._it = it;
 }
 
 Iterator.prototype[$iterator$] = function () {
@@ -11,7 +14,7 @@ Iterator.prototype[$iterator$] = function () {
 };
 
 Iterator.prototype.next = function () {
-  throw new Error('must be implemented');
+  return this._it.next();
 };
 
 module.exports = Iterator;

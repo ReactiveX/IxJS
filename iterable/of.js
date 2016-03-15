@@ -29,7 +29,7 @@ function OfIterable(source) {
 inherits(OfIterable, Iterable);
 
 OfIterable.prototype[$iterator$] = function () {
-  return new OfIterator(this._start, this._count);
+  return new OfIterator(this._source);
 };
 
 module.exports = function of() {
