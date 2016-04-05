@@ -1,6 +1,7 @@
 'use strict';
 
 var Iterable = require('./iterable');
+var AsyncIterable = require('./asynciterable');
 
 Iterable.addToObject({
   from: require('./iterable/from'),
@@ -21,7 +22,17 @@ Iterable.addToPrototype({
   tap: require('./iterable/tap')
 });
 
+AsyncIterable.addToObject({
+    from: require('./asynciterable/from')
+});
+
+AsyncIterable.addToPrototype({
+    map: require('./asynciterable/map')
+});
+
 module.exports = {
   Iterator: require('./iterator'),
   Iterable: Iterable,
+  AsyncIterator: require('./asynciterator'),
+  AsyncIterable: AsyncIterable
 };

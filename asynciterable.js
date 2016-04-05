@@ -7,7 +7,7 @@ var $asyncIterator$ = require('./symbol').asyncIterator;
 var bindCallback = require('./internal/bindcallback');
 
 function AsyncIterable(source) {
-  if (typeof source[$asyncIterator$] !== 'function') {
+  if (source && typeof source[$asyncIterator$] !== 'function') {
     throw new TypeError('Source must support Symbol.asyncIterator');
   }
   this._source = source;
@@ -38,6 +38,22 @@ AsyncIterable.prototype.forEachAsync = function (fn, thisArg) {
   recurse();
 
   return p;
+};
+
+AsyncIterable.addToObject = function (operators) {
+  Object.keys(operators).forEach(function (operator) {
+    AsyncIterable[operator] = operators[operator];
+  });
+};
+
+AsyncIterable.addToPrototype = function (operators) {
+  Object.keys(operators).forEach(function (operator) {
+    AsyncIterable.prototype[operator] = function () {
+      var args = [this];
+      args.push.apply(args, arguments);
+      return operators[operator].apply(null, args);
+    };
+  });
 };
 
 module.exports = AsyncIterable;
