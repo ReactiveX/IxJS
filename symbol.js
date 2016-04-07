@@ -13,7 +13,7 @@ if (global.Set && typeof new global.Set()['@@iterator'] === 'function') {
 
 var $asyncIterator$ = isSymbol(global.Symbol.asyncIterator) ?
   global.Symbol.asyncIterator :
-  '_es6-shim asyncIterator';
+  '@@asyncIterator';
 
 module.exports = {
   isSymbol: isSymbol,

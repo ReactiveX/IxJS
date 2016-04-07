@@ -1,8 +1,5 @@
 'use strict';
 
-// https://github.com/facebook/regenerator/blob/f87d654f85c9925c4db3f74806f7615a71297f40/runtime.js#L136
-// https://github.com/facebook/regenerator/blob/f87d654f85c9925c4db3f74806f7615a71297f40/test/async.es6.js#L259
-
 var $asyncIterator$ = require('./symbol').asyncIterator;
 var bindCallback = require('./internal/bindcallback');
 
@@ -23,11 +20,7 @@ AsyncIterable.prototype.forEachAsync = function (fn, thisArg) {
   var recurse = function () {
     p = e.next().then(function (result) {
       if (!result.done) {
-        try {
-          cb(result.value, i++);
-        } catch (e) {
-          return Promise.reject(e);
-        }
+        cb(result.value, i++);
         recurse();
       } else {
         Promise.resolve();

@@ -4,7 +4,6 @@ var AsyncIterable = require('../AsyncIterable');
 var AsyncIterator = require('../AsyncIterator');
 var $asyncIterator$ = require('../symbol').asyncIterator;
 var bindCallback = require('../internal/bindcallback');
-var doneIterator = require('../internal/doneIterator');
 var inherits = require('inherits');
 
 function AsyncMapIterator(it, fn) {

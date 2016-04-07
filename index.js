@@ -23,11 +23,12 @@ Iterable.addToPrototype({
 });
 
 AsyncIterable.addToObject({
-    from: require('./asynciterable/from')
+  from: require('./asynciterable/from')
 });
 
 AsyncIterable.addToPrototype({
-    map: require('./asynciterable/map')
+  filter: require('./asynciterable/filter'),
+  map: require('./asynciterable/map')
 });
 
 module.exports = {
