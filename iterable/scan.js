@@ -3,7 +3,7 @@
 var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneIterator');
+var doneIterator = require('../internal/doneiterator');
 var inherits = require('inherits');
 
 function ScanIterator(it, fn, hasSeed, seed) {
