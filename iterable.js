@@ -4,14 +4,10 @@ var bindCallback = require('./internal/bindcallback');
 var $iterator$ = require('./symbol').iterator;
 
 function Iterable(source) {
-  if (!(this instanceof Iterable)) { return new Iterable(source); }
-  if (source === undefined) {
-    return;
+  if (source && typeof source[$iterator$] !== 'function') {
+    throw new TypeError('Source must support Symbol.iterator');
   }
-  if (typeof source[$iterator$] !== 'function') {
-    throw new TypeError('source must be iterable');
-  }
-  this._source = source;
+  this._source = source
 }
 
 Iterable.prototype[$iterator$] = function () {

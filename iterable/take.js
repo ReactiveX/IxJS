@@ -3,7 +3,6 @@
 var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneIterator');
 var inherits = require('inherits');
 
 function TakeIterator(it, count) {
@@ -16,8 +15,8 @@ inherits(TakeIterator, Iterator);
 
 TakeerIterator.prototype.next = function () {
   var next = this._it.next();
-  if (next.done) { return doneIterator; }
-  if (this._i-- === 0) { return doneIterator; }
+  if (next.done) { return { done: true, value: next.value }; }
+  if (this._i-- === 0) { return { done: true, value: next.value }; ; }
   return { value: next.value, done: false };
 };
 

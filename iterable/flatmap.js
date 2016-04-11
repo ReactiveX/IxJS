@@ -3,18 +3,16 @@
 var Iterable = require('../iterable');
 var fromIterable = require('./from');
 var Iterator = require('../iterator');
-var doneIterator = require('../internal/doneiterator');
 var isIterable = require('../internal/isiterable');
 var $iterator$ = require('../symbol').iterator;
 var inherits = require('inherits');
 
 function FlatMapIterator(it, fn, resFn) {
-  this._it = it;
+  Iterator.call(this, it);
   this._innerIt = null;
   this._fn = fn;
   this._resFn = resFn;
   this._i = 0;
-  Iterator.call(this);
 }
 
 inherits(FlatMapIterator, Iterator);
@@ -24,7 +22,7 @@ FlatMapIterator.prototype.next = function () {
   while(1) {
     if (!this._innerIt) {
       outerNext = this._it.next();
-      if (outerNext.done) { return doneIterator; }
+      if (outerNext.done) { return { done: true, value: outerNext.value }; }
 
       var innerItem = this._fn(outerNext.value, this._i++);
       !isIterable(innerItem) || (innerItem = fromIterable(innerItem));
@@ -43,10 +41,9 @@ FlatMapIterator.prototype.next = function () {
 };
 
 function FlatMapIterable(source, fn, resFn) {
-  this._source = source;
+  Iterable.call(this, source);
   this._fn = fn;
   this._resFn = resFn;
-  Iterable.call(this);
 }
 
 inherits(FlatMapIterable, Iterable);

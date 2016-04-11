@@ -3,7 +3,6 @@
 var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneiterator');
 var inherits = require('inherits');
 
 function ScanIterator(it, fn, hasSeed, seed) {
@@ -20,12 +19,12 @@ ScanIterator.prototype.next = function () {
   var next;
   if (!this._hs) {
     next = this._it.next();
-    if (next.done) { return doneIterator; }
+    if (next.done) { return { done: true, value: next.value }; }
     this._hs = true;
     this._v = next.value;
   }
   next = this._it.next();
-  if (next.done) { return doneIterator; }
+  if (next.done) { return { done: true, value: next.value }; }
   this._v = this._fn(this._v, next.value);
   return { done: false, value: this._v };
 };

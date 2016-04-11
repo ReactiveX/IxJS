@@ -6,7 +6,8 @@ var AsyncIterable = require('./asynciterable');
 Iterable.addToObject({
   from: require('./iterable/from'),
   of: require('./iterable/of'),
-  range: require('./iterable/range')
+  range: require('./iterable/range'),
+  repeatValue: require('./iterable/repeatvalue')
 });
 
 Iterable.addToPrototype({
@@ -17,7 +18,9 @@ Iterable.addToPrototype({
   map: require('./iterable/map'),
   reduce: require('./iterable/reduce'),
   scan: require('./iterable/scan'),
+  skip: require('./iterable/skip'),
   some: require('./iterable/some'),
+  take: require('./iterable/take'),
   takeLast: require('./iterable/takelast'),
   tap: require('./iterable/tap')
 });

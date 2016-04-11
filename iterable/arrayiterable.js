@@ -7,10 +7,10 @@ var doneIterator = require('../internal/doneiterator');
 var inherits = require('inherits');
 
 function ArrayIterator(source) {
+  Iterator.call(this);
   this._source = source;
   this._len = source.length;
   this._index = -1;
-  Iterator.call(this);
 }
 
 inherits(ArrayIterator, Iterator);
@@ -22,8 +22,7 @@ ArrayIterator.prototype.next = function () {
 };
 
 function ArrayIterable(source) {
-  this._source = source;
-  Iterable.call(this);
+  Iterable.call(this, source);
 }
 
 inherits(ArrayIterable, Iterable);

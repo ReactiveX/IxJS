@@ -4,7 +4,6 @@ var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
 var bindCallback = require('../internal/bindcallback');
-var doneIterator = require('../internal/doneIterator');
 var isIterable = require('../internal/isiterable');
 var toLength = require('../internal/tolength');
 var inherits = require('inherits');
@@ -25,7 +24,7 @@ FromIterator.prototype.next = function () {
   var value;
   if (this._isIterable) {
     var next = this._it.next();
-    if (next.done) { return doneIterator; }
+    if (next.done) { return { done: true, value: next.value }; }
     value = next.value;
     if (this._fn) {
       value = this._fn(value, this._i++);
@@ -41,7 +40,7 @@ FromIterator.prototype.next = function () {
       this._i++;
       return { done: false, value: value };
     }
-    return doneIterator;
+    return { done: true, value: undefined };
   }
 };
 

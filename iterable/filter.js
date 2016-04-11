@@ -4,14 +4,12 @@ var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
 var bindCallback = require('../internal/bindcallback');
-var doneIterator = require('../internal/doneIterator');
 var inherits = require('inherits');
 
 function FilterIterator(it, fn) {
-  this._it = it;
+  Iterator.call(this, it);
   this._fn = fn;
   this._i = 0;
-  Iterator.call(this);
 }
 
 inherits(FilterIterator, Iterator);
@@ -23,13 +21,12 @@ FilterIterator.prototype.next = function () {
       return { done: false, value: next.value };
     }
   }
-  return doneIterator;
+  return { done: true, value: next.value };
 };
 
 function FilterIterable(source, fn, thisArg) {
-  this._source = source;
+  Iterable.call(this, source);
   this._fn = bindCallback(fn, thisArg, 2);
-  Iterable.call(this);
 }
 
 inherits(FilterIterable, Iterable);
@@ -47,6 +44,7 @@ FilterIterable.prototype.internalFilter = function(fn, thisArg) {
 };
 
 module.exports = function filter (source, fn, thisArg) {
-  return source instanceof FilterIterable ? source.internalFilter(fn, thisArg) :
+  return source instanceof FilterIterable ? 
+    source.internalFilter(fn, thisArg) :
     new FilterIterable(source, fn, thisArg);
 };

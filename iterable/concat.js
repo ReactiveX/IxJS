@@ -1,17 +1,16 @@
 'use strict';
 
 var Iterable = require('../iterable');
+var ArrayIterable = require('./arrayiterable');
 var fromIterable = require('./from');
 var isIterable = require('../internal/isiterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneiterator');
 var inherits = require('inherits');
 
-function ConcatIterator(outerIt) {
-  this._outerIt = outerIt;
+function ConcatIterator(it) {
+  Iterator.call(this, it);
   this._innerIt = null;
-  Iterator.call(this);
 }
 
 inherits(ConcatIterator, Iterator);
@@ -20,8 +19,8 @@ ConcatIterator.prototype.next = function () {
   var outerNext;
   while (1) {
     if (!this._innerIt) {
-      outerNext = this._outerIt.next();
-      if (outerNext.done) { return doneIterator; }
+      outerNext = this._it.next();
+      if (outerNext.done) { return { done: true, value: outerNext.value }; }
       
       var innerItem = outerNext.value;
       !isIterable(innerItem) || (innerItem = fromIterable(innerItem));
@@ -37,35 +36,8 @@ ConcatIterator.prototype.next = function () {
   }
 };
 
-function ArgumentIterator(source) {
-  this._source = source;
-  this._len = source.length;
-  this._index = -1;
-  Iterator.call(this);
-}
-
-inherits(ArgumentIterator, Iterator);
-
-ArgumentIterator.prototype.next = function () {
-  return ++this._index < this._len ?
-    { done: false, value: this._source[this._index] } :
-    doneIterator;
-};
-
-function ArgumentIterable(source) {
-  this._source = source;
-  Iterable.call(this);
-}
-
-inherits(ArgumentIterable, Iterable);
-
-ArgumentIterable.prototype[$iterator$] = function () {
-  return new ArgumentIterator(this._source);
-};
-
 function ConcatIterable(source) {
-  this._source = source;
-  Iterable.call(this);
+  Iterable.call(this, source);
 }
 
 inherits(ConcatIterable, Iterable);
@@ -77,7 +49,7 @@ ConcatIterable.prototype[$iterator$] = function () {
 module.exports = function concat() {
   var len = arguments.length, args = new Array(len);
   for (var i = 0; i < len; i++) { args[i] = arguments[i]; }
-  !args[$iterator$] && (args = new ArgumentIterable(args));
+  !args[$iterator$] && (args = new ArrayIterable(args));
   return new ConcatIterable(args);
 };
 

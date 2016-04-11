@@ -3,7 +3,6 @@
 var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneIterator');
 var inherits = require('inherits');
 
 function TakeLastIterator(it, count) {
@@ -24,7 +23,7 @@ TakeLastIterator.prototype.next = function () {
   if (this._q.length > 0) {
     return { done: false, value: this._q.shift() };
   } else {
-    return doneIterator;
+    return { done: true, value: next.value };
   }
 };
 

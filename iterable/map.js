@@ -4,7 +4,6 @@ var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
 var bindCallback = require('../internal/bindcallback');
-var doneIterator = require('../internal/doneIterator');
 var inherits = require('inherits');
 
 function MapIterator(it, fn) {
@@ -18,7 +17,7 @@ inherits(MapIterator, Iterator);
 
 MapIterator.prototype.next = function () {
   var next = this._it.next();
-  if (next.done) { return doneIterator; }
+  if (next.done) { return { done: true, value: next.value }; }
   return { done: false, value: this._fn(next.value, this._i++) };
 };
 
