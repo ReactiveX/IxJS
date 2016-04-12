@@ -10,6 +10,8 @@ function DeferIterable(fn) {
   this._fn = fn;
 }
 
+inherits(DeferIterable, Iterable);
+
 DeferIterable.prototype[$iterator$] = function () {
   return new Iterator(this._fn());
 };

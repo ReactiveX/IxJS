@@ -4,13 +4,17 @@ var Iterable = require('./iterable');
 var AsyncIterable = require('./asynciterable');
 
 Iterable.addToObject({
+  defer: require('./iterable/defer'),
   from: require('./iterable/from'),
+  generate: require('./iterable/generate'),
   of: require('./iterable/of'),
   range: require('./iterable/range'),
   repeatValue: require('./iterable/repeatvalue')
 });
 
 Iterable.addToPrototype({
+  concat: require('./iterable/concat'),
+  count: require('./iterable/count'),
   every: require('./iterable/every'),
   filter: require('./iterable/filter'),
   flatMap: require('./iterable/flatmap'),
@@ -19,9 +23,12 @@ Iterable.addToPrototype({
   reduce: require('./iterable/reduce'),
   scan: require('./iterable/scan'),
   skip: require('./iterable/skip'),
+  skipLast: require('./iterable/skiplast'),
+  skipWhile: require('./iterable/skipwhile'),
   some: require('./iterable/some'),
   take: require('./iterable/take'),
   takeLast: require('./iterable/takelast'),
+  takeWhile: require('./iterable/takewhile'),
   tap: require('./iterable/tap')
 });
 
