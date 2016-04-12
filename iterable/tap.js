@@ -3,7 +3,6 @@
 var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneIterator');
 var noop = require('../internal/noop');
 var inherits = require('inherits');
 
@@ -25,7 +24,7 @@ TapIterator.prototype.next = function () {
   }
   if (next.done) {
     this._obs.complete();
-    return doneIterator;
+    return { done: false, value: next.value };
   }
   this._obs.next(next.value, this._i++);
   return { done: false, value: next.value };

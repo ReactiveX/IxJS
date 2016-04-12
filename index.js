@@ -9,7 +9,8 @@ Iterable.addToObject({
   generate: require('./iterable/generate'),
   of: require('./iterable/of'),
   range: require('./iterable/range'),
-  repeatValue: require('./iterable/repeatvalue')
+  repeatValue: require('./iterable/repeatvalue'),
+  zip: require('./iterable/zip')
 });
 
 Iterable.addToPrototype({
@@ -29,7 +30,8 @@ Iterable.addToPrototype({
   take: require('./iterable/take'),
   takeLast: require('./iterable/takelast'),
   takeWhile: require('./iterable/takewhile'),
-  tap: require('./iterable/tap')
+  tap: require('./iterable/tap'),
+  zip: require('./iterable/zip')
 });
 
 AsyncIterable.addToObject({
