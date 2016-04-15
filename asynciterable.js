@@ -14,23 +14,22 @@ AsyncIterable.prototype[$asyncIterator$] = function () {
   return this._source[$asyncIterator$]();
 };
 
-AsyncIterable.prototype.forEachAsync = function (fn, thisArg) {
-  var cb = bindCallback(fn, thisArg, 2);
-  var i = 0, e = this[$asyncIterator$](), p;
-  var recurse = function () {
-    p = e.next().then(function (result) {
-      if (!result.done) {
-        cb(result.value, i++);
-        recurse();
-      } else {
-        Promise.resolve();
-      }
-    });
-  };
-
-  recurse();
-
-  return p;
+AsyncIterable.prototype.forEachAsync = function (fn) {
+  var self = this;
+  return new Promise(function (resolve) {
+    var iter = self[$asyncIterator$]();
+    var i = 0;
+    function next() {
+      return iter.next().then(function (result) {
+        if (result.done) {
+          return result.value;
+        }
+        fn(result.value, i++);
+        return next();
+      })
+    }
+    resolve(next());
+  });
 };
 
 AsyncIterable.addToObject = function (operators) {

@@ -15,7 +15,7 @@ function SkipIterator(it, count) {
 
 inherits(SkipIterator, Iterator);
 
-SkiperIterator.prototype.next = function () {
+SkipIterator.prototype.next = function () {
   var next;
   if (!this._skipped) {
     for (var i = 0; i < this._count; i++) {
@@ -26,7 +26,7 @@ SkiperIterator.prototype.next = function () {
   }
   next = this._it.next();
   if (next.done) { return doneIterator; }
-  return { done: false, value: next.value };  
+  return { done: false, value: next.value };
 };
 
 function SkipIterable(source, count) {

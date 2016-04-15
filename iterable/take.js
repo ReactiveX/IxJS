@@ -13,7 +13,7 @@ function TakeIterator(it, count) {
 
 inherits(TakeIterator, Iterator);
 
-TakeerIterator.prototype.next = function () {
+TakeIterator.prototype.next = function () {
   var next = this._it.next();
   if (next.done) { return { done: true, value: next.value }; }
   if (this._i-- === 0) { return { done: true, value: next.value }; ; }
