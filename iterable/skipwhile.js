@@ -3,7 +3,7 @@
 var Iterable = require('../iterable');
 var Iterator = require('../iterator');
 var $iterator$ = require('../symbol').iterator;
-var bindCallback = require('../internal')
+var bindCallback = require('../internal/bindcallback')
 var inherits = require('inherits');
 
 function SkipWhileIterator(it, fn) {
@@ -37,7 +37,7 @@ function SkipWhileIterable(source, fn, thisArg) {
   this._source = source;
   this._fn = bindCallback(fn, thisArg, 2);
   Iterable.call(this);
-} 
+}
 
 inherits(SkipWhileIterable, Iterable);
 
