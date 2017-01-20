@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function bindCallback(func, thisArg, argCount) {
+export function bindCallback(func, thisArg, argCount) {
   if (typeof thisArg === 'undefined') { return func; }
   switch(argCount) {
     case 0:
