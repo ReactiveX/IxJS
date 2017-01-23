@@ -5,7 +5,9 @@ import { bindCallback } from './internal/bindcallback';
 
 export abstract class AsyncIterable<T> {
 
-  [$asyncIterator$]() { }
+  [$asyncIterator$]() { 
+    throw new Error('Must be implemented by implementing class');
+  }
 
   forEachAsync(fn, thisArg) {
     const cb = bindCallback(fn, thisArg, 2);
