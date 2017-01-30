@@ -3,7 +3,6 @@
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 import { $iterator$ } from '../symbol';
-import { doneIterator } from '../internal/doneiterator';
 import { defaultComparer } from '../internal/defaultcomparer';
 import { identity } from '../internal/identity';
 
@@ -24,9 +23,9 @@ class DistinctUntilChangedIterator<T> extends Iterator<T> {
   }
 
   next() {
-    let next = this._it.next();
-    if (next.done) { return { done: true, value: next.value }; }
-    let key = this._fn(next.value);
+    const next = this._it.next();
+    if (next.done) { return next; }
+    const key = this._fn(next.value);
     let cmpEquals = false;
     if (this._hasCurrentKey) {
       cmpEquals = this._cmp(this._currentKey, key);

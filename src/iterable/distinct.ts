@@ -3,7 +3,6 @@
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 import { $iterator$ } from '../symbol';
-import { doneIterator } from '../internal/doneiterator';
 import { defaultComparer } from '../internal/defaultcomparer';
 
 // TODO: Fix to O(1) solution instead of O(N)
@@ -29,7 +28,7 @@ class DistinctIterator<T> extends Iterator<T> {
   next() {
     while (1) {
       let next = this._it.next();
-      if (next.done) { return doneIterator; }
+      if (next.done) { return next; }
       if (arrayIndexOf(this._q, next.value, this._cmp) !== -1) {
         this._q.push(next.value);
         return { done: false, value: next.value };

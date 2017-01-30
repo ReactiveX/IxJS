@@ -2,7 +2,6 @@
 
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { $iterator$ } from '../symbol';
 import { doneIterator } from '../internal/doneiterator';
 
 class ArrayIterator<T> extends Iterator<T> {
@@ -32,7 +31,7 @@ export class ArrayIterable<T> extends Iterable<T> {
     this._source = source;
   }
 
-  [$iterator$]() { 
+  [Symbol.iterator]() { 
     return new ArrayIterator(this._source); 
   }
 }

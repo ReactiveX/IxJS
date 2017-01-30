@@ -1,7 +1,5 @@
 'use strict';
 
-import { $asyncIterator$ } from './symbol';
-
 export abstract class AsyncIterator<T> {
   private _queue : Array<any>;
   private _current: any;
@@ -11,7 +9,7 @@ export abstract class AsyncIterator<T> {
     this._current = null;
   }
 
-  [$asyncIterator$]() {
+  [Symbol.asyncIterator]() {
     return this;
   }
 
@@ -20,15 +18,14 @@ export abstract class AsyncIterator<T> {
   }
 
   protected _enqueue(type: string, value: T) {
-    var self = this;
-    return new Promise(function (resolve, reject) {
-      self._queue.push({
+    return new Promise((resolve, reject) => {
+      this._queue.push({
         type: type,
         value: value,
         resolve: resolve,
         reject: reject
       });
-      self._resume();
+      this._resume();
     });
   }
 

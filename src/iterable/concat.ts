@@ -2,17 +2,16 @@
 
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { $iterator$ } from '../symbol';
 import { doneIterator } from '../internal/doneiterator';
 import { ArrayIterable } from './arrayiterable';
 import { FromIterable } from './from';
 import { isIterable } from '../internal/isiterable';
 
 class ConcatIterator<T> extends Iterator<T> {
-  private _it: any;
-  private _innerIt: any;
+  private _it: IIterator<T>;
+  private _innerIt: IIterator<T>;
 
-  constructor(it) {
+  constructor(it: IIterator<T>) {
     super();
     this._it = it;
     this._innerIt = null;
@@ -23,11 +22,11 @@ class ConcatIterator<T> extends Iterator<T> {
     while (1) {
       if (!this._innerIt) {
         outerNext = this._it.next();
-        if (outerNext.done) { return { done: true, value: outerNext.value }; }
+        if (outerNext.done) { return outerNext; }
         
         let innerItem = outerNext.value;
         !isIterable(innerItem) || (innerItem = new FromIterable(innerItem));
-        this._innerIt = innerItem[$iterator$]();
+        this._innerIt = innerItem[Symbol.iterator]();
       }
       
       var innerNext = this._innerIt.next();
@@ -45,14 +44,18 @@ export class ConcatIterable<T> extends Iterable<T> {
 
   constructor(...args) {
     super();
-    let len = args.length, source: any = new Array(len);
-    for (let i = 0; i < len; i++) { source[i] = arguments[i]; }
-    !args[$iterator$] && (source = new ArrayIterable(args));
-
-    this._source = source;
+    this._source = new ArrayIterable(args);
   }
 
-  [$iterator$]() {
-    return new ConcatIterator(this._source[$iterator$]());
+  [Symbol.iterator]() {
+    return new ConcatIterator(this._source[Symbol.iterator]());
   }
+}
+
+export function concat<T>(source: IIterable<T>, ...args: Array<IIterable<T>>) {
+
+}
+
+export function concatStatic<T>(...args: Array<IIterable<T>): Iterable<T> {
+
 }

@@ -1,17 +1,18 @@
 'use strict';
 
-import { $iterator$ } from './symbol';
 import { bindCallback } from './internal/bindcallback';
 
-export abstract class Iterable<T> {
-  [$iterator$]() {
-    throw new Error('Must be implemented by implementing class');
-  }
+export interface IIterable<T> {
+  [Symbol.iterator]();
+}
 
-  forEach(fn, thisArg: any) {
+export abstract class Iterable<T> implements IIterable<T> {
+  abstract [Symbol.iterator]();
+
+  forEach<T>(fn: (value: T, index:number) => void, thisArg?: any): void {
     let i = 0, it = this[$iterator$](), next, fun = bindCallback(fn, thisArg, 2);
     while (!(next = it.next()).done) {
       fun(next.value, i++);
-    }    
+    }
   }
 }

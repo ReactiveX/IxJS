@@ -1,12 +1,11 @@
 'use strict';
 
 import { Iterator } from '../iterator';
-import { $iterator$ } from '../symbol';
 
 export class AnonymousIterator<T> extends Iterator<T> {
-  private _it: any;
+  private _it: IIterator<T>;
 
-  constructor(it) {
+  constructor(it: IIterator<T>) {
     super();
     this._it = it;
   }

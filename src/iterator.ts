@@ -1,11 +1,18 @@
 'use strict';
 
-import { $iterator$ } from './symbol';
+export interface IIteratorResult<T> {
+  value: T;
+  done: boolean;
+}
+
+export interface IIterator<T> {
+  [Symbol.iterator]();
+}
 
 export abstract class Iterator<T> {
-  [$iterator$]() {
+  [Symbol.iterator]() {
     return this;
   }
 
-  abstract next();
+  abstract next(): IIteratorResult<T>;
 }

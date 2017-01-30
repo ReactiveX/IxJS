@@ -2,8 +2,6 @@
 
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { $iterator$ } from '../symbol';
-import { doneIterator } from '../internal/doneiterator';
 
 class BufferIterator<T> extends Iterator<T> {
   private _it: any;
@@ -31,7 +29,7 @@ class BufferIterator<T> extends Iterator<T> {
       if (next.done) {
         return this._q.length > 0 ?
           { done: false, value: this._q.shift() } :
-          { done: true, value: undefined };
+          next;
       }
       
       this._hv = true;
@@ -46,18 +44,18 @@ class BufferIterator<T> extends Iterator<T> {
 }
 
 export class BufferIterable<T> extends Iterable<T> {
-  private _source: any;
+  private _source: IIterable<T>;
   private _count: number;
   private _skip: number;
 
-  constructor(source: any, count: number, skip: number) {
+  constructor(source: IIterable<T>, count: number, skip: number) {
     super();
     this._source = source;
     this._count = count;
     this._skip = skip;
   }
 
-  [$iterator$]() {
-    return new BufferIterator(this._source[$iterator$](), this._count, this._skip);
+  [Symbol.iterator]() {
+    return new BufferIterator(this._source[Symbol.iterator](), this._count, this._skip);
   }
 }
