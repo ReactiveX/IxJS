@@ -1,7 +1,7 @@
 'use strict';
 
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+import { Iterable, IIterable } from '../iterable';
+import { Iterator, IIterator } from '../iterator';
 import { doneIterator } from '../internal/doneiterator';
 import { ArrayIterable } from './arrayiterable';
 import { FromIterable } from './from';
@@ -40,11 +40,11 @@ class ConcatIterator<T> extends Iterator<T> {
 }
 
 export class ConcatIterable<T> extends Iterable<T> {
-  private _source: any;
+  private _source: IIterable<T>;
 
-  constructor(...args) {
+  constructor(source) {
     super();
-    this._source = new ArrayIterable(args);
+    this._source = source;
   }
 
   [Symbol.iterator]() {
@@ -52,10 +52,11 @@ export class ConcatIterable<T> extends Iterable<T> {
   }
 }
 
-export function concat<T>(source: IIterable<T>, ...args: Array<IIterable<T>>) {
-
+export function concat<T>(source: IIterable<T>, ...args: Array<IIterable<T>>): IIterable<T> {
+  const input = [source].concat(args);
+  return new ConcatIterable<T>(new ArrayIterable<T>(input));
 }
 
-export function concatStatic<T>(...args: Array<IIterable<T>): Iterable<T> {
-
+export function concatStatic<T>(...args: Array<IIterable<T>>): IIterable<T> {
+  return new ConcatIterable<T>(new ArrayIterable<T>(args));
 }

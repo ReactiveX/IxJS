@@ -7,6 +7,7 @@ export interface IIteratorResult<T> {
 
 export interface IIterator<T> {
   [Symbol.iterator]();
+  next(): IIteratorResult<T>;
 }
 
 export abstract class Iterator<T> {

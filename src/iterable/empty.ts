@@ -2,7 +2,6 @@
 
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { $iterator$ } from '../symbol';
 import { doneIterator } from '../internal/doneiterator';
 
 class EmptyIterator<T> extends Iterator<T> {
@@ -22,7 +21,13 @@ export class EmptyIterable<T> extends Iterable<T> {
     super();
   }
 
-  [$iterator$]() {
+  [Symbol.iterator]() {
     return EMPTY_ITERATOR;
   }
+}
+
+const EMPTY_ITERABLE = new EmptyIterable();
+
+export function empty<T>() {
+  return EMPTY_ITERABLE;
 }

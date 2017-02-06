@@ -1,12 +1,11 @@
 'use strict';
 
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
-import { $iterator$ } from '../symbol';
+import { Iterable, IIterable } from '../iterable';
+import { Iterator, IIterator } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
 class FilterIterator<T> extends Iterator<T> {
-  private _it: any;
+  private _it: IIterator<T>;
   private _fn: (value: T, index: number) => boolean;
   private _i: number;
 
@@ -28,26 +27,26 @@ class FilterIterator<T> extends Iterator<T> {
   }
 }
 
-function innerPredicate(fn, self) {
+function innerPredicate<T>(fn: (value: T, index: number) => boolean, self: any) {
   return function(x, i) { return self._fn(x, i) && fn.call(this, x, i); };
 }
 
 export class FilterIterable<T> extends Iterable<T> {
-  private _source: any;
+  private _source: IIterable<T>;
   private _fn: (value: T, index: number) => boolean;
 
-  constructor(source, fn: (value: T, index: number) => boolean, thisArg?: any) {
+  constructor(source: IIterable<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
     super();
     this._source = source;
     this._fn = bindCallback(fn, thisArg, 2);
   }
 
-  [$iterator$]() {
-    return new FilterIterator(this._source[$iterator$](), this._fn);
+  [Symbol.iterator]() {
+    return new FilterIterator<T>(this._source[Symbol.iterator](), this._fn);
   }
 
-  internalFilter(fn, thisArg) {
-    return new FilterIterable(this._source, innerPredicate(fn, this), thisArg);
+  internalFilter(fn: (value: T, index: number) => boolean, thisArg?: any): IIterable<T> {
+    return new FilterIterable<T>(this._source, innerPredicate(fn, this), thisArg);
   }
 }
 

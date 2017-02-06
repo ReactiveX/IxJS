@@ -2,7 +2,6 @@
 
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { $iterator$ } from '../symbol';
 import { defaultComparer } from '../internal/defaultcomparer';
 import { identity } from '../internal/identity';
 
@@ -49,7 +48,7 @@ export class DistinctUntilChangedIterable<T> extends Iterable<T> {
     this._cmp = cmp || defaultComparer;
   }
 
-  [$iterator$]() {
-    return new DistinctUntilChangedIterator(this._source[$iterator$](), this._fn, this._cmp);
+  [Symbol.iterator]() {
+    return new DistinctUntilChangedIterator(this._source[Symbol.iterator](), this._fn, this._cmp);
   }
 }
