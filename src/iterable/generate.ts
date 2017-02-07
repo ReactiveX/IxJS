@@ -1,10 +1,15 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneiterator');
-var inherits = require('inherits');
+import { IIterable, Iterable } from '../iterable';
+import { IIterator, Iterator } from '../iterator';
+import { doneIterator } from '../internal/doneiterator';
+
+class GenerateIterator<T> extends Iterator<T> {
+  private _i: T;
+  private _condFn: (value: T) => boolean;
+  private _iterFn: (value: T) => T;
+  
+}
 
 function GenerateIterator(i, condFn, iterFn, resFn) {
   this._i = i;
@@ -34,10 +39,10 @@ function GenerateIterable(i, condFn, iterFn, resFn) {
 
 inherits(GenerateIterable, Iterable);
 
-GenerateIterable.prototype[$iterator$] = function () {
+GenerateIterable.prototype[Symbol.iterator] = function () {
   return new GenerateIterator(this._i, this._condFn, this._iterFn, this._resFn);
 };
 
-module.exports = function generate (i, condFn, iterFn, resFn) {
+export function generate (i, condFn, iterFn, resFn) {
   return new GenerateIterable(i, condFn, iterFn, resFn);
-};
+}

@@ -1,57 +1,66 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var fromIterable = require('./from');
-var Iterator = require('../iterator');
-var isIterable = require('../internal/isiterable');
-var $iterator$ = require('../symbol').iterator;
-var inherits = require('inherits');
+import { Iterable, IIterable } from '../iterable';
+import { from } from './from';
+import { IIterator, Iterator } from '../iterator';
+import { isIterable } from '../internal/isiterable';
 
-function FlatMapIterator(it, fn, resFn) {
-  Iterator.call(this, it);
-  this._innerIt = null;
-  this._fn = fn;
-  this._resFn = resFn;
-  this._i = 0;
-}
+class FlatMapIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>;
+  private _innerIt: IIterator<T>;
+  private _fn: (value: T, index: number) => any;
+  private _resFn: (value: T, current: any) => any;
+  private _i: number;
 
-inherits(FlatMapIterator, Iterator);
-
-FlatMapIterator.prototype.next = function () {
-  var outerNext;
-  while(1) {
-    if (!this._innerIt) {
-      outerNext = this._it.next();
-      if (outerNext.done) { return { done: true, value: outerNext.value }; }
-
-      var innerItem = this._fn(outerNext.value, this._i++);
-      !isIterable(innerItem) || (innerItem = fromIterable(innerItem));
-      this._innerIt = innerItem[$iterator$]();
-    }
-
-    var innerNext = this._innerIt.next();
-    if (innerNext.done) {
-      this._innerIt = null;
-    } else {
-      var current = innerNext.value;
-      this._resFn && (current = this._resFn(outerNext.value, current));
-      return { done: false, value: current };
-    }
+  constructor(it: IIterator<T>, fn: (value: T, index: number) => any, resFn?: (value: T, current: any) => any) {
+    super();
+    this._it = it;
+    this._innerIt = null;
+    this._resFn = resFn;
+    this._i = 0;
   }
-};
 
-function FlatMapIterable(source, fn, resFn) {
-  Iterable.call(this, source);
-  this._fn = fn;
-  this._resFn = resFn;
+  next() {
+    let outerNext;
+    while(1) {
+      if (!this._innerIt) {
+        outerNext = this._it.next();
+        if (outerNext.done) { return { done: true, value: outerNext.value }; }
+
+        let innerItem = this._fn(outerNext.value, this._i++);
+        !isIterable(innerItem) || (innerItem = from(innerItem));
+        this._innerIt = innerItem[Symbol.iterator]();
+      }
+
+      let innerNext = this._innerIt.next();
+      if (innerNext.done) {
+        this._innerIt = null;
+      } else {
+        let current = innerNext.value;
+        this._resFn && (current = this._resFn(outerNext.value, current));
+        return { done: false, value: current };
+      }
+    }    
+  }
 }
 
-inherits(FlatMapIterable, Iterable);
+export class FlatMapIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>;
+  private _fn: (value: T, index: number) => any;
+  private _resFn: (value: T, current: any) => any;
 
-FlatMapIterable.prototype[$iterator$] = function () {
-  return new FlatMapIterator(this._source[$iterator$](), this._fn, this._resFn);
-};
+  constructor(source, fn, resFn?) {
+    super();
+    this._source = source;
+    this._fn = fn;
+    this._resFn = resFn;
+  }
 
-module.exports = function flatMap (source, fn, resFn) {
+  [Symbol.iterator]() {
+    return new FlatMapIterator(this._source[Symbol.iterator](), this._fn, this._resFn);
+  }
+}
+
+export function flatMap (source, fn, resFn) {
   return new FlatMapIterable(source, fn, resFn);
-};
+}
