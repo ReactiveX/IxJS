@@ -1,18 +1,16 @@
 'use strict';
 
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
-import { defaultComparer } from '../internal/defaultcomparer';
-import { identity } from '../internal/identity';
+import { IIterable, Iterable } from '../iterable';
+import { IIterator, Iterator } from '../iterator';
 
-class DistinctUntilChangedIterator<T> extends Iterator<T> {
-  private _it: any;
-  private _fn: any;
-  private _cmp: any;
-  private _currentKey: T;
+class DistinctUntilChangedIterator extends Iterator {
+  private _it: IIterator;
+  private _fn: (value: any) => any;
+  private _cmp: (x: any, y: any) => boolean;
+  private _currentKey: any;
   private _hasCurrentKey: boolean;
 
-  constructor(it, fn, cmp) {
+  constructor(it: IIterator, fn: (value: any) => any, cmp: (x: any, y: any) => boolean) {
     super();
     this._it = it;
     this._fn = fn;
@@ -37,18 +35,27 @@ class DistinctUntilChangedIterator<T> extends Iterator<T> {
   }
 }
 
-export class DistinctUntilChangedIterable<T> extends Iterable<T> {
-  private _source: any;
+export class DistinctUntilChangedIterable extends Iterable {
+  private _source: IIterable;
   private _fn: any;
   private _cmp: any;
 
-  constructor(source, fn, cmp) {
+  constructor(source: IIterable, fn: (value: any) => any, cmp: (x: any, y: any) => boolean) {
     super();
-    this._fn = fn || identity;
-    this._cmp = cmp || defaultComparer;
+    this._fn = fn;
+    this._cmp = cmp;
   }
 
   [Symbol.iterator]() {
     return new DistinctUntilChangedIterator(this._source[Symbol.iterator](), this._fn, this._cmp);
   }
+}
+
+export function distinctUntilChanged(
+    source: IIterable, 
+    fn?: (value: any) => any, 
+    cmp?: (x: any, y: any) => boolean): IIterable {
+  fn || (fn = x => x);
+  cmp || (cmp = (x, y) => x === y);
+  return new DistinctUntilChangedIterable(source, fn, cmp);
 }

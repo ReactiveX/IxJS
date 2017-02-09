@@ -4,9 +4,9 @@ import { Iterable, IIterable } from '../iterable';
 import { Iterator, IIterator } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
-class FilterIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
-  private _fn: (value: T, index: number) => boolean;
+class FilterIterator extends Iterator {
+  private _it: IIterator;
+  private _fn: (value: any, index: number) => boolean;
   private _i: number;
 
   constructor(it, fn) {
@@ -27,34 +27,34 @@ class FilterIterator<T> extends Iterator<T> {
   }
 }
 
-function innerPredicate<T>(fn: (value: T, index: number) => boolean, self: any) {
+function innerPredicate(fn: (value: any, index: number) => boolean, self: any) {
   return function(x, i) { return self._fn(x, i) && fn.call(this, x, i); };
 }
 
-export class FilterIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
-  private _fn: (value: T, index: number) => boolean;
+export class FilterIterable extends Iterable {
+  private _source: IIterable;
+  private _fn: (value: any, index: number) => boolean;
 
-  constructor(source: IIterable<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
+  constructor(source: IIterable, fn: (value: any, index: number) => boolean, thisArg?: any) {
     super();
     this._source = source;
     this._fn = bindCallback(fn, thisArg, 2);
   }
 
   [Symbol.iterator]() {
-    return new FilterIterator<T>(this._source[Symbol.iterator](), this._fn);
+    return new FilterIterator(this._source[Symbol.iterator](), this._fn);
   }
 
-  internalFilter(fn: (value: T, index: number) => boolean, thisArg?: any): IIterable<T> {
-    return new FilterIterable<T>(this._source, innerPredicate(fn, this), thisArg);
+  internalFilter(fn: (value: any, index: number) => boolean, thisArg?: any): IIterable {
+    return new FilterIterable(this._source, innerPredicate(fn, this), thisArg);
   }
 }
 
-export function filter<T>(
-      source : Iterable<T>, 
-      fn: (value: T, index: number) => boolean, 
-      thisArg?: any) {
+export function filter(
+      source : Iterable, 
+      fn: (value: any, index: number) => boolean, 
+      thisArg?: any): IIterable {
   return source instanceof FilterIterable ?
     source.internalFilter(fn, thisArg) :
-    new FilterIterable<T>(source, fn, thisArg);
+    new FilterIterable(source, fn, thisArg);
 }

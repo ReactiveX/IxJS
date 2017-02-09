@@ -1,11 +1,11 @@
 'use strict';
 
-import { Iterator } from '../iterator';
+import { IIterator, Iterator } from '../iterator';
 
-export class AnonymousIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+export class AnonymousIterator extends Iterator {
+  private _it: IIterator;
 
-  constructor(it: IIterator<T>) {
+  constructor(it: IIterator) {
     super();
     this._it = it;
   }

@@ -1,33 +1,37 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var inherits = require('inherits');
+import { IIterable, Iterable } from '../iterable';
+import { IIterator, Iterator } from '../iterator';
 
-function IgnoreElementsIterator(it) {
-  Iterator.call(this, it);
-}
+class IgnoreElementsIterator extends Iterator {
+  private _it: IIterator;
 
-inherits(IgnoreElementsIterator, Iterator);
-
-IgnoreElementsIterator.prototype.next = function () {
-  while (1) {
-    var next = this._it.next();
-    if (next.done) { return { done: true, value: next.value }; }
+  constructor(it: IIterator) {
+    super();
+    this._it = it;
   }
-};
 
-function IgnoreElementsIterable(source) {
-  Iterable.call(this, source);
+  next() {
+    while (1) {
+      let next = this._it.next();
+      if (next.done) { return { done: true, value: undefined }; }
+    }    
+  }
 }
 
-inherits(IgnoreElementsIterable, Iterable);
+class IgnoreElementsIterable extends Iterable {
+  private _source: IIterable;
 
-IgnoreElementsIterable.prototype[$iterator$] = function () {
-  return new IgnoreElementsIterator(this._source[$iterator$]());
-};
+  constructor(source: IIterable) {
+    super();
+    this._source = source;
+  }
 
-module.exports = function ignoreElements(source) {
+  [Symbol.iterator]() {
+    return new IgnoreElementsIterator(this._source[Symbol.iterator]());
+  }
+}
+
+export function ignoreElements(source: IIterable): IIterable {
   return new IgnoreElementsIterable(source);
 };

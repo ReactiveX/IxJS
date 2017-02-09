@@ -1,17 +1,17 @@
 'use strict';
 
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+import { IIterable, Iterable } from '../iterable';
+import { IIterator, Iterator } from '../iterator';
 
-class BufferIterator<T> extends Iterator<T> {
-  private _it: any;
+class BufferIterator extends Iterator {
+  private _it: IIterator;
   private _count: number;
   private _skip: number;
-  private _q: Array<Array<T>>;
+  private _q: Array<Array<any>>;
   private _i: number;
   private _hv: boolean;
 
-  constructor(it, count: number, skip: number) {
+  constructor(it: IIterator, count: number, skip: number) {
     super();
     this._it = it;
     this._count = count;
@@ -43,12 +43,12 @@ class BufferIterator<T> extends Iterator<T> {
   }
 }
 
-export class BufferIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class BufferIterable extends Iterable {
+  private _source: IIterable;
   private _count: number;
   private _skip: number;
 
-  constructor(source: IIterable<T>, count: number, skip: number) {
+  constructor(source: IIterable, count: number, skip: number) {
     super();
     this._source = source;
     this._count = count;
@@ -58,4 +58,9 @@ export class BufferIterable<T> extends Iterable<T> {
   [Symbol.iterator]() {
     return new BufferIterator(this._source[Symbol.iterator](), this._count, this._skip);
   }
+}
+
+export function buffer(source: IIterable, count: number, skip?: number) {
+  skip == null || (skip = count);
+  return new BufferIterable(source, count, skip);
 }

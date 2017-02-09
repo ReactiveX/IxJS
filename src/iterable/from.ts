@@ -7,11 +7,11 @@ import { toLength } from '../internal/tolength';
 import { isIterable } from '../internal/isiterable';
 import { doneIterator } from '../internal/doneiterator';
 
-class FromIterator<T> extends Iterator<T> {
+class FromIterator extends Iterator {
   private _source: any;
-  private _it: IIterator<T>;
+  private _it: IIterator;
   private _isIterable: boolean;
-  private _fn: (value: any, index: number) => T;
+  private _fn?: (value: any, index: number) => any;
   private _i: number;
 
   constructor(source, fn?) {
@@ -49,11 +49,11 @@ class FromIterator<T> extends Iterator<T> {
   }
 }
 
-export class FromIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
-  private _fn: (value: any, index: number) => T;
+export class FromIterable extends Iterable {
+  private _source: IIterable;
+  private _fn?: (value: any, index: number) => any;
 
-  constructor(source, fn?, thisArg?) {
+  constructor(source: IIterable, fn?: (value: any, index: number) => any, thisArg?: any) {
     super();
     this._source = source;
     this._fn = bindCallback(fn, thisArg, 2);
@@ -64,6 +64,9 @@ export class FromIterable<T> extends Iterable<T> {
   }
 }
 
-export function from (source, fn?, thisArg?) {
+export function from(
+    source: IIterable, 
+    fn?: (value: any, index: number) => any, 
+    thisArg?: any): IIterable {
   return new FromIterable(source, fn, thisArg);
 }

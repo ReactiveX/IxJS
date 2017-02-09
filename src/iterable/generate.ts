@@ -4,45 +4,53 @@ import { IIterable, Iterable } from '../iterable';
 import { IIterator, Iterator } from '../iterator';
 import { doneIterator } from '../internal/doneiterator';
 
-class GenerateIterator<T> extends Iterator<T> {
-  private _i: T;
-  private _condFn: (value: T) => boolean;
-  private _iterFn: (value: T) => T;
-  
+class GenerateIterator extends Iterator {
+  private _i: any;
+  private _condFn: (value: any) => boolean;
+  private _iterFn: (value: any) => any;
+  private _resFn: (value: any) => any;
+  private _hasRes: boolean;
+
+  constructor(i: any, condFn: (value: any) => boolean, iterFn: (value: any) => any, resFn: (value: any) => any) {
+    super();
+    this._i = i;
+    this._condFn = condFn;
+    this._iterFn = iterFn;
+    this._resFn = resFn;
+    this._hasRes = false;
+  }
+
+  next() {
+    this._hasRes && (this._i = this._iterFn(this._i));
+    if (!this._condFn(this._i)) { return doneIterator; }
+    this._hasRes = true;
+    return { done: false, value: this._resFn(this._i) };
+  }
 }
 
-function GenerateIterator(i, condFn, iterFn, resFn) {
-  this._i = i;
-  this._confFn = condFn;
-  this._iterFn = iterFn;
-  this._resFn = resFn;
-  this._hasRes = false;
-  Iterator.call(this);
+class GenerateIterable extends Iterable {
+  private _i: any;
+  private _condFn: (value: any) => boolean;
+  private _iterFn: (value: any) => any;
+  private _resFn: (value: any) => any;
+
+  constructor(i: any, condFn: (value: any) => boolean, iterFn: (value: any) => any, resFn: (value: any) => any) {
+    super();
+    this._i = i;
+    this._condFn = condFn;
+    this._iterFn = iterFn;
+    this._resFn = resFn;
+  }
+
+  [Symbol.iterator]() {
+    return new GenerateIterator(this._i, this._condFn, this._iterFn, this._resFn);
+  }
 }
 
-inherits(GenerateIterator, Iterator);
-
-GenerateIterator.prototype.next = function () {
-  this._hasRes && (this._i = this._iterFn(this._i));
-  if (!this._condFn(this._i)) { return doneIterator; }
-  this._hasRes = true;
-  return { done: false, value: this._resFn(this._i) };
-};
-
-function GenerateIterable(i, condFn, iterFn, resFn) {
-  this._i = i;
-  this._condFn = condFn;
-  this._iterFn = iterFn;
-  this._resFn = resFn;
-  Iterable.call(this);
-}
-
-inherits(GenerateIterable, Iterable);
-
-GenerateIterable.prototype[Symbol.iterator] = function () {
-  return new GenerateIterator(this._i, this._condFn, this._iterFn, this._resFn);
-};
-
-export function generate (i, condFn, iterFn, resFn) {
+export function generate(
+    i: any, 
+    condFn: (value: any) => boolean, 
+    iterFn: (value: any) => any, 
+    resFn: (value: any) => any): IIterable {
   return new GenerateIterable(i, condFn, iterFn, resFn);
 }

@@ -4,12 +4,12 @@ import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 import { doneIterator } from '../internal/doneiterator';
 
-class ArrayIterator<T> extends Iterator<T> {
-  private _source: Array<T>;
+class ArrayIterator extends Iterator {
+  private _source: Array<any>;
   private _len: number;
   private _index: number;
 
-  constructor(source: Array<T>) {
+  constructor(source: Array<any>) {
     super();
     this._source = source;
     this._len = source.length;
@@ -23,10 +23,10 @@ class ArrayIterator<T> extends Iterator<T> {
   }
 }
 
-export class ArrayIterable<T> extends Iterable<T> {
-  private _source: Array<T>;
+export class ArrayIterable extends Iterable {
+  private _source: Array<any>;
 
-  constructor(source: Array<T>) {
+  constructor(source: Array<any>) {
     super();
     this._source = source;
   }

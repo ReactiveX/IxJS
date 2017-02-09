@@ -2,7 +2,6 @@
 
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { $iterator$ } from '../symbol';
 import { defaultComparer } from '../internal/defaultcomparer';
 
 // TODO: Fix to O(1) solution instead of O(N)
@@ -13,10 +12,10 @@ function arrayIndexOf(array, item, comparer) {
   return -1;
 }
 
-class DistinctIterator<T> extends Iterator<T> {
+class DistinctIterator extends Iterator {
   private _it: any;
   private _cmp: any;
-  private _q: Array<T>;
+  private _q: Array<any>;
 
   constructor(it, cmp) {
     super();
@@ -37,17 +36,22 @@ class DistinctIterator<T> extends Iterator<T> {
   }
 }
 
-export class DistinctIterable<T> extends Iterable<T> {
-  private _source: any;
-  private _cmp: any;
+export class DistinctIterable extends Iterable {
+  private _source: IIterable;
+  private _cmp: (x: any, y: any) => boolean;
 
-  constructor(source, cmp) {
+  constructor(source: IIterable, cmp: (x: any, y: any) => boolean) {
     super();
     this._source = source;
-    this._cmp = cmp || defaultComparer;
+    this._cmp = cmp;
   }
 
-  [$iterator$]() {
-    return new DistinctIterator(this._source[$iterator$](), this._cmp);
+  [Symbol.iterator]() {
+    return new DistinctIterator(this._source[Symbol.iterator](), this._cmp);
   }
+}
+
+export function distinct(source: IIterable, cmp?: (x: any, y: any) => boolean): IIterable {
+  cmp || (cmp = defaultComparer);
+  return new DistinctIterable(source, cmp);
 }

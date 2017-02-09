@@ -1,48 +1,57 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var bindCallback = require('../internal/bindcallback');
-var inherits = require('inherits');
+import { Iterable, IIterable } from '../iterable';
+import { Iterator, IIterator } from '../iterator';
+import { bindCallback } from '../internal/bindcallback';
 
-function MapIterator(it, fn) {
-  this._it = it;
-  this._fn = fn;
-  this._i = 0;
-  Iterator.call(this);
+class MapIterator extends Iterator {
+  private _it: IIterator;
+  private _fn: (value: any, index: number) => any;
+  private _i: number;
+
+  constructor(it: IIterator, fn: (value: any, index: number) => any) {
+    super();
+    this._it = it;
+    this._fn = fn;
+    this._i = 0;
+  }
+
+  next() {
+    const next = this._it.next();
+    if (next.done) { return { done: true, value: next.value }; }
+    return { done: false, value: this._fn(next.value, this._i++) };    
+  }
 }
 
-inherits(MapIterator, Iterator);
+class MapIterable extends Iterable {
+  private _source: IIterable;
+  private _fn: (value: any, index: number) => any;
+  
+  constructor(source: IIterable, fn: (value: any, index: number) => any, thisArg?: any) {
+    super();
+    this._source = source;
+    this._fn = bindCallback(fn, thisArg, 2);
+  }
 
-MapIterator.prototype.next = function () {
-  var next = this._it.next();
-  if (next.done) { return { done: true, value: next.value }; }
-  return { done: false, value: this._fn(next.value, this._i++) };
-};
+  private innerMap(fn: (value: any, index: number) => any): any {
+    const self = this;
+    return function (x, i) { return fn.call(this, self._fn(x, i), i); };
+  }
 
-function innerMap(fn, self) {
-  return function (x, i) { return fn.call(this, self._fn(x, i), i); };
+  [Symbol.iterator]() {
+    return new MapIterator(this._source[Symbol.iterator](), this._fn);
+  }
+
+  internalMap(fn: (value: any, index: number) => any, thisArg?: any): MapIterable {
+    return new MapIterable(this._source, this.innerMap(fn), thisArg);
+  }
 }
 
-function MapIterable(source, fn, thisArg) {
-  this._source = source;
-  this._fn = bindCallback(fn, thisArg, 2);
-  Iterable.call(this);
-}
-
-inherits(MapIterable, Iterable);
-
-MapIterable.prototype[$iterator$] = function () {
-  return new MapIterator(this._source[$iterator$](), this._fn);
-};
-
-MapIterable.prototype.internalMap = function (fn, thisArg) {
-  return new MapIterable(this._source, innerMap(fn, this), thisArg);
-};
-
-module.exports = function map (source, fn, thisArg) {
+export function map(
+    source: IIterable, 
+    fn: (value: any, index: number) => any, 
+    thisArg?: any): Iterable {
   return source instanceof MapIterable ?
     source.internalMap(fn, thisArg) :
     new MapIterable(source, fn, thisArg);
-};
+}

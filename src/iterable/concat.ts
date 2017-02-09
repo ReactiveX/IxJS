@@ -4,14 +4,14 @@ import { Iterable, IIterable } from '../iterable';
 import { Iterator, IIterator } from '../iterator';
 import { doneIterator } from '../internal/doneiterator';
 import { ArrayIterable } from './arrayiterable';
-import { FromIterable } from './from';
+import { from } from './from';
 import { isIterable } from '../internal/isiterable';
 
-class ConcatIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
-  private _innerIt: IIterator<T>;
+class ConcatIterator extends Iterator {
+  private _it: IIterator;
+  private _innerIt: IIterator;
 
-  constructor(it: IIterator<T>) {
+  constructor(it: IIterator) {
     super();
     this._it = it;
     this._innerIt = null;
@@ -25,7 +25,7 @@ class ConcatIterator<T> extends Iterator<T> {
         if (outerNext.done) { return outerNext; }
         
         let innerItem = outerNext.value;
-        !isIterable(innerItem) || (innerItem = new FromIterable(innerItem));
+        !isIterable(innerItem) || (innerItem = from(innerItem));
         this._innerIt = innerItem[Symbol.iterator]();
       }
       
@@ -39,8 +39,8 @@ class ConcatIterator<T> extends Iterator<T> {
   }
 }
 
-export class ConcatIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class ConcatIterable extends Iterable {
+  private _source: IIterable;
 
   constructor(source) {
     super();
@@ -52,11 +52,11 @@ export class ConcatIterable<T> extends Iterable<T> {
   }
 }
 
-export function concat<T>(source: IIterable<T>, ...args: Array<IIterable<T>>): IIterable<T> {
-  const input = [source].concat(args);
-  return new ConcatIterable<T>(new ArrayIterable<T>(input));
+export function concat(source: IIterable, ...args: Array<IIterable>): IIterable {
+  const input = [source].concat(...args);
+  return new ConcatIterable(new ArrayIterable(input));
 }
 
-export function concatStatic<T>(...args: Array<IIterable<T>>): IIterable<T> {
-  return new ConcatIterable<T>(new ArrayIterable<T>(args));
+export function concatStatic(...args: Array<IIterable>): IIterable {
+  return new ConcatIterable(new ArrayIterable(args));
 }

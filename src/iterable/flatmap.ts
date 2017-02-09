@@ -5,14 +5,14 @@ import { from } from './from';
 import { IIterator, Iterator } from '../iterator';
 import { isIterable } from '../internal/isiterable';
 
-class FlatMapIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
-  private _innerIt: IIterator<T>;
-  private _fn: (value: T, index: number) => any;
-  private _resFn: (value: T, current: any) => any;
+class FlatMapIterator extends Iterator {
+  private _it: IIterator;
+  private _innerIt: IIterator;
+  private _fn: (value: any, index: number) => any;
+  private _resFn: (value: any, current: any) => any;
   private _i: number;
 
-  constructor(it: IIterator<T>, fn: (value: T, index: number) => any, resFn?: (value: T, current: any) => any) {
+  constructor(it: IIterator, fn: (value: any, index: number) => any, resFn?: (value: any, current: any) => any) {
     super();
     this._it = it;
     this._innerIt = null;
@@ -44,10 +44,10 @@ class FlatMapIterator<T> extends Iterator<T> {
   }
 }
 
-export class FlatMapIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
-  private _fn: (value: T, index: number) => any;
-  private _resFn: (value: T, current: any) => any;
+export class FlatMapIterable extends Iterable {
+  private _source: IIterable;
+  private _fn: (value: any, index: number) => any;
+  private _resFn?: (value: any, current: any) => any;
 
   constructor(source, fn, resFn?) {
     super();
@@ -61,6 +61,9 @@ export class FlatMapIterable<T> extends Iterable<T> {
   }
 }
 
-export function flatMap (source, fn, resFn) {
+export function flatMap(
+    source: IIterable, 
+    fn: (value: any, index: number) => any, 
+    resFn?: (value: any, current: any) => any): IIterable {
   return new FlatMapIterable(source, fn, resFn);
 }

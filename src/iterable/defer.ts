@@ -1,18 +1,21 @@
 'use strict';
 
-import { Iterable } from '../iterable';
+import { IIterable, Iterable } from '../iterable';
 import { AnonymousIterator } from './anonymousiterator';
-import { $iterator$ } from '../symbol';
 
-export class DeferIterable<T> extends Iterable<T> {
-  private _fn: any;
+export class DeferIterable extends Iterable {
+  private _fn: () => IIterable;
 
-  constructor(fn) {
+  constructor(fn: () => IIterable) {
     super();
     this._fn = fn;
   }
 
-  [$iterator$]() {
+  [Symbol.iterator]() {
     return new AnonymousIterator(this._fn());
   }
+}
+
+export function defer(fn: () => IIterable) {
+  return new DeferIterable(fn);
 }

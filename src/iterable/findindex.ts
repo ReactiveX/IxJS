@@ -3,7 +3,7 @@
 import { IIterable } from '../iterable';
 import { bindCallback } from '../internal/bindcallback';
 
-export function findIndex<T>(source: IIterable<T>, fn: (value: T, index: number) => boolean, thisArg?: any): number {  
+export function findIndex<T>(source: IIterable, fn: (value: any, index: number) => boolean, thisArg?: any): number {  
   if (typeof fn !== 'function') { throw new TypeError(); }
   const f = bindCallback(fn, thisArg, 2);
   let i = 0, iterable = source[Symbol.iterator]();
