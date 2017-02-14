@@ -18,7 +18,7 @@ class MapIterator extends Iterator {
 
   next() {
     const next = this._it.next();
-    if (next.done) { return { done: true, value: next.value }; }
+    if (next.done) { return next;  }
     return { done: false, value: this._fn(next.value, this._i++) };    
   }
 }
@@ -33,7 +33,7 @@ class MapIterable extends Iterable {
     this._fn = bindCallback(fn, thisArg, 2);
   }
 
-  private innerMap(fn: (value: any, index: number) => any): any {
+  private _innerMap(fn: (value: any, index: number) => any): any {
     const self = this;
     return function (x, i) { return fn.call(this, self._fn(x, i), i); };
   }
@@ -43,7 +43,7 @@ class MapIterable extends Iterable {
   }
 
   internalMap(fn: (value: any, index: number) => any, thisArg?: any): MapIterable {
-    return new MapIterable(this._source, this.innerMap(fn), thisArg);
+    return new MapIterable(this._source, this._innerMap(fn), thisArg);
   }
 }
 

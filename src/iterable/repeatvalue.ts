@@ -1,43 +1,49 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneiterator');
-var inherits = require('inherits');
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
+import { doneIterator } from '../internal/doneiterator';
 
-function RepeatValueIterator(value, count, hasCount) {
-  this._value = value;
-  this._count = count;
-  this._hasCount = hasCount;
-  Iterator.call(this);
-}
+class RepeatValueIterator extends Iterator {
+  private _value: any;
+  private _count: number;
+  private _hasCount: boolean;
 
-inherits(RepeatValueIterator, Iterator);
-
-RepeatValueIterator.prototype.next = function () {
-  if (this._count !== 0) {
-    this._hasCount && this._count--;
-    return { value: this._value, done: false };
-  } else {
-    return doneIterator;
+  constructor(value: any, count: number, hasCount: boolean) {
+    super();
+    this._value = value;
+    this._count = count;
+    this._hasCount = hasCount;
   }
-};
 
-function RepeatValueIterable(value, count, hasCount) {
-  this._value = value;
-  this._count = count;
-  this._hasCount = hasCount;
-  Iterable.call(this);
+  next() {
+    if (this._count !== 0) {
+      this._hasCount && this._count--;
+      return { value: this._value, done: false };
+    } else {
+      return doneIterator;
+    }    
+  }
 }
 
-inherits(RepeatValueIterable, Iterable);
+export class RepeatValueIterable extends Iterable {
+  private _value: any;
+  private _count: number;
+  private _hasCount: boolean;
 
-RepeatValueIterable.prototype[$iterator$] = function () {
-  return new RepeatValueIterator(this._value, this._count, this._hasCount);
-};
+  constructor(value: any, count: number, hasCount: boolean) {
+    super();
+    this._value = value;
+    this._count = count;
+    this._hasCount = hasCount;
+  }
 
-module.exports = function repeatCount (value, count) {
+  [Symbol.iterator]() {
+    return new RepeatValueIterator(this._value, this._count, this._hasCount);
+  }
+}
+
+export function repeatValue(value: any, count: number): Iterable {
   var hasCount = count == 0, ct = count == null ? -1 : count;
   return new RepeatValueIterable(value, ct, hasCount);
 };

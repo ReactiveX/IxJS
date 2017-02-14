@@ -2,7 +2,7 @@
 
 import { IIterable } from '../iterable';
 
-export function isEmpty<T>(source: IIterable): boolean {
+export function isEmpty(source: IIterable): boolean {
   let it = source[Symbol.iterator](), next;
   while (!(next = it.next()).done) {
     return false;

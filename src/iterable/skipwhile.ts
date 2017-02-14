@@ -1,10 +1,13 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var bindCallback = require('../internal')
-var inherits = require('inherits');
+import { Iterable, IIterable } from '../iterable';
+import { Iterator, IIterator } from '../iterator';
+import { bindCallback } from '../internal/bindcallback';
+
+export class SkipWhileIterator extends Iterator {
+  private _it: IIterator;
+  private _fn: (value: any, index: number) => any;
+}
 
 function SkipWhileIterator(it, fn) {
   this._it = it;

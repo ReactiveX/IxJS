@@ -27,10 +27,6 @@ class FilterIterator extends Iterator {
   }
 }
 
-function innerPredicate(fn: (value: any, index: number) => boolean, self: any) {
-  return function(x, i) { return self._fn(x, i) && fn.call(this, x, i); };
-}
-
 export class FilterIterable extends Iterable {
   private _source: IIterable;
   private _fn: (value: any, index: number) => boolean;
@@ -45,8 +41,13 @@ export class FilterIterable extends Iterable {
     return new FilterIterator(this._source[Symbol.iterator](), this._fn);
   }
 
+  private _innerPredicate(fn: (value: any, index: number) => boolean) {
+    var self = this;
+    return function(x, i) { return self._fn(x, i) && fn.call(this, x, i); };
+  }
+
   internalFilter(fn: (value: any, index: number) => boolean, thisArg?: any): IIterable {
-    return new FilterIterable(this._source, innerPredicate(fn, this), thisArg);
+    return new FilterIterable(this._source, this._innerPredicate(fn), thisArg);
   }
 }
 

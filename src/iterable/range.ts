@@ -1,37 +1,41 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var doneIterator = require('../internal/doneIterator');
-var inherits = require('inherits');
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
+import { doneIterator } from '../internal/doneiterator';
 
-function RangeIterator(start, count) {
-  this._current = start - 1;
-  this._end = start + count - 1;
-  Iterator.call(this);
+class RangeIterator extends Iterator {
+  private _current: number;
+  private _end: number;
+
+  constructor(start: number, count: number) {
+    super();
+    this._current = start + 1;
+    this._end = start + count - 1;
+  }
+
+  next() {
+    return this._current++ < this._end ?
+      { done: false, value: this._current } :
+      doneIterator;    
+  }
 }
 
-inherits(RangeIterator, Iterator);
+export class RangeIterable extends Iterable {
+  private _start: number;
+  private _count: number;
 
-RangeIterator.prototype.next = function () {
-  return this._current++ < this._end ?
-    { done: false, value: this._current } :
-    doneIterator;
-};
+  constructor(start: number, count: number) {
+    super();
+    this._start = start;
+    this._count = count;
+  }
 
-function RangeIterable(start, count) {
-  this._start = start;
-  this._count = count;
-  Iterable.call(this);
+  [Symbol.iterator]() {
+    return new RangeIterator(this._start, this._count);
+  }
 }
 
-inherits(RangeIterable, Iterable);
-
-RangeIterable.prototype[$iterator$] = function () {
-  return new RangeIterator(this._start, this._count);
-};
-
-module.exports = function range(start, count) {
+export function range(start: number, count: number): Iterable {
   return new RangeIterable(start, count);
-};
+}

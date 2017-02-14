@@ -1,6 +1,8 @@
 'use strict';
 
-function reduceFn(source, func, seed) {
+import { IIterable } from '../iterable';
+
+function reduceFn(source: IIterable, func: (acc: any, x: any, index: number) => any, seed: any): any {
   let accumulate = seed, iterator = source[Symbol.iterator](), i = 0;
   while (1) {
     let next = iterator.next();
@@ -9,7 +11,7 @@ function reduceFn(source, func, seed) {
   }
 }
 
-function reduceFn1(source, func) {
+function reduceFn1(source: IIterable, func: (acc: any, x: any, index: number) => any): any {
   var iterator = source[Symbol.iterator](), i = 0, next = iterator.next();
   if (next.done) {
     throw new TypeError('Sequence contains no elements');
@@ -23,11 +25,10 @@ function reduceFn1(source, func) {
   }
 }
 
-export function reduce<T, R>(...args/* source, fn, seed */): R {
-  let source = args[0], fn = args[1];
-  if (args.length === 3) {
-    return reduceFn(source, fn, args[2]);    
-  } else if (args.length === 2) {
+export function reduce(source: IIterable, fn: (acc: any, x: any, index: number) => any, seed?:any): any {
+  if (arguments.length === 3) {
+    return reduceFn(source, fn, arguments[2]);    
+  } else if (arguments.length === 2) {
     return reduceFn1(source, fn);
   } else {
     throw new Error('Invalid arguments');

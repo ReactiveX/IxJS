@@ -2,35 +2,33 @@
 
 import { Iterable, IIterable } from '../iterable';
 import { Iterator, IIterator } from '../iterator';
+import { doneIterator } from '../internal/doneiterator';
 
-export class SkipIterator extends Iterator {
+export class SkipLastIterator extends Iterator {
   private _it: IIterator;
+  private _q: Array<any>;
   private _count: number;
-  private _skipped: boolean;
 
   constructor(it: IIterator, count: number) {
     super();
     this._it = it;
+    this._q = [];
     this._count = count;
-    this._skipped = false;
   }
 
   next() {
-    let next;
-    if (!this._skipped) {
-      for (var i = 0; i < this._count; i++) {
-        next = this._it.next();
-        if (next.done) { return next; }
-      }
-      this._skipped = true;
+    while (1) {
+      let next = this._it.next();
+      if (next.done) { return next; }
+      this._q.push(next.value);
+      if (this._q.length > this._count) {
+        return { done: false, value: this._q.shift() };
+      }  
     }
-    next = this._it.next();
-    if (next.done) { return next; }
-    return { done: false, value: next.value };  
   }
 }
 
-export class SkipIterable extends Iterable {
+export class SkipLastIterable extends Iterable {
   private _source: IIterable;
   private _count: number;
 
@@ -46,10 +44,10 @@ export class SkipIterable extends Iterable {
   }
 
   [Symbol.iterator]() {
-    return new SkipIterator(this._source[Symbol.iterator](), this._count);
+    return new SkipLastIterator(this._source[Symbol.iterator](), this._count);
   }
 }
 
-export function skip(source: IIterable, count: number): Iterable {
-  return new SkipIterable(source, count);
+export function skipLast(source: IIterable, count: number): Iterable {
+  return new SkipLastIterable(source, count);
 }
