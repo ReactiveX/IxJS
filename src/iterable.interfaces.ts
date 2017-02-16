@@ -1,5 +1,13 @@
 'use strict';
 
+export interface ICollectionLike {
+  length: number;
+}
+
+export interface IIndexedCollectionLike extends ICollectionLike {
+  [index: number]: any;
+}
+
 export interface IIteratorResult<T> {
   value: any;
   done: boolean;

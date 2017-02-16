@@ -1,20 +1,25 @@
 'use strict';
 
-import { IIterable, Iterable } from '../iterable';
-import { IIterator, Iterator } from '../iterator';
+import { IIterable, IIterator, ICollectionLike, IIndexedCollectionLike,  } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 import { toLength } from '../internal/tolength';
 import { isIterable } from '../internal/isiterable';
-import { doneIterator } from '../internal/doneiterator';
 
-class FromIterator extends Iterator {
-  private _source: any;
-  private _it: IIterator;
+const doneIterator = { done: true, value: undefined };
+
+class FromIterator<TSource, TResult> extends Iterator<TResult> {
+  private _source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike;
+  private _it: IIterator<TSource>;
   private _isIterable: boolean;
-  private _fn?: (value: any, index: number) => any;
+  private _fn?: (value: TSource, index: number) => TResult;
   private _i: number;
 
-  constructor(source, fn?) {
+  constructor(
+      source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike, 
+      fn?: (value: TSource, index: number) => TResult,
+      thisArg? :any) {
     super();
     const iterable = isIterable(source);
     this._source = source;
@@ -49,11 +54,15 @@ class FromIterator extends Iterator {
   }
 }
 
-export class FromIterable extends Iterable {
-  private _source: IIterable;
-  private _fn?: (value: any, index: number) => any;
+export class FromIterable<TSource, TResult> extends Iterable<TResult> {
+  private _source: IIterable<TSource>;
+  private _fn: (value: any, index: number) => any;
+  private _thisArg: any;
 
-  constructor(source: IIterable, fn?: (value: any, index: number) => any, thisArg?: any) {
+  constructor(
+      source: IIterable<TSource>, 
+      fn?: (value: TSource, index: number) => TResult,
+      thisArg? :any) {
     super();
     this._source = source;
     this._fn = bindCallback(fn, thisArg, 2);
