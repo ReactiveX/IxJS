@@ -1,10 +1,12 @@
 'use strict';
 
-import { IIterable, Iterable } from '../iterable';
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { doneIterator } from '../internal/doneiterator';
 
-class EmptyIterator extends Iterator {
+const doneIterator = { done: true, value: undefined };
+
+class EmptyIterator<T> extends Iterator<T> {
   constructor() {
     super();
   }
@@ -16,7 +18,7 @@ class EmptyIterator extends Iterator {
 
 const EMPTY_ITERATOR = new EmptyIterator();
 
-export class EmptyIterable extends Iterable {
+export class EmptyIterable<T> extends Iterable<T> {
   constructor() {
     super();
   }
@@ -28,6 +30,6 @@ export class EmptyIterable extends Iterable {
 
 const EMPTY_ITERABLE = new EmptyIterable();
 
-export function empty(): IIterable {
+export function empty<T>(): Iterable<T> {
   return EMPTY_ITERABLE;
 }

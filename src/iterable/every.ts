@@ -1,8 +1,10 @@
 'use strict';
 
-import { IIterable } from '../iterable';
+import { IIterable } from '../iterable.interfaces';
 
-export function every(source: IIterable, comparer: (value: any, index: number) => boolean): boolean {
+export function every<T>(
+    source: IIterable<T>, 
+    comparer: (value: T, index: number) => boolean): boolean {
   let it = source[Symbol.iterator](), next, i = 0;
   while (!(next = it.next()).done) {
     if (!comparer(next, i++)) { return false; }

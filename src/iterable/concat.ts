@@ -1,17 +1,17 @@
 'use strict';
 
-import { Iterable, IIterable } from '../iterable';
-import { Iterator, IIterator } from '../iterator';
-import { doneIterator } from '../internal/doneiterator';
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 import { ArrayIterable } from './arrayiterable';
 import { from } from './from';
 import { isIterable } from '../internal/isiterable';
 
-class ConcatIterator extends Iterator {
-  private _it: IIterator;
-  private _innerIt: IIterator;
+export class ConcatIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>;
+  private _innerIt: IIterator<T>;
 
-  constructor(it: IIterator) {
+  constructor(it: IIterator<T>) {
     super();
     this._it = it;
     this._innerIt = null;
@@ -39,10 +39,10 @@ class ConcatIterator extends Iterator {
   }
 }
 
-export class ConcatIterable extends Iterable {
-  private _source: IIterable;
+export class ConcatIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>;
 
-  constructor(source) {
+  constructor(source: IIterable<T>) {
     super();
     this._source = source;
   }
@@ -52,11 +52,11 @@ export class ConcatIterable extends Iterable {
   }
 }
 
-export function concat(source: IIterable, ...args: Array<IIterable>): IIterable {
+export function concat<T>(source: IIterable<T>, ...args: Array<IIterable<T>>): Iterable<T> {
   const input = [source].concat(...args);
   return new ConcatIterable(new ArrayIterable(input));
 }
 
-export function concatStatic(...args: Array<IIterable>): IIterable {
+export function concatStatic<T>(...args: Array<IIterable<T>>): Iterable<T> {
   return new ConcatIterable(new ArrayIterable(args));
 }

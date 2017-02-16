@@ -1,19 +1,9 @@
 'use strict';
 
-export interface IIteratorResult {
-  value: any;
-  done: boolean;
-}
-
-export interface IIterator {
-  [Symbol.iterator]();
-  next(): IIteratorResult;
-}
-
-export abstract class Iterator {
+export abstract class Iterator<T> {
   [Symbol.iterator]() {
     return this;
   }
 
-  abstract next(): IIteratorResult;
+  abstract next(): IIteratorResult<T>;
 }
