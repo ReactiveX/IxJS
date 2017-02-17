@@ -1,16 +1,21 @@
 'use strict';
 
-import { Iterable, IIterable } from '../iterable';
-import { Iterator, IIterator } from '../iterator';
-import { doneIterator } from '../internal/doneiterator';
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 
-export class SkipLastIterator extends Iterator {
-  private _it: IIterator;
-  private _q: Array<any>;
+export class SkipLastIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>;
+  private _q: T[];
   private _count: number;
 
-  constructor(it: IIterator, count: number) {
+  constructor(it: IIterator<T>, count: number) {
     super();
+
+    +count || (count = 0);
+    Math.abs(count) === Infinity && (count = 0);
+    if (count < 0) { throw new RangeError(); }
+
     this._it = it;
     this._q = [];
     this._count = count;
@@ -28,11 +33,11 @@ export class SkipLastIterator extends Iterator {
   }
 }
 
-export class SkipLastIterable extends Iterable {
-  private _source: IIterable;
+export class SkipLastIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>;
   private _count: number;
 
-  constructor(source: IIterable, count: number) {
+  constructor(source: IIterable<T>, count: number) {
     super();
 
     +count || (count = 0);
@@ -44,10 +49,12 @@ export class SkipLastIterable extends Iterable {
   }
 
   [Symbol.iterator]() {
-    return new SkipLastIterator(this._source[Symbol.iterator](), this._count);
+    return new SkipLastIterator<T>(this._source[Symbol.iterator](), this._count);
   }
 }
 
-export function skipLast(source: IIterable, count: number): Iterable {
-  return new SkipLastIterable(source, count);
+export function skipLast<T>(
+    source: IIterable<T>, 
+    count: number): Iterable<T> {
+  return new SkipLastIterable<T>(source, count);
 }

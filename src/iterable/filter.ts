@@ -41,7 +41,7 @@ export class FilterIterable<T> extends Iterable<T> {
   }
 
   [Symbol.iterator]() {
-    return new FilterIterator(this._source[Symbol.iterator](), this._fn, this._thisArg);
+    return new FilterIterator<T>(this._source[Symbol.iterator](), this._fn, this._thisArg);
   }
 
   private _innerPredicate(fn: (value: T, index: number) => boolean) {
@@ -50,7 +50,7 @@ export class FilterIterable<T> extends Iterable<T> {
   }
 
   internalFilter(fn: (value: T, index: number) => boolean, thisArg?: any): IIterable<T> {
-    return new FilterIterable(this._source, this._innerPredicate(fn), thisArg);
+    return new FilterIterable<T>(this._source, this._innerPredicate(fn), thisArg);
   }
 }
 

@@ -3,12 +3,14 @@
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 
-class ArrayIterator<T> extends Iterator<T> {
-  private _source: Array<T>;
+const doneIterator = { done: true, value: undefined };
+
+export class ArrayIterator<T> extends Iterator<T> {
+  private _source: T[];
   private _len: number;
   private _index: number;
 
-  constructor(source: Array<T>) {
+  constructor(source: T[]) {
     super();
     this._source = source;
     this._len = source.length;
@@ -18,14 +20,14 @@ class ArrayIterator<T> extends Iterator<T> {
   next() {
     return ++this._index < this._len ?
       { done: false, value: this._source[this._index] } :
-      { done: true, value: undefined };    
+      doneIterator;    
   }
 }
 
 export class ArrayIterable<T> extends Iterable<T> {
-  private _source: Array<T>;
+  private _source: T[];
 
-  constructor(source: Array<T>) {
+  constructor(source: T[]) {
     super();
     this._source = source;
   }

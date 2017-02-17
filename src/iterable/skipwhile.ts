@@ -1,19 +1,23 @@
 'use strict';
 
-import { Iterable, IIterable } from '../iterable';
-import { Iterator, IIterator } from '../iterator';
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
-export class SkipWhileIterator extends Iterator {
-  private _it: IIterator;
-  private _fn: (value: any, index: number) => any;
+export class SkipWhileIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>;
+  private _fn: (value: T, index: number) => boolean;
   private _i: number;
   private _skipped: boolean;
 
-  constructor(it: IIterator, fn: (value: any, index: number) => any) {
+  constructor(
+      it: IIterator<T>, 
+      fn: (value: T, index: number) => boolean, 
+      thisArg?: any) {
     super();
     this._it = it;
-    this._fn = fn;
+    this._fn = bindCallback(fn, thisArg, 2);
     this._i = 0;
     this._skipped = false;
   }
@@ -36,21 +40,29 @@ export class SkipWhileIterator extends Iterator {
   }
 }
 
-export class SkipWhileIterable extends Iterable {
-  private _source: IIterable;
-  private _fn: (value: any, index: number) => any;
+export class SkipWhileIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>;
+  private _fn: (value: T, index: number) => boolean;
+  private _thisArg: any;
 
-  constructor(source: IIterable, fn: (value: any, index: number) => any, thisArg?: any) {
+  constructor(
+      source: IIterable<T>, 
+      fn: (value: T, index: number) => boolean, 
+      thisArg?: any) {
     super();
     this._source = source;
-    this._fn = bindCallback(fn, thisArg, 2);
+    this._fn = fn;
+    this._thisArg = thisArg;
   }
 
   [Symbol.iterator]() {
-    return new SkipWhileIterator(this._source[Symbol.iterator](), this._fn);
+    return new SkipWhileIterator<T>(this._source[Symbol.iterator](), this._fn, this._thisArg);
   }
 }
 
-export function skipWhile (source: IIterable, fn: (value: any, index: number) => any, thisArg?: any) {
+export function skipWhile<T>(
+    source: IIterable<T>, 
+    fn: (value: T, index: number) => boolean, 
+    thisArg?: any): Iterable<T> {
   return new SkipWhileIterable(source, fn, thisArg);
 }

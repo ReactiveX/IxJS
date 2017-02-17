@@ -1,17 +1,23 @@
 'use strict';
 
-import { IIterable, Iterable } from '../iterable';
-import { IIterator, Iterator } from '../iterator';
-import { doneIterator } from '../internal/doneiterator';
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 
-class GenerateIterator extends Iterator {
-  private _i: any;
-  private _condFn: (value: any) => boolean;
-  private _iterFn: (value: any) => any;
-  private _resFn: (value: any) => any;
+const doneIterator = { done: true, value: undefined };
+
+class GenerateIterator<TState, TResult> extends Iterator<TResult> {
+  private _i: TState;
+  private _condFn: (value: TState) => boolean;
+  private _iterFn: (value: TState) => TState;
+  private _resFn: (value: TState) => TResult;
   private _hasRes: boolean;
 
-  constructor(i: any, condFn: (value: any) => boolean, iterFn: (value: any) => any, resFn: (value: any) => any) {
+  constructor(
+      i: TState, 
+      condFn: (value: TState) => boolean, 
+      iterFn: (value: TState) => TState, 
+      resFn: (value: TState) => TResult) {
     super();
     this._i = i;
     this._condFn = condFn;
@@ -28,13 +34,17 @@ class GenerateIterator extends Iterator {
   }
 }
 
-class GenerateIterable extends Iterable {
-  private _i: any;
-  private _condFn: (value: any) => boolean;
-  private _iterFn: (value: any) => any;
-  private _resFn: (value: any) => any;
+class GenerateIterable<TState, TResult> extends Iterable<TResult> {
+  private _i: TState;
+  private _condFn: (value: TState) => boolean;
+  private _iterFn: (value: TState) => TState;
+  private _resFn: (value: TState) => TResult;
 
-  constructor(i: any, condFn: (value: any) => boolean, iterFn: (value: any) => any, resFn: (value: any) => any) {
+  constructor(
+      i: TState, 
+      condFn: (value: TState) => boolean, 
+      iterFn: (value: TState) => TState, 
+      resFn: (value: TState) => TResult) {
     super();
     this._i = i;
     this._condFn = condFn;
@@ -47,10 +57,10 @@ class GenerateIterable extends Iterable {
   }
 }
 
-export function generate(
-    i: any, 
-    condFn: (value: any) => boolean, 
-    iterFn: (value: any) => any, 
-    resFn: (value: any) => any): IIterable {
+export function generate<TState, TResult>(
+      i: TState, 
+      condFn: (value: TState) => boolean, 
+      iterFn: (value: TState) => TState, 
+      resFn: (value: TState) => TResult): Iterable<TResult> {
   return new GenerateIterable(i, condFn, iterFn, resFn);
 }

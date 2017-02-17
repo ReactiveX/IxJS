@@ -18,7 +18,10 @@ export class DistinctIterator<TSource, TKey> extends Iterator<TSource> {
   private _cmp: (x: TKey, y: TKey) => boolean;
   private _q: Array<TSource>;
 
-  constructor(it: IIterator<TSource>, fn?: (value: TSource) => TKey, cmp?: (x: TKey, y: TKey) => boolean) {
+  constructor(
+      it: IIterator<TSource>, 
+      fn?: (value: TSource) => TKey, 
+      cmp?: (x: TKey, y: TKey) => boolean) {
     super();
     this._it = it;
     this._fn = fn;
@@ -39,18 +42,22 @@ export class DistinctIterator<TSource, TKey> extends Iterator<TSource> {
   }
 }
 
-export class DistinctIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
-  private _cmp: (x: any, y: any) => boolean;
+export class DistinctIterable<TSource, TKey> extends Iterable<TSource> {
+  private _source: IIterable<TSource>;
+  private _fn: (value: TSource) => TKey;
+  private _cmp: (x: TKey, y: TKey) => boolean;
 
-  constructor(source: IIterable<T>, cmp?: (x: T, y: T) => boolean) {
+  constructor(
+      source: IIterable<TSource>, 
+      fn?: (value: TSource) => TKey, 
+      cmp?: (x: TKey, y: TKey) => boolean) {
     super();
     this._source = source;
     this._cmp = cmp;
   }
 
   [Symbol.iterator]() {
-    return new DistinctIterator(this._source[Symbol.iterator](), this._cmp);
+    return new DistinctIterator<TSource, TKey>(this._source[Symbol.iterator](), this._fn, this._cmp);
   }
 }
 
@@ -58,5 +65,5 @@ export function distinct<TSource, TKey>(
     source: IIterable<TSource>,
     fn?: (value: TSource) => TKey,
     cmp?: (x: TKey, y: TKey) => boolean): IIterable<TSource> {
-  return new DistinctIterable(source, cmp);
+  return new DistinctIterable<TSource, TKey>(source, fn, cmp);
 }

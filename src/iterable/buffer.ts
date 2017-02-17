@@ -8,7 +8,7 @@ export class BufferIterator<T> extends Iterator<T> {
   private _it: IIterator<T>;
   private _count: number;
   private _skip: number;
-  private _q: Array<Array<any>>;
+  private _q: T[][];
   private _i: number;
   private _hv: boolean;
 

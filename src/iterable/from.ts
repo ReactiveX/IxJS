@@ -1,6 +1,6 @@
 'use strict';
 
-import { IIterable, IIterator, ICollectionLike, IIndexedCollectionLike,  } from '../iterable.interfaces';
+import { IIterable, IIterator, ICollectionLike, IIndexedCollectionLike } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
@@ -25,7 +25,7 @@ class FromIterator<TSource, TResult> extends Iterator<TResult> {
     this._source = source;
     this._isIterable = iterable;
     this._it = iterable ? source[Symbol.iterator]() : null;
-    this._fn = fn;
+    this._fn = bindCallback(fn, thisArg, 2);;
     this._i = 0;    
   }
 
@@ -40,7 +40,7 @@ class FromIterator<TSource, TResult> extends Iterator<TResult> {
       }
       return { done: false, value: value };
     } else {
-      let length = toLength(this._source.length);
+      let length = toLength((<IIndexedCollectionLike>this._source).length);
       if (this._i < length) {
         value = this._source[this._i];
         if (this._fn) {
@@ -65,17 +65,18 @@ export class FromIterable<TSource, TResult> extends Iterable<TResult> {
       thisArg? :any) {
     super();
     this._source = source;
-    this._fn = bindCallback(fn, thisArg, 2);
+    this._fn = fn;
+    this._thisArg = thisArg;
   }
 
   [Symbol.iterator]() {
-    return new FromIterator(this._source, this._fn);
+    return new FromIterator(this._source, this._fn, this._thisArg);
   }
 }
 
-export function from(
-    source: IIterable, 
-    fn?: (value: any, index: number) => any, 
-    thisArg?: any): IIterable {
+export function from<TSource, TResult>(
+    source: IIterable<TSource>, 
+    fn?: (value: TSource, index: number) => TResult, 
+    thisArg?: any): Iterable<TResult> {
   return new FromIterable(source, fn, thisArg);
 }

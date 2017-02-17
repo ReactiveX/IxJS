@@ -1,10 +1,12 @@
 'use strict';
 
+import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { doneIterator } from '../internal/doneiterator';
 
-class RangeIterator extends Iterator {
+const doneIterator = { done: true, value: undefined };
+
+class RangeIterator extends Iterator<number> {
   private _current: number;
   private _end: number;
 
@@ -21,7 +23,7 @@ class RangeIterator extends Iterator {
   }
 }
 
-export class RangeIterable extends Iterable {
+export class RangeIterable extends Iterable<number> {
   private _start: number;
   private _count: number;
 
@@ -36,6 +38,6 @@ export class RangeIterable extends Iterable {
   }
 }
 
-export function range(start: number, count: number): Iterable {
+export function range(start: number, count: number): Iterable<number> {
   return new RangeIterable(start, count);
 }

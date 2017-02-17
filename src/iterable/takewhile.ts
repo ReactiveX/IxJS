@@ -1,42 +1,59 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var bindCallback = require('../internal')
-var inherits = require('inherits');
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
+import { bindCallback } from '../internal/bindcallback';
 
-function TakeWhileIterator(it, fn) {
-  this._it = it;
-  this._fn = fn;
-  this._i = 0;
-  Iterator.call(this);
+export class TakeWhileIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>;
+  private _fn: (value: T, index: number) => boolean;
+  private _thisArg: any;
+  private _i: number;
+
+  constructor(
+      it: IIterator<T>, 
+      fn: (value: T, index: number) => boolean,
+      thisArg?: any) {
+    super();
+    this._it = it;
+    this._fn = bindCallback(fn, thisArg, 2);
+  }
+
+  next() {
+    let next = this._it.next();
+    if (next.done) { return next; }
+    if (!this._fn(next.value, this._i++)) {
+      return { done: true, value: undefined };
+    } else {
+      return { done: false, value: next.value };
+    }    
+  }
 }
 
-inherits(TakeWhileIterator, Iterator);
+export class TakeWhileIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>;
+  private _fn: (value: T, index: number) => boolean;
+  private _thisArg: any;
 
-TakeWhileIterator.prototype.next = function () {
-  var next = this._it.next();
-  if (next.done) { return { done: true, value: next.value }; }
-  if (!this._fn(next.value, this._i++)) {
-    return { done: true, value: next.value };
-  } else {
-    return { done: false, value: next.value };
+  constructor(
+      source: IIterable<T>,
+      fn: (value: T, index: number) => boolean,
+      thisArg?: any) {
+    super();
+    this._source = source;
+    this._fn = fn;
+    this._thisArg = thisArg;      
   }
-};
 
-function TakeWhileIterable(source, fn, thisArg) {
-  this._source = source;
-  this._fn = bindCallback(fn, thisArg, 2);
-  Iterable.call(this);
-} 
+  [Symbol.iterator]() {
+    return new TakeWhileIterator<T>(this._source[Symbol.iterator](), this._fn, this._thisArg);
+  }
+}
 
-inherits(TakeWhileIterable, Iterable);
-
-TakeWhileIterable.prototype[$iterator$] = function () {
-  return new TakeWhileIterable(this._source, this._fn);
-};
-
-module.exports = function takeWhile(source, fn, thisArg) {
-  return new TakeWhileIterable(source, fn, thisArg);
-};
+export function takeWhile<T>(
+    source: IIterable<T>, 
+    fn: (value: T, index: number) => boolean, 
+    thisArg?: any): Iterable<T> {
+  return new TakeWhileIterable<T>(source, fn, thisArg);
+}

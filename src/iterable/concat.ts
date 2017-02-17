@@ -52,11 +52,11 @@ export class ConcatIterable<T> extends Iterable<T> {
   }
 }
 
-export function concat<T>(source: IIterable<T>, ...args: Array<IIterable<T>>): Iterable<T> {
+export function concat<T>(source: IIterable<T>, ...args: IIterable<T>[]): Iterable<T> {
   const input = [source].concat(...args);
   return new ConcatIterable(new ArrayIterable(input));
 }
 
-export function concatStatic<T>(...args: Array<IIterable<T>>): Iterable<T> {
+export function concatStatic<T>(...args: IIterable<T>[]): Iterable<T> {
   return new ConcatIterable(new ArrayIterable(args));
 }

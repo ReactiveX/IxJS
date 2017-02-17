@@ -1,63 +1,72 @@
 'use strict';
 
-import { Iterable, IIterable } from '../iterable';
-import { Iterator, IIterator } from '../iterator';
-import { doneIterator } from '../internal/doneiterator';
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 
-class ScanIterator extends Iterator {
-  private _it: IIterator;
-  private _fn: (acc: any, x: any) => any;
+export class ScanIterator<TAccumulate, TSource> extends Iterator<TAccumulate> {
+  private _it: IIterator<TSource>;
+  private _fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate;
   private _hs: boolean;
-  private _v: any;
+  private _i: number;
+  private _v: TAccumulate;
 
-  constructor(it: IIterator, fn: (acc: any, x: any) => any, hasSeed: boolean, seed?: any) {
+  constructor(
+      it: IIterator<TSource>, 
+      fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate,
+      seed?: TAccumulate) {
     super();
     this._it = it;
     this._fn = fn;
-    this._hs = hasSeed;
+    this._i = 0;
+    this._hs = arguments.length == 3;
     this._v = seed;
   }
 
   next() {
-    let next;
+    let next = this._it.next();
+    if (next.done) { return next; }
     if (!this._hs) {
-      next = this._it.next();
-      if (next.done) { return doneIterator; }
-      this._hs = true;
       this._v = next.value;
+    } else {
+      this._v = this._fn(this._v, next.value, ++this._i);
     }
-    next = this._it.next();
-    if (next.done) { return { done: true, value: next.value }; }
-    this._v = this._fn(this._v, next.value);
+
     return { done: false, value: this._v };    
   }
 }
 
-export class ScanIterable extends Iterable {
-  private _source: IIterable;
-  private _fn: (acc: any, x:any) => any;
-  private _hs: boolean;
-  private _s: any;
+export class ScanIterable<TAccumulate, TSource> extends Iterable<TAccumulate> {
+  private _source: IIterable<TSource>;
+  private _fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate;
+  private _v: any;
+  private _hv: boolean;
 
-  constructor(source: IIterable, fn: (acc: any, x:any) => any, hasSeed: boolean, seed?: any) {
+  constructor(
+      source: IIterable<TSource>, 
+      fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate, 
+      seed?: TAccumulate) {
     super();
     this._source = source;
     this._fn = fn;
-    this._hs = hasSeed;
-    this._s = seed;
+    this._v = seed;
+    this._hv = arguments.length === 3;
   }
 
   [Symbol.iterator]() {
-    return new ScanIterator(this._source[Symbol.iterator](), this._fn, this._hs, this._s);
+    return this._hv ?
+      new ScanIterator<TAccumulate, TSource>(this._source[Symbol.iterator](), this._fn, this._v) :
+      new ScanIterator<TAccumulate, TSource>(this._source[Symbol.iterator](), this._fn);
   }
 }
 
-function scan(source: IIterable, fn: (acc: any, x:any) => any, seed?: any): IIterable {
-  if (arguments.length === 3) {
-    return new ScanIterable(source, fn, true, arguments[2]);
-  } else if (arguments.length === 2) {
-    return new ScanIterable(source, fn, false);
-  } else {
-    throw new Error('Invalid arguments');
-  }
+function scan<TAccumulate, TSource>(
+      source: IIterable<TSource>, 
+      fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate, 
+      seed?: TAccumulate): Iterable<TAccumulate> {
+    if (arguments.length === 3) {
+      return new ScanIterable<TAccumulate, TSource>(source, fn, seed);
+    } else {
+      return new ScanIterable<TAccumulate, TSource>(source, fn);
+    }
 };

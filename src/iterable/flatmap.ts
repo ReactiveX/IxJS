@@ -1,6 +1,6 @@
 'use strict';
 
-import { IIterable, IIterator, ICollectionLike, IIndexedCollectionLike,  } from '../iterable.interfaces';
+import { IIterable, IIterator, ICollectionLike, IIndexedCollectionLike } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 import { from } from './from';
@@ -40,9 +40,10 @@ class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
       if (innerNext.done) {
         this._innerIt = null;
       } else {
-        let current = innerNext.value;
-        this._resFn && (current = this._resFn(outerNext.value, current));
-        return { done: false, value: current };
+        return { 
+          done: false, 
+          value: this._resFn ? this._resFn(outerNext.value, innerNext.value) : innerNext.value 
+        };
       }
     }    
   }

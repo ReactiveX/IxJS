@@ -1,42 +1,62 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var inherits = require('inherits');
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 
-function TakeLastIterator(it, count) {
-  this._it = it;
-  this._count = count;
-  this._q = [];
-  Iterator.call(this);
+export class TakeLastIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>;
+  private _count: number;
+  private _q: T[];
+  
+  constructor(it: IIterator<T>, count: number) {
+    super();
+
+    +count || (count = 0);
+    Math.abs(count) === Infinity && (count = 0);
+    if (count < 0) { throw new RangeError(); }
+
+    this._it = it;
+    this._count = count;
+    this._q = [];
+  }
+
+  next() {
+    let next;
+    while (!(next = this._it.next()).done) {
+      if (this._q.length >= this._count) { this._q.shift(); }
+      this._q.push(next.value);
+    }
+    if (this._q.length > 0) {
+      return { done: false, value: this._q.shift() };
+    } else {
+      return { done: true, value: undefined };
+    }
+  }
 }
 
-inherits(TakeLastIterator, Iterator);
+export class TakeLastIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>;
+  private _count: number;
+  
+  constructor(source: IIterable<T>, count: number) {
+    super();
 
-TakeLastIterator.prototype.next = function () {
-  var next;
-  while (!(next = this._it.next()).done) {
-    if (this._q.length >= this._count) { this._q.shift(); }
-    this._q.push(next.value);
-  }
-  if (this._q.length > 0) {
-    return { done: false, value: this._q.shift() };
-  } else {
-    return { done: true, value: next.value };
-  }
-};
+    +count || (count = 0);
+    Math.abs(count) === Infinity && (count = 0);
+    if (count < 0) { throw new RangeError(); }
 
-function TakeLastIterable(source, count) {
-  this._source = source;
-  this._count = count;
-  Iterable.call(this);
+    this._source = source;
+    this._count = count;
+  }
+
+  [Symbol.iterator]() {
+    return new TakeLastIterator<T>(this._source[Symbol.iterator](), this._count);
+  }
 }
 
-TakeLastIterable.prototype[$iterator$] = function () {
-  return new TakeLastIterator(this._source[$iterator$](), this._count);
-};
-
-module.exports = function takeLast(source, count) {
-  return new TakeLastIterable(source, count);
-};
+export function takeLast<T>(
+    source: IIterable<T>, 
+    count: number): Iterable<T> {
+  return new TakeLastIterable<T>(source, count);
+}

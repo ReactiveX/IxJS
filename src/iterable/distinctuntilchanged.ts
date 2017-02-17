@@ -48,7 +48,7 @@ export class DistinctUntilChangedIterable<TSource, TKey> extends Iterable<TSourc
   }
 
   [Symbol.iterator]() {
-    return new DistinctUntilChangedIterator(this._source[Symbol.iterator](), this._fn, this._cmp);
+    return new DistinctUntilChangedIterator<TSource, TKey>(this._source[Symbol.iterator](), this._fn, this._cmp);
   }
 }
 
@@ -56,5 +56,5 @@ export function distinctUntilChanged<TSource, TKey>(
     source: IIterable<TSource>, 
     fn?: (value: TSource) => TKey, 
     cmp?: (x: any, y: any) => boolean): IIterable<TSource> {
-  return new DistinctUntilChangedIterable(source, fn, cmp);
+  return new DistinctUntilChangedIterable<TSource, TKey>(source, fn, cmp);
 }

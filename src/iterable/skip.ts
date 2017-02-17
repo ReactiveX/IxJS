@@ -1,15 +1,21 @@
 'use strict';
 
-import { Iterable, IIterable } from '../iterable';
-import { Iterator, IIterator } from '../iterator';
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 
-export class SkipIterator extends Iterator {
-  private _it: IIterator;
+export class SkipIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>;
   private _count: number;
   private _skipped: boolean;
 
-  constructor(it: IIterator, count: number) {
+  constructor(it: IIterator<T>, count: number) {
     super();
+
+    +count || (count = 0);
+    Math.abs(count) === Infinity && (count = 0);
+    if (count < 0) { throw new RangeError(); }
+
     this._it = it;
     this._count = count;
     this._skipped = false;
@@ -30,11 +36,11 @@ export class SkipIterator extends Iterator {
   }
 }
 
-export class SkipIterable extends Iterable {
-  private _source: IIterable;
+export class SkipIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>;
   private _count: number;
 
-  constructor(source: IIterable, count: number) {
+  constructor(source: IIterable<T>, count: number) {
     super();
 
     +count || (count = 0);
@@ -46,10 +52,12 @@ export class SkipIterable extends Iterable {
   }
 
   [Symbol.iterator]() {
-    return new SkipIterator(this._source[Symbol.iterator](), this._count);
+    return new SkipIterator<T>(this._source[Symbol.iterator](), this._count);
   }
 }
 
-export function skip(source: IIterable, count: number): Iterable {
-  return new SkipIterable(source, count);
+export function skip<T>(
+    source: IIterable<T>, 
+    count: number): Iterable<T> {
+  return new SkipIterable<T>(source, count);
 }

@@ -1,40 +1,54 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var inherits = require('inherits');
+import { IIterable, IIterator } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
 
-function TakeIterator(it, count) {
-  this._it = it;
-  this._i = count;
-  Iterator.call(this);
+export class TakeIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>;
+  private _i: number;
+
+  constructor(it: IIterator<T>, count: number) {
+    super();
+
+    +count || (count = 0);
+    Math.abs(count) === Infinity && (count = 0);
+    if (count < 0) { throw new RangeError(); }
+    
+    this._it = it;
+    this._i = count;
+  }
+
+  next() {
+    var next = this._it.next();
+    if (next.done) { return next; }
+    if (this._i-- === 0) { return { done: true, value: undefined }; }
+    return { value: next.value, done: false };    
+  }
 }
 
-inherits(TakeIterator, Iterator);
+export class TakeIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>;
+  private _count: number;
 
-TakeerIterator.prototype.next = function () {
-  var next = this._it.next();
-  if (next.done) { return { done: true, value: next.value }; }
-  if (this._i-- === 0) { return { done: true, value: next.value }; ; }
-  return { value: next.value, done: false };
-};
+  constructor(source: IIterable<T>, count: number) {
+    super();
 
-function TakeIterable(source, count) {
-  this._source = source;
-  this._count = count;
-  Iterable.call(this);
+    +count || (count = 0);
+    Math.abs(count) === Infinity && (count = 0);
+    if (count < 0) { throw new RangeError(); }
+
+    this._source = source;
+    this._count = count;
+  }
+
+  [Symbol.iterator]() {
+    return new TakeIterator<T>(this._source[Symbol.iterator](), this._count);
+  }
 }
 
-inherits(TakeIterable, Iterable);
-
-TakeIterable.prototype[$iterator$] = function () {
-  return new TakeIterator(this._source[$iterator$](), this._count);
-};
-
-module.exports = function take (source, count) {
-  +count || (count = 0);
-  Math.abs(count) === Infinity && (count = 0);
-  if (count < 0) { throw new RangeError(); }
+export function take<T>(
+    source: IIterable<T>, 
+    count: number): Iterable<T> {
   return new TakeIterable(source, count);
-};
+}

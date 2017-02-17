@@ -23,7 +23,7 @@ ZipIterator.prototype.next = function () {
   var len = this._it.length, results = [];
   for (var i = 0; i < len; i++) {
     var next = this._it[i].next();
-    if (next.done) { return { done: true, value: next.value }; }
+    if (next.done) { return next; }
     results.push(next.value);
   }
   return { done: false, value: this._fn.apply(results) };

@@ -1,8 +1,8 @@
 'use strict';
 
-import { IIterable } from '../iterable';
+import { IIterable } from '../iterable.interfaces';
 
-export function isEmpty(source: IIterable): boolean {
+export function isEmpty<T>(source: IIterable<T>): boolean {
   let it = source[Symbol.iterator](), next;
   while (!(next = it.next()).done) {
     return false;
