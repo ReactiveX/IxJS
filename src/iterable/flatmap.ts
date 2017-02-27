@@ -3,19 +3,17 @@
 import { IIterable, IIterator, ICollectionLike, IIndexedCollectionLike } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { from } from './from';
-import { isIterable } from '../internal/isiterable';
 
 class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
   private _it: IIterator<TSource>;
   private _innerIt: IIterator<TCollection>;
-  private _fn: (value: TSource, index: number) => IIterable<TCollection> | ICollectionLike | IIndexedCollectionLike;
+  private _fn: (value: TSource, index: number) => IIterable<TCollection>;
   private _resFn: (value: TSource, current: TCollection) => TResult;
   private _i: number;
 
   constructor(
       it: IIterator<TSource>, 
-      fn: (value: TSource, index: number) => IIterator<TCollection> | ICollectionLike | IIndexedCollectionLike, 
+      fn: (value: TSource, index: number) => IIterator<TCollection>, 
       resFn?: (value: TSource, current: TCollection) => TResult) {
     super();
     this._it = it;
@@ -32,7 +30,6 @@ class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
         if (outerNext.done) { return { done: true, value: outerNext.value }; }
 
         let innerItem = this._fn(outerNext.value, this._i++);
-        !isIterable(innerItem) || (innerItem = from(innerItem));
         this._innerIt = innerItem[Symbol.iterator]();
       }
 
@@ -51,12 +48,12 @@ class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
 
 export class FlatMapIterable<TSource, TCollection, TResult> extends Iterable<TResult> {
   private _source: IIterable<TSource>;
-  private _fn: (value: TSource, index: number) => IIterator<TCollection> | ICollectionLike | IIndexedCollectionLike;
+  private _fn: (value: TSource, index: number) => IIterator<TCollection>;
   private _resFn: (value: TSource, current: TCollection) => TResult;
 
   constructor(
       source: IIterable<TSource>, 
-      fn: (value: TSource, index: number) => IIterator<TCollection> | ICollectionLike | IIndexedCollectionLike, 
+      fn: (value: TSource, index: number) => IIterator<TCollection>, 
       resFn?: (value: TSource, current: TCollection) => TResult) {
     super();
     this._source = source;
@@ -71,7 +68,7 @@ export class FlatMapIterable<TSource, TCollection, TResult> extends Iterable<TRe
 
 export function flatMap<TSource, TCollection, TResult>(
     source: IIterable<TSource>, 
-    fn: (value: TSource, index: number) => IIterator<TCollection> | ICollectionLike | IIndexedCollectionLike, 
+    fn: (value: TSource, index: number) => IIterator<TCollection>, 
     resFn?: (value: TSource, current: TCollection) => TResult): Iterable<TResult> {
   return new FlatMapIterable(source, fn, resFn);
 }

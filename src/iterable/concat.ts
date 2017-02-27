@@ -4,8 +4,6 @@ import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 import { ArrayIterable } from './arrayiterable';
-import { from } from './from';
-import { isIterable } from '../internal/isiterable';
 
 export class ConcatIterator<T> extends Iterator<T> {
   private _it: IIterator<T>;
@@ -25,7 +23,6 @@ export class ConcatIterator<T> extends Iterator<T> {
         if (outerNext.done) { return outerNext; }
         
         let innerItem = outerNext.value;
-        !isIterable(innerItem) || (innerItem = from(innerItem));
         this._innerIt = innerItem[Symbol.iterator]();
       }
       

@@ -1,51 +1,63 @@
 'use strict';
 
-var Iterable = require('../iterable');
-var Iterator = require('../iterator');
-var $iterator$ = require('../symbol').iterator;
-var isFunction = require('../internal/isfunction');
-var inherits = require('inherits');
+import { IIterable, IIterator, PartialObserver } from '../iterable.interfaces';
+import { Iterable } from '../iterable';
+import { Iterator } from '../iterator';
+import { MapIterable } from './map';
 
-function argumentsToArray() {
-  var len = arguments.length, args = new Array(len);
-  for (var i = 0; i < len; i++) { args[i] = arguments[i]; }
-  return args;
-}
-
-function ZipIterator(it, fn) {
-  Iterator.call(this, it);
-  this._fn = fn;
-}
-
-inherits(ZipIterator, Iterator);
-
-ZipIterator.prototype.next = function () {
-  var len = this._it.length, results = [];
-  for (var i = 0; i < len; i++) {
-    var next = this._it[i].next();
-    if (next.done) { return next; }
-    results.push(next.value);
+export class ZipIterator<T> extends Iterator<T> {
+  private _it: IIterator<T>[];
+  
+  constructor(...it: IIterator<T>[]) {
+    super();
+    this._it = it;
   }
-  return { done: false, value: this._fn.apply(results) };
-};
 
-function ZipIterable(source, fn) {
-  Iterable.call(this);
-  this._source = source;
-  this._fn = fn;
+  next() {
+    let len = this._it.length, results = [], next;
+    for (var i = 0; i < len; i++) {
+      next = this._it[i].next();
+      if (next.done) { return next; }
+      results.push(next.value);
+    }
+    return { done: false, value: results };    
+  }
 }
 
-inherits(ZipIterable, Iterable);
+export class ZipIterable<T> extends Iterable<T> {
+  private _source: IIterable<T>[];
 
-ZipIterable.prototype[$iterator$] = function () {
-  var its = this._source.map(function (x) { return x[$iterator$](); });
-  return new ZipIterator(its, this._fn);
-};
+  constructor(...source: IIterable<T>[]) {
+    super();
+    this._source = source;
+  }
 
-module.exports = function zip () {
-  if (arguments.length === 0) { throw new Error('invalid arguments'); }
-  var len = arguments.length, args = new Array(len);
-  for(var i = 0; i < len; i++) { args[i] = arguments[i]; }
-  var resultSelector = isFunction(args[len - 1]) ? args.pop() : argumentsToArray;
-  return new ZipIterable(args, resultSelector);  
-};
+  [Symbol.iterator]() {
+    let results = [], len = this._source.length, i = 0;
+    for(; i < len; i++) {
+      results.push(this._source[i][Symbol.iterator]());
+    }
+    return new ZipIterator<T>(...results);
+  }
+}
+
+export function zip<T>(source: IIterable<T>, ...args: IIterable<T>[]): Iterable<T> {
+  return zipStatic<T>(...[source].concat(...args));
+}
+
+export function zipStatic<T>(...args: IIterable<T>[]): Iterable<T> {
+  return new ZipIterable<T>(...args);
+}
+
+export function zipWith<T, TResult>(
+    source: IIterable<T>,
+    fn: (...args: T[]) => TResult,
+    ...args: IIterable<T>[]): Iterable<TResult> {
+  return new MapIterable<T[], TResult>(new ZipIterable<T>(...[source].concat(...args)), zipArgs => fn(...zipArgs));
+}
+
+export function zipWithStatic<T, TResult>(
+    fn: (...args: T[]) => TResult, 
+    ...args: IIterable<T>[]): Iterable<TResult> {
+  return new MapIterable<T[], TResult>(new ZipIterable<T>(...args), zipArgs => fn(...zipArgs));
+}

@@ -5,7 +5,7 @@ import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
-class MapIterator<TSource, TResult> extends Iterator<TResult> {
+export class MapIterator<TSource, TResult> extends Iterator<TResult> {
   private _it: IIterator<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
   private _i: number;
@@ -16,7 +16,7 @@ class MapIterator<TSource, TResult> extends Iterator<TResult> {
       thisArg?: any) {
     super();
     this._it = it;
-    this._fn = bindCallback(fn, thisArg, 2);;
+    this._fn = bindCallback(fn, thisArg, 2);
     this._i = 0;
   }
 
@@ -27,7 +27,7 @@ class MapIterator<TSource, TResult> extends Iterator<TResult> {
   }
 }
 
-class MapIterable<TSource, TResult> extends Iterable<TResult> {
+export class MapIterable<TSource, TResult> extends Iterable<TResult> {
   private _source: IIterable<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
   private _thisArg: any;
