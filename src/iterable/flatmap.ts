@@ -62,7 +62,7 @@ export class FlatMapIterable<TSource, TCollection, TResult> extends Iterable<TRe
   }
 
   [Symbol.iterator]() {
-    return new FlatMapIterator(this._source[Symbol.iterator](), this._fn, this._resFn);
+    return new FlatMapIterator<TSource, TCollection, TResult>(this._source[Symbol.iterator](), this._fn, this._resFn);
   }
 }
 

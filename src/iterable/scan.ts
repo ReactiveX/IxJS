@@ -4,12 +4,12 @@ import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 
-export class ScanIterator<TAccumulate, TSource> extends Iterator<TAccumulate> {
+export class ScanIterator<TAccumulate, TSource> extends Iterator<TAccumulate | TSource> {
   private _it: IIterator<TSource>;
-  private _fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate;
+  private _fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate;
   private _hs: boolean;
   private _i: number;
-  private _v: TAccumulate;
+  private _v: TAccumulate | TSource;
 
   constructor(
       it: IIterator<TSource>, 
@@ -25,7 +25,7 @@ export class ScanIterator<TAccumulate, TSource> extends Iterator<TAccumulate> {
 
   next() {
     let next = this._it.next();
-    if (next.done) { return next; }
+    if (next.done) { return { done: true, value: undefined}; }
     if (!this._hs) {
       this._v = next.value;
     } else {
@@ -36,9 +36,9 @@ export class ScanIterator<TAccumulate, TSource> extends Iterator<TAccumulate> {
   }
 }
 
-export class ScanIterable<TAccumulate, TSource> extends Iterable<TAccumulate> {
+export class ScanIterable<TAccumulate, TSource> extends Iterable<TAccumulate | TSource> {
   private _source: IIterable<TSource>;
-  private _fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate;
+  private _fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate;
   private _v: any;
   private _hv: boolean;
 
@@ -62,11 +62,11 @@ export class ScanIterable<TAccumulate, TSource> extends Iterable<TAccumulate> {
 
 function scan<TAccumulate, TSource>(
       source: IIterable<TSource>, 
-      fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate, 
-      seed?: TAccumulate): Iterable<TAccumulate> {
+      fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate, 
+      seed?: TAccumulate): Iterable<TAccumulate | TSource> {
     if (arguments.length === 3) {
-      return new ScanIterable<TAccumulate, TSource>(source, fn, seed);
+      return new ScanIterable(source, fn, seed);
     } else {
-      return new ScanIterable<TAccumulate, TSource>(source, fn);
+      return new ScanIterable(source, fn);
     }
 };

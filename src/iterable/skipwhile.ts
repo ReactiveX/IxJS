@@ -3,7 +3,6 @@
 import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { bindCallback } from '../internal/bindcallback';
 
 export class SkipWhileIterator<T> extends Iterator<T> {
   private _it: IIterator<T>;
@@ -13,11 +12,10 @@ export class SkipWhileIterator<T> extends Iterator<T> {
 
   constructor(
       it: IIterator<T>, 
-      fn: (value: T, index: number) => boolean, 
-      thisArg?: any) {
+      fn: (value: T, index: number) => boolean) {
     super();
     this._it = it;
-    this._fn = bindCallback(fn, thisArg, 2);
+    this._fn = fn
     this._i = 0;
     this._skipped = false;
   }
@@ -43,26 +41,22 @@ export class SkipWhileIterator<T> extends Iterator<T> {
 export class SkipWhileIterable<T> extends Iterable<T> {
   private _source: IIterable<T>;
   private _fn: (value: T, index: number) => boolean;
-  private _thisArg: any;
 
   constructor(
       source: IIterable<T>, 
-      fn: (value: T, index: number) => boolean, 
-      thisArg?: any) {
+      fn: (value: T, index: number) => boolean) {
     super();
     this._source = source;
     this._fn = fn;
-    this._thisArg = thisArg;
   }
 
   [Symbol.iterator]() {
-    return new SkipWhileIterator<T>(this._source[Symbol.iterator](), this._fn, this._thisArg);
+    return new SkipWhileIterator<T>(this._source[Symbol.iterator](), this._fn);
   }
 }
 
 export function skipWhile<T>(
     source: IIterable<T>, 
-    fn: (value: T, index: number) => boolean, 
-    thisArg?: any): Iterable<T> {
-  return new SkipWhileIterable(source, fn, thisArg);
+    fn: (value: T, index: number) => boolean): Iterable<T> {
+  return new SkipWhileIterable(source, fn);
 }

@@ -4,8 +4,6 @@ import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 
-const doneIterator = { done: true, value: undefined };
-
 class RangeIterator extends Iterator<number> {
   private _current: number;
   private _end: number;
@@ -19,7 +17,7 @@ class RangeIterator extends Iterator<number> {
   next() {
     return this._current++ < this._end ?
       { done: false, value: this._current } :
-      doneIterator;    
+      { done: true, value: undefined };    
   }
 }
 

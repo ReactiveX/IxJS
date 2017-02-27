@@ -22,7 +22,7 @@ export class MapIterator<TSource, TResult> extends Iterator<TResult> {
 
   next() {
     const next = this._it.next();
-    if (next.done) { return next;  }
+    if (next.done) { return { done: true, value: undefined}; }
     return { done: false, value: this._fn(next.value, this._i++) };    
   }
 }
@@ -48,7 +48,7 @@ export class MapIterable<TSource, TResult> extends Iterable<TResult> {
   }
 
   [Symbol.iterator]() {
-    return new MapIterator(this._source[Symbol.iterator](), this._fn);
+    return new MapIterator<TSource, TResult>(this._source[Symbol.iterator](), this._fn);
   }
 
   internalMap(fn: (value: TSource, index: number) => TResult, thisArg?: any) {

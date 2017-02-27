@@ -29,7 +29,7 @@ export interface IIndexedCollectionLike extends ICollectionLike {
 }
 
 export interface IIteratorResult<T> {
-  value: any;
+  value: T;
   done: boolean;
 }
 

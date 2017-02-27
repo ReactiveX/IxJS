@@ -16,7 +16,7 @@ export class DistinctIterator<TSource, TKey> extends Iterator<TSource> {
   private _it: IIterator<TSource>;
   private _fn: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
-  private _q: Array<TSource>;
+  private _q: Array<TSource | TKey>;
 
   constructor(
       it: IIterator<TSource>, 

@@ -3,21 +3,18 @@
 import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { bindCallback } from '../internal/bindcallback';
 
 export class TakeWhileIterator<T> extends Iterator<T> {
   private _it: IIterator<T>;
   private _fn: (value: T, index: number) => boolean;
-  private _thisArg: any;
   private _i: number;
 
   constructor(
       it: IIterator<T>, 
-      fn: (value: T, index: number) => boolean,
-      thisArg?: any) {
+      fn: (value: T, index: number) => boolean) {
     super();
     this._it = it;
-    this._fn = bindCallback(fn, thisArg, 2);
+    this._fn = fn
   }
 
   next() {
@@ -34,7 +31,6 @@ export class TakeWhileIterator<T> extends Iterator<T> {
 export class TakeWhileIterable<T> extends Iterable<T> {
   private _source: IIterable<T>;
   private _fn: (value: T, index: number) => boolean;
-  private _thisArg: any;
 
   constructor(
       source: IIterable<T>,
@@ -42,18 +38,16 @@ export class TakeWhileIterable<T> extends Iterable<T> {
       thisArg?: any) {
     super();
     this._source = source;
-    this._fn = fn;
-    this._thisArg = thisArg;      
+    this._fn = fn; 
   }
 
   [Symbol.iterator]() {
-    return new TakeWhileIterator<T>(this._source[Symbol.iterator](), this._fn, this._thisArg);
+    return new TakeWhileIterator<T>(this._source[Symbol.iterator](), this._fn);
   }
 }
 
 export function takeWhile<T>(
     source: IIterable<T>, 
-    fn: (value: T, index: number) => boolean, 
-    thisArg?: any): Iterable<T> {
-  return new TakeWhileIterable<T>(source, fn, thisArg);
+    fn: (value: T, index: number) => boolean): Iterable<T> {
+  return new TakeWhileIterable<T>(source, fn);
 }
