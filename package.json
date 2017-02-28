@@ -2,8 +2,31 @@
   "name": "ix",
   "version": "2.0.0",
   "description": "The Interactive Extensions for JavaScript",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.@(ts)": [
+      "tslint --fix",
+      "git add"
+    ]
+  },
   "scripts": {
-    "test": "tape test/**/*.js | tap-spec"
+    "info": "npm-scripts-info",
+    "?commit": "Run commit wizard",
+    "commit": "git-cz",
+    "?build:commonjs": "Build against CommonJS target",
+    "build:commonjs": "tsc -p tsconfig_commonjs.json",
+    "?build:es2015": "Build against native ES2015 target",
+    "build:es2015": "tsc -p tsconfig_es2015.json",
+    "build": "shx rm -rf ./dist/ && npm-run-all build:*",
+    "?lint:src": "Run lint against source files only",
+    "lint:src": "tslint -c tslint.json \"src/**/*.ts\"",
+    "?lint": "Run lint against files",
+    "lint": "npm-run-all --parallel lint:*",
+    "test": "ts-node node_modules/tape/bin/tape test/**/*.ts | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -25,8 +48,19 @@
     "npm": ">=2.0.0"
   },
   "devDependencies": {
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.0.0",
+    "husky": "^0.13.1",
+    "lint-staged": "^3.3.1",
+    "npm-run-all": "^4.0.2",
+    "npm-scripts-info": "^0.3.6",
+    "shx": "^0.2.2",
+    "tap-spec": "^4.1.1",
     "tape": "^4.6.3",
+    "ts-node": "^2.1.0",
+    "tslint": "^4.5.0",
     "typescript": "^2.1.5",
     "webpack": "^1.14.0"
-  }
+  },
+  "dependencies": {}
 }

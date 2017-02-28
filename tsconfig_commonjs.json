@@ -1,0 +1,10 @@
+//Compiler configuaration to build against CommonJS module.
+{
+  "extends": "./tsconfig_base.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "target": "es5",
+    "outDir": "dist/cjs"
+  }
+}
