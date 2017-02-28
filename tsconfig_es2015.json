@@ -1,0 +1,10 @@
+//Compiler configuaration to build against native ES2015 module.
+{
+  "extends": "./tsconfig_base.json",
+  "compilerOptions": {
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "target": "ES2015",
+    "outDir": "dist/es2015"
+  }
+}
