@@ -9,21 +9,20 @@ export abstract class AsyncIterable<T> {
   }
 
   forEachAsync(fn, thisArg) {
-    const cb = bindCallback(fn, thisArg, 2);
-    let i = 0, e = this[Symbol.asyncIterator](), p;
-    const recurse = function () {
-      p = e.next().then(function (result) {
-        if (!result.done) {
-          cb(result.value, i++);
-          recurse();
-        } else {
-          Promise.resolve();
-        }
-      });
-    };
-
-    recurse();
-
-    return p;    
+    const fun = bindCallback(fn, thisArg, 2);
+    return new Promise(resolve => {
+      const iter = this[Symbol.asyncIterator]();
+      let i = 0;
+      function next() {
+        return iter.next().then(result => {
+          if (result.done) {
+            return result.value;
+          }
+          fun(result.value, i++);
+          return next();
+        });
+      }
+      resolve(next());
+    });
   }
 }

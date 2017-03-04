@@ -1,15 +1,14 @@
 'use strict';
 
 import { IIterable, IIterator, ICollectionLike, IIndexedCollectionLike } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+import { IAsyncIterable, IAsyncIterator } from '../asynciterable.interfaces';
+import { AsyncIterable } from '../asynciterable';
+import { AsyncIterator } from '../asynciterator';
 import { bindCallback } from '../internal/bindcallback';
 import { toLength } from '../internal/tolength';
 import { isIterable } from '../internal/isiterable';
 
-const doneIterator = { done: true, value: undefined };
-
-class FromIterator<TSource, TResult> extends Iterator<TResult> {
+export class AsyncFromIterator<TSource, TResult> extends AsyncIterator<TResult> {
   private _source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike;
   private _it: IIterator<TSource>;
   private _isIterable: boolean;
@@ -29,38 +28,39 @@ class FromIterator<TSource, TResult> extends Iterator<TResult> {
     this._i = 0;    
   }
 
-  next() {
+  _next() {
     let value;
     if (this._isIterable) {
-      let next = this._it.next();
-      if (next.done) { return { done: true, value: next.value }; }
+      const next = this._it.next();
+      if (next.done) {
+        return this._settle('return', undefined);
+      }
       value = next.value;
       if (this._fn) {
         value = this._fn(value, this._i++);
       }
-      return { done: false, value: value };
     } else {
       let length = toLength((<IIndexedCollectionLike>this._source).length);
-      if (this._i < length) {
-        value = this._source[this._i];
-        if (this._fn) {
-          value = this._fn(value, this._i);
-        }
-        this._i++;
-        return { done: false, value: value };
+      if (this._i >= length) {
+        return this._settle('return', undefined);
       }
-      return doneIterator;
-    }    
+      value = this._source[this._i];
+      if (this._fn) {
+        value = this._fn(value, this._i);
+      }
+      this._i++;
+    }
+    this._settle('normal', value);
   }
 }
 
-export class FromIterable<TSource, TResult> extends Iterable<TResult> {
+export class AsyncFromIterable<TSource, TResult> extends AsyncIterable<TResult> {
   private _source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike;
   private _fn: (value: any, index: number) => any;
   private _thisArg: any;
 
   constructor(
-      source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike 
+      source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike, 
       fn?: (value: TSource, index: number) => TResult,
       thisArg? :any) {
     super();
@@ -69,14 +69,14 @@ export class FromIterable<TSource, TResult> extends Iterable<TResult> {
     this._thisArg = thisArg;
   }
 
-  [Symbol.iterator]() {
-    return new FromIterator(this._source, this._fn, this._thisArg);
+  [Symbol.asyncIterator]() {
+    return new AsyncFromIterator(this._source, this._fn, this._thisArg);
   }
 }
 
 export function from<TSource, TResult>(
     source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike, 
     fn?: (value: TSource, index: number) => TResult, 
-    thisArg?: any): Iterable<TResult> {
-  return new FromIterable(source, fn, thisArg);
+    thisArg?: any): AsyncIterable<TResult> {
+  return new AsyncFromIterable(source, fn, thisArg);
 }

@@ -5,10 +5,10 @@ import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 import { ArrayIterator } from './arrayiterable';
 
-export class ConcatIterator<T> extends Iterator<T> {
+export class OnErrorResumeNextIterator<T> extends Iterator<T> {
   private _it: IIterator<T>;
   private _innerIt: IIterator<T>;
-
+  
   constructor(...it: IIterator<T>[]) {
     super();
     this._it = new ArrayIterator(it);
@@ -17,7 +17,7 @@ export class ConcatIterator<T> extends Iterator<T> {
 
   next() {
     let outerNext;
-    while (1) {
+    while(1) {
       if (!this._innerIt) {
         outerNext = this._it.next();
         if (outerNext.done) { return outerNext; }
@@ -25,18 +25,26 @@ export class ConcatIterator<T> extends Iterator<T> {
         let innerItem = outerNext.value;
         this._innerIt = innerItem[Symbol.iterator]();
       }
-      
-      let innerNext = this._innerIt.next();
-      if (innerNext.done) {
+
+      let innerNext;
+      try {
+        innerNext = this._innerIt.next();
+      } catch (e) {
         this._innerIt = null;
-      } else {
-        return { done: false, value: innerNext.value };
       }
-    }    
+
+      if (innerNext) {
+        if (innerNext.done) {
+          this._innerIt = null;
+        } else {
+          return { done: false, value: innerNext.value };
+        }
+      }
+    }
   }
 }
 
-export class ConcatIterable<T> extends Iterable<T> {
+export class OnErrorResumeNextIterable<T> extends Iterable<T> {
   private _source: IIterable<T>[];
 
   constructor(...source: IIterable<T>[]) {
@@ -45,18 +53,18 @@ export class ConcatIterable<T> extends Iterable<T> {
   }
 
   [Symbol.iterator]() {
-    let results = [], len = this._source.length, i = 0;
+    let len = this._source.length, results = new Array(len), i = 0;
     for(; i < len; i++) {
       results.push(this._source[i][Symbol.iterator]());
     }
-    return new ConcatIterator<T>(...results);
+    return new OnErrorResumeNextIterator<T>(...results);
   }
 }
 
-export function concat<T>(source: IIterable<T>, ...args: IIterable<T>[]): Iterable<T> {
-  return new ConcatIterable(...[source].concat(...args));
+export function onErrorResumeNext<T>(source: IIterable<T>, ...args: IIterable<T>[]): Iterable<T> {
+  return new OnErrorResumeNextIterable<T>(...[source].concat(args));
 }
 
-export function concatStatic<T>(...args: IIterable<T>[]): Iterable<T> {
-  return new ConcatIterable(...args);
+export function onErrorResumeNextStatic<T>(...source: IIterable<T>[]): Iterable<T> {
+  return new OnErrorResumeNextIterable<T>(...source);
 }

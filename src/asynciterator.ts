@@ -1,8 +1,15 @@
 'use strict';
 
+interface AsyncIteratorQueueItem {
+  type: string;
+  value: any;
+  resolve: (value: {} | PromiseLike<{}>) => void;
+  reject:  (reason: any) => void;
+}
+
 export abstract class AsyncIterator<T> {
-  private _queue : Array<any>;
-  private _current: any;
+  private _queue : Array<AsyncIteratorQueueItem>;
+  private _current: AsyncIteratorQueueItem;
 
   constructor() {
     this._queue = [];
@@ -13,23 +20,26 @@ export abstract class AsyncIterator<T> {
     return this;
   }
 
-  next(value: T) {
+  next(value?: T) {
     return this._enqueue('next', value);
   }
 
-  protected _enqueue(type: string, value: T) {
+  return(value?: T) {
+    return this._enqueue('return', value);
+  }
+
+  throw(value?: any) {
+    return this._enqueue('throw', value);
+  }
+
+  protected _enqueue(type: string, value: any) {
     return new Promise((resolve, reject) => {
-      this._queue.push({
-        type: type,
-        value: value,
-        resolve: resolve,
-        reject: reject
-      });
+      this._queue.push({ type, value, resolve, reject });
       this._resume();
     });
   }
 
-  protected abstract _next(): void;
+  protected abstract _next(value?: T): void;
 
   protected _resume() {
     if (this._current || this._queue.length === 0) {
@@ -53,11 +63,7 @@ export abstract class AsyncIterator<T> {
     }    
   }
 
-  protected _return(value: T) {
-    this._settle('return', value);
-  }
-
-  protected _settle(type: string, value: any) {
+  protected _settle(type: string, value: T) {
     Promise.resolve(value).then(value => {
       const capability = this._current;
       this._current = null;
@@ -82,5 +88,9 @@ export abstract class AsyncIterator<T> {
 
   protected _throw(error) {
     this._settle('throw', error);
+  }
+
+  protected _return(value) {
+    this._settle('return', value);
   }
 }

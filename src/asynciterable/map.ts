@@ -1,10 +1,34 @@
 'use strict';
 
-var AsyncIterable = require('../AsyncIterable');
-var AsyncIterator = require('../AsyncIterator');
-var $asyncIterator$ = require('../symbol').asyncIterator;
-var bindCallback = require('../internal/bindcallback');
-var inherits = require('inherits');
+import { IAsyncIterable, IAsyncIterator } from '../asynciterable.interfaces';
+import { AsyncIterable } from '../asynciterable';
+import { AsyncIterator } from '../asynciterator';
+import { bindCallback } from '../internal/bindcallback';
+
+export class AsyncMapIterator<TSource, TResult> extends AsyncIterator<TResult> {
+  private _it: IAsyncIterator<TSource>;
+  private _fn: (value: TSource, index: number) => TResult;
+  private _i: number;
+
+  constructor(
+      it: IAsyncIterator<TSource>, 
+      fn: (value: TSource, index: number) => TResult,
+      thisArg?: any) {
+    super();
+    this._it = it;
+    this._fn = bindCallback(fn, thisArg, 2);
+    this._i = 0;
+  }
+
+  _next() {
+    this._it.next().then(next => {
+      if (next.done) { return this._settle('return', undefined); }
+      this._settle('normal', this._fn(next.value, this._i++));
+    }).catch(error => {
+      this._settle('throw', error);
+    }); 
+  }
+}
 
 function AsyncMapIterator(it, fn) {
   AsyncIterator.call(this);

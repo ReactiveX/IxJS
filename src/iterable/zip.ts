@@ -14,7 +14,7 @@ export class ZipIterator<T> extends Iterator<T> {
   }
 
   next() {
-    let len = this._it.length, results = [], next;
+    let len = this._it.length, results = new Array(len), next;
     for (var i = 0; i < len; i++) {
       next = this._it[i].next();
       if (next.done) { return next; }
@@ -33,7 +33,7 @@ export class ZipIterable<T> extends Iterable<T> {
   }
 
   [Symbol.iterator]() {
-    let results = [], len = this._source.length, i = 0;
+    let len = this._source.length, results = new Array(len), i = 0;
     for(; i < len; i++) {
       results.push(this._source[i][Symbol.iterator]());
     }
