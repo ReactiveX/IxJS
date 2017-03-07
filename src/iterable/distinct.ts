@@ -3,14 +3,7 @@
 import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-
-// TODO: Fix to O(1) solution instead of O(N)
-function arrayIndexOf(array, item, comparer) {
-  for (let i = 0, len = array.length; i < len; i++) {
-    if (comparer(item, array[i]) === 0) { return i; }
-  }
-  return -1;
-}
+import { arrayIndexOf } from '../internal/arrayindexof';
 
 export class DistinctIterator<TSource, TKey> extends Iterator<TSource> {
   private _it: IIterator<TSource>;

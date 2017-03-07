@@ -21,9 +21,7 @@ export class OnErrorResumeNextIterator<T> extends Iterator<T> {
       if (!this._innerIt) {
         outerNext = this._it.next();
         if (outerNext.done) { return outerNext; }
-        
-        let innerItem = outerNext.value;
-        this._innerIt = innerItem[Symbol.iterator]();
+        this._innerIt = outerNext.value[Symbol.iterator]();
       }
 
       let innerNext;

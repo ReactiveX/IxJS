@@ -1,6 +1,5 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 

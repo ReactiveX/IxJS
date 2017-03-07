@@ -45,11 +45,7 @@ export class ConcatIterable<T> extends Iterable<T> {
   }
 
   [Symbol.iterator]() {
-    let results = [], len = this._source.length, i = 0;
-    for(; i < len; i++) {
-      results.push(this._source[i][Symbol.iterator]());
-    }
-    return new ConcatIterator<T>(...results);
+    return new ConcatIterator<T>(...this._source.map(x => x[Symbol.iterator]()));
   }
 }
 
