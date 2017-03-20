@@ -1,9 +1,26 @@
 'use strict';
 
-import { IIterable } from '../iterable.interfaces';
+import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
-import { AnonymousIterator } from './anonymousiterator';
+
+export class DeferIterator<T> extends Iterator<T> {
+  private _fn: () => IIterable<T>;
+  private _it: IIterator<T>;
+
+  constructor(fn: () => IIterable<T>) {
+    super();
+    this._fn = fn;
+    this._it = null;
+  }
+
+  next() {
+    if (!this._it) {
+      this._it = this._fn()[Symbol.iterator]();
+    }
+    return this._it.next();
+  }
+}
 
 export class DeferIterable<T> extends Iterable<T> {
   private _fn: () => IIterable<T>;
@@ -14,7 +31,7 @@ export class DeferIterable<T> extends Iterable<T> {
   }
 
   [Symbol.iterator]() {
-    return new AnonymousIterator(this._fn()[Symbol.iterator]());
+    return new DeferIterator(this._fn);
   }
 }
 

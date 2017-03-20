@@ -41,11 +41,6 @@ export class TakeLastIterable<T> extends Iterable<T> {
   
   constructor(source: IIterable<T>, count: number) {
     super();
-
-    +count || (count = 0);
-    Math.abs(count) === Infinity && (count = 0);
-    if (count < 0) { throw new RangeError(); }
-
     this._source = source;
     this._count = count;
   }
