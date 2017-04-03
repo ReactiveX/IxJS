@@ -13,7 +13,7 @@ class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
 
   constructor(
       it: IIterator<TSource>, 
-      fn: (value: TSource, index: number) => IIterator<TCollection>, 
+      fn: (value: TSource, index: number) => IIterable<TCollection>, 
       resFn?: (value: TSource, current: TCollection) => TResult) {
     super();
     this._it = it;
@@ -48,12 +48,12 @@ class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
 
 export class FlatMapIterable<TSource, TCollection, TResult> extends Iterable<TResult> {
   private _source: IIterable<TSource>;
-  private _fn: (value: TSource, index: number) => IIterator<TCollection>;
+  private _fn: (value: TSource, index: number) => IIterable<TCollection>;
   private _resFn: (value: TSource, current: TCollection) => TResult;
 
   constructor(
       source: IIterable<TSource>, 
-      fn: (value: TSource, index: number) => IIterator<TCollection>, 
+      fn: (value: TSource, index: number) => IIterable<TCollection>, 
       resFn?: (value: TSource, current: TCollection) => TResult) {
     super();
     this._source = source;
@@ -68,7 +68,7 @@ export class FlatMapIterable<TSource, TCollection, TResult> extends Iterable<TRe
 
 export function flatMap<TSource, TCollection, TResult>(
     source: IIterable<TSource>, 
-    fn: (value: TSource, index: number) => IIterator<TCollection>, 
+    fn: (value: TSource, index: number) => IIterable<TCollection>, 
     resFn?: (value: TSource, current: TCollection) => TResult): Iterable<TResult> {
   return new FlatMapIterable(source, fn, resFn);
 }

@@ -2,7 +2,7 @@
 
 import { IIterable } from '../iterable.interfaces';
 
-export function average<T>(source: IIterable<T | number>, fn?:(value: T) => number) {
+export function average<T>(source: IIterable<T | number>, fn?:(value: T) => number): number {
   const it = source[Symbol.iterator]();
   let count = 0, sum = 0, next;
   while (!(next = it.next()).done) {

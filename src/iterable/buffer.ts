@@ -4,7 +4,7 @@ import { IIterable, IIterator } from '../iterable.interfaces';
 import { Iterable } from '../iterable';
 import { Iterator } from '../iterator';
 
-export class BufferIterator<T> extends Iterator<T> {
+export class BufferIterator<T> extends Iterator<T[]> {
   private _it: IIterator<T>;
   private _count: number;
   private _skip: number;
@@ -22,7 +22,7 @@ export class BufferIterator<T> extends Iterator<T> {
     this._hv = false;
   }
 
-  next() {
+  next(){
     while (1) {
       this._hv && this._i++; 
       
@@ -30,7 +30,7 @@ export class BufferIterator<T> extends Iterator<T> {
       if (next.done) {
         return this._q.length > 0 ?
           { done: false, value: this._q.shift() } :
-          next;
+          { done: true, value: undefined };
       }
       
       this._hv = true;
@@ -44,7 +44,7 @@ export class BufferIterator<T> extends Iterator<T> {
   }
 }
 
-export class BufferIterable<T> extends Iterable<T> {
+export class BufferIterable<T> extends Iterable<T[]> {
   private _source: IIterable<T>;
   private _count: number;
   private _skip: number;
@@ -64,6 +64,6 @@ export class BufferIterable<T> extends Iterable<T> {
   }
 }
 
-export function buffer<T>(source: IIterable<T>, count: number, skip?: number) {
+export function buffer<T>(source: IIterable<T>, count: number, skip?: number): Iterable<T[]> {
   return new BufferIterable(source, count, skip);
 }
