@@ -1,19 +1,14 @@
 'use strict';
 
-
 import { IterableImpl } from '../iterable';
 import { IteratorImpl } from '../iterator';
-
-const doneIterator = { done: true, value: undefined };
 
 class EmptyIterator<T> extends IteratorImpl<T> {
   constructor() {
     super();
   }
 
-  _next() {
-    return doneIterator;
-  }
+  protected *create(): Iterator<T> { }
 }
 
 const EMPTY_ITERATOR = new EmptyIterator<any>();

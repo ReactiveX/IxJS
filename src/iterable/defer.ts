@@ -6,28 +6,20 @@ import { IteratorImpl } from '../iterator';
 
 export class DeferIterator<T> extends IteratorImpl<T> {
   private _fn: () => Iterable<T>;
-  private _it: Iterator<T> | null;
 
   constructor(fn: () => Iterable<T>) {
     super();
     this._fn = fn;
-    this._it = null;
   }
 
-  _next() {
-    if (!this._it) {
-      this._it = this._fn()[Symbol.iterator]();
-    }
-    return this._it.next();
+  protected *create() {
+    yield *this._fn();
   }
 }
 
 export class DeferIterable<T> extends IterableImpl<T> {
-  private _fn: () => Iterable<T>;
-
-  constructor(fn: () => Iterable<T>) {
+  constructor(private _fn: () => Iterable<T>) {
     super();
-    this._fn = fn;
   }
 
   [Symbol.iterator]() {
