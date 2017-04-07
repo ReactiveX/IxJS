@@ -1,22 +1,22 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class DefaultIfEmptyIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class DefaultIfEmptyIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
   private _defaultValue: T;
   private _state: number;
 
-  constructor(it: IIterator<T>, defaultValue: T) {
+  constructor(it: Iterator<T>, defaultValue: T) {
     super();
     this._it = it;
     this._defaultValue = defaultValue;
     this._state = 1;
   }
 
-  next() {
+  _next() {
     const next = this._it.next();
     if (this._state === 1) {
       if (next.done) {
@@ -34,11 +34,11 @@ export class DefaultIfEmptyIterator<T> extends Iterator<T> {
   }
 }
 
-export class DefaultIfEmptyIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class DefaultIfEmptyIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _defaultValue: T;
 
-  constructor(source: IIterable<T>, defaultValue: T) {
+  constructor(source: Iterable<T>, defaultValue: T) {
     super();
     this._source = source;
     this._defaultValue = defaultValue;
@@ -50,7 +50,7 @@ export class DefaultIfEmptyIterable<T> extends Iterable<T> {
 }
 
 export function defaultIfEmpty<T>(
-    source: IIterable<T>,
+    source: Iterable<T>,
     defaultValue: T): Iterable<T> {
   return new DefaultIfEmptyIterable<T>(source, defaultValue);
 }

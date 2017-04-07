@@ -1,21 +1,21 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 import { ArrayIterator } from './arrayiterable';
 
-export class OnErrorResumeNextIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
-  private _innerIt: IIterator<T>;
-  
-  constructor(...it: IIterator<T>[]) {
+export class OnErrorResumeNextIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<Iterator<T>>;
+  private _innerIt: Iterator<T> | null;
+
+  constructor(...it: Iterator<T>[]) {
     super();
     this._it = new ArrayIterator(it);
     this._innerIt = null;
   }
 
-  next() {
+  _next() {
     let outerNext;
     while(1) {
       if (!this._innerIt) {
@@ -42,10 +42,10 @@ export class OnErrorResumeNextIterator<T> extends Iterator<T> {
   }
 }
 
-export class OnErrorResumeNextIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>[];
+export class OnErrorResumeNextIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>[];
 
-  constructor(...source: IIterable<T>[]) {
+  constructor(...source: Iterable<T>[]) {
     super();
     this._source = source;
   }
@@ -59,10 +59,10 @@ export class OnErrorResumeNextIterable<T> extends Iterable<T> {
   }
 }
 
-export function onErrorResumeNext<T>(source: IIterable<T>, ...args: IIterable<T>[]): Iterable<T> {
+export function onErrorResumeNext<T>(source: Iterable<T>, ...args: Iterable<T>[]): Iterable<T> {
   return new OnErrorResumeNextIterable<T>(...[source].concat(args));
 }
 
-export function onErrorResumeNextStatic<T>(...source: IIterable<T>[]): Iterable<T> {
+export function onErrorResumeNextStatic<T>(...source: Iterable<T>[]): Iterable<T> {
   return new OnErrorResumeNextIterable<T>(...source);
 }

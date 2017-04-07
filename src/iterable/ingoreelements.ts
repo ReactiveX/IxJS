@@ -1,29 +1,30 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-class IgnoreElementsIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 
-  constructor(it: IIterator<T>) {
+class IgnoreElementsIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
+
+  constructor(it: Iterator<T>) {
     super();
     this._it = it;
   }
 
-  next() {
+  _next() {
     while (1) {
       let next = this._it.next();
-      if (next.done) { return { done: true, value: undefined }; }
-    }    
+      if (next.done) { break; }
+    }
+    return { done: true, value: undefined };
   }
 }
 
-class IgnoreElementsIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+class IgnoreElementsIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
 
-  constructor(source: IIterable<T>) {
+  constructor(source: Iterable<T>) {
     super();
     this._source = source;
   }
@@ -33,6 +34,6 @@ class IgnoreElementsIterable<T> extends Iterable<T> {
   }
 }
 
-export function ignoreElements<T>(source: IIterable<T>): Iterable<T> {
+export function ignoreElements<T>(source: Iterable<T>): Iterable<T> {
   return new IgnoreElementsIterable(source);
 };

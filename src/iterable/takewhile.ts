@@ -1,44 +1,44 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class TakeWhileIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class TakeWhileIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
   private _fn: (value: T, index: number) => boolean;
   private _i: number;
 
   constructor(
-      it: IIterator<T>, 
+      it: Iterator<T>,
       fn: (value: T, index: number) => boolean) {
     super();
     this._it = it;
     this._fn = fn
   }
 
-  next() {
+  _next() {
     let next = this._it.next();
     if (next.done) { return next; }
     if (!this._fn(next.value, this._i++)) {
       return { done: true, value: undefined };
     } else {
       return { done: false, value: next.value };
-    }    
+    }
   }
 }
 
-export class TakeWhileIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class TakeWhileIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _fn: (value: T, index: number) => boolean;
 
   constructor(
-      source: IIterable<T>,
+      source: Iterable<T>,
       fn: (value: T, index: number) => boolean,
       thisArg?: any) {
     super();
     this._source = source;
-    this._fn = fn; 
+    this._fn = fn;
   }
 
   [Symbol.iterator]() {
@@ -47,7 +47,7 @@ export class TakeWhileIterable<T> extends Iterable<T> {
 }
 
 export function takeWhile<T>(
-    source: IIterable<T>, 
+    source: Iterable<T>,
     fn: (value: T, index: number) => boolean): Iterable<T> {
   return new TakeWhileIterable<T>(source, fn);
 }

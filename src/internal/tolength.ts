@@ -3,7 +3,7 @@
 import { toInteger } from  './tointeger';
 const maxSafeInteger = Math.pow(2, 53) -1;
 
-export function toLength (value) {
+export function toLength (value: any): number {
   var len = toInteger(value);
   return Math.min(Math.max(len, 0), maxSafeInteger);
 }

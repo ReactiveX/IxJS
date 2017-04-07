@@ -1,19 +1,19 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
-  private _it: IIterator<TSource>;
-  private _innerIt: IIterator<TCollection>;
-  private _fn: (value: TSource, index: number) => IIterable<TCollection>;
-  private _resFn: (value: TSource, current: TCollection) => TResult;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+class FlatMapIterator<TSource, TCollection, TResult> extends IteratorImpl<TResult> {
+  private _it: Iterator<TSource>;
+  private _innerIt: Iterator<TCollection> | null;
+  private _fn: (value: TSource, index: number) => Iterable<TCollection>;
+  private _resFn?: (value: TSource, current: TCollection) => TResult;
   private _i: number;
 
   constructor(
-      it: IIterator<TSource>, 
-      fn: (value: TSource, index: number) => IIterable<TCollection>, 
+      it: Iterator<TSource>,
+      fn: (value: TSource, index: number) => Iterable<TCollection>,
       resFn?: (value: TSource, current: TCollection) => TResult) {
     super();
     this._it = it;
@@ -22,12 +22,12 @@ class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
     this._i = 0;
   }
 
-  next() {
+  _next() {
     let outerNext;
     while(1) {
       if (!this._innerIt) {
         outerNext = this._it.next();
-        if (outerNext.done) { return { done: true, value: outerNext.value }; }
+        if (outerNext.done) { break; }
 
         let innerItem = this._fn(outerNext.value, this._i++);
         this._innerIt = innerItem[Symbol.iterator]();
@@ -37,23 +37,24 @@ class FlatMapIterator<TSource, TCollection, TResult> extends Iterator<TResult> {
       if (innerNext.done) {
         this._innerIt = null;
       } else {
-        return { 
-          done: false, 
-          value: this._resFn ? this._resFn(outerNext.value, innerNext.value) : innerNext.value 
+        return {
+          done: false,
+          value: this._resFn ? this._resFn(outerNext!.value, innerNext.value) : innerNext.value
         };
       }
-    }    
+    }
+    return { done: true, value: undefined };
   }
 }
 
-export class FlatMapIterable<TSource, TCollection, TResult> extends Iterable<TResult> {
-  private _source: IIterable<TSource>;
-  private _fn: (value: TSource, index: number) => IIterable<TCollection>;
-  private _resFn: (value: TSource, current: TCollection) => TResult;
+export class FlatMapIterable<TSource, TCollection, TResult> extends IterableImpl<TResult> {
+  private _source: Iterable<TSource>;
+  private _fn: (value: TSource, index: number) => Iterable<TCollection>;
+  private _resFn?: (value: TSource, current: TCollection) => TResult;
 
   constructor(
-      source: IIterable<TSource>, 
-      fn: (value: TSource, index: number) => IIterable<TCollection>, 
+      source: Iterable<TSource>,
+      fn: (value: TSource, index: number) => Iterable<TCollection>,
       resFn?: (value: TSource, current: TCollection) => TResult) {
     super();
     this._source = source;
@@ -67,8 +68,8 @@ export class FlatMapIterable<TSource, TCollection, TResult> extends Iterable<TRe
 }
 
 export function flatMap<TSource, TCollection, TResult>(
-    source: IIterable<TSource>, 
-    fn: (value: TSource, index: number) => IIterable<TCollection>, 
+    source: Iterable<TSource>,
+    fn: (value: TSource, index: number) => Iterable<TCollection>,
     resFn?: (value: TSource, current: TCollection) => TResult): Iterable<TResult> {
   return new FlatMapIterable(source, fn, resFn);
 }

@@ -1,17 +1,17 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class SkipWhileIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class SkipWhileIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
   private _fn: (value: T, index: number) => boolean;
   private _i: number;
   private _skipped: boolean;
 
   constructor(
-      it: IIterator<T>, 
+      it: Iterator<T>,
       fn: (value: T, index: number) => boolean) {
     super();
     this._it = it;
@@ -20,7 +20,7 @@ export class SkipWhileIterator<T> extends Iterator<T> {
     this._skipped = false;
   }
 
-  next() {
+  _next() {
     let next;
     if (!this._skipped) {
       while(1) {
@@ -34,16 +34,16 @@ export class SkipWhileIterator<T> extends Iterator<T> {
       next = this._it.next();
       if (next.done) { return next; }
       return { done: false, value: next.value };
-    }    
+    }
   }
 }
 
-export class SkipWhileIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class SkipWhileIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _fn: (value: T, index: number) => boolean;
 
   constructor(
-      source: IIterable<T>, 
+      source: Iterable<T>,
       fn: (value: T, index: number) => boolean) {
     super();
     this._source = source;
@@ -56,7 +56,7 @@ export class SkipWhileIterable<T> extends Iterable<T> {
 }
 
 export function skipWhile<T>(
-    source: IIterable<T>, 
+    source: Iterable<T>,
     fn: (value: T, index: number) => boolean): Iterable<T> {
   return new SkipWhileIterable(source, fn);
 }

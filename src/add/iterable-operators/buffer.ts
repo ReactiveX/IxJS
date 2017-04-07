@@ -1,12 +1,14 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { buffer } from '../../iterable/buffer';
 
-Iterable.prototype.buffer = function<T>(count: number, skip?: number): Iterable<T[]> {
+function bufferProto <T>(this: IterableImpl<T>, count: number, skip?: number): IterableImpl<T[]> {
   return buffer<T>(this, count, skip);
 };
 
+IterableImpl.prototype.buffer = bufferProto;
+
 declare module '../../Iterable' {
-  interface Iterable<T> {
-    buffer(count: number, skip?: number): Iterable<T[]>
+  interface IterableImpl<T> {
+    buffer: typeof bufferProto;
   }
 }

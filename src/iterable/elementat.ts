@@ -1,8 +1,8 @@
 'use strict';
 
-import { IIterable } from '../iterable.interfaces';
 
-export function elementAt<T>(source: IIterable<T>, index: number) {
+
+export function elementAt<T>(source: Iterable<T>, index: number) {
   const it = source[Symbol.iterator]();
   let next;
   while (!(next = it.next()).done) {

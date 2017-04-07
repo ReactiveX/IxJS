@@ -1,4 +1,4 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { _if } from '../../iterable/if';
 
-Iterable.if = _if;
+IterableImpl.if = _if;

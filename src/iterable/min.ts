@@ -1,21 +1,19 @@
 'use strict';
+import { identity } from '../internal/identity';
 
-import { IIterable } from '../iterable.interfaces';
 
-export function min<T>(
-    source: IIterable<T | number>,
-    fn?: (x: T) => number): number {
-  const it = source[Symbol.iterator]();
-  let next;
-  if((next = it.next()).done) {
-    throw new Error('Sequence contains no elements');
-  }
-
-  let value = next.value;
-  while(!(next = it.next()).done) {
-    let x = fn ? fn(next.value) : next.value;
+export function min(source: Iterable<number>, fn?: (x: number) => number): number;
+export function min<T>(source: Iterable<T>, fn: (x: T) => number): number;
+export function min(source: Iterable<any>, fn: (x: any) => number = identity): number {
+  let atleastOnce = false;
+  let value = 0;
+  for (let item of source) {
+    if (!atleastOnce) atleastOnce = true;
+let x = fn(item);
     if (x < value) { value = x; }
   }
+  if (!atleastOnce)
+    throw new Error('Sequence contains no elements');
 
   return value;
 }

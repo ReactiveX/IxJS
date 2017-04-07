@@ -1,16 +1,16 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class RetryIterator<T> extends Iterator<T> {
-  private _source: IIterable<T>;
-  private _it: IIterator<T>;
-  private _count: number;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class RetryIterator<T> extends IteratorImpl<T> {
+  private _source: Iterable<T>;
+  private _it: Iterator<T> | null;
+  private _count?: number;
   private _hasCount: boolean;
 
-  constructor(source: IIterable<T>, count?: number) {
+  constructor(source: Iterable<T>, count?: number) {
     super();
     this._source = source;
     this._it = null;
@@ -18,10 +18,9 @@ export class RetryIterator<T> extends Iterator<T> {
     this._hasCount = count != null;
   }
 
-  next() {
+  _next() {
     this._it || (this._it = this._source[Symbol.iterator]());
     while(1) {
-      let next;
       try {
         return this._it.next();
       } catch (e) {
@@ -35,11 +34,11 @@ export class RetryIterator<T> extends Iterator<T> {
   }
 }
 
-export class RetryIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class RetryIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _count: number;
 
-  constructor(source: IIterable<T>, count?: number) {
+  constructor(source: Iterable<T>, count?: number) {
     super();
     this._source = source;
     this._count = count;
@@ -50,6 +49,6 @@ export class RetryIterable<T> extends Iterable<T> {
   }
 }
 
-export function retry<T>(source: IIterable<T>, count?: number) {
+export function retry<T>(source: Iterable<T>, count?: number) {
   return new RetryIterable<T>(source, count);
 }

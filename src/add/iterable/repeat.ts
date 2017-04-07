@@ -1,10 +1,10 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { repeat as repeatStatic } from '../../iterable/repeat';
 
-Iterable.repeat = repeatStatic;
+IterableImpl.repeat = repeatStatic;
 
 declare module '../../Iterable' {
-  namespace Iterable {
+  namespace IterableImpl {
     export let repeat: typeof repeatStatic;
   }
 }

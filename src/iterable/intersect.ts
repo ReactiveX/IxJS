@@ -1,8 +1,8 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 import { arrayIndexOf } from '../internal/arrayindexof';
 
 function arrayRemove<T>(array: T[], item: T, comparer: (x: T, y: T) => boolean): boolean {
@@ -12,14 +12,14 @@ function arrayRemove<T>(array: T[], item: T, comparer: (x: T, y: T) => boolean):
   return true;
 }
 
-export class IntersectIterator<T> extends Iterator<T> {
-  private _second: IIterator<T>;
+export class IntersectIterator<T> extends IteratorImpl<T> {
+  private _second: Iterator<T>;
   private _map: T[];
   private _cmp: (x: T, y: T) => boolean;
 
   constructor(
-      first: IIterator<T>, 
-      second: IIterator<T>, 
+      first: Iterator<T>,
+      second: Iterator<T>,
       cmp?: (x: T, y: T) => boolean) {
     super();
     this._map = [];
@@ -32,25 +32,26 @@ export class IntersectIterator<T> extends Iterator<T> {
     }
   }
 
-  next() {
+  _next() {
     while(1) {
       let next = this._second.next();
-      if (next.done) { return { done: true, value: undefined }; }
+      if (next.done) { break; }
       if (arrayRemove(this._map, next.value, this._cmp)) {
         return { done: false, value: next.value };
       }
     }
+    return { done: true, value: undefined };
   }
 }
 
-export class IntersectIterable<T> extends Iterable<T> {
-  private _first: IIterable<T>;
-  private _second: IIterable<T>;
-  private _cmp: (x: T, y: T) => boolean;
+export class IntersectIterable<T> extends IterableImpl<T> {
+  private _first: Iterable<T>;
+  private _second: Iterable<T>;
+  private _cmp?: (x: T, y: T) => boolean;
 
   constructor(
-      first: IIterable<T>, 
-      second: IIterable<T>, 
+      first: Iterable<T>,
+      second: Iterable<T>,
       cmp?: (x: T, y: T) => boolean) {
     super();
     this._first = first;
@@ -64,8 +65,8 @@ export class IntersectIterable<T> extends Iterable<T> {
 }
 
 export function intersect<T>(
-      first: IIterable<T>, 
-      second: IIterable<T>, 
+      first: Iterable<T>,
+      second: Iterable<T>,
       cmp?: (x: T, y: T) => boolean) {
   return new IntersectIterable<T>(first, second, cmp);
 }

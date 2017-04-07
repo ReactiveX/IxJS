@@ -1,12 +1,13 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { catchAll } from '../../iterable/catchall';
 
-Iterable.prototype.catchAll = function<T>(...args: Iterable<T>[]): Iterable<T> {
+function catchAllProto<T>(this: IterableImpl<T>, ...args: Iterable<T>[]): Iterable<T> {
   return catchAll<T>(this, ...args);
 };
+IterableImpl.prototype.catchAll = catchAllProto;
 
 declare module '../../Iterable' {
-  interface Iterable<T> {
-    catchAll(...args: Iterable<T>[]): Iterable<T>
+  interface IterableImpl<T> {
+    catchAll: typeof catchAllProto;
   }
 }

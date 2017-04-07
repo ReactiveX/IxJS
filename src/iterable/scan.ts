@@ -1,18 +1,18 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class ScanIterator<TAccumulate, TSource> extends Iterator<TAccumulate | TSource> {
-  private _it: IIterator<TSource>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class ScanIterator<TAccumulate, TSource> extends IteratorImpl<TAccumulate | TSource> {
+  private _it: Iterator<TSource>;
   private _fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate;
   private _hs: boolean;
   private _i: number;
   private _v: TAccumulate | TSource;
 
   constructor(
-      it: IIterator<TSource>, 
+      it: Iterator<TSource>,
       fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate,
       seed?: TAccumulate) {
     super();
@@ -23,7 +23,7 @@ export class ScanIterator<TAccumulate, TSource> extends Iterator<TAccumulate | T
     this._v = seed;
   }
 
-  next() {
+  _next() {
     let next = this._it.next();
     if (next.done) { return { done: true, value: undefined}; }
     if (!this._hs) {
@@ -32,19 +32,19 @@ export class ScanIterator<TAccumulate, TSource> extends Iterator<TAccumulate | T
       this._v = this._fn(this._v, next.value, ++this._i);
     }
 
-    return { done: false, value: this._v };    
+    return { done: false, value: this._v };
   }
 }
 
-export class ScanIterable<TAccumulate, TSource> extends Iterable<TAccumulate | TSource> {
-  private _source: IIterable<TSource>;
+export class ScanIterable<TAccumulate, TSource> extends IterableImpl<TAccumulate | TSource> {
+  private _source: Iterable<TSource>;
   private _fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate;
   private _v: any;
   private _hv: boolean;
 
   constructor(
-      source: IIterable<TSource>, 
-      fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate, 
+      source: Iterable<TSource>,
+      fn: (acc: TAccumulate, x: TSource, index: number) => TAccumulate,
       seed?: TAccumulate) {
     super();
     this._source = source;
@@ -61,8 +61,8 @@ export class ScanIterable<TAccumulate, TSource> extends Iterable<TAccumulate | T
 }
 
 function scan<TAccumulate, TSource>(
-      source: IIterable<TSource>, 
-      fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate, 
+      source: Iterable<TSource>,
+      fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate,
       seed?: TAccumulate): Iterable<TAccumulate | TSource> {
     if (arguments.length === 3) {
       return new ScanIterable(source, fn, seed);

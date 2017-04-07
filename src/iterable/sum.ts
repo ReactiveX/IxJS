@@ -1,14 +1,11 @@
-'use strict';
+import { identity } from '../internal/identity';
 
-import { IIterable, IIteratorResult } from '../iterable.interfaces';
-
-export function sum<T>(
-  source: IIterable<T | number>,
-  fn?: (value: T) => number): number {
-  const it = source[Symbol.iterator]();
-  let next, sum = 0;
-  while (!(next = it.next()).done) {
-    sum += fn ? fn(next.value) : next.value;
+export function sum(source: Iterable<number>, fn?: (x: number) => number): number;
+export function sum<T>(source: Iterable<T>, fn: (x: T) => number): number;
+export function sum(source: Iterable<any>, fn: (x: any) => number = identity): number {
+  let sum = 0;
+  for (let item of source) {
+    sum += fn(item);
   }
 
   return sum;

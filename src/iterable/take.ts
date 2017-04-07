@@ -1,37 +1,37 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class TakeIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class TakeIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
   private _i: number;
 
-  constructor(it: IIterator<T>, count: number) {
+  constructor(it: Iterator<T>, count: number) {
     super();
 
     +count || (count = 0);
     Math.abs(count) === Infinity && (count = 0);
     if (count < 0) { throw new RangeError(); }
-    
+
     this._it = it;
     this._i = count;
   }
 
-  next() {
+  _next() {
     var next = this._it.next();
     if (next.done) { return next; }
     if (this._i-- === 0) { return { done: true, value: undefined }; }
-    return { value: next.value, done: false };    
+    return { value: next.value, done: false };
   }
 }
 
-export class TakeIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class TakeIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _count: number;
 
-  constructor(source: IIterable<T>, count: number) {
+  constructor(source: Iterable<T>, count: number) {
     super();
 
     +count || (count = 0);
@@ -48,7 +48,7 @@ export class TakeIterable<T> extends Iterable<T> {
 }
 
 export function take<T>(
-    source: IIterable<T>, 
+    source: Iterable<T>,
     count: number): Iterable<T> {
   return new TakeIterable(source, count);
 }

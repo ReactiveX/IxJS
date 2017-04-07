@@ -1,10 +1,10 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-class RangeIterator extends Iterator<number> {
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+class RangeIterator extends IteratorImpl<number> {
   private _current: number;
   private _end: number;
 
@@ -14,14 +14,14 @@ class RangeIterator extends Iterator<number> {
     this._end = start + count - 1;
   }
 
-  next() {
+  _next() {
     return this._current++ < this._end ?
       { done: false, value: this._current } :
-      { done: true, value: undefined };    
+      { done: true, value: undefined };
   }
 }
 
-export class RangeIterable extends Iterable<number> {
+export class RangeIterable extends IterableImpl<number> {
   private _start: number;
   private _count: number;
 

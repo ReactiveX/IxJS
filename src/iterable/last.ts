@@ -1,26 +1,15 @@
 'use strict';
 
-import { IIterable } from '../iterable.interfaces';
 
-export function last<T>(
-    source: IIterable<T>,
-    fn?: (value: T) => boolean): T {
-  fn || (fn = () => true);
-  const it = source[Symbol.iterator]();
-  let next;
-  while (!(next = it.next()).done) {
-    let result = next.value;
-    if (fn(result)) {
-      while (!(next = it.next()).done) {
-        let current = next.value;
-        if (fn(current)) {
-          result = current;
-        }
-      }
+'use strict';
 
-      return result;
+export function last<T>(source: Iterable<T>, fn: (value: T) => boolean = () => true): T | undefined {
+  let result: T | undefined;
+  for (let item of source) {
+    if (fn(item)) {
+      result = item;
     }
   }
 
-  return undefined;
+  return result;
 }

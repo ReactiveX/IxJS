@@ -1,17 +1,17 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
-export class MapIterator<TSource, TResult> extends Iterator<TResult> {
-  private _it: IIterator<TSource>;
+export class MapIterator<TSource, TResult> extends IteratorImpl<TResult> {
+  private _it: Iterator<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
   private _i: number;
 
   constructor(
-      it: IIterator<TSource>, 
+      it: Iterator<TSource>,
       fn: (value: TSource, index: number) => TResult,
       thisArg?: any) {
     super();
@@ -20,21 +20,21 @@ export class MapIterator<TSource, TResult> extends Iterator<TResult> {
     this._i = 0;
   }
 
-  next() {
+  _next() {
     const next = this._it.next();
     if (next.done) { return { done: true, value: undefined}; }
-    return { done: false, value: this._fn(next.value, this._i++) };    
+    return { done: false, value: this._fn(next.value, this._i++) };
   }
 }
 
-export class MapIterable<TSource, TResult> extends Iterable<TResult> {
-  private _source: IIterable<TSource>;
+export class MapIterable<TSource, TResult> extends IterableImpl<TResult> {
+  private _source: Iterable<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
   private _thisArg: any;
-  
+
   constructor(
-      source: IIterable<TSource>, 
-      fn: (value: TSource, index: number) => TResult, 
+      source: Iterable<TSource>,
+      fn: (value: TSource, index: number) => TResult,
       thisArg?: any) {
     super();
     this._source = source;
@@ -44,7 +44,7 @@ export class MapIterable<TSource, TResult> extends Iterable<TResult> {
 
   private _innerMap(fn: (value: TSource, index: number) => TResult) {
     const self = this;
-    return function (x, i) { return fn.call(this, self._fn(x, i), i); };
+    return function (this: any, x: any, i: any) { return fn.call(this, self._fn(x, i), i); };
   }
 
   [Symbol.iterator]() {
@@ -57,9 +57,9 @@ export class MapIterable<TSource, TResult> extends Iterable<TResult> {
 }
 
 export function map<TSource, TResult>(
-    source: IIterable<TSource>, 
-    fn: (value: TSource, index: number) => TResult, 
-    thisArg?: any): Iterable<TResult> {
+    source: Iterable<TSource>,
+    fn: (value: TSource, index: number) => TResult,
+    thisArg?: any): IterableImpl<TResult> {
   return source instanceof MapIterable ?
     source.internalMap(fn, thisArg) :
     new MapIterable(source, fn, thisArg);

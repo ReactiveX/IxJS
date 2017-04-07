@@ -1,20 +1,20 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class DeferIterator<T> extends Iterator<T> {
-  private _fn: () => IIterable<T>;
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 
-  constructor(fn: () => IIterable<T>) {
+export class DeferIterator<T> extends IteratorImpl<T> {
+  private _fn: () => Iterable<T>;
+  private _it: Iterator<T> | null;
+
+  constructor(fn: () => Iterable<T>) {
     super();
     this._fn = fn;
     this._it = null;
   }
 
-  next() {
+  _next() {
     if (!this._it) {
       this._it = this._fn()[Symbol.iterator]();
     }
@@ -22,10 +22,10 @@ export class DeferIterator<T> extends Iterator<T> {
   }
 }
 
-export class DeferIterable<T> extends Iterable<T> {
-  private _fn: () => IIterable<T>;
+export class DeferIterable<T> extends IterableImpl<T> {
+  private _fn: () => Iterable<T>;
 
-  constructor(fn: () => IIterable<T>) {
+  constructor(fn: () => Iterable<T>) {
     super();
     this._fn = fn;
   }
@@ -35,6 +35,6 @@ export class DeferIterable<T> extends Iterable<T> {
   }
 }
 
-export function defer<T>(fn: () => IIterable<T>): Iterable<T> {
+export function defer<T>(fn: () => Iterable<T>): Iterable<T> {
   return new DeferIterable(fn);
 }

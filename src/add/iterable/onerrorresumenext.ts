@@ -1,10 +1,10 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { onErrorResumeNextStatic } from '../../iterable/onerrorresumenext';
 
-Iterable.onErrorResumeNext = onErrorResumeNextStatic;
+IterableImpl.onErrorResumeNext = onErrorResumeNextStatic;
 
 declare module '../../Iterable' {
-  namespace Iterable {
+  namespace IterableImpl {
     export let onErrorResumeNext: typeof onErrorResumeNextStatic;
   }
 }

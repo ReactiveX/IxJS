@@ -1,11 +1,11 @@
 'use strict';
 
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 
 const doneIterator = { done: true, value: undefined };
 
-class RepeatIterator<T> extends Iterator<T> {
+class RepeatIterator<T> extends IteratorImpl<T> {
   private _value: T;
   private _count: number;
   private _hasCount: boolean;
@@ -17,17 +17,17 @@ class RepeatIterator<T> extends Iterator<T> {
     this._hasCount = count != null;
   }
 
-  next() {
+  _next() {
     if (this._count !== 0) {
       this._hasCount && this._count--;
       return { value: this._value, done: false };
     } else {
       return doneIterator;
-    }    
+    }
   }
 }
 
-export class RepeatIterable<T> extends Iterable<T> {
+export class RepeatIterable<T> extends IterableImpl<T> {
   private _value: T;
   private _count: number;
 

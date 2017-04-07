@@ -1,29 +1,29 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class FinallyIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class FinallyIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
   private _fn: () => void;
   private _called: boolean;
 
-  constructor(it: IIterator<T>, fn: () => void) {
+  constructor(it: Iterator<T>, fn: () => void) {
     super();
     this._it = it;
     this._fn = fn;
     this._called = false;
   }
 
-  next() {
+  _next() {
     let next;
     try {
       next = this._it.next();
     } catch(e) {
       next = this._it.next();
     }
-    
+
     if (next.done && !this._called) {
       this._called = true;
       this._fn();
@@ -33,11 +33,11 @@ export class FinallyIterator<T> extends Iterator<T> {
   }
 }
 
-export class FinallyIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class FinallyIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _fn: () => void;
 
-  constructor(source: IIterable<T>, fn: () => void) {
+  constructor(source: Iterable<T>, fn: () => void) {
     super();
     this._source = source;
     this._fn = fn;
@@ -49,7 +49,7 @@ export class FinallyIterable<T> extends Iterable<T> {
 }
 
 export function _finally<T>(
-    source: IIterable<T>,
+    source: Iterable<T>,
     fn: () => void): Iterable<T> {
   return new FinallyIterable<T>(source, fn);
 }

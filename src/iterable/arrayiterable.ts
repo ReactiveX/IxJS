@@ -1,11 +1,11 @@
 'use strict';
 
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 
 const doneIterator = { done: true, value: undefined };
 
-export class ArrayIterator<T> extends Iterator<T> {
+export class ArrayIterator<T> extends IteratorImpl<T> {
   private _source: T[];
   private _len: number;
   private _index: number;
@@ -17,14 +17,14 @@ export class ArrayIterator<T> extends Iterator<T> {
     this._index = -1;
   }
 
-  next() {
+  _next() {
     return ++this._index < this._len ?
       { done: false, value: this._source[this._index] } :
-      doneIterator;    
+      doneIterator;
   }
 }
 
-export class ArrayIterable<T> extends Iterable<T> {
+export class ArrayIterable<T> extends IterableImpl<T> {
   private _source: T[];
 
   constructor(source: T[]) {
@@ -32,7 +32,7 @@ export class ArrayIterable<T> extends Iterable<T> {
     this._source = source;
   }
 
-  [Symbol.iterator]() { 
-    return new ArrayIterator(this._source); 
+  [Symbol.iterator]() {
+    return new ArrayIterator(this._source);
   }
 }

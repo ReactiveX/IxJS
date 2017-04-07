@@ -1,23 +1,23 @@
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class ExpandIterator<T> extends Iterator<T> {
-  private _q: IIterable<T>[];
-  private _it: IIterator<T>;
-  private _fn: (source: T) => IIterable<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 
-  constructor(source: IIterable<T>, fn: (source: T) => IIterable<T>) {
+export class ExpandIterator<T> extends IteratorImpl<T> {
+  private _q: Iterable<T>[];
+  private _it: Iterator<T> | null;
+  private _fn: (source: T) => Iterable<T>;
+
+  constructor(source: Iterable<T>, fn: (source: T) => Iterable<T>) {
     super();
     this._q = [source];
     this._fn = fn;
     this._it = null;
   }
 
-  next() {
+  _next() {
     while(1) {
       if (!this._it) {
-        if (this._q.length === 0) { return { done: true, value: undefined }; }
+        if (this._q.length === 0) { break; }
         this._it = this._q.shift()[Symbol.iterator]();
       }
 
@@ -29,14 +29,15 @@ export class ExpandIterator<T> extends Iterator<T> {
         this._it = null;
       }
     }
+    return { done: true, value: undefined };
   }
 }
 
-export class ExpandIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
-  private _fn: (source: T) => IIterable<T>
+export class ExpandIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
+  private _fn: (source: T) => Iterable<T>
 
-  constructor(source: IIterable<T>, fn: (source: T) => IIterable<T>) {
+  constructor(source: Iterable<T>, fn: (source: T) => Iterable<T>) {
     super();
     this._source = source;
     this._fn = fn;
@@ -48,7 +49,7 @@ export class ExpandIterable<T> extends Iterable<T> {
 }
 
 export function expand<T>(
-    source: IIterable<T>,
-    fn: (source: T) => IIterable<T>) {
+    source: Iterable<T>,
+    fn: (source: T) => Iterable<T>) {
   return new ExpandIterable<T>(source, fn);
 }
