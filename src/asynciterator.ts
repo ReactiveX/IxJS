@@ -7,7 +7,7 @@ interface AsyncIteratorQueueItem {
   reject:  (reason: any) => void;
 }
 
-export abstract class AsyncIteratorImpl<T> {
+export abstract class AsyncIteratorImpl<T> implements AsyncIterator<T> {
   private _queue : Array<AsyncIteratorQueueItem>;
   private _current: AsyncIteratorQueueItem | undefined;
 

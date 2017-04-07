@@ -1,20 +1,22 @@
 'use strict';
 
-export interface IteratorImplResult<T> {
-  value?: T;
-  done: boolean;
-}
-
 export abstract class IteratorImpl<T> implements Iterator<T> {
+  protected abstract create(): Iterator<T>;
+
+  private _iterator?: Iterator<T>;
+
+  private get iterator() {
+    return this._iterator || (this._iterator = this.create());
+  }
+
   [Symbol.iterator]() {
-    // Force it to be a true iterator
     return this;
   }
 
-  // Jump through a hook here :(
-  protected abstract _next(): IteratorImplResult<T>;
-
-  next() {
-    return <IteratorResult<T>><any>this._next();
+  next(value?: any): IteratorResult<T> {
+    return this.iterator.next(value);
   }
+
+  get return() { return this.iterator.return; }
+  get throw() { return this.iterator.throw; }
 }

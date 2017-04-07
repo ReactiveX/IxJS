@@ -3,51 +3,33 @@
 
 import { IterableImpl } from '../iterable';
 import { IteratorImpl } from '../iterator';
-import { ArrayIterator } from './arrayiterable';
+import { ArrayIterable } from './arrayiterable';
 
 export class CatchAllIterator<T> extends IteratorImpl<T> {
-  private _it: Iterator<T>;
-  private _innerIt: Iterator<T> | null;
+  private _it: ArrayIterable<Iterable<T>>;
   private _error: any;
   private _hasError: boolean;
 
-  constructor(...it: any[]) {
+  constructor(...it: Iterable<T>[]) {
     super();
-    this._it = new ArrayIterator(it);
-    this._innerIt = null;
+    this._it = new ArrayIterable(it);
     this._error = null;
     this._hasError = false;
   }
 
-  _next() {
-    let outerNext;
-    while (1) {
-      while (1) {
-        if (!this._innerIt) {
-          outerNext = this._it.next();
-          if (outerNext.done) {
-            if (this._hasError) { throw this._error; }
-            return { done: true, value: undefined };
-          }
-          this._hasError = false;
-          this._error = null;
-          this._innerIt = outerNext.value[Symbol.iterator]();
+  protected *create() {
+    for (let outer of this._it) {
+      try {
+        // TODO: doesn't look like we're doing anything with the errors here...
+        // TODO: Make sure this is right!
+        for (let inner of outer) {
+          yield inner;
         }
-
-        let innerNext;
-        try {
-          innerNext = this._innerIt!.next();
-        } catch (e) {
-          this._error = e;
-          break;
-        }
-
-        return innerNext;
+      } catch (e) {
+        this._error = e;
+        break;
       }
-
-      if (this._hasError) { break; }
     }
-    return { done: true, value: undefined };
   }
 }
 
@@ -60,7 +42,7 @@ export class CatchAllIterable<T> extends IterableImpl<T> {
   }
 
   [Symbol.iterator]() {
-    return new CatchAllIterator<T>(...this._source.map(x => x[Symbol.iterator]()));
+    return new CatchAllIterator<T>(...this._source.map(x => x));
   }
 }
 
