@@ -1,12 +1,14 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { _catch } from '../../iterable/catch';
 
-Iterable.prototype.catch = function<T>(fn: (error: any) => Iterable<T>): Iterable<T> {
+function _catchProto<T>(this: IterableImpl<T>, fn: (error: any) => Iterable<T>): Iterable<T> {
   return _catch<T>(this, fn);
 };
 
+IterableImpl.prototype.catch = _catchProto;
+
 declare module '../../Iterable' {
-  interface Iterable<T> {
-    catch(fn: (error: any) => Iterable<T>): Iterable<T>
+  interface IterableImpl<T> {
+    catch: typeof _catchProto;
   }
 }

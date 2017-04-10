@@ -1,21 +1,21 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 import { ConcatAllIterable } from './concatall';
 
-class WhileIterator<T> extends Iterator<IIterable<T>> {
-  private _source: IIterable<T>;
+class WhileIterator<T> extends IteratorImpl<Iterable<T>> {
+  private _source: Iterable<T>;
   private _fn: () => boolean;
 
-  constructor(source: IIterable<T>, fn: () => boolean) {
+  constructor(source: Iterable<T>, fn: () => boolean) {
     super();
     this._source = source;
     this._fn = fn;
   }
 
-  next() {
+  _next() {
     if (this._fn()) {
       return { done: false, value: this._source };
     } else {
@@ -24,11 +24,11 @@ class WhileIterator<T> extends Iterator<IIterable<T>> {
   }
 }
 
-class WhileIterable<T> extends Iterable<IIterable<T>> {
-  private _source: IIterable<T>;
+class WhileIterable<T> extends IterableImpl<Iterable<T>> {
+  private _source: Iterable<T>;
   private _fn: () => boolean;
 
-  constructor(source: IIterable<T>, fn: () => boolean) {
+  constructor(source: Iterable<T>, fn: () => boolean) {
     super();
     this._source = source;
     this._fn = fn;
@@ -40,7 +40,7 @@ class WhileIterable<T> extends Iterable<IIterable<T>> {
 }
 
 export function _while<T>(
-    source: IIterable<T>, 
-    fn: () => boolean): Iterable<T> {
-  return new ConcatAllIterable(new WhileIterable(source, fn));
+    source: Iterable<T>,
+    fn: () => boolean): Iterable<T | undefined> {
+  return new ConcatAllIterable(new WhileIterable<T>(source, fn));
 }

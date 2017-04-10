@@ -1,10 +1,10 @@
 'use strict';
 
-import { IIterable } from '../iterable.interfaces';
+
 import { extremaBy, defaultCompare } from './_extremaby';
 
 export function minBy<TSource, TKey>(
-    source: IIterable<TSource>,
+    source: Iterable<TSource>,
     keyFn: (x: TSource) => TKey,
     cmp?: (x: TKey, y: TKey) => number): TSource[] {
   cmp || (cmp = defaultCompare);

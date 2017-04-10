@@ -1,23 +1,23 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
-export class FilterIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+export class FilterIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
   private _fn: (value: T, index: number) => boolean;
   private _i: number;
 
-  constructor(it: IIterator<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
+  constructor(it: Iterator<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
     super();
     this._it = it;
     this._fn = bindCallback(fn, thisArg, 2);
     this._i = 0;
   }
 
-  next() {
+  _next() {
     let next;
     while (!(next = this._it.next()).done) {
       if (this._fn(next.value, this._i++)) {
@@ -28,12 +28,12 @@ export class FilterIterator<T> extends Iterator<T> {
   }
 }
 
-export class FilterIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class FilterIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _fn: (value: T, index: number) => boolean;
   private _thisArg: any;
 
-  constructor(source: IIterable<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
+  constructor(source: Iterable<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
     super();
     this._source = source;
     this._fn = fn;
@@ -46,17 +46,17 @@ export class FilterIterable<T> extends Iterable<T> {
 
   private _innerPredicate(fn: (value: T, index: number) => boolean) {
     var self = this;
-    return function(x, i) { return self._fn(x, i) && fn.call(this, x, i); };
+    return function(this: any, x: any, i: any) { return self._fn(x, i) && fn.call(this, x, i); };
   }
 
-  internalFilter(fn: (value: T, index: number) => boolean, thisArg?: any): IIterable<T> {
+  internalFilter(fn: (value: T, index: number) => boolean, thisArg?: any): Iterable<T> {
     return new FilterIterable<T>(this._source, this._innerPredicate(fn), thisArg);
   }
 }
 
 export function filter<T>(
-      source : IIterable<T>, 
-      fn: (value: T, index: number) => boolean, 
+      source : Iterable<T>,
+      fn: (value: T, index: number) => boolean,
       thisArg?: any): Iterable<T> {
   return source instanceof FilterIterable ?
     <FilterIterable<T>>(source).internalFilter(fn, thisArg) :

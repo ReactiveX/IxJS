@@ -1,17 +1,17 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class DistinctUntilChangedIterator<TSource, TKey> extends Iterator<TSource> {
-  private _it: IIterator<TSource>;
-  private _fn: (value: TSource) => TKey;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class DistinctUntilChangedIterator<TSource, TKey> extends IteratorImpl<TSource> {
+  private _it: Iterator<TSource>;
+  private _fn?: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
-  private _currentKey: TKey;
+  private _currentKey: TKey | null;
   private _hasCurrentKey: boolean;
 
-  constructor(it: IIterator<TSource>, fn?: (value: TSource) => TKey, cmp?: (x: TKey, y: TKey) => boolean) {
+  constructor(it: Iterator<TSource>, fn?: (value: TSource) => TKey, cmp?: (x: TKey, y: TKey) => boolean) {
     super();
     this._it = it;
     this._fn = fn;
@@ -20,28 +20,28 @@ export class DistinctUntilChangedIterator<TSource, TKey> extends Iterator<TSourc
     this._hasCurrentKey = false;
   }
 
-  next() {
+  _next() {
     const next = this._it.next();
     if (next.done) { return next; }
     const key = this._fn ? this._fn(next.value) : next.value;
     let cmpEquals = false;
     if (this._hasCurrentKey) {
-      cmpEquals = this._cmp(this._currentKey, key);
+      cmpEquals = this._cmp(this._currentKey!, key);
     }
     if (!this._hasCurrentKey || !cmpEquals) {
       this._currentKey = key;
       this._hasCurrentKey = true;
       return { done: false, value: next.value };
-    }    
+    }
   }
 }
 
-export class DistinctUntilChangedIterable<TSource, TKey> extends Iterable<TSource> {
-  private _source: IIterable<TSource>;
+export class DistinctUntilChangedIterable<TSource, TKey> extends IterableImpl<TSource> {
+  private _source: Iterable<TSource>;
   private _fn: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
 
-  constructor(source: IIterable<TSource>, fn: (value: TSource) => TKey, cmp: (x: TKey, y: TKey) => boolean) {
+  constructor(source: Iterable<TSource>, fn: (value: TSource) => TKey, cmp: (x: TKey, y: TKey) => boolean) {
     super();
     this._fn = fn;
     this._cmp = cmp;
@@ -53,8 +53,8 @@ export class DistinctUntilChangedIterable<TSource, TKey> extends Iterable<TSourc
 }
 
 export function distinctUntilChanged<TSource, TKey>(
-    source: IIterable<TSource>, 
-    fn?: (value: TSource) => TKey, 
-    cmp?: (x: any, y: any) => boolean): IIterable<TSource> {
+    source: Iterable<TSource>,
+    fn?: (value: TSource) => TKey,
+    cmp?: (x: any, y: any) => boolean): Iterable<TSource> {
   return new DistinctUntilChangedIterable<TSource, TKey>(source, fn, cmp);
 }

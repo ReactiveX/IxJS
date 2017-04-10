@@ -1,15 +1,15 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class SkipLastIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class SkipLastIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
   private _q: T[];
   private _count: number;
 
-  constructor(it: IIterator<T>, count: number) {
+  constructor(it: Iterator<T>, count: number) {
     super();
 
     +count || (count = 0);
@@ -21,23 +21,23 @@ export class SkipLastIterator<T> extends Iterator<T> {
     this._count = count;
   }
 
-  next() {
+  _next() {
     while (1) {
       let next = this._it.next();
       if (next.done) { return next; }
       this._q.push(next.value);
       if (this._q.length > this._count) {
         return { done: false, value: this._q.shift() };
-      }  
+      }
     }
   }
 }
 
-export class SkipLastIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class SkipLastIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _count: number;
 
-  constructor(source: IIterable<T>, count: number) {
+  constructor(source: Iterable<T>, count: number) {
     super();
     this._source = source;
     this._count = count;
@@ -49,7 +49,7 @@ export class SkipLastIterable<T> extends Iterable<T> {
 }
 
 export function skipLast<T>(
-    source: IIterable<T>, 
+    source: Iterable<T>,
     count: number): Iterable<T> {
   return new SkipLastIterable<T>(source, count);
 }

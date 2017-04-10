@@ -1,13 +1,12 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-class AnonymousIterable<T> extends Iterable<T> {
-  private _fn: () => IIterator<T>;
+import { IterableImpl } from '../iterable';
 
-  constructor(fn: () => IIterator<T>) {
+class AnonymousIterable<T> extends IterableImpl<T> {
+  private _fn: () => Iterator<T>;
+
+  constructor(fn: () => Iterator<T>) {
     super();
     this._fn = fn;
   }
@@ -17,6 +16,6 @@ class AnonymousIterable<T> extends Iterable<T> {
   }
 }
 
-export function create<T>(fn: () => IIterator<T>): Iterable<T> {
+export function create<T>(fn: () => Iterator<T>): Iterable<T> {
   return new AnonymousIterable(fn);
 }

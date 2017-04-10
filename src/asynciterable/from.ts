@@ -1,52 +1,56 @@
 'use strict';
 
-import { IIterable, IIterator, ICollectionLike, IIndexedCollectionLike } from '../iterable.interfaces';
-import { IAsyncIterable, IAsyncIterator } from '../asynciterable.interfaces';
-import { AsyncIterable } from '../asynciterable';
-import { AsyncIterator } from '../asynciterator';
+import { AsyncIterableImpl } from '../asynciterable';
+import { AsyncIteratorImpl } from '../asynciterator';
 import { bindCallback } from '../internal/bindcallback';
 import { toLength } from '../internal/tolength';
 import { isIterable } from '../internal/isiterable';
 
-export class AsyncFromIterator<TSource, TResult> extends AsyncIterator<TResult> {
-  private _source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike;
-  private _it: IIterator<TSource>;
+export class AsyncFromIterator<TSource, TResult> extends AsyncIteratorImpl<TResult> {
+  private _source: Iterable<TSource> | ArrayLike<TSource>;
+  private _it: Iterator<TSource>;
   private _isIterable: boolean;
   private _fn?: (value: TSource, index: number) => TResult;
   private _i: number;
 
   constructor(
-      source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike, 
+      source: Iterable<TSource> | ArrayLike<TSource>,
       fn?: (value: TSource, index: number) => TResult,
       thisArg? :any) {
     super();
-    const iterable = isIterable(source);
-    this._source = source;
-    this._isIterable = iterable;
-    this._it = iterable ? source[Symbol.iterator]() : null;
+    if (isIterable(source)) {
+      this._isIterable = true;
+      this._it = source[Symbol.iterator]();
+    } else {
+      this._isIterable = false;
+    }
     this._fn = bindCallback(fn, thisArg, 2);;
-    this._i = 0;    
+    this._i = 0;
   }
 
   _next() {
-    let value;
+    let value: TResult;
     if (this._isIterable) {
       const next = this._it.next();
       if (next.done) {
         return this._settle('return', undefined);
       }
-      value = next.value;
+      let v = next.value;
       if (this._fn) {
-        value = this._fn(value, this._i++);
+        value = this._fn(v, this._i++);
+      } else {
+        value = <any>v;
       }
     } else {
-      let length = toLength((<IIndexedCollectionLike>this._source).length);
+      let length = toLength((<ArrayLike<TSource>>this._source).length);
       if (this._i >= length) {
         return this._settle('return', undefined);
       }
-      value = this._source[this._i];
+      let v = (<ArrayLike<TSource>>this._source)[this._i];
       if (this._fn) {
-        value = this._fn(value, this._i);
+        value = this._fn(v, this._i);
+      } else {
+        value = <any>v;
       }
       this._i++;
     }
@@ -54,13 +58,13 @@ export class AsyncFromIterator<TSource, TResult> extends AsyncIterator<TResult> 
   }
 }
 
-export class AsyncFromIterable<TSource, TResult> extends AsyncIterable<TResult> {
-  private _source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike;
-  private _fn: (value: any, index: number) => any;
+export class AsyncFromIterable<TSource, TResult> extends AsyncIterableImpl<TResult> {
+  private _source: Iterable<TSource> | Iterable<TSource> | ArrayLike<TSource>;
+  private _fn?: (value: TSource, index: number) => TResult;
   private _thisArg: any;
 
   constructor(
-      source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike, 
+      source: Iterable<TSource> | Iterable<TSource> | ArrayLike<TSource>,
       fn?: (value: TSource, index: number) => TResult,
       thisArg? :any) {
     super();
@@ -70,13 +74,13 @@ export class AsyncFromIterable<TSource, TResult> extends AsyncIterable<TResult> 
   }
 
   [Symbol.asyncIterator]() {
-    return new AsyncFromIterator(this._source, this._fn, this._thisArg);
+    return new AsyncFromIterator<TSource, TResult>(this._source, this._fn, this._thisArg);
   }
 }
 
 export function from<TSource, TResult>(
-    source: IIterable<TSource> | ICollectionLike | IIndexedCollectionLike, 
-    fn?: (value: TSource, index: number) => TResult, 
+    source: Iterable<TSource> | Iterable<TSource> | ArrayLike<TSource>,
+    fn?: (value: TSource, index: number) => TResult,
     thisArg?: any): AsyncIterable<TResult> {
   return new AsyncFromIterable(source, fn, thisArg);
 }

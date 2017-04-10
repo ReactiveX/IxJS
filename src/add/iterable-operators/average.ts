@@ -1,12 +1,13 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { average } from '../../iterable/average';
 
-Iterable.prototype.average = function (fn?) {
-  return average(this, fn);
+function averageProto<T>(this: IterableImpl<T>, fn?: (value: T) => number) {
+  return average<T>(this, fn);
 };
+IterableImpl.prototype.average = averageProto;
 
 declare module '../../Iterable' {
-  interface Iterable<T> {
-    average: (fn?: (value: T) => number) => number
+  interface IterableImpl<T> {
+    average: typeof averageProto;
   }
 }

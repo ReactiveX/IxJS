@@ -1,11 +1,20 @@
 'use strict';
 
-import { IIteratorResult } from './iterable.interfaces';
+export interface IteratorImplResult<T> {
+  value?: T;
+  done: boolean;
+}
 
-export abstract class Iterator<T> {
+export abstract class IteratorImpl<T> implements Iterator<T> {
   [Symbol.iterator]() {
+    // Force it to be a true iterator
     return this;
   }
 
-  abstract next(): IIteratorResult<T>;
+  // Jump through a hook here :(
+  protected abstract _next(): IteratorImplResult<T>;
+
+  next() {
+    return <IteratorResult<T>><any>this._next();
+  }
 }

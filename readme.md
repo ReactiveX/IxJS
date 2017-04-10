@@ -6,7 +6,7 @@ The Interactive Extensions for JavaScript (IxJS) is a library for creating and c
 
 ## `Iterable`
 
-The `Iterable` class a way to create and compose synchronous collections much like Arrays, Maps and Sets in JavaScript using the Array#extras style using the familiar methods you are used to like `map`, `filter`, `reduce` and more.  
+The `Iterable` class a way to create and compose synchronous collections much like Arrays, Maps and Sets in JavaScript using the Array#extras style using the familiar methods you are used to like `map`, `filter`, `reduce` and more.
 
 ```js
 const Iterator = require('ix').Iterator;
@@ -43,7 +43,7 @@ interface IteratorResult<T> {
 The `AsyncIterator` class is based off the ECMAScript Proposal for [Asynchronous Iterators](https://github.com/tc39/proposal-async-iteration).  This would allow us to create asynchronous collections of Promises and be able to use such methods as the `map`, `filter`, `reduce` and other Array#extras methods that you are used to using.
 
 ```js
-const AsyncIterable = require('ix').AsyncIterable;
+const AsyncIterableImpl = require('ix').AsyncIterable;
 
 async function *gen() {
   yield Promise.resolve(1);

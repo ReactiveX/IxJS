@@ -1,17 +1,17 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 import { ArrayIterator } from './arrayiterable';
 
-export class CatchAllIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
-  private _innerIt: IIterator<T>;
+export class CatchAllIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
+  private _innerIt: Iterator<T> | null;
   private _error: any;
   private _hasError: boolean;
 
-  constructor(...it) {
+  constructor(...it: any[]) {
     super();
     this._it = new ArrayIterator(it);
     this._innerIt = null;
@@ -19,7 +19,7 @@ export class CatchAllIterator<T> extends Iterator<T> {
     this._hasError = false;
   }
 
-  next() {
+  _next() {
     let outerNext;
     while (1) {
       while (1) {
@@ -36,7 +36,7 @@ export class CatchAllIterator<T> extends Iterator<T> {
 
         let innerNext;
         try {
-          innerNext = this._innerIt.next();
+          innerNext = this._innerIt!.next();
         } catch (e) {
           this._error = e;
           break;
@@ -47,13 +47,14 @@ export class CatchAllIterator<T> extends Iterator<T> {
 
       if (this._hasError) { break; }
     }
+    return { done: true, value: undefined };
   }
 }
 
-export class CatchAllIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>[];
+export class CatchAllIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>[];
 
-  constructor(...source: IIterable<T>[]) {
+  constructor(...source: Iterable<T>[]) {
     super();
     this._source = source;
   }
@@ -63,11 +64,11 @@ export class CatchAllIterable<T> extends Iterable<T> {
   }
 }
 
-export function catchAll<T>(source: IIterable<T>, ...args: IIterable<T>[]): Iterable<T> {
+export function catchAll<T>(source: Iterable<T>, ...args: Iterable<T>[]): Iterable<T> {
   return new CatchAllIterable<T>(...[source].concat(args));
 }
 
-export function catchAllStatic<T>(...source: IIterable<T>[]): Iterable<T> {
+export function catchAllStatic<T>(...source: Iterable<T>[]): Iterable<T> {
   return new CatchAllIterable<T>(...source);
 }
 

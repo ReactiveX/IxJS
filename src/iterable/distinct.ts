@@ -1,19 +1,19 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 import { arrayIndexOf } from '../internal/arrayindexof';
 
-export class DistinctIterator<TSource, TKey> extends Iterator<TSource> {
-  private _it: IIterator<TSource>;
-  private _fn: (value: TSource) => TKey;
+export class DistinctIterator<TSource, TKey> extends IteratorImpl<TSource> {
+  private _it: Iterator<TSource>;
+  private _fn?: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
   private _q: Array<TSource | TKey>;
 
   constructor(
-      it: IIterator<TSource>, 
-      fn?: (value: TSource) => TKey, 
+      it: Iterator<TSource>,
+      fn?: (value: TSource) => TKey,
       cmp?: (x: TKey, y: TKey) => boolean) {
     super();
     this._it = it;
@@ -22,27 +22,28 @@ export class DistinctIterator<TSource, TKey> extends Iterator<TSource> {
     this._q = [];
   }
 
-  next() {
+  _next() {
     while (1) {
       let next = this._it.next();
-      if (next.done) { return next; }
+      if (next.done) { break; }
       let key = this._fn ? this._fn(next.value) : next.value;
       if (arrayIndexOf(this._q, key, this._cmp) !== -1) {
         this._q.push(key);
         return { done: false, value: next.value };
       }
-    }    
+    }
+    return { done: true, value: undefined };
   }
 }
 
-export class DistinctIterable<TSource, TKey> extends Iterable<TSource> {
-  private _source: IIterable<TSource>;
+export class DistinctIterable<TSource, TKey> extends IterableImpl<TSource> {
+  private _source: Iterable<TSource>;
   private _fn: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
 
   constructor(
-      source: IIterable<TSource>, 
-      fn?: (value: TSource) => TKey, 
+      source: Iterable<TSource>,
+      fn?: (value: TSource) => TKey,
       cmp?: (x: TKey, y: TKey) => boolean) {
     super();
     this._source = source;
@@ -55,8 +56,8 @@ export class DistinctIterable<TSource, TKey> extends Iterable<TSource> {
 }
 
 export function distinct<TSource, TKey>(
-    source: IIterable<TSource>,
+    source: Iterable<TSource>,
     fn?: (value: TSource) => TKey,
-    cmp?: (x: TKey, y: TKey) => boolean): IIterable<TSource> {
+    cmp?: (x: TKey, y: TKey) => boolean): Iterable<TSource> {
   return new DistinctIterable<TSource, TKey>(source, fn, cmp);
 }

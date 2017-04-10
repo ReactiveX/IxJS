@@ -1,10 +1,10 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { concatStatic } from '../../iterable/concat';
 
-Iterable.concat = concatStatic;
+IterableImpl.concat = concatStatic;
 
 declare module '../../Iterable' {
-  namespace Iterable {
+  namespace IterableImpl {
     export let concat: typeof concatStatic;
   }
 }

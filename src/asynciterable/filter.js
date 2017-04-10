@@ -1,7 +1,7 @@
 'use strict';
 
-var AsyncIterable = require('../asynciterable');
-var AsyncIterator = require('../asynciterator');
+var AsyncIterableImpl = require('../asynciterable');
+var AsyncIteratorImpl = require('../asynciterator');
 var $asyncIterator$ = require('../symbol').asyncIterator;
 var bindCallback = require('../internal/bindcallback');
 var inherits = require('inherits');
@@ -21,7 +21,7 @@ AsyncFilterIterator.prototype._next = function () {
     self._it.next().then(function (next) {
       if (next.done) { return self._settle('return', next.value); }
       if (self._fn(next.value, self._i++)) {
-        self._settle('normal', next.value); 
+        self._settle('normal', next.value);
       } else {
         recurse();
       }
@@ -29,7 +29,7 @@ AsyncFilterIterator.prototype._next = function () {
       self._settle('throw', error);
     });
   }
-  
+
   recurse();
 };
 

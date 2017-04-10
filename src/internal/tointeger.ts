@@ -1,6 +1,6 @@
 'use strict';
 
-export function toInteger (value) {
+export function toInteger (value: any): number {
   var number = Number(value);
   if (isNaN(number)) { return 0; }
   if (number === 0 || !isFinite(number)) { return number; }

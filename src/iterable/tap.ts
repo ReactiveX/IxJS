@@ -1,22 +1,22 @@
 'use strict';
 
-import { IIterable, IIterator, PartialObserver } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
 
-export class TapIterator<T> extends Iterator<T> {
-  private _it: IIterator<T>;
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
+
+export class TapIterator<T> extends IteratorImpl<T> {
+  private _it: Iterator<T>;
   private _obs: PartialObserver<T>;
   private _i: 0;
 
-  constructor(it: IIterator<T>, obs: PartialObserver<T>) {
+  constructor(it: Iterator<T>, obs: PartialObserver<T>) {
     super();
     this._it = it;
     this._obs = obs;
     this._i = 0;
   }
 
-  next() {
+  _next() {
     let next;
     try {
       next = this._it.next();
@@ -28,15 +28,15 @@ export class TapIterator<T> extends Iterator<T> {
       return next;
     }
     this._obs.next(next.value);
-    return { done: false, value: next.value };    
+    return { done: false, value: next.value };
   }
 }
 
-export class TapIterable<T> extends Iterable<T> {
-  private _source: IIterable<T>;
+export class TapIterable<T> extends IterableImpl<T> {
+  private _source: Iterable<T>;
   private _obs: PartialObserver<T>;
 
-  constructor(source: IIterable<T>, obs: PartialObserver<T>) {
+  constructor(source: Iterable<T>, obs: PartialObserver<T>) {
     super();
     this._source = source;
     this._obs = obs;
@@ -47,6 +47,6 @@ export class TapIterable<T> extends Iterable<T> {
   }
 }
 
-export function tap<T>(source: IIterable<T>, obs: PartialObserver<T>): Iterable<T> {
+export function tap<T>(source: Iterable<T>, obs: PartialObserver<T>): Iterable<T> {
   return new TapIterable<T>(source, obs);
 }

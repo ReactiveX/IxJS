@@ -1,11 +1,11 @@
 'use strict';
 
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 
 const doneIterator = { done: true, value: undefined };
 
-class GenerateIterator<TState, TResult> extends Iterator<TResult> {
+class GenerateIterator<TState, TResult> extends IteratorImpl<TResult> {
   private _i: TState;
   private _condFn: (value: TState) => boolean;
   private _iterFn: (value: TState) => TState;
@@ -13,9 +13,9 @@ class GenerateIterator<TState, TResult> extends Iterator<TResult> {
   private _hasRes: boolean;
 
   constructor(
-      i: TState, 
-      condFn: (value: TState) => boolean, 
-      iterFn: (value: TState) => TState, 
+      i: TState,
+      condFn: (value: TState) => boolean,
+      iterFn: (value: TState) => TState,
       resFn: (value: TState) => TResult) {
     super();
     this._i = i;
@@ -25,7 +25,7 @@ class GenerateIterator<TState, TResult> extends Iterator<TResult> {
     this._hasRes = false;
   }
 
-  next() {
+  _next() {
     this._hasRes && (this._i = this._iterFn(this._i));
     if (!this._condFn(this._i)) { return doneIterator; }
     this._hasRes = true;
@@ -33,16 +33,16 @@ class GenerateIterator<TState, TResult> extends Iterator<TResult> {
   }
 }
 
-class GenerateIterable<TState, TResult> extends Iterable<TResult> {
+class GenerateIterable<TState, TResult> extends IterableImpl<TResult> {
   private _i: TState;
   private _condFn: (value: TState) => boolean;
   private _iterFn: (value: TState) => TState;
   private _resFn: (value: TState) => TResult;
 
   constructor(
-      i: TState, 
-      condFn: (value: TState) => boolean, 
-      iterFn: (value: TState) => TState, 
+      i: TState,
+      condFn: (value: TState) => boolean,
+      iterFn: (value: TState) => TState,
       resFn: (value: TState) => TResult) {
     super();
     this._i = i;
@@ -57,9 +57,9 @@ class GenerateIterable<TState, TResult> extends Iterable<TResult> {
 }
 
 export function generate<TState, TResult>(
-      i: TState, 
-      condFn: (value: TState) => boolean, 
-      iterFn: (value: TState) => TState, 
+      i: TState,
+      condFn: (value: TState) => boolean,
+      iterFn: (value: TState) => TState,
       resFn: (value: TState) => TResult): Iterable<TResult> {
   return new GenerateIterable(i, condFn, iterFn, resFn);
 }

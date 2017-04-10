@@ -1,12 +1,14 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { filter } from '../../iterable/filter';
 
-Iterable.prototype.filter = function<T>(fn: (value: T, index: number) => boolean, thisArg?: any): Iterable<T> {
+function filterProto<T>(this: IterableImpl<T>, fn: (value: T, index: number) => boolean, thisArg?: any): Iterable<T> {
   return filter(this, fn, thisArg);
 };
 
+IterableImpl.prototype.filter = filterProto;
+
 declare module '../../Iterable' {
-  interface Iterable<T> {
-    filter(fn: (value: T, index: number) => boolean, thisArg?: any): Iterable<T>
+  interface IterableImpl<T> {
+    filter: typeof filterProto;
   }
 }

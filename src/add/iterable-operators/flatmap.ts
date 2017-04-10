@@ -1,17 +1,15 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { flatMap } from '../../iterable/flatmap';
 
-Iterable.prototype.flatMap = function<TSource, TCollection, TResult>(
-    fn: (value: TSource, index: number) => Iterable<TCollection>, 
-    resFn?: (value: TSource, current: TCollection) => TResult) {
+function flatMapProto<TSource, TCollection, TResult>(this: IterableImpl<TSource>,
+  fn: (value: TSource, index: number) => Iterable<TCollection>,
+  resFn?: (value: TSource, current: TCollection) => TResult) {
   return flatMap(this, fn, resFn);
 };
+IterableImpl.prototype.flatMap = flatMapProto;
 
 declare module '../../Iterable' {
-  interface Iterable<T> {
-    flatMap<TCollection, TResult>(
-      fn: (value: T, index: number) => Iterable<TCollection>,
-      resFn?: (value: T, current: TCollection) => TResult
-    ): Iterable<TResult>
+  interface IterableImpl<T> {
+    flatMap: typeof flatMapProto;
   }
 }

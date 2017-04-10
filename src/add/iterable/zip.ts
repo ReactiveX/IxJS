@@ -1,10 +1,10 @@
-import { Iterable } from '../../iterable';
+import { IterableImpl } from '../../iterable';
 import { zipStatic } from '../../iterable/zip';
 
-Iterable.zip = zipStatic;
+IterableImpl.zip = zipStatic;
 
 declare module '../../Iterable' {
-  namespace Iterable {
+  namespace IterableImpl {
     export let zip: typeof zipStatic;
   }
 }

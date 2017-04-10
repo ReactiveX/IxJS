@@ -1,20 +1,20 @@
 'use strict';
 
-import { IIterable, IIterator } from '../iterable.interfaces';
-import { Iterable } from '../iterable';
-import { Iterator } from '../iterator';
+
+import { IterableImpl } from '../iterable';
+import { IteratorImpl } from '../iterator';
 import { arrayIndexOf } from '../internal/arrayindexof';
 
-export class UnionIterator<T> extends Iterator<T> {
-  private _left: IIterator<T>;
-  private _right: IIterator<T>;
+export class UnionIterator<T> extends IteratorImpl<T> {
+  private _left: Iterator<T>;
+  private _right: Iterator<T>;
   private _cmp: (x: T, y: T) => boolean;
-  private _it: IIterator<T>;
+  private _it: Iterator<T> | null;
   private _leftDone: boolean;
   private _rightDone: boolean;
   private _map: T[];
 
-  constructor(left: IIterator<T>, right: IIterator<T>, cmp?: (x: T, y: T) => boolean) {
+  constructor(left: Iterator<T>, right: Iterator<T>, cmp?: (x: T, y: T) => boolean) {
     super();
     this._left = left;
     this._right = right;
@@ -25,10 +25,10 @@ export class UnionIterator<T> extends Iterator<T> {
     this._map = [];
   }
 
-  next() {
+  _next() {
     while (1) {
       if (!this._it) {
-        if (this._rightDone) { 
+        if (this._rightDone) {
           return { done: true, value: undefined };
         }
 
@@ -55,12 +55,12 @@ export class UnionIterator<T> extends Iterator<T> {
   }
 }
 
-export class UnionIterable<T> extends Iterable<T> {
-  private _left: IIterable<T>;
-  private _right: IIterable<T>;
+export class UnionIterable<T> extends IterableImpl<T> {
+  private _left: Iterable<T>;
+  private _right: Iterable<T>;
   private _cmp: (x: T, y: T) => boolean;
 
-  constructor(left: IIterable<T>, right: IIterable<T>, cmp?: (x: T, y: T) => boolean) {
+  constructor(left: Iterable<T>, right: Iterable<T>, cmp?: (x: T, y: T) => boolean) {
     super();
     this._left = left;
     this._right = right;
@@ -73,8 +73,8 @@ export class UnionIterable<T> extends Iterable<T> {
 }
 
 export function union<T>(
-      first: IIterable<T>, 
-      second: IIterable<T>, 
+      first: Iterable<T>,
+      second: Iterable<T>,
       cmp?: (x: T, y: T) => boolean) {
   return new UnionIterable<T>(first, second, cmp);
 }
