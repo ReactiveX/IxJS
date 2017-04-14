@@ -1,14 +1,11 @@
 'use strict';
 
+export function count<T>(    source: Iterable<T>,    fn: (value: T) => boolean = () => true): number {
+  let i = 0;
 
-
-export function count<T>(
-    source: Iterable<T>,
-    fn?: (value: T) => boolean): number {
-  fn || (fn = () => true);
-  let it = source[Symbol.iterator](), next, i = 0;
-  while (!(next = it.next()).done) {
-    if (fn(next.value)) { i++; }
+  for (let item of source) {
+    if (fn(item)) i++;
   }
+
   return i;
 }

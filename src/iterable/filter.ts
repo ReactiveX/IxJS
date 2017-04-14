@@ -6,42 +6,32 @@ import { IteratorImpl } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
 export class FilterIterator<T> extends IteratorImpl<T> {
-  private _it: Iterator<T>;
   private _fn: (value: T, index: number) => boolean;
   private _i: number;
 
-  constructor(it: Iterator<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
+  constructor(private _it: Iterable<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
     super();
-    this._it = it;
     this._fn = bindCallback(fn, thisArg, 2);
     this._i = 0;
   }
 
-  _next() {
-    let next;
-    while (!(next = this._it.next()).done) {
-      if (this._fn(next.value, this._i++)) {
-        return { done: false, value: next.value };
+  protected *create() {
+    for (let item of this._it) {
+      if (this._fn(item, this._i++)) {
+        yield item;
       }
     }
-    return next;
   }
 }
 
 export class FilterIterable<T> extends IterableImpl<T> {
-  private _source: Iterable<T>;
-  private _fn: (value: T, index: number) => boolean;
-  private _thisArg: any;
 
-  constructor(source: Iterable<T>, fn: (value: T, index: number) => boolean, thisArg?: any) {
+  constructor(private _source: Iterable<T>, private _fn: (value: T, index: number) => boolean, private _thisArg?: any) {
     super();
-    this._source = source;
-    this._fn = fn;
-    this._thisArg = thisArg;
   }
 
   [Symbol.iterator]() {
-    return new FilterIterator<T>(this._source[Symbol.iterator](), this._fn, this._thisArg);
+    return new FilterIterator<T>(this._source, this._fn, this._thisArg);
   }
 
   private _innerPredicate(fn: (value: T, index: number) => boolean) {

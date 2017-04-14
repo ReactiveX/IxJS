@@ -5,31 +5,22 @@ import { IterableImpl } from '../iterable';
 import { IteratorImpl } from '../iterator';
 
 export class DefaultIfEmptyIterator<T> extends IteratorImpl<T> {
-  private _it: Iterator<T>;
   private _defaultValue: T;
   private _state: number;
 
-  constructor(it: Iterator<T>, defaultValue: T) {
+  constructor(private _it: Iterable<T>, defaultValue: T) {
     super();
-    this._it = it;
     this._defaultValue = defaultValue;
     this._state = 1;
   }
 
-  _next() {
-    const next = this._it.next();
+  protected *create() {
+    for (let item of this._it) {
+      this._state = 2;
+      yield item;
+    }
     if (this._state === 1) {
-      if (next.done) {
-        this._state = -1;
-        return { done: false, value: this._defaultValue };
-      } else {
-        this._state = 2;
-        return next;
-      }
-    } else if (this._state === 2) {
-      return next;
-    } else {
-      return { done: true, value: undefined };
+      yield this._defaultValue;
     }
   }
 }
@@ -45,12 +36,10 @@ export class DefaultIfEmptyIterable<T> extends IterableImpl<T> {
   }
 
   [Symbol.iterator]() {
-    return new DefaultIfEmptyIterator<T>(this._source[Symbol.iterator](), this._defaultValue);
+    return new DefaultIfEmptyIterator<T>(this._source, this._defaultValue);
   }
 }
 
-export function defaultIfEmpty<T>(
-    source: Iterable<T>,
-    defaultValue: T): Iterable<T> {
+export function defaultIfEmpty<T>(source: Iterable<T>, defaultValue: T): Iterable<T> {
   return new DefaultIfEmptyIterable<T>(source, defaultValue);
 }

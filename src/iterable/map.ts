@@ -6,24 +6,22 @@ import { IteratorImpl } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
 export class MapIterator<TSource, TResult> extends IteratorImpl<TResult> {
-  private _it: Iterator<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
   private _i: number;
 
   constructor(
-      it: Iterator<TSource>,
+      private _it: Iterable<TSource>,
       fn: (value: TSource, index: number) => TResult,
       thisArg?: any) {
     super();
-    this._it = it;
     this._fn = bindCallback(fn, thisArg, 2);
     this._i = 0;
   }
 
-  _next() {
-    const next = this._it.next();
-    if (next.done) { return { done: true, value: undefined}; }
-    return { done: false, value: this._fn(next.value, this._i++) };
+  protected *create() {
+    for (let item of this._it) {
+      yield this._fn(item, this._i++);
+    }
   }
 }
 
@@ -48,7 +46,7 @@ export class MapIterable<TSource, TResult> extends IterableImpl<TResult> {
   }
 
   [Symbol.iterator]() {
-    return new MapIterator<TSource, TResult>(this._source[Symbol.iterator](), this._fn);
+    return new MapIterator<TSource, TResult>(this._source, this._fn);
   }
 
   internalMap(fn: (value: TSource, index: number) => TResult, thisArg?: any) {

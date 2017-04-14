@@ -3,36 +3,19 @@
 
 import { IterableImpl } from '../iterable';
 import { IteratorImpl } from '../iterator';
-import { ArrayIterator } from './arrayiterable';
+import { ArrayIterable } from './arrayiterable';
 
 export class ConcatIterator<T> extends IteratorImpl<T> {
-  private _it: Iterator<IterableIterator<T>>;
-  private _innerIt: Iterator<T> | null;
-
-  constructor(...it: IterableIterator<T>[]) {
+  private _it: Iterable<Iterable<T>>;
+  constructor(...it: Iterable<T>[]) {
     super();
-    this._it = new ArrayIterator(it);
-    this._innerIt = null;
+    this._it = new ArrayIterable(it);
   }
 
-  _next() {
-    while (1) {
-      if (!this._innerIt) {
-        let outerNext = this._it.next();
-        if (outerNext.done) { break; }
-
-        let innerItem = outerNext.value;
-        this._innerIt = innerItem[Symbol.iterator]();
-      }
-
-      let innerNext = this._innerIt.next();
-      if (innerNext.done) {
-        this._innerIt = null;
-      } else {
-        return { done: false, value: innerNext.value };
-      }
+  protected *create() {
+    for (let outer of this._it) {
+      yield* outer;
     }
-    return { done: true, value: undefined };
   }
 }
 
@@ -45,7 +28,7 @@ export class ConcatIterable<T> extends IterableImpl<T> {
   }
 
   [Symbol.iterator]() {
-    return new ConcatIterator<T>(...this._source.map(x => x[Symbol.iterator]()));
+    return new ConcatIterator<T>(...this._source);
   }
 }
 

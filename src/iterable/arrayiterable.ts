@@ -3,24 +3,20 @@
 import { IterableImpl } from '../iterable';
 import { IteratorImpl } from '../iterator';
 
-const doneIterator = { done: true, value: undefined };
-
 export class ArrayIterator<T> extends IteratorImpl<T> {
-  private _source: T[];
   private _len: number;
   private _index: number;
 
-  constructor(source: T[]) {
+  constructor(private _source: T[]) {
     super();
-    this._source = source;
-    this._len = source.length;
+    this._len = _source.length;
     this._index = -1;
   }
 
-  _next() {
-    return ++this._index < this._len ?
-      { done: false, value: this._source[this._index] } :
-      doneIterator;
+  protected *create() {
+    while (++this._index < this._len) {
+      yield this._source[this._index];
+    }
   }
 }
 

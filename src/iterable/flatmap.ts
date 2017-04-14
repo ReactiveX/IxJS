@@ -1,49 +1,30 @@
 'use strict';
+import { identity } from '../internal/identity';
 
 
 import { IterableImpl } from '../iterable';
 import { IteratorImpl } from '../iterator';
 
 class FlatMapIterator<TSource, TCollection, TResult> extends IteratorImpl<TResult> {
-  private _it: Iterator<TSource>;
   private _innerIt: Iterator<TCollection> | null;
-  private _fn: (value: TSource, index: number) => Iterable<TCollection>;
-  private _resFn?: (value: TSource, current: TCollection) => TResult;
   private _i: number;
 
   constructor(
-      it: Iterator<TSource>,
-      fn: (value: TSource, index: number) => Iterable<TCollection>,
-      resFn?: (value: TSource, current: TCollection) => TResult) {
+      private _it: Iterable<TSource>,
+      private _fn: (value: TSource, index: number) => Iterable<TCollection>,
+      private _resFn: (value: TSource, current: TCollection) => TResult = identity) {
     super();
-    this._it = it;
     this._innerIt = null;
-    this._resFn = resFn;
     this._i = 0;
   }
 
-  _next() {
-    let outerNext;
-    while(1) {
-      if (!this._innerIt) {
-        outerNext = this._it.next();
-        if (outerNext.done) { break; }
-
-        let innerItem = this._fn(outerNext.value, this._i++);
-        this._innerIt = innerItem[Symbol.iterator]();
-      }
-
-      let innerNext = this._innerIt.next();
-      if (innerNext.done) {
-        this._innerIt = null;
-      } else {
-        return {
-          done: false,
-          value: this._resFn ? this._resFn(outerNext!.value, innerNext.value) : innerNext.value
-        };
+  protected *create() {
+    for (let outer of this._it) {
+      const innerItem = this._fn(outer, this._i++);
+      for (let inner of innerItem) {
+        yield this._resFn(outer, inner);
       }
     }
-    return { done: true, value: undefined };
   }
 }
 
@@ -63,7 +44,7 @@ export class FlatMapIterable<TSource, TCollection, TResult> extends IterableImpl
   }
 
   [Symbol.iterator]() {
-    return new FlatMapIterator<TSource, TCollection, TResult>(this._source[Symbol.iterator](), this._fn, this._resFn);
+    return new FlatMapIterator<TSource, TCollection, TResult>(this._source, this._fn, this._resFn);
   }
 }
 
