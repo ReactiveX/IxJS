@@ -1,12 +1,12 @@
 'use strict';
 
-import { AsyncIterableImpl } from '../asynciterable';
-import { AsyncIteratorImpl } from '../asynciterator';
+import { AsyncIterableX } from '../asynciterable';
+import { AsyncIteratorX } from '../asynciterator';
 import { bindCallback } from '../internal/bindcallback';
 import { toLength } from '../internal/tolength';
 import { isIterable } from '../internal/isiterable';
 
-export class AsyncFromIterator<TSource, TResult> extends AsyncIteratorImpl<TResult> {
+export class AsyncFromIterator<TSource, TResult> extends AsyncIteratorX<TResult> {
   private _source: Iterable<TSource> | ArrayLike<TSource>;
   private _it: Iterator<TSource>;
   private _isIterable: boolean;
@@ -58,7 +58,7 @@ export class AsyncFromIterator<TSource, TResult> extends AsyncIteratorImpl<TResu
   }
 }
 
-export class AsyncFromIterable<TSource, TResult> extends AsyncIterableImpl<TResult> {
+export class AsyncFromIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: Iterable<TSource> | Iterable<TSource> | ArrayLike<TSource>;
   private _fn?: (value: TSource, index: number) => TResult;
   private _thisArg: any;

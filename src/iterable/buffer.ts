@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class BufferIterator<T> extends IteratorImpl<T[]> {
+export class BufferIterator<T> extends IteratorX<T[]> {
   private _q: T[][];
   private _i: number;
   private _hasValue: boolean;
@@ -32,7 +32,7 @@ export class BufferIterator<T> extends IteratorImpl<T[]> {
   }
 }
 
-export class BufferIterable<T> extends IterableImpl<T[]> {
+export class BufferIterable<T> extends IterableX<T[]> {
   constructor(private _source: Iterable<T>, private _count: number, private _skip = _count) {
     super();
   }
@@ -42,6 +42,6 @@ export class BufferIterable<T> extends IterableImpl<T[]> {
   }
 }
 
-export function buffer<T>(source: Iterable<T>, count: number, skip?: number): IterableImpl<T[]> {
+export function buffer<T>(source: Iterable<T>, count: number, skip?: number): IterableX<T[]> {
   return new BufferIterable(source, count, skip);
 }

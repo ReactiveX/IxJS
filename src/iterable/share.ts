@@ -1,11 +1,11 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { create } from './create';
 
-class SharedIterable<T> extends IterableImpl<T> {
+class SharedIterable<T> extends IterableX<T> {
   private _it: Iterator<T>;
 
   constructor(it: Iterator<T>) {

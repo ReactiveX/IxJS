@@ -1,8 +1,8 @@
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class ExpandIterator<T> extends IteratorImpl<T> {
+export class ExpandIterator<T> extends IteratorX<T> {
   private _q: Iterable<T>[];
   private _it: Iterator<T> | null;
   private _fn: (source: T) => Iterable<T>;
@@ -33,7 +33,7 @@ export class ExpandIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class ExpandIterable<T> extends IterableImpl<T> {
+export class ExpandIterable<T> extends IterableX<T> {
   private _source: Iterable<T>;
   private _fn: (source: T) => Iterable<T>
 

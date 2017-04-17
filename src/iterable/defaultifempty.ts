@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class DefaultIfEmptyIterator<T> extends IteratorImpl<T> {
+export class DefaultIfEmptyIterator<T> extends IteratorX<T> {
   private _defaultValue: T;
   private _state: number;
 
@@ -25,7 +25,7 @@ export class DefaultIfEmptyIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class DefaultIfEmptyIterable<T> extends IterableImpl<T> {
+export class DefaultIfEmptyIterable<T> extends IterableX<T> {
   private _source: Iterable<T>;
   private _defaultValue: T;
 

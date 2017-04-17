@@ -1,14 +1,14 @@
-import { IterableImpl } from '../../iterable';
+import { IterableX } from '../../iterable';
 import { map } from '../../iterable/map';
 
- function mapProto<T, U>(this: IterableImpl<T>, fn: (value: T, index: number) => U, thisArg?: any): IterableImpl<U> {
+ function mapProto<T, U>(this: IterableX<T>, fn: (value: T, index: number) => U, thisArg?: any): IterableX<U> {
   return map(this, fn, thisArg);
 };
 
-IterableImpl.prototype.map = mapProto;
+IterableX.prototype.map = mapProto;
 
 declare module '../../Iterable' {
-  interface IterableImpl<T> {
+  interface IterableX<T> {
     map: typeof mapProto;
   }
 }

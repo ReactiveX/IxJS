@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class FinallyIterator<T> extends IteratorImpl<T> {
+export class FinallyIterator<T> extends IteratorX<T> {
   private _it: Iterator<T>;
   private _fn: () => void;
   private _called: boolean;
@@ -33,7 +33,7 @@ export class FinallyIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class FinallyIterable<T> extends IterableImpl<T> {
+export class FinallyIterable<T> extends IterableX<T> {
   private _source: Iterable<T>;
   private _fn: () => void;
 

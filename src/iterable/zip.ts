@@ -1,11 +1,11 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { MapIterable } from './map';
 
-export class ZipIterator<T> extends IteratorImpl<T> {
+export class ZipIterator<T> extends IteratorX<T> {
   private _it: Iterator<T>[];
 
   constructor(...it: Iterator<T>[]) {
@@ -24,7 +24,7 @@ export class ZipIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class ZipIterable<T> extends IterableImpl<T> {
+export class ZipIterable<T> extends IterableX<T> {
   private _source: Iterable<T>[];
 
   constructor(...source: Iterable<T>[]) {

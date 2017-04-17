@@ -2,7 +2,7 @@
 
 import { bindCallback } from './internal/bindcallback';
 
-export abstract class AsyncIterableImpl<T> {
+export abstract class AsyncIterableX<T> {
   abstract [Symbol.asyncIterator](): AsyncIterable<T>;
 
   async forEach(fn: (value: T, index: number) => void, thisArg?: any): Promise<void> {

@@ -1,11 +1,11 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { ConcatAllIterable } from './concatall';
 
-class WhileIterator<T> extends IteratorImpl<Iterable<T>> {
+class WhileIterator<T> extends IteratorX<Iterable<T>> {
   private _source: Iterable<T>;
   private _fn: () => boolean;
 
@@ -24,7 +24,7 @@ class WhileIterator<T> extends IteratorImpl<Iterable<T>> {
   }
 }
 
-class WhileIterable<T> extends IterableImpl<Iterable<T>> {
+class WhileIterable<T> extends IterableX<Iterable<T>> {
   private _source: Iterable<T>;
   private _fn: () => boolean;
 

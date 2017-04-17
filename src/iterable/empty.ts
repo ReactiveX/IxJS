@@ -1,9 +1,9 @@
 'use strict';
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-class EmptyIterator<T> extends IteratorImpl<T> {
+class EmptyIterator<T> extends IteratorX<T> {
   constructor() {
     super();
   }
@@ -13,7 +13,7 @@ class EmptyIterator<T> extends IteratorImpl<T> {
 
 const EMPTY_ITERATOR = new EmptyIterator<any>();
 
-export class EmptyIterable<T> extends IterableImpl<T> {
+export class EmptyIterable<T> extends IterableX<T> {
   constructor() {
     super();
   }

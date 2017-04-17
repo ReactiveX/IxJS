@@ -1,10 +1,10 @@
-import { IterableImpl } from '../../iterable';
+import { IterableX } from '../../iterable';
 import { create as createStatic } from '../../iterable/create';
 
-IterableImpl.create = createStatic;
+IterableX.create = createStatic;
 
 declare module '../../Iterable' {
-  namespace IterableImpl {
+  namespace IterableX {
     export let create: typeof createStatic;
   }
 }

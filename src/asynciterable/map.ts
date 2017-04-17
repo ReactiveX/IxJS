@@ -1,10 +1,10 @@
 'use strict';
 
-import { AsyncIterableImpl } from '../asynciterable';
-import { AsyncIteratorImpl } from '../asynciterator';
+import { AsyncIterableX } from '../asynciterable';
+import { AsyncIteratorX } from '../asynciterator';
 import { bindCallback } from '../internal/bindcallback';
 
-export class AsyncMapIterator<TSource, TResult> extends AsyncIteratorImpl<TResult> {
+export class AsyncMapIterator<TSource, TResult> extends AsyncIteratorX<TResult> {
   private _it: AsyncIterator<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
   private _i: number;

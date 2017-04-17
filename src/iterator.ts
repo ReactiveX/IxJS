@@ -1,6 +1,6 @@
 'use strict';
 
-export abstract class IteratorImpl<T> implements Iterator<T> {
+export abstract class IteratorX<T> implements Iterator<T> {
   protected abstract create(): Iterator<T>;
 
   private _iterator?: Iterator<T>;

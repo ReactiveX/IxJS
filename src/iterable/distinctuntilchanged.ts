@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class DistinctUntilChangedIterator<TSource, TKey> extends IteratorImpl<TSource> {
+export class DistinctUntilChangedIterator<TSource, TKey> extends IteratorX<TSource> {
   private _it: Iterator<TSource>;
   private _fn?: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
@@ -36,7 +36,7 @@ export class DistinctUntilChangedIterator<TSource, TKey> extends IteratorImpl<TS
   }
 }
 
-export class DistinctUntilChangedIterable<TSource, TKey> extends IterableImpl<TSource> {
+export class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _fn: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;

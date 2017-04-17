@@ -1,4 +1,4 @@
-import { IterableImpl } from '../../iterable';
+import { IterableX } from '../../iterable';
 import { _case } from '../../iterable/case';
 
-IterableImpl.case = _case;
+IterableX.case = _case;

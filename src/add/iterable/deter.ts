@@ -1,10 +1,10 @@
-import { IterableImpl } from '../../iterable';
+import { IterableX } from '../../iterable';
 import { defer as deferStatic } from '../../iterable/defer';
 
-IterableImpl.defer = deferStatic;
+IterableX.defer = deferStatic;
 
 declare module '../../Iterable' {
-  namespace IterableImpl {
+  namespace IterableX {
     export let defer: typeof deferStatic;
   }
 }

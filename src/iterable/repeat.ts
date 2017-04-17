@@ -1,11 +1,11 @@
 'use strict';
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
 const doneIterator = { done: true, value: undefined };
 
-class RepeatIterator<T> extends IteratorImpl<T> {
+class RepeatIterator<T> extends IteratorX<T> {
   private _value: T;
   private _count: number;
   private _hasCount: boolean;
@@ -27,7 +27,7 @@ class RepeatIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class RepeatIterable<T> extends IterableImpl<T> {
+export class RepeatIterable<T> extends IterableX<T> {
   private _value: T;
   private _count: number;
 

@@ -2,11 +2,11 @@
 import { identity } from '../internal/identity';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { arrayIndexOf } from '../internal/arrayindexof';
 
-export class DistinctIterator<TSource, TKey> extends IteratorImpl<TSource> {
+export class DistinctIterator<TSource, TKey> extends IteratorX<TSource> {
   private _q: Array<TSource | TKey>;
 
   constructor(
@@ -28,7 +28,7 @@ export class DistinctIterator<TSource, TKey> extends IteratorImpl<TSource> {
   }
 }
 
-export class DistinctIterable<TSource, TKey> extends IterableImpl<TSource> {
+export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   constructor(
     private _source: Iterable<TSource>,
     private _fn?: (value: TSource) => TKey,

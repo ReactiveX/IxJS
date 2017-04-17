@@ -1,13 +1,13 @@
-import { IterableImpl } from '../../iterable';
+import { IterableX } from '../../iterable';
 import { concat } from '../../iterable/concat';
 
-function concatProto<T>(this: IterableImpl<T>, ...args: Iterable<T>[]) {
+function concatProto<T>(this: IterableX<T>, ...args: Iterable<T>[]) {
   return concat(this, ...args);
 }
-IterableImpl.prototype.concat =concatProto;
+IterableX.prototype.concat =concatProto;
 
 declare module '../../Iterable' {
-  interface IterableImpl<T> {
+  interface IterableX<T> {
     concat: typeof concatProto;
   }
 }

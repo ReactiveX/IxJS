@@ -2,10 +2,10 @@
 import { identity } from '../internal/identity';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-class FlatMapIterator<TSource, TCollection, TResult> extends IteratorImpl<TResult> {
+class FlatMapIterator<TSource, TCollection, TResult> extends IteratorX<TResult> {
   private _innerIt: Iterator<TCollection> | null;
   private _i: number;
 
@@ -28,7 +28,7 @@ class FlatMapIterator<TSource, TCollection, TResult> extends IteratorImpl<TResul
   }
 }
 
-export class FlatMapIterable<TSource, TCollection, TResult> extends IterableImpl<TResult> {
+export class FlatMapIterable<TSource, TCollection, TResult> extends IterableX<TResult> {
   private _source: Iterable<TSource>;
   private _fn: (value: TSource, index: number) => Iterable<TCollection>;
   private _resFn?: (value: TSource, current: TCollection) => TResult;
