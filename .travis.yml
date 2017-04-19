@@ -8,7 +8,26 @@ node_js:
 notifications:
   email: false
 
+env:
+  matrix:
+    - CI_MATRIX_BUILD=true
+    - CI_MATRIX_LINT=true
+    - CI_MATRIX_TEST=true
+
+matrix:
+  allow_failures:
+    - env: CI_MATRIX_TEST=true # TODO https://github.com/ReactiveX/IxJS/issues/2
+
 script:
-  - npm run build
-  - npm run lint
-  - npm run test
+  - |
+    if [ "$CI_MATRIX_BUILD" = "true" ]; then
+      npm run build
+    elif [ "$CI_MATRIX_LINT" = "true" ]; then
+      npm run lint
+    elif [ "$CI_MATRIX_TEST" = "true" ]; then
+      npm run build
+      npm run test
+    else
+      echo "This code path is run unexpectedly" 1>&2
+      exit 1
+    fi
