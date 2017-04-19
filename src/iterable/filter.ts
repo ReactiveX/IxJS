@@ -1,6 +1,5 @@
 'use strict';
 
-
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
@@ -35,8 +34,9 @@ export class FilterIterable<T> extends IterableX<T> {
   }
 
   private _innerPredicate(fn: (value: T, index: number) => boolean) {
-    var self = this;
-    return function(this: any, x: any, i: any) { return self._fn(x, i) && fn.call(this, x, i); };
+    return (x: T, i: number) => {
+      return this._fn(x, i) && fn.call(this, x, i);
+    };
   }
 
   internalFilter(fn: (value: T, index: number) => boolean, thisArg?: any): Iterable<T> {
@@ -45,7 +45,7 @@ export class FilterIterable<T> extends IterableX<T> {
 }
 
 export function filter<T>(
-      source : Iterable<T>,
+      source: Iterable<T>,
       fn: (value: T, index: number) => boolean,
       thisArg?: any): Iterable<T> {
   return source instanceof FilterIterable ?

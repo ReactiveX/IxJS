@@ -4,7 +4,9 @@ export function count<T>(    source: Iterable<T>,    fn: (value: T) => boolean =
   let i = 0;
 
   for (let item of source) {
-    if (fn(item)) i++;
+    if (fn(item)) {
+      i++;
+    }
   }
 
   return i;

@@ -1,6 +1,5 @@
 'use strict';
 
-
 import { IterableX } from '../iterable';
 
 class AnonymousIterable<T> extends IterableX<T> {

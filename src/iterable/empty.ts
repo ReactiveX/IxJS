@@ -8,6 +8,7 @@ export class EmptyIterator<T> extends IteratorX<T> {
     super();
   }
 
+  // tslint:disable-next-line:no-empty
   protected *create(): Iterator<T> { }
 }
 

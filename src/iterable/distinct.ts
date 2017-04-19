@@ -1,7 +1,5 @@
 'use strict';
 import { identity } from '../internal/identity';
-
-
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
 import { arrayIndexOf } from '../internal/arrayindexof';

@@ -1,7 +1,6 @@
 /*
 'use strict';
 
-
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';

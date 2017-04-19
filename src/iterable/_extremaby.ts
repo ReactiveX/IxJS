@@ -2,8 +2,6 @@
 
 'use strict';
 
-
-
 export function defaultCompare<T>(key: T, minValue: T): number {
   return key > minValue ? 1 : key < minValue ? -1 : 0;
 }

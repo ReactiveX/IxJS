@@ -8,7 +8,7 @@ interface AsyncIteratorQueueItem {
 }
 
 export abstract class AsyncIteratorX<T> implements AsyncIterator<T> {
-  private _queue : Array<AsyncIteratorQueueItem>;
+  private _queue: Array<AsyncIteratorQueueItem>;
   private _current: AsyncIteratorQueueItem | undefined;
 
   constructor() {

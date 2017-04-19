@@ -1,7 +1,6 @@
 /*
 'use strict';
 
-
 import { extremaBy, defaultCompare } from './_extremaby';
 
 export function minBy<TSource, TKey>(

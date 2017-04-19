@@ -1,6 +1,5 @@
 'use strict';
 
-
 import { ConcatIterable } from './concat';
 
 export function startWith<T>(

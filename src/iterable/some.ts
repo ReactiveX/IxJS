@@ -1,8 +1,6 @@
 /*
 'use strict';
 
-
-
 function some<T>(
     source: Iterable<T>,
     comparer: (value: T, index:number) => boolean): boolean {

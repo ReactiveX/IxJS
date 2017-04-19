@@ -16,7 +16,7 @@ export class AsyncFromIterator<TSource, TResult> extends AsyncIteratorX<TResult>
   constructor(
       source: Iterable<TSource> | ArrayLike<TSource>,
       fn?: (value: TSource, index: number) => TResult,
-      thisArg? :any) {
+      thisArg?: any) {
     super();
     if (isIterable(source)) {
       this._isIterable = true;
@@ -66,7 +66,7 @@ export class AsyncFromIterable<TSource, TResult> extends AsyncIterableX<TResult>
   constructor(
       source: Iterable<TSource> | Iterable<TSource> | ArrayLike<TSource>,
       fn?: (value: TSource, index: number) => TResult,
-      thisArg? :any) {
+      thisArg?: any) {
     super();
     this._source = source;
     this._fn = fn;

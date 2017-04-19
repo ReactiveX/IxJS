@@ -2,7 +2,6 @@
 
 'use strict';
 
-
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
 
