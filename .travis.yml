@@ -1,0 +1,14 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - "node" # the latest stable nodejs
+
+notifications:
+  email: false
+
+script:
+  - npm run build
+  - npm run lint
+  - npm run test
