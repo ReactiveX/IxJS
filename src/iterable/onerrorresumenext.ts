@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -66,3 +67,4 @@ export function onErrorResumeNext<T>(source: Iterable<T>, ...args: Iterable<T>[]
 export function onErrorResumeNextStatic<T>(...source: Iterable<T>[]): Iterable<T> {
   return new OnErrorResumeNextIterable<T>(...source);
 }
+*/

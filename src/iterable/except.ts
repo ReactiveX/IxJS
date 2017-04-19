@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -63,3 +64,4 @@ export function except<T>(
       cmp?: (x: T, y: T) => boolean) {
   return new ExceptIterable<T>(first, second, cmp);
 }
+*/

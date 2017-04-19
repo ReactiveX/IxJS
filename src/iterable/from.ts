@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -80,3 +81,4 @@ export function from<TSource, TResult>(
     thisArg?: any): Iterable<TResult> {
   return new FromIterable(source, fn, thisArg);
 }
+*/

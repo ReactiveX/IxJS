@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -18,3 +19,5 @@ export function sequenceEqual<T>(
 
   return next2.done;
 }
+
+*/

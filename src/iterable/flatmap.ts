@@ -5,7 +5,7 @@ import { identity } from '../internal/identity';
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
 
-class FlatMapIterator<TSource, TCollection, TResult> extends IteratorX<TResult> {
+export class FlatMapIterator<TSource, TCollection, TResult> extends IteratorX<TResult> {
   private _innerIt: Iterator<TCollection> | null;
   private _i: number;
 

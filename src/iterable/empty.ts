@@ -3,7 +3,7 @@
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
 
-class EmptyIterator<T> extends IteratorX<T> {
+export class EmptyIterator<T> extends IteratorX<T> {
   constructor() {
     super();
   }

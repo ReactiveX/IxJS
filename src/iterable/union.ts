@@ -1,3 +1,5 @@
+/*
+
 'use strict';
 
 
@@ -78,3 +80,4 @@ export function union<T>(
       cmp?: (x: T, y: T) => boolean) {
   return new UnionIterable<T>(first, second, cmp);
 }
+*/

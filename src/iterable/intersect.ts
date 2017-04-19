@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -70,3 +71,4 @@ export function intersect<T>(
       cmp?: (x: T, y: T) => boolean) {
   return new IntersectIterable<T>(first, second, cmp);
 }
+*/

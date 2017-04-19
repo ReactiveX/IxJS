@@ -1,3 +1,5 @@
+/*
+
 'use strict';
 
 
@@ -30,3 +32,4 @@ export function extremaBy<TSource, TKey>(
 
   return result;
 }
+*/

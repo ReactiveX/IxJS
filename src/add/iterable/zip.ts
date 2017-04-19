@@ -1,3 +1,4 @@
+/*
 import { IterableX } from '../../iterable';
 import { zipStatic } from '../../iterable/zip';
 
@@ -8,3 +9,4 @@ declare module '../../Iterable' {
     export let zip: typeof zipStatic;
   }
 }
+*/

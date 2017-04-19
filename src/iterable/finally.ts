@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -53,3 +54,4 @@ export function _finally<T>(
     fn: () => void): Iterable<T> {
   return new FinallyIterable<T>(source, fn);
 }
+*/

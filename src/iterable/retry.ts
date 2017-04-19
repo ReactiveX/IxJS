@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -52,3 +53,4 @@ export class RetryIterable<T> extends IterableX<T> {
 export function retry<T>(source: Iterable<T>, count?: number) {
   return new RetryIterable<T>(source, count);
 }
+*/

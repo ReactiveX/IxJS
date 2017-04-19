@@ -1,3 +1,4 @@
+/*
 import { IterableX } from '../../iterable';
 import { onErrorResumeNextStatic } from '../../iterable/onerrorresumenext';
 
@@ -8,3 +9,4 @@ declare module '../../Iterable' {
     export let onErrorResumeNext: typeof onErrorResumeNextStatic;
   }
 }
+*/

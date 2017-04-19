@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -10,3 +11,4 @@ export function maxBy<TSource, TKey>(
   cmp || (cmp = defaultCompare);
   return extremaBy(source, keyFn, cmp);
 }
+*/

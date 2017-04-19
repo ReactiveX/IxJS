@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -39,3 +40,4 @@ export class RangeIterable extends IterableX<number> {
 export function range(start: number, count: number): Iterable<number> {
   return new RangeIterable(start, count);
 }
+*/

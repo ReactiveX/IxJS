@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { catchAll } from '../../iterable/catchall';
 
-function catchAllProto<T>(this: IterableX<T>, ...args: Iterable<T>[]): Iterable<T> {
+export function catchAllProto<T>(this: IterableX<T>, ...args: Iterable<T>[]): Iterable<T> {
   return catchAll<T>(this, ...args);
 };
 IterableX.prototype.catchAll = catchAllProto;

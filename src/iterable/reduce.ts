@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -20,3 +21,4 @@ export function reduce<TSource, TAccumulate>(
 
   return acc;
 }
+*/

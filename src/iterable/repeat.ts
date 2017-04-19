@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 import { IterableX } from '../iterable';
@@ -45,3 +46,4 @@ export class RepeatIterable<T> extends IterableX<T> {
 export function repeat<T>(value: any, count?: number): Iterable<T> {
   return new RepeatIterable<T>(value, count);
 }
+*/

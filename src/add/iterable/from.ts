@@ -1,3 +1,4 @@
+/*
 import { IterableX } from '../../iterable';
 import { from as fromStatic } from '../../iterable/from';
 
@@ -8,3 +9,4 @@ declare module '../../Iterable' {
     export let from: typeof fromStatic;
   }
 }
+*/

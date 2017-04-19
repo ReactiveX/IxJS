@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -11,3 +12,4 @@ function some<T>(
   }
   return false;
 }
+*/

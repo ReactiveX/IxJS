@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -61,3 +62,4 @@ export function skip<T>(
     count: number): Iterable<T> {
   return new SkipIterable<T>(source, count);
 }
+*/

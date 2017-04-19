@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 
@@ -53,3 +54,4 @@ export function skipLast<T>(
     count: number): Iterable<T> {
   return new SkipLastIterable<T>(source, count);
 }
+*/

@@ -1,3 +1,5 @@
+/*
+
 'use strict';
 
 
@@ -70,3 +72,5 @@ function scan<TAccumulate, TSource>(
       return new ScanIterable(source, fn);
     }
 };
+
+*/

@@ -1,3 +1,5 @@
+/*
+
 'use strict';
 
 
@@ -51,3 +53,5 @@ export function takeWhile<T>(
     fn: (value: T, index: number) => boolean): Iterable<T> {
   return new TakeWhileIterable<T>(source, fn);
 }
+
+*/

@@ -1,3 +1,5 @@
+/*
+
 'use strict';
 
 
@@ -55,3 +57,5 @@ export function takeLast<T>(
     count: number): Iterable<T> {
   return new TakeLastIterable<T>(source, count);
 }
+
+*/

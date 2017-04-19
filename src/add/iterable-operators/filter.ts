@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { filter } from '../../iterable/filter';
 
-function filterProto<T>(this: IterableX<T>, fn: (value: T, index: number) => boolean, thisArg?: any): Iterable<T> {
+export function filterProto<T>(this: IterableX<T>, fn: (value: T, index: number) => boolean, thisArg?: any): Iterable<T> {
   return filter(this, fn, thisArg);
 };
 

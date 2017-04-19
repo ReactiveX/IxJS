@@ -1,3 +1,4 @@
+/*
 import { IterableX } from '../../iterable';
 import { repeat as repeatStatic } from '../../iterable/repeat';
 
@@ -8,3 +9,4 @@ declare module '../../Iterable' {
     export let repeat: typeof repeatStatic;
   }
 }
+*/
