@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class SkipIterator<T> extends IteratorImpl<T> {
+export class SkipIterator<T> extends IteratorX<T> {
   private _it: Iterator<T>;
   private _count: number;
   private _skipped: boolean;
@@ -36,7 +36,7 @@ export class SkipIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class SkipIterable<T> extends IterableImpl<T> {
+export class SkipIterable<T> extends IterableX<T> {
   private _source: Iterable<T>;
   private _count: number;
 

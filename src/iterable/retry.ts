@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class RetryIterator<T> extends IteratorImpl<T> {
+export class RetryIterator<T> extends IteratorX<T> {
   private _source: Iterable<T>;
   private _it: Iterator<T> | null;
   private _count?: number;
@@ -34,7 +34,7 @@ export class RetryIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class RetryIterable<T> extends IterableImpl<T> {
+export class RetryIterable<T> extends IterableX<T> {
   private _source: Iterable<T>;
   private _count: number;
 

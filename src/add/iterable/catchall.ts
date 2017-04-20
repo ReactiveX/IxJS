@@ -1,10 +1,10 @@
-import { IterableImpl } from '../../iterable';
+import { IterableX } from '../../iterable';
 import { catchAllStatic } from '../../iterable/catchall';
 
-IterableImpl.catchAll = catchAllStatic;
+IterableX.catchAll = catchAllStatic;
 
 declare module '../../Iterable' {
-  namespace IterableImpl {
+  namespace IterableX {
     export let catchAll: typeof catchAllStatic;
   }
 }

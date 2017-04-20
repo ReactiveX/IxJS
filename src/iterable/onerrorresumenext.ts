@@ -1,11 +1,11 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { ArrayIterator } from './arrayiterable';
 
-export class OnErrorResumeNextIterator<T> extends IteratorImpl<T> {
+export class OnErrorResumeNextIterator<T> extends IteratorX<T> {
   private _it: Iterator<Iterator<T>>;
   private _innerIt: Iterator<T> | null;
 
@@ -42,7 +42,7 @@ export class OnErrorResumeNextIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class OnErrorResumeNextIterable<T> extends IterableImpl<T> {
+export class OnErrorResumeNextIterable<T> extends IterableX<T> {
   private _source: Iterable<T>[];
 
   constructor(...source: Iterable<T>[]) {

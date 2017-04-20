@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class ConcatAllIterator<T> extends IteratorImpl<T> {
+export class ConcatAllIterator<T> extends IteratorX<T> {
   constructor(private _it: Iterable<Iterable<T>>) {
     super();
   }
@@ -16,7 +16,7 @@ export class ConcatAllIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class ConcatAllIterable<T> extends IterableImpl<T> {
+export class ConcatAllIterable<T> extends IterableX<T> {
   private _source: Iterable<Iterable<T>>;
 
   constructor(source: Iterable<Iterable<T>>) {

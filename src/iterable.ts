@@ -3,7 +3,7 @@
 import { bindCallback } from './internal/bindcallback';
 
 
-export abstract class IterableImpl<T> implements Iterable<T> {
+export abstract class IterableX<T> implements Iterable<T> {
   abstract [Symbol.iterator](): Iterator<T>;
 
   forEach(fn: (value: T, index: number) => void, thisArg?: any): void {

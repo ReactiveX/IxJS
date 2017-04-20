@@ -1,10 +1,10 @@
-import { IterableImpl } from '../../iterable';
+import { IterableX } from '../../iterable';
 import { empty as emptyStatic } from '../../iterable/empty';
 
-IterableImpl.empty = emptyStatic;
+IterableX.empty = emptyStatic;
 
 declare module '../../Iterable' {
-  namespace IterableImpl {
+  namespace IterableX {
     export let empty: typeof emptyStatic;
   }
 }

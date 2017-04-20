@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-class IgnoreElementsIterator<T> extends IteratorImpl<T> {
+class IgnoreElementsIterator<T> extends IteratorX<T> {
   private _it: Iterator<T>;
 
   constructor(it: Iterator<T>) {
@@ -21,7 +21,7 @@ class IgnoreElementsIterator<T> extends IteratorImpl<T> {
   }
 }
 
-class IgnoreElementsIterable<T> extends IterableImpl<T> {
+class IgnoreElementsIterable<T> extends IterableX<T> {
   private _source: Iterable<T>;
 
   constructor(source: Iterable<T>) {

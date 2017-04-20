@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class DeferIterator<T> extends IteratorImpl<T> {
+export class DeferIterator<T> extends IteratorX<T> {
   private _fn: () => Iterable<T>;
 
   constructor(fn: () => Iterable<T>) {
@@ -17,7 +17,7 @@ export class DeferIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class DeferIterable<T> extends IterableImpl<T> {
+export class DeferIterable<T> extends IterableX<T> {
   constructor(private _fn: () => Iterable<T>) {
     super();
   }

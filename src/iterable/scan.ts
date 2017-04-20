@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class ScanIterator<TAccumulate, TSource> extends IteratorImpl<TAccumulate | TSource> {
+export class ScanIterator<TAccumulate, TSource> extends IteratorX<TAccumulate | TSource> {
   private _it: Iterator<TSource>;
   private _fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate;
   private _hs: boolean;
@@ -36,7 +36,7 @@ export class ScanIterator<TAccumulate, TSource> extends IteratorImpl<TAccumulate
   }
 }
 
-export class ScanIterable<TAccumulate, TSource> extends IterableImpl<TAccumulate | TSource> {
+export class ScanIterable<TAccumulate, TSource> extends IterableX<TAccumulate | TSource> {
   private _source: Iterable<TSource>;
   private _fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate;
   private _v: any;

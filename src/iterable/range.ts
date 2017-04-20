@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-class RangeIterator extends IteratorImpl<number> {
+class RangeIterator extends IteratorX<number> {
   private _current: number;
   private _end: number;
 
@@ -21,7 +21,7 @@ class RangeIterator extends IteratorImpl<number> {
   }
 }
 
-export class RangeIterable extends IterableImpl<number> {
+export class RangeIterable extends IterableX<number> {
   private _start: number;
   private _count: number;
 

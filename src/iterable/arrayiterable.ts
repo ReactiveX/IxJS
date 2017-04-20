@@ -1,9 +1,9 @@
 'use strict';
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class ArrayIterator<T> extends IteratorImpl<T> {
+export class ArrayIterator<T> extends IteratorX<T> {
   private _len: number;
   private _index: number;
 
@@ -20,7 +20,7 @@ export class ArrayIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class ArrayIterable<T> extends IterableImpl<T> {
+export class ArrayIterable<T> extends IterableX<T> {
   private _source: T[];
 
   constructor(source: T[]) {

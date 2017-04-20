@@ -1,11 +1,11 @@
 'use strict';
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
 const doneIterator = { done: true, value: undefined };
 
-class GenerateIterator<TState, TResult> extends IteratorImpl<TResult> {
+class GenerateIterator<TState, TResult> extends IteratorX<TResult> {
   private _i: TState;
   private _condFn: (value: TState) => boolean;
   private _iterFn: (value: TState) => TState;
@@ -33,7 +33,7 @@ class GenerateIterator<TState, TResult> extends IteratorImpl<TResult> {
   }
 }
 
-class GenerateIterable<TState, TResult> extends IterableImpl<TResult> {
+class GenerateIterable<TState, TResult> extends IterableX<TResult> {
   private _i: TState;
   private _condFn: (value: TState) => boolean;
   private _iterFn: (value: TState) => TState;

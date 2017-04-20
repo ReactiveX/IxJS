@@ -1,11 +1,11 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
-export class MapIterator<TSource, TResult> extends IteratorImpl<TResult> {
+export class MapIterator<TSource, TResult> extends IteratorX<TResult> {
   private _fn: (value: TSource, index: number) => TResult;
   private _i: number;
 
@@ -25,7 +25,7 @@ export class MapIterator<TSource, TResult> extends IteratorImpl<TResult> {
   }
 }
 
-export class MapIterable<TSource, TResult> extends IterableImpl<TResult> {
+export class MapIterable<TSource, TResult> extends IterableX<TResult> {
   private _source: Iterable<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
   private _thisArg: any;
@@ -57,7 +57,7 @@ export class MapIterable<TSource, TResult> extends IterableImpl<TResult> {
 export function map<TSource, TResult>(
     source: Iterable<TSource>,
     fn: (value: TSource, index: number) => TResult,
-    thisArg?: any): IterableImpl<TResult> {
+    thisArg?: any): IterableX<TResult> {
   return source instanceof MapIterable ?
     source.internalMap(fn, thisArg) :
     new MapIterable(source, fn, thisArg);

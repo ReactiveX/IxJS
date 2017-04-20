@@ -1,10 +1,10 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 
-export class TapIterator<T> extends IteratorImpl<T> {
+export class TapIterator<T> extends IteratorX<T> {
   private _it: Iterator<T>;
   private _obs: PartialObserver<T>;
   private _i: 0;
@@ -32,7 +32,7 @@ export class TapIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class TapIterable<T> extends IterableImpl<T> {
+export class TapIterable<T> extends IterableX<T> {
   private _source: Iterable<T>;
   private _obs: PartialObserver<T>;
 

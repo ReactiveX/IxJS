@@ -1,7 +1,7 @@
 'use strict';
 
-export { IterableImpl as Iterable } from './iterable';
-export { IteratorImpl as Iterator } from './iterator';
+export { IterableX as Iterable } from './iterable';
+export { IteratorX as Iterator } from './iterator';
 
 // statics
 /* tslint:disable:no-use-before-declare */

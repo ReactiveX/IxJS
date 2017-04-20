@@ -1,11 +1,11 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 
-export class FilterIterator<T> extends IteratorImpl<T> {
+export class FilterIterator<T> extends IteratorX<T> {
   private _fn: (value: T, index: number) => boolean;
   private _i: number;
 
@@ -24,7 +24,7 @@ export class FilterIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class FilterIterable<T> extends IterableImpl<T> {
+export class FilterIterable<T> extends IterableX<T> {
 
   constructor(private _source: Iterable<T>, private _fn: (value: T, index: number) => boolean, private _thisArg?: any) {
     super();

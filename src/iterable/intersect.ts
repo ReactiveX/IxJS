@@ -1,8 +1,8 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { arrayIndexOf } from '../internal/arrayindexof';
 
 function arrayRemove<T>(array: T[], item: T, comparer: (x: T, y: T) => boolean): boolean {
@@ -12,7 +12,7 @@ function arrayRemove<T>(array: T[], item: T, comparer: (x: T, y: T) => boolean):
   return true;
 }
 
-export class IntersectIterator<T> extends IteratorImpl<T> {
+export class IntersectIterator<T> extends IteratorX<T> {
   private _second: Iterator<T>;
   private _map: T[];
   private _cmp: (x: T, y: T) => boolean;
@@ -44,7 +44,7 @@ export class IntersectIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class IntersectIterable<T> extends IterableImpl<T> {
+export class IntersectIterable<T> extends IterableX<T> {
   private _first: Iterable<T>;
   private _second: Iterable<T>;
   private _cmp?: (x: T, y: T) => boolean;

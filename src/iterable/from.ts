@@ -1,15 +1,15 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { bindCallback } from '../internal/bindcallback';
 import { toLength } from '../internal/tolength';
 import { isIterable } from '../internal/isiterable';
 
 const doneIterator = { done: true, value: undefined };
 
-class FromIterator<TSource, TResult> extends IteratorImpl<TResult> {
+class FromIterator<TSource, TResult> extends IteratorX<TResult> {
   private _source: Iterable<TSource> | ArrayLike<TSource>;
   private _it: Iterator<TSource>;
   private _isIterable: boolean;
@@ -54,7 +54,7 @@ class FromIterator<TSource, TResult> extends IteratorImpl<TResult> {
   }
 }
 
-export class FromIterable<TSource, TResult> extends IterableImpl<TResult> {
+export class FromIterable<TSource, TResult> extends IterableX<TResult> {
   private _source: Iterable<TSource> | ArrayLike<TSource>;
   private _fn?: (value: any, index: number) => any;
   private _thisArg: any;

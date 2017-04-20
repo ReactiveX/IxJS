@@ -1,11 +1,11 @@
 'use strict';
 
 
-import { IterableImpl } from '../iterable';
-import { IteratorImpl } from '../iterator';
+import { IterableX } from '../iterable';
+import { IteratorX } from '../iterator';
 import { arrayIndexOf } from '../internal/arrayindexof';
 
-export class ExceptIterator<T> extends IteratorImpl<T> {
+export class ExceptIterator<T> extends IteratorX<T> {
   private _second: Iterator<T>;
   private _map: T[];
   private _cmp: (x: T, y: T) => boolean;
@@ -37,7 +37,7 @@ export class ExceptIterator<T> extends IteratorImpl<T> {
   }
 }
 
-export class ExceptIterable<T> extends IterableImpl<T> {
+export class ExceptIterable<T> extends IterableX<T> {
   private _first: Iterable<T>;
   private _second: Iterable<T>;
   private _cmp: (x: T, y: T) => boolean;
