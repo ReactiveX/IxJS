@@ -8,7 +8,7 @@ export function flatMapProto<TSource, TCollection, TResult>(this: IterableX<TSou
 };
 IterableX.prototype.flatMap = flatMapProto;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   interface IterableX<T> {
     flatMap: typeof flatMapProto;
   }

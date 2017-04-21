@@ -7,7 +7,7 @@ export function bufferProto <T>(this: IterableX<T>, count: number, skip?: number
 
 IterableX.prototype.buffer = bufferProto;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   interface IterableX<T> {
     buffer: typeof bufferProto;
   }

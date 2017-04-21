@@ -6,7 +6,7 @@ export function catchAllProto<T>(this: IterableX<T>, ...args: Iterable<T>[]): It
 };
 IterableX.prototype.catchAll = catchAllProto;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   interface IterableX<T> {
     catchAll: typeof catchAllProto;
   }

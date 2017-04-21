@@ -6,7 +6,7 @@ export function concatProto<T>(this: IterableX<T>, ...args: Iterable<T>[]) {
 }
 IterableX.prototype.concat = concatProto;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   interface IterableX<T> {
     concat: typeof concatProto;
   }

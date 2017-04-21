@@ -7,7 +7,7 @@ export function _catchProto<T>(this: IterableX<T>, fn: (error: any) => Iterable<
 
 IterableX.prototype.catch = _catchProto;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   interface IterableX<T> {
     catch: typeof _catchProto;
   }

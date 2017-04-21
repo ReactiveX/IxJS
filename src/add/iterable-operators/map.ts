@@ -7,7 +7,7 @@ export function mapProto<T, U>(this: IterableX<T>, fn: (value: T, index: number)
 
 IterableX.prototype.map = mapProto;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   interface IterableX<T> {
     map: typeof mapProto;
   }

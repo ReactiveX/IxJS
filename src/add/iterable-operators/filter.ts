@@ -7,7 +7,7 @@ export function filterProto<T>(this: IterableX<T>, fn: (value: T, index: number)
 
 IterableX.prototype.filter = filterProto;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   interface IterableX<T> {
     filter: typeof filterProto;
   }
