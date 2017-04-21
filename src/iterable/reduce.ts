@@ -1,6 +1,5 @@
+/*
 'use strict';
-
-
 
 export function reduce<TSource, TAccumulate>(
     source: Iterable<TSource>,
@@ -20,3 +19,4 @@ export function reduce<TSource, TAccumulate>(
 
   return acc;
 }
+*/

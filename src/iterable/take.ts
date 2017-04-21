@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -52,3 +52,5 @@ export function take<T>(
     count: number): Iterable<T> {
   return new TakeIterable(source, count);
 }
+
+*/

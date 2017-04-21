@@ -1,5 +1,6 @@
-'use strict';
+/*
 
+'use strict';
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -70,3 +71,5 @@ function scan<TAccumulate, TSource>(
       return new ScanIterable(source, fn);
     }
 };
+
+*/

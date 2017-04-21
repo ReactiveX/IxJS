@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -63,3 +63,4 @@ export function except<T>(
       cmp?: (x: T, y: T) => boolean) {
   return new ExceptIterable<T>(first, second, cmp);
 }
+*/

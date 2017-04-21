@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -70,3 +70,4 @@ export function intersect<T>(
       cmp?: (x: T, y: T) => boolean) {
   return new IntersectIterable<T>(first, second, cmp);
 }
+*/

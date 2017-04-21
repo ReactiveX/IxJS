@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -61,3 +61,4 @@ export function zipWithStatic<T, TResult>(
     ...args: Iterable<T>[]): Iterable<TResult | undefined> {
   return new MapIterable<T[], TResult>(new ZipIterable<T>(...args), zipArgs => fn(...zipArgs));
 }
+*/

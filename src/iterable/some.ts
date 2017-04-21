@@ -1,6 +1,5 @@
+/*
 'use strict';
-
-
 
 function some<T>(
     source: Iterable<T>,
@@ -11,3 +10,4 @@ function some<T>(
   }
   return false;
 }
+*/

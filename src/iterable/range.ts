@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -39,3 +39,4 @@ export class RangeIterable extends IterableX<number> {
 export function range(start: number, count: number): Iterable<number> {
   return new RangeIterable(start, count);
 }
+*/

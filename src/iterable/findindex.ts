@@ -1,6 +1,5 @@
 'use strict';
 
-
 import { bindCallback } from '../internal/bindcallback';
 
 export function findIndex<T>(source: Iterable<T>, fn: (value: T, index: number) => boolean, thisArg?: any): number {

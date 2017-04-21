@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -44,3 +44,5 @@ export function _while<T>(
     fn: () => boolean): Iterable<T | undefined> {
   return new ConcatAllIterable(new WhileIterable<T>(source, fn));
 }
+
+*/

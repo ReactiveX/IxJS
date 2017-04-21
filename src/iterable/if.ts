@@ -1,6 +1,5 @@
 'use strict';
 
-
 import { DeferIterable } from './defer';
 import { EmptyIterable } from './empty';
 

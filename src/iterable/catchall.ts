@@ -1,6 +1,5 @@
 'use strict';
 
-
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
 import { ArrayIterable } from './arrayiterable';
@@ -53,4 +52,3 @@ export function catchAll<T>(source: Iterable<T>, ...args: Iterable<T>[]): Iterab
 export function catchAllStatic<T>(...source: Iterable<T>[]): Iterable<T> {
   return new CatchAllIterable<T>(...source);
 }
-

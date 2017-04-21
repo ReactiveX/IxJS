@@ -1,5 +1,6 @@
-'use strict';
+/*
 
+'use strict';
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -51,3 +52,5 @@ export function takeWhile<T>(
     fn: (value: T, index: number) => boolean): Iterable<T> {
   return new TakeWhileIterable<T>(source, fn);
 }
+
+*/

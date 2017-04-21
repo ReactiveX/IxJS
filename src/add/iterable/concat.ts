@@ -3,7 +3,7 @@ import { concatStatic } from '../../iterable/concat';
 
 IterableX.concat = concatStatic;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   namespace IterableX {
     export let concat: typeof concatStatic;
   }

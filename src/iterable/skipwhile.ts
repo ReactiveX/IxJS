@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -60,3 +60,5 @@ export function skipWhile<T>(
     fn: (value: T, index: number) => boolean): Iterable<T> {
   return new SkipWhileIterable(source, fn);
 }
+
+*/

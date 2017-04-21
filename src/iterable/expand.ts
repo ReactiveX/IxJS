@@ -1,4 +1,4 @@
-
+/*
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
 
@@ -53,3 +53,4 @@ export function expand<T>(
     fn: (source: T) => Iterable<T>) {
   return new ExpandIterable<T>(source, fn);
 }
+*/

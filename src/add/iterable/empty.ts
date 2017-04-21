@@ -3,7 +3,7 @@ import { empty as emptyStatic } from '../../iterable/empty';
 
 IterableX.empty = emptyStatic;
 
-declare module '../../Iterable' {
+declare module '../../iterable' {
   namespace IterableX {
     export let empty: typeof emptyStatic;
   }

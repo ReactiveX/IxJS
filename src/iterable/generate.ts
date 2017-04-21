@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 import { IterableX } from '../iterable';
@@ -63,3 +64,4 @@ export function generate<TState, TResult>(
       resFn: (value: TState) => TResult): Iterable<TResult> {
   return new GenerateIterable(i, condFn, iterFn, resFn);
 }
+*/

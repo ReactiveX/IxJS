@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -53,3 +53,4 @@ export function _finally<T>(
     fn: () => void): Iterable<T> {
   return new FinallyIterable<T>(source, fn);
 }
+*/

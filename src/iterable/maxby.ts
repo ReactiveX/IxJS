@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { extremaBy, defaultCompare } from './_extremaby';
 
@@ -10,3 +10,4 @@ export function maxBy<TSource, TKey>(
   cmp || (cmp = defaultCompare);
   return extremaBy(source, keyFn, cmp);
 }
+*/

@@ -1,5 +1,6 @@
-'use strict';
+/*
 
+'use strict';
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -78,3 +79,4 @@ export function union<T>(
       cmp?: (x: T, y: T) => boolean) {
   return new UnionIterable<T>(first, second, cmp);
 }
+*/

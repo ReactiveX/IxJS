@@ -1,6 +1,5 @@
 'use strict';
 
-
 import { ConcatAllIterable } from './concatall';
 import { MapIterable } from './map';
 

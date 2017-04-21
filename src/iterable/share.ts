@@ -1,5 +1,6 @@
-'use strict';
+/*
 
+'use strict';
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -25,3 +26,4 @@ export function share<TSource, TResult>(
     create(() => fn(new SharedIterable(source[Symbol.iterator]()))[Symbol.iterator]()) :
     new SharedIterable(source[Symbol.iterator]());
 }
+*/

@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -37,3 +37,4 @@ class IgnoreElementsIterable<T> extends IterableX<T> {
 export function ignoreElements<T>(source: Iterable<T>): Iterable<T> {
   return new IgnoreElementsIterable(source);
 };
+*/

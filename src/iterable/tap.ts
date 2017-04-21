@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -50,3 +50,4 @@ export class TapIterable<T> extends IterableX<T> {
 export function tap<T>(source: Iterable<T>, obs: PartialObserver<T>): Iterable<T> {
   return new TapIterable<T>(source, obs);
 }
+*/

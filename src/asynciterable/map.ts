@@ -1,6 +1,6 @@
 'use strict';
 
-import { AsyncIterableX } from '../asynciterable';
+//import { AsyncIterableX } from '../asynciterable';
 import { AsyncIteratorX } from '../asynciterator';
 import { bindCallback } from '../internal/bindcallback';
 

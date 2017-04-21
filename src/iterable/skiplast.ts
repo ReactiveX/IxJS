@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -53,3 +53,4 @@ export function skipLast<T>(
     count: number): Iterable<T> {
   return new SkipLastIterable<T>(source, count);
 }
+*/

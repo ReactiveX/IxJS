@@ -1,5 +1,5 @@
+/*
 'use strict';
-
 
 import { IterableX } from '../iterable';
 import { IteratorX } from '../iterator';
@@ -52,3 +52,4 @@ export class RetryIterable<T> extends IterableX<T> {
 export function retry<T>(source: Iterable<T>, count?: number) {
   return new RetryIterable<T>(source, count);
 }
+*/

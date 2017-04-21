@@ -1,6 +1,5 @@
+/*
 'use strict';
-
-
 
 export function sequenceEqual<T>(
     source: Iterable<T>,
@@ -18,3 +17,5 @@ export function sequenceEqual<T>(
 
   return next2.done;
 }
+
+*/
