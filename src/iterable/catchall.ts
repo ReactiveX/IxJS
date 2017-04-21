@@ -6,29 +6,36 @@ import { ArrayIterable } from './arrayiterable';
 
 export class CatchAllIterator<T> extends IteratorX<T> {
   private _it: ArrayIterable<Iterable<T>>;
-  private _error: any;
-  private _hasError: boolean;
 
   constructor(...it: Iterable<T>[]) {
     super();
     this._it = new ArrayIterable(it);
-    this._error = null;
-    this._hasError = false;
   }
 
   protected *create() {
+    let error = null;
+
     for (let outer of this._it) {
-      try {
-        // TODO: doesn't look like we're doing anything with the errors here...
-        // TODO: Make sure this is right!
-        for (let inner of outer) {
-          yield inner;
+      error = null;
+      let it = outer[Symbol.iterator]();
+
+      while (true) {
+        let next = null;
+        try {
+          next = it.next();
+          if (next.done) { break; }
+        } catch (e) {
+          error = e;
+          break;
         }
-      } catch (e) {
-        this._error = e;
-        break;
+
+        yield next.value;
       }
+
+      if (error !== null) { break; }
     }
+
+    if (error !== null) { throw error; }
   }
 }
 
@@ -41,7 +48,7 @@ export class CatchAllIterable<T> extends IterableX<T> {
   }
 
   [Symbol.iterator]() {
-    return new CatchAllIterator<T>(...this._source.map(x => x));
+    return new CatchAllIterator<T>(...this._source);
   }
 }
 
