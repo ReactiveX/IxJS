@@ -1,5 +1,3 @@
-/*
-
 'use strict';
 
 export function defaultCompare<T>(key: T, minValue: T): number {
@@ -9,15 +7,15 @@ export function defaultCompare<T>(key: T, minValue: T): number {
 export function extremaBy<TSource, TKey>(
     source: Iterable<TSource>,
     keyFn: (x: TSource) => TKey,
-    cmp?: (x: TKey, y: TKey) => number): TSource[] {
+    cmp: (x: TKey, y: TKey) => number): Iterable<TSource> {
   let result: TSource[] = [], next;
   const it = source[Symbol.iterator]();
-  if((next = it.next()).done) {
+  if ((next = it.next()).done) {
     throw new Error('Sequence contains no elements');
   }
 
   let current = next.value, resKey = keyFn(current);
-  while(!(next = it.next()).done) {
+  while (!(next = it.next()).done) {
     let curr = next.value, key = keyFn(curr);
     const c = cmp(key, resKey);
     if (c === 0) {
@@ -30,4 +28,3 @@ export function extremaBy<TSource, TKey>(
 
   return result;
 }
-*/

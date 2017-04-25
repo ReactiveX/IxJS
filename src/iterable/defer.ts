@@ -1,31 +1,7 @@
 'use strict';
 
-import { IterableX } from '../iterable';
-import { IteratorX } from '../iterator';
-
-export class DeferIterator<T> extends IteratorX<T> {
-  private _fn: () => Iterable<T>;
-
-  constructor(fn: () => Iterable<T>) {
-    super();
-    this._fn = fn;
+export function* defer<TSource>(fn: () => Iterable<TSource>): Iterable<TSource> {
+  for (let item of fn()) {
+    yield item;
   }
-
-  protected *create() {
-    yield *this._fn();
-  }
-}
-
-export class DeferIterable<T> extends IterableX<T> {
-  constructor(private _fn: () => Iterable<T>) {
-    super();
-  }
-
-  [Symbol.iterator]() {
-    return new DeferIterator(this._fn);
-  }
-}
-
-export function defer<T>(fn: () => Iterable<T>): Iterable<T> {
-  return new DeferIterable(fn);
 }

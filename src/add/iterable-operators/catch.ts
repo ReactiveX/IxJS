@@ -1,14 +1,14 @@
 import { IterableX } from '../../iterable';
 import { _catch } from '../../iterable/catch';
 
-export function _catchProto<T>(this: IterableX<T>, fn: (error: any) => Iterable<T>): Iterable<T> {
-  return _catch<T>(this, fn);
-};
+export function catchProto<T>(this: IterableX<T>, ...args: Iterable<T>[]): IterableX<T> {
+  return new IterableX(_catch<T>(this, ...args));
+}
 
-IterableX.prototype.catch = _catchProto;
+IterableX.prototype.catch = catchProto;
 
 declare module '../../iterable' {
   interface IterableX<T> {
-    catch: typeof _catchProto;
+    catch: typeof catchProto;
   }
 }

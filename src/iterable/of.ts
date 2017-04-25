@@ -1,7 +1,5 @@
 'use strict';
 
-import { ArrayIterable } from './arrayiterable';
-
-export function of<T>(...args: Array<T>) {
-  return new ArrayIterable<T>(args);
+export function* of<T>(...args: T[]): Iterable<T> {
+  yield* args;
 }

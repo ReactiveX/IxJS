@@ -1,22 +1,30 @@
-/*
 'use strict';
 
-export function reduce<TSource, TAccumulate>(
-    source: Iterable<TSource>,
-    fn: (acc: TAccumulate | TSource, x: TSource, index: number) => TAccumulate,
-    seed?: TAccumulate): TAccumulate | TSource {
-  const hasSeed = arguments.length === 3, it = source[Symbol.iterator]();
-  let i = 0, hasValue = false, acc: TAccumulate | TSource, next: IIteratorResult<TSource>;
-  hasSeed && i++;
-  while (!(next = it.next()).done) {
+/* tslint:disable:max-line-length */
+export function reduce<T>(source: Iterable<T>, accumulator: (acc: T, value: T, index: number) => T, seed?: T): T;
+export function reduce<T>(source: Iterable<T>, accumulator: (acc: T[], value: T, index: number) => T[], seed?: T[]): T[];
+export function reduce<T, R>(source: Iterable<T>, accumulator: (acc: R, value: T, index: number) => R, seed?: R): R;
+/* tslint:enable:max-line-length */
+
+export function reduce<T, R>(
+      source: Iterable<T>,
+      fn: (acc: R, x: T, index: number) => R,
+      seed?: T | R): T | R {
+  const hasSeed = arguments.length === 3;
+  let i = 0, hasValue = false;
+  for (let item of source) {
     if (hasValue || (hasValue = hasSeed)) {
-      acc = fn(acc, next.value, i++);
+      seed = fn(<R>seed, item, i++);
     } else {
-      acc = next.value;
+      seed = item;
       hasValue = true;
+      i++;
     }
   }
 
-  return acc;
+  if (!hasValue) {
+    throw new Error('Sequence contains no elements');
+  }
+
+  return seed!;
 }
-*/

@@ -1,34 +1,35 @@
 'use strict';
 
-import { IterableX } from '../iterable';
-import { IteratorX } from '../iterator';
+export function* _catchAll<TSource>(source: Iterable<Iterable<TSource>>) {
+  let error = null;
 
-export class CatchIterator<T> extends IteratorX<T> {
-  constructor(private _it: Iterable<T>, private _fn: (error: any) => Iterable<T>) {
-    super();
-  }
+  for (let outer of source) {
+    error = null;
+    let it = outer[Symbol.iterator]();
 
-  protected *create(): Iterator<T> {
-    try {
-      yield* this._it;
-    } catch (e) {
-      yield* this._fn(e);
+    while (true) {
+      let next = null;
+      try {
+        next = it.next();
+        if (next.done) { break; }
+      } catch (e) {
+        error = e;
+        break;
+      }
+
+      yield next.value;
     }
+
+    if (error !== null) { break; }
   }
+
+  if (error !== null) { throw error; }
 }
 
-export class CatchIterable<T> extends IterableX<T> {
-  constructor(private _source: Iterable<T>, private _fn: (error: any) => Iterable<T>) {
-    super();
-  }
-
-  [Symbol.iterator]() {
-    return new CatchIterator<T>(this._source, this._fn);
-  }
+export function* _catch<T>(source: Iterable<T>, ...args: Iterable<T>[]): Iterable<T> {
+  return _catchAll<T>([source].concat(args));
 }
 
-export function _catch<T>(
-  source: Iterable<T>,
-  fn: (error: any) => Iterable<T>): Iterable<T> {
-  return new CatchIterable<T>(source, fn);
+export function* _catchStatic<T>(...source: Iterable<T>[]): Iterable<T> {
+  return _catchAll(source);
 }

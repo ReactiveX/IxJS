@@ -1,47 +1,19 @@
 'use strict';
+
 import { identity } from '../internal/identity';
-import { IterableX } from '../iterable';
-import { IteratorX } from '../iterator';
 import { arrayIndexOf } from '../internal/arrayindexof';
 
-export class DistinctIterator<TSource, TKey> extends IteratorX<TSource> {
-  private _q: Array<TSource | TKey>;
+export function* distinct<TSource, TKey>(
+    source: Iterable<TSource>,
+    keySelector: (value: TSource) => TKey = identity,
+    cmp: (x: TKey, y: TKey) => boolean = ((x, y) => x === y)): Iterable<TSource> {
+  let set = [];
 
-  constructor(
-    private _it: Iterable<TSource>,
-    private _fn: (value: TSource) => TKey = identity,
-    private _cmp: (x: TKey, y: TKey) => boolean = ((x, y) => x === y)) {
-    super();
-    this._q = [];
-  }
-
-  protected *create() {
-    for (let item of this._it) {
-      let key = this._fn(item);
-      if (arrayIndexOf(this._q, key, this._cmp) !== -1) {
-        this._q.push(key);
+  for (let item of source) {
+      let key = keySelector(item);
+      if (arrayIndexOf(set, key, cmp) !== -1) {
+        set.push(key);
         yield item;
       }
-    }
   }
-}
-
-export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
-  constructor(
-    private _source: Iterable<TSource>,
-    private _fn?: (value: TSource) => TKey,
-    private _cmp?: (x: TKey, y: TKey) => boolean) {
-    super();
-  }
-
-  [Symbol.iterator]() {
-    return new DistinctIterator<TSource, TKey>(this._source, this._fn, this._cmp);
-  }
-}
-
-export function distinct<TSource, TKey>(
-  source: Iterable<TSource>,
-  fn?: (value: TSource) => TKey,
-  cmp?: (x: TKey, y: TKey) => boolean): Iterable<TSource> {
-  return new DistinctIterable<TSource, TKey>(source, fn, cmp);
 }

@@ -1,13 +1,11 @@
-/*
 'use strict';
 
 function some<T>(
     source: Iterable<T>,
-    comparer: (value: T, index:number) => boolean): boolean {
-  let it = source[Symbol.iterator](), next, i = 0;
-  while (!(next = it.next()).done) {
-    if (comparer(next, i++)) { return true; }
+    comparer: (value: T, index: number) => boolean): boolean {
+  let i = 0;
+  for (let item of source) {
+    if (comparer(item, i++)) { return true; }
   }
   return false;
 }
-*/

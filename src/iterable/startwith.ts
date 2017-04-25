@@ -1,9 +1,9 @@
 'use strict';
 
-import { ConcatIterable } from './concat';
+import { concatAll } from './concat';
 
 export function startWith<T>(
     source: Iterable<T>,
     ...args: Iterable<T>[]) {
-  return new ConcatIterable(...args.concat(source));
+  return concatAll(args.concat(source));
 }

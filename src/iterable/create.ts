@@ -1,12 +1,9 @@
 'use strict';
 
-import { IterableX } from '../iterable';
-
-class AnonymousIterable<T> extends IterableX<T> {
+class AnonymousIterable<T> implements Iterable<T> {
   private _fn: () => Iterator<T>;
 
   constructor(fn: () => Iterator<T>) {
-    super();
     this._fn = fn;
   }
 

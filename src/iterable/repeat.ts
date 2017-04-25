@@ -1,49 +1,17 @@
-/*
 'use strict';
 
-import { IterableX } from '../iterable';
-import { IteratorX } from '../iterator';
-
-const doneIterator = { done: true, value: undefined };
-
-class RepeatIterator<T> extends IteratorX<T> {
-  private _value: T;
-  private _count: number;
-  private _hasCount: boolean;
-
-  constructor(value: T, count?: number) {
-    super();
-    this._value = value;
-    this._count = count;
-    this._hasCount = count != null;
-  }
-
-  _next() {
-    if (this._count !== 0) {
-      this._hasCount && this._count--;
-      return { value: this._value, done: false };
-    } else {
-      return doneIterator;
+export function* repeat<TSource>(source: Iterable<TSource>, count: number = -1): Iterable<TSource> {
+  if (count === -1) {
+    while (1) {
+      for (let item of source) {
+        yield item;
+      }
+    }
+  } else {
+    for (let i = 0; i < count; i++) {
+      for (let item of source) {
+        yield item;
+      }
     }
   }
 }
-
-export class RepeatIterable<T> extends IterableX<T> {
-  private _value: T;
-  private _count: number;
-
-  constructor(value: T, count?: number) {
-    super();
-    this._value = value;
-    this._count = count;
-  }
-
-  [Symbol.iterator]() {
-    return new RepeatIterator<T>(this._value, this._count);
-  }
-}
-
-export function repeat<T>(value: any, count?: number): Iterable<T> {
-  return new RepeatIterable<T>(value, count);
-}
-*/

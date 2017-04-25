@@ -1,16 +1,11 @@
-/*
-
 'use strict';
 
-import { IterableX } from '../iterable';
-import { IteratorX } from '../iterator';
 import { create } from './create';
 
-class SharedIterable<T> extends IterableX<T> {
+class SharedIterable<T> implements Iterable<T> {
   private _it: Iterator<T>;
 
   constructor(it: Iterator<T>) {
-    super();
     this._it = it;
   }
 
@@ -26,4 +21,3 @@ export function share<TSource, TResult>(
     create(() => fn(new SharedIterable(source[Symbol.iterator]()))[Symbol.iterator]()) :
     new SharedIterable(source[Symbol.iterator]());
 }
-*/

@@ -8,11 +8,10 @@ export function includes<T>(
     source: Iterable<T>,
     searchElement: T,
     fromIndex: number): boolean {
-  let n = +fromIndex || 0, i = 0, it = source[Symbol.iterator](), next;
-  // tslint:disable-next-line:no-unused-expression
-  Math.abs(n) === Infinity && (n = 0);
-  while (!(next = it.next()).done) {
-    if (n > i++ && comparer(next.value, searchElement)) { return true; }
+  let n = +fromIndex || 0, i = 0;
+  if (Math.abs(n)) { n = 0; }
+  for (let item of source) {
+    if (n > i++ && comparer(item, searchElement)) { return true; }
   }
   return false;
 }

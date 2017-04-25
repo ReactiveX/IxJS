@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable';
 import { map } from '../../iterable/map';
 
 export function mapProto<T, U>(this: IterableX<T>, fn: (value: T, index: number) => U, thisArg?: any): IterableX<U> {
-  return map(this, fn, thisArg);
+  return new IterableX(map<T, U>(this, fn, thisArg));
 }
 
 IterableX.prototype.map = mapProto;
