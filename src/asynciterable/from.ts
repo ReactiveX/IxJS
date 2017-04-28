@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 import { AsyncIterableX } from '../asynciterable';
@@ -84,3 +85,4 @@ export function from<TSource, TResult>(
     thisArg?: any): AsyncIterable<TResult> {
   return new AsyncFromIterable(source, fn, thisArg);
 }
+*/
