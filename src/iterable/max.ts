@@ -4,7 +4,7 @@ export function max(source: Iterable<number>, fn?: (x: number) => number): numbe
 export function max<T>(source: Iterable<T>, fn: (x: T) => number): number;
 export function max(source: Iterable<any>, fn: (x: any) => number = identity): number {
   let atleastOnce = false;
-  let value = 0;
+  let value = -Infinity;
   for (let item of source) {
     if (!atleastOnce) {
       atleastOnce = true;
