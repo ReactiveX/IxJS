@@ -6,6 +6,6 @@ import { empty } from './empty';
 export function* _if<T>(
     fn: () => boolean,
     thenSource: Iterable<T>,
-    elseSource = empty<T>()) {
+    elseSource = empty<T>()): Iterable<T> {
   return defer<T>(() => fn() ? thenSource : elseSource);
 }

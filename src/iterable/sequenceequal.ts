@@ -1,4 +1,3 @@
-
 'use strict';
 
 export function sequenceEqual<T>(

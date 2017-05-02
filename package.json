@@ -62,5 +62,7 @@
     "typescript": "^2.3.0-dev.20170424",
     "webpack": "^1.14.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "typescript": "^2.4.0-dev.20170501"
+  }
 }
