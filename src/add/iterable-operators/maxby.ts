@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { maxBy } from '../../iterable/maxby';
 
-function maxByProto<TSource, TKey>(
+export function maxByProto<TSource, TKey>(
     this: IterableX<TSource>,
     keyFn: (x: TSource) => TKey,
     cmp?: (x: TKey, y: TKey) => number): IterableX<TSource> {

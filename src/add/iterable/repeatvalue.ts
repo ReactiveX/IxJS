@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { repeatValue as repeatValueStatic } from '../../iterable/repeatvalue';
 
-function _repeatValue<T>(value: T, count?: number): IterableX<T> {
+export function _repeatValue<T>(value: T, count?: number): IterableX<T> {
   return new IterableX(repeatValueStatic(value, count));
 }
 

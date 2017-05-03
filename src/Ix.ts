@@ -17,6 +17,7 @@ import './add/iterable/generate';
 import './add.iterable/if';
 import './add/iterable/of';
 import './add/iterable/onerrorresumenext';
+import './add/iterable/range';
 import './add/iterable/repeatvalue';
 
 // iterable operators
@@ -42,7 +43,33 @@ import './add/iterable-operators/flatten';
 import './add/iterable-operators/ignoreelements';
 import './add/iterable-operators/includes';
 import './add/iterable-operators/isempty';
+import './add/iterable-operators/last';
 import './add/iterable-operators/map';
+import './add/iterable-operators/max';
+import './add/iterable-operators/maxby';
+import './add/iterable-operators/min';
+import './add/iterable-operators/minby';
+import './add/iterable-operators/onerrorresumenext';
+import './add/iterable-operators/reduce';
+import './add/iterable-operators/repeat';
+import './add/iterable-operators/retry';
+import './add/iterable-operators/scan';
+import './add/iterable-operators/sequenceequal';
+import './add/iterable-operators/share';
+import './add/iterable-operators/single';
+import './add/iterable-operators/skip';
+import './add/iterable-operators/skiplast';
+import './add/iterable-operators/skipwhile';
+import './add/iterable-operators/some';
+import './add/iterable-operators/startwith';
+import './add/iterable-operators/sum';
+import './add/iterable-operators/take';
+import './add/iterable-operators/takelast';
+import './add/iterable-operators/takewhile';
+import './add/iterable-operators/tap';
+import './add/iterable-operators/union';
+import './add/iterable-operators/while';
+import './add/iterable-operators/zip';
 
 // async iterable statics
 import './add/asynciterable/from';

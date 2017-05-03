@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { sequenceEqual } from '../../iterable/sequenceequal';
 
-function sequenceEqualProto<T>(
+export function sequenceEqualProto<T>(
     this: IterableX<T>,
     other: IterableX<T>,
     cmp: (first: T, second: T) => boolean = (x, y) => x === y): boolean {

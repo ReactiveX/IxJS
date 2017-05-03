@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { except } from '../../iterable/except';
 
-function exceptProto<TSource>(
+export function exceptProto<TSource>(
     this: IterableX<TSource>,
     second: IterableX<TSource>,
     cmp?: (x: TSource, y: TSource) => boolean): IterableX<TSource> {

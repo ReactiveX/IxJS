@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { last } from '../../iterable/last';
 
-function lastProto<T>(
+export function lastProto<T>(
     this: IterableX<T>,
     fn: (value: T) => boolean = () => true): T | undefined {
   return last(this, fn);

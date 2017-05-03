@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { isEmpty } from '../../iterable/isempty';
 
-function isEmptyProto<T>(this: IterableX<T>): boolean {
+export function isEmptyProto<T>(this: IterableX<T>): boolean {
   return isEmpty(this);
 }
 

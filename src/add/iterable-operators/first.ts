@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { first } from '../../iterable/first';
 
-function firstProto<T>(
+export function firstProto<T>(
     this: IterableX<T>,
     fn?: (value: T) => boolean): T | undefined {
   return first(this, fn);

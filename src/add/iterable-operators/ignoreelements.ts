@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { ignoreElements } from '../../iterable/ignoreelements';
 
-function ignoreElementsProto<T>(
+export function ignoreElementsProto<T>(
     this: IterableX<T>): IterableX<T> {
   return new IterableX(ignoreElements(this));
 }

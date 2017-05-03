@@ -1,8 +1,8 @@
 import { IterableX } from '../../iterable';
 import { includes } from '../../iterable/includes';
 
-function includesProto<T>(
-    this: Iterable<T>,
+export function includesProto<T>(
+    this: IterableX<T>,
     searchElement: T,
     fromIndex: number): boolean {
   return includes(this, searchElement, fromIndex);

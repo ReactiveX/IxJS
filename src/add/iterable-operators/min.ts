@@ -1,9 +1,9 @@
 import { IterableX } from '../../iterable';
 import { min } from '../../iterable/min';
 
-function minProto<T>(
-    this: IterableX<T>,
-    fn: (x: T) => number): number {
+export function minProto(this: IterableX<number>, fn?: (x: number) => number): number;
+export function minProto<T>(this: IterableX<T>, fn: (x: T) => number): number;
+export function minProto(this: IterableX<any>, fn: (x: any) => number = x => x): number {
   return min(this, fn);
 }
 

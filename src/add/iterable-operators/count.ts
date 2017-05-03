@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { count } from '../../iterable/count';
 
-function countProto<T>(
+export function countProto<T>(
     this: IterableX<T>,
     fn?: (value: T) => boolean): number {
   return count<T>(this, fn);

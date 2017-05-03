@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { repeat } from '../../iterable/repeat';
 
-function repeatProto<TSource>(
+export function repeatProto<TSource>(
     this: IterableX<TSource>,
     count: number = -1): IterableX<TSource> {
   return new IterableX(repeat(this, count));

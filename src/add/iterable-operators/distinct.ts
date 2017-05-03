@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { distinct } from '../../iterable/distinct';
 
-function distinctProto<TSource, TKey>(
+export function distinctProto<TSource, TKey>(
     this: IterableX<TSource>,
     keySelector?: (value: TSource) => TKey,
     cmp?: (x: TKey, y: TKey) => boolean): IterableX<TSource> {

@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { _case as caseStatic } from '../../iterable/case';
 
-function _case<TSource, TResult>(
+export function _case<TSource, TResult>(
     fn: () => TSource,
     sources: Map<TSource, Iterable<TResult>>,
     defaultSource?: Iterable<TResult>): IterableX<TResult> {

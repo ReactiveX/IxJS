@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { range } from '../../iterable/range';
 
-function _range(start: number, count: number): IterableX<number> {
+export function _range(start: number, count: number): IterableX<number> {
   return new IterableX(range(start, count));
 }
 

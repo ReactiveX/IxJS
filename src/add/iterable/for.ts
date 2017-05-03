@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { _for as forStatic } from '../../iterable/for';
 
-function _for<TSource, TResult>(
+export function _for<TSource, TResult>(
     source: Iterable<TSource>,
     fn: (value: TSource) => Iterable<TResult>): IterableX<TResult> {
   return new IterableX(forStatic(source, fn));

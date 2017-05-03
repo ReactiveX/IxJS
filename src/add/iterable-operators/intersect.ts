@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { intersect } from '../../iterable/intersect';
 
-function intersectProto<T>(
+export function intersectProto<T>(
     this: IterableX<T>,
     second: IterableX<T>,
     cmp: (x: T, y: T) => boolean = (x, y) => x === y) {

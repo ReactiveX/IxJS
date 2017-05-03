@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { flatten } from '../../iterable/flatten';
 
-function flattenProto<T>(
+export function flattenProto<T>(
     this: IterableX<T>,
     depth?: number): IterableX<T> {
   return new IterableX(flatten(this, depth));

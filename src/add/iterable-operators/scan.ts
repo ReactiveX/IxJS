@@ -1,7 +1,19 @@
 import { IterableX } from '../../iterable';
 import { scan } from '../../iterable/scan';
 
-function scanProto<T, R>(
+export function scanProto<T>(
+  this: Iterable<T>,
+  accumulator: (acc: T, value: T, index: number) => T,
+  seed?: T): IterableX<T>;
+export function scanProto<T>(
+  this: IterableX<T>,
+  accumulator: (acc: T[], value: T, index: number) => T[],
+  seed?: T[]): IterableX<T[]>;
+export function scanProto<T, R>(
+  this: IterableX<T>,
+  accumulator: (acc: R, value: T, index: number) => R,
+  seed?: R): IterableX<R>;
+export function scanProto<T, R>(
     this: IterableX<T>,
     fn: (acc: T | R, x: T, index: number) => R,
     seed?: T | R): IterableX<R> {

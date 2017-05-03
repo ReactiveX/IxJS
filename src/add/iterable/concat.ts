@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { concatStatic } from '../../iterable/concat';
 
-function _concat<T>(...args: Iterable<T>[]): IterableX<T> {
+export function _concat<T>(...args: Iterable<T>[]): IterableX<T> {
   return new IterableX<T>(concatStatic<T>(...args));
 }
 

@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { onErrorResumeNext } from '../../iterable/onerrorresumenext';
 
-function onErrorResumeNextProto<TSource>(
+export function onErrorResumeNextProto<TSource>(
     this: IterableX<TSource>,
     ...args: Iterable<TSource>[]): IterableX<TSource> {
   return new IterableX(onErrorResumeNext(this, ...args));

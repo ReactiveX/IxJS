@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { create as createStatic } from '../../iterable/create';
 
-function _create<T>(fn: () => Iterator<T>) {
+export function _create<T>(fn: () => Iterator<T>) {
   return new IterableX<T>(createStatic<T>(fn));
 }
 

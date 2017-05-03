@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { find } from '../../iterable/find';
 
-function findProto<T>(
+export function findProto<T>(
     this: IterableX<T>,
     fn: (value: T, index: number) => boolean,
     thisArg?: any): T | undefined {

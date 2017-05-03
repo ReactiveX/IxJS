@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { expand } from '../../iterable/expand';
 
-function expandProto<TSource>(
+export function expandProto<TSource>(
     this: IterableX<TSource>,
     fn: (value: TSource) => Iterable<TSource>) {
   return new IterableX(expand(this, fn));

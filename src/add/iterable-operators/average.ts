@@ -1,8 +1,10 @@
 import { IterableX } from '../../iterable';
 import { average } from '../../iterable/average';
 
-function averageProto<T>(this: IterableX<T>, fn?: (value: T) => number) {
-  return average<T>(this, fn);
+export function averageProto(this: IterableX<number>, fn?: (x: number) => number): number;
+export function averageProto<T>(this: IterableX<T>, fn?: (x: T) => number): number;
+export function averageProto(this: IterableX<any>, fn: (x: any) => number = x => x): number {
+  return average(this, fn);
 }
 
 IterableX.prototype.average = averageProto;

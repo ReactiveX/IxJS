@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { elementAt } from '../../iterable/elementat';
 
-function elementAtProto<T>(this: IterableX<T>, index: number) {
+export function elementAtProto<T>(this: IterableX<T>, index: number) {
   return elementAt<T>(this, index);
 }
 

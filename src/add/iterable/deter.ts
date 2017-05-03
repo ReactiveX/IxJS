@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { defer as deferStatic } from '../../iterable/defer';
 
-function _defer<T>(fn: () => Iterable<T>): IterableX<T> {
+export function _defer<T>(fn: () => Iterable<T>): IterableX<T> {
   return new IterableX(deferStatic(fn));
 }
 

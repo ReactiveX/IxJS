@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable';
 import { findIndex } from '../../iterable/findindex';
 
-function findIndexProto<T>(
+export function findIndexProto<T>(
     this: IterableX<T>,
     fn: (value: T, index: number) => boolean,
     thisArg?: any): number {
