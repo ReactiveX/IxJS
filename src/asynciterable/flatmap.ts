@@ -2,7 +2,7 @@
 
 import { bindCallback } from '../internal/bindcallback';
 
-export async function* flatMapAsync<TSource, TResult>(
+export async function* flatMap<TSource, TResult>(
     source: AsyncIterable<TSource>,
     fn: (value: TSource) => AsyncIterable<TResult>,
     thisArg?: any): AsyncIterable<TResult> {

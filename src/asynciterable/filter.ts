@@ -2,7 +2,7 @@
 
 import { bindCallback } from '../internal/bindcallback';
 
-export async function* filterAsync<TSource>(
+export async function* filter<TSource>(
     source: AsyncIterable<TSource>,
     predicate: (value: TSource, index: number) => boolean,
     thisArg?: any): AsyncIterable<TSource> {

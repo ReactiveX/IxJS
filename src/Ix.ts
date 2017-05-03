@@ -14,7 +14,7 @@ import './add/iterable/empty';
 import './add/iterable/for';
 import './add/iterable/from';
 import './add/iterable/generate';
-import './add.iterable/if';
+import './add/iterable/if';
 import './add/iterable/of';
 import './add/iterable/onerrorresumenext';
 import './add/iterable/range';
@@ -76,3 +76,7 @@ import './add/asynciterable/from';
 import './add/asynciterable/of';
 
 // async iterable operators
+import './add/asynciterable-operators/filter';
+import './add/asynciterable-operators/flatmap';
+import './add/asynciterable-operators/flatten';
+import './add/asynciterable-operators/map';
