@@ -2,15 +2,15 @@
 
 import { identity } from '../internal/identity';
 import { arrayIndexOf } from '../internal/arrayindexof';
-import { comparer } from '../internal/comparer';
+import { comparer as defaultComparer } from '../internal/comparer';
 
-export function* distinct<TSource, TKey>(
-    source: Iterable<TSource>,
+export async function* distinct<TSource, TKey>(
+    source: AsyncIterable<TSource>,
     keySelector: (value: TSource) => TKey = identity,
-    cmp: (x: TKey, y: TKey) => boolean = comparer): Iterable<TSource> {
+    cmp: (x: TKey, y: TKey) => boolean = defaultComparer): AsyncIterable<TSource> {
   let set = [];
 
-  for (let item of source) {
+  for await (let item of source) {
       let key = keySelector(item);
       if (arrayIndexOf(set, key, cmp) !== -1) {
         set.push(key);

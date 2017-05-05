@@ -10,16 +10,16 @@ function arrayRemove<T>(array: T[], item: T, comparer: (x: T, y: T) => boolean):
   return true;
 }
 
-export function* intersect<T>(
-      first: Iterable<T>,
-      second: Iterable<T>,
-      comparer: (x: T, y: T) => boolean = defaultComparer): Iterable<T> {
+export async function* intersect<T>(
+      first: AsyncIterable<T>,
+      second: AsyncIterable<T>,
+      comparer: (x: T, y: T) => boolean = defaultComparer): AsyncIterable<T> {
   let map = [];
-  for (let firstItem of first) {
+  for await (let firstItem of first) {
     map.push(firstItem);
   }
 
-  for (let secondItem of second) {
+  for await (let secondItem of second) {
     if (arrayRemove(map, secondItem, comparer)) {
       yield secondItem;
     }

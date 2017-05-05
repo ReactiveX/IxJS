@@ -4,8 +4,8 @@ import { intersect } from '../../iterable/intersect';
 export function intersectProto<T>(
     this: IterableX<T>,
     second: IterableX<T>,
-    cmp: (x: T, y: T) => boolean = (x, y) => x === y) {
-  return new IterableX(intersect(this, second, cmp));
+    comparer?: (x: T, y: T) => boolean) {
+  return new IterableX(intersect(this, second, comparer));
 }
 
 IterableX.prototype.intersect = intersectProto;

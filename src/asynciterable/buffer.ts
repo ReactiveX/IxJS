@@ -1,12 +1,12 @@
 'use strict';
 
-export function* buffer<TSource>(
-    source: Iterable<TSource>,
+export async function* buffer<TSource>(
+    source: AsyncIterable<TSource>,
     count: number,
-    skip?: number): Iterable<TSource[]> {
+    skip?: number): AsyncIterable<TSource[]> {
   if (skip == null) { skip = count; }
   let buffers: TSource[][] = [],  i = 0;
-  for (let item of source) {
+  for await (let item of source) {
     if (i % skip === 0) {
       buffers.push([]);
     }

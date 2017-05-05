@@ -1,11 +1,12 @@
 'use strict';
 
 import { arrayIndexOf } from '../internal/arrayindexof';
+import { comparer as defaultComparer } from '../internal/comparer';
 
 export function* union<T>(
     left: Iterable<T>,
     right: Iterable<T>,
-    cmp: (x: T, y: T) => boolean = (x, y) => x === y): Iterable<T> {
+    comparer: (x: T, y: T) => boolean = defaultComparer): Iterable<T> {
   let it, leftDone = false, rightDone = false, map = [];
   while (1) {
     if (!it) {
@@ -27,7 +28,7 @@ export function* union<T>(
       it = null;
     } else {
       let current = next.value;
-      if (arrayIndexOf(map, current, cmp) !== -1) {
+      if (arrayIndexOf(map, current, comparer) !== -1) {
         map.push(current);
         yield current;
       }

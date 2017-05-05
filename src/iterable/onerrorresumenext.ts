@@ -4,22 +4,21 @@ function* _onErrorResumeNext<TSource>(source: Iterable<Iterable<TSource>>): Iter
   for (let item of source) {
     let it = item[Symbol.iterator]();
     while (1) {
-      let value: TSource | undefined;
+      let next;
       try {
-        let next = it.next();
-        if (next.done) { break; }
-        value = next.value;
+        next = it.next();
       } catch (e) {
         break;
       }
 
-      yield value;
+      if (next.done) { break; }
+      yield next.value;
     }
   }
 }
 
 export function* onErrorResumeNext<T>(source: Iterable<T>, ...args: Iterable<T>[]): Iterable<T> {
-  return _onErrorResumeNext<T>([source].concat(args));
+  return _onErrorResumeNext<T>([source, ...args]);
 }
 
 export function* onErrorResumeNextStatic<T>(...source: Iterable<T>[]): Iterable<T> {

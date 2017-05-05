@@ -7,7 +7,7 @@ export function* concatAll<TSource>(source: Iterable<Iterable<TSource>>) {
 }
 
 export function* concat<T>(source: Iterable<T>, ...args: Iterable<T>[]): Iterable<T> {
-  return concatAll([source].concat(...args));
+  return concatAll([source, ...args]);
 }
 
 export function* concatStatic<T>(...args: Iterable<T>[]): Iterable<T> {

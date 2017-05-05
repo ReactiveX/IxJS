@@ -4,8 +4,8 @@ import { union } from '../../iterable/union';
 export function unionProto<T>(
     this: IterableX<T>,
     right: IterableX<T>,
-    cmp: (x: T, y: T) => boolean = (x, y) => x === y): IterableX<T> {
-  return new IterableX(union(this, right, cmp));
+    comparer?: (x: T, y: T) => boolean): IterableX<T> {
+  return new IterableX(union(this, right, comparer));
 }
 
 IterableX.prototype.union = unionProto;
