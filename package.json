@@ -23,11 +23,13 @@
     "?build:es2015": "Build against native ES2015 target",
     "build:es2015": "tsc -p tsconfig_es2015.json",
     "build": "shx rm -rf ./dist/ && npm-run-all build:*",
+    "build:spec": "tsc -p ./spec --pretty",
+    "?build:spec": "Build specs",
     "?lint:src": "Run lint against source files only",
     "lint:src": "tslint -c tslint.json \"src/**/*.ts\"",
     "?lint": "Run lint against files",
     "lint": "npm-run-all --parallel lint:*",
-    "test": "ts-node node_modules/tape/bin/tape test/**/*.ts | tap-spec"
+    "test": "ts-node node_modules/tape/bin/tape spec/**/*.ts | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -49,6 +51,7 @@
     "npm": ">=2.0.0"
   },
   "devDependencies": {
+    "@types/tape": "^4.2.30",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.0.0",
     "husky": "^0.13.1",
