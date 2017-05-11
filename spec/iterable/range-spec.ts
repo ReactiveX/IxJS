@@ -4,7 +4,7 @@ import { first } from '../../dist/cjs/iterable/first';
 import { isEmpty } from '../../dist/cjs/iterable/isempty';
 import { last } from '../../dist/cjs/iterable/last';
 import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceEqual';
+import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
 import { skip } from '../../dist/cjs/iterable/skip';
 import { take } from '../../dist/cjs/iterable/take';
 import { toArray } from '../../dist/cjs/iterable/toarray';

@@ -1,6 +1,7 @@
 import  * as test  from 'tape';
 import { range } from '../../dist/cjs/iterable/range';
 import { tap } from '../../dist/cjs/iterable/tap';
+import { _throw } from '../../dist/cjs/iterable/throw';
 
 test('Itearble#tap next', t => {
   let n = 0;
@@ -40,59 +41,42 @@ test('Iterable#tap with error', t => {
   let ok = false;
 
   t.throws(() => {
+    const source = tap(_throw<number>(err), {
+      error: function (e) {
+        t.equal(err, e);
+        ok = true;
+      }
+    });
 
+    // tslint:disable-next-line:no-empty
+    for (let _ of source) { }
   });
+
+  t.true(ok);
+  t.end();
 });
 
-        [Fact]
-        public void Do3()
-        {
-            var ex = new MyException();
-            var ok = false;
-            AssertThrows<MyException>(() =>
-                EnumerableEx.Throw<int>(ex).Do(x => { Assert.True(false); }, e => { Assert.Equal(ex, e); ok = true; }).ForEach(_ => { })
-            );
-            Assert.True(ok);
-        }
+class MyObserver {
+  public sum: number = 0;
+  public done: boolean = false;
 
-        [Fact]
-        public void Do4()
-        {
-            var obs = new MyObserver();
-            Enumerable.Range(0, 10).Do(obs).ForEach(_ => { });
+  next(value: number) {
+    this.sum += value;
+  }
 
-            Assert.True(obs.Done);
-            Assert.Equal(45, obs.Sum);
-        }
+  complete() {
+    this.done = true;
+  }
+}
 
-        class MyObserver : IObserver<int>
-        {
-            public int Sum;
-            public bool Done;
+test('Itearble#tap with observer class', t => {
+  const obs = new MyObserver();
+  const source = tap(range(0, 10), obs);
 
-            public void OnCompleted()
-            {
-                Done = true;
-            }
+  // tslint:disable-next-line:no-empty
+  for (let _ of source) { }
 
-            public void OnError(Exception error)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void OnNext(int value)
-            {
-                Sum += value;
-            }
-        }
-
-        [Fact]
-        public void Do5()
-        {
-            var sum = 0;
-            var done = false;
-            Enumerable.Range(0, 10).Do(x => sum += x, ex => { throw ex; }, () => done = true).ForEach(_ => { });
-
-            Assert.True(done);
-            Assert.Equal(45, sum);
-        }
+  t.true(obs.done);
+  t.equal(45, obs.sum);
+  t.end();
+});
