@@ -15,6 +15,7 @@ export function extremaBy<TSource, TKey>(
   }
 
   let current = next.value, resKey = keyFn(current);
+  result.push(current);
   while (!(next = it.next()).done) {
     let curr = next.value, key = keyFn(curr);
     const c = cmp(key, resKey);
