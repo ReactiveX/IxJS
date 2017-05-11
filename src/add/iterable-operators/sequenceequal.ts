@@ -3,7 +3,7 @@ import { sequenceEqual } from '../../iterable/sequenceequal';
 
 export function sequenceEqualProto<T>(
     this: IterableX<T>,
-    other: IterableX<T>,
+    other: Iterable<T>,
     cmp: (first: T, second: T) => boolean = (x, y) => x === y): boolean {
   return sequenceEqual(this, other, cmp);
 }

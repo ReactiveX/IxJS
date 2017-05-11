@@ -23,8 +23,6 @@
     "?build:es2015": "Build against native ES2015 target",
     "build:es2015": "tsc -p tsconfig_es2015.json",
     "build": "shx rm -rf ./dist/ && npm-run-all build:*",
-    "build:spec": "tsc -p ./spec --pretty",
-    "?build:spec": "Build specs",
     "?lint:src": "Run lint against source files only",
     "lint:src": "tslint -c tslint.json \"src/**/*.ts\"",
     "?lint": "Run lint against files",

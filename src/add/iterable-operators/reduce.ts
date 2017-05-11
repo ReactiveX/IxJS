@@ -2,15 +2,15 @@ import { IterableX } from '../../iterable';
 import { reduce } from '../../iterable/reduce';
 
 export function reduceProto<T>(
-  this: Iterable<T>,
+  this: IterableX<T>,
   accumulator: (acc: T, value: T, index: number) => T,
   seed?: T): T;
 export function reduceProto<T>(
-  this: Iterable<T>,
+  this: IterableX<T>,
   accumulator: (acc: T[], value: T, index: number) => T[],
   seed?: T[]): T[];
 export function reduceProto<T, R>(
-  this: Iterable<T>,
+  this: IterableX<T>,
   accumulator: (acc: R, value: T, index: number) => R,
   seed?: R): R;
 export function reduceProto<T, R>(

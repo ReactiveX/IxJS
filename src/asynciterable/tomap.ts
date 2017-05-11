@@ -6,7 +6,7 @@ export async function toMap<TSource, TKey>(
 export async function toMap<TSource, TKey, TElement = TSource>(
     source: AsyncIterable<TSource>,
     keySelector: (item: TSource) => TKey,
-    elementSelector: (item: TSource) => TElement): Promise<Map<TKey, TElement>>;
+    elementSelector?: (item: TSource) => TElement): Promise<Map<TKey, TElement>>;
 export async function toMap<TSource, TKey, TElement = TSource>(
     source: AsyncIterable<TSource>,
     keySelector: (item: TSource) => TKey,

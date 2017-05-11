@@ -1,3 +1,5 @@
+'use strict';
+
 import  * as test  from 'tape';
 import { empty } from '../../dist/cjs/iterable/empty';
 import { map } from '../../dist/cjs/iterable/map';

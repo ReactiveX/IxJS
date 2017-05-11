@@ -6,7 +6,7 @@ export function toMap<TSource, TKey>(
 export function toMap<TSource, TKey, TElement = TSource>(
     source: Iterable<TSource>,
     keySelector: (item: TSource) => TKey,
-    elementSelector: (item: TSource) => TElement): Map<TKey, TElement>;
+    elementSelector?: (item: TSource) => TElement): Map<TKey, TElement>;
 export function toMap<TSource, TKey, TElement = TSource>(
     source: Iterable<TSource>,
     keySelector: (item: TSource) => TKey,

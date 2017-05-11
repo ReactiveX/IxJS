@@ -15,8 +15,9 @@ export class IterableX<T> implements Iterable<T> {
 
   forEach(fn: (value: T, index: number) => void, thisArg?: any): void {
     const fun = bindCallback(fn, thisArg, 2);
+    let i = 0;
     for (let item of this) {
-      fun(item);
+      fun(item, i++);
     }
   }
 }

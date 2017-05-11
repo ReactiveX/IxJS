@@ -1,10 +1,8 @@
 'use strict';
 
-/* tslint:disable:max-line-length */
 export function reduce<T>(source: Iterable<T>, accumulator: (acc: T, value: T, index: number) => T, seed?: T): T;
 export function reduce<T>(source: Iterable<T>, accumulator: (acc: T[], value: T, index: number) => T[], seed?: T[]): T[];
 export function reduce<T, R>(source: Iterable<T>, accumulator: (acc: R, value: T, index: number) => R, seed?: R): R;
-/* tslint:enable:max-line-length */
 
 export function reduce<T, R>(
       source: Iterable<T>,

@@ -3,7 +3,7 @@ import { union } from '../../iterable/union';
 
 export function unionProto<T>(
     this: IterableX<T>,
-    right: IterableX<T>,
+    right: Iterable<T>,
     comparer?: (x: T, y: T) => boolean): IterableX<T> {
   return new IterableX(union(this, right, comparer));
 }
