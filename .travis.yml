@@ -8,7 +8,12 @@ node_js:
 notifications:
   email: false
 
+cache:
+  yarn: true
+
 env:
+  global:
+    - PATH=$HOME/.yarn/bin:$HOME/.local/bin:$PATH
   matrix:
     - CI_MATRIX_BUILD=true
     - CI_MATRIX_LINT=true
@@ -17,6 +22,13 @@ env:
 matrix:
   allow_failures:
     - env: CI_MATRIX_TEST=true # TODO https://github.com/ReactiveX/IxJS/issues/2
+
+before_install:
+  # Use the latest yarnpkg because Travis' builtin yarn is not the latest.
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - which yarn # for debugging Travis
+  - echo $PATH # for debugging Travis
 
 script:
   - |
