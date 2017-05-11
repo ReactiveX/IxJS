@@ -18,7 +18,7 @@ export function share<TSource>(
     source: AsyncIterable<TSource>): AsyncIterable<TSource>;
 export function share<TSource, TResult>(
     source: AsyncIterable<TSource>,
-    fn?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterable<TResult>
+    fn?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterable<TResult>;
 export function share<TSource, TResult>(
     source: AsyncIterable<TSource>,
     fn?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterable<TSource | TResult> {
