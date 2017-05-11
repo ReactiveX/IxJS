@@ -5,7 +5,7 @@ import { buffer } from '../../dist/cjs/iterable/buffer';
 import { empty } from '../../dist/cjs/iterable/empty';
 import { range } from '../../dist/cjs/iterable/range';
 import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { toArray } from '../../dist/cjs/iterable/toArray';
+import { toArray } from '../../dist/cjs/iterable/toarray';
 
 test('Iterable#buffer no skip non-full buffer', t => {
   const rng = range(0, 10);
