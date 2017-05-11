@@ -61,10 +61,7 @@
     "tape": "^4.6.3",
     "ts-node": "^2.1.0",
     "tslint": "^4.5.0",
-    "typescript": "^2.3.0-dev.20170424",
+    "typescript": "^2.4.0-dev.20170501",
     "webpack": "^1.14.0"
-  },
-  "dependencies": {
-    "typescript": "^2.4.0-dev.20170501"
   }
 }
