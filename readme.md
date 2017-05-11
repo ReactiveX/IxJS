@@ -113,7 +113,10 @@ interface IteratorResult<T> {
 The `AsyncIterable` object is based off the ECMAScript Proposal for [Asynchronous Iterators](https://github.com/tc39/proposal-async-iteration).  This would allow us to create asynchronous collections of Promises and be able to use such methods as the `map`, `filter`, `reduce` and other Array#extras methods that you are used to using.
 
 ```js
-import { AsyncIteratable } from 'ix';
+import * as Ix from 'ix';
+
+// CommonJS
+const Ix = require('ix');
 
 async function* gen() {
   yield 1;
@@ -122,7 +125,7 @@ async function* gen() {
   yield 4;
 }
 
-AsyncIterable.from(gen())
+Ix.AsyncIterable.from(gen())
   .filter(x => x % 2 === 0)
   .map(x => x * 2)
   .forEach(x => console.log(`Next ${x}`))
@@ -135,7 +138,10 @@ AsyncIterable.from(gen())
 Much like with the `Iterable` object where we can iterate through our collections, we can use `for await ... of` instead which allows us to iterate over the asynchronous collection.
 
 ```js
-import { AsyncIteratable } from 'ix';
+import * as Ix from 'ix';
+
+// CommonJS
+const Ix = require('ix');
 
 async function* gen() {
   yield 1;
@@ -144,7 +150,7 @@ async function* gen() {
   yield 4;
 }
 
-const results = AsyncIterable.from(gen())
+const results = Ix.AsyncIterable.from(gen())
   .filter(x => x % 2 === 0)
   .map(x => x * 2);
 
