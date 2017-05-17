@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable';
 import { empty as emptyStatic } from '../../iterable/empty';
 
 export function _empty<T>(): IterableX<T> {
-  return new IterableX<T>(emptyStatic<T>());
+  return emptyStatic<T>();
 }
 
 IterableX.empty = _empty;

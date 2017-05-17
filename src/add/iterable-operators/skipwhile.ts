@@ -4,7 +4,7 @@ import { skipWhile } from '../../iterable/skipwhile';
 export function skipWhileProto<TSource>(
     this: IterableX<TSource>,
     predicate: (value: TSource, index: number) => boolean): IterableX<TSource> {
-  return new IterableX(skipWhile(this, predicate));
+  return skipWhile(this, predicate);
 }
 
 IterableX.prototype.skipWhile = skipWhileProto;

@@ -5,7 +5,7 @@ export function unionProto<T>(
     this: IterableX<T>,
     right: Iterable<T>,
     comparer?: (x: T, y: T) => boolean): IterableX<T> {
-  return new IterableX(union(this, right, comparer));
+  return union(this, right, comparer);
 }
 
 IterableX.prototype.union = unionProto;

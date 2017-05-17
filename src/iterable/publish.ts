@@ -1,15 +1,17 @@
 'use strict';
 
+import { IterableX } from '../iterable';
 import { RefCountList } from './_refcountlist';
 import { create } from './create';
 
-class PublishedBuffer<T> implements Iterable<T> {
+class PublishedBuffer<T> extends IterableX<T> {
   private _buffer: RefCountList<T>;
   private _source: Iterator<T>;
   private _error: any;
   private _stopped: boolean = false;
 
   constructor(source: Iterator<T>) {
+    super();
     this._source = source;
     this._buffer = new RefCountList<T>(0);
   }
@@ -31,7 +33,11 @@ class PublishedBuffer<T> implements Iterable<T> {
           }
 
           if (this._stopped) {
-            throw this._error;
+            if (this._error) { 
+              throw this._error;
+            } else {
+              break;
+            }
           }
 
           if (hasValue) { this._buffer.push(current); }
@@ -58,13 +64,13 @@ class PublishedBuffer<T> implements Iterable<T> {
   }
 }
 
-export function publish<TSource>(source: Iterable<TSource>): Iterable<TSource>;
+export function publish<TSource>(source: Iterable<TSource>): IterableX<TSource>;
 export function publish<TSource, TResult>(
   source: Iterable<TSource>,
-  selector: (value: Iterable<TSource>) => Iterable<TResult>): Iterable<TResult>;
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TResult>;
 export function publish<TSource, TResult>(
     source: Iterable<TSource>,
-    selector?: (value: Iterable<TSource>) => Iterable<TResult>): Iterable<TSource | TResult> {
+    selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TSource | TResult> {
   return selector ?
     create(() => selector(publish(source))[Symbol.iterator]()) :
     new PublishedBuffer<TSource>(source[Symbol.iterator]());

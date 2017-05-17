@@ -6,7 +6,7 @@ export function _generate<TState, TResult>(
     condition: (value: TState) => boolean,
     iterate: (value: TState) => TState,
     resultSelector: (value: TState) => TResult): IterableX<TResult> {
-  return new IterableX<TResult>(generateStatic<TState, TResult>(initialState, condition, iterate, resultSelector));
+  return generateStatic<TState, TResult>(initialState, condition, iterate, resultSelector);
 }
 
 IterableX.generate = _generate;

@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable';
 import { repeatValue as repeatValueStatic } from '../../iterable/repeatvalue';
 
 export function _repeatValue<T>(value: T, count?: number): IterableX<T> {
-  return new IterableX(repeatValueStatic(value, count));
+  return repeatValueStatic(value, count);
 }
 
 IterableX.repeat = _repeatValue;

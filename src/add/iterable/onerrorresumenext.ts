@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable';
 import { onErrorResumeNextStatic } from '../../iterable/onerrorresumenext';
 
 export function _onErrorResumeNextStatic<T>(...args: Iterable<T>[]) {
-  return new IterableX(onErrorResumeNextStatic(...args));
+  return onErrorResumeNextStatic(...args);
 }
 
 IterableX.onErrorResumeNext = _onErrorResumeNextStatic;

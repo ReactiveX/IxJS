@@ -1,15 +1,17 @@
 'use strict';
 
+import { IterableX } from '../iterable';
 import { IRefCountList, MaxRefCountList, RefCountList } from './_refcountlist';
 import { create } from './create';
 
-class MemoizeBuffer<T> implements Iterable<T> {
+class MemoizeBuffer<T> extends IterableX<T> {
   private _source: Iterator<T>;
   private _buffer: IRefCountList<T>;
   private _error: any;
   private _stopped: boolean = false;
 
   constructor(source: Iterator<T>, buffer: IRefCountList<T>) {
+    super();
     this._source = source;
     this._buffer = buffer;
   }
@@ -55,15 +57,15 @@ class MemoizeBuffer<T> implements Iterable<T> {
 }
 export function memoize<TSource>(
   source: Iterable<TSource>,
-  readerCount?: number): Iterable<TSource>;
+  readerCount?: number): IterableX<TSource>;
 export function memoize<TSource, TResult>(
   source: Iterable<TSource>,
   readerCount?: number,
-  selector?: (value: Iterable<TSource>) => Iterable<TResult>): Iterable<TResult>;
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TResult>;
 export function memoize<TSource, TResult = TSource>(
     source: Iterable<TSource>,
     readerCount: number = -1,
-    selector?: (value: Iterable<TSource>) => Iterable<TResult>): Iterable<TSource | TResult> {
+    selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TSource | TResult> {
   if (readerCount === -1 && !selector) {
     return new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>());
   }

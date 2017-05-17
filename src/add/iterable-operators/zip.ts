@@ -5,7 +5,7 @@ export function zipProto<T, TResult>(
     this: IterableX<T>,
     second: Iterable<T>,
     fn: (fst: T, snd: T) => TResult): IterableX<TResult> {
-  return new IterableX(zip(this, second, fn));
+  return zip(this, second, fn);
 }
 
 IterableX.prototype.zip = zipProto;

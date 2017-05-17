@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable';
 import { _throw as throwStatic } from '../../iterable/throw';
 
 export function _throw<T>(error: any): IterableX<T> {
-  return new IterableX<T>(throwStatic<T>(error));
+  return throwStatic<T>(error);
 }
 
 IterableX.throw = _throw;

@@ -5,7 +5,7 @@ export function mapProto<T, U>(
     this: IterableX<T>,
     fn: (value: T, index: number) => U,
     thisArg?: any): IterableX<U> {
-  return new IterableX(map<T, U>(this, fn, thisArg));
+  return map<T, U>(this, fn, thisArg);
 }
 
 IterableX.prototype.map = mapProto;

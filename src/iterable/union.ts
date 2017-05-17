@@ -1,37 +1,55 @@
 'use strict';
 
+import { IterableX } from '../iterable';
 import { arrayIndexOf } from '../internal/arrayindexof';
 import { comparer as defaultComparer } from '../internal/comparer';
 
-export function* union<T>(
-    left: Iterable<T>,
-    right: Iterable<T>,
-    comparer: (x: T, y: T) => boolean = defaultComparer): Iterable<T> {
-  let it, leftDone = false, rightDone = false, map = [];
-  while (1) {
-    if (!it) {
-      if (rightDone) {
-        break;
+class UnionIterable<TSource> extends IterableX<TSource> {
+  private _left: Iterable<TSource>;
+  private _right: Iterable<TSource>;
+  private _comparer: (x: TSource, y: TSource) => boolean;
+
+  constructor(left: Iterable<TSource>, right: Iterable<TSource>, comparer: (x: TSource, y: TSource) => boolean) {
+    super();
+    this._left = left;
+    this._right = right;
+    this._comparer = comparer;
+  }
+
+  *[Symbol.iterator]() {
+    let it, leftDone = false, rightDone = false, map = [];
+    while (1) {
+      if (!it) {
+        if (rightDone) {
+          break;
+        }
+
+        if (!leftDone) {
+          it = this._left[Symbol.iterator]();
+          leftDone = true;
+        } else {
+          it = this._right[Symbol.iterator]();
+          rightDone = true;
+        }
       }
 
-      if (!leftDone) {
-        it = left[Symbol.iterator]();
-        leftDone = true;
+      let next = it.next();
+      if (next.done) {
+        it = null;
       } else {
-        it = right[Symbol.iterator]();
-        rightDone = true;
-      }
-    }
-
-    let next = it.next();
-    if (next.done) {
-      it = null;
-    } else {
-      let current = next.value;
-      if (arrayIndexOf(map, current, comparer) !== -1) {
-        map.push(current);
-        yield current;
+        let current = next.value;
+        if (arrayIndexOf(map, current, this._comparer) !== -1) {
+          map.push(current);
+          yield current;
+        }
       }
     }
   }
+}
+
+export function union<TSource>(
+    left: Iterable<TSource>,
+    right: Iterable<TSource>,
+    comparer: (x: TSource, y: TSource) => boolean = defaultComparer): IterableX<TSource> {
+  return new UnionIterable<TSource>(left, right, comparer);
 }

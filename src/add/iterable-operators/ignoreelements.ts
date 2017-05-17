@@ -3,7 +3,7 @@ import { ignoreElements } from '../../iterable/ignoreelements';
 
 export function ignoreElementsProto<T>(
     this: IterableX<T>): IterableX<T> {
-  return new IterableX(ignoreElements(this));
+  return ignoreElements(this);
 }
 
 IterableX.prototype.ignoreElements = ignoreElementsProto;

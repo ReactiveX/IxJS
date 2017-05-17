@@ -1,9 +1,12 @@
 'use strict';
 
-class AnonymousIterable<T> implements Iterable<T> {
+import { IterableX } from '../iterable';
+
+class AnonymousIterable<T> extends IterableX<T> {
   private _fn: () => Iterator<T>;
 
   constructor(fn: () => Iterator<T>) {
+    super();
     this._fn = fn;
   }
 
@@ -12,6 +15,6 @@ class AnonymousIterable<T> implements Iterable<T> {
   }
 }
 
-export function create<T>(fn: () => Iterator<T>): Iterable<T> {
+export function create<T>(fn: () => Iterator<T>): IterableX<T> {
   return new AnonymousIterable(fn);
 }

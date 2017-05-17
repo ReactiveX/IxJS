@@ -5,7 +5,7 @@ export function exceptProto<TSource>(
     this: IterableX<TSource>,
     second: IterableX<TSource>,
     comparer?: (x: TSource, y: TSource) => boolean): IterableX<TSource> {
-  return new IterableX(except(this, second, comparer));
+  return except(this, second, comparer);
 }
 
 IterableX.prototype.except = exceptProto;

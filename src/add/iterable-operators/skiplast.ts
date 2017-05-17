@@ -4,7 +4,7 @@ import { skipLast } from '../../iterable/skiplast';
 export function skipLastProto<T>(
     this: IterableX<T>,
     count: number): IterableX<T> {
-  return new IterableX(skipLast(this, count));
+  return skipLast(this, count);
 }
 
 IterableX.prototype.skipLast = skipLastProto;

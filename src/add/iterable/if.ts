@@ -5,7 +5,7 @@ export function _if<T>(
     fn: () => boolean,
     thenSource: Iterable<T>,
     elseSource?: Iterable<T>): IterableX<T> {
-  return new IterableX<T>(ifStatic<T>(fn, thenSource, elseSource));
+  return ifStatic<T>(fn, thenSource, elseSource);
 }
 
 IterableX.if = _if;

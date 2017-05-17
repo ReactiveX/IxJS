@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable';
 import { of as staticOf } from '../../iterable/of';
 
 export function _of<T>(...args: T[]) {
-  return new IterableX(staticOf(...args));
+  return staticOf(...args);
 };
 
 IterableX.of = _of;

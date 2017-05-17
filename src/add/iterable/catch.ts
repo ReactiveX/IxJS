@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable';
 import { _catchStatic as catchStatic } from '../../iterable/catch';
 
 export function _catchStatic<T>(...args: Iterable<T>[]) {
-  return new IterableX<T>(catchStatic<T>(...args));
+  return catchStatic<T>(...args);
 }
 
 IterableX.catch = _catchStatic;

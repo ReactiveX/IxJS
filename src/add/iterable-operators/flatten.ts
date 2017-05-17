@@ -4,7 +4,7 @@ import { flatten } from '../../iterable/flatten';
 export function flattenProto<T>(
     this: IterableX<T>,
     depth?: number): IterableX<T> {
-  return new IterableX(flatten(this, depth));
+  return flatten(this, depth);
 }
 
 IterableX.prototype.flatten = flattenProto;

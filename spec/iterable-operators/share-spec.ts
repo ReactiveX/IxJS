@@ -2,7 +2,12 @@
 
 import  * as test  from 'tape';
 import { range } from '../../dist/cjs/iterable/range';
+import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
 import { share } from '../../dist/cjs/iterable/share';
+import { take } from '../../dist/cjs/iterable/take';
+import { tap } from '../../dist/cjs/iterable/tap';
+import { toArray } from '../../dist/cjs/iterable/toarray';
+import { zip } from '../../dist/cjs/iterable/zip';
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#share single', t => {
@@ -47,5 +52,19 @@ test('Iterable#share shared exhausts any time', t => {
 
   noNext(t, it1);
   noNext(t, it2);
+  t.end();
+});
+
+test('Iterable#share with selector', t => {
+  let n = 0;
+  const res = toArray(
+    share(
+      tap(range(0, 10), { next: () => n++ }),
+      xs => take(zip(xs, xs, (l, r) => l + r), 4)
+    )
+  );
+
+  t.true(sequenceEqual(res, [0 + 1, 2 + 3, 4 + 5, 6 + 7]));
+  t.equal(10, n);
   t.end();
 });

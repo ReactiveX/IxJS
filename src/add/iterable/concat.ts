@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable';
 import { concatStatic } from '../../iterable/concat';
 
 export function _concat<T>(...args: Iterable<T>[]): IterableX<T> {
-  return new IterableX<T>(concatStatic<T>(...args));
+  return concatStatic<T>(...args);
 }
 
 IterableX.concat = _concat;
