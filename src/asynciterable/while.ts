@@ -1,9 +1,24 @@
 'use strict';
 
-export async function* _while<T>(
-    condition: () => boolean,
-    source: AsyncIterable<T>,): AsyncIterable<T> {
-  while (condition()) {
-    for await (let item of source) { yield item; }
+import { AsyncIterableX } from '../asynciterable';
+
+class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+  private _condition: () => boolean;
+  private _source: AsyncIterable<TSource>;
+
+  constructor(condition: () => boolean, source: AsyncIterable<TSource>) {
+    super();
+    this._condition = condition;
+    this._source = source;
   }
+
+  async *[Symbol.asyncIterator]() {
+    while (this._condition()) {
+      yield* this._source;
+    }
+  }
+}
+
+export function _while<TSource>(condition: () => boolean, source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+  return new WhileAsyncIterable<TSource>(condition, source);
 }

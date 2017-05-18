@@ -4,7 +4,7 @@ import { flatten } from '../../asynciterable/flatten';
 export function flattenProto<T>(
     this: AsyncIterableX<T>,
     depth?: number): AsyncIterableX<T> {
-  return new AsyncIterableX(flatten(this, depth));
+  return flatten(this, depth);
 }
 
 AsyncIterableX.prototype.flatten = flattenProto;

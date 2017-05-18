@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../../asynciterable';
 import { range } from '../../asynciterable/range';
 
 export function _range(start: number, count: number): AsyncIterableX<number> {
-  return new AsyncIterableX(range(start, count));
+  return range(start, count);
 }
 
 AsyncIterableX.range = _range;

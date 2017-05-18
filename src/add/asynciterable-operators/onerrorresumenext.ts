@@ -4,7 +4,7 @@ import { onErrorResumeNext } from '../../asynciterable/onerrorresumenext';
 export function onErrorResumeNextProto<TSource>(
     this: AsyncIterableX<TSource>,
     ...args: AsyncIterable<TSource>[]): AsyncIterableX<TSource> {
-  return new AsyncIterableX(onErrorResumeNext(this, ...args));
+  return onErrorResumeNext(this, ...args);
 }
 
 AsyncIterableX.prototype.onErrorResumeNext = onErrorResumeNextProto;

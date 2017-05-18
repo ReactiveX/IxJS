@@ -5,7 +5,7 @@ export function maxByProto<TSource, TKey>(
     this: AsyncIterableX<TSource>,
     keyFn: (x: TSource) => TKey,
     cmp?: (x: TKey, y: TKey) => number): AsyncIterableX<TSource> {
-  return new AsyncIterableX(maxBy(this, keyFn, cmp));
+  return maxBy(this, keyFn, cmp);
 }
 
 AsyncIterableX.prototype.maxBy = maxByProto;

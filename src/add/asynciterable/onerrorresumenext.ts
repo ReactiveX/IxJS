@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../../asynciterable';
 import { onErrorResumeNextStatic } from '../../asynciterable/onerrorresumenext';
 
 export function _onErrorResumeNextStatic<T>(...args: AsyncIterable<T>[]) {
-  return new AsyncIterableX(onErrorResumeNextStatic(...args));
+  return onErrorResumeNextStatic(...args);
 }
 
 AsyncIterableX.onErrorResumeNext = _onErrorResumeNextStatic;

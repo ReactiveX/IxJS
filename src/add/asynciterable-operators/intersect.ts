@@ -5,7 +5,7 @@ export function intersectProto<T>(
     this: AsyncIterableX<T>,
     second: AsyncIterable<T>,
     comparer?: (x: T, y: T) => boolean) {
-  return new AsyncIterableX(intersect(this, second, comparer));
+  return intersect(this, second, comparer);
 }
 
 AsyncIterableX.prototype.intersect = intersectProto;

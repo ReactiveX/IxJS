@@ -5,7 +5,7 @@ export function _if<T>(
     fn: () => boolean,
     thenSource: AsyncIterable<T>,
     elseSource?: AsyncIterable<T>): AsyncIterableX<T> {
-  return new AsyncIterableX<T>(ifStatic<T>(fn, thenSource, elseSource));
+  return ifStatic<T>(fn, thenSource, elseSource);
 }
 
 AsyncIterableX.if = _if;

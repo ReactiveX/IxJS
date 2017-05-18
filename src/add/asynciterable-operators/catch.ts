@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../../asynciterable';
 import { _catch } from '../../asynciterable/catch';
 
 export function catchProto<T>(this: AsyncIterableX<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return new AsyncIterableX(_catch<T>(this, ...args));
+  return _catch<T>(this, ...args);
 }
 
 AsyncIterableX.prototype.catch = catchProto;

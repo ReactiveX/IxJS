@@ -1,9 +1,12 @@
 'use strict';
 
-class AnonymousAsyncIterable<T> implements AsyncIterable<T> {
+import { AsyncIterableX } from '../asynciterable';
+
+class AnonymousAsyncIterable<T> extends AsyncIterableX<T> {
   private _fn: () => AsyncIterator<T>;
 
   constructor(fn: () => AsyncIterator<T>) {
+    super();
     this._fn = fn;
   }
 
@@ -12,6 +15,6 @@ class AnonymousAsyncIterable<T> implements AsyncIterable<T> {
   }
 }
 
-export function create<T>(fn: () => AsyncIterator<T>): AsyncIterable<T> {
+export function create<T>(fn: () => AsyncIterator<T>): AsyncIterableX<T> {
   return new AnonymousAsyncIterable(fn);
 }

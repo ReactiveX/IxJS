@@ -1,9 +1,26 @@
 'use strict';
 
-export async function* take<TSource>(source: AsyncIterable<TSource>, count: number): AsyncIterable<TSource> {
-  let i = count;
-  for await (let item of source) {
-    if (i-- === 0) { break; }
-    yield item;
+import { AsyncIterableX } from '../asynciterable';
+
+class TakeAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+  private _source: AsyncIterable<TSource>;
+  private _count: number;
+
+  constructor(source: AsyncIterable<TSource>, count: number) {
+    super();
+    this._source = source;
+    this._count = count;
   }
+
+  async *[Symbol.asyncIterator]() {
+    let i = this._count;
+    for await (let item of this._source) {
+      if (i-- === 0) { break; }
+      yield item;
+    }
+  }
+}
+
+export function take<TSource>(source: AsyncIterable<TSource>, count: number): AsyncIterableX<TSource> {
+  return new TakeAsyncIterable<TSource>(source, count);
 }

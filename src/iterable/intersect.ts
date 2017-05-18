@@ -43,6 +43,6 @@ class IntersectIterable<TSource> extends IterableX<TSource> {
 export function intersect<TSource>(
       first: Iterable<TSource>,
       second: Iterable<TSource>,
-      comparer: (x: TSource, y: TSource) => boolean = defaultComparer): Iterable<TSource> {
+      comparer: (x: TSource, y: TSource) => boolean = defaultComparer): IterableX<TSource> {
   return new IntersectIterable<TSource>(first, second, comparer);
 }

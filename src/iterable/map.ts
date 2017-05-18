@@ -17,7 +17,7 @@ class MapIterable<TSource, TResult> extends IterableX<TResult> {
     let i = 0;
     for (let item of this._source) {
       yield this._selector(item, i++);
-    }    
+    }
   }
 }
 

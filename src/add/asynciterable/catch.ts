@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../../asynciterable';
 import { _catchStatic as catchStatic } from '../../asynciterable/catch';
 
 export function _catchStatic<T>(...args: AsyncIterable<T>[]) {
-  return new AsyncIterableX<T>(catchStatic<T>(...args));
+  return catchStatic<T>(...args);
 }
 
 AsyncIterableX.catch = _catchStatic;

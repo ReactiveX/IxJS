@@ -4,7 +4,7 @@ import { share } from '../../asynciterable/share';
 export function shareProto<TSource, TResult>(
     this: AsyncIterableX<TSource>,
     fn?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterableX<TSource | TResult> {
-  return new AsyncIterableX(share(this, fn));
+  return share(this, fn);
 }
 
 AsyncIterableX.prototype.share = shareProto;

@@ -4,7 +4,7 @@ import { retry } from '../../asynciterable/retry';
 export function retryProto<TSource>(
     this: AsyncIterableX<TSource>,
     count: number = -1): AsyncIterableX<TSource> {
-  return new AsyncIterableX(retry(this, count));
+  return retry(this, count);
 }
 
 AsyncIterableX.prototype.retry = retryProto;

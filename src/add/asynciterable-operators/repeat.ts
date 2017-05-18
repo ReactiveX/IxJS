@@ -4,7 +4,7 @@ import { repeat } from '../../asynciterable/repeat';
 export function repeatProto<TSource>(
     this: AsyncIterableX<TSource>,
     count: number = -1): AsyncIterableX<TSource> {
-  return new AsyncIterableX(repeat(this, count));
+  return repeat(this, count);
 }
 
 AsyncIterableX.prototype.repeat = repeatProto;

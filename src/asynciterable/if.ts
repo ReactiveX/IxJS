@@ -1,11 +1,12 @@
 'use strict';
 
+import { AsyncIterableX } from '../asynciterable';
 import { defer } from './defer';
 import { empty } from './empty';
 
-export async function* _if<T>(
+export function _if<TSource>(
     fn: () => boolean,
-    thenSource: AsyncIterable<T>,
-    elseSource = empty<T>()): AsyncIterable<T> {
-  return defer<T>(() => fn() ? thenSource : elseSource);
+    thenSource: AsyncIterable<TSource>,
+    elseSource: AsyncIterable<TSource> = empty<TSource>()): AsyncIterableX<TSource> {
+  return defer<TSource>(() => fn() ? thenSource : elseSource);
 }

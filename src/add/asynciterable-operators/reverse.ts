@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../../asynciterable';
 import { reverse } from '../../asynciterable/reverse';
 
 export function reverseProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource> {
-  return new AsyncIterableX(reverse(this));
+  return reverse(this);
 }
 
 AsyncIterableX.prototype.reverse = reverseProto;

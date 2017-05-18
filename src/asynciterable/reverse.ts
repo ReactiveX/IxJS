@@ -1,9 +1,24 @@
 'use strict';
 
-export async function* reverse<T>(source: AsyncIterable<T>): AsyncIterable<T> {
-  let results = [];
-  for await (let item of source) {
-    results.unshift(item);
+import { AsyncIterableX } from '../asynciterable';
+
+class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+  private _source: AsyncIterable<TSource>;
+
+  constructor(source: AsyncIterable<TSource>) {
+    super();
+    this._source = source;
   }
-  for (let result of results) { yield result; }
+
+  async *[Symbol.asyncIterator]() {
+    let results = [];
+    for await (let item of this._source) {
+      results.unshift(item);
+    }
+    yield* results;
+  }
+}
+
+export function reverse<TSource>(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+  return new ReverseAsyncIterable<TSource>(source);
 }

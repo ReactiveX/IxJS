@@ -5,7 +5,7 @@ export function filterProto<T>(
     this: AsyncIterableX<T>,
     fn: (value: T, index: number) => boolean,
     thisArg?: any): AsyncIterableX<T> {
-  return new AsyncIterableX(filter<T>(this, fn, thisArg));
+  return filter<T>(this, fn, thisArg);
 }
 
 AsyncIterableX.prototype.filter = filterProto;

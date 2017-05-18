@@ -5,7 +5,7 @@ export function _case<TSource, TResult>(
     fn: () => TSource,
     sources: Map<TSource, AsyncIterable<TResult>>,
     defaultSource?: AsyncIterable<TResult>): AsyncIterableX<TResult> {
-  return new AsyncIterableX(caseStatic(fn, sources, defaultSource));
+  return caseStatic(fn, sources, defaultSource);
 }
 
 AsyncIterableX.case = _case;

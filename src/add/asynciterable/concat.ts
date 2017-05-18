@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../../asynciterable';
 import { concatStatic } from '../../asynciterable/concat';
 
 export function _concat<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return new AsyncIterableX<T>(concatStatic<T>(...args));
+  return concatStatic<T>(...args);
 }
 
 AsyncIterableX.concat = _concat;

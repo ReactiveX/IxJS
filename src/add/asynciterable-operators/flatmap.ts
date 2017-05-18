@@ -5,7 +5,7 @@ export function flatMapProto<TSource, TResult>(
     this: AsyncIterableX<TSource>,
     fn: (value: TSource) => AsyncIterable<TResult>,
     thisArg?: any): AsyncIterableX<TResult> {
-  return new AsyncIterableX(flatMap<TSource, TResult>(this, fn));
+  return flatMap<TSource, TResult>(this, fn);
 }
 
 AsyncIterableX.prototype.flatMap = flatMapProto;

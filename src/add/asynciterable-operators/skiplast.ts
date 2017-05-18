@@ -4,7 +4,7 @@ import { skipLast } from '../../asynciterable/skiplast';
 export function skipLastProto<T>(
     this: AsyncIterableX<T>,
     count: number): AsyncIterableX<T> {
-  return new AsyncIterableX(skipLast(this, count));
+  return skipLast(this, count);
 }
 
 AsyncIterableX.prototype.skipLast = skipLastProto;

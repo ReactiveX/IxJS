@@ -4,7 +4,7 @@ import { _while as whileStatic } from '../../asynciterable/while';
 export function _while<T>(
     fn: () => boolean,
     source: AsyncIterable<T>): AsyncIterableX<T> {
-  return new AsyncIterableX<T>(whileStatic<T>(fn, source));
+  return whileStatic<T>(fn, source);
 }
 
 AsyncIterableX.while = _while;

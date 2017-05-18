@@ -3,7 +3,7 @@ import { tap } from '../../asynciterable/tap';
 import { PartialObserver } from '../../observer';
 
 export function tapProto<T>(this: AsyncIterableX<T>, observer: PartialObserver<T>): AsyncIterableX<T> {
-  return new AsyncIterableX(tap(this, observer));
+  return tap(this, observer);
 }
 
 AsyncIterableX.prototype.tap = tapProto;

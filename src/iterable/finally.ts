@@ -23,6 +23,6 @@ class FinalyIterable<TSource> extends IterableX<TSource> {
 
 export function _finally<TSource>(
     source: Iterable<TSource>,
-    action: () => void): Iterable<TSource> {
+    action: () => void): IterableX<TSource> {
   return new FinalyIterable<TSource>(source, action);
 }

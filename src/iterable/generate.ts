@@ -28,9 +28,9 @@ class GenerateIterable<TState, TResult> extends IterableX<TResult> {
 }
 
 export function generate<TState, TResult>(
-      initialState: TState,
-      condition: (value: TState) => boolean,
-      iterate: (value: TState) => TState,
-      resultSelector: (value: TState) => TResult): IterableX<TResult> {
+    initialState: TState,
+    condition: (value: TState) => boolean,
+    iterate: (value: TState) => TState,
+    resultSelector: (value: TState) => TResult): IterableX<TResult> {
   return new GenerateIterable<TState, TResult>(initialState, condition, iterate, resultSelector);
 }

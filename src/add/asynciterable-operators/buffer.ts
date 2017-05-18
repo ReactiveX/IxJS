@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../../asynciterable';
 import { buffer } from '../../asynciterable/buffer';
 
 export function bufferProto<T>(this: AsyncIterableX<T>, count: number, skip?: number): AsyncIterableX<T[]> {
-  return new AsyncIterableX(buffer<T>(this, count, skip));
+  return buffer<T>(this, count, skip);
 }
 
 AsyncIterableX.prototype.buffer = bufferProto;

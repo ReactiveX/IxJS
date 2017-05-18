@@ -4,7 +4,7 @@ import { distinctUntilChanged } from '../../iterable/distinctuntilchanged';
 export function distinctUntilChangedProto<TSource, TKey>(
     this: IterableX<TSource>,
     keySelector?: (value: TSource) => TKey,
-    cmp?: (x: TKey | TSource, y: TKey | TSource) => boolean): IterableX<TSource> {
+    cmp?: (x: TKey, y: TKey) => boolean): IterableX<TSource> {
   return distinctUntilChanged(this, keySelector, cmp);
 }
 
