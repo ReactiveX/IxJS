@@ -13,14 +13,10 @@ class SkipWhileIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let it = this._source[Symbol.iterator](), i = 0, next;
-    while (!(next = it.next()).done) {
-      if (!this._predicate(next.value, i++)) {
-        yield next.value;
-        while (!(next = it.next()).done) {
-          yield next.value;
-        }
-      }
+    let yielding = false, i = 0;
+    for (let element of this._source) {
+      if (!yielding && !this._predicate(element, i++)) { yielding = true; }
+      if (yielding) { yield element; }
     }
   }
 }

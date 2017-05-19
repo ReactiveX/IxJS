@@ -17,31 +17,18 @@ class UnionIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let it, leftDone = false, rightDone = false, map = [];
-    while (1) {
-      if (!it) {
-        if (rightDone) {
-          break;
-        }
-
-        if (!leftDone) {
-          it = this._left[Symbol.iterator]();
-          leftDone = true;
-        } else {
-          it = this._right[Symbol.iterator]();
-          rightDone = true;
-        }
+    let map = [];
+    for (let lItem of this._left) {
+      if (arrayIndexOf(map, lItem, this._comparer) !== -1) {
+        map.push(lItem);
+        yield lItem;
       }
+    }
 
-      let next = it.next();
-      if (next.done) {
-        it = null;
-      } else {
-        let current = next.value;
-        if (arrayIndexOf(map, current, this._comparer) !== -1) {
-          map.push(current);
-          yield current;
-        }
+    for (let rItem of this._right) {
+      if (arrayIndexOf(map, rItem, this._comparer) !== -1) {
+        map.push(rItem);
+        yield rItem;
       }
     }
   }

@@ -160,6 +160,6 @@ test('Iterable#publish with selector', t => {
   );
 
   t.true(sequenceEqual(res, map(range(0, 4), x => x * 2)));
-  t.equal(5, n);
+  t.equal(4, n);
   t.end();
 });

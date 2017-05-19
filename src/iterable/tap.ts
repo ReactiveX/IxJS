@@ -19,19 +19,17 @@ class TapIterable<TSource> extends IterableX<TSource> {
       let next;
       try {
         next = it.next();
+        if (next.done) { break; }
       } catch (e) {
         if (this._observer.error) { this._observer.error(e); }
         throw e;
       }
 
-      if (next.done) {
-        if (this._observer.complete) { this._observer.complete(); }
-        break;
-      }
-
       if (this._observer.next) { this._observer.next(next.value); }
       yield next.value;
     }
+
+    if (this._observer.complete) { this._observer.complete(); }
   }
 }
 

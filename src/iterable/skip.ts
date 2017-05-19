@@ -13,14 +13,14 @@ class SkipIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let next, it = this._source[Symbol.iterator]();
-    for (let i = 0; i < this._count; i++) {
-      next = it.next();
-      if (next.done) { return; }
+    let it = this._source[Symbol.iterator](), count = this._count, next;
+    while (count > 0 && !(next = it.next()).done) {
+      count--;
     }
-
-    while (!(next = it.next()).done) {
-      yield next.value;
+    if (count <= 0) {
+      while (!(next = it.next()).done) {
+        yield next.value;
+      }
     }
   }
 }

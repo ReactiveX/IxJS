@@ -65,6 +65,6 @@ test('Iterable#share with selector', t => {
   );
 
   t.true(sequenceEqual(res, [0 + 1, 2 + 3, 4 + 5, 6 + 7]));
-  t.equal(10, n);
+  t.equal(8, n);
   t.end();
 });

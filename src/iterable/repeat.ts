@@ -15,11 +15,11 @@ class RepeatIterable<TSource> extends IterableX<TSource> {
   *[Symbol.iterator]() {
     if (this._count === -1) {
       while (1) {
-        yield* this._source;
+        for (let item of this._source) { yield item; }
       }
     } else {
       for (let i = 0; i < this._count; i++) {
-        yield* this._source;
+        for (let item of this._source) { yield item; }
       }
     }
   }

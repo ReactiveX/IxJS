@@ -1,3 +1,5 @@
+'use strict';
+
 import  * as test  from 'tape';
 import { range } from '../../dist/cjs/iterable/range';
 import { tap } from '../../dist/cjs/iterable/tap';
