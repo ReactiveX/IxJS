@@ -1,3 +1,5 @@
+'use strict';
+
 import  * as test  from 'tape';
 import { elementAt } from '../../dist/cjs/iterable/elementat';
 import { first } from '../../dist/cjs/iterable/first';

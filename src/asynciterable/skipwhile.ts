@@ -13,14 +13,10 @@ class SkipWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let it = this._source[Symbol.asyncIterator](), i = 0, next;
-    while (!(next = await it.next()).done) {
-      if (!this._predicate(next.value, i++)) {
-        yield next.value;
-        while (!(next = await it.next()).done) {
-          yield next.value;
-        }
-      }
+    let yielding = false, i = 0;
+    for await (let element of this._source) {
+      if (!yielding && !this._predicate(element, i++)) { yielding = true; }
+      if (yielding) { yield element; }
     }
   }
 }

@@ -1,3 +1,5 @@
+'use strict';
+
 import  * as test  from 'tape';
 import { count } from '../../dist/cjs/iterable/count';
 import { elementAt } from '../../dist/cjs/iterable/elementat';

@@ -2,7 +2,7 @@
 
 export async function single<T>(source: AsyncIterable<T>, fn: (value: T) => boolean = () => true): Promise<T | undefined> {
   let result: T | undefined;
-  let hasResult = true;
+  let hasResult = false;
   for await (let item of source) {
     if (hasResult && fn(item)) {
       throw new Error('More than one element was found');

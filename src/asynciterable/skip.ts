@@ -13,14 +13,14 @@ class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let next, it = this._source[Symbol.asyncIterator]();
-    for (let i = 0; i < this._count; i++) {
-      next = await it.next();
-      if (next.done) { return; }
+    let it = this._source[Symbol.asyncIterator](), count = this._count, next;
+    while (count > 0 && !(next = await it.next()).done) {
+      count--;
     }
-
-    while (!(next = await it.next()).done) {
-      yield next.value;
+    if (count <= 0) {
+      while (!(next = await it.next()).done) {
+        yield next.value;
+      }
     }
   }
 }
