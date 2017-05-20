@@ -13,23 +13,24 @@ class CatchWithIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let err = null, it = this._source[Symbol.iterator]();
+    let err, hasError = false, it = this._source[Symbol.iterator]();
     while (1) {
       let c = <IteratorResult<TSource>>{};
 
       try {
-        let c = it.next();
+        c = it.next();
         if (c.done) { break; }
       } catch (e) {
         err = this._handler(e);
+        hasError = true;
         break;
       }
 
       yield c.value;
     }
 
-    if (err !== null) {
-      for (let item of err) {
+    if (hasError) {
+      for (let item of err!) {
         yield item;
       }
     }    

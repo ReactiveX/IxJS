@@ -11,10 +11,11 @@ class CatchIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let error = null;
+    let error = null, hasError = false;
 
     for (let outer of this._source) {
       error = null;
+      hasError = false;
       let it = outer[Symbol.iterator]();
 
       while (true) {
@@ -24,16 +25,17 @@ class CatchIterable<TSource> extends IterableX<TSource> {
           if (next.done) { break; }
         } catch (e) {
           error = e;
+          hasError = true;
           break;
         }
 
         yield next.value;
       }
 
-      if (error !== null) { break; }
+      if (hasError) { break; }
     }
 
-    if (error !== null) { throw error; }
+    if (hasError) { throw error; }
   }
 }
 
