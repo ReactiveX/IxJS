@@ -13,11 +13,11 @@ class TakeLastIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
+    if (this._count === 0) { return; }
+
     let q = [];
     for (let item of this._source) {
-      if (q.length >= this._count) {
-        q.shift();
-      }
+      if (q.length >= this._count) { q.shift(); }
       q.push(item);
     }
 

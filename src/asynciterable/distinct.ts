@@ -25,7 +25,7 @@ class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
 
     for await (let item of this._source) {
       let key = this._keySelector(item);
-      if (arrayIndexOf(set, key, this._comparer) !== -1) {
+      if (arrayIndexOf(set, key, this._comparer) === -1) {
         set.push(key);
         yield item;
       }

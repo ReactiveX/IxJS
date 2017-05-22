@@ -11,29 +11,34 @@ class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let error = null;
+    let error = null, hasError = false;
 
-    for (let outer of this._source) {
+    for (let source of this._source) {
+      const it = source[Symbol.asyncIterator]();
+
       error = null;
-      let it = outer[Symbol.asyncIterator]();
+      hasError = false;
 
       while (1) {
-        let next = null;
+        let c = <TSource>{};
+
         try {
-          next = await it.next();
-          if (next.done) { break; }
+          const { done, value } = await it.next();
+          if (done) { break; }
+          c = value;
         } catch (e) {
           error = e;
+          hasError = true;
           break;
         }
 
-        yield next.value;
+        yield c;
       }
 
-      if (error !== null) { break; }
+      if (!hasError) { break; }  
     }
 
-    if (error !== null) { throw error; }
+    if (hasError) { throw error; }
   }
 }
 

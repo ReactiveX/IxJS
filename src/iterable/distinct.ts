@@ -22,7 +22,7 @@ class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
 
     for (let item of this._source) {
       let key = this._keySelector(item);
-      if (arrayIndexOf(set, key, this._cmp) !== -1) {
+      if (arrayIndexOf(set, key, this._cmp) === -1) {
         set.push(key);
         yield item;
       }

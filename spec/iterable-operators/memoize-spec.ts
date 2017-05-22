@@ -2,9 +2,16 @@
 
 import  * as test  from 'tape';
 import { concat } from '../../dist/cjs/iterable/concat';
+import { every } from '../../dist/cjs/iterable/every';
+import { map } from '../../dist/cjs/iterable/map';
 import { memoize } from '../../dist/cjs/iterable/memoize';
 import { range } from '../../dist/cjs/iterable/range';
+import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
+import { take } from '../../dist/cjs/iterable/take';
+import { tap } from '../../dist/cjs/iterable/tap';
 import { _throw } from '../../dist/cjs/iterable/throw';
+import { toArray } from '../../dist/cjs/iterable/toarray';
+import { zip } from '../../dist/cjs/iterable/zip';
 import { hasNext  , noNext } from '../iterablehelpers';
 
 function* tick(t: (x: number) => void) {
@@ -144,5 +151,52 @@ test('Iterable#memoize concat with error', t => {
   hasNext(t, it2, 1);
   t.throws(() => it2.next());
 
+  t.end();
+});
+
+function getRandom() {
+  let min = 0, max = Math.pow(2, 53) - 1;
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function* rand() {
+  while (1) {
+    yield getRandom();
+  }
+}
+
+test('Iterable#memoize should share effects of random', t => {
+  const rnd = memoize(take(rand(), 100));
+  t.true(every(zip(rnd, rnd, (l, r) => l === r), x => x));
+  t.end();
+});
+
+test('Iterable#memoize with selector', t => {
+  let n = 0;
+  const res = toArray(
+    memoize(
+      tap(range(0, 4), { next: () => n++ }),
+      undefined,
+      xs => take(zip(xs, xs, (l, r) => l + r), 4)
+    )
+  );
+
+  t.true(sequenceEqual(res, map(range(0, 4), x => x * 2)));
+  t.equal(4, n);
+  t.end();
+});
+
+test('Iterable#memoize limited with selector', t => {
+  let n = 0;
+  const res = toArray(
+    memoize(
+      tap(range(0, 4), { next: () => n++ }),
+      2,
+      xs => take(zip(xs, xs, (l, r) => l + r), 4)
+    )
+  );
+
+  t.true(sequenceEqual(res, map(range(0, 4), x => x * 2)));
+  t.equal(4, n);
   t.end();
 });
