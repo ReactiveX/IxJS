@@ -3,7 +3,7 @@ import { startWith } from '../../asynciterable/startwith';
 
 export function startWithProto<T>(
     this: AsyncIterableX<T>,
-    ...args: AsyncIterable<T>[]) {
+    ...args: T[]) {
   return startWith(this, ...args);
 }
 

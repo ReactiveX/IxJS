@@ -3,7 +3,7 @@ import { startWith } from '../../iterable/startwith';
 
 export function startWithProto<T>(
     this: IterableX<T>,
-    ...args: Iterable<T>[]) {
+    ...args: T[]) {
   return startWith(this, ...args);
 }
 
