@@ -13,6 +13,11 @@ test('Iterable#first no predicate returns first', t => {
   t.end();
 });
 
+test('Iterable#first predicate empty returns undefined', t => {
+  t.equal(first<number>([], () => true), undefined);
+  t.end();
+});
+
 test('Iterable#first predicate hits returns value', t => {
   t.equal(first([1, 2, 3], x => x % 2 === 0), 2);
   t.end();
