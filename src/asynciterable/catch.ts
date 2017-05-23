@@ -35,7 +35,7 @@ class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
         yield c;
       }
 
-      if (!hasError) { break; }  
+      if (!hasError) { break; }
     }
 
     if (hasError) { throw error; }

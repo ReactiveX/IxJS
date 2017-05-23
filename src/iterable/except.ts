@@ -27,7 +27,7 @@ class ExceptIterable<TSource> extends IterableX<TSource> {
         map.push(secondItem);
         yield secondItem;
       }
-    }    
+    }
   }
 }
 

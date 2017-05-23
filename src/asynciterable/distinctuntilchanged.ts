@@ -8,7 +8,7 @@ class DistinctUntilChangedAsyncIterable<TSource, TKey> extends AsyncIterableX<TS
   private _source: AsyncIterable<TSource>;
   private _keySelector: (value: TSource) => TKey;
   private _comparer: (x: TKey, y: TKey) => boolean;
-  
+
   constructor(
       source: AsyncIterable<TSource>,
       keySelector: (value: TSource) => TKey,

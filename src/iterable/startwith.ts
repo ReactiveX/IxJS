@@ -5,7 +5,7 @@ import { IterableX } from '../iterable';
 class StartWithIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _args: TSource[];
-  
+
   constructor(source: Iterable<TSource>, args: TSource[]) {
     super();
     this._source = source;
@@ -13,11 +13,9 @@ class StartWithIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    for (let x of this._args)
-        yield x;
+    for (let x of this._args) { yield x; }
 
-    for (let item of this._source)
-        yield item;
+    for (let item of this._source) { yield item; }
   }
 }
 

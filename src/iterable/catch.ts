@@ -35,7 +35,7 @@ class CatchIterable<TSource> extends IterableX<TSource> {
         yield c;
       }
 
-      if (!hasError) { break; }  
+      if (!hasError) { break; }
     }
 
     if (hasError) { throw error; }

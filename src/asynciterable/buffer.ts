@@ -14,11 +14,11 @@ class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
       super();
     this._source = source;
     this._count = count;
-    this._skip = skip;    
+    this._skip = skip;
   }
 
   async *[Symbol.asyncIterator]() {
-    
+
     let buffers: TSource[][] = [],  i = 0;
     for await (let item of this._source) {
       if (i % this._skip === 0) {
@@ -38,7 +38,7 @@ class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 
     while (buffers.length > 0) {
       yield buffers.shift()!;
-    }    
+    }
   }
 }
 

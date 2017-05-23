@@ -8,7 +8,6 @@ class EmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-
 export function empty<TSource>(): AsyncIterableX<TSource> {
   return new EmptyAsyncIterable<TSource>();
 }

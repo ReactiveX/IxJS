@@ -33,7 +33,7 @@ class CatchWithIterable<TSource> extends IterableX<TSource> {
       for (let item of err!) {
         yield item;
       }
-    }    
+    }
   }
 }
 

@@ -30,7 +30,7 @@ class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
         currentKey = key;
         yield item;
       }
-    }    
+    }
   }
 }
 

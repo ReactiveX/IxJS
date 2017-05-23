@@ -9,7 +9,7 @@ export function defaultCompare<T>(key: T, minValue: T): number {
 class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _keyFn: (x: TSource) => TKey;
-  private _cmp: (x: TKey, y:TKey) => number;
+  private _cmp: (x: TKey, y: TKey) => number;
 
   constructor(
       source: AsyncIterable<TSource>,

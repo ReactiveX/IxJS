@@ -8,7 +8,6 @@ class EmptyIterable<TSource> extends IterableX<TSource> {
   }
 }
 
-
 export function empty<TSource>(): IterableX<TSource> {
   return new EmptyIterable<TSource>();
 }

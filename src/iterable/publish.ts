@@ -33,7 +33,7 @@ class PublishedBuffer<T> extends IterableX<T> {
           }
 
           if (this._stopped) {
-            if (this._error) { 
+            if (this._error) {
               throw this._error;
             } else {
               break;
