@@ -16,3 +16,11 @@ test('Iterable#toSet empty', t => {
   t.equal(res.size, 0);
   t.end();
 });
+
+test('Iterable#toSet trims', t => {
+  const xs = [1, 2, 3, 3, 2, 1];
+  const ys = [1, 2, 3];
+  const res = toSet(xs);
+  t.true(sequenceEqual(res, ys));
+  t.end();
+});
