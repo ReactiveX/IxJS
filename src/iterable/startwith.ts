@@ -14,7 +14,6 @@ class StartWithIterable<TSource> extends IterableX<TSource> {
 
   *[Symbol.iterator]() {
     for (let x of this._args) { yield x; }
-
     for (let item of this._source) { yield item; }
   }
 }
