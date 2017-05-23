@@ -24,6 +24,10 @@ export async function reduce<T, R = T>(
     }
   }
 
+  if (hasSeed && !hasValue) {
+    return seed!;
+  }
+
   if (!hasValue) {
     throw new Error('Sequence contains no elements');
   }

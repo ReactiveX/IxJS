@@ -20,6 +20,10 @@ export function reduce<T, R>(
     }
   }
 
+  if (hasSeed && !hasValue) {
+    return seed!;
+  }
+
   if (!hasValue) {
     throw new Error('Sequence contains no elements');
   }
