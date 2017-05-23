@@ -4,7 +4,7 @@ import * as test from 'tape';
 import { first } from '../../dist/cjs/iterable/first';
 
 test('Iterable#first empty returns undefined', t => {
-  t.equal(first<number>([0]), undefined);
+  t.equal(first<number>([]), undefined);
   t.end();
 });
 
