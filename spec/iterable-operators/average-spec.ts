@@ -24,3 +24,8 @@ test('Iterable#average with selector', t => {
   t.equal(res, 4);
   t.end();
 });
+
+test('Iterable#average laws', t => {
+  const xs = [1, 2, 3];
+  t.equal(average(xs), average(xs, x => x));
+});
