@@ -9,7 +9,7 @@ import { hasNext, noNext } from '../iterablehelpers';
 test('Iterable#filter', t => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];
   const ys = filter(xs, x => x % 2 === 0);
-  
+
   const it = ys[Symbol.iterator]();
   hasNext(t, it, 8);
   hasNext(t, it, 4);
@@ -76,4 +76,4 @@ test('Iterable#filter with empty source', t => {
   const it = ys[Symbol.iterator]();
   noNext(t, it);
   t.end();
-})
+});
