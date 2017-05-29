@@ -2,6 +2,7 @@
 
 import * as test from 'tape';
 import { take } from '../../dist/cjs/iterable/take';
+import { _throw } from '../../dist/cjs/iterable/throw';
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#take zero or less takes nothing', t => {
@@ -34,5 +35,14 @@ test('Iterable#take more than count', t => {
   hasNext(t, it, 3);
   hasNext(t, it, 4);
   noNext(t, it);
+  t.end();
+});
+
+test('Iterable#take throws with error', t => {
+  const xs = _throw<number>(new Error());
+  const ys = take(xs, 2);
+
+  const it = ys[Symbol.iterator]();
+  t.throws(() => it.next());
   t.end();
 });
