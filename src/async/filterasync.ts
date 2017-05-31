@@ -5,11 +5,11 @@ import { bindCallback } from '../internal/bindcallback';
 
 class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<TSource | PromiseLike <TSource>> | AsyncIterable<TSource>;
-  private _predicate: (value: TSource, index: number) => Promise<boolean>;
+  private _predicate: (value: TSource, index: number) => Promise<boolean> | boolean;
 
   constructor(
       source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
-      predicate: (value: TSource, index: number) => Promise<boolean>) {
+      predicate: (value: TSource, index: number) => Promise<boolean> | boolean) {
     super();
     this._source = source;
     this._predicate = predicate;
@@ -27,7 +27,7 @@ class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function filter<TSource>(
     source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable < TSource >,
-    predicate: (value: TSource, index: number) => Promise<boolean>,
+    predicate: (value: TSource, index: number) => Promise<boolean> | boolean,
     thisArg?: any): AsyncIterableX<TSource> {
   return new FilterAsyncIterable<TSource>(source, bindCallback(predicate, thisArg, 2));
 }
