@@ -28,13 +28,13 @@ class IntersectIterable<TSource> extends IterableX<TSource> {
 
   *[Symbol.iterator]() {
     let map = [];
-    for (let firstItem of this._first) {
-      map.push(firstItem);
+    for (let secondItem of this._second) {
+      map.push(secondItem);
     }
 
-    for (let secondItem of this._second) {
-      if (arrayRemove(map, secondItem, this._comparer)) {
-        yield secondItem;
+    for (let firstItem of this._first) {
+      if (arrayRemove(map, firstItem, this._comparer)) {
+        yield firstItem;
       }
     }
   }
