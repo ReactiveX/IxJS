@@ -10,7 +10,7 @@ import { tap } from '../../dist/cjs/iterable/tap';
 test('Iterable#ignoreElements has side effects', t => {
   let n = 0;
   forEach(
-    take(ignoreElements(tap(range(0, 10), { next: () => n++})), 5), 
+    take(ignoreElements(tap(range(0, 10), { next: () => n++})), 5),
     () => { /* tslint:disable-next-line:no-empty */ }
   );
 
