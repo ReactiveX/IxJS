@@ -2,7 +2,22 @@
 
 import { IterableX } from '../iterable';
 import { identity } from '../internal/identity';
-import { createGrouping, GroupedIterable } from './_grouping';
+import { createGrouping } from './_grouping';
+
+export class GroupedIterable<TKey, TValue> extends IterableX<TValue> {
+  public readonly key: TKey;
+  private _source: Iterable<TValue>;
+
+  constructor(key: TKey, source: Iterable<TValue>) {
+    super();
+    this.key = key;
+    this._source = source;
+  }
+
+  [Symbol.iterator]() {
+    return this._source[Symbol.iterator]();
+  }
+}
 
 export class GroupByIterable<TSource, TKey, TValue> extends IterableX<GroupedIterable<TKey, TValue>> {
   private _source: Iterable<TSource>;

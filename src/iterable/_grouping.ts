@@ -1,22 +1,5 @@
 'use strict';
 
-import { IterableX } from '../iterable';
-
-export class GroupedIterable<TKey, TValue> extends IterableX<TValue> {
-  public readonly key: TKey;
-  private _source: Iterable<TValue>;
-
-  constructor(key: TKey, source: Iterable<TValue>) {
-    super();
-    this.key = key;
-    this._source = source;
-  }
-
-  [Symbol.iterator]() {
-    return this._source[Symbol.iterator]();
-  }
-}
-
 export function createGrouping<TSource, TKey, TValue>(
     source: Iterable<TSource>,
     keySelector: (value: TSource) => TKey,
