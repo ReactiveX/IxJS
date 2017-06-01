@@ -17,31 +17,18 @@ class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let it, leftDone = false, rightDone = false, map = [];
-    while (1) {
-      if (!it) {
-        if (rightDone) {
-          break;
-        }
-
-        if (!leftDone) {
-          it = this._left[Symbol.asyncIterator]();
-          leftDone = true;
-        } else {
-          it = this._right[Symbol.asyncIterator]();
-          rightDone = true;
-        }
+    let map = [];
+    for await (let lItem of this._left) {
+      if (arrayIndexOf(map, lItem, this._comparer) === -1) {
+        map.push(lItem);
+        yield lItem;
       }
+    }
 
-      let next = await it.next();
-      if (next.done) {
-        it = null;
-      } else {
-        let current = next.value;
-        if (arrayIndexOf(map, current, this._comparer) !== -1) {
-          map.push(current);
-          yield current;
-        }
+    for await (let rItem of this._right) {
+      if (arrayIndexOf(map, rItem, this._comparer) === -1) {
+        map.push(rItem);
+        yield rItem;
       }
     }
   }
