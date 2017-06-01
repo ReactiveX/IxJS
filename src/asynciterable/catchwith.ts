@@ -13,7 +13,7 @@ class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let err = null, it = this._source[Symbol.asyncIterator]();
+    let err: AsyncIterable<TSource> | undefined, hasError = false, it = this._source[Symbol.asyncIterator]();
     while (1) {
       let c = <IteratorResult<TSource>>{};
 
@@ -22,14 +22,15 @@ class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
         if (c.done) { break; }
       } catch (e) {
         err = this._fn(e);
+        hasError = true;
         break;
       }
 
       yield c.value;
     }
 
-    if (err !== null) {
-      for await (let item of err) {
+    if (hasError) {
+      for await (let item of err!) {
         yield item;
       }
     }
