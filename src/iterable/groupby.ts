@@ -31,6 +31,10 @@ export function groupBy<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (value: TSource) => TKey): IterableX<GroupedIterable<TKey, TSource>>;
 export function groupBy<TSource, TKey, TValue>(
+  source: Iterable<TSource>,
+  keySelector: (value: TSource) => TKey,
+  elementSelector?: (value: TSource) => TValue): IterableX<GroupedIterable<TKey, TValue>>;
+export function groupBy<TSource, TKey, TValue>(
     source: Iterable<TSource>,
     keySelector: (value: TSource) => TKey,
     elementSelector: (value: TSource) => TValue = identity): IterableX<GroupedIterable<TKey, TValue>> {
