@@ -2,7 +2,8 @@
 
 import { AsyncIterableX } from '../asynciterable';
 import { createGrouping } from './_grouping';
-import { empty } from '../iterable/empty';
+import { empty } from './empty';
+import { from } from './from';
 import { identity } from '../internal/identity';
 
 class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TResult> {
@@ -10,14 +11,14 @@ class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterabl
   private _inner: AsyncIterable<TInner>;
   private _outerSelector: (value: TOuter) => TKey;
   private _innerSelector: (value: TInner) => TKey;
-  private _resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult;
+  private _resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => TResult;
 
   constructor(
       outer: AsyncIterable<TOuter>,
       inner: AsyncIterable<TInner>,
       outerSelector: (value: TOuter) => TKey,
       innerSelector: (value: TInner) => TKey,
-      resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult) {
+      resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => TResult) {
     super();
     this._outer = outer;
     this._inner = inner;
@@ -30,7 +31,7 @@ class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterabl
     const map = await createGrouping(this._inner, this._innerSelector, identity);
     for await (let outerElement of this._outer) {
       const outerKey = this._outerSelector(outerElement);
-      const innerElements = map.has(outerKey) ? <Iterable<TInner>>map.get(outerKey) : empty<TInner>();
+      const innerElements = map.has(outerKey) ? from<TInner, TInner>(map.get(outerKey)!) : empty<TInner>();
       yield this._resultSelector(outerElement, innerElements);
     }
   }
@@ -41,7 +42,7 @@ export function groupJoin<TOuter, TInner, TKey, TResult>(
     inner: AsyncIterable<TInner>,
     outerSelector: (value: TOuter) => TKey,
     innerSelector: (value: TInner) => TKey,
-    resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult): AsyncIterableX<TResult> {
+    resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => TResult): AsyncIterableX<TResult> {
   return new GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult>(
     outer,
     inner,
