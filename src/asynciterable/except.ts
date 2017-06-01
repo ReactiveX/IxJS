@@ -21,14 +21,14 @@ class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     let map = [];
-    for await (let firstItem of this._first) {
-      map.push(firstItem);
+    for await (let secondItem of this._second) {
+      map.push(secondItem);
     }
 
-    for await (let secondItem of this._second) {
-      if (arrayIndexOf(map, secondItem, this._comparer) !== -1) {
-        map.push(secondItem);
-        yield secondItem;
+    for await (let firstItem of this._first) {
+      if (arrayIndexOf(map, firstItem, this._comparer) === -1) {
+        map.push(firstItem);
+        yield firstItem;
       }
     }
   }
