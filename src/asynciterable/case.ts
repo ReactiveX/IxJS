@@ -5,11 +5,11 @@ import { defer } from './defer';
 import { empty } from './empty';
 
 export function _case<TSource, TResult>(
-    fn: () => TSource,
+    selector: () => TSource | Promise<TSource>,
     sources: Map<TSource, AsyncIterable<TResult>>,
     defaultSource: AsyncIterable<TResult> = empty<TResult>()): AsyncIterableX<TResult> {
-  return defer<TResult>(() => {
-    const key = fn();
+  return defer<TResult>(async () => {
+    const key = await selector();
     return sources.has(key) ? sources.get(key)! : defaultSource;
   });
 }

@@ -2,9 +2,9 @@
 
 export async function first<T>(
     source: AsyncIterable<T>,
-    fn: (value: T) => boolean = () => true): Promise<T | undefined> {
+    predicate: (value: T) => boolean | Promise<boolean> = async () => true): Promise<T | undefined> {
   for await (let item of source) {
-    if (fn(item)) {
+    if (await predicate(item)) {
       return item;
     }
   }

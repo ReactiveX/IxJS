@@ -4,27 +4,29 @@ import { AsyncIterableX } from '../asynciterable';
 import { bindCallback } from '../internal/bindcallback';
 
 class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
-  private _source: AsyncIterable<TSource>;
-  private _fn: (value: TSource) => AsyncIterable<TResult>;
+  private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>;
+  private _selector: (value: TSource) => Iterable<TResult | PromiseLike<TResult>> | AsyncIterable<TResult>;
 
-  constructor(source: AsyncIterable<TSource>, fn: (value: TSource) => AsyncIterable<TResult>) {
+  constructor(
+    source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
+    selector: (value: TSource) => Iterable<TResult | PromiseLike<TResult>> | AsyncIterable<TResult>) {
     super();
     this._source = source;
-    this._fn = fn;
+    this._selector = selector;
   }
 
   async *[Symbol.asyncIterator]() {
-    for await (let outerItem of this._source) {
-      for await (let innerItem of this._fn(outerItem)) {
-        yield innerItem;
+    for await (let outer of <AsyncIterable<TSource>>(this._source)) {
+      for await (let inner of <AsyncIterable<TResult>>(this._selector(outer))) {
+        yield inner;
       }
     }
   }
 }
 
 export function flatMap<TSource, TResult>(
-    source: AsyncIterable<TSource>,
-    fn: (value: TSource) => AsyncIterable<TResult>,
+    source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
+    selector: (value: TSource) => Iterable<TResult | PromiseLike<TResult>> | AsyncIterable<TResult>,
     thisArg?: any): AsyncIterableX<TResult> {
-  return new FlatMapAsyncIterable<TSource, TResult>(source, bindCallback(fn, thisArg, 1));
+  return new FlatMapAsyncIterable<TSource, TResult>(source, bindCallback(selector, thisArg, 1));
 }

@@ -1,13 +1,13 @@
 'use strict';
 
 import { AsyncIterableX } from '../asynciterable';
-import { PartialObserver } from '../observer';
+import { PartialAsyncObserver } from '../observer';
 
 class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _observer: PartialObserver<TSource>;
+  private _observer: PartialAsyncObserver<TSource>;
 
-  constructor(source: AsyncIterable<TSource>, observer: PartialObserver<TSource>) {
+  constructor(source: AsyncIterable<TSource>, observer: PartialAsyncObserver<TSource>) {
     super();
     this._source = source;
     this._observer = observer;
@@ -20,21 +20,23 @@ class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       try {
         next = await it.next();
       } catch (e) {
-        if (this._observer.error) { this._observer.error(e); }
+        if (this._observer.error) { await this._observer.error(e); }
         throw e;
       }
 
       if (next.done) {
-        if (this._observer.complete) { this._observer.complete(); }
+        if (this._observer.complete) { await this._observer.complete(); }
         break;
       }
 
-      if (this._observer.next) { this._observer.next(next.value); }
+      if (this._observer.next) { await this._observer.next(next.value); }
       yield next.value;
     }
   }
 }
 
-export function tap<TSource>(source: AsyncIterable<TSource>, observer: PartialObserver<TSource>): AsyncIterableX<TSource> {
+export function tap<TSource>(
+    source: AsyncIterable<TSource>,
+    observer: PartialAsyncObserver<TSource>): AsyncIterableX<TSource> {
   return new TapAsyncIterable<TSource>(source, observer);
 }

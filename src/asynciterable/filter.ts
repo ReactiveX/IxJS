@@ -4,10 +4,12 @@ import { AsyncIterableX } from '../asynciterable';
 import { bindCallback } from '../internal/bindcallback';
 
 class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
-  private _source: AsyncIterable<TSource>;
-  private _predicate: (value: TSource, index: number) => boolean;
+  private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>;
+  private _predicate: (value: TSource, index: number) => Promise<boolean> | boolean;
 
-  constructor(source: AsyncIterable<TSource>, predicate: (value: TSource, index: number) => boolean) {
+  constructor(
+    source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
+    predicate: (value: TSource, index: number) => Promise<boolean> | boolean) {
     super();
     this._source = source;
     this._predicate = predicate;
@@ -15,17 +17,17 @@ class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     let i = 0;
-    for await (let item of this._source) {
-      if (this._predicate(item, i++)) {
+    for await (let item of <AsyncIterable<TSource>>(this._source)) {
+      if (await this._predicate(item, i++)) {
         yield item;
       }
     }
   }
 }
 
-export function filter<T>(
-    source: AsyncIterable<T>,
-    predicate: (value: T, index: number) => boolean,
-    thisArg?: any): AsyncIterableX<T> {
-  return new FilterAsyncIterable<T>(source, bindCallback(predicate, thisArg, 2));
+export function filter<TSource>(
+    source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
+    predicate: (value: TSource, index: number) => Promise<boolean> | boolean,
+    thisArg?: any): AsyncIterableX<TSource> {
+  return new FilterAsyncIterable<TSource>(source, bindCallback(predicate, thisArg, 2));
 }

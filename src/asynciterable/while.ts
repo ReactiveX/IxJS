@@ -3,22 +3,24 @@
 import { AsyncIterableX } from '../asynciterable';
 
 class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
-  private _condition: () => boolean;
+  private _condition: () => boolean | Promise<boolean>;
   private _source: AsyncIterable<TSource>;
 
-  constructor(condition: () => boolean, source: AsyncIterable<TSource>) {
+  constructor(condition: () => boolean | Promise<boolean>, source: AsyncIterable<TSource>) {
     super();
     this._condition = condition;
     this._source = source;
   }
 
   async *[Symbol.asyncIterator]() {
-    while (this._condition()) {
-      yield* this._source;
+    while (await this._condition()) {
+      for await (let item of this._source) { yield item; }
     }
   }
 }
 
-export function _while<TSource>(condition: () => boolean, source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+export function _while<TSource>(
+    condition: () => boolean | Promise<boolean>, 
+    source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
   return new WhileAsyncIterable<TSource>(condition, source);
 }

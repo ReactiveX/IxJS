@@ -20,11 +20,17 @@ export function share<TSource>(
     source: AsyncIterable<TSource>): AsyncIterableX<TSource>;
 export function share<TSource, TResult>(
     source: AsyncIterable<TSource>,
-    fn?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterableX<TResult>;
+    selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>):
+      AsyncIterableX<TResult>;
 export function share<TSource, TResult = TSource>(
     source: AsyncIterable<TSource>,
-    fn?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterableX<TSource | TResult> {
-  return fn ?
-    create<TResult>(() => fn(new SharedAsyncIterable(source[Symbol.asyncIterator]()))[Symbol.asyncIterator]()) :
+    selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>):
+      AsyncIterableX<TSource | TResult> {
+  return selector ?
+    create<TResult>(
+      async () => {
+        const it = await selector(new SharedAsyncIterable(source[Symbol.asyncIterator]()));
+        return it[Symbol.asyncIterator]();
+       }) :
     new SharedAsyncIterable<TSource>(source[Symbol.asyncIterator]());
 }

@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { filter } from '../../asynciterable/filter';
 
-export function filterProto<T>(
-    this: AsyncIterableX<T>,
-    fn: (value: T, index: number) => boolean,
-    thisArg?: any): AsyncIterableX<T> {
-  return filter<T>(this, fn, thisArg);
+export function filterProto<TSource>(
+    this: AsyncIterable<TSource>,
+    predicate: (value: TSource, index: number) => Promise<boolean> | boolean,
+    thisArg?: any): AsyncIterableX<TSource> {
+  return filter<TSource>(this, predicate, thisArg);
 }
 
 AsyncIterableX.prototype.filter = filterProto;
