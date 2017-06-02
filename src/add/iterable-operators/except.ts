@@ -3,7 +3,7 @@ import { except } from '../../iterable/except';
 
 export function exceptProto<TSource>(
     this: IterableX<TSource>,
-    second: IterableX<TSource>,
+    second: Iterable<TSource>,
     comparer?: (x: TSource, y: TSource) => boolean): IterableX<TSource> {
   return except(this, second, comparer);
 }

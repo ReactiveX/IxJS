@@ -26,6 +26,6 @@ class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function expand<TSource>(
     source: AsyncIterable<TSource>,
-    fn: (value: TSource) => AsyncIterableX<TSource>): AsyncIterableX<TSource> {
+    fn: (value: TSource) => AsyncIterable<TSource>): AsyncIterableX<TSource> {
   return new ExpandAsyncIterable<TSource>(source, fn);
 }
