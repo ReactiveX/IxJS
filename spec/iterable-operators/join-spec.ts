@@ -91,7 +91,7 @@ test('Iterable#join left throws', t => {
 });
 
 test('Iterable#join right throws', t => {
-  const xs = [0, 1, 2]
+  const xs = [0, 1, 2];
   const ys = _throw<number>(new Error());
   const res = join(
     xs,
@@ -106,7 +106,7 @@ test('Iterable#join right throws', t => {
 });
 
 test('Iterable#join left selector throws', t => {
-  const xs = [0, 1, 2]
+  const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = join(
     xs,
@@ -121,7 +121,7 @@ test('Iterable#join left selector throws', t => {
 });
 
 test('Iterable#join right selector throws', t => {
-  const xs = [0, 1, 2]
+  const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = join(
     xs,
@@ -136,7 +136,7 @@ test('Iterable#join right selector throws', t => {
 });
 
 test('Iterable#join result selector throws', t => {
-  const xs = [0, 1, 2]
+  const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = join(
     xs,
