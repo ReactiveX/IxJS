@@ -11,14 +11,14 @@ class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterabl
   private _inner: AsyncIterable<TInner>;
   private _outerSelector: (value: TOuter) => TKey;
   private _innerSelector: (value: TInner) => TKey;
-  private _resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => TResult;
+  private _resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => Promise<TResult>;
 
   constructor(
       outer: AsyncIterable<TOuter>,
       inner: AsyncIterable<TInner>,
       outerSelector: (value: TOuter) => TKey,
       innerSelector: (value: TInner) => TKey,
-      resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => TResult) {
+      resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => Promise<TResult>) {
     super();
     this._outer = outer;
     this._inner = inner;
@@ -42,7 +42,7 @@ export function groupJoin<TOuter, TInner, TKey, TResult>(
     inner: AsyncIterable<TInner>,
     outerSelector: (value: TOuter) => TKey,
     innerSelector: (value: TInner) => TKey,
-    resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => TResult): AsyncIterableX<TResult> {
+    resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => Promise<TResult>): AsyncIterableX<TResult> {
   return new GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult>(
     outer,
     inner,
