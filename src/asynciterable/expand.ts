@@ -4,12 +4,14 @@ import { AsyncIterableX } from '../asynciterable';
 
 class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _fn: (value: TSource) => AsyncIterable<TSource>;
+  private _selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
 
-  constructor(source: AsyncIterable<TSource>, fn: (value: TSource) => AsyncIterable<TSource>) {
+  constructor(
+      source: AsyncIterable<TSource>,
+      selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>) {
     super();
     this._source = source;
-    this._fn = fn;
+    this._selector = selector;
   }
 
   async *[Symbol.asyncIterator]() {
@@ -17,7 +19,7 @@ class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     while (q.length > 0) {
       let src = q.shift();
       for await (let item of src!) {
-        q.push(this._fn(item));
+        q.push(await this._selector(item));
         yield item;
       }
     }
@@ -26,6 +28,7 @@ class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function expand<TSource>(
     source: AsyncIterable<TSource>,
-    fn: (value: TSource) => AsyncIterable<TSource>): AsyncIterableX<TSource> {
-  return new ExpandAsyncIterable<TSource>(source, fn);
+    selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>):
+      AsyncIterableX<TSource> {
+  return new ExpandAsyncIterable<TSource>(source, selector);
 }

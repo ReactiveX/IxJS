@@ -2,10 +2,10 @@
 
 export async function last<T>(
     source: AsyncIterable<T>,
-    fn: (value: T) => boolean = () => true): Promise<T | undefined> {
+    fn: (value: T) => boolean | Promise<boolean> = async () => true): Promise<T | undefined> {
   let result: T | undefined;
   for await (let item of source) {
-    if (fn(item)) {
+    if (await fn(item)) {
       result = item;
     }
   }

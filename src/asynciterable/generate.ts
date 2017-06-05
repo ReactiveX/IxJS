@@ -4,15 +4,15 @@ import { AsyncIterableX } from '../asynciterable';
 
 class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
   private _initialState: TState;
-  private _condition: (value: TState) => boolean;
-  private _iterate: (value: TState) => TState;
-  private _resultSelector: (value: TState) => TResult;
+  private _condition: (value: TState) => boolean | Promise<boolean>;
+  private _iterate: (value: TState) => TState | Promise<TState>;
+  private _resultSelector: (value: TState) => TResult | Promise<TResult>;
 
   constructor(
       initialState: TState,
-      condition: (value: TState) => boolean,
-      iterate: (value: TState) => TState,
-      resultSelector: (value: TState) => TResult) {
+      condition: (value: TState) => boolean | Promise<boolean>,
+      iterate: (value: TState) => TState | Promise<TState>,
+      resultSelector: (value: TState) => TResult | Promise<TResult>) {
     super();
     this._initialState = initialState;
     this._condition = condition;
@@ -21,16 +21,16 @@ class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
   }
 
   async *[Symbol.asyncIterator]() {
-    for (let i = this._initialState; this._condition(i); i = this._iterate(i)) {
-      yield this._resultSelector(i);
+    for (let i = this._initialState; await this._condition(i); i = await this._iterate(i)) {
+      yield await this._resultSelector(i);
     }
   }
 }
 
 export function generate<TState, TResult>(
     initialState: TState,
-    condition: (value: TState) => boolean,
-    iterate: (value: TState) => TState,
-    resultSelector: (value: TState) => TResult): AsyncIterableX<TResult> {
+    condition: (value: TState) => boolean | Promise<boolean>,
+    iterate: (value: TState) => TState | Promise<TState>,
+    resultSelector: (value: TState) => TResult | Promise<TResult>): AsyncIterableX<TResult> {
   return new GenerateAsyncIterable<TState, TResult>(initialState, condition, iterate, resultSelector);
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 import { AsyncIterableX } from '../asynciterable';
-import { identity } from '../internal/identity';
+import { identityAsync } from '../internal/identity';
 import { createGrouping } from './_grouping';
 
 export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
@@ -23,13 +23,13 @@ export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
 
 export class GroupByAsyncIterable<TSource, TKey, TValue> extends AsyncIterableX<GroupedAsyncIterable<TKey, TValue>> {
   private _source: AsyncIterable<TSource>;
-  private _keySelector: (value: TSource) => TKey;
-  private _elementSelector: (value: TSource) => TValue;
+  private _keySelector: (value: TSource) => TKey | Promise<TKey>;
+  private _elementSelector: (value: TSource) => TValue | Promise<TValue>;
 
   constructor(
       source: AsyncIterable<TSource>,
-      keySelector: (value: TSource) => TKey,
-      elementSelector: (value: TSource) => TValue) {
+      keySelector: (value: TSource) => TKey | Promise<TKey>,
+      elementSelector: (value: TSource) => TValue | Promise<TValue>) {
     super();
     this._source = source;
     this._keySelector = keySelector;
@@ -46,14 +46,15 @@ export class GroupByAsyncIterable<TSource, TKey, TValue> extends AsyncIterableX<
 
 export function groupBy<TSource, TKey>(
     source: AsyncIterable<TSource>,
-    keySelector: (value: TSource) => TKey): AsyncIterableX<GroupedAsyncIterable<TKey, TSource>>;
+    keySelector: (value: TSource) => TKey | Promise<TKey>): AsyncIterableX<GroupedAsyncIterable<TKey, TSource>>;
 export function groupBy<TSource, TKey, TValue>(
   source: AsyncIterable<TSource>,
-  keySelector: (value: TSource) => TKey,
-  elementSelector?: (value: TSource) => TValue): AsyncIterableX<GroupedAsyncIterable<TKey, TValue>>;
+  keySelector: (value: TSource) => TKey | Promise<TKey>,
+  elementSelector?: (value: TSource) => TValue | Promise<TValue>): AsyncIterableX<GroupedAsyncIterable<TKey, TValue>>;
 export function groupBy<TSource, TKey, TValue>(
     source: AsyncIterable<TSource>,
-    keySelector: (value: TSource) => TKey,
-    elementSelector: (value: TSource) => TValue = identity): AsyncIterableX<GroupedAsyncIterable<TKey, TValue>> {
+    keySelector: (value: TSource) => TKey | Promise<TKey>,
+    elementSelector: (value: TSource) => TValue | Promise<TValue> = identityAsync):
+    AsyncIterableX<GroupedAsyncIterable<TKey, TValue>> {
   return new GroupByAsyncIterable<TSource, TKey, TValue>(source, keySelector, elementSelector);
 }
