@@ -1,0 +1,36 @@
+//Common compiler configuration being used over different build targets.
+//This configuration can't be used to compile source code directly, use specific tsconfig_* build config.
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "diagnostics": true,
+    "downlevelIteration": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es5",
+      "es2015.collection",
+      "es2015.core",
+      "es2015.iterable",
+      "es2015.promise",
+      "es2015.symbol",
+      "es2015.symbol.wellknown",
+      "esnext.asynciterable"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "preserveConstEnums": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true
+  },
+  "formatCodeOptions": {
+    "indentSize": 2,
+    "tabSize": 2
+  }
+}

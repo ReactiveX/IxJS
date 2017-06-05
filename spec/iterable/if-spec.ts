@@ -10,7 +10,7 @@ test('Iterable#if then and else', t => {
   const res = _if(() => x > 0, [+1], [-1]);
 
   t.equal(+1, single(res));
-  
+
   x = -x;
   t.equal(-1, single(res));
 
@@ -22,7 +22,7 @@ test('Iterable#if then default else', t => {
   const res = _if(() => x > 0, [+1]);
 
   t.equal(+1, single(res));
-  
+
   x = -x;
   t.true(isEmpty(res));
 

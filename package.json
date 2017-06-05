@@ -27,7 +27,7 @@
     "lint:src": "tslint -c tslint.json \"src/**/*.ts\"",
     "?lint": "Run lint against files",
     "lint": "npm-run-all --parallel lint:*",
-    "test": "ts-node node_modules/tape/bin/tape spec/**/*.ts --harmony_async_iteration | tap-spec"
+    "test": "ts-node --harmony_async_iteration node_modules/tape/bin/tape spec/**/*.ts | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -60,7 +60,8 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3",
     "ts-node": "^2.1.0",
-    "tslint": "^4.5.0",
+    "tslint": "^5.4.2",
+    "tsutils": "^2.3.0",
     "typescript": "^2.4.0-dev.20170530",
     "webpack": "^1.14.0"
   }
