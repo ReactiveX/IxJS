@@ -8,7 +8,7 @@ import { range } from '../../dist/cjs/asynciterable/range';
 import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
 import { tap } from '../../dist/cjs/asynciterable/tap';
 
-test('Iterable#concat concatAll behavior', async t => {
+test('AsyncIterable#concat concatAll behavior', async t => {
   const res = concatAll(of(of(1, 2, 3), of(4, 5)));
   t.true(await sequenceEqual(res, of(1, 2, 3, 4, 5)));
   t.end();
@@ -30,7 +30,7 @@ test('Iterable#concat concatAll order of effects', async t => {
   t.end();
 });
 
-test('Iterable#concat behavior', async t => {
+test('AsyncIterable#concat behavior', async t => {
   const res = concat(of(1, 2, 3), of(4, 5));
   t.true(await sequenceEqual(res, of(1, 2, 3, 4, 5)));
   t.end();

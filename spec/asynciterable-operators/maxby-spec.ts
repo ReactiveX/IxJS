@@ -6,7 +6,7 @@ import { maxBy } from '../../dist/cjs/asynciterable/maxby';
 import { of } from '../../dist/cjs/asynciterable/of';
 import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
 
-test('Iterable#maxBy', async t => {
+test('AsyncIterable#maxBy', async t => {
   const source = of(2, 5, 0, 7, 4, 3, 6, 2, 1);
 
   const res = await maxBy(source, async x => x % 3);
@@ -14,7 +14,7 @@ test('Iterable#maxBy', async t => {
   t.end();
 });
 
-test('Iterable#maxBy empty throws', async t => {
+test('AsyncIterable#maxBy empty throws', async t => {
   const source = empty<number>();
 
   try {

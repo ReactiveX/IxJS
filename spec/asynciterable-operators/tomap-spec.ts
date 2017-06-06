@@ -4,7 +4,7 @@ import * as test from 'tape';
 import { of } from '../../dist/cjs/asynciterable/of';
 import { toMap } from '../../dist/cjs/asynciterable/tomap';
 
-test('Iterable#toMap stores values', async (t: test.Test) => {
+test('AsyncIterable#toMap stores values', async (t: test.Test) => {
   const xs = of(1, 4);
   const res = await toMap(xs, async x => x % 2);
   t.equal(res.get(0), 4);
@@ -12,7 +12,7 @@ test('Iterable#toMap stores values', async (t: test.Test) => {
   t.end();
 });
 
-test('Iterable#toMap overwrites duplicates', async (t: test.Test) => {
+test('AsyncIterable#toMap overwrites duplicates', async (t: test.Test) => {
   const xs = of(1, 4, 2);
   const res = await toMap(xs, async x => x % 2);
   t.equal(res.get(0), 2);
@@ -20,7 +20,7 @@ test('Iterable#toMap overwrites duplicates', async (t: test.Test) => {
   t.end();
 });
 
-test('Iterable#toMap with element selector', async (t: test.Test) => {
+test('AsyncIterable#toMap with element selector', async (t: test.Test) => {
   const xs = of(1, 4);
   const res = await toMap(xs, async x => x % 2, async x => x + 1);
   t.equal(res.get(0), 5);
@@ -28,7 +28,7 @@ test('Iterable#toMap with element selector', async (t: test.Test) => {
   t.end();
 });
 
-test('Iterable#toMap with element selector overwrites duplicates', async (t: test.Test) => {
+test('AsyncIterable#toMap with element selector overwrites duplicates', async (t: test.Test) => {
   const xs = of(1, 4, 2);
   const res = await toMap(xs, async x => x % 2, async x => x + 1);
   t.equal(res.get(0), 3);

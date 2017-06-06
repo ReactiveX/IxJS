@@ -6,7 +6,7 @@ import { from } from '../../dist/cjs/asynciterable/from';
 import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
 import { toSet } from '../../dist/cjs/asynciterable/toset';
 
-test('Iterable#toSet non-empty', async (t: test.Test) => {
+test('AsyncIterable#toSet non-empty', async (t: test.Test) => {
   const xs = [1, 2, 3, 4, 5];
   const ys = from(xs);
   const res = await toSet(ys);
@@ -14,14 +14,14 @@ test('Iterable#toSet non-empty', async (t: test.Test) => {
   t.end();
 });
 
-test('Iterable#toSet empty', async (t: test.Test) => {
+test('AsyncIterable#toSet empty', async (t: test.Test) => {
   const xs = empty<number>();
   const res = await toSet(xs);
   t.equal(res.size, 0);
   t.end();
 });
 
-test('Iterable#toSet trims', async (t: test.Test) => {
+test('AsyncIterable#toSet trims', async (t: test.Test) => {
   const xs = from([1, 2, 3, 3, 2, 1]);
   const ys = [1, 2, 3];
   const res = await toSet(xs);

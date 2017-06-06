@@ -5,7 +5,7 @@ import { defer } from '../../dist/cjs/asynciterable/defer';
 import { range } from '../../dist/cjs/asynciterable/range';
 import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
 
-test('Iterable#defer defers side effects', async (t: test.Test) => {
+test('AsyncIterable#defer defers side effects', async (t: test.Test) => {
   let i = 0;
   let n = 5;
   const xs = defer(() => {

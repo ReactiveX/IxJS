@@ -6,7 +6,7 @@ import { from } from '../../dist/cjs/asynciterable/from';
 import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
 import { toArray } from '../../dist/cjs/asynciterable/toarray';
 
-test('Iterable#toArray some', async (t: test.Test) => {
+test('AsyncIterable#toArray some', async (t: test.Test) => {
   const xs = [42, 25, 39];
   const ys = from(xs);
   const res = await toArray(ys);
@@ -14,7 +14,7 @@ test('Iterable#toArray some', async (t: test.Test) => {
   t.end();
 });
 
-test('Iterable#toArray empty', async (t: test.Test) => {
+test('AsyncIterable#toArray empty', async (t: test.Test) => {
   const xs = empty<number>();
   const res = await toArray(xs);
   t.equal(res.length, 0);

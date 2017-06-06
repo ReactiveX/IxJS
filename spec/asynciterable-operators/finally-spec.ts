@@ -6,7 +6,7 @@ import { range } from '../../dist/cjs/asynciterable/range';
 import { _throw } from '../../dist/cjs/asynciterable/throw';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('Iterable#finally defers behavior', async t => {
+test('AsyncIterable#finally defers behavior', async t => {
   let done = false;
 
   const xs = _finally(range(0, 2), async () => { done = true; });
@@ -27,7 +27,7 @@ test('Iterable#finally defers behavior', async t => {
   t.end();
 });
 
-test('Iterable#finally calls even with error', async t => {
+test('AsyncIterable#finally calls even with error', async t => {
   let done = false;
 
   const err = new Error();

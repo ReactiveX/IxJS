@@ -8,7 +8,7 @@ import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
 import { _throw } from '../../dist/cjs/asynciterable/throw';
 import { hasNext } from '../asynciterablehelpers';
 
-test('Iterable#catch with no errors', async t => {
+test('AsyncIterable#catch with no errors', async t => {
   const res = _catch(range(0, 5), range(5, 5));
   t.true(await sequenceEqual(res, range(0, 5)));
   t.end();
@@ -24,7 +24,7 @@ test('AsyncIterable#catch with concat error', async t => {
   t.end();
 });
 
-test('Iterable#catch still throws', async t => {
+test('AsyncIterable#catch still throws', async t => {
   const e1 = new Error();
   const er1 = _throw(e1);
 
