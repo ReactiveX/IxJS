@@ -14,10 +14,13 @@ class FlattenIterable<TSource> extends IterableX<TSource> {
   }
 
   private *_flatten(source: Iterable<TSource>, depth: number): Iterable<TSource> {
-    if (this._depth === 0) { yield* source; }
-    for (let item of this._source) {
+    if (depth === 0) {
+      for (let item of source) { yield item; }
+      return;
+    }
+    for (let item of source) {
       if (isIterable(item)) {
-        yield* this._flatten(item, this._depth - 1);
+        for (let innerItem of this._flatten(item, depth - 1)) { yield innerItem; }
       } else {
         yield item;
       }
