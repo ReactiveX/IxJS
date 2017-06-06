@@ -11,3 +11,14 @@ test('Iterable#maxBy', t => {
   t.true(sequenceEqual(res, [2, 5, 2]));
   t.end();
 });
+
+test('Iterable#maxBy empty throws', t => {
+  const source: number[] = [];
+
+  try {
+    maxBy(source, x => x % 3);
+  } catch (e) {
+    t.assert(e != null);
+  }
+  t.end();
+});
