@@ -27,7 +27,7 @@ class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     }
   }
 
-  async *[Symbol.asyncIterator](): AsyncIterator<TSource> {
+  [Symbol.asyncIterator]() {
     return this._flatten(this._source, this._depth)[Symbol.asyncIterator]();
   }
 }
