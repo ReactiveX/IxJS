@@ -11,3 +11,14 @@ test('Iterable#minBy', t => {
   t.true(sequenceEqual(res, [0, 3, 6]));
   t.end();
 });
+
+test('Iterable#minBy empty throws', t => {
+  const source: number[] = [];
+
+  try {
+    minBy(source, x => x % 3);
+  } catch (e) {
+    t.assert(e != null);
+  }
+  t.end();
+});
