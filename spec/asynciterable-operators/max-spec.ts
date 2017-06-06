@@ -7,7 +7,7 @@ import { max } from '../../dist/cjs/asynciterable/max';
 
 test('AsyncItearble#max laws', async (t: test.Test) => {
   const xs = of(5, 3, 1, 2, 4);
-  t.equal(await max(xs), await max(xs, x => x));
+  t.equal(await max(xs), await max(xs, async x => x));
   t.end();
 });
 
