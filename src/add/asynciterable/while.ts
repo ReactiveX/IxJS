@@ -14,6 +14,6 @@ declare module '../../asynciterable' {
     function _while<T>(
     fn: () => boolean,
     source: AsyncIterable<T>): AsyncIterableX<T>;
-    export { _while as while }
+    export { _while as while };
   }
 }

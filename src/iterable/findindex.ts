@@ -13,4 +13,4 @@ export function findIndex<T>(source: Iterable<T>, fn: (value: T, index: number) 
     }
   }
   return -1;
-};
+}

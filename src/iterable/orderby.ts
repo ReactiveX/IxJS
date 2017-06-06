@@ -26,13 +26,13 @@ export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
   }
 
   thenBy<TKey>(
-      keySelector: (item: TSource) => TKey, 
+      keySelector: (item: TSource) => TKey,
       comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedIterableBaseX<TSource> {
     return new OrderedIterableX<TKey, TSource>(this._source, keySelector, comparer, false, this);
   }
 
   thenByDescending<TKey>(
-      keySelector: (item: TSource) => TKey, 
+      keySelector: (item: TSource) => TKey,
       comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedIterableBaseX<TSource> {
     return new OrderedIterableX<TKey, TSource>(this._source, keySelector, comparer, true, this);
   }

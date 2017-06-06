@@ -10,6 +10,6 @@ AsyncIterableX.throw = _throw;
 declare module '../../asynciterable' {
   namespace AsyncIterableX {
     function _throw<T>(error: any): AsyncIterableX<T>;
-    export { _throw as throw }
+    export { _throw as throw };
   }
 }

@@ -10,6 +10,6 @@ AsyncIterableX.catch = _catchStatic;
 declare module '../../asynciterable' {
   namespace AsyncIterableX {
     function _catch<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T>;
-    export { _catch as catch }
+    export { _catch as catch };
   }
 }

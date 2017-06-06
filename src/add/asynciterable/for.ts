@@ -14,6 +14,6 @@ declare module '../../asynciterable' {
     function _if<T, R>(
       source: Iterable<T>,
       fn: (value: T) => Iterable<R>): AsyncIterableX<R>;
-    export { _for as for }
+    export { _for as for };
   }
 }

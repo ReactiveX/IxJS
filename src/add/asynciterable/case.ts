@@ -16,6 +16,6 @@ declare module '../../asynciterable' {
       fn: () => TSource,
       sources: Map<TSource, AsyncIterable<TResult>>,
       defaultSource?: AsyncIterable<TResult>): AsyncIterableX<TResult>;
-    export { _case as case }
+    export { _case as case };
   }
 }

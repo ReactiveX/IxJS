@@ -20,7 +20,7 @@ class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function _while<TSource>(
-    condition: () => boolean | Promise<boolean>, 
+    condition: () => boolean | Promise<boolean>,
     source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
   return new WhileAsyncIterable<TSource>(condition, source);
 }

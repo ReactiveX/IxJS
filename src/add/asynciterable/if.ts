@@ -16,6 +16,6 @@ declare module '../../asynciterable' {
       fn: () => boolean,
       thenSource: AsyncIterable<T>,
       elseSource?: AsyncIterable<T>): AsyncIterableX<T>;
-    export { _if as if }
+    export { _if as if };
   }
 }

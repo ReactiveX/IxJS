@@ -16,4 +16,4 @@ export function bindCallback(func: any, thisArg: any, argCount: number) {
   return function() {
     return func.apply(thisArg, arguments);
   };
-};
+}
