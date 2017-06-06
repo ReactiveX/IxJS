@@ -4,7 +4,7 @@ import * as test from 'tape';
 import { repeatValue } from '../../dist/cjs/asynciterable/repeatvalue';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#repeatValue repeats value finitely', async (t: any) => {
+test('AsyncIterable#repeatValue repeats value finitely', async (t: test.Test) => {
   const xs = repeatValue(2, 5);
 
   const it = xs[Symbol.asyncIterator]();
@@ -17,7 +17,7 @@ test('AsyncIterable#repeatValue repeats value finitely', async (t: any) => {
   t.end();
 });
 
-test('AsyncIterable#repeatValue repeat zero times', async (t: any) => {
+test('AsyncIterable#repeatValue repeat zero times', async (t: test.Test) => {
   const xs = repeatValue(2, 0);
 
   const it = xs[Symbol.asyncIterator]();
@@ -25,7 +25,7 @@ test('AsyncIterable#repeatValue repeat zero times', async (t: any) => {
   t.end();
 });
 
-test('AsyncIterable#repeatValue repeats value infinitely', async (t: any) => {
+test('AsyncIterable#repeatValue repeats value infinitely', async (t: test.Test) => {
   const xs = repeatValue(2);
 
   const it = xs[Symbol.asyncIterator]();

@@ -21,4 +21,4 @@ test('Iterable#count predicate empty', t => {
 test('Iterable#count predicate some', t => {
   t.equal(count([1, 2, 3], x => x < 3), 2);
   t.end();
-})
+});

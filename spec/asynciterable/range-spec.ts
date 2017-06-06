@@ -4,7 +4,7 @@ import  * as test  from 'tape';
 import { range } from '../../dist/cjs/asynciterable/range';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#range produces values', async (t: any) => {
+test('AsyncIterable#range produces values', async (t: test.Test) => {
   const xs = range(2, 5);
 
   const it = xs[Symbol.asyncIterator]();
@@ -17,7 +17,7 @@ test('AsyncIterable#range produces values', async (t: any) => {
   t.end();
 });
 
-test('AsyncIterable#range empty', async (t: any) => {
+test('AsyncIterable#range empty', async (t: test.Test) => {
   const xs = range(2, 0);
 
   const it = xs[Symbol.asyncIterator]();
