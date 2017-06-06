@@ -4,11 +4,11 @@ import { AsyncIterableX } from '../asynciterable';
 
 class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _handler: (error: any) => AsyncIterable<TSource>;
+  private _handler: (error: any) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
 
   constructor(
       source: AsyncIterable<TSource>,
-      handler: (error: any) => AsyncIterable<TSource>) {
+      handler: (error: any) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>) {
     super();
     this._source = source;
     this._handler = handler;
@@ -20,10 +20,10 @@ class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       let c = <IteratorResult<TSource>>{};
 
       try {
-        let c = await it.next();
+        c = await it.next();
         if (c.done) { break; }
       } catch (e) {
-        err = this._handler(e);
+        err = await this._handler(e);
         hasError = true;
         break;
       }
@@ -41,6 +41,6 @@ class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function catchWith<TSource>(
     source: AsyncIterable<TSource>,
-    handler: (error: any) => AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    handler: (error: any) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>): AsyncIterableX<TSource> {
   return new CatchWithAsyncIterable<TSource>(source, handler);
 }
