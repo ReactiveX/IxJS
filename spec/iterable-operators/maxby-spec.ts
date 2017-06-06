@@ -1,7 +1,7 @@
 'use strict';
 
 import  * as test  from 'tape';
-import { maxBy } from '../../dist/cjs/iterable/maxBy';
+import { maxBy } from '../../dist/cjs/iterable/maxby';
 import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
 
 test('Iterable#maxBy', t => {
