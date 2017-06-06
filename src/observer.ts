@@ -30,9 +30,9 @@ export interface NextAsyncObserver<T> {
 }
 
 export interface ErrorAsyncObserver<T> {
-  next?: (value: T) => void;
-  error: (err: any) => void;
-  complete?: () => void;
+  next?: (value: T) => void | Promise<void>;
+  error: (err: any) => void | Promise<void>;
+  complete?: () => void | Promise<void>;
 }
 
 export interface CompletionAsyncObserver<T> {
