@@ -10,6 +10,6 @@ IterableX.catch = _catchStatic;
 declare module '../../iterable' {
   namespace IterableX {
     function _catch<T>(...args: Iterable<T>[]): IterableX<T>;
-    export { _catch as catch }
+    export { _catch as catch };
   }
 }

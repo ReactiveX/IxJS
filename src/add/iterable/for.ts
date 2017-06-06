@@ -14,6 +14,6 @@ declare module '../../iterable' {
     function _if<T, R>(
       source: Iterable<T>,
       fn: (value: T) => Iterable<R>): IterableX<R>;
-    export { _for as for }
+    export { _for as for };
   }
 }

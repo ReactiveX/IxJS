@@ -14,6 +14,6 @@ declare module '../../iterable' {
     function _while<T>(
     fn: () => boolean,
     source: Iterable<T>): IterableX<T>;
-    export { _while as while }
+    export { _while as while };
   }
 }

@@ -3,7 +3,7 @@ import { of as staticOf } from '../../asynciterable/of';
 
 export function _of<T>(...args: T[]) {
   return staticOf(...args);
-};
+}
 
 AsyncIterableX.of = _of;
 

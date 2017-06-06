@@ -10,6 +10,6 @@ IterableX.throw = _throw;
 declare module '../../iterable' {
   namespace IterableX {
     function _throw<T>(error: any): IterableX<T>;
-    export { _throw as throw }
+    export { _throw as throw };
   }
 }

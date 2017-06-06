@@ -16,6 +16,6 @@ declare module '../../iterable' {
       fn: () => TSource,
       sources: Map<TSource, Iterable<TResult>>,
       defaultSource?: Iterable<TResult>): IterableX<TResult>;
-    export { _case as case }
+    export { _case as case };
   }
 }

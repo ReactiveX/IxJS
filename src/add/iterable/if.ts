@@ -16,6 +16,6 @@ declare module '../../iterable' {
       fn: () => boolean,
       thenSource: Iterable<T>,
       elseSource?: Iterable<T>): IterableX<T>;
-    export { _if as if }
+    export { _if as if };
   }
 }
