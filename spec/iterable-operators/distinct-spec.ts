@@ -18,5 +18,5 @@ function testComparer(x: number, y: number): boolean {
 test('Iterable#distinct with comparer', t => {
   const res = distinct(range(0, 10), x => x % 5, testComparer);
   t.true(sequenceEqual(res, [0, 1]));
-  t.end();  
+  t.end();
 });
