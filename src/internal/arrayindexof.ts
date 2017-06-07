@@ -10,7 +10,7 @@ export function arrayIndexOf<T>(array: T[], item: T, comparer: (a: T, b: T) => b
 export async function arrayIndexOfAsync<T>(
     array: T[],
     item: T,
-    comparer: (a: T, b: T) => boolean | Promise<boolean>) {
+    comparer: (a: T, b: T) => boolean | Promise<boolean>): Promise<number> {
   for (let i = 0, len = array.length; i < len; i++) {
     if (await comparer(item, array[i])) { return i; }
   }

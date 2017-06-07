@@ -19,9 +19,9 @@ class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>;
 
   constructor(
-      first: AsyncIterable<TSource>,
-      second: AsyncIterable<TSource>,
-      comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>) {
+    first: AsyncIterable<TSource>,
+    second: AsyncIterable<TSource>,
+    comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>) {
     super();
     this._first = first;
     this._second = second;
@@ -35,7 +35,7 @@ class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     }
 
     for await (let firstItem of this._first) {
-      if (arrayRemove(map, firstItem, this._comparer)) {
+      if (await arrayRemove(map, firstItem, this._comparer)) {
         yield firstItem;
       }
     }
@@ -43,8 +43,8 @@ class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function intersect<TSource>(
-    first: AsyncIterable<TSource>,
-    second: AsyncIterable<TSource>,
-    comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync): AsyncIterableX<TSource> {
+  first: AsyncIterable<TSource>,
+  second: AsyncIterable<TSource>,
+  comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync): AsyncIterableX<TSource> {
   return new IntersectAsyncIterable<TSource>(first, second, comparer);
 }
