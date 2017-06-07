@@ -43,8 +43,8 @@ class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function intersect<TSource>(
-  first: AsyncIterable<TSource>,
-  second: AsyncIterable<TSource>,
-  comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync): AsyncIterableX<TSource> {
+    first: AsyncIterable<TSource>,
+    second: AsyncIterable<TSource>,
+    comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync): AsyncIterableX<TSource> {
   return new IntersectAsyncIterable<TSource>(first, second, comparer);
 }
