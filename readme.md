@@ -56,7 +56,7 @@ import { of } from 'ix/add/iterable/of';
 import { map } from 'ix/add/iterable-operators/map';
 
 // CommonJS
-const Iterable = require('ix/iterable');
+const Iterable = require('ix/iterable').IterableX;
 const of = require('ix/add/iterable/of');
 const map = require('ix/add/iterable-operators/map');
 
@@ -72,8 +72,8 @@ import { map } from 'ix/iterable/map';
 import { filter } from 'ix/iterable/filter';
 
 // CommonJS
-const map = require('ix/iterable/map');
-const filters = require('ix/iterable/filter');
+const map = require('ix/iterable/map').map;
+const filters = require('ix/iterable/filter').filter;
 
 const source = [1,2,3];
 const results = map(
@@ -171,7 +171,7 @@ import { of } from 'ix/add/asynciterable/of';
 import { map } from 'ix/add/asynciterable-operators/map';
 
 // CommonJS
-const Iterable = require('ix/asynciterable');
+const AsyncIterable = require('ix/asynciterable').AsyncIterableX;
 const of = require('ix/add/asynciterable/of');
 const map = require('ix/add/asynciterable-operators/map');
 
@@ -187,8 +187,8 @@ import { map } from 'ix/asynciterable/map';
 import { filter } from 'ix/asynciterable/filter';
 
 // CommonJS
-const map = require('ix/asynciterable/map');
-const filters = require('ix/asynciterable/filter');
+const map = require('ix/asynciterable/map').map;
+const filters = require('ix/asynciterable/filter').filter;
 
 const source = async function* () {
   yield 1;
