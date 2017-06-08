@@ -1,0 +1,52 @@
+'use strict';
+
+import * as test from 'tape';
+import { empty } from '../../dist/cjs/asynciterable/empty';
+import { of } from '../../dist/cjs/asynciterable/of';
+import { reverse } from '../../dist/cjs/asynciterable/reverse';
+import { _throw } from '../../dist/cjs/asynciterable/throw';
+import { hasNext, noNext } from '../asynciterablehelpers';
+
+test('AsyncIterable#reverse empty', async t => {
+  const xs = empty<number>();
+  const ys = reverse(xs);
+
+  const it = ys[Symbol.asyncIterator]();
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#revrse single element', async t => {
+  const xs = of(42);
+  const ys = reverse(xs);
+
+  const it = ys[Symbol.asyncIterator]();
+  await hasNext(t, it, 42);
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#reverse multiple elements', async t => {
+  const xs = of(1, 2, 3);
+  const ys = reverse(xs);
+
+  const it = ys[Symbol.asyncIterator]();
+  await hasNext(t, it, 3);
+  await hasNext(t, it, 2);
+  await hasNext(t, it, 1);
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#reverse throws', async t => {
+  const xs = _throw<number>(new Error());
+  const ys = reverse(xs);
+
+  const it = ys[Symbol.asyncIterator]();
+  try {
+    await it.next();
+  } catch (e) {
+    t.assert(e != null);
+  }
+  t.end();
+});
