@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * @ignore
+ */
 export function bindCallback(func: any, thisArg: any, argCount: number) {
   if (typeof thisArg === 'undefined') { return func; }
   switch (argCount) {

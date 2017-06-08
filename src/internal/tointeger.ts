@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * @ignore
+ */
 export function toInteger (value: any): number {
   const number = Number(value);
   if (isNaN(number)) { return 0; }

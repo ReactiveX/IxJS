@@ -23,6 +23,7 @@
     "?build:es2015": "Build against native ES2015 target",
     "build:es2015": "tsc -p tsconfig_es2015.json",
     "build": "shx rm -rf ./dist/ && npm-run-all build:*",
+    "build:doc": "shx rm -rf ./doc && esdoc",
     "?lint:src": "Run lint against source files only",
     "lint:src": "tslint -c tslint.json \"src/**/*.ts\"",
     "?lint": "Run lint against files",
@@ -37,7 +38,9 @@
     "Iterator",
     "Iterable",
     "Promise",
-    "Async"
+    "Async",
+    "AsyncIterable",
+    "AsyncIterator"
   ],
   "author": "Matthew Podwysocki <matthewp@microsoft.com>",
   "license": "MIT",
@@ -52,6 +55,7 @@
     "@types/tape": "^4.2.30",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.0.0",
+    "esdoc": "^0.5.2",
     "husky": "^0.13.1",
     "lint-staged": "^3.3.1",
     "npm-run-all": "^4.0.2",

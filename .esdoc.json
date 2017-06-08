@@ -1,0 +1,4 @@
+{
+  "source": "./dist/es2015",
+  "destination": "./doc"
+}

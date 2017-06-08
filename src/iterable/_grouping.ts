@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * @ignore
+ */
 export function createGrouping<TSource, TKey, TValue>(
     source: Iterable<TSource>,
     keySelector: (value: TSource) => TKey,

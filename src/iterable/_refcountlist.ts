@@ -1,10 +1,16 @@
 'use strict';
 
+/**
+ * @ignore
+ */
 export interface RefCount<T> {
   value: T;
   count: number;
 }
 
+/**
+ * @ignore
+ */
 export interface IRefCountList<T> {
   clear(): void;
   readonly count: number;
@@ -13,6 +19,9 @@ export interface IRefCountList<T> {
   done(): void;
 }
 
+/**
+ * @ignore
+ */
 export class MaxRefCountList<T> implements IRefCountList<T> {
   private _list: T[] = [];
 
@@ -25,6 +34,9 @@ export class MaxRefCountList<T> implements IRefCountList<T> {
   done() { }
 }
 
+/**
+ * @ignore
+ */
 export class RefCountList<T> implements IRefCountList<T> {
   private _readerCount: number;
   private _list: Map<number, RefCount<T>>;

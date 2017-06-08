@@ -2,10 +2,16 @@
 
 import { AsyncIterableX } from '../asynciterable';
 
+/**
+ * @ignore
+ */
 export async function defaultCompareAsync<T>(key: T, minValue: T): Promise<number> {
   return key > minValue ? 1 : key < minValue ? -1 : 0;
 }
 
+/**
+ * @ignore
+ */
 class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _keyFn: (x: TSource) => TKey | Promise<TKey>;
@@ -44,6 +50,9 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * @ignore
+ */
 export function extremaBy<TSource, TKey>(
     source: AsyncIterable<TSource>,
     keyFn: (x: TSource) => TKey | Promise<TKey>,

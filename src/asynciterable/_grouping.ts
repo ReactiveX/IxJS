@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * @ignore
+ */
 export async function createGrouping<TSource, TKey, TValue>(
     source: AsyncIterable<TSource>,
     keySelector: (value: TSource) => TKey | Promise<TKey>,
