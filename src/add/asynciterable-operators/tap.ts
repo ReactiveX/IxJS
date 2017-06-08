@@ -1,8 +1,10 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { tap } from '../../asynciterable/tap';
-import { PartialObserver } from '../../observer';
+import { PartialAsyncObserver } from '../../observer';
 
-export function tapProto<T>(this: AsyncIterableX<T>, observer: PartialObserver<T>): AsyncIterableX<T> {
+export function tapProto<T>(
+    this: AsyncIterableX<T>,
+    observer: PartialAsyncObserver<T>): AsyncIterableX<T> {
   return tap(this, observer);
 }
 

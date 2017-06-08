@@ -3,8 +3,8 @@ import { last } from '../../asynciterable/last';
 
 export function lastProto<T>(
     this: AsyncIterableX<T>,
-    fn: (value: T) => boolean = () => true): Promise<T | undefined> {
-  return last(this, fn);
+    selector: (value: T) => boolean | Promise<boolean> = async () => true): Promise<T | undefined> {
+  return last(this, selector);
 }
 
 AsyncIterableX.prototype.last = lastProto;

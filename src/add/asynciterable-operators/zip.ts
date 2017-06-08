@@ -4,8 +4,8 @@ import { zip } from '../../asynciterable/zip';
 export function zipProto<T, TResult>(
     this: AsyncIterableX<T>,
     second: AsyncIterable<T>,
-    fn: (fst: T, snd: T) => TResult): AsyncIterableX<TResult> {
-  return zip(this, second, fn);
+    selector: (fst: T, snd: T) => TResult | Promise<TResult>): AsyncIterableX<TResult> {
+  return zip(this, second, selector);
 }
 
 AsyncIterableX.prototype.zip = zipProto;

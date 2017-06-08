@@ -4,9 +4,9 @@ import { join } from '../../asynciterable/join';
 export function joinProto<TOuter, TInner, TKey, TResult>(
     this: AsyncIterable<TOuter>,
     inner: AsyncIterable<TInner>,
-    outerSelector: (value: TOuter) => TKey,
-    innerSelector: (value: TInner) => TKey,
-    resultSelector: (outer: TOuter, inner: TInner) => TResult): AsyncIterableX<TResult> {
+    outerSelector: (value: TOuter) => TKey | Promise<TKey>,
+    innerSelector: (value: TInner) => TKey | Promise<TKey>,
+    resultSelector: (outer: TOuter, inner: TInner) => TResult | Promise<TResult>): AsyncIterableX<TResult> {
   return join(this, inner, outerSelector, innerSelector, resultSelector);
 }
 

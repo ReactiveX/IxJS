@@ -1,8 +1,10 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { catchWith as catchWithStatic } from '../../asynciterable/catchwith';
 
-export function catchWithProto<T>(this: AsyncIterableX<T>, fn: (error: any) => AsyncIterable<T>): AsyncIterableX<T> {
-  return catchWithStatic<T>(this, fn);
+export function catchWithProto<T>(
+    this: AsyncIterableX<T>,
+    selector: (error: any) => AsyncIterable<T> | Promise<AsyncIterable<T>>): AsyncIterableX<T> {
+  return catchWithStatic<T>(this, selector);
 }
 
 AsyncIterableX.prototype.catchWith = catchWithProto;

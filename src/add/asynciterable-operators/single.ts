@@ -3,8 +3,8 @@ import { single } from '../../asynciterable/single';
 
 export function singleProto<T>(
     this: AsyncIterableX<T>,
-    fn: (value: T) => boolean = () => true): Promise<T | undefined> {
-  return single(this, fn);
+    selector: (value: T) => boolean | Promise<boolean> = async () => true): Promise<T | undefined> {
+  return single(this, selector);
 }
 
 AsyncIterableX.prototype.single = singleProto;

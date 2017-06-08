@@ -3,7 +3,7 @@ import { takeWhile } from '../../asynciterable/takewhile';
 
 export function takeWhileProto<TSource>(
     this: AsyncIterableX<TSource>,
-    predicate: (value: TSource, index: number) => boolean): AsyncIterableX<TSource> {
+    predicate: (value: TSource, index: number) => boolean | Promise<boolean>): AsyncIterableX<TSource> {
   return takeWhile(this, predicate);
 }
 

@@ -3,9 +3,9 @@ import { findIndex } from '../../asynciterable/findindex';
 
 export function findIndexProto<T>(
     this: AsyncIterableX<T>,
-    fn: (value: T, index: number) => boolean,
+    predicate: (value: T, index: number) => boolean | Promise<boolean>,
     thisArg?: any): Promise<number> {
-  return findIndex(this, fn, thisArg);
+  return findIndex(this, predicate, thisArg);
 }
 
 AsyncIterableX.prototype.findIndex = findIndexProto;

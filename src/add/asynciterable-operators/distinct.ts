@@ -3,8 +3,8 @@ import { distinct } from '../../asynciterable/distinct';
 
 export function distinctProto<TSource, TKey>(
     this: AsyncIterableX<TSource>,
-    keySelector?: (value: TSource) => TKey,
-    comparer?: (x: TKey, y: TKey) => boolean): AsyncIterableX<TSource> {
+    keySelector?: (value: TSource) => TKey | Promise<TKey>,
+    comparer?: (x: TKey, y: TKey) => boolean | Promise<boolean>): AsyncIterableX<TSource> {
   return distinct(this, keySelector, comparer);
 }
 

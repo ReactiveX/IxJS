@@ -1,11 +1,12 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { sequenceEqual } from '../../asynciterable/sequenceequal';
+import { comparerAsync } from '../../internal/comparer';
 
 export function sequenceEqualProto<T>(
     this: AsyncIterableX<T>,
     other: AsyncIterable<T>,
-    cmp: (first: T, second: T) => boolean = (x, y) => x === y): Promise<boolean> {
-  return sequenceEqual(this, other, cmp);
+    comparer: (first: T, second: T) => boolean | Promise<boolean> = comparerAsync): Promise<boolean> {
+  return sequenceEqual(this, other, comparer);
 }
 
 AsyncIterableX.prototype.sequenceEqual = sequenceEqualProto;

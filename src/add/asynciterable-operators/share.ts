@@ -1,10 +1,17 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { share } from '../../asynciterable/share';
 
+export function shareProto<TSource>(
+    this: AsyncIterable<TSource>): AsyncIterableX<TSource>;
 export function shareProto<TSource, TResult>(
-    this: AsyncIterableX<TSource>,
-    fn?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterableX<TSource | TResult> {
-  return share(this, fn);
+    this: AsyncIterable<TSource>,
+    selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>):
+      AsyncIterableX<TResult>;
+export function shareProto<TSource, TResult = TSource>(
+    this: AsyncIterable<TSource>,
+    selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>):
+      AsyncIterableX<TSource | TResult> {
+  return share(this, selector);
 }
 
 AsyncIterableX.prototype.share = shareProto;

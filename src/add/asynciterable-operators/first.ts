@@ -3,7 +3,7 @@ import { first } from '../../asynciterable/first';
 
 export function firstProto<T>(
     this: AsyncIterableX<T>,
-    fn?: (value: T) => boolean): Promise<T | undefined> {
+    fn?: (value: T) => boolean | Promise<boolean>): Promise<T | undefined> {
   return first(this, fn);
 }
 

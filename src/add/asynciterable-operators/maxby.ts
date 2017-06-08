@@ -3,9 +3,9 @@ import { maxBy } from '../../asynciterable/maxby';
 
 export function maxByProto<TSource, TKey>(
     this: AsyncIterableX<TSource>,
-    keyFn: (x: TSource) => TKey,
-    cmp?: (x: TKey, y: TKey) => number): AsyncIterableX<TSource> {
-  return maxBy(this, keyFn, cmp);
+    keySelector: (x: TSource) => TKey | Promise<TKey>,
+    comparer?: (x: TKey, y: TKey) => number | Promise<number>): AsyncIterableX<TSource> {
+  return maxBy(this, keySelector, comparer);
 }
 
 AsyncIterableX.prototype.maxBy = maxByProto;

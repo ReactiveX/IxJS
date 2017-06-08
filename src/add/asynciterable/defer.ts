@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { defer as deferStatic } from '../../asynciterable/defer';
 
-export function _defer<T>(fn: () => AsyncIterable<T>): AsyncIterableX<T> {
+export function _defer<T>(fn: () => AsyncIterable<T> | Promise<AsyncIterable<T>>): AsyncIterableX<T> {
   return deferStatic(fn);
 }
 

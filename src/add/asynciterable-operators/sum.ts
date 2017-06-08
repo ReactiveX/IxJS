@@ -1,10 +1,17 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { sum } from '../../asynciterable/sum';
+import { identityAsync } from '../../internal/identity';
 
-export function sumProto(this: AsyncIterableX<number>, fn?: (x: number) => number): Promise<number>;
-export function sumProto<T>(this: AsyncIterableX<T>, fn: (x: T) => number): Promise<number>;
-export function sumProto(this: AsyncIterableX<any>, fn: (x: any) => number = x => x): Promise<number> {
-  return sum(this, fn);
+export function sumProto(
+    this: AsyncIterableX<number>,
+    selector?: (x: number) => number | Promise<number>): Promise<number>;
+export function sumProto<T>(
+    this: AsyncIterableX<T>,
+    selector: (x: T) => number | Promise<number>): Promise<number>;
+export function sumProto(
+    this: AsyncIterableX<any>,
+    selector: (x: any) => number | Promise<number> = identityAsync): Promise<number> {
+  return sum(this, selector);
 }
 
 AsyncIterableX.prototype.sum = sumProto;

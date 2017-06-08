@@ -3,7 +3,7 @@ import { skipWhile } from '../../asynciterable/skipwhile';
 
 export function skipWhileProto<TSource>(
     this: AsyncIterableX<TSource>,
-    predicate: (value: TSource, index: number) => boolean): AsyncIterableX<TSource> {
+    predicate: (value: TSource, index: number) => boolean | Promise<boolean>): AsyncIterableX<TSource> {
   return skipWhile(this, predicate);
 }
 

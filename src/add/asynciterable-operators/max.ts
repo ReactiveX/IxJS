@@ -1,10 +1,17 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { max } from '../../asynciterable/max';
+import { identityAsync } from '../../internal/identity';
 
-export function maxProto(this: AsyncIterableX<number>, fn?: (x: number) => number): Promise<number>;
-export function maxProto<T>(this: AsyncIterableX<T>, fn: (x: T) => number): Promise<number>;
-export function maxProto(this: AsyncIterableX<any>, fn: (x: any) => number = x => x): Promise<number> {
-  return max(this, fn);
+export function maxProto(
+    this: AsyncIterableX<number>,
+    selector?: (x: number) => number): Promise<number>;
+export function maxProto<T>(
+  this: AsyncIterableX<T>,
+  selector: (x: T) => number): Promise<number>;
+export function maxProto(
+    this: AsyncIterableX<any>,
+    selector: (x: any) => number | Promise<number> = identityAsync): Promise<number> {
+  return max(this, selector);
 }
 
 AsyncIterableX.prototype.max = maxProto;
