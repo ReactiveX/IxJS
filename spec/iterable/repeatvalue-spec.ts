@@ -3,6 +3,7 @@
 import  * as test  from 'tape';
 import { count } from '../../dist/cjs/iterable/count';
 import { elementAt } from '../../dist/cjs/iterable/elementat';
+import { every } from '../../dist/cjs/iterable/every';
 import { first } from '../../dist/cjs/iterable/first';
 import { isEmpty } from '../../dist/cjs/iterable/isempty';
 import { last } from '../../dist/cjs/iterable/last';
@@ -122,7 +123,7 @@ test('Iterable#repeatValue take can only be one', t => {
 test('Iterable#repeatValue skip none', t => {
   t.true(sequenceEqual(repeatValue(12, 8), skip(repeatValue(12, 8), 0)));
   t.end();
-})
+});
 
 test('Iterable#repeatValue first', t => {
   t.equal('test', first(repeatValue('test', 42)));
@@ -132,7 +133,7 @@ test('Iterable#repeatValue first', t => {
 test('Iterable#repeatValue last', t => {
   t.equal('test', last(repeatValue('test', 42)));
   t.end();
-})
+});
 
 test('Iterable#repeatValue elementAt', t => {
   t.equal('test', elementAt(repeatValue('test', 42), 13));
@@ -146,5 +147,21 @@ test('Iterable#repeatValue elementAt excessive', t => {
 
 test('Iterable#repeatValue count', t => {
   t.equal(42, count(repeatValue('test', 42)));
+  t.end();
+});
+
+test('Iterable#repeatValue infinite', t => {
+  const xs = take(repeatValue(42), 100);
+
+  t.true(every(xs, x => x === 42));
+  t.equal(count(xs), 100);
+  t.end();
+});
+
+test('Iterable#repeatValue count', t => {
+  const xs = repeatValue(42, 100);
+
+  t.true(every(xs, x => x === 42));
+  t.equal(count(xs), 100);
   t.end();
 });
