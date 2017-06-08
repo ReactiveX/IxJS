@@ -17,7 +17,7 @@ test('Iterable#startWith adds to beginning', t => {
 
 test('Iterable#startWith adds without causing effects', t => {
   let oops = false;
-  const e = tap(range(1, 5), { next: ()=> oops = true });
+  const e = tap(range(1, 5), { next: () => oops = true });
   toArray(take(startWith(e, 0), 1));
   t.false(oops);
   t.end();
