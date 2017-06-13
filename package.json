@@ -67,7 +67,7 @@
     "ts-node": "^2.1.0",
     "tslint": "^5.4.2",
     "tsutils": "^2.3.0",
-    "typescript": "^2.4.0-dev.20170530",
+    "typescript": "^2.5.0-dev.20170613",
     "webpack": "^1.14.0"
   }
 }
