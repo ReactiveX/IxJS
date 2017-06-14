@@ -51,14 +51,14 @@ Instead of bringing in the entire library for `Iterable`, we can pick and choose
 
 ```js
 // ES
-import { Iterable } from 'ix/iterable';
-import { of } from 'ix/add/iterable/of';
-import { map } from 'ix/add/iterable-operators/map';
+import { IterableX as Iterable } from 'ix/iterable';
+import 'ix/add/iterable/of';
+import 'ix/add/iterable-operators/map';
 
 // CommonJS
 const Iterable = require('ix/iterable').IterableX;
-const of = require('ix/add/iterable/of');
-const map = require('ix/add/iterable-operators/map');
+require('ix/add/iterable/of');
+require('ix/add/iterable-operators/map');
 
 const results = Iterable.of(1,2,3)
   .map(x => x + '!!');
@@ -83,6 +83,32 @@ const results = map(
   ),
   x => x * x
 );
+
+for (let item of results) {
+  console.log(`Next: ${item}`);
+}
+```
+
+We can mix the two approaches by adding the minimal `chain` operator which then allows us to create a more fluent style but yet keeping the surface area to a minimum.
+
+```js
+// ES
+import { IterableX as Iterable } from 'ix/iterable';
+import 'ix/add/iterable-operators/chain';
+import { of } from 'ix/iterable/of';
+import { filter } from 'ix/iterable/filter';
+import { map } from 'ix/iterable/map';
+
+// CommonJS
+const Iterable = require('ix/iterable').IterableX;
+require('ix/add/iterable-operators/chain');
+const of = require('ix/iterable/of');
+const filter = require('ix/iterable/filter');
+const map = require('ix/iterable/map');
+
+const results = of(1, 2, 3)
+  .chain(source => filter(source, x => x % 2 === 0))
+  .chain(source => map(source, x => x * x));
 
 for (let item of results) {
   console.log(`Next: ${item}`);
@@ -166,14 +192,14 @@ Instead of bringing in the entire library for `AsyncIterable`, we can pick and c
 
 ```js
 // ES
-import { AsyncIterable } from 'ix/asynciterable';
-import { of } from 'ix/add/asynciterable/of';
-import { map } from 'ix/add/asynciterable-operators/map';
+import { AsyncIterableX as AsyncIterable } from 'ix/asynciterable';
+import 'ix/add/asynciterable/of';
+import 'ix/add/asynciterable-operators/map';
 
 // CommonJS
 const AsyncIterable = require('ix/asynciterable').AsyncIterableX;
-const of = require('ix/add/asynciterable/of');
-const map = require('ix/add/asynciterable-operators/map');
+require('ix/add/asynciterable/of');
+require('ix/add/asynciterable-operators/map');
 
 const results = AsyncIterable.of(1,2,3)
   .map(x => x + '!!');
@@ -204,6 +230,40 @@ const results = map(
   ),
   x => x * x
 );
+
+for await (let item of results) {
+  console.log(`Next: ${item}`);
+}
+```
+
+Much like with the `Iterable` object, we can mix the two approaches for the `AsyncIterable` object by adding the minimal `chain` operator which then allows us to create a more fluent style but yet keeping the surface area to a minimum.
+
+```js
+// ES
+import { AsyncIterableX as AsyncIterable } from 'ix/asynciterable';
+import 'ix/add/asynciterable-operators/chain';
+import { from } from 'ix/asynciterable/from';
+import { filter } from 'ix/asynciterable/filter';
+import { map } from 'ix/asynciterable/map';
+
+// CommonJS
+const Iterable = require('ix/asynciterable').IterableX;
+require('ix/add/asynciterable-operators/chain');
+const from = require('ix/asynciterable/from');
+const filter = require('ix/asynciterable/filter');
+const map = require('ix/asynciterable/map');
+
+
+const source = async function* () {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+};
+
+const results = from(source())
+  .chain(source => filter(source, async x => x % 2 === 0))
+  .chain(source => map(source, async x => x * x));
 
 for await (let item of results) {
   console.log(`Next: ${item}`);
