@@ -214,7 +214,7 @@ import { filter } from 'ix/asynciterable/filter';
 
 // CommonJS
 const map = require('ix/asynciterable/map').map;
-const filters = require('ix/asynciterable/filter').filter;
+const filter = require('ix/asynciterable/filter').filter;
 
 const source = async function* () {
   yield 1;
@@ -287,6 +287,37 @@ interface AsyncIterator<T> {
 interface IteratorResult<T> {
   value: T;
   done: Boolean;
+}
+```
+
+## Converting from Iterable to AsyncIterable
+
+Using IxJS, you can easily go from an `Iterable` to an `AsyncIterable` using a number of methods.  First, we can use the `from` function, either as a standalone or on the `Ix.AsyncIterable` object.  The `from` method accepts a standard `Iterable`, `Generator`, and `Iterator` of Promises, or even another `AsyncIterable`.
+
+```js
+import { from } from 'ix/asynciterable/from';
+import { map } from 'ix/asynciterable/map';
+
+const xs = [1, 2, 3, 4];
+const asyncIterable = from(xs);
+
+const mapped = map(asyncIterable, async (item, index) => item * index);
+
+for await (let item of mapped) {
+  console.log(`Next: ${item}`);
+}
+```
+
+In addition, you can use the specialized async methods that are suffixed with `Async`, such as `mapAsync`, `filterAsync`, `flatMapAsync` amongst others. These functions accept async functions which allow you to return a `Promise` as the result. 
+
+```js
+import { mapAsync } from 'ix/iterable/mapasync';
+
+const xs = [1, 2, 3, 4];
+const mapped = mapAsync(xs, async (item, index) => item * index);
+
+for await (let item of mapped) {
+  console.log(`Next: ${item}`);
 }
 ```
 
