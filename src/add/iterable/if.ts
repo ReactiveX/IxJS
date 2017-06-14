@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { _if as ifStatic } from '../../iterable/if';
 
+/**
+ * @ignore
+ */
 export function _if<T>(
     fn: () => boolean,
     thenSource: Iterable<T>,

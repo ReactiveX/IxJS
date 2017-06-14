@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { of as staticOf } from '../../iterable/of';
 
+/**
+ * @ignore
+ */
 export function _of<T>(...args: T[]) {
   return staticOf(...args);
 }

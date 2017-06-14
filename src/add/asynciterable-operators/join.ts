@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { join } from '../../asynciterable/join';
 
+/**
+ * @ignore
+ */
 export function joinProto<TOuter, TInner, TKey, TResult>(
     this: AsyncIterable<TOuter>,
     inner: AsyncIterable<TInner>,

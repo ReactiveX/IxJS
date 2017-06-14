@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { intersect } from '../../asynciterable/intersect';
 
+/**
+ * @ignore
+ */
 export function intersectProto<T>(
     this: AsyncIterableX<T>,
     second: AsyncIterable<T>,

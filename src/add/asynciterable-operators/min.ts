@@ -8,6 +8,9 @@ export function minProto(
 export function minProto<T>(
     this: AsyncIterableX<T>,
     selector: (x: T) => number | Promise<number>): Promise<number>;
+/**
+ * @ignore
+ */
 export function minProto(
     this: AsyncIterableX<any>,
     selector: (x: any) => number | Promise<number> = identityAsync): Promise<number> {

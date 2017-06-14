@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { _throw as throwStatic } from '../../iterable/throw';
 
+/**
+ * @ignore
+ */
 export function _throw<T>(error: any): IterableX<T> {
   return throwStatic<T>(error);
 }

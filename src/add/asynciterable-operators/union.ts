@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { union } from '../../asynciterable/union';
 
+/**
+ * @ignore
+ */
 export function unionProto<T>(
     this: AsyncIterableX<T>,
     right: AsyncIterable<T>,

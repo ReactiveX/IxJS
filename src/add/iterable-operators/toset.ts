@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { toSet } from '../../iterable/toset';
 
+/**
+ * @ignore
+ */
 export function toSetProto<TSource>(this: IterableX<TSource>): Set<TSource> {
   return toSet(this);
 }

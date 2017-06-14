@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { repeatValue as repeatValueStatic } from '../../asynciterable/repeatvalue';
 
+/**
+ * @ignore
+ */
 export function _repeatValue<T>(value: T, count?: number): AsyncIterableX<T> {
   return repeatValueStatic(value, count);
 }

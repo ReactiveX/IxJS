@@ -7,6 +7,9 @@ export function shareProto<TSource, TResult>(
     this: AsyncIterable<TSource>,
     selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>):
       AsyncIterableX<TResult>;
+/**
+ * @ignore
+ */
 export function shareProto<TSource, TResult = TSource>(
     this: AsyncIterable<TSource>,
     selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>):

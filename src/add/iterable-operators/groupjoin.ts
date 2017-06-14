@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { groupJoin } from '../../iterable/groupjoin';
 
+/**
+ * @ignore
+ */
 export function groupJoinProto<TOuter, TInner, TKey, TResult>(
     this: Iterable<TOuter>,
     inner: Iterable<TInner>,
@@ -10,7 +13,7 @@ export function groupJoinProto<TOuter, TInner, TKey, TResult>(
   return groupJoin(this, inner, outerSelector, innerSelector, resultSelector);
 }
 
-IterableX.prototype.join = groupJoinProto;
+IterableX.prototype.groupJoin = groupJoinProto;
 
 declare module '../../iterable' {
   interface IterableX<T> {

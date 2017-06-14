@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { single } from '../../asynciterable/single';
 
+/**
+ * @ignore
+ */
 export function singleProto<T>(
     this: AsyncIterableX<T>,
     selector: (value: T) => boolean | Promise<boolean> = async () => true): Promise<T | undefined> {

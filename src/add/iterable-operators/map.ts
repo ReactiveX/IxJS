@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { map } from '../../iterable/map';
 
+/**
+ * @ignore
+ */
 export function mapProto<T, U>(
     this: IterableX<T>,
     fn: (value: T, index: number) => U,

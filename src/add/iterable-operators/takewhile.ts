@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { takeWhile } from '../../iterable/takewhile';
 
+/**
+ * @ignore
+ */
 export function takeWhileProto<TSource>(
     this: IterableX<TSource>,
     predicate: (value: TSource, index: number) => boolean): IterableX<TSource> {

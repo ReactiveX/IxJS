@@ -6,6 +6,9 @@ export function publishProto<TSource>(
 export function publishProto<TSource, TResult>(
     this: AsyncIterableX<TSource>,
     selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterableX<TResult>;
+/**
+ * @ignore
+ */
 export function publishProto<TSource, TResult>(
     this: AsyncIterableX<TSource>,
     selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterableX<TSource | TResult> {

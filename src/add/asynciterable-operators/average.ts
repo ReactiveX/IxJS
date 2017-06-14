@@ -7,6 +7,9 @@ export function averageProto(
 export function averageProto<T>(
     this: AsyncIterableX<T>,
     selector?: (x: T) => number | Promise<number>): Promise<number>;
+/**
+ * @ignore
+ */
 export function averageProto(
     this: AsyncIterableX<any>,
     selector: (x: any) => number | Promise<number>): Promise<number> {

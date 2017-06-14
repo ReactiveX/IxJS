@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { flatMap } from '../../asynciterable/flatmap';
 
+/**
+ * @ignore
+ */
 export function flatMapProto<TSource, TResult>(
     this: AsyncIterable<TSource>,
     selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,

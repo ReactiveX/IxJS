@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { last } from '../../asynciterable/last';
 
+/**
+ * @ignore
+ */
 export function lastProto<T>(
     this: AsyncIterableX<T>,
     selector: (value: T) => boolean | Promise<boolean> = async () => true): Promise<T | undefined> {

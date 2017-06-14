@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { single } from '../../iterable/single';
 
+/**
+ * @ignore
+ */
 export function singleProto<T>(
     this: IterableX<T>,
     fn: (value: T) => boolean = () => true): T | undefined {

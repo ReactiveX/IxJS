@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { includes } from '../../iterable/includes';
 
+/**
+ * @ignore
+ */
 export function includesProto<T>(
     this: IterableX<T>,
     searchElement: T,

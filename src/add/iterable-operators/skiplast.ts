@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { skipLast } from '../../iterable/skiplast';
 
+/**
+ * @ignore
+ */
 export function skipLastProto<T>(
     this: IterableX<T>,
     count: number): IterableX<T> {

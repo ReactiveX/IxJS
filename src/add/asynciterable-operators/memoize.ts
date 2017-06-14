@@ -8,6 +8,9 @@ export function memoizeProto<TSource, TResult>(
     this: AsyncIterableX<TSource>,
     readerCount?: number,
     selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterableX<TResult>;
+/**
+ * @ignore
+ */
 export function memoizeProto<TSource, TResult = TSource>(
     this: AsyncIterableX<TSource>,
     readerCount: number = -1,

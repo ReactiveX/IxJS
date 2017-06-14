@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { find } from '../../iterable/find';
 
+/**
+ * @ignore
+ */
 export function findProto<T>(
     this: IterableX<T>,
     fn: (value: T, index: number) => boolean,

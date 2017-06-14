@@ -9,6 +9,9 @@ export function groupByProto<TSource, TKey, TValue>(
     source: AsyncIterable<TSource>,
     keySelector: (value: TSource) => TKey | Promise<TKey>,
     elementSelector?: (value: TSource) => TValue | Promise<TValue>): AsyncIterableX<GroupedAsyncIterable<TKey, TValue>>;
+/**
+ * @ignore
+ */
 export function groupByProto<TSource, TKey, TValue>(
     source: AsyncIterable<TSource>,
     keySelector: (value: TSource) => TKey | Promise<TKey>,

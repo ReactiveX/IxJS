@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { generate as generateStatic } from '../../iterable/generate';
 
+/**
+ * @ignore
+ */
 export function _generate<TState, TResult>(
     initialState: TState,
     condition: (value: TState) => boolean,

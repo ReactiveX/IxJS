@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { onErrorResumeNextStatic } from '../../asynciterable/onerrorresumenext';
 
+/**
+ * @ignore
+ */
 export function _onErrorResumeNextStatic<T>(...args: AsyncIterable<T>[]) {
   return onErrorResumeNextStatic(...args);
 }

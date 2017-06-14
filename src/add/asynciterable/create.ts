@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { create as createStatic } from '../../asynciterable/create';
 
+/**
+ * @ignore
+ */
 export function _create<T>(fn: () => AsyncIterator<T> | Promise<AsyncIterator<T>>) {
   return createStatic<T>(fn);
 }

@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { takeLast } from '../../iterable/takelast';
 
+/**
+ * @ignore
+ */
 export function takeLastProto<T>(
     this: IterableX<T>,
     count: number): IterableX<T> {

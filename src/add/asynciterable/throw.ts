@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { _throw as throwStatic } from '../../asynciterable/throw';
 
+/**
+ * @ignore
+ */
 export function _throw<T>(error: any): AsyncIterableX<T> {
   return throwStatic<T>(error);
 }

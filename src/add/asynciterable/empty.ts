@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { empty as emptyStatic } from '../../asynciterable/empty';
 
+/**
+ * @ignore
+ */
 export function _empty<T>(): AsyncIterableX<T> {
   return emptyStatic<T>();
 }

@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { toArray } from '../../iterable/toarray';
 
+/**
+ * @ignore
+ */
 export function toArrayProto<TSource>(this: IterableX<TSource>): TSource[] {
   return toArray(this);
 }

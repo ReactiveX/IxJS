@@ -8,6 +8,9 @@ export function scanProto<T, R = T>(
   this: AsyncIterable<T>,
   accumulator: (acc: R, value: T, index: number) => R | Promise<R>,
   seed: R): AsyncIterable<R>;
+/**
+ * @ignore
+ */
 export async function* scanProto<T, R = T>(
     this: AsyncIterable<T>,
     accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,

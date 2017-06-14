@@ -2,6 +2,9 @@ import { AsyncIterableX } from '../../asynciterable';
 import { sequenceEqual } from '../../asynciterable/sequenceequal';
 import { comparerAsync } from '../../internal/comparer';
 
+/**
+ * @ignore
+ */
 export function sequenceEqualProto<T>(
     this: AsyncIterableX<T>,
     other: AsyncIterable<T>,

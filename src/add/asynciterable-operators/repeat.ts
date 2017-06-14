@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { repeat } from '../../asynciterable/repeat';
 
+/**
+ * @ignore
+ */
 export function repeatProto<TSource>(
     this: AsyncIterableX<TSource>,
     count: number = -1): AsyncIterableX<TSource> {

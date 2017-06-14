@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { elementAt } from '../../asynciterable/elementat';
 
+/**
+ * @ignore
+ */
 export function elementAtProto<T>(this: AsyncIterableX<T>, index: number) {
   return elementAt<T>(this, index);
 }

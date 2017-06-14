@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { groupJoin } from '../../asynciterable/groupjoin';
 
+/**
+ * @ignore
+ */
 export function groupJoinProto<TOuter, TInner, TKey, TResult>(
     this: AsyncIterable<TOuter>,
     inner: AsyncIterable<TInner>,

@@ -8,6 +8,9 @@ export function scanProto<T, R = T>(
   this: Iterable<T>,
   accumulator: (acc: R, value: T, index: number) => R,
   seed: R): IterableX<R>;
+/**
+ * @ignore
+ */
 export function scanProto<T, R = T>(
     this: Iterable<T>,
     accumulator: (acc: T | R, value: T, index: number) => R,

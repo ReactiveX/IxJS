@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { join } from '../../iterable/join';
 
+/**
+ * @ignore
+ */
 export function joinProto<TOuter, TInner, TKey, TResult>(
     this: Iterable<TOuter>,
     inner: Iterable<TInner>,

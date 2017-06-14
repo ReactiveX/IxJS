@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { flatMap } from '../../iterable/flatmap';
 
+/**
+ * @ignore
+ */
 export function flatMapProto<TSource, TResult>(
     this: IterableX<TSource>,
     fn: (value: TSource) => Iterable<TResult>,

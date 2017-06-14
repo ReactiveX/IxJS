@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { slice } from '../../iterable/slice';
 
+/**
+ * @ignore
+ */
 export function sliceProto<T>(
     this: IterableX<T>,
     begin: number,

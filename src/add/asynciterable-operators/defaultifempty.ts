@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { defaultIfEmpty } from '../../asynciterable/defaultifempty';
 
+/**
+ * @ignore
+ */
 export function defaultIfEmptyProto<T>(
     this: AsyncIterableX<T>,
     defaultValue: T): AsyncIterableX<T> {

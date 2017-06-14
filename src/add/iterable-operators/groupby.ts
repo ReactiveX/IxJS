@@ -9,6 +9,9 @@ export function groupByProto<TSource, TKey, TValue>(
   source: Iterable<TSource>,
   keySelector: (value: TSource) => TKey,
   elementSelector?: (value: TSource) => TValue): IterableX<GroupedIterable<TKey, TValue>>;
+/**
+ * @ignore
+ */
 export function groupByProto<TSource, TKey, TValue>(
   source: Iterable<TSource>,
   keySelector: (value: TSource) => TKey,

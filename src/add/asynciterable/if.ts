@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { _if as ifStatic } from '../../asynciterable/if';
 
+/**
+ * @ignore
+ */
 export function _if<T>(
     fn: () => boolean | Promise<boolean>,
     thenSource: AsyncIterable<T>,

@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { concat } from '../../asynciterable/concat';
 
+/**
+ * @ignore
+ */
 export function concatProto<T>(this: AsyncIterableX<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
   return concat(this, ...args);
 }

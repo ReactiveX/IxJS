@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { includes } from '../../asynciterable/includes';
 
+/**
+ * @ignore
+ */
 export function includesProto<T>(
     this: AsyncIterableX<T>,
     searchElement: T,

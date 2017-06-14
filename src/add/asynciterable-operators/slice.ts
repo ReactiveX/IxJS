@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { slice } from '../../asynciterable/slice';
 
+/**
+ * @ignore
+ */
 export function sliceProto<T>(
     this: AsyncIterableX<T>,
     begin: number,

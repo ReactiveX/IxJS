@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { distinct } from '../../iterable/distinct';
 
+/**
+ * @ignore
+ */
 export function distinctProto<TSource, TKey>(
     this: IterableX<TSource>,
     keySelector?: (value: TSource) => TKey,

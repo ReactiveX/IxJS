@@ -6,6 +6,9 @@ export function shareProto<TSource>(
 export function shareProto<TSource, TResult>(
     this: Iterable<TSource>,
     fn?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TResult>;
+/**
+ * @ignore
+ */
 export function shareProto<TSource, TResult>(
     this: Iterable<TSource>,
     fn?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TSource | TResult> {

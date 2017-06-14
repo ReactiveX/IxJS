@@ -6,6 +6,9 @@ export function publishProto<TSource>(
 export function publishProto<TSource, TResult>(
     this: Iterable<TSource>,
     selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TResult>;
+/**
+ * @ignore
+ */
 export function publishProto<TSource, TResult>(
     this: Iterable<TSource>,
     selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TSource | TResult> {

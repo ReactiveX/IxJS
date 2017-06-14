@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { union } from '../../iterable/union';
 
+/**
+ * @ignore
+ */
 export function unionProto<T>(
     this: IterableX<T>,
     right: Iterable<T>,

@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { first } from '../../asynciterable/first';
 
+/**
+ * @ignore
+ */
 export function firstProto<T>(
     this: AsyncIterableX<T>,
     fn?: (value: T) => boolean | Promise<boolean>): Promise<T | undefined> {

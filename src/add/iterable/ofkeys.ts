@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { ofKeys as staticOfKeys } from '../../iterable/ofkeys';
 
+/**
+ * @ignore
+ */
 export function _ofKeys<TSource>(source: { [key: string]: TSource }): IterableX<string> {
   return staticOfKeys<TSource>(source);
 }

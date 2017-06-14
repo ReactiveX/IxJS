@@ -13,6 +13,9 @@ export function reduceProto<T, R>(
   this: IterableX<T>,
   accumulator: (acc: R, value: T, index: number) => R,
   seed?: R): R;
+/**
+ * @ignore
+ */
 export function reduceProto<T, R>(
     this: IterableX<T>,
     fn: (acc: R, x: T, index: number) => R,

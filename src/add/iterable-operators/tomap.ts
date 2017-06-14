@@ -8,6 +8,9 @@ export function toMapProto<TSource, TKey, TElement = TSource>(
     this: IterableX<TSource>,
     keySelector: (item: TSource) => TKey,
     elementSelector?: (item: TSource) => TElement): Map<TKey, TElement>;
+/**
+ * @ignore
+ */
 export function toMapProto<TSource, TKey, TElement = TSource>(
     this: IterableX<TSource>,
     keySelector: (item: TSource) => TKey,

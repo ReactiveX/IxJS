@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { toArray } from '../../asynciterable/toarray';
 
+/**
+ * @ignore
+ */
 export function toArrayProto<TSource>(this: AsyncIterableX<TSource>): Promise<TSource[]> {
   return toArray(this);
 }

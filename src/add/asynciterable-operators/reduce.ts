@@ -8,6 +8,9 @@ export async function reduceProto<T, R = T>(
   this: AsyncIterable<T>,
   accumulator: (acc: R, value: T, index: number) => R | Promise<R>,
   seed: R): Promise<R>;
+/**
+ * @ignore
+ */
 export async function reduceProto<T, R = T>(
     this: AsyncIterable<T>,
     accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,

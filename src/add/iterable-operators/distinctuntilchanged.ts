@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { distinctUntilChanged } from '../../iterable/distinctuntilchanged';
 
+/**
+ * @ignore
+ */
 export function distinctUntilChangedProto<TSource, TKey>(
     this: IterableX<TSource>,
     keySelector?: (value: TSource) => TKey,

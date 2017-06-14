@@ -8,6 +8,9 @@ export function toMapProto<TSource, TKey, TElement = TSource>(
     this: AsyncIterable<TSource>,
     keySelector: (item: TSource) => TKey | Promise<TKey>,
     elementSelector?: (item: TSource) => TElement | Promise<TElement>): Promise<Map<TKey, TElement>>;
+/**
+ * @ignore
+ */
 export function toMapProto<TSource, TKey, TElement = TSource>(
     this: AsyncIterable<TSource>,
     keySelector: (item: TSource) => TKey | Promise<TKey>,

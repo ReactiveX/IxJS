@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { zip } from '../../asynciterable/zip';
 
+/**
+ * @ignore
+ */
 export function zipProto<T, TResult>(
     this: AsyncIterableX<T>,
     second: AsyncIterable<T>,

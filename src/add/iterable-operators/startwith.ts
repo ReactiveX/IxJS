@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { startWith } from '../../iterable/startwith';
 
+/**
+ * @ignore
+ */
 export function startWithProto<T>(
     this: IterableX<T>,
     ...args: T[]) {

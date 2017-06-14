@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { _finally } from '../../iterable/finally';
 
+/**
+ * @ignore
+ */
 export function finallyProto<TSource>(
     this: IterableX<TSource>,
     action: () => void) {

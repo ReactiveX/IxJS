@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { _while as whileStatic } from '../../iterable/while';
 
+/**
+ * @ignore
+ */
 export function _while<T>(
     fn: () => boolean,
     source: Iterable<T>): IterableX<T> {

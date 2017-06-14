@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { every } from '../../iterable/every';
 
+/**
+ * @ignore
+ */
 export function everyProto<T>(
     this: IterableX<T>,
     comparer: (value: T, index: number) => boolean): boolean {

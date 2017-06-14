@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { of as staticOf } from '../../asynciterable/of';
 
+/**
+ * @ignore
+ */
 export function _of<T>(...args: T[]) {
   return staticOf(...args);
 }

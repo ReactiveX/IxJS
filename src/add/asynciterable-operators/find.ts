@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { find } from '../../asynciterable/find';
 
+/**
+ * @ignore
+ */
 export function findProto<T>(
     this: AsyncIterableX<T>,
     predicate: (value: T, index: number) => boolean | Promise<boolean>,

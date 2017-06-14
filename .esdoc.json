@@ -1,4 +1,11 @@
 {
   "source": "./dist/es2015",
-  "destination": "./doc"
+  "destination": "./doc",
+  "test": {
+    "type": "tape",
+    "source": "./spec"
+  },
+  "experimentalProposal": {
+    "asyncGenerators": true
+  }
 }

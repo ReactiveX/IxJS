@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { sequenceEqual } from '../../iterable/sequenceequal';
 
+/**
+ * @ignore
+ */
 export function sequenceEqualProto<T>(
     this: IterableX<T>,
     other: Iterable<T>,

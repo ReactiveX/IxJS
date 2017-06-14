@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { _finally } from '../../asynciterable/finally';
 
+/**
+ * @ignore
+ */
 export function finallyProto<TSource>(
     this: AsyncIterableX<TSource>,
     action: () => void | Promise<void>) {

@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { _case as caseStatic } from '../../asynciterable/case';
 
+/**
+ * @ignore
+ */
 export function _case<TSource, TResult>(
     fn: () => TSource | Promise<TSource>,
     sources: Map<TSource, AsyncIterable<TResult>>,

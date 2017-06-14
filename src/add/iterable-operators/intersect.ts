@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { intersect } from '../../iterable/intersect';
 
+/**
+ * @ignore
+ */
 export function intersectProto<T>(
     this: IterableX<T>,
     second: IterableX<T>,

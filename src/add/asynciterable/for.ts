@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { _for as forStatic } from '../../asynciterable/for';
 
+/**
+ * @ignore
+ */
 export function _for<TSource, TResult>(
   source: AsyncIterable<TSource>,
   fn: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>): AsyncIterableX<TResult> {

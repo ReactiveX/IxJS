@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { generate as generateStatic } from '../../asynciterable/generate';
 
+/**
+ * @ignore
+ */
 export function _generate<TState, TResult>(
     initialState: TState,
     condition: (value: TState) => boolean | Promise<boolean>,

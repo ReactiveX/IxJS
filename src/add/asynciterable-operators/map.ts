@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { map } from '../../asynciterable/map';
 
+/**
+ * @ignore
+ */
 export function mapProto<TSource, TResult>(
     this: AsyncIterable<TSource>,
     selector: (value: TSource, index: number) => Promise<TResult> | TResult,

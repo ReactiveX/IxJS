@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { except } from '../../asynciterable/except';
 
+/**
+ * @ignore
+ */
 export function exceptProto<TSource>(
   this: AsyncIterableX<TSource>,
   second: AsyncIterable<TSource>,

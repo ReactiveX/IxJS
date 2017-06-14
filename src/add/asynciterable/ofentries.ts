@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { ofEntries as staticOfEntries } from '../../asynciterable/ofentries';
 
+/**
+ * @ignore
+ */
 export function _ofEntries<TSource>(source: { [key: string]: TSource }): AsyncIterableX<[string, TSource]> {
   return staticOfEntries<TSource>(source);
 }

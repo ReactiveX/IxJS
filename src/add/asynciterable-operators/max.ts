@@ -8,6 +8,9 @@ export function maxProto(
 export function maxProto<T>(
   this: AsyncIterableX<T>,
   selector: (x: T) => number): Promise<number>;
+/**
+ * @ignore
+ */
 export function maxProto(
     this: AsyncIterableX<any>,
     selector: (x: any) => number | Promise<number> = identityAsync): Promise<number> {

@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { orderBy, orderByDescending, OrderedIterableX } from '../../iterable/orderby';
 
+/**
+ * @ignore
+ */
 export function orderByProto<TKey, TSource>(
       this: Iterable<TSource>,
       keySelector: (item: TSource) => TKey,
@@ -8,6 +11,9 @@ export function orderByProto<TKey, TSource>(
   return orderBy<TKey, TSource>(this, keySelector, comparer);
 }
 
+/**
+ * @ignore
+ */
 export function orderByDescendingProto<TKey, TSource>(
       this: Iterable<TSource>,
       keySelector: (item: TSource) => TKey,

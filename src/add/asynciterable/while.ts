@@ -1,6 +1,9 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { _while as whileStatic } from '../../asynciterable/while';
 
+/**
+ * @ignore
+ */
 export function _while<T>(
     fn: () => boolean | Promise<boolean>,
     source: AsyncIterable<T>): AsyncIterableX<T> {

@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { except } from '../../iterable/except';
 
+/**
+ * @ignore
+ */
 export function exceptProto<TSource>(
     this: IterableX<TSource>,
     second: Iterable<TSource>,

@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { from as fromStatic } from '../../iterable/from';
 
+/**
+ * @ignore
+ */
 export function _from<TSource, TResult>(
     source: Iterable<TSource> | ArrayLike<TSource>,
     fn?: (value: TSource, index: number) => TResult,

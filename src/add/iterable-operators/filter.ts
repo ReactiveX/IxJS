@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable';
 import { filter } from '../../iterable/filter';
 
+/**
+ * @ignore
+ */
 export function filterProto<T>(
     this: IterableX<T>,
     fn: (value: T, index: number) => boolean,
