@@ -34,6 +34,13 @@ class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Returns consecutive distinct elements based on a key value by using the specified equality comparer to compare key values.
+ * @param {Iterable<TSource>} source Source sequence.
+ * @param {function(value: TSource): TKey} [keySelector] Key selector.
+ * @param {function(x: TKey, y: TKey): boolean} [comparer] Comparer used to compare key values.
+ * @return {Iterable<TSource>} Sequence without adjacent non-distinct elements.
+ */
 export function distinctUntilChanged<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (value: TSource) => TKey = identity,

@@ -17,6 +17,11 @@ class DeferIterable<T> extends IterableX<T> {
   }
 }
 
-export function defer<TSource>(fn: () => Iterable<TSource>): IterableX<TSource> {
-  return new DeferIterable<TSource>(fn);
+/**
+ * Creates an enumerable sequence based on an iterable factory function.
+ * @param {function(): Iterable<T>} factory Iterable factory function.
+ * @return {Iterable<T>} Sequence that will invoke the iterable factory upon a call to [Symbol.iterator]().
+ */
+export function defer<TSource>(factory: () => Iterable<TSource>): IterableX<TSource> {
+  return new DeferIterable<TSource>(factory);
 }

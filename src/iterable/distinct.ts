@@ -3,7 +3,7 @@
 import { IterableX } from '../iterable';
 import { identity } from '../internal/identity';
 import { arrayIndexOf } from '../internal/arrayindexof';
-import { comparer } from '../internal/comparer';
+import { comparer as defaultComparer } from '../internal/comparer';
 
 class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
@@ -30,9 +30,16 @@ class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Returns elements with a distinct key value by using the specified comparer to compare key values.
+ * @param source Source sequence.
+ * @param {function(value: TSource): TKey} [keySelector] Key selector.
+ * @param {function(x: TKey, y: TKey): boolean} [comparer] Comparer used to compare key values.
+ * @return {Iterable<T>} Sequence that contains the elements from the source sequence with distinct key values.
+ */
 export function distinct<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (value: TSource) => TKey = identity,
-    cmp: (x: TKey, y: TKey) => boolean = comparer): IterableX<TSource> {
-  return new DistinctIterable(source, keySelector, cmp);
+    comparer: (x: TKey, y: TKey) => boolean = defaultComparer): IterableX<TSource> {
+  return new DistinctIterable(source, keySelector, comparer);
 }

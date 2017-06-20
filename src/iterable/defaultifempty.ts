@@ -24,6 +24,12 @@ class DefaultIfEmptyIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Returns the elements of the specified sequence or the type parameter's default value in a singleton collection if the sequence is empty.
+ * @param {Iterable<T>} source The sequence to return a default value for if it is empty.
+ * @param {T} defaultValue The default value if the sequence is empty.
+ * @return An that contains the default value if source is empty; otherwise, source.
+ */
 export function defaultIfEmpty<T>(source: Iterable<T>, defaultValue: T): IterableX<T> {
   return new DefaultIfEmptyIterable<T>(source, defaultValue);
 }
