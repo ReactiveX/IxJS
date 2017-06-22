@@ -1,26 +1,29 @@
 'use strict';
 
-export async function reduce<T>(
+import { toArray } from './toarray';
+
+export async function reduceRight<T>(
   source: AsyncIterable<T>,
   accumulator: (acc: T, value: T, index: number) => T | Promise<T>): Promise<T>;
-export async function reduce<T, R = T>(
+export async function reduceRight<T, R = T>(
   source: AsyncIterable<T>,
   accumulator: (acc: R, value: T, index: number) => R | Promise<R>,
   seed: R): Promise<R>;
-export async function reduce<T, R = T>(
+export async function reduceRight<T, R = T>(
     source: AsyncIterable<T>,
     accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
     ...args: (T | R)[]): Promise<T | R> {
   let [seed] = args;
   const hasSeed = args.length === 1;
-  let i = 0, hasValue = false;
-  for await (let item of source) {
+  let hasValue = false;
+  const array = await toArray(source);
+  for (let offset = array.length - 1; offset >= 0; offset--) {
+    const item = array[offset];
     if (hasValue || (hasValue = hasSeed)) {
-      seed = await accumulator(seed, item, i++);
+      seed = await accumulator(seed, item, offset);
     } else {
       seed = item;
       hasValue = true;
-      i++;
     }
   }
 
