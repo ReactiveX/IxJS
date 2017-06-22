@@ -31,6 +31,12 @@ class ExceptIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * 
+ * @param first 
+ * @param second 
+ * @param comparer 
+ */
 export function except<TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,
