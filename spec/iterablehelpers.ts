@@ -3,7 +3,7 @@
 export function hasNext<T>(t: any, source: Iterator<T>, expected: T) {
   const { done, value } = source.next();
   t.false(done);
-  t.equal(expected, value);
+  t.deepEqual(expected, value);
 }
 
 export function noNext<T>(t: any, source: Iterator<T>) {
