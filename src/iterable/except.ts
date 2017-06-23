@@ -32,10 +32,12 @@ class ExceptIterable<TSource> extends IterableX<TSource> {
 }
 
 /**
- * 
- * @param first 
- * @param second 
- * @param comparer 
+ * Produces the set difference of two sequences by using the an equality comparer to compare values.
+ * @param {Iterable<T>} first A sequence whose elements that are not also in second will be returned.
+ * @param {Iterable<T>} second A sequence whose elements that also occur in the first sequence will cause those
+ * elements to be removed from the returned sequence.
+ * @param {function(x: TKey, y: TKey): boolean} [comparer] Comparer used to compare key values.
+ * @return {Iterable<T>} A sequence that contains the set difference of the elements of two sequences.
  */
 export function except<TSource>(
     first: Iterable<TSource>,
