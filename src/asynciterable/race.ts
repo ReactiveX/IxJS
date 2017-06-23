@@ -24,7 +24,18 @@ class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       yield value;
     }
 
-    const resultIterator = leftWins ? leftIt : rightIt;
+    let resultIterator: AsyncIterator<TSource>, otherIterator: AsyncIterator<TSource>;
+    if (leftWins) {
+      resultIterator = leftIt;
+      otherIterator = rightIt;
+    } else {
+      resultIterator = rightIt;
+      otherIterator = leftIt;
+    }
+
+    // Cancel/finish other iterator
+    if (otherIterator.return) { await otherIterator.return(); }
+
     let next;
     while (!(next = await resultIterator.next()).done) {
       yield next.value;
