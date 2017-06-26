@@ -1,22 +1,22 @@
 import { IterableX } from '../../iterable';
-import { join } from '../../iterable/join';
+import { innerJoin } from '../../iterable/innerjoin';
 
 /**
  * @ignore
  */
-export function joinProto<TOuter, TInner, TKey, TResult>(
+export function innerJoinProto<TOuter, TInner, TKey, TResult>(
     this: Iterable<TOuter>,
     inner: Iterable<TInner>,
     outerSelector: (value: TOuter) => TKey,
     innerSelector: (value: TInner) => TKey,
     resultSelector: (outer: TOuter, inner: TInner) => TResult): IterableX<TResult> {
-  return join(this, inner, outerSelector, innerSelector, resultSelector);
+  return innerJoin(this, inner, outerSelector, innerSelector, resultSelector);
 }
 
-IterableX.prototype.join = joinProto;
+IterableX.prototype.innerJoin = innerJoinProto;
 
 declare module '../../iterable' {
   interface IterableX<T> {
-    join: typeof joinProto;
+    innerJoin: typeof innerJoinProto;
   }
 }

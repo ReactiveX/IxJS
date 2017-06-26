@@ -38,7 +38,7 @@ class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult> {
   }
 }
 
-export function join<TOuter, TInner, TKey, TResult>(
+export function innerJoin<TOuter, TInner, TKey, TResult>(
     outer: Iterable<TOuter>,
     inner: Iterable<TInner>,
     outerSelector: (value: TOuter) => TKey,

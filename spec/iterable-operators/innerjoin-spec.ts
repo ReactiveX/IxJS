@@ -1,14 +1,14 @@
 'use strict';
 
 import * as test from 'tape';
-import { join } from '../../dist/cjs/iterable/join';
+import { join } from '../../dist/cjs/iterable/innerjoin';
 import { _throw } from '../../dist/cjs/iterable/throw';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#join normal', t => {
+test('Iterable#innerJoin normal', t => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => x % 3,
@@ -23,10 +23,10 @@ test('Iterable#join normal', t => {
   t.end();
 });
 
-test('Iterable#join reversed', t => {
+test('Iterable#innerJoin reversed', t => {
   const xs = [3, 6, 4];
   const ys = [0, 1, 2];
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => x % 3,
@@ -41,10 +41,10 @@ test('Iterable#join reversed', t => {
   t.end();
 });
 
-test('Iterable#join only one group matches', t => {
+test('Iterable#innerJoin only one group matches', t => {
   const xs = [0, 1, 2];
   const ys = [3, 6];
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => x % 3,
@@ -58,10 +58,10 @@ test('Iterable#join only one group matches', t => {
   t.end();
 });
 
-test('Iterable#join only one group matches reversed', t => {
+test('Iterable#innerJoin only one group matches reversed', t => {
   const xs = [3, 6];
   const ys = [0, 1, 2];
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => x % 3,
@@ -75,10 +75,10 @@ test('Iterable#join only one group matches reversed', t => {
   t.end();
 });
 
-test('Iterable#join left throws', t => {
+test('Iterable#innerJoin left throws', t => {
   const xs = _throw<number>(new Error());
   const ys = [3, 6, 4];
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => x % 3,
@@ -90,10 +90,10 @@ test('Iterable#join left throws', t => {
   t.end();
 });
 
-test('Iterable#join right throws', t => {
+test('Iterable#innerJoin right throws', t => {
   const xs = [0, 1, 2];
   const ys = _throw<number>(new Error());
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => x % 3,
@@ -105,10 +105,10 @@ test('Iterable#join right throws', t => {
   t.end();
 });
 
-test('Iterable#join left selector throws', t => {
+test('Iterable#innerJoin left selector throws', t => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => { throw new Error(); },
@@ -135,10 +135,10 @@ test('Iterable#join right selector throws', t => {
   t.end();
 });
 
-test('Iterable#join result selector throws', t => {
+test('Iterable#innerJoin result selector throws', t => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => x % 3,

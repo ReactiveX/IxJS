@@ -38,7 +38,7 @@ class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TR
   }
 }
 
-export function join<TOuter, TInner, TKey, TResult>(
+export function innerJoin<TOuter, TInner, TKey, TResult>(
     outer: AsyncIterable<TOuter>,
     inner: AsyncIterable<TInner>,
     outerSelector: (value: TOuter) => TKey | Promise<TKey>,
