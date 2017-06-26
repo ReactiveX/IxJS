@@ -23,6 +23,13 @@ class FilterIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Filters a sequence of values based on a predicate.
+ * @param {Iterable<T>} source Source sequence.
+ * @param {function(value: T, index: number): boolean} predicate A function to test each source element for a condition.
+ * @param {Any} [thisArg] Value to use as this when executing callback.
+ * @return {Iterable<T>} Sequence that contains elements from the input sequence that satisfy the condition.
+ */
 export function filter<T>(
     source: Iterable<T>,
     predicate: (value: T, index: number) => boolean,

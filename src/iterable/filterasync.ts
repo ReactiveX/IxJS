@@ -25,6 +25,13 @@ class FilterIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+* Filters a sequence of values based on a predicate.
+* @param {Iterable<T | Promise<T>> | AsyncIterable<T>} source Source sequence.
+* @param {function(value: T, index: number): boolean | Promise<boolean>} predicate A function to test each source element for a condition.
+* @param {Any} [thisArg] Value to use as this when executing callback.
+* @return {AsyncIterable<T>} Sequence that contains elements from the input sequence that satisfy the condition.
+*/
 export function filterAsync<TSource>(
     source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
     predicate: (value: TSource, index: number) => boolean | Promise<boolean>,
