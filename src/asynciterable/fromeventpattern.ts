@@ -7,9 +7,7 @@ export function fromEventPattern<TSource>(
     addHandler: (handler: Function) => void,
     removeHandler: (handler: Function) => void): AsyncIterable<TSource> {
   const sink = new AsyncSink<TSource>();
-  const handler = function (e: TSource) {
-    sink.write(e);
-  };
+  const handler = (e: TSource) => sink.write(e);
 
   addHandler(handler);
 
