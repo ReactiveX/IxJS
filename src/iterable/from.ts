@@ -6,7 +6,7 @@ import { identity } from '../internal/identity';
 import { toLength } from '../internal/tolength';
 import { isIterable } from '../internal/isiterable';
 
-class FromIterable<TSource, TResult> extends IterableX<TResult> {
+class FromIterable<TSource, TResult = TSource> extends IterableX<TResult> {
   private _source: Iterable<TSource> | ArrayLike<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
 
@@ -33,7 +33,7 @@ class FromIterable<TSource, TResult> extends IterableX<TResult> {
   }
 }
 
-export function from<TSource, TResult>(
+export function from<TSource, TResult = TSource>(
     source: Iterable<TSource> | ArrayLike<TSource>,
     fn: (value: TSource, index: number) => TResult = identity,
     thisArg?: any): IterableX<TResult> {

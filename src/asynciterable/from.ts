@@ -6,7 +6,7 @@ import { identityAsync } from '../internal/identity';
 import { toLength } from '../internal/tolength';
 import { isIterable, isAsyncIterable } from '../internal/isiterable';
 
-class FromAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
+class FromAsyncIterable<TSource, TResult = TSource> extends AsyncIterableX<TResult> {
   private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource> | ArrayLike<TSource>;
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
 
@@ -35,7 +35,7 @@ class FromAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   }
 }
 
-export function from<TSource, TResult>(
+export function from<TSource, TResult = TSource>(
     source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource> | ArrayLike<TSource>,
     fn: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
     thisArg?: any): AsyncIterableX<TResult> {
