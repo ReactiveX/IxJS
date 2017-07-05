@@ -1,7 +1,7 @@
 'use strict';
 
 import * as test from 'tape';
-import { join } from '../../dist/cjs/iterable/innerjoin';
+import { innerJoin } from '../../dist/cjs/iterable/innerjoin';
 import { _throw } from '../../dist/cjs/iterable/throw';
 import { hasNext, noNext } from '../iterablehelpers';
 
@@ -123,7 +123,7 @@ test('Iterable#innerJoin left selector throws', t => {
 test('Iterable#join right selector throws', t => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = join(
+  const res = innerJoin(
     xs,
     ys,
     x => x % 3,
