@@ -13,17 +13,17 @@ class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    const it = this._source[Symbol.asyncIterator]();
-    let otherDone = false, next;
-    this._other.then(() => otherDone = true).catch(() => otherDone = true);
-    while (!otherDone && !(next = await it.next()).done) {
-      yield next.value;
+    let otherDone = false;
+    this._other.then(() => otherDone = true);
+    for await (let item of this._source) {
+      if (otherDone) { break; }
+      yield item;
     }
   }
 }
 
 export function takeUntil<TSource>(
     source: AsyncIterable<TSource>,
-    other: Promise<any>): AsyncIterable<TSource> {
+    other: Promise<any>): AsyncIterableX<TSource> {
   return new TakeUntilAsyncIterable<TSource>(source, other);
 }
