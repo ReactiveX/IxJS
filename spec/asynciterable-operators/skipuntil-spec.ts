@@ -1,0 +1,40 @@
+'use strict';
+
+import * as test from 'tape';
+import { skipUntil } from '../../dist/cjs/asynciterable/skipuntil';
+import { hasNext, noNext } from '../asynciterablehelpers';
+
+async function delayValue<T>(value: T, delay: number) {
+  return new Promise<T>(resolve => setTimeout(() => resolve(value), delay));
+}
+
+test('AsyncIterable#skipUntil hits', async t => {
+  const xs = async function* () {
+    yield await delayValue(1, 100);
+    yield await delayValue(2, 300);
+    yield await delayValue(3, 600);
+  };
+  const ys = skipUntil(xs(), delayValue(42, 200));
+
+  const it = ys[Symbol.asyncIterator]();
+  await hasNext(t, it, 2);
+  await hasNext(t, it, 3);
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#skipUntil misses', async t => {
+  const xs = async function* () {
+    yield await delayValue(1, 400);
+    yield await delayValue(2, 500);
+    yield await delayValue(3, 600);
+  };
+  const ys = skipUntil(xs(), delayValue(42, 0));
+
+  const it = ys[Symbol.asyncIterator]();
+  await hasNext(t, it, 1);
+  await hasNext(t, it, 2);
+  await hasNext(t, it, 3);
+  await noNext(t, it);
+  t.end();
+});
