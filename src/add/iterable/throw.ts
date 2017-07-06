@@ -1,18 +1,10 @@
 import { IterableX } from '../../iterable';
 import { _throw as throwStatic } from '../../iterable/throw';
 
-/**
- * @ignore
- */
-export function _throw<T>(error: any): IterableX<T> {
-  return throwStatic<T>(error);
-}
-
-IterableX.throw = _throw;
+IterableX.throw = throwStatic;
 
 declare module '../../iterable' {
   namespace IterableX {
-    function _throw<T>(error: any): IterableX<T>;
-    export { _throw as throw };
+    export { throwStatic as throw };
   }
 }

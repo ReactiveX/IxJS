@@ -1,17 +1,10 @@
 import { AsyncIterableX } from '../../asynciterable';
-import { ofKeys as staticOfKeys } from '../../asynciterable/ofkeys';
+import { ofKeys as ofKeysStatic } from '../../asynciterable/ofkeys';
 
-/**
- * @ignore
- */
-export function _ofKeys<TSource>(source: { [key: string]: TSource }): AsyncIterableX<string> {
-  return staticOfKeys<TSource>(source);
-}
-
-AsyncIterableX.ofKeys = _ofKeys;
+AsyncIterableX.ofKeys = ofKeysStatic;
 
 declare module '../../asynciterable' {
   namespace AsyncIterableX {
-    export let ofKeys: typeof _ofKeys;
+    export let ofKeys: typeof ofKeysStatic;
   }
 }

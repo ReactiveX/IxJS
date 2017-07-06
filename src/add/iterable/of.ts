@@ -1,17 +1,10 @@
 import { IterableX } from '../../iterable';
-import { of as staticOf } from '../../iterable/of';
+import { of as ofStatic } from '../../iterable/of';
 
-/**
- * @ignore
- */
-export function _of<T>(...args: T[]) {
-  return staticOf(...args);
-}
-
-IterableX.of = _of;
+IterableX.of = ofStatic;
 
 declare module '../../iterable' {
   namespace IterableX {
-    export let of: typeof _of;
+    export let of: typeof ofStatic;
   }
 }

@@ -1,18 +1,10 @@
 import { IterableX } from '../../iterable';
 import { _catchStatic as catchStatic } from '../../iterable/catch';
 
-/**
- * @ignore
- */
-export function _catchStatic<T>(...args: Iterable<T>[]) {
-  return catchStatic<T>(...args);
-}
-
-IterableX.catch = _catchStatic;
+IterableX.catch = catchStatic;
 
 declare module '../../iterable' {
   namespace IterableX {
-    function _catch<T>(...args: Iterable<T>[]): IterableX<T>;
-    export { _catch as catch };
+    export { catchStatic as catch };
   }
 }

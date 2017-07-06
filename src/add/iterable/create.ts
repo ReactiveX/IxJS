@@ -1,17 +1,10 @@
 import { IterableX } from '../../iterable';
 import { create as createStatic } from '../../iterable/create';
 
-/**
- * @ignore
- */
-export function _create<T>(fn: () => Iterator<T>) {
-  return createStatic<T>(fn);
-}
-
-IterableX.create = _create;
+IterableX.create = createStatic;
 
 declare module '../../iterable' {
   namespace IterableX {
-    export let create: typeof _create;
+    export let create: typeof createStatic;
   }
 }

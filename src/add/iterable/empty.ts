@@ -1,17 +1,10 @@
 import { IterableX } from '../../iterable';
 import { empty as emptyStatic } from '../../iterable/empty';
 
-/**
- * @ignore
- */
-export function _empty<T>(): IterableX<T> {
-  return emptyStatic<T>();
-}
-
-IterableX.empty = _empty;
+IterableX.empty = emptyStatic;
 
 declare module '../../iterable' {
   namespace IterableX {
-    export let empty: typeof _empty;
+    export let empty: typeof emptyStatic;
   }
 }

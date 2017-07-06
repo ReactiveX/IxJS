@@ -1,17 +1,10 @@
 import { AsyncIterableX } from '../../asynciterable';
-import { of as staticOf } from '../../asynciterable/of';
+import { of as ofStatic } from '../../asynciterable/of';
 
-/**
- * @ignore
- */
-export function _of<T>(...args: T[]) {
-  return staticOf(...args);
-}
-
-AsyncIterableX.of = _of;
+AsyncIterableX.of = ofStatic;
 
 declare module '../../asynciterable' {
   namespace AsyncIterableX {
-    export let of: typeof staticOf;
+    export let of: typeof ofStatic;
   }
 }

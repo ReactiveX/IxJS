@@ -1,17 +1,10 @@
 import { IterableX } from '../../iterable';
-import { range } from '../../iterable/range';
+import { range as rangeStatic } from '../../iterable/range';
 
-/**
- * @ignore
- */
-export function _range(start: number, count: number): IterableX<number> {
-  return range(start, count);
-}
-
-IterableX.range = _range;
+IterableX.range = rangeStatic;
 
 declare module '../../iterable' {
   namespace IterableX {
-    export let range: typeof _range;
+    export let range: typeof rangeStatic;
   }
 }

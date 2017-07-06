@@ -1,24 +1,10 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { _case as caseStatic } from '../../asynciterable/case';
 
-/**
- * @ignore
- */
-export function _case<TSource, TResult>(
-    fn: () => TSource | Promise<TSource>,
-    sources: Map<TSource, AsyncIterable<TResult>>,
-    defaultSource?: AsyncIterable<TResult>): AsyncIterableX<TResult> {
-  return caseStatic(fn, sources, defaultSource);
-}
-
-AsyncIterableX.case = _case;
+AsyncIterableX.case = caseStatic;
 
 declare module '../../asynciterable' {
   namespace AsyncIterableX {
-    function _case<TSource, TResult>(
-      fn: () => TSource | Promise<TSource>,
-      sources: Map<TSource, AsyncIterable<TResult>>,
-      defaultSource?: AsyncIterable<TResult>): AsyncIterableX<TResult>;
-    export { _case as case };
+    export { caseStatic as case };
   }
 }

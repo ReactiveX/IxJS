@@ -1,17 +1,10 @@
 import { IterableX } from '../../iterable';
-import { ofValues as staticOfValues } from '../../iterable/ofvalues';
+import { ofValues as ofValuesStatic } from '../../iterable/ofvalues';
 
-/**
- * @ignore
- */
-export function _ofValues<TSource>(source: { [key: string]: TSource }): IterableX<TSource> {
-  return staticOfValues<TSource>(source);
-}
-
-IterableX.ofValues = _ofValues;
+IterableX.ofValues = ofValuesStatic;
 
 declare module '../../iterable' {
   namespace IterableX {
-    export let ofValues: typeof _ofValues;
+    export let ofValues: typeof ofValuesStatic;
   }
 }
