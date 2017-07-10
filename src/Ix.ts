@@ -5,13 +5,11 @@ export { AsyncIterableX as AsyncIterable } from './asynciterable';
 
 // iterable statics
 /* tslint:disable:no-use-before-declare */
-import './add/iterable/case';
 import './add/iterable/catch';
 import './add/iterable/concat';
 import './add/iterable/create';
 import './add/iterable/defer';
 import './add/iterable/empty';
-import './add/iterable/for';
 import './add/iterable/from';
 import './add/iterable/of';
 import './add/iterable/range';
@@ -67,13 +65,11 @@ import './add/iterable-operators/toset';
 import './add/iterable-operators/zip';
 
 // async iterable statics
-import './add/asynciterable/case';
 import './add/asynciterable/catch';
 import './add/asynciterable/concat';
 import './add/asynciterable/create';
 import './add/asynciterable/defer';
 import './add/asynciterable/empty';
-import './add/asynciterable/for';
 import './add/asynciterable/from';
 import './add/asynciterable/of';
 import './add/asynciterable/range';
