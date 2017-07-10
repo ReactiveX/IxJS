@@ -3,7 +3,7 @@
 import { AsyncIterableX } from '../asynciterable';
 
 function delay(time: number) {
-  return new Promise<void>(resolve => setTimeout(() => resolve(), time));
+  return new Promise<void>(resolve => setTimeout(resolve, time));
 }
 
 class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
