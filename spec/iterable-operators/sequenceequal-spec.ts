@@ -131,7 +131,7 @@ test('Itearble#sequenceEqual with custom comparer should be equal', t => {
 });
 
 test('Itearble#sequenceEqual with custom comparer throws', t => {
-  const comparer = (x: number, y: number) => { throw new Error(); }
+  const comparer = (x: number, y: number) => { throw new Error(); };
   const xs = [1, 2, -3, 4];
   const ys = [1, -2, 3, 4];
 

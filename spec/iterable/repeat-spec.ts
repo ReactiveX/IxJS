@@ -37,7 +37,7 @@ test('Iterable#repeat toArray produce correct result', t => {
 });
 
 test('Iterable#repeat works with null element', t => {
-  const objectInstance = null;
+  const objectInstance: null = null;
   const array = toArray(repeatStatic(objectInstance, 100));
 
   t.equal(100, array.length);
@@ -87,7 +87,7 @@ test('Iterable#repeat arbitrary correct results', t => {
 });
 
 test('Iterable#repeat null', t => {
-  const expected = [null, null, null, null];
+  const expected: null[] = [null, null, null, null];
   t.true(sequenceEqual(expected, repeatStatic(null, 4)));
   t.end();
 });
