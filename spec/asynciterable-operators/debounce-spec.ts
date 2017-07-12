@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { debounce } from '../../dist/cjs/asynciterable/debounce';
+const { debounce } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 function delayItem<T>(item: T, delay: number) {

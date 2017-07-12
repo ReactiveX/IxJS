@@ -1,5 +1,3 @@
-'use strict';
-
 import { identityAsync } from '../internal/identity';
 
 export async function toMap<TSource, TKey>(

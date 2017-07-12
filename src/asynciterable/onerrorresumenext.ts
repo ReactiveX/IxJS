@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 
 class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSource> {

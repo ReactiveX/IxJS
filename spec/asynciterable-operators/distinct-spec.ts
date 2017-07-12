@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { distinct } from '../../dist/cjs/asynciterable/distinct';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
+const { distinct } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
 
 test('AsyncIterable#distinct selector', async t => {
   const res = distinct(range(0, 10), x => x % 5);

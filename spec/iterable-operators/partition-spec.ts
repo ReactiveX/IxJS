@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { of } from '../../dist/cjs/iterable/of';
-import { partition } from '../../dist/cjs/iterable/partition';
+const { empty } = Ix.iterable;
+const { of } = Ix.iterable;
+const { partition } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 function isEven(x: number) {

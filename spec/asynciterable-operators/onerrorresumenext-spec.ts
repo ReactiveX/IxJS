@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { concat } from '../../dist/cjs/asynciterable/concat';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { onErrorResumeNext } from '../../dist/cjs/asynciterable/onerrorresumenext';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { concat } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { onErrorResumeNext } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 
 test('AsyncIterable#onErrorResumeNext continues without error', async t => {
   const xs = of(1, 2);

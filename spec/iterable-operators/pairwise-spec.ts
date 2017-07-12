@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { of } from '../../dist/cjs/iterable/of';
-import { pairwise } from '../../dist/cjs/iterable/pairwise';
+const { empty } = Ix.iterable;
+const { of } = Ix.iterable;
+const { pairwise } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#pairwise empty return empty', t => {

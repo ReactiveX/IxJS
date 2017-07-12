@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { elementAt } from '../../dist/cjs/asynciterable/elementat';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
+const { elementAt } = Ix.asynciterable;
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
 
 test('AsyncIterable#elementAt empty returns undefined', async (t: test.Test) => {
   const xs = empty<number>();

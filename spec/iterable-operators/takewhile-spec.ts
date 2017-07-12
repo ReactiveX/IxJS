@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { takeWhile } from '../../dist/cjs/iterable/takewhile';
+const { takeWhile } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#takeWhile some match', t => {

@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { take } from '../../dist/cjs/iterable/take';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { take } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#take zero or less takes nothing', t => {

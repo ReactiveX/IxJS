@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { ofValues } from '../../dist/cjs/asynciterable/ofvalues';
+const { ofValues } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#ofValues behavior', async t => {

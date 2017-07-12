@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { isEmpty } from '../../dist/cjs/iterable/isempty';
+const { empty } = Ix.iterable;
+const { isEmpty } = Ix.iterable;
 
 test('Iterable#isEmpty empty', t => {
   t.true(isEmpty(empty<number>()));

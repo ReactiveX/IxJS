@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { groupJoin } from '../../dist/cjs/iterable/groupjoin';
-import { reduce } from '../../dist/cjs/iterable/reduce';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { groupJoin } = Ix.iterable;
+const { reduce } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#groupJoin all groups have values', t => {

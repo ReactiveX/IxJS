@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 
 class DefaultIfEmptyIterable<TSource> extends IterableX<TSource> {

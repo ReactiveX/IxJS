@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { concat } from '../../dist/cjs/iterable/concat';
-import { onErrorResumeNext } from '../../dist/cjs/iterable/onerrorresumenext';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { concat } = Ix.iterable;
+const { onErrorResumeNext } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { _throw } = Ix.iterable;
 
 test('Iterable#onErrorResumeNext continues without error', t => {
   const xs = [1, 2];

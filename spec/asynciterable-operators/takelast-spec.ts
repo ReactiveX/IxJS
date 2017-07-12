@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { skip } from '../../dist/cjs/asynciterable/skip';
-import { takeLast } from '../../dist/cjs/asynciterable/takelast';
+const { empty } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { skip } = Ix.asynciterable;
+const { takeLast } = Ix.asynciterable;
 
 test('AsyncIterable#takeLast none', async t => {
   const res = takeLast(range(1, 5), 0);

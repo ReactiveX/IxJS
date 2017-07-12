@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable';
-import { _finally } from '../../iterable/finally';
+import { _finally as _finallyProto } from '../../iterable/finally';
 
 /**
  * @ignore
@@ -7,10 +7,14 @@ import { _finally } from '../../iterable/finally';
 export function finallyProto<TSource>(
     this: IterableX<TSource>,
     action: () => void) {
-  return _finally(this, action);
+  return _finallyProto(this, action);
 }
 
 IterableX.prototype.finally = finallyProto;
+
+export declare namespace iterable {
+  let _finally: typeof _finallyProto;
+}
 
 declare module '../../iterable' {
   interface IterableX<T> {

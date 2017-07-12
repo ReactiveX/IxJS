@@ -1,5 +1,3 @@
-'use strict';
-
 const ARRAY_VALUE = 'value';
 const ARRAY_ERROR = 'error';
 

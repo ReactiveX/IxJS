@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 
 class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {

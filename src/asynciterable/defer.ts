@@ -1,8 +1,6 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 
-class DeferAsyncIterabe<TSource> extends AsyncIterableX<TSource> {
+class DeferAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _fn: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
 
   constructor(fn: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>) {
@@ -17,5 +15,5 @@ class DeferAsyncIterabe<TSource> extends AsyncIterableX<TSource> {
 
 export function defer<TSource>(
     factory: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>): AsyncIterableX<TSource> {
-  return new DeferAsyncIterabe<TSource>(factory);
+  return new DeferAsyncIterable<TSource>(factory);
 }

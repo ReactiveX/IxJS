@@ -1,13 +1,12 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { share } from '../../dist/cjs/asynciterable/share';
-import { take } from '../../dist/cjs/asynciterable/take';
-import { tap } from '../../dist/cjs/asynciterable/tap';
-import { toArray } from '../../dist/cjs/asynciterable/toarray';
-import { zip } from '../../dist/cjs/asynciterable/zip';
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.iterable;
+const { share } = Ix.asynciterable;
+const { take } = Ix.asynciterable;
+const { tap } = Ix.asynciterable;
+const { toArray } = Ix.asynciterable;
+const { zip } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#share single', async t => {

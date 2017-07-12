@@ -1,5 +1,3 @@
-'use strict';
-
 export async function count<T>(
     source: AsyncIterable<T>,
     fn: (value: T) => boolean | Promise<boolean> = async () => true): Promise<number> {

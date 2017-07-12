@@ -1,12 +1,11 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { startWith } from '../../dist/cjs/iterable/startwith';
-import { take } from '../../dist/cjs/iterable/take';
-import { tap } from '../../dist/cjs/iterable/tap';
-import { toArray } from '../../dist/cjs/iterable/toarray';
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { startWith } = Ix.iterable;
+const { take } = Ix.iterable;
+const { tap } = Ix.iterable;
+const { toArray } = Ix.iterable;
 
 test('Iterable#startWith adds to beginning', t => {
   const e = range(1, 5);

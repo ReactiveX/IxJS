@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _catch } from '../../dist/cjs/asynciterable/catch';
-import { concat } from '../../dist/cjs/asynciterable/concat';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { _catch } = Ix.asynciterable;
+const { concat } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 import { hasNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#catch with no errors', async t => {

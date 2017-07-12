@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { last } from '../../dist/cjs/iterable/last';
+const { last } = Ix.iterable;
 
 test('Iterable#last empty returns undefined', t => {
   t.equal(last<number>([]), undefined);

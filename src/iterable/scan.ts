@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 
 class ScanIterable<T, R> extends IterableX<R> {

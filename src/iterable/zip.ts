@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 
 class ZipIterable<TSource, TResult> extends IterableX<TResult> {

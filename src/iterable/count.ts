@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Returns a number that represents how many elements in the specified sequence satisfy a condition if present,
  * else the number of items in the collection.

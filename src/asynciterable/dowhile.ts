@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { concatStatic } from './concat';
 import { _while } from './while';

@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _catch } from '../../dist/cjs/iterable/catch';
-import { concat } from '../../dist/cjs/iterable/concat';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { _catch } = Ix.iterable;
+const { concat } = Ix.iterable;
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext } from '../iterablehelpers';
 
 test('Iterable#catch with no errors', t => {

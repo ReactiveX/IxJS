@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { skip } from '../../dist/cjs/iterable/skip';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { skip } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#skip skips some', t => {

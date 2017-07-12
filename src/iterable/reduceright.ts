@@ -1,5 +1,3 @@
-'use strict';
-
 import { toArray } from './toarray';
 
 export function reduceRight<T>(

@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { from } from '../../dist/cjs/iterable/from';
-import { slice } from '../../dist/cjs/iterable/slice';
+const { from } = Ix.iterable;
+const { slice } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#slice slices at zero with one item', t => {

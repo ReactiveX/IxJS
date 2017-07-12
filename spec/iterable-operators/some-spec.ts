@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { some } from '../../dist/cjs/iterable/some';
+const { some } = Ix.iterable;
 
 test('Iterable#some some true', t => {
   const res = some([1, 2, 3, 4], x => x % 2 === 0);

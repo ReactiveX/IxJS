@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { tap } from '../../dist/cjs/asynciterable/tap';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { range } = Ix.asynciterable;
+const { tap } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 
 test('AsyncItearble#tap next', async t => {
   let n = 0;

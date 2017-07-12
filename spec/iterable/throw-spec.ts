@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { _throw } = Ix.iterable;
 
 test('Iterable#throw throws', t => {
   const xs = _throw<number>(new Error());

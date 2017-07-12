@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { distinctUntilChanged } from '../../dist/cjs/iterable/distinctuntilchanged';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
+const { distinctUntilChanged } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
 
 test('Iterable#distinctUntilChanged no selector', t => {
   const res = distinctUntilChanged([1, 2, 2, 3, 3, 3, 2, 2, 1]);

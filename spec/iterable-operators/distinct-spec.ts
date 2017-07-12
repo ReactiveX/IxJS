@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { distinct } from '../../dist/cjs/iterable/distinct';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
+const { distinct } = Ix.iterable;
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
 
 test('Iterable#distinct selector', t => {
   const res = distinct(range(0, 10), x => x % 5);

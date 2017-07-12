@@ -1,14 +1,13 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test  from 'tape';
-import { buffer } from '../../dist/cjs/iterable/buffer';
-import { every } from '../../dist/cjs/iterable/every';
-import { map } from '../../dist/cjs/iterable/map';
-import { repeat } from '../../dist/cjs/iterable/repeat';
-import { sum } from '../../dist/cjs/iterable/sum';
-import { take } from '../../dist/cjs/iterable/take';
-import { tap } from '../../dist/cjs/iterable/tap';
-import { toArray } from '../../dist/cjs/iterable/toarray';
+const { buffer } = Ix.iterable;
+const { every } = Ix.iterable;
+const { map } = Ix.iterable;
+const { repeat } = Ix.iterable;
+const { sum } = Ix.iterable;
+const { take } = Ix.iterable;
+const { tap } = Ix.iterable;
+const { toArray } = Ix.iterable;
 
 test('Iterable#repeat infinite', t => {
   let i = 0;

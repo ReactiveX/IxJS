@@ -1,5 +1,3 @@
-'use strict';
-
 export function some<T>(
     source: Iterable<T>,
     comparer: (value: T, index: number) => boolean): boolean {

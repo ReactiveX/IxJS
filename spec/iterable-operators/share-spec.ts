@@ -1,13 +1,12 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { share } from '../../dist/cjs/iterable/share';
-import { take } from '../../dist/cjs/iterable/take';
-import { tap } from '../../dist/cjs/iterable/tap';
-import { toArray } from '../../dist/cjs/iterable/toarray';
-import { zip } from '../../dist/cjs/iterable/zip';
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { share } = Ix.iterable;
+const { take } = Ix.iterable;
+const { tap } = Ix.iterable;
+const { toArray } = Ix.iterable;
+const { zip } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#share single', t => {

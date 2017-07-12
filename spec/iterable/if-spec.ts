@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _if } from '../../dist/cjs/iterable/if';
-import { isEmpty } from '../../dist/cjs/iterable/isempty';
-import { single } from '../../dist/cjs/iterable/single';
+const { _if } = Ix.iterable;
+const { isEmpty } = Ix.iterable;
+const { single } = Ix.iterable;
 
 test('Iterable#if then and else', t => {
   let x = 5;

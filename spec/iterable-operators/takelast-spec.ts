@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { skip } from '../../dist/cjs/iterable/skip';
-import { takeLast } from '../../dist/cjs/iterable/takelast';
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { skip } = Ix.iterable;
+const { takeLast } = Ix.iterable;
 
 test('Iterable#takeLast none', t => {
   const res = takeLast(range(1, 5), 0);

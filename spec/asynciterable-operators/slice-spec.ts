@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { from } from '../../dist/cjs/asynciterable/from';
-import { slice } from '../../dist/cjs/asynciterable/slice';
+const { from } = Ix.asynciterable;
+const { slice } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#slice slices at zero with one item', async t => {

@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { ofEntries } from '../../dist/cjs/iterable/ofentries';
+const { ofEntries } = Ix.iterable;
 import { noNext } from '../iterablehelpers';
 
 test('Iterable#ofEntries behavior', t => {

@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 
 class TakeLastIterable<TSource> extends IterableX<TSource> {

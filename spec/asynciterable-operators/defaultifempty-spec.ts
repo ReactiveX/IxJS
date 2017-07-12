@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { defaultIfEmpty } from '../../dist/cjs/asynciterable/defaultifempty';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { defaultIfEmpty } = Ix.asynciterable;
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#defaultIfEmpty with empty', async t => {

@@ -1,18 +1,17 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { concat } from '../../dist/cjs/asynciterable/concat';
-import { every } from '../../dist/cjs/asynciterable/every';
-import { from } from '../../dist/cjs/asynciterable/from';
-import { map } from '../../dist/cjs/asynciterable/map';
-import { memoize } from '../../dist/cjs/asynciterable/memoize';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { take } from '../../dist/cjs/asynciterable/take';
-import { tap } from '../../dist/cjs/asynciterable/tap';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
-import { toArray } from '../../dist/cjs/asynciterable/toarray';
-import { zip } from '../../dist/cjs/asynciterable/zip';
+const { concat } = Ix.asynciterable;
+const { every } = Ix.asynciterable;
+const { from } = Ix.asynciterable;
+const { map } = Ix.asynciterable;
+const { memoize } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { take } = Ix.asynciterable;
+const { tap } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
+const { toArray } = Ix.asynciterable;
+const { zip } = Ix.asynciterable;
 import { hasNext  , noNext } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {

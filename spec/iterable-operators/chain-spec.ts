@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { chain } from '../../dist/cjs/iterable/chain';
+const { empty } = Ix.iterable;
+const { chain } = Ix.iterable;
 import { noNext } from '../iterablehelpers';
 
 test('Itearble#chain calls function immediately', t => {

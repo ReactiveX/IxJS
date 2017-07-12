@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { max } from '../../dist/cjs/asynciterable/max';
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { max } = Ix.asynciterable;
 
 test('AsyncItearble#max laws', async (t: test.Test) => {
   const xs = of(5, 3, 1, 2, 4);

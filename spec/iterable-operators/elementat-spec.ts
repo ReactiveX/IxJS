@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { elementAt } from '../../dist/cjs/iterable/elementat';
+const { elementAt } = Ix.iterable;
 
 test('Iterable#elementAt empty returns undefined', t => {
   const res = elementAt<number>([], 0);

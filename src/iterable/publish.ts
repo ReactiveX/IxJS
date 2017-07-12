@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 import { RefCountList } from './_refcountlist';
 import { create } from './create';

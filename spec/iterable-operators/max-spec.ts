@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { max } from '../../dist/cjs/iterable/max';
+const { max } = Ix.iterable;
 
 test('Itearble#max laws', t => {
   const xs = [5, 3, 1, 2, 4];

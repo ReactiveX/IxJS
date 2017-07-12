@@ -1,5 +1,3 @@
-'use strict';
-
 export function hasNext<T>(t: any, source: Iterator<T>, expected: T) {
   const { done, value } = source.next();
   t.false(done);

@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { reduceRight } from '../../dist/cjs/asynciterable/reduceright';
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { reduceRight } = Ix.asynciterable;
 
 test('AsyncIterable#reduceRight no seed', async t => {
   const xs = of(0, 1, 2, 3, 4);

@@ -1,15 +1,14 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test  from 'tape';
-import { buffer } from '../../dist/cjs/iterable/buffer';
-import { every } from '../../dist/cjs/iterable/every';
-import { map } from '../../dist/cjs/iterable/map';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { repeat } from '../../dist/cjs/asynciterable/repeat';
-import { sum } from '../../dist/cjs/iterable/sum';
-import { take } from '../../dist/cjs/asynciterable/take';
-import { tap } from '../../dist/cjs/asynciterable/tap';
-import { toArray } from '../../dist/cjs/asynciterable/toarray';
+const { buffer } = Ix.iterable;
+const { every } = Ix.iterable;
+const { map } = Ix.iterable;
+const { of } = Ix.asynciterable;
+const { repeat } = Ix.asynciterable;
+const { sum } = Ix.iterable;
+const { take } = Ix.asynciterable;
+const { tap } = Ix.asynciterable;
+const { toArray } = Ix.asynciterable;
 
 test('AsyncIterable#repeat infinite', async t => {
   let i = 0;

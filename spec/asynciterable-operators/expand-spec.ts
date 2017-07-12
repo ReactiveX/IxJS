@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { expand } from '../../dist/cjs/asynciterable/expand';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { take } from '../../dist/cjs/asynciterable/take';
+const { expand } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { take } = Ix.asynciterable;
 
 test('Iterable#expand with single return behavior', async t => {
   const res = take(expand(of(0), async x => of(x + 1)), 10);

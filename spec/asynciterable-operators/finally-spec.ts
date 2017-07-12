@@ -1,9 +1,8 @@
-'use strct';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _finally } from '../../dist/cjs/asynciterable/finally';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { _finally } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#finally defers behavior', async t => {

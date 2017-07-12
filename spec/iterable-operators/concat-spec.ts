@@ -1,11 +1,11 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { concat, concatAll } from '../../dist/cjs/iterable/concat';
-import { map } from '../../dist/cjs/iterable/map';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { tap } from '../../dist/cjs/iterable/tap';
+const { concat } = Ix.iterable;
+const { concatAll } = Ix.iterable;
+const { map } = Ix.iterable;
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { tap } = Ix.iterable;
 
 test('Iterable#concat concatAll behavior', t => {
   const res = concatAll([[1, 2, 3], [4, 5]]);

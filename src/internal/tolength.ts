@@ -1,5 +1,3 @@
-'use strict';
-
 import { toInteger } from  './tointeger';
 const maxSafeInteger = Math.pow(2, 53) - 1;
 

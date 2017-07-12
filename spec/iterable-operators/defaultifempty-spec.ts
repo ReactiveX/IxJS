@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { defaultIfEmpty } from '../../dist/cjs/iterable/defaultifempty';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { defaultIfEmpty } = Ix.iterable;
+const { empty } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#defaultIfEmpty with empty', t => {

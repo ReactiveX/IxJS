@@ -1,5 +1,3 @@
-'use strict';
-
 import { bindCallback } from '../internal/bindcallback';
 
 export async function findIndex<T>(

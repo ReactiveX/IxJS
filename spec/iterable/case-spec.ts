@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _case } from '../../dist/cjs/iterable/case';
-import { defer } from '../../dist/cjs/iterable/defer';
-import { isEmpty } from '../../dist/cjs/iterable/isempty';
-import { single } from '../../dist/cjs/iterable/single';
+const { _case } = Ix.iterable;
+const { defer } = Ix.iterable;
+const { isEmpty } = Ix.iterable;
+const { single } = Ix.iterable;
 
 test('Iterable#case no default', t => {
   let x = 1;

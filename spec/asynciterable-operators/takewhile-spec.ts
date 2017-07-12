@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { takeWhile } from '../../dist/cjs/asynciterable/takewhile';
+const { of } = Ix.asynciterable;
+const { takeWhile } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#takeWhile some match', async t => {

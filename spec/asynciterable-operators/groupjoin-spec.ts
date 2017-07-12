@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { groupJoin } from '../../dist/cjs/asynciterable/groupjoin';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { reduce } from '../../dist/cjs/asynciterable/reduce';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { groupJoin } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { reduce } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#groupJoin all groups have values', async t => {

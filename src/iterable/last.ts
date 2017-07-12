@@ -1,5 +1,3 @@
-'use strict';
-
 export function last<T>(source: Iterable<T>, fn: (value: T) => boolean = () => true): T | undefined {
   let result: T | undefined;
   for (let item of source) {

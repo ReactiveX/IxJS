@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { maxBy } from '../../dist/cjs/iterable/maxby';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
+const { maxBy } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
 
 test('Iterable#maxBy', t => {
   const source = [2, 5, 0, 7, 4, 3, 6, 2, 1];

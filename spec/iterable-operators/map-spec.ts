@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { map } from '../../dist/cjs/iterable/map';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
+const { empty } = Ix.iterable;
+const { map } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
 
 test('Iterable#map single element', t => {
   const source = [{ name: 'Frank', custId: 98088 }];

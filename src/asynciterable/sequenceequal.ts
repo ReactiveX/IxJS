@@ -1,5 +1,3 @@
-'use strict';
-
 import { comparerAsync } from '../internal/comparer';
 
 export async function sequenceEqual<T>(

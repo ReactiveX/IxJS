@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { sum } from '../../dist/cjs/asynciterable/sum';
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { sum } = Ix.asynciterable;
 
 test('AsyncIterable#sum laws', async t => {
   const xs = of(1, 2, 3);

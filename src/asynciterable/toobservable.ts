@@ -1,5 +1,3 @@
-'use strict';
-
 import { Observable, Observer, Subscription } from '../observer';
 
 class BooleanSubscription implements Subscription {
@@ -44,6 +42,6 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
   }
 }
 
-export function toObservable<TSource>(source: AsyncIterable<TSource>) {
+export function toObservable<TSource>(source: AsyncIterable<TSource>): Observable<TSource> {
   return new AsyncIterableObservable<TSource>(source);
 }

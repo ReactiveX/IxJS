@@ -1,5 +1,3 @@
-'use strict';
-
 export interface NextObserver<T> {
   next: (value: T) => void;
   error?: (err: any) => void;

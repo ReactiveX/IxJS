@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { toArray } from '../../dist/cjs/iterable/toarray';
+const { sequenceEqual } = Ix.iterable;
+const { toArray } = Ix.iterable;
 
 test('Iterable#toArray some', t => {
   const xs = [42, 25, 39];

@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/iterable/of';
-import { pluck } from '../../dist/cjs/iterable/pluck';
+const { of } = Ix.iterable;
+const { pluck } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#pluck simple prop', t => {

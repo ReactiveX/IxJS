@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { flatten } from '../../dist/cjs/asynciterable/flatten';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { toArray } from '../../dist/cjs/asynciterable/toarray';
+const { flatten } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { toArray } = Ix.asynciterable;
 
 function compareArrays<T>(t: test.Test, fst: Iterable<T>, snd: Iterable<T>) {
   t.equal(fst.toString(), snd.toString());

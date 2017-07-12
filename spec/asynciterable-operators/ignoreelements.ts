@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { forEach } from '../../dist/cjs/asynciterable/foreach';
-import { ignoreElements } from '../../dist/cjs/asynciterable/ignoreelements';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { take } from '../../dist/cjs/asynciterable/take';
-import { tap } from '../../dist/cjs/asynciterable/tap';
+const { forEach } = Ix.asynciterable;
+const { ignoreElements } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { take } = Ix.asynciterable;
+const { tap } = Ix.asynciterable;
 
 test('Iterable#ignoreElements has side effects', async t => {
   let n = 0;

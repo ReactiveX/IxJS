@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { toMap } from '../../dist/cjs/iterable/tomap';
+const { toMap } = Ix.iterable;
 
 test('Iterable#toMap stores values', t => {
   const res = toMap([1, 4], x => x % 2);

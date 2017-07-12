@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { toArray } from './toarray';
 import { sorter as defaultSorter } from '../internal/sorter';
@@ -29,12 +27,14 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
   thenBy<TKey>(
       keySelector: (item: TSource) => TKey,
       comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedAsyncIterableBaseX<TSource> {
+    /* tslint:disable-next-line: no-use-before-declare */
     return new OrderedAsyncIterableX<TKey, TSource>(this._source, keySelector, comparer, false, this);
   }
 
   thenByDescending<TKey>(
       keySelector: (item: TSource) => TKey,
       comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedAsyncIterableBaseX<TSource> {
+    /* tslint:disable-next-line: no-use-before-declare */
     return new OrderedAsyncIterableX<TKey, TSource>(this._source, keySelector, comparer, true, this);
   }
 

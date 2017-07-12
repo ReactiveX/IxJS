@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { zip } from '../../dist/cjs/iterable/zip';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { zip } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#zip equal length', t => {

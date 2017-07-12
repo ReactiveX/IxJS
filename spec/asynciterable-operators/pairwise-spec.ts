@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { pairwise } from '../../dist/cjs/asynciterable/pairwise';
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { pairwise } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#pairwise empty return empty', async t => {
