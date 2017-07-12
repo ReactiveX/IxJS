@@ -24,8 +24,10 @@ coverage
 build/Release
 dist
 
-# Dependency directory
+# npm/yarn stuff
+yarn.lock
 node_modules
+package-lock.json
 
 # Optional npm cache directory
 .npm
@@ -33,6 +35,12 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-src/**/*.d.ts
-src/**/*.js
-src/**/*.js.map
+# editor configurations
+.vscode
+.editorconfig
+
+# esdoc output
+doc
+
+# compilation targets
+targets

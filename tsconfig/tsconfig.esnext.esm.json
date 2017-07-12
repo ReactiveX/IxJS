@@ -1,0 +1,10 @@
+//Compiler configuaration to build the CommonJS target
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "es2015",
+    "outDir": "../targets/esnext/esm",
+    "declarationDir": "../targets/esnext/esm/types"
+  }
+}
