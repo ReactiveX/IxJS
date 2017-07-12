@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { throttle } from '../../dist/cjs/asynciterable/throttle';
+const { throttle } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 function delayItem<T>(item: T, delay: number) {

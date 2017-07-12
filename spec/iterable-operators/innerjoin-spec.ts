@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { innerJoin } from '../../dist/cjs/iterable/innerjoin';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { innerJoin } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#innerJoin normal', t => {

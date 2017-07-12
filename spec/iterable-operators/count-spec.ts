@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { count } from '../../dist/cjs/iterable/count';
+const { count } = Ix.iterable;
 
 test('Iterable#count no predicate empty', t => {
   t.equal(count<number>([]), 0);

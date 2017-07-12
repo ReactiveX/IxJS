@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { flatten } from '../../dist/cjs/iterable/flatten';
-import { toArray } from '../../dist/cjs/iterable/toarray';
+const { flatten } = Ix.iterable;
+const { toArray } = Ix.iterable;
 
 function compareArrays<T>(t: test.Test, fst: Iterable<T>, snd: Iterable<T>) {
   t.equal(fst.toString(), snd.toString());

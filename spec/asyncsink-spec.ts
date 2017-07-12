@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from './Ix';
 import * as test from 'tape';
-import { AsyncSink } from '../dist/cjs/asyncsink';
+const { AsyncSink } = Ix;
 import { hasNext, noNext } from './asynciterablehelpers';
 
 test('AsyncSink writes before next', async t => {

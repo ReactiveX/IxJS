@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { empty } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { _throw } = Ix.iterable;
 
 test('Iterable#sequenceEqual sequence equals itself', t => {
   const xs = [1, 2, 3];

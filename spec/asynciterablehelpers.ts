@@ -1,5 +1,3 @@
-'use strict';
-
 export async function hasNext<T>(t: any, source: AsyncIterator<T>, expected: T) {
   const { done, value } = await source.next();
   t.false(done);

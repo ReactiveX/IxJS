@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { average } from '../../dist/cjs/asynciterable/average';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
+const { average } = Ix.asynciterable;
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
 
 test('Iterable#average empty', async (t: test.Test) => {
   const xs = empty<number>();

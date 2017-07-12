@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { skipUntil } from '../../dist/cjs/asynciterable/skipuntil';
+const { skipUntil } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 async function delayValue<T>(value: T, delay: number) {

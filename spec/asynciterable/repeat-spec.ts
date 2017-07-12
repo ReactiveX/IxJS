@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { repeatValue } from '../../dist/cjs/asynciterable/repeatvalue';
+const { repeatStatic } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#repeatValue repeats value finitely', async (t: test.Test) => {
-  const xs = repeatValue(2, 5);
+test('AsyncIterable#repeat repeats value finitely', async (t: test.Test) => {
+  const xs = repeatStatic(2, 5);
 
   const it = xs[Symbol.asyncIterator]();
   await hasNext(t, it, 2);
@@ -17,16 +16,16 @@ test('AsyncIterable#repeatValue repeats value finitely', async (t: test.Test) =>
   t.end();
 });
 
-test('AsyncIterable#repeatValue repeat zero times', async (t: test.Test) => {
-  const xs = repeatValue(2, 0);
+test('AsyncIterable#repeat repeat zero times', async (t: test.Test) => {
+  const xs = repeatStatic(2, 0);
 
   const it = xs[Symbol.asyncIterator]();
   await noNext(t, it);
   t.end();
 });
 
-test('AsyncIterable#repeatValue repeats value infinitely', async (t: test.Test) => {
-  const xs = repeatValue(2);
+test('AsyncIterable#repeat repeats value infinitely', async (t: test.Test) => {
+  const xs = repeatStatic(2);
 
   const it = xs[Symbol.asyncIterator]();
   await hasNext(t, it, 2);

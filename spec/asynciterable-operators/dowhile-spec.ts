@@ -1,12 +1,11 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { defer } from '../../dist/cjs/asynciterable/defer';
-import { doWhile } from '../../dist/cjs/asynciterable/dowhile';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { tap } from '../../dist/cjs/asynciterable/tap';
-import { toArray } from '../../dist/cjs/asynciterable/toarray';
+const { defer } = Ix.asynciterable;
+const { doWhile } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { sequenceEqual } = Ix.iterable;
+const { tap } = Ix.asynciterable;
+const { toArray } = Ix.asynciterable;
 
 test('Iterable#doWhile some', async t => {
   let x = 5;

@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { buffer } from '../../dist/cjs/iterable/buffer';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { toArray } from '../../dist/cjs/iterable/toarray';
+const { buffer } = Ix.iterable;
+const { empty } = Ix.iterable;
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { toArray } = Ix.iterable;
 
 test('Iterable#buffer no skip non-full buffer', t => {
   const rng = range(0, 10);

@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
+const { empty } = Ix.asynciterable;
 import { noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#empty empty', async (t: test.Test) => {

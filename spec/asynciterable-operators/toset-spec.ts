@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { from } from '../../dist/cjs/asynciterable/from';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { toSet } from '../../dist/cjs/asynciterable/toset';
+const { empty } = Ix.asynciterable;
+const { from } = Ix.asynciterable;
+const { sequenceEqual } = Ix.iterable;
+const { toSet } = Ix.asynciterable;
 
 test('AsyncIterable#toSet non-empty', async (t: test.Test) => {
   const xs = [1, 2, 3, 4, 5];

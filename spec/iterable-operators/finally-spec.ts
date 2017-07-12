@@ -1,9 +1,8 @@
-'use strct';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _finally } from '../../dist/cjs/iterable/finally';
-import { range } from '../../dist/cjs/iterable/range';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { _finally } = Ix.iterable;
+const { range } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#finally defers behavior', t => {

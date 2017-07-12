@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { includes } from '../../dist/cjs/iterable/includes';
+const { includes } = Ix.iterable;
 
 test('Iterable#includes includes', t => {
   const xs = [1, 2, 3, 4, 5];

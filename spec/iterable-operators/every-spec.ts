@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { every } from '../../dist/cjs/iterable/every';
+const { every } = Ix.iterable;
 
 test('Iterable#every some true', t => {
   const res = every([1, 2, 3, 4], x => x % 2 === 0);

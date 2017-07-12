@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { isEmpty } from '../../dist/cjs/asynciterable/isempty';
-import { of } from '../../dist/cjs/asynciterable/of';
+const { empty } = Ix.asynciterable;
+const { isEmpty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
 
 test('Iterable#isEmpty empty', async t => {
   t.true(await isEmpty(empty<number>()));

@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 
 test('AsyncIterable#sequenceEqual sequence equals itself', async t => {
   const xs = of(1, 2, 3);

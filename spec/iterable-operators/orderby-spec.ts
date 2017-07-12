@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { orderBy, orderByDescending, thenBy, thenByDescending } from '../../dist/cjs/iterable/orderby';
+const { orderBy, orderByDescending, thenBy, thenByDescending } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#orderBy normal ordering', t => {

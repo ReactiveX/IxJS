@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { minBy } from '../../dist/cjs/asynciterable/minby';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
+const { empty } = Ix.asynciterable;
+const { minBy } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
 
 test('AsyncIterable#minBy', async t => {
   const source = of(2, 5, 0, 7, 4, 3, 6, 2, 1);

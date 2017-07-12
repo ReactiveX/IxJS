@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { _throw } = Ix.asynciterable;
 
 test('AsyncIterable#throw throws', async t => {
   const xs = _throw<number>(new Error());

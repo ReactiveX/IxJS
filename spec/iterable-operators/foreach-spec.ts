@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { forEach } from '../../dist/cjs/iterable/foreach';
-import { range } from '../../dist/cjs/iterable/range';
+const { forEach } = Ix.iterable;
+const { range } = Ix.iterable;
 
 test('Iterable#forEach', t => {
   let n = 0;

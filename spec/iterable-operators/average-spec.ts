@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { average } from '../../dist/cjs/iterable/average';
+const { average } = Ix.iterable;
 
 test('Iterable#average empty', t => {
   t.throws(() => average([]));

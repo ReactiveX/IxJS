@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { toMap } from '../../dist/cjs/asynciterable/tomap';
+const { of } = Ix.asynciterable;
+const { toMap } = Ix.asynciterable;
 
 test('AsyncIterable#toMap stores values', async (t: test.Test) => {
   const xs = of(1, 4);

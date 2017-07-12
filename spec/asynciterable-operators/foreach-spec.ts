@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { forEach } from '../../dist/cjs/asynciterable/foreach';
-import { range } from '../../dist/cjs/asynciterable/range';
+const { forEach } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
 
 test('AsyncIterable#forEach', async t => {
   let n = 0;

@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { defer } from '../../dist/cjs/iterable/defer';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
+const { defer } = Ix.iterable;
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
 
 test('Iterable#defer defers side effects', t => {
   let i = 0;

@@ -1,17 +1,16 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { concat } from '../../dist/cjs/iterable/concat';
-import { every } from '../../dist/cjs/iterable/every';
-import { map } from '../../dist/cjs/iterable/map';
-import { memoize } from '../../dist/cjs/iterable/memoize';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { take } from '../../dist/cjs/iterable/take';
-import { tap } from '../../dist/cjs/iterable/tap';
-import { _throw } from '../../dist/cjs/iterable/throw';
-import { toArray } from '../../dist/cjs/iterable/toarray';
-import { zip } from '../../dist/cjs/iterable/zip';
+const { concat } = Ix.iterable;
+const { every } = Ix.iterable;
+const { map } = Ix.iterable;
+const { memoize } = Ix.iterable;
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { take } = Ix.iterable;
+const { tap } = Ix.iterable;
+const { _throw } = Ix.iterable;
+const { toArray } = Ix.iterable;
+const { zip } = Ix.iterable;
 import { hasNext  , noNext } from '../iterablehelpers';
 
 function* tick(t: (x: number) => void) {

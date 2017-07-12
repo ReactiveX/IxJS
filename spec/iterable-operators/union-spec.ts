@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { union } from '../../dist/cjs/iterable/union';
+const { union } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#union with default comparer', t => {

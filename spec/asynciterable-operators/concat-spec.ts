@@ -1,12 +1,12 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { concat, concatAll } from '../../dist/cjs/asynciterable/concat';
-import { map } from '../../dist/cjs/asynciterable/map';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { tap } from '../../dist/cjs/asynciterable/tap';
+const { concat } = Ix.asynciterable;
+const { concatAll } = Ix.asynciterable;
+const { map } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { tap } = Ix.asynciterable;
 
 test('AsyncIterable#concat concatAll behavior', async t => {
   const res = concatAll(of(of(1, 2, 3), of(4, 5)));

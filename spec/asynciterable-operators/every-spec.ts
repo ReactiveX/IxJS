@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { every } from '../../dist/cjs/asynciterable/every';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { every } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 
 test('AsyncIterable#every not all match', async (t: test.Test) => {
   const xs = of(1, 2, 3, 4);
