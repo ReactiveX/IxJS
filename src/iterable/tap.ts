@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 import { PartialObserver } from '../observer';
 

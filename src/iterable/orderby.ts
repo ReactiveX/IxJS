@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 import { sorter as defaultSorter } from '../internal/sorter';
 

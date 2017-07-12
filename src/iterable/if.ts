@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 import { defer } from './defer';
 import { empty } from './empty';

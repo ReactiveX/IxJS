@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncSink } from '../asyncsink';
 import { memoize } from './memoize';
 

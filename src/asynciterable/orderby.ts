@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { toArray } from './toarray';
 import { sorter as defaultSorter } from '../internal/sorter';

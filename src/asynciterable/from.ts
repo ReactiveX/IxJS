@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { bindCallback } from '../internal/bindcallback';
 import { identityAsync } from '../internal/identity';

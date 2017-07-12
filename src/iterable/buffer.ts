@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 
 class BufferIterable<TSource> extends IterableX<TSource[]> {

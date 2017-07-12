@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { IRefCountList, MaxRefCountList, RefCountList } from '../iterable/_refcountlist';
 import { create } from './create';

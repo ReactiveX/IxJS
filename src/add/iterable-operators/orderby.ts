@@ -1,5 +1,6 @@
 import { IterableX } from '../../iterable';
 import { orderBy, orderByDescending, OrderedIterableX } from '../../iterable/orderby';
+import { thenBy as _thenBy, thenByDescending as _thenByDescending } from '../../iterable/orderby';
 
 /**
  * @ignore
@@ -22,6 +23,12 @@ export function orderByDescendingProto<TKey, TSource>(
 }
 
 IterableX.prototype.orderBy = orderByProto;
+IterableX.prototype.orderByDescending = orderByDescendingProto;
+
+export declare namespace iterable {
+  let thenBy: typeof _thenBy;
+  let thenByDescending: typeof _thenByDescending;
+}
 
 declare module '../../iterable' {
   interface IterableX<T> {

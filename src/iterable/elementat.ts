@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Returns the element at a specified index in a sequence or undefined if the index is out of range.
  * @param {Iterable<T>} source The source sequence.

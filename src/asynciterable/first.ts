@@ -1,5 +1,3 @@
-'use strict';
-
 export async function first<T>(
     source: AsyncIterable<T>,
     predicate: (value: T) => boolean | Promise<boolean> = async () => true): Promise<T | undefined> {

@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 
 class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {

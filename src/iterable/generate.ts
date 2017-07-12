@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 
 class GenerateIterable<TState, TResult> extends IterableX<TResult> {

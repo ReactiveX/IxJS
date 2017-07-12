@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 
 class CatchIterable<TSource> extends IterableX<TSource> {

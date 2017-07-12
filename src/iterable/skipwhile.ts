@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 
 class SkipWhileIterable<TSource> extends IterableX<TSource> {

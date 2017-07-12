@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Determines whether every element of a sequence satisfy a condition.
  * @param {Iterable<T>} source Source sequence.

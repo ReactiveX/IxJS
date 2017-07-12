@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { arrayIndexOfAsync } from '../internal/arrayindexof';
 import { comparerAsync } from '../internal/comparer';

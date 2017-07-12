@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * This clas serves as the base for all operations which support [Symbol.asyncIterator].
  */

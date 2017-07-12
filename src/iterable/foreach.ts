@@ -1,5 +1,3 @@
-'use strict';
-
 import { bindCallback } from '../internal/bindcallback';
 
 export function forEach<TSource>(

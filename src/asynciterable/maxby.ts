@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { extremaBy, defaultCompareAsync } from './_extremaby';
 
