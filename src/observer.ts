@@ -43,3 +43,18 @@ export type PartialAsyncObserver<T> =
   NextAsyncObserver<T> |
   ErrorAsyncObserver<T> |
   CompletionAsyncObserver<T>;
+
+export interface Subscription {
+  unsubscribe: () => void;
+}
+
+export interface Observer<T> {
+  closed?: boolean;
+  next: (value: T) => void;
+  error: (err: any) => void;
+  complete: () => void;
+}
+
+export interface Observable<T> {
+  subscribe: (observer: Observer<T>) => Subscription;
+}
