@@ -43,4 +43,8 @@ package-lock.json
 doc
 
 # compilation targets
-targets
+dist
+types
+targets/es5
+targets/es2015
+targets/esnext

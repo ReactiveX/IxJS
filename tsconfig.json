@@ -1,17 +1,11 @@
 {
   "extends": "./tsconfig/tsconfig.base.json",
-  "include": ["src/**/*.ts"],
-  "angularCompilerOptions": {
-    "skipMetadataEmit": true,
-    "annotationsAs": "static fields",
-    "annotateForClosureCompiler": true
-  },
   "formatCodeOptions": {
     "tabSize": 2,
     "indentSize": 2
   },
   "compilerOptions": {
-    "importHelpers": false,
-    "noEmitHelpers": true
+    "target": "ESNEXT",
+    "module": "es2015"
   }
 }

@@ -1,16 +1,21 @@
 {
   "name": "ix",
-  "private": true,
   "version": "2.0.0",
+  "main": "./targets/es5/cjs/Ix.js",
+  "module": "./targets/es5/esm/Ix.js",
+  "browser": "./targets/es5/umd/Ix.js",
+  "jsnext:main": "./targets/es2015/esm/Ix.js",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
     "commit": "git-cz",
-    "test": "./scripts/index.js --test",
-    "build": "./scripts/index.js --build",
-    "clean": "./scripts/index.js --clean",
-    "compile": "./scripts/index.js --compile",
-    "deploy": "lerna publish --conventional-commits",
+    "test": "gulp test",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "validate": "npm-run-all lint build test",
+    "lerna:publish": "lerna publish --conventional-commits",
+    "prepublishOnly": "npm-run-all validate doc lerna:publish",
+    "commitmsg": "validate-commit-msg",
     "doc": "shx rm -rf ./doc && esdoc",
     "lint": "npm-run-all -p lint:*",
     "lint:src": "tslint --fix --type-check -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
@@ -30,6 +35,13 @@
     "AsyncIterable",
     "AsyncIterator"
   ],
+  "files": [
+    "dist",
+    "types",
+    "targets",
+    "LICENSE",
+    "readme.md"
+  ],
   "peerDependencies": {
     "tslib": "^1.7.1"
   },
@@ -37,22 +49,27 @@
   "devDependencies": {
     "@types/node": "~8.0.10",
     "@types/tape": "~4.2.30",
+    "command-line-args": "~4.0.6",
     "commitizen": "~2.9.6",
     "cz-conventional-changelog": "~2.0.0",
+    "del": "~3.0.0",
     "esdoc": "~0.5.2",
-    "glob": "~7.1.2",
     "google-closure-compiler": "~20170626.0.0",
+    "gulp": "~3.9.1",
+    "gulp-json-transform": "~0.4.2",
+    "gulp-sourcemaps": "~2.6.0",
+    "gulp-typescript": "~3.2.0",
     "husky": "~0.14.3",
     "lerna": "^2.0.0",
     "lint-staged": "~4.0.1",
+    "merge2": "~1.1.0",
     "mkdirp": "~0.5.1",
     "npm-run-all": "~4.0.2",
+    "pump": "~1.0.2",
     "rimraf": "~2.6.1",
-    "rxjs": "~5.4.2",
     "shx": "~0.2.2",
-    "spawn-rx": "~2.0.11",
     "systemjs": "~0.20.15",
-    "tap-spec": "~4.1.1",
+    "tap-min": "~1.2.1",
     "tape": "~4.7.0",
     "ts-node": "~3.2.0",
     "tsickle": "~0.23.3",
@@ -60,7 +77,7 @@
     "tslint": "~5.5.0",
     "tsutils": "~2.6.0",
     "typescript": "~2.4.1",
-    "verror": "~1.10.0"
+    "validate-commit-msg": "~2.12.2"
   },
   "config": {
     "commitizen": {

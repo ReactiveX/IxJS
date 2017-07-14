@@ -2,11 +2,14 @@
 
 // Dynamically load an Ix target build based on command line arguments
 
+const args = process.argv.slice(2);
 const resolve = require('path').resolve;
-const args = process.argv.slice(process.argv.indexOf('--'));
 const target = args[args.indexOf('--target') + 1];
 const format = args[args.indexOf('--module') + 1];
-const { targets, formats } = require('../scripts/config');
+
+// these are duplicated in the gulpfile :<
+const targets = [`es5`, `es2015`, `esnext`];
+const formats = [`cjs`, `esm`, `sys`, `cls`, `umd`];
 
 function throwInvalidImportError(name: string, value: string, values: string[]) {
     throw new Error('Unrecognized ' + name + ' \'' + value + '\'. Please run tests with \'--' + name + ' <any of ' + values.join(', ') + '>\'');

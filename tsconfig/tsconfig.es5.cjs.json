@@ -3,8 +3,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "target": "ES5",
-    "module": "commonjs",
-    "outDir": "../targets/es5/cjs",
-    "declarationDir": "../targets/es5/cjs/types"
+    "module": "commonjs"
   }
 }
