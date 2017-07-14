@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { race } from '../../dist/cjs/asynciterable/race';
+const { of } = Ix.asynciterable;
+const { race } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 function delayValue<T>(value: T, time: number) {

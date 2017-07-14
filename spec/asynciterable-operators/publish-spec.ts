@@ -1,17 +1,16 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { concat } from '../../dist/cjs/asynciterable/concat';
-import { from } from '../../dist/cjs/asynciterable/from';
-import { map } from '../../dist/cjs/asynciterable/map';
-import { publish } from '../../dist/cjs/asynciterable/publish';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
-import { take } from '../../dist/cjs/asynciterable/take';
-import { tap } from '../../dist/cjs/asynciterable/tap';
-import { toArray } from '../../dist/cjs/asynciterable/toarray';
-import { zip } from '../../dist/cjs/asynciterable/zip';
+const { concat } = Ix.asynciterable;
+const { from } = Ix.asynciterable;
+const { map } = Ix.asynciterable;
+const { publish } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
+const { take } = Ix.asynciterable;
+const { tap } = Ix.asynciterable;
+const { toArray } = Ix.asynciterable;
+const { zip } = Ix.asynciterable;
 import { hasNext , noNext  } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {

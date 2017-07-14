@@ -1,11 +1,10 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { Observable } from '../observer';
 
 class AsyncObserver<TSource> {
   public values: TSource[];
   public hasError: boolean;
+  public hasCompleted: boolean;
   public errorValue: any;
   public closed: boolean;
 
@@ -47,13 +46,13 @@ class FromObservableAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    const observer = new AsyncObserver();
+    const observer = new AsyncObserver<TSource>();
     const subscription = this._observable.subscribe(observer);
 
     while (1) {
       if (observer.values.length > 0) {
         yield observer.values.shift();
-      } else if (observer.stopped) {
+      } else if (observer.closed) {
         subscription.unsubscribe();
         if (observer.hasError) {
           throw observer.errorValue;
@@ -65,6 +64,6 @@ class FromObservableAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function fromObservable<TSource>(observable: Observable<TSource>) {
+export function fromObservable<TSource>(observable: Observable<TSource>): AsyncIterableX<TSource> {
   return new FromObservableAsyncIterable<TSource>(observable);
 }

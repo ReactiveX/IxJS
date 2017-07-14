@@ -1,5 +1,3 @@
-'use strict';
-
 export function toMap<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (item: TSource) => TKey): Map<TKey, TSource>;

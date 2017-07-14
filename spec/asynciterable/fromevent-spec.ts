@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { fromEvent } from '../../dist/cjs/asynciterable/fromevent';
+const { fromEvent } = Ix.asynciterable;
 import { hasNext } from '../asynciterablehelpers';
 import { EventEmitter } from 'events';
 

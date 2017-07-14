@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { distinctUntilChanged } from '../../dist/cjs/asynciterable/distinctuntilchanged';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
+const { distinctUntilChanged } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
 
 test('Iterable#distinctUntilChanged no selector', async t => {
   const res = distinctUntilChanged(of(1, 2, 2, 3, 3, 3, 2, 2, 1));

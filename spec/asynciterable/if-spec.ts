@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { _if } from '../../dist/cjs/asynciterable/if';
-import { isEmpty } from '../../dist/cjs/asynciterable/isempty';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { single } from '../../dist/cjs/asynciterable/single';
+const { _if } = Ix.asynciterable;
+const { isEmpty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { single } = Ix.asynciterable;
 
 test('AsyncIterable#if then and else', async t => {
   let x = 5;

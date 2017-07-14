@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 import { createGrouping } from './_grouping';
 import { empty } from './empty';

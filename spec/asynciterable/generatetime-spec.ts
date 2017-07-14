@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { generateTime } from '../../dist/cjs/asynciterable/generatetime';
+const { generateTime } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#generateTime generateTimes normal sequence', async t => {

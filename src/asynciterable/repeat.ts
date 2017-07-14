@@ -1,5 +1,4 @@
-'use strict';
-
+import { of } from './of';
 import { AsyncIterableX } from '../asynciterable';
 
 class RepeatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
@@ -27,4 +26,8 @@ class RepeatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function repeat<TSource>(source: AsyncIterable<TSource>, count: number = -1): AsyncIterableX<TSource> {
   return new RepeatAsyncIterable<TSource>(source, count);
+}
+
+export function repeatStatic<TSource>(value: TSource, count: number = -1): AsyncIterableX<TSource> {
+  return new RepeatAsyncIterable<TSource>(of(value), count);
 }

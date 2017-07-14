@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { range } from '../../dist/cjs/asynciterable/range';
+const { range } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#range produces values', async (t: test.Test) => {

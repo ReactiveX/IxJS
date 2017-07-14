@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { reverse } from '../../dist/cjs/iterable/reverse';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { empty } = Ix.iterable;
+const { reverse } = Ix.iterable;
+const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#reverse empty', t => {

@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 
 class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {

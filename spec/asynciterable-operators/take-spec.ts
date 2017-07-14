@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { take } from '../../dist/cjs/asynciterable/take';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { of } = Ix.asynciterable;
+const { take } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#take zero or less takes nothing', async t => {

@@ -1,11 +1,9 @@
-'use strict';
-
 import { AsyncSink } from '../asyncsink';
 import { memoize } from './memoize';
 
 export function fromEventPattern<TSource>(
-    addHandler: (handler: Function) => void,
-    removeHandler: (handler: Function) => void): AsyncIterable<TSource> {
+    addHandler: (handler: (...args: any[]) => void) => void,
+    removeHandler: (handler: (...args: any[]) => void) => void): AsyncIterable<TSource> {
   const sink = new AsyncSink<TSource>();
   const handler = (e: TSource) => sink.write(e);
 

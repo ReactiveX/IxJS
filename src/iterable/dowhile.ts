@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 import { concatStatic } from './concat';
 import { _while } from './while';

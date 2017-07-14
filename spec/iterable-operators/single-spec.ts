@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { single } from '../../dist/cjs/iterable/single';
+const { single } = Ix.iterable;
 
 test('Iterable#single no predicate empty returns undefined', t => {
   const res = single<number>([]);

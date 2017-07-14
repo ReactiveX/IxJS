@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { union } from '../../dist/cjs/asynciterable/union';
+const { of } = Ix.asynciterable;
+const { union } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#union with default comparer', async t => {

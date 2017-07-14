@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { flatMap } from '../../dist/cjs/asynciterable/flatmap';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { flatMap } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#flatMap with range', async t => {

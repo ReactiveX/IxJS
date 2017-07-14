@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { includes } from '../../dist/cjs/asynciterable/includes';
+const { of } = Ix.asynciterable;
+const { includes } = Ix.asynciterable;
 
 test('AsyncIterable#includes includes', async (t: test.Test) => {
   const xs = of(1, 2, 3, 4, 5);

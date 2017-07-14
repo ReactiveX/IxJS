@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { defer } from '../../dist/cjs/iterable/defer';
-import { doWhile } from '../../dist/cjs/iterable/dowhile';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { tap } from '../../dist/cjs/iterable/tap';
-import { toArray } from '../../dist/cjs/iterable/toarray';
+const { defer } = Ix.iterable;
+const { doWhile } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { tap } = Ix.iterable;
+const { toArray } = Ix.iterable;
 
 test('Iterable#doWhile some', t => {
   let x = 5;

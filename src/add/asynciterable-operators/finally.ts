@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable';
-import { _finally } from '../../asynciterable/finally';
+import { _finally as _finallyProto } from '../../asynciterable/finally';
 
 /**
  * @ignore
@@ -7,10 +7,14 @@ import { _finally } from '../../asynciterable/finally';
 export function finallyProto<TSource>(
     this: AsyncIterableX<TSource>,
     action: () => void | Promise<void>) {
-  return _finally(this, action);
+  return _finallyProto(this, action);
 }
 
 AsyncIterableX.prototype.finally = finallyProto;
+
+export declare namespace asynciterable {
+  let _finally: typeof _finallyProto;
+}
 
 declare module '../../asynciterable' {
   interface AsyncIterableX<T> {

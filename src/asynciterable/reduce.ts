@@ -1,5 +1,3 @@
-'use strict';
-
 export async function reduce<T>(
   source: AsyncIterable<T>,
   accumulator: (acc: T, value: T, index: number) => T | Promise<T>): Promise<T>;

@@ -1,10 +1,14 @@
 import { AsyncIterableX } from '../../asynciterable';
-import { onErrorResumeNextStatic } from '../../asynciterable/onerrorresumenext';
+import { onErrorResumeNextStatic as _onErrorResumeNextStatic } from '../../asynciterable/onerrorresumenext';
 
-AsyncIterableX.onErrorResumeNext = onErrorResumeNextStatic;
+AsyncIterableX.onErrorResumeNext = _onErrorResumeNextStatic;
+
+export declare namespace asynciterable {
+  let onErrorResumeNextStatic: typeof _onErrorResumeNextStatic;
+}
 
 declare module '../../asynciterable' {
   namespace AsyncIterableX {
-    export let onErrorResumeNext: typeof onErrorResumeNextStatic;
+    export let onErrorResumeNext: typeof _onErrorResumeNextStatic;
   }
 }

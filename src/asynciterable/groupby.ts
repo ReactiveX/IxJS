@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 import { identityAsync } from '../internal/identity';
 import { createGrouping } from './_grouping';

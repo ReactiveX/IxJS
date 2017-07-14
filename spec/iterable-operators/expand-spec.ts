@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { expand } from '../../dist/cjs/iterable/expand';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { take } from '../../dist/cjs/iterable/take';
+const { expand } = Ix.iterable;
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { take } = Ix.iterable;
 
 test('Iterable#expand with single return behavior', t => {
   const res = take(expand([0], x => [x + 1]), 10);

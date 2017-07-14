@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { some } from '../../dist/cjs/asynciterable/some';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { of } = Ix.asynciterable;
+const { some } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 
 test('AsyncIterable#some some true', async (t: test.Test) => {
   const xs = of(1, 2, 3, 4);

@@ -1,5 +1,3 @@
-'use strict';
-
 import { AsyncIterableX } from '../asynciterable';
 
 class AnonymousAsyncIterable<T> extends AsyncIterableX<T> {

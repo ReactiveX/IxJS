@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { buffer } from '../../dist/cjs/asynciterable/buffer';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { toArray } from '../../dist/cjs/asynciterable/toarray';
+const { buffer } = Ix.asynciterable;
+const { empty } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.iterable;
+const { toArray } = Ix.asynciterable;
 
 test('AsyncIterable#buffer no skip non-full buffer', async t => {
   const rng = range(0, 10);

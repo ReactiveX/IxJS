@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { pluck } from '../../dist/cjs/asynciterable/pluck';
+const { of } = Ix.asynciterable;
+const { pluck } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#pluck simple prop', async t => {

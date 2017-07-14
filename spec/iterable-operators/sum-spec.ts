@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { sum } from '../../dist/cjs/iterable/sum';
+const { sum } = Ix.iterable;
 
 test('Iterable#sum laws', t => {
   const xs = [1, 2, 3];

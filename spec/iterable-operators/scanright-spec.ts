@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { range } from '../../dist/cjs/iterable/range';
-import { scanRight } from '../../dist/cjs/iterable/scanright';
+const { range } = Ix.iterable;
+const { scanRight } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#scanRight no seed', t => {

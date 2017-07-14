@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 import { bindCallback } from '../internal/bindcallback';
 import { identity } from '../internal/identity';

@@ -1,11 +1,10 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { forEach } from '../../dist/cjs/iterable/foreach';
-import { ignoreElements } from '../../dist/cjs/iterable/ignoreelements';
-import { range } from '../../dist/cjs/iterable/range';
-import { take } from '../../dist/cjs/iterable/take';
-import { tap } from '../../dist/cjs/iterable/tap';
+const { forEach } = Ix.iterable;
+const { ignoreElements } = Ix.iterable;
+const { range } = Ix.iterable;
+const { take } = Ix.iterable;
+const { tap } = Ix.iterable;
 
 test('Iterable#ignoreElements has side effects', t => {
   let n = 0;

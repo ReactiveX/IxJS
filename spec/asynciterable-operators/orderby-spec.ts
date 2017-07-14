@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { orderBy, orderByDescending, thenBy, thenByDescending } from '../../dist/cjs/asynciterable/orderby';
+const { of } = Ix.asynciterable;
+const { orderBy, orderByDescending, thenBy, thenByDescending } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#orderBy normal ordering', async t => {

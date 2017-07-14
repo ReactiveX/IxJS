@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { orderBy, orderByDescending, OrderedAsyncIterableX } from '../../asynciterable/orderby';
+import { thenBy as _thenBy, thenByDescending as _thenByDescending } from '../../asynciterable/orderby';
 
 /**
  * @ignore
@@ -22,6 +23,12 @@ export function orderByDescendingProto<TKey, TSource>(
 }
 
 AsyncIterableX.prototype.orderBy = orderByProto;
+AsyncIterableX.prototype.orderByDescending = orderByDescendingProto;
+
+export declare namespace asynciterable {
+  let thenBy: typeof _thenBy;
+  let thenByDescending: typeof _thenByDescending;
+}
 
 declare module '../../asynciterable' {
   interface AsyncIterableX<T> {

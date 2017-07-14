@@ -1,5 +1,3 @@
-'use strict';
-
 import { comparer } from '../internal/comparer';
 
 export async function includes<T>(

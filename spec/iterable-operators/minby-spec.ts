@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { minBy } from '../../dist/cjs/iterable/minby';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
+const { minBy } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
 
 test('Iterable#minBy', t => {
   const source = [2, 5, 0, 7, 4, 3, 6, 2, 1];

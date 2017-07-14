@@ -1,5 +1,3 @@
-'use strict';
-
 export async function some<T>(
     source: AsyncIterable<T>,
     comparer: (value: T, index: number) => boolean | Promise<boolean>): Promise<boolean> {

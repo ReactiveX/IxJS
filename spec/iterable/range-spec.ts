@@ -1,15 +1,14 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { elementAt } from '../../dist/cjs/iterable/elementat';
-import { first } from '../../dist/cjs/iterable/first';
-import { isEmpty } from '../../dist/cjs/iterable/isempty';
-import { last } from '../../dist/cjs/iterable/last';
-import { range } from '../../dist/cjs/iterable/range';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { skip } from '../../dist/cjs/iterable/skip';
-import { take } from '../../dist/cjs/iterable/take';
-import { toArray } from '../../dist/cjs/iterable/toarray';
+const { elementAt } = Ix.iterable;
+const { first } = Ix.iterable;
+const { isEmpty } = Ix.iterable;
+const { last } = Ix.iterable;
+const { range } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { skip } = Ix.iterable;
+const { take } = Ix.iterable;
+const { toArray } = Ix.iterable;
 
 test('Iterable#range produces correct sequence', t => {
   const rangeSequence = range(1, 100);

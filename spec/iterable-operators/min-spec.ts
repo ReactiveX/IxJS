@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { min } from '../../dist/cjs/iterable/min';
+const { min } = Ix.iterable;
 
 test('Itearble#min laws', t => {
   const xs = [5, 3, 1, 2, 4];

@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { reverse } from '../../dist/cjs/asynciterable/reverse';
-import { _throw } from '../../dist/cjs/asynciterable/throw';
+const { empty } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { reverse } = Ix.asynciterable;
+const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#reverse empty', async t => {

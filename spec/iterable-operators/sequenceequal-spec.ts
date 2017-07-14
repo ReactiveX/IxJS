@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { empty } = Ix.iterable;
+const { sequenceEqual } = Ix.iterable;
+const { _throw } = Ix.iterable;
 
 test('Iterable#sequenceEqual sequence equals itself', t => {
   const xs = [1, 2, 3];
@@ -132,7 +131,7 @@ test('Itearble#sequenceEqual with custom comparer should be equal', t => {
 });
 
 test('Itearble#sequenceEqual with custom comparer throws', t => {
-  const comparer = (x: number, y: number) => { throw new Error(); }
+  const comparer = (x: number, y: number) => { throw new Error(); };
   const xs = [1, 2, -3, 4];
   const ys = [1, -2, 3, 4];
 

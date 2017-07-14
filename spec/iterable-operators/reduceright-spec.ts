@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { of } from '../../dist/cjs/iterable/of';
-import { reduceRight } from '../../dist/cjs/iterable/reduceright';
+const { empty } = Ix.iterable;
+const { of } = Ix.iterable;
+const { reduceRight } = Ix.iterable;
 
 test('Iterable#reduceRight no seed', t => {
   const xs = of(0, 1, 2, 3, 4);

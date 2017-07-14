@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { except } from '../../dist/cjs/asynciterable/except';
-import { of } from '../../dist/cjs/asynciterable/of';
+const { except } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#except with default comparer', async t => {

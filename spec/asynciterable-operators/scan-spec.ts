@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { scan } from '../../dist/cjs/asynciterable/scan';
+const { range } = Ix.asynciterable;
+const { scan } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#scan no seed', async t => {

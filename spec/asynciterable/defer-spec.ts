@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { defer } from '../../dist/cjs/asynciterable/defer';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
+const { defer } = Ix.asynciterable;
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
 
 test('AsyncIterable#defer defers side effects', async (t: test.Test) => {
   let i = 0;

@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { first } from '../../dist/cjs/iterable/first';
+const { first } = Ix.iterable;
 
 test('Iterable#first empty returns undefined', t => {
   t.equal(first<number>([]), undefined);

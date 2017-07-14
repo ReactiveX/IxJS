@@ -1,5 +1,3 @@
-'use strict';
-
 import { fromEventPattern } from './fromeventpattern';
 
 export type NodeEventEmitter  = {

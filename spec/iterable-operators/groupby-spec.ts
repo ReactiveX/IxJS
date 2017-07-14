@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { empty } from '../../dist/cjs/iterable/empty';
-import { groupBy } from '../../dist/cjs/iterable/groupby';
+const { empty } = Ix.iterable;
+const { groupBy } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#groupBy normal', t => {

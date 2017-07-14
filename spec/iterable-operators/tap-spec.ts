@@ -1,9 +1,8 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { range } from '../../dist/cjs/iterable/range';
-import { tap } from '../../dist/cjs/iterable/tap';
-import { _throw } from '../../dist/cjs/iterable/throw';
+const { range } = Ix.iterable;
+const { tap } = Ix.iterable;
+const { _throw } = Ix.iterable;
 
 test('Itearble#tap next', t => {
   let n = 0;

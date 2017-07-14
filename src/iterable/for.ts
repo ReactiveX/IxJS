@@ -1,5 +1,3 @@
-'use strict';
-
 import { IterableX } from '../iterable';
 import { concatAll } from './concat';
 import { map } from './map';

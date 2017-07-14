@@ -1,19 +1,38 @@
-'use strict';
+import { IterableX } from './iterable';
+import { AsyncSink } from './asyncsink';
+import { AsyncIterableX } from './asynciterable';
 
-export { IterableX as Iterable } from './iterable';
-export { AsyncIterableX as AsyncIterable } from './asynciterable';
+export { IterableX as Iterable, AsyncSink, AsyncIterableX as AsyncIterable };
+
+/* These declarations are needed for the closure/umd targets */
+export declare namespace Symbol {
+  export const iterator: symbol;
+  export const asyncIterator: symbol;
+}
+try {
+  const Ix = eval('exports');
+  if (typeof Ix === 'object') {
+    // string indexers tell closure compiler not to rename these properties
+    Ix['Iterable'] = IterableX;
+    Ix['AsyncSink'] = AsyncSink;
+    Ix['AsyncIterable'] = AsyncIterableX;
+  }
+} catch (e) { /* not the UMD bundle */ }
+/** end google declarations */
 
 // iterable statics
 /* tslint:disable:no-use-before-declare */
+import './add/iterable/case';
 import './add/iterable/catch';
 import './add/iterable/concat';
 import './add/iterable/create';
 import './add/iterable/defer';
 import './add/iterable/empty';
+import './add/iterable/for';
 import './add/iterable/from';
 import './add/iterable/of';
 import './add/iterable/range';
-import './add/iterable/repeatvalue';
+import './add/iterable/repeat';
 import './add/iterable/throw';
 
 // iterable operators
@@ -21,6 +40,7 @@ import './add/iterable-operators/catch';
 import './add/iterable-operators/catchwith';
 import './add/iterable-operators/chain';
 import './add/iterable-operators/concat';
+import './add/iterable-operators/concatAll';
 import './add/iterable-operators/count';
 import './add/iterable-operators/defaultifempty';
 import './add/iterable-operators/distinct';
@@ -28,6 +48,7 @@ import './add/iterable-operators/distinctuntilchanged';
 import './add/iterable-operators/elementat';
 import './add/iterable-operators/every';
 import './add/iterable-operators/filter';
+import './add/iterable-operators/finally';
 import './add/iterable-operators/find';
 import './add/iterable-operators/findindex';
 import './add/iterable-operators/first';
@@ -65,24 +86,30 @@ import './add/iterable-operators/toset';
 import './add/iterable-operators/zip';
 
 // async iterable statics
+import './add/asynciterable/case';
 import './add/asynciterable/catch';
 import './add/asynciterable/concat';
 import './add/asynciterable/create';
 import './add/asynciterable/defer';
 import './add/asynciterable/empty';
+import './add/asynciterable/for';
 import './add/asynciterable/from';
 import './add/asynciterable/fromevent';
 import './add/asynciterable/fromeventpattern';
 import './add/asynciterable/of';
+import './add/asynciterable/race';
 import './add/asynciterable/range';
-import './add/asynciterable/repeatvalue';
+import './add/asynciterable/repeat';
 import './add/asynciterable/throw';
 
 // async iterable operators
+import './add/asynciterable-operators/average';
+import './add/asynciterable-operators/buffer';
 import './add/asynciterable-operators/catch';
 import './add/asynciterable-operators/catchwith';
 import './add/asynciterable-operators/chain';
 import './add/asynciterable-operators/concat';
+import './add/asynciterable-operators/concatAll';
 import './add/asynciterable-operators/count';
 import './add/asynciterable-operators/debounce';
 import './add/asynciterable-operators/defaultifempty';
@@ -91,6 +118,7 @@ import './add/asynciterable-operators/distinctuntilchanged';
 import './add/asynciterable-operators/elementat';
 import './add/asynciterable-operators/every';
 import './add/asynciterable-operators/filter';
+import './add/asynciterable-operators/finally';
 import './add/asynciterable-operators/find';
 import './add/asynciterable-operators/findindex';
 import './add/asynciterable-operators/first';

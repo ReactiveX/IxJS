@@ -1,8 +1,67 @@
 {
   "name": "ix",
+  "private": true,
   "version": "2.0.0",
   "description": "The Interactive Extensions for JavaScript",
-  "main": "index.js",
+  "scripts": {
+    "lerna": "lerna",
+    "commit": "git-cz",
+    "test": "./scripts/index.js --test",
+    "build": "./scripts/index.js --build",
+    "clean": "./scripts/index.js --clean",
+    "compile": "./scripts/index.js --compile",
+    "deploy": "lerna publish --conventional-commits",
+    "doc": "shx rm -rf ./doc && esdoc",
+    "lint": "npm-run-all -p lint:*",
+    "lint:src": "tslint --fix --type-check -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
+    "lint:spec": "tslint --fix --type-check -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\""
+  },
+  "author": "Matthew Podwysocki <matthewp@microsoft.com>",
+  "homepage": "https://github.com/ReactiveX/IxJS#readme",
+  "bugs": {
+    "url": "https://github.com/ReactiveX/IxJS/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "Iterator",
+    "Iterable",
+    "Promise",
+    "Async",
+    "AsyncIterable",
+    "AsyncIterator"
+  ],
+  "peerDependencies": {
+    "tslib": "^1.7.1"
+  },
+  "typings": "./types/Ix.d.ts",
+  "devDependencies": {
+    "@types/node": "~8.0.10",
+    "@types/tape": "~4.2.30",
+    "commitizen": "~2.9.6",
+    "cz-conventional-changelog": "~2.0.0",
+    "esdoc": "~0.5.2",
+    "glob": "~7.1.2",
+    "google-closure-compiler": "~20170626.0.0",
+    "husky": "~0.14.3",
+    "lerna": "^2.0.0",
+    "lint-staged": "~4.0.1",
+    "mkdirp": "~0.5.1",
+    "npm-run-all": "~4.0.2",
+    "rimraf": "~2.6.1",
+    "rxjs": "~5.4.2",
+    "shx": "~0.2.2",
+    "spawn-rx": "~2.0.11",
+    "systemjs": "~0.20.15",
+    "tap-spec": "~4.1.1",
+    "tape": "~4.7.0",
+    "ts-node": "~3.2.0",
+    "tsickle": "~0.23.3",
+    "tslib": "~1.7.1",
+    "tslint": "~5.5.0",
+    "tsutils": "~2.6.0",
+    "typescript": "~2.4.1",
+    "verror": "~1.10.0"
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
@@ -14,60 +73,15 @@
       "git add"
     ]
   },
-  "scripts": {
-    "info": "npm-scripts-info",
-    "?commit": "Run commit wizard",
-    "commit": "git-cz",
-    "?build:commonjs": "Build against CommonJS target",
-    "build:commonjs": "tsc -p tsconfig_commonjs.json",
-    "?build:es2015": "Build against native ES2015 target",
-    "build:es2015": "tsc -p tsconfig_es2015.json",
-    "build": "shx rm -rf ./dist/ && npm-run-all build:*",
-    "?doc": "Build IxJS documentation",
-    "doc": "shx rm -rf ./doc && esdoc",
-    "?lint:src": "Run lint against source files only",
-    "lint:src": "tslint -c tslint.json \"src/**/*.ts\"",
-    "?lint": "Run lint against files",
-    "lint": "npm-run-all --parallel lint:*",
-    "test": "ts-node --harmony_async_iteration node_modules/tape/bin/tape spec/**/*.ts | tap-spec"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ReactiveX/IxJS.git"
-  },
-  "keywords": [
-    "Iterator",
-    "Iterable",
-    "Promise",
-    "Async",
-    "AsyncIterable",
-    "AsyncIterator"
-  ],
-  "author": "Matthew Podwysocki <matthewp@microsoft.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ReactiveX/IxJS/issues"
-  },
-  "homepage": "https://github.com/ReactiveX/IxJS#readme",
-  "engines": {
-    "npm": ">=2.0.0"
-  },
-  "devDependencies": {
-    "@types/tape": "^4.2.30",
-    "commitizen": "^2.9.6",
-    "cz-conventional-changelog": "^2.0.0",
-    "esdoc": "^0.5.2",
-    "husky": "^0.13.1",
-    "lint-staged": "^3.3.1",
-    "npm-run-all": "^4.0.2",
-    "npm-scripts-info": "^0.3.6",
-    "shx": "^0.2.2",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.6.3",
-    "ts-node": "^2.1.0",
-    "tslint": "^5.4.2",
-    "tsutils": "^2.3.0",
-    "typescript": "^2.5.0-dev.20170613",
-    "webpack": "^1.14.0"
+  "esdoc": {
+    "source": "./targets/es2015/esm",
+    "destination": "./doc",
+    "test": {
+      "type": "tape",
+      "source": "./spec"
+    },
+    "experimentalProposal": {
+      "asyncGenerators": true
+    }
   }
 }

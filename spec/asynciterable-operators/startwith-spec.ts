@@ -1,12 +1,11 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { range } from '../../dist/cjs/asynciterable/range';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
-import { startWith } from '../../dist/cjs/asynciterable/startwith';
-import { take } from '../../dist/cjs/asynciterable/take';
-import { tap } from '../../dist/cjs/asynciterable/tap';
-import { toArray } from '../../dist/cjs/asynciterable/toarray';
+const { range } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
+const { startWith } = Ix.asynciterable;
+const { take } = Ix.asynciterable;
+const { tap } = Ix.asynciterable;
+const { toArray } = Ix.asynciterable;
 
 test('AsyncIterable#startWith adds to beginning', async t => {
   const e = range(1, 5);

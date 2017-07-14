@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { sequenceEqual } from '../../dist/cjs/iterable/sequenceequal';
-import { toSet } from '../../dist/cjs/iterable/toset';
+const { sequenceEqual } = Ix.iterable;
+const { toSet } = Ix.iterable;
 
 test('Iterable#toSet non-empty', t => {
   const xs = [1, 2, 3, 4, 5];

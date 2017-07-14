@@ -1,10 +1,9 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import  * as test  from 'tape';
-import { empty } from '../../dist/cjs/asynciterable/empty';
-import { map } from '../../dist/cjs/asynciterable/map';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { sequenceEqual } from '../../dist/cjs/asynciterable/sequenceequal';
+const { empty } = Ix.asynciterable;
+const { map } = Ix.asynciterable;
+const { of } = Ix.asynciterable;
+const { sequenceEqual } = Ix.asynciterable;
 
 test('AsyncIterable#map single element', async t => {
   const source = of({ name: 'Frank', custId: 98088 });

@@ -1,0 +1,10 @@
+//Compiler configuaration to build the CommonJS target
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "es2015",
+    "outDir": "../targets/es5/esm",
+    "declarationDir": "../targets/es5/esm/types"
+  }
+}

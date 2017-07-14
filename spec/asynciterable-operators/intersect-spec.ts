@@ -1,8 +1,7 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { of } from '../../dist/cjs/asynciterable/of';
-import { intersect } from '../../dist/cjs/asynciterable/intersect';
+const { of } = Ix.asynciterable;
+const { intersect } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#intersect with default comparer', async t => {

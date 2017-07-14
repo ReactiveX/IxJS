@@ -1,7 +1,6 @@
-'use strict';
-
+import * as Ix from '../Ix';
 import * as test from 'tape';
-import { skipWhile } from '../../dist/cjs/iterable/skipwhile';
+const { skipWhile } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#skipWhile skips some', t => {
