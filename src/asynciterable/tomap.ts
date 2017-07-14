@@ -15,7 +15,8 @@ export async function toMap<TSource, TKey, TElement = TSource>(
   let map = new Map<TKey, TElement | TSource>();
   for await (let item of source) {
     let value = await elementSelector(item);
-    map.set(await keySelector(item), value);
+    let key = await keySelector(item);
+    map.set(key, value);
   }
   return map;
 }

@@ -14,8 +14,9 @@ class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   }
 
   async *[Symbol.asyncIterator]() {
-    for await (let outer of <AsyncIterable<TSource>>(this._source)) {
-      for await (let inner of <AsyncIterable<TResult>>(await this._selector(outer))) {
+    for await (let outer of this._source) {
+      const inners = await this._selector(outer);
+      for await (let inner of inners) {
         yield inner;
       }
     }

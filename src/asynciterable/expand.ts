@@ -17,7 +17,8 @@ class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     while (q.length > 0) {
       let src = q.shift();
       for await (let item of src!) {
-        q.push(await this._selector(item));
+        let items = await this._selector(item);
+        q.push(items);
         yield item;
       }
     }

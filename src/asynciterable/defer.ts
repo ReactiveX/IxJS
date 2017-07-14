@@ -9,7 +9,8 @@ class DeferAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    for await (let item of await this._fn()) { yield item; }
+    let items = await this._fn();
+    for await (let item of items) { yield item; }
   }
 }
 
