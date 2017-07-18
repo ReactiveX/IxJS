@@ -3,8 +3,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2015",
-    "module": "es2015",
-    "outDir": "../targets/es2015/esm",
-    "declarationDir": "../targets/es2015/esm/types"
+    "module": "es2015"
   }
 }

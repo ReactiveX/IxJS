@@ -26,15 +26,19 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let result: TSource[] = [], next;
+    let result: TSource[] = [], done, next;
     const it = this._source[Symbol.asyncIterator]();
-    if ((next = await it.next()).done) {
+    done = (next = await it.next()).done;
+    if (done) {
       throw new Error('Sequence contains no elements');
     }
 
-    let current = next.value, resKey = await this._keyFn(current);
-    while (!(next = await it.next()).done) {
-      let curr = next.value, key = await this._keyFn(curr);
+    let current = next.value;
+    let resKey = await this._keyFn(current);
+    done = (next = await it.next()).done;
+    while (!done) {
+      let curr = next.value;
+      let key = await this._keyFn(curr);
       const c = await this._cmp(key, resKey);
       if (c === 0) {
         result.push(curr);
@@ -42,6 +46,7 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
         result = [curr];
         resKey = key;
       }
+      done = (next = await it.next()).done;
     }
 
     yield* result;

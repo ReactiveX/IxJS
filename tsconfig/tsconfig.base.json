@@ -1,14 +1,13 @@
 {
+  "exclude": ["../node_modules"],
   "include": ["../src/**/*.ts"],
   "compilerOptions": {
-    "target": "ESNEXT",
-    "module": "es2015",
     "lib": ["dom", "esnext", "esnext.asynciterable"],
     "moduleResolution": "node",
     "sourceMap": false,
-    "declaration": true,
     "inlineSources": true,
     "inlineSourceMap": true,
+    "declaration": true,
     "skipLibCheck": true,
     "importHelpers": true,
     "noEmitHelpers": true,

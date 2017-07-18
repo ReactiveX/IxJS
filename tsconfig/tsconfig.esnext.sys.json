@@ -3,8 +3,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "target": "ESNEXT",
-    "module": "system",
-    "outDir": "../targets/esnext/sys",
-    "declarationDir": "../targets/esnext/sys/types"
+    "module": "system"
   }
 }

@@ -3,8 +3,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "target": "ES5",
-    "module": "system",
-    "outDir": "../targets/es5/sys",
-    "declarationDir": "../targets/es5/sys/types"
+    "module": "system"
   }
 }

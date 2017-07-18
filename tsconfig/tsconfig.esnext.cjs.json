@@ -3,8 +3,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "target": "ESNEXT",
-    "module": "commonjs",
-    "outDir": "../targets/esnext/cjs",
-    "declarationDir": "../targets/esnext/cjs/types"
+    "module": "commonjs"
   }
 }

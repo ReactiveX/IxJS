@@ -13,7 +13,8 @@ export async function createGrouping<TSource, TKey, TValue>(
       grouping = [];
       map.set(key, grouping);
     }
-    grouping!.push(await elementSelector(item));
+    let element = await elementSelector(item);
+    grouping!.push(element);
   }
 
   return map;
