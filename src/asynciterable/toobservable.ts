@@ -37,6 +37,7 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
           }
         });
     };
+    f();
 
     return subscription;
   }
