@@ -21,12 +21,12 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
     const it = this._source[Symbol.asyncIterator]();
     const f = () => {
       it.next()
-        .then(next => {
+        .then(({value, done}) => {
           if (!subscription.isUnsubscribed) {
-            if (next.done) {
+            if (done) {
               observer.complete();
             } else {
-              observer.next(next.value);
+              observer.next(value);
               f();
             }
           }
@@ -37,6 +37,7 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
           }
         });
     };
+    f();
 
     return subscription;
   }
