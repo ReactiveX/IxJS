@@ -109,7 +109,8 @@ function bundleTask(target, format) {
 
 function testTask(target, format) {
   const specs = `spec/index.ts`;
-  const tapReporter = require(`tap-min`);
+  const tapReporter = require(`tap-difflet`);
+  const reporterOpts = { pessimistic: true };
   const specTSConfigPath = `./spec/tsconfig.json`;
   const tapePath = require.resolve(`tape/bin/tape`);
   const forkOptions = {
@@ -125,7 +126,7 @@ function testTask(target, format) {
   return [
     (cb) => {
       const onError = errorOnce(cb);
-      const reporter = tapReporter();
+      const reporter = tapReporter(reporterOpts);
       const proc = child_process.fork(
         `spec/index.ts`, [
           `--target`, target,
@@ -133,11 +134,9 @@ function testTask(target, format) {
         ],
         forkOptions
       );
-      proc.on(`error`, (e) => onError(e));
-      proc.on(`close`, (x) => x === 0 ? cb() : onError(
-        new Error(`Error in test:${target}:${format}`)
-      ));
-      return proc.stdout.pipe(reporter).pipe(process.stdout);
+      proc.on(`error`, onError);
+      proc.on(`close`, (x) => cb());
+      pump(proc.stdout, reporter, process.stdout, onError);
     }
   ];
 }
@@ -151,19 +150,17 @@ function tsickleTask(target, format) {
   return [
     [`clean:${target}:${format}`],
     (cb) => {
+      const onError = errorOnce(cb);
       const tsickleBin = require.resolve(`tsickle/built/src/main`);
       const proc = child_process.fork(
         tsickleBin, [
           `--externs`, `${targetRoot}/Ix.externs.js`,
           `--typed`, `--`, `-p`, `tsconfig/${target}.${format}/`
         ],
-        { stdio: [`ignore`, `pipe`, `inherit`, `ipc`] }
+        { stdio: [`ignore`, `inherit`, `inherit`, `ipc`] }
       );
-      proc.on(`error`, (e) => onError(e));
-      proc.on(`close`, (x) => x === 0 ? cb() : onError(
-        new Error(`Error in build:${target}:${format}`)
-      ));
-      proc.stdout.pipe(process.stdout);
+      proc.on(`error`, onError);
+      proc.on(`close`, (x) => cb());
     }
   ];
 }
