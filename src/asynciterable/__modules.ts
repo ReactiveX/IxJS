@@ -30,7 +30,6 @@ export { forEach } from './foreach';
 export { from } from './from';
 export { fromEvent } from './fromevent';
 export { fromEventPattern } from './fromeventpattern';
-export { fromObservable } from './fromobservable';
 export { generate } from './generate';
 export { generateTime } from './generatetime';
 export { groupBy } from './groupby';
