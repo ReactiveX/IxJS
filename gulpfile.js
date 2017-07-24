@@ -1,5 +1,6 @@
 const del = require(`del`);
 const gulp = require(`gulp`);
+const path = require(`path`);
 const pump = require(`pump`);
 const ts = require(`gulp-typescript`);
 const streamMerge = require(`merge2`);
@@ -9,15 +10,8 @@ const gulpJsonTransform = require(`gulp-json-transform`);
 const closureCompiler = require(`google-closure-compiler`).gulp();
 
 const knownTargets = [`es5`, `es2015`, `esnext`];
-const knownModules = [`cjs`, `esm`, `sys`, `cls`, `umd`];
+const knownModules = [`cjs`, `esm`, `cls`, `umd`];
 
-const tsModuleNames = {
-  esm: `es2015`,
-  sys: `system`,
-  cjs: `commonjs`,
-  cls: `commonjs`,
-  umd: `commonjs`,
-};
 // see: https://github.com/google/closure-compiler/blob/c1372b799d94582eaf4b507a4a22558ff26c403c/src/com/google/javascript/jscomp/CompilerOptions.java#L2988
 const gCCTargets = {
   es5: `ECMASCRIPT5`,
@@ -45,10 +39,10 @@ argv.module && !modules.length && modules.push(argv.module);
 
 for (const [target, format] of combinations([`all`, `all`])) {
   const combo = `${target}:${format}`;
-  gulp.task(`test:${combo}`, ...testTask(target, format));
-  gulp.task(`build:${combo}`, ...buildTask(target, format));
-  gulp.task(`clean:${combo}`, ...cleanTask(target, format));
-  gulp.task(`bundle:${combo}`, ...bundleTask(target, format));
+  gulp.task(`test:${combo}`, ...testTask(target, format, combo, `targets/${target}/${format}`));
+  gulp.task(`build:${combo}`, ...buildTask(target, format, combo, `targets/${target}/${format}`));
+  gulp.task(`clean:${combo}`, ...cleanTask(target, format, combo, `targets/${target}/${format}`));
+  gulp.task(`bundle:${combo}`, ...bundleTask(target, format, combo, `targets/${target}/${format}`));
 }
 
 gulp.task(`default`, [`build`]);
@@ -58,8 +52,8 @@ gulp.task(`build`, (cb) => runTaskCombos(`bundle`, cb));
 
 function runTaskCombos(name, cb) {
   const combos = [];
-  // unsure how to execute tests against closure and system targets
-  const skipTestFormats = { cls: true, sys: true };
+  // unsure how to execute tests against closure target
+  const skipTestFormats = { cls: true };
   for (const [target, format] of combinations(targets, modules)) {
     if (name === 'test' && format in skipTestFormats) {
       continue;
@@ -69,25 +63,23 @@ function runTaskCombos(name, cb) {
   gulp.start(combos, cb);
 }
 
-function cleanTask(target, format) {
+function cleanTask(target, format, taskName, outDir) {
   return [
-    () => del([ `targets/${target}/${format}/**`])
+    () => del([`${outDir}/**`])
   ];
 }
 
-function buildTask(target, format) {
-  return format === `sys`
-    ? systemTask(target, format)
-    :  format === `umd`
-    ? closureTask(target, format)
+function buildTask(target, format, taskName, outDir) {
+  return format === `umd`
+    ? closureTask(target, format, taskName, outDir)
     :  format === `cls`
-    ? tsickleTask(target, format)
-    : typescriptTask(target, format);
+    ? tsickleTask(target, format, taskName, outDir)
+    : typescriptTask(target, format, taskName, outDir);
 }
 
-function bundleTask(target, format) {
+function bundleTask(target, format, taskName, outDir) {
   return [
-    [`build:${target}:${format}`],
+    [`build:${taskName}`],
     (cb) => pump(
       gulp.src(`package.json`),
       gulpJsonTransform((orig) => [
@@ -101,18 +93,16 @@ function bundleTask(target, format) {
         main: `Ix.js`,
         name: `@reactivex/${orig.name}/${target}/${format}`
       }), 2),
-      gulp.dest(`targets/${target}/${format}`),
+      gulp.dest(outDir),
       errorOnce(cb)
     )
   ];
 }
 
-function testTask(target, format) {
-  const specs = `spec/index.ts`;
+function testTask(target, format, taskName, outDir) {
   const tapReporter = require(`tap-difflet`);
   const reporterOpts = { pessimistic: true };
   const specTSConfigPath = `./spec/tsconfig.json`;
-  const tapePath = require.resolve(`tape/bin/tape`);
   const forkOptions = {
     execPath: `ts-node`,
     execArgv: [`--harmony_async_iteration`],
@@ -141,20 +131,15 @@ function testTask(target, format) {
   ];
 }
 
-function systemTask(target, format) {
-  return typescriptTask(target, format);
-}
-
-function tsickleTask(target, format) {
-  const targetRoot = `targets/${target}/${format}`;
+function tsickleTask(target, format, taskName, outDir) {
   return [
-    [`clean:${target}:${format}`],
+    [`clean:${taskName}`],
     (cb) => {
       const onError = errorOnce(cb);
       const tsickleBin = require.resolve(`tsickle/built/src/main`);
       const proc = child_process.fork(
         tsickleBin, [
-          `--externs`, `${targetRoot}/Ix.externs.js`,
+          `--externs`, `${outDir}/Ix.externs.js`,
           `--typed`, `--`, `-p`, `tsconfig/${target}.${format}/`
         ],
         { stdio: [`ignore`, `inherit`, `inherit`, `ipc`] }
@@ -165,14 +150,13 @@ function tsickleTask(target, format) {
   ];
 }
 
-function closureTask(target, format) {
+function closureTask(target, format, taskName, outDir) {
   const clsTarget = `es5`;
-  const googleRoot = `targets/es5/cls`;
+  const googleRoot = `targets/${clsTarget}/cls`;
   const sourceGlob = `${googleRoot}/**/*.js`;
-  const targetRoot = `targets/${target}/${format}`;
   const externsPath = `${googleRoot}/Ix.externs.js`;
   return [
-    [`clean:${target}:${format}`, `build:${clsTarget}:cls`],
+    [`clean:${taskName}`, `build:${clsTarget}:cls`],
     (cb) => {
       const onError = errorOnce(cb);
       return streamMerge([
@@ -192,7 +176,7 @@ function closureTask(target, format) {
       sourcemaps.init(),
       closureCompiler(closureArgs(entry)),
       sourcemaps.write('.'),
-      gulp.dest(`${targetRoot}`)
+      gulp.dest(outDir)
     ];
     // copy the UMD bundle to dist
     if (target === `es5` && copyToDist) {
@@ -223,12 +207,11 @@ function closureTask(target, format) {
   }
 }
 
-function typescriptTask(target, format) {
+function typescriptTask(target, format, taskName, outDir) {
   return [
-    [`clean:${target}:${format}`],
+    [`clean:${taskName}`],
     (cb) => {
       const onError = errorOnce(cb);
-      const targetRoot = `targets/${target}/${format}`;
       const tsconfigPath = `tsconfig/tsconfig.${target}.${format}.json`;
       const { tsProject } = (
         tsProjects.find((p) => p.target === target && p.format === format) ||
@@ -242,8 +225,8 @@ function typescriptTask(target, format) {
         tsProject(ts.reporter.fullReporter(true)),
         onError
       );
-      const dtsStreams = [dts, gulp.dest(`${targetRoot}/types`)];
-      const jsStreams = [js, sourcemaps.write(), gulp.dest(targetRoot)];
+      const dtsStreams = [dts, gulp.dest(`${outDir}/types`)];
+      const jsStreams = [js, sourcemaps.write(), gulp.dest(outDir)];
       // copy types to the root
       if (target === `es5` && format === `cjs`) {
         dtsStreams.push(gulp.dest(`types`));

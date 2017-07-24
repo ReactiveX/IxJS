@@ -7,7 +7,7 @@
 These npm scripts accept argument lists of targets × modules:
 
 * Available `targets` are `es5`, `es2015`, `esnext`, and `all` (default: `all`)
-* Available `modules` are `cjs`, `esm`, `sys`, `cls`, `umd`, and `all` (default: `all`)
+* Available `modules` are `cjs`, `esm`, `cls`, `umd`, and `all` (default: `all`)
 
 Examples:
 * `npm run build` -- builds all ES targets in all module formats
