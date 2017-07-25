@@ -1,3 +1,5 @@
+import { Subscription } from './subscription';
+
 export interface NextObserver<T> {
   next: (value: T) => void;
   error?: (err: any) => void;
@@ -43,10 +45,6 @@ export type PartialAsyncObserver<T> =
   NextAsyncObserver<T> |
   ErrorAsyncObserver<T> |
   CompletionAsyncObserver<T>;
-
-export interface Subscription {
-  unsubscribe: () => void;
-}
 
 export interface Observer<T> {
   closed?: boolean;

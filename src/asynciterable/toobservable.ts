@@ -1,4 +1,5 @@
-import { Observable, Observer, Subscription } from '../observer';
+import { Observable, Observer } from '../observer';
+import { Subscription } from '../subscription';
 
 class BooleanSubscription implements Subscription {
   public isUnsubscribed: boolean = false;
