@@ -1,8 +1,5 @@
 import { AsyncIterableX } from '../asynciterable';
-
-function delay(time: number) {
-  return new Promise<void>(resolve => setTimeout(resolve, time));
-}
+import { sleep } from './_sleep';
 
 class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
   private _initialState: TState;
@@ -27,7 +24,7 @@ class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult>
 
   async *[Symbol.asyncIterator]() {
     for (let i = this._initialState; await this._condition(i); i = await this._iterate(i)) {
-      await delay(await this._timeSelector(i));
+      await sleep(await this._timeSelector(i));
       yield await this._resultSelector(i);
     }
   }
