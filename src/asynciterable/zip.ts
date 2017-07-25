@@ -18,9 +18,13 @@ class ZipIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   async *[Symbol.asyncIterator]() {
     const it1 = this._left[Symbol.asyncIterator]();
     const it2 = this._right[Symbol.asyncIterator]();
-    let next1, next2;
-    while (!(next1 = await it1.next()).done && (!(next2 = await it2.next()).done)) {
-      yield await this._fn(next1.value, next2.value);
+    while (1) {
+      const [next1, next2] = await Promise.all([it1.next(), it2.next()]);
+      if (!next1.done && !next2.done) {
+        yield await this._fn(next1.value, next2.value);
+      } else {
+        break;
+      }
     }
   }
 }
