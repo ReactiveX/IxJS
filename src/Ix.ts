@@ -34,6 +34,7 @@ import './add/iterable/of';
 import './add/iterable/range';
 import './add/iterable/repeat';
 import './add/iterable/throw';
+import './add/iterable/while';
 
 // iterable operators
 import './add/iterable-operators/catch';
