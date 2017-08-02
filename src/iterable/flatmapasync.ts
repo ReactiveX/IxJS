@@ -22,6 +22,15 @@ class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   }
 }
 
+/**
+ * Projects each element of a sequence to a potentially async iterable and flattens the
+ * resulting sequences into one sequence.
+ * @param {Iterable<T | Promise<T>> | AsyncIterable<T>} source Source sequence
+ * @param {function:(value: T): Iterable<R | Promise<R>> | AsyncIterable<R>} selector A transform function to apply to each element.
+ * @param {Object} [thisArg] An optional "this" binding for the selector function.
+ * @returns {AsyncIterable<R>} An async iterable whose elements are the result of invoking the one-to-many
+ * transform function on each element of the input sequence.
+ */
 export function flatMapAsync<TSource, TResult>(
     source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
     selector: (value: TSource) => Iterable<TResult | PromiseLike<TResult>> | AsyncIterable<TResult>,

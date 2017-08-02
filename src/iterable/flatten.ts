@@ -30,6 +30,12 @@ class FlattenIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Flattens the source sequence until the specified depth.
+ * @param {Iterable<T>} source Source sequence.
+ * @param {Number} depth The depth to flatten the source sequence.
+ * @returns {Iterable<T>} The flattened sequence, flattened to the specified depth.
+ */
 export function flatten<T>(source: Iterable<T>, depth: number = Infinity): IterableX<T> {
   return new FlattenIterable<T>(source, depth);
 }
