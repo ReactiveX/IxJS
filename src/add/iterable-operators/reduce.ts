@@ -20,7 +20,7 @@ export function reduceProto<T, R>(
     this: IterableX<T>,
     fn: (acc: R, x: T, index: number) => R,
     seed?: T | R): T | R {
-  return arguments.length === 3 ? reduce(this, fn, seed) : reduce(this, fn);
+  return arguments.length === 2 ? reduce(this, fn, seed) : reduce(this, fn);
 }
 
 IterableX.prototype.reduce = reduceProto;
