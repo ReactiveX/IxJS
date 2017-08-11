@@ -4,7 +4,9 @@
 
 *...is a set of libraries to compose synchronous and asynchronous collections and [Array#extras](http://blogs.msdn.com/b/ie/archive/2010/12/13/ecmascript-5-part-2-array-extras.aspx) style composition in JavaScript*
 
-The Interactive Extensions for JavaScript (IxJS) is a library for creating and composing asynchronous sequences using both the `Iterable` and `AsyncIterable` classes.
+The Interactive Extensions for JavaScript (IxJS) brings the Array#extras combinators to iterables, generators, async iterables and async generators.  With the introduction of the `Symbol.iterator` and generators in ES2015, and subsequent introduction of `Symbol.asyncIterator` and async generators, it became obvious we need an abstraction over these data structures for composition, querying and more.  
+
+IxJS unifies both synchronous and asynchronous pull-based collections, just as RxJS unified the world of push-based collections.  RxJS is great for event-based workflows where the data can be pushed at the rate of the producer, however, IxJS is great at I/O operations where you as the consumer can pull the data when you are ready.
 
 ## `Iterable`
 
