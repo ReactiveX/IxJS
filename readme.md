@@ -323,6 +323,18 @@ for await (let item of mapped) {
 }
 ```
 
+## Contributing
+
+We are grateful for contributions to the IxJS project.  The IxJS project evolves because of community involvemnent from people such as yourselves.  Please read below on how to get involved.
+
+### [Code Of Conduct](CODE_OF_CONDUCT.md)
+
+The IxJS project has a strict Code of Conduct that must be adhered at all times.  This code of conduct comes from the [Contributor Convenant](http://contributor-covenant.org/).  Please read [the full text](CODE_OF_CONDUCT.md) as to what is and is not permitted.
+
+### Contributing Guide
+
+Read the [Contributing Guide](CONTRIBUTING.md) on how to get involved with the IxJS project.  This includes our development process and how to test your code before committing.
+
 ## License ##
 
 The MIT License (MIT)
