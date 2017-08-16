@@ -1,11 +1,7 @@
 {
-  "source": "./dist/es2015",
+  "source": "./targets/es2015/cjs",
   "destination": "./doc",
-  "test": {
-    "type": "tape",
-    "source": "./spec"
-  },
-  "experimentalProposal": {
-    "asyncGenerators": true
-  }
+  "plugins": [{
+    "name": "esdoc-standard-plugin"
+  }]
 }

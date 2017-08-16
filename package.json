@@ -5,6 +5,7 @@
   "module": "./targets/es5/esm/Ix.js",
   "browser": "./targets/es5/umd/Ix.js",
   "jsnext:main": "./targets/es2015/esm/Ix.js",
+  "esnext:main": "./targets/esnext/esm/Ix.js",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
@@ -14,7 +15,8 @@
     "clean": "gulp clean",
     "validate": "npm-run-all lint build test",
     "lerna:publish": "lerna publish --conventional-commits",
-    "prepublishOnly": "npm-run-all validate doc lerna:publish",
+    "prepublishOnly": "npm-run-all validate doc changelog lerna:publish",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "commitmsg": "validate-commit-msg",
     "doc": "shx rm -rf ./doc && esdoc",
     "lint": "npm-run-all -p lint:*",
@@ -25,6 +27,10 @@
   "homepage": "https://github.com/ReactiveX/IxJS#readme",
   "bugs": {
     "url": "https://github.com/ReactiveX/IxJS/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReactiveX/IxJS.git"
   },
   "license": "MIT",
   "keywords": [
@@ -51,9 +57,11 @@
     "@types/tape": "~4.2.30",
     "command-line-args": "~4.0.6",
     "commitizen": "~2.9.6",
+    "conventional-changelog": "~1.1.4",
     "cz-conventional-changelog": "~2.0.0",
     "del": "~3.0.0",
-    "esdoc": "~0.5.2",
+    "esdoc": "~1.0.1",
+    "esdoc-standard-plugin": "~1.0.0",
     "google-closure-compiler": "~20170626.0.0",
     "gulp": "~3.9.1",
     "gulp-json-transform": "~0.4.2",

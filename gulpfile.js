@@ -65,7 +65,13 @@ function runTaskCombos(name, cb) {
 
 function cleanTask(target, format, taskName, outDir) {
   return [
-    () => del([`${outDir}/**`])
+    () => {
+      const globs = [`${outDir}/**`];
+      if (target === `es5` && format === `cjs`) {
+          globs.push(`types`);
+      }
+      return del(globs);
+    }
   ];
 }
 
@@ -80,22 +86,25 @@ function buildTask(target, format, taskName, outDir) {
 function bundleTask(target, format, taskName, outDir) {
   return [
     [`build:${taskName}`],
-    (cb) => pump(
-      gulp.src(`package.json`),
-      gulpJsonTransform((orig) => [
-        `version`, `description`,
-        `author`, `homepage`, `bugs`,
-        `license`, `keywords`, `typings`,
-        `peerDependencies`
-      ].reduce((copy, key) => (
-        (copy[key] = orig[key]) && copy || copy
-      ), {
-        main: `Ix.js`,
-        name: `@reactivex/${orig.name}/${target}/${format}`
-      }), 2),
-      gulp.dest(outDir),
-      errorOnce(cb)
-    )
+    (cb) => streamMerge([
+      pump(gulp.src([`LICENSE`, `readme.md`, `CHANGELOG.md`]), gulp.dest(outDir)),
+      pump(
+        gulp.src(`package.json`),
+        gulpJsonTransform((orig) => [
+          `version`, `description`,
+          `author`, `homepage`, `bugs`,
+          `license`, `keywords`, `typings`,
+          `repository`, `peerDependencies`
+        ].reduce((copy, key) => (
+          (copy[key] = orig[key]) && copy || copy
+        ), {
+          main: `Ix.js`,
+          name: `@reactivex/${orig.name}-${target}-${format}`
+        }), 2),
+        gulp.dest(outDir),
+        onError
+      )
+    ])
   ];
 }
 
@@ -115,7 +124,6 @@ function testTask(target, format, taskName, outDir) {
   };
   return [
     (cb) => {
-      const onError = errorOnce(cb);
       const reporter = tapReporter(reporterOpts);
       const proc = child_process.fork(
         `spec/index.ts`, [
@@ -135,7 +143,6 @@ function tsickleTask(target, format, taskName, outDir) {
   return [
     [`clean:${taskName}`],
     (cb) => {
-      const onError = errorOnce(cb);
       const tsickleBin = require.resolve(`tsickle/built/src/main`);
       const proc = child_process.fork(
         tsickleBin, [
@@ -158,7 +165,6 @@ function closureTask(target, format, taskName, outDir) {
   return [
     [`clean:${taskName}`, `build:${clsTarget}:cls`],
     (cb) => {
-      const onError = errorOnce(cb);
       return streamMerge([
         closureStream(closureSrcs(), `Ix`, onError, true),
         closureStream(closureSrcs(), `Ix.internal`, onError)
@@ -211,7 +217,6 @@ function typescriptTask(target, format, taskName, outDir) {
   return [
     [`clean:${taskName}`],
     (cb) => {
-      const onError = errorOnce(cb);
       const tsconfigPath = `tsconfig/tsconfig.${target}.${format}.json`;
       const { tsProject } = (
         tsProjects.find((p) => p.target === target && p.format === format) ||
@@ -239,9 +244,13 @@ function typescriptTask(target, format, taskName, outDir) {
   ];
 }
 
-function errorOnce(cb) {
-  let errored = false;
-  return (err) => err && !errored && (errored = true) && cb(err)
+function onError(err) {
+  if (typeof err === 'number') {
+      process.exit(err);
+  } else if (err) {
+      console.error(err.stack || err.toString());
+      process.exit(1);
+  }
 }
 
 function* combinations(_targets, _modules) {
