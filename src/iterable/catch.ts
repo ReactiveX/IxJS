@@ -1,4 +1,5 @@
 import { IterableX } from '../iterable';
+import { returnIterator } from '../internal/returniterator';
 
 class CatchIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<Iterable<TSource>>;
@@ -22,11 +23,15 @@ class CatchIterable<TSource> extends IterableX<TSource> {
 
         try {
           const { done, value } = it.next();
-          if (done) { break; }
+          if (done) {
+            returnIterator(it);
+            break;
+          }
           c = value;
         } catch (e) {
           error = e;
           hasError = true;
+          returnIterator(it);
           break;
         }
 

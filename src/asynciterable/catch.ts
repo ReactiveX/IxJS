@@ -1,4 +1,5 @@
 import { AsyncIterableX } from '../asynciterable';
+import { returnAsyncIterator } from '../internal/returniterator';
 
 class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<AsyncIterable<TSource>>;
@@ -22,11 +23,15 @@ class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
         try {
           const { done, value } = await it.next();
-          if (done) { break; }
+          if (done) {
+            await returnAsyncIterator(it);
+            break;
+          }
           c = value;
         } catch (e) {
           error = e;
           hasError = true;
+          await returnAsyncIterator(it);
           break;
         }
 
