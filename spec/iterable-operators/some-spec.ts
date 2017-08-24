@@ -13,3 +13,15 @@ test('Iterable#some none true', t => {
   t.false(res);
   t.end();
 });
+
+test('Iterable#some some parameterless empty', t => {
+  const res = some([]);
+  t.false(res);
+  t.end();
+});
+
+test('Iterable#some some parameterless non-empty', t => {
+  const res = some([1, 2, 3, 4]);
+  t.true(res);
+  t.end();
+});
