@@ -44,6 +44,9 @@ for (const [target, format] of combinations([`all`, `all`])) {
   gulp.task(`clean:${combo}`, ...cleanTask(target, format, combo, `targets/${target}/${format}`));
   gulp.task(`bundle:${combo}`, ...bundleTask(target, format, combo, `targets/${target}/${format}`));
 }
+gulp.task(`build:ts`, ...copySrcTask(`ts`, ``, `ts`, `targets/ts`));
+gulp.task(`clean:ts`, ...cleanTask(`ts`, ``, `ts`, `targets/ts`));
+gulp.task(`bundle:ts`, ...bundleTask(`ts`, ``, `ts`, `targets/ts`));
 
 gulp.task(`default`, [`build`]);
 gulp.task(`test`, (cb) => runTaskCombos(`test`, cb));
@@ -59,6 +62,13 @@ function runTaskCombos(name, cb) {
       continue;
     }
     combos.push(`${name}:${target}:${format}`);
+  }
+  if (name === `bundle`) {
+    if (~targets.indexOf(`ts`)) {
+      combos.push(`${name}:ts`);
+    } else if (targets[0] === `all` && modules[0] === `all`) {
+      combos.push(`${name}:ts`);
+    }
   }
   gulp.start(combos, cb);
 }
@@ -83,7 +93,20 @@ function buildTask(target, format, taskName, outDir) {
     : typescriptTask(target, format, taskName, outDir);
 }
 
+function copySrcTask(target, format, taskName, outDir) {
+  return [
+    [`clean:${taskName}`],
+    () => gulp.src([`src/**/*`]).pipe(gulp.dest(outDir))
+  ];
+}
+
 function bundleTask(target, format, taskName, outDir) {
+  const nameComponents = [target];
+  const ext = target === `ts` ? `ts` : `js`;
+  const typings = target === `ts` ? `Ix.ts` : null;
+  if (format) {
+    nameComponents.push(format);
+  }
   return [
     [`build:${taskName}`],
     (cb) => streamMerge([
@@ -96,10 +119,11 @@ function bundleTask(target, format, taskName, outDir) {
           `license`, `keywords`, `typings`,
           `repository`, `peerDependencies`
         ].reduce((copy, key) => (
-          (copy[key] = orig[key]) && copy || copy
+          (copy[key] = copy[key] || orig[key]) && copy || copy
         ), {
-          main: `Ix.js`,
-          name: `@reactivex/${orig.name}-${target}-${format}`
+          typings,
+          main: `Ix.${ext}`,
+          name: `@reactivex/${[orig.name, ...nameComponents].join('-')}`
         }), 2),
         gulp.dest(outDir),
         onError

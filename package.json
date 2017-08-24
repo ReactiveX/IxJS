@@ -41,6 +41,7 @@
     "AsyncIterator"
   ],
   "files": [
+    "src",
     "dist",
     "types",
     "targets",

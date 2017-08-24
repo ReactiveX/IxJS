@@ -1,18 +1,49 @@
+# The Interactive Extensions for JavaScript (IxJS)
+
 [![Build Status](https://travis-ci.org/ReactiveX/IxJS.svg?branch=master)](https://travis-ci.org/ReactiveX/IxJS)
 
-# The Interactive Extensions for JavaScript (IxJS)...
-
-*...is a set of libraries to compose synchronous and asynchronous collections and [Array#extras](http://blogs.msdn.com/b/ie/archive/2010/12/13/ecmascript-5-part-2-array-extras.aspx) style composition in JavaScript*
+*IxJS is a set of libraries to compose synchronous and asynchronous collections and [Array#extras](http://blogs.msdn.com/b/ie/archive/2010/12/13/ecmascript-5-part-2-array-extras.aspx) style composition in JavaScript*
 
 The Interactive Extensions for JavaScript (IxJS) brings the Array#extras combinators to iterables, generators, async iterables and async generators.  With the introduction of the `Symbol.iterator` and generators in ES2015, and subsequent introduction of `Symbol.asyncIterator` and async generators, it became obvious we need an abstraction over these data structures for composition, querying and more.  
 
 IxJS unifies both synchronous and asynchronous pull-based collections, just as RxJS unified the world of push-based collections.  RxJS is great for event-based workflows where the data can be pushed at the rate of the producer, however, IxJS is great at I/O operations where you as the consumer can pull the data when you are ready.
 
 ## Install [IxJS from npm](https://www.npmjs.com/package/ix)
+
 ```sh
 npm install ix
 ```
+
 (also read about how we [package IxJS](#packaging) below)
+
+## Usage with `@angular/cli`
+
+First, make sure you're using `@angular/cli` v1.3.2 or greater (1.3.1 has a bug that broke tsconfig's "paths" entries).
+
+Next, install the TypeScript-only module:
+
+```sh
+npm install @reactivex/ix-ts
+```
+
+Then, add these entries to your top-level `tsconfig.json` file:
+
+```js
+{
+  "compilerOptions": {
+    "importHelpers": true, /* <-- optional but recommended */
+    "noEmitHelpers": true, /* <-- optional but recommended */
+    "downlevelIteration": true,
+    "paths": {
+      "ix/*": ["../node_modules/@reactivex/ix-ts/*"]
+    },
+    "lib": [
+      "esnext.asynciterable" /* <-- in addition to any other "lib" entries you have */
+    ]
+  }
+}
+
+```
 
 ## `Iterable`
 
@@ -86,7 +117,7 @@ const filters = require('ix/iterable/filter').filter;
 const source = [1,2,3];
 const results = map(
   filter(
-    source, 
+    source,
     x => x % 2 === 0
   ),
   x => x * x
@@ -233,7 +264,7 @@ const source = async function* () {
 
 const results = map(
   filter(
-    source(), 
+    source(),
     x => x % 2 === 0
   ),
   x => x * x
@@ -316,7 +347,7 @@ for await (let item of mapped) {
 }
 ```
 
-In addition, you can use the specialized async methods that are suffixed with `Async`, such as `mapAsync`, `filterAsync`, `flatMapAsync` amongst others. These functions accept async functions which allow you to return a `Promise` as the result. 
+In addition, you can use the specialized async methods that are suffixed with `Async`, such as `mapAsync`, `filterAsync`, `flatMapAsync` amongst others. These functions accept async functions which allow you to return a `Promise` as the result.
 
 ```js
 import { mapAsync } from 'ix/iterable/mapasync';
@@ -342,29 +373,32 @@ The IxJS project has a strict Code of Conduct that must be adhered at all times.
 Read the [Contributing Guide](CONTRIBUTING.md) on how to get involved with the IxJS project.  This includes our development process and how to test your code before committing.
 
 ### Packaging
+
 `IxJS` is written in TypeScript, but the project is compiled to multiple JS versions and common module formats. The base IxJS package includes all the compilation targets for convenience, but if you're conscientious about your node_modules footprint, don't worry -- we got you. The targets are also published under the @reactivex namespace:
 
 ```sh
-npm install @reactivex/ix-es5-cjs # ES5 CommonJS target 
-npm install @reactivex/ix-es5-esm # ES5 ESModules target 
-npm install @reactivex/ix-es5-umd # ES5 UMD target 
-npm install @reactivex/ix-es5-cls # ES5 Google Closure Compiler target 
-npm install @reactivex/ix-es2015-cjs # ES2015 CommonJS target 
-npm install @reactivex/ix-es2015-esm # ES2015 ESModules target 
-npm install @reactivex/ix-es2015-umd # ES2015 UMD target 
-npm install @reactivex/ix-es2015-cls # ES2015 Google Closure Compiler target 
-npm install @reactivex/ix-esnext-esm # ESNext CommonJS target 
-npm install @reactivex/ix-esnext-esm # ESNext ESModules target 
-npm install @reactivex/ix-esnext-umd # ESNext UMD target 
-npm install @reactivex/ix-esnext-cls # ESNext Google Closure Compiler target 
+npm install @reactivex/ix-ts # TypeScript target
+npm install @reactivex/ix-es5-cjs # ES5 CommonJS target
+npm install @reactivex/ix-es5-esm # ES5 ESModules target
+npm install @reactivex/ix-es5-umd # ES5 UMD target
+npm install @reactivex/ix-es5-cls # ES5 Google Closure Compiler target
+npm install @reactivex/ix-es2015-cjs # ES2015 CommonJS target
+npm install @reactivex/ix-es2015-esm # ES2015 ESModules target
+npm install @reactivex/ix-es2015-umd # ES2015 UMD target
+npm install @reactivex/ix-es2015-cls # ES2015 Google Closure Compiler target
+npm install @reactivex/ix-esnext-esm # ESNext CommonJS target
+npm install @reactivex/ix-esnext-esm # ESNext ESModules target
+npm install @reactivex/ix-esnext-umd # ESNext UMD target
+npm install @reactivex/ix-esnext-cls # ESNext Google Closure Compiler target
 ```
 
-### Why do we package like this?
+### Why we package like this
+
 The JS community is a diverse group with a varied list of target environments and tool chains. Publishing multiple packages accommodates projects of all types. Friends targeting the latest JS runtimes can pull in the ESNext + ESM build. Friends needing wide browser support and small download size can use the UMD bundle, which has been run through Google's Closure Compiler with advanced optimizations.
 
 If you think we missed a compilation target and it's a blocker for adoption, please open an issue. We're here for you ❤️.
 
-## License ##
+## License
 
 The MIT License (MIT)
 
