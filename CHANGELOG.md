@@ -1,3 +1,15 @@
+<a name="2.0.3"></a>
+## 2.0.3 (2017-08-24)
+
+
+### Bug Fixes
+
+* **groupBy:** fixing missing this in groupBy operator prototype signatures ([ff2ee18](https://github.com/ReactiveX/IxJS/commit/ff2ee18)), closes [#33](https://github.com/ReactiveX/IxJS/issues/33)
+* **typings:** Fix IterableX#concatAll typings to accept IterableX<Iterable<T>> ([#25](https://github.com/ReactiveX/IxJS/issues/25)) ([a9343c0](https://github.com/ReactiveX/IxJS/commit/a9343c0))
+
+
+
+
 <a name="2.0.0"></a>
 # 2.0.0 (2017-08-16)
 
