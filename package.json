@@ -1,6 +1,6 @@
 {
   "name": "ix",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "main": "./targets/es5/cjs/Ix.js",
   "module": "./targets/es5/esm/Ix.js",
   "browser": "./targets/es5/umd/Ix.js",
