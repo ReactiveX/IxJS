@@ -155,3 +155,45 @@ test('Iterable#groupBy element selector', t => {
 
   t.end();
 });
+
+test('Iterable#groupBy result selector', t => {
+  const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const ys = groupBy(xs, x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v }));
+
+  const it = ys[Symbol.iterator]();
+
+  let next = it.next();
+  t.false(next.done);
+  const g1 = next.value;
+  t.equal(g1.k, 0);
+  const g1it = g1.v[Symbol.iterator]();
+  hasNext(t, g1it, 'a');
+  hasNext(t, g1it, 'd');
+  hasNext(t, g1it, 'g');
+  hasNext(t, g1it, 'j');
+  noNext(t, g1it);
+
+  next = it.next();
+  t.false(next.done);
+  const g2 = next.value;
+  t.equal(g2.k, 1);
+  const g2it = g2.v[Symbol.iterator]();
+  hasNext(t, g2it, 'b');
+  hasNext(t, g2it, 'e');
+  hasNext(t, g2it, 'h');
+  noNext(t, g2it);
+
+  next = it.next();
+  t.false(next.done);
+  const g3 = next.value;
+  t.equal(g3.k, 2);
+  const g3it = g3.v[Symbol.iterator]();
+  hasNext(t, g3it, 'c');
+  hasNext(t, g3it, 'f');
+  hasNext(t, g3it, 'i');
+  noNext(t, g3it);
+
+  noNext(t, it);
+
+  t.end();
+});
