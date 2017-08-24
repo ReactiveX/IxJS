@@ -18,6 +18,20 @@ test('AsyncIterable#some some false', async (t: test.Test) => {
   t.end();
 });
 
+test('AsyncIterable#some some parameterless empty', async (t: test.Test) => {
+  const xs = of();
+  const ys = await some(xs);
+  t.false(ys);
+  t.end();
+});
+
+test('AsyncIterable#some some parameterless non-empty', async (t: test.Test) => {
+  const xs = of(2, 4, 6, 8);
+  const ys = await some(xs);
+  t.true(ys);
+  t.end();
+});
+
 test('AsyncIterable#some throws', async (t: test.Test) => {
   const err = new Error();
   const xs = _throw<number>(err);

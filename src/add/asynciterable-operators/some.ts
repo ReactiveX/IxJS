@@ -6,7 +6,7 @@ import { some } from '../../asynciterable/some';
  */
 export function someProto<T>(
     this: AsyncIterableX<T>,
-    comparer: (value: T, index: number) => boolean | Promise<boolean>): Promise<boolean> {
+    comparer?: (value: T, index: number) => boolean | Promise<boolean>): Promise<boolean> {
   return some(this, comparer);
 }
 
