@@ -1,8 +1,17 @@
 import { IterableX } from './iterable';
 import { AsyncSink } from './asyncsink';
 import { AsyncIterableX } from './asynciterable';
+import { OrderedIterableX } from './iterable/orderby';
+import { OrderedAsyncIterableX } from './asynciterable/orderby';
 
-export { IterableX as Iterable, AsyncSink, AsyncIterableX as AsyncIterable };
+export {
+  IterableX as Iterable,
+  AsyncSink,
+  AsyncIterableX as AsyncIterable
+};
+
+export type OrderedIterable<TKey, TSource> = OrderedIterableX<TKey, TSource>;
+export type OrderedAsyncIterable<TKey, TSource> = OrderedAsyncIterableX<TKey, TSource>;
 
 /* These declarations are needed for the closure/umd targets */
 export declare namespace Symbol {
