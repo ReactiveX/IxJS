@@ -6,7 +6,7 @@ import { some } from '../../iterable/some';
  */
 export function someProto<T>(
     this: IterableX<T>,
-    comparer: (value: T, index: number) => boolean): boolean {
+    comparer?: (value: T, index: number) => boolean): boolean {
   return some(this, comparer);
 }
 
