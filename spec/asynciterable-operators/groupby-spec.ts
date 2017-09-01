@@ -164,3 +164,46 @@ test('AsyncIterable#groupBy element selector', async t => {
 
   t.end();
 });
+
+test('AsyncIterable#groupBy result selector', async t => {
+  const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const xss = from<number, number>(xs);
+  const ys = groupBy(xss, async x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v: from(v) }));
+
+  const it = ys[Symbol.asyncIterator]();
+
+  let next = await it.next();
+  t.false(next.done);
+  const g1 = next.value;
+  t.equal(g1.k, 0);
+  const g1it = g1.v[Symbol.asyncIterator]();
+  await hasNext(t, g1it, 'a');
+  await hasNext(t, g1it, 'd');
+  await hasNext(t, g1it, 'g');
+  await hasNext(t, g1it, 'j');
+  await noNext(t, g1it);
+
+  next = await it.next();
+  t.false(next.done);
+  const g2 = next.value;
+  t.equal(g2.k, 1);
+  const g2it = g2.v[Symbol.asyncIterator]();
+  await hasNext(t, g2it, 'b');
+  await hasNext(t, g2it, 'e');
+  await hasNext(t, g2it, 'h');
+  await noNext(t, g2it);
+
+  next = await it.next();
+  t.false(next.done);
+  const g3 = next.value;
+  t.equal(g3.k, 2);
+  const g3it = g3.v[Symbol.asyncIterator]();
+  await hasNext(t, g3it, 'c');
+  await hasNext(t, g3it, 'f');
+  await hasNext(t, g3it, 'i');
+  await noNext(t, g3it);
+
+  await noNext(t, it);
+
+  t.end();
+});
