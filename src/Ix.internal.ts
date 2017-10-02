@@ -1,5 +1,5 @@
-import * as iterableX from './iterable/__modules';
-import * as asynciterableX from './asynciterable/__modules';
+import iterableX from './iterable/__modules';
+import asynciterableX from './asynciterable/__modules';
 export { iterableX as iterable, asynciterableX as asynciterable };
 
 /* These declarations are needed for the closure/umd targets */
