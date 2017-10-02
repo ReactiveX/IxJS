@@ -81,12 +81,12 @@ const uglifyLanguageNames = {
   esnext: 8 // <--- ?
 };
 
-Observable.prototype.logEverything = function(tag = `Observable`) {
+Observable.prototype.logEverything = function(tag = `Observable`, loglevel = argv.loglvl) {
   return this.do({
-    next(x) { argv.loglvl <= 1 && console.log(`${tag} next:`, x) },
-    error(e) { argv.loglvl <= 3 && console.error(`${tag} error:`, e); },
-    complete() { argv.loglvl <= 2 && console.log(`${tag} complete`); }
-  }).finally(() => argv.loglvl <= 2 && console.log(`${tag} disposed`));
+    next(x) { loglevel <= 1 && console.log(`${tag} next:`, x) },
+    error(e) { loglevel <= 3 && console.error(`${tag} error:`, e); },
+    complete() { loglevel <= 2 && console.log(`${tag} complete`); }
+  }).finally(() => loglevel <= 2 && console.log(`${tag} disposed`));
 };
 
 function _die(e) {
@@ -200,7 +200,7 @@ const compileTsickle = ((cache, tsicklePath) => memoizeTask(cache, function tsic
       `--`, `-p`, `tsconfig/${_tsconfig(target, format)}`
     ],
     { stdio: [`ignore`, `pipe`, `pipe`] }
-  ).logEverything(`tsickle`).multicast(new ReplaySubject()).refCount();
+  ).multicast(new ReplaySubject()).refCount();
 }))({}, require.resolve(`tsickle/built/src/main`));
   
 const compileTypescript = ((cache) => memoizeTask(cache, function typescript(target, format) {
@@ -390,9 +390,11 @@ argv.module && !modules.length && modules.push(argv.module);
 for (const [target, format] of combinations([`all`], [`all`])) {
   const task = _task(target, format);
   gulp.task(`clean:${task}`, cleanTask(target, format));
-  gulp.task(`test:${task}`, testsTask(target, format, false));
+  gulp.task( `test:${task}`, testsTask(target, format, false));
   gulp.task(`debug:${task}`, testsTask(target, format, true));
-  gulp.task(`build:${task}`, gulp.series(`clean:${task}`, buildTask(target, format), bundleTask(target, format)));
+  gulp.task(`build:${task}`, gulp.series(`clean:${task}`,
+                                          buildTask(target, format),
+                                          bundleTask(target, format)));
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
@@ -401,10 +403,10 @@ for (const [target, format] of combinations([`all`], [`all`])) {
 knownTargets.forEach((target) =>
   gulp.task(`build:${target}:umd`,
     gulp.series(
-        `clean:${target}:umd`,
-        `build:${UMDSourceTargets[target]}:cls`,
+       `clean:${target}:umd`,
+       `build:${UMDSourceTargets[target]}:cls`,
         buildTask(target, `umd`),
-        cleanTask(UMDSourceTargets[target], `cls`, `umd`)
+        bundleTask(target, `umd`)
     )
   )
 );
@@ -426,19 +428,25 @@ gulp.task(`build:ix`,
   )
 );
 
-function gulpParallelWithConcurrency(tasks) {
-  const numCPUs = require(`os`).cpus().length;
+function gulpConcurrent(tasks, concurrent = require(`os`).cpus().length) {
   const parallel = Observable.bindCallback((tasks, cb) => gulp.parallel(tasks)(cb));
-  return (done) => Observable.from(tasks).bufferCount(numCPUs).concatMap((xs) => parallel(xs));
+  return () => Observable.from(tasks).bufferCount(concurrent).concatMap((xs) => parallel(xs));
 }
 
-gulp.task(`test`, (done) => gulpParallelWithConcurrency(runTasks(`test`))(done));
-gulp.task(`build`, (done) => gulpParallelWithConcurrency(runTasks(`build`))(done));
-gulp.task(`clean`, (done) => gulpParallelWithConcurrency(runTasks(`clean`))(done));
-gulp.task(`debug`, (done) => gulpParallelWithConcurrency(runTasks(`debug`))(done));
-gulp.task(`default`, gulp.series(`build`, `test`));
+const buildConcurrent = (tasks, concurrent) => () =>
+    gulpConcurrent(tasks, concurrent)()
+      .concat(Observable
+        .defer(() => Observable
+          .merge(...knownTargets.map((target) =>
+            cleanTask(UMDSourceTargets[target], `cls`, target, `umd`)()))));
 
-function runTasks(name) {
+gulp.task( `test`, gulpConcurrent(getTasks(`test`)));
+gulp.task(`build`,buildConcurrent(getTasks(`build`)));
+gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
+gulp.task(`debug`, gulpConcurrent(getTasks(`debug`)));
+gulp.task(`default`,  gulp.series(`build`, `test`));
+
+function getTasks(name) {
   const tasks = [];
   if (targets.indexOf(`ts`) !== -1) tasks.push(`${name}:ts`);
   if (targets.indexOf(`ix`) !== -1) tasks.push(`${name}:ix`);
@@ -451,12 +459,10 @@ function runTasks(name) {
   return tasks.length && tasks || [(done) => done()];
 }
 
-function _taskHash(...args) {
-  return args.filter((x) => x !== void 0 && x !== ``).join(`:`);
-}
 function _name(target, format) { return !format ? target : `${target}-${format}`; }
 function _task(target, format) { return !format ? target : `${target}:${format}`; }
 function _tsconfig(target, format) { return !format ? target : `${target}.${format}`; }
+function _taskHash(...args) { return args.filter((x) => x !== void 0 && x !== ``).join(`:`); }
 function _dir(target, format) { return path.join(releasesRootDir, ...(!format ? [target] : [target, format])); }
 
 function* combinations(_targets, _modules) {
