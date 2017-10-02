@@ -1,16 +1,20 @@
 import { IterableX } from './iterable';
 import { AsyncSink } from './asyncsink';
 import { AsyncIterableX } from './asynciterable';
+import { GroupedIterable } from './iterable/groupby';
 import { OrderedIterableX } from './iterable/orderby';
+import { GroupedAsyncIterable } from './asynciterable/groupby';
 import { OrderedAsyncIterableX } from './asynciterable/orderby';
 
 export {
-  IterableX as Iterable,
   AsyncSink,
+  IterableX as Iterable,
   AsyncIterableX as AsyncIterable
 };
 
+export type GroupedIterable<TKey, TValue> = GroupedIterable<TKey, TValue>;
 export type OrderedIterable<TKey, TSource> = OrderedIterableX<TKey, TSource>;
+export type GroupedAsyncIterable<TKey, TValue> = GroupedAsyncIterable<TKey, TValue>;
 export type OrderedAsyncIterable<TKey, TSource> = OrderedAsyncIterableX<TKey, TSource>;
 
 /* These declarations are needed for the closure/umd targets */
