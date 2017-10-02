@@ -9,8 +9,8 @@ class IgnoreElementsIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator](): Iterator<TSource> {
-    // tslint:disable-next-line:no-empty
-    for (let _ of this._source) { }
+    const it = this._source[Symbol.iterator]();
+    while (!it.next().done) { /* intentionally empty */ }
   }
 }
 

@@ -17,26 +17,27 @@ export function reduceRight<T, R>(
     source: Iterable<T>,
     fn: (acc: R, x: T, index: number) => R,
     seed?: T | R): T | R {
+  let _seed = seed;
   const hasSeed = arguments.length === 3;
   let hasValue = false;
   const array = toArray(source);
   for (let offset = array.length - 1; offset >= 0; offset--) {
     const item = array[offset];
     if (hasValue || (hasValue = hasSeed)) {
-      seed = fn(<R>seed, item, offset);
+      _seed = fn(<R>_seed, item, offset);
     } else {
-      seed = item;
+      _seed = item;
       hasValue = true;
     }
   }
 
   if (hasSeed && !hasValue) {
-    return seed!;
+    return _seed!;
   }
 
   if (!hasValue) {
     throw new Error('Sequence contains no elements');
   }
 
-  return seed!;
+  return _seed!;
 }
