@@ -1,5 +1,4 @@
-// Compiler configuaration to build the intermediate closure-compiler ESM UMD target.
-// Not used at the moment, but ready whenever CC has full ES2015+ support.
+// Compiler configuaration to build the intermediate ESM UMD target.
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {

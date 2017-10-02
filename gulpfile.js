@@ -30,7 +30,7 @@ const metadataFiles = [`LICENSE`, `readme.md`, `CHANGELOG.md`];
 const packageJSONFields = [
   `version`, `license`, `description`,
   `author`, `homepage`, `repository`,
-  `bugs`, `keywords`,  `peerDependencies`
+  `bugs`, `keywords`,  `dependencies`
 ];
 
 const argv = require(`command-line-args`)([
@@ -390,11 +390,9 @@ argv.module && !modules.length && modules.push(argv.module);
 for (const [target, format] of combinations([`all`], [`all`])) {
   const task = _task(target, format);
   gulp.task(`clean:${task}`, cleanTask(target, format));
-  gulp.task(`bundle:${task}`, bundleTask(target, format));
   gulp.task(`test:${task}`, testsTask(target, format, false));
   gulp.task(`debug:${task}`, testsTask(target, format, true));
-  gulp.task(`build:${task}`, gulp.series(`clean:${task}`, buildTask(target, format)));
-  gulp.task(`package:${task}`, gulp.series(`build:${task}`, `bundle:${task}`));
+  gulp.task(`build:${task}`, gulp.series(`clean:${task}`, buildTask(target, format), bundleTask(target, format)));
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
@@ -423,7 +421,8 @@ gulp.task(`build:ix`,
       `build:${_task(`es2015`, `esm`)}`,
       `build:${_task(`es2015`, `umd`)}`,
     ),
-    buildTask(`ix`)
+    buildTask(`ix`),
+    bundleTask(`ix`)
   )
 );
 
@@ -434,12 +433,10 @@ function gulpParallelWithConcurrency(tasks) {
 }
 
 gulp.task(`test`, (done) => gulpParallelWithConcurrency(runTasks(`test`))(done));
-gulp.task(`clean`, (done) => gulpParallelWithConcurrency(runTasks(`clean`))(done));
 gulp.task(`build`, (done) => gulpParallelWithConcurrency(runTasks(`build`))(done));
-gulp.task(`bundle`, (done) => gulpParallelWithConcurrency(runTasks(`bundle`))(done));
-gulp.task(`package`, (done) => gulpParallelWithConcurrency(runTasks(`package`))(done));
-gulp.task(`test:debug`, (done) => gulpParallelWithConcurrency(runTasks(`test:debug`))(done));
-gulp.task(`default`, gulp.task(`package`));
+gulp.task(`clean`, (done) => gulpParallelWithConcurrency(runTasks(`clean`))(done));
+gulp.task(`debug`, (done) => gulpParallelWithConcurrency(runTasks(`debug`))(done));
+gulp.task(`default`, gulp.series(`build`, `test`));
 
 function runTasks(name) {
   const tasks = [];
@@ -454,14 +451,13 @@ function runTasks(name) {
   return tasks.length && tasks || [(done) => done()];
 }
 
-function _taskHash(...args) { return args.join(`:`); }
+function _taskHash(...args) {
+  return args.filter((x) => x !== void 0 && x !== ``).join(`:`);
+}
 function _name(target, format) { return !format ? target : `${target}-${format}`; }
 function _task(target, format) { return !format ? target : `${target}:${format}`; }
 function _tsconfig(target, format) { return !format ? target : `${target}.${format}`; }
 function _dir(target, format) { return path.join(releasesRootDir, ...(!format ? [target] : [target, format])); }
-function _snake_case(target, format) {
-  return !format ? `_${target}` : `_${target}_${format}`;
-}
 
 function* combinations(_targets, _modules) {
 

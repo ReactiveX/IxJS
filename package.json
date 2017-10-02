@@ -8,18 +8,14 @@
     "test": "gulp test",
     "build": "gulp build",
     "clean": "gulp clean",
-    "bundle": "gulp bundle",
-    "package": "gulp package",
-    "test:debug": "gulp test:debug",
-    "validate": "npm-run-all lint build test bundle",
-    "publish:targets": "./publish-targets.sh",
-    "lerna:publish": "lerna exec --bail=false npm publish",
-    "prepublishOnly": "echo \"Error: do 'npm run publish:targets' instead of 'npm publish'\" && exit 1",
-    "commitmsg": "validate-commit-msg",
+    "debug": "gulp debug",
+    "lint": "run-p lint:*",
     "doc": "shx rm -rf ./doc && esdoc",
-    "lint": "npm-run-all -p lint:*",
+    "commitmsg": "validate-commit-msg",
     "lint:src": "tslint --fix --type-check -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
-    "lint:spec": "tslint --fix --type-check -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\""
+    "lint:spec": "tslint --fix --type-check -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\"",
+    "lerna:publish": "run-s --silent lint build test doc && lerna publish --conventional-commits",
+    "prepublishOnly": "echo \"Error: do 'npm run lerna:publish' instead of 'npm publish'\" && exit 1"
   },
   "author": "Matthew Podwysocki <matthewp@microsoft.com>",
   "homepage": "https://github.com/ReactiveX/IxJS#readme",
@@ -45,7 +41,7 @@
     "readme.md",
     "CHANGELOG.md"
   ],
-  "peerDependencies": {
+  "dependencies": {
     "tslib": "^1.7.1"
   },
   "devDependencies": {
