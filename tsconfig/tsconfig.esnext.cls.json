@@ -1,0 +1,12 @@
+// Compiler configuaration to build the intermediate closure-compiler ESM UMD target.
+// Not used at the moment, but ready whenever CC has full ES2015+ support.
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "es2015",
+    "declaration": false,
+    "noEmitHelpers": true,
+    "importHelpers": true
+  }
+}

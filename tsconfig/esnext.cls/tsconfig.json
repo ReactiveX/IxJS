@@ -1,3 +1,4 @@
+//Compiler configuaration to build the intermediate closure-compiler-annotated JS for the UMD target
 {
   "extends": "../tsconfig.base.json",
   "exclude": ["../../node_modules"],
@@ -12,11 +13,11 @@
     "indentSize": 2
   },
   "compilerOptions": {
-    "importHelpers": false,
-    "noEmitHelpers": true,
     "target": "ESNEXT",
     "module": "commonjs",
-    "outDir": "../../targets/esnext/cls",
-    "declarationDir": "../../targets/esnext/cls/types"
+    "declaration": false,
+    "noEmitHelpers": true,
+    "importHelpers": false,
+    "outDir": "../../targets/esnext/cls"
   }
 }
