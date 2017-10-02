@@ -4,6 +4,8 @@ process.on('unhandledRejection', (reason, p) => {
   throw reason;
 });
 
+const IS_TRAVIS = process.env.IS_TRAVIS || false;
+
 const del = require(`del`);
 const gulp = require(`gulp`);
 const path = require(`path`);
@@ -416,24 +418,23 @@ knownTargets.forEach((target) =>
 // and renames the compiled output into the ix folder.
 gulp.task(`build:ix`,
   gulp.series(
-    gulp.parallel(
-      `clean:ix`,
-      `build:${_task(`es5`, `cjs`)}`,
-      `build:${_task(`es5`, `umd`)}`,
-      `build:${_task(`es2015`, `esm`)}`,
-      `build:${_task(`es2015`, `umd`)}`,
-    ),
+   `clean:ix`,
+   `build:${_task(`es5`, `cjs`)}`,
+   `build:${_task(`es5`, `umd`)}`,
+   `build:${_task(`es2015`, `esm`)}`,
+   `build:${_task(`es2015`, `umd`)}`,
     buildTask(`ix`),
     bundleTask(`ix`)
   )
 );
 
-function gulpConcurrent(tasks, concurrent = require(`os`).cpus().length) {
+const numCPUs = (m = 1) => IS_TRAVIS ? 1 : require(`os`).cpus().length * m | 0;
+function gulpConcurrent(tasks, concurrent = numCPUs(0.5)) {
   const parallel = Observable.bindCallback((tasks, cb) => gulp.parallel(tasks)(cb));
-  return () => Observable.from(tasks).bufferCount(concurrent).concatMap((xs) => parallel(xs));
+  return () => Observable.from(tasks).bufferCount(Math.max(concurrent, 1)).concatMap((xs) => parallel(xs));
 }
 
-const buildConcurrent = (tasks, concurrent) => () =>
+const buildConcurrent = (tasks, concurrent = numCPUs()) => () =>
     gulpConcurrent(tasks, concurrent)()
       .concat(Observable
         .defer(() => Observable
