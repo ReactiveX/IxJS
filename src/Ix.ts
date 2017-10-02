@@ -12,6 +12,13 @@ export {
   AsyncIterableX as AsyncIterable
 };
 
+// Also export default to accommodate quirks of node's `--experimental-modules` mode
+export default {
+  AsyncSink,
+  Iterable: IterableX,
+  AsyncIterable: AsyncIterableX
+};
+
 export type GroupedIterable<TKey, TValue> = GroupedIterable<TKey, TValue>;
 export type OrderedIterable<TKey, TSource> = OrderedIterableX<TKey, TSource>;
 export type GroupedAsyncIterable<TKey, TValue> = GroupedAsyncIterable<TKey, TValue>;
