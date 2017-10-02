@@ -9,19 +9,11 @@ export function fromEventPattern<TSource>(
 
   addHandler(handler);
 
-  return memoize({
-    [Symbol.asyncIterator]() {
-      return {
-        next() {
-          return sink.next();
-        },
-
-        return() {
-          removeHandler(handler);
-          sink.end();
-          return Promise.resolve({ done: true } as IteratorResult<TSource>);
-        }
-      };
+  return memoize(async function*() {
+    for (let next; !(next = await sink.next()).done;) {
+      yield next.value;
     }
-  });
+    removeHandler(handler);
+    sink.end();
+  }());
 }
