@@ -16,35 +16,6 @@ npm install ix
 
 (also read about how we [package IxJS](#packaging) below)
 
-## Usage with `@angular/cli`
-
-First, make sure you're using `@angular/cli` v1.3.2 or greater (1.3.1 has a bug that broke tsconfig's "paths" entries).
-
-Next, install the TypeScript-only module:
-
-```sh
-npm install @reactivex/ix-ts
-```
-
-Then, add these entries to your top-level `tsconfig.json` file:
-
-```js
-{
-  "compilerOptions": {
-    "importHelpers": true, /* <-- optional but recommended */
-    "noEmitHelpers": true, /* <-- optional but recommended */
-    "downlevelIteration": true,
-    "paths": {
-      "ix/*": ["../node_modules/@reactivex/ix-ts/*"]
-    },
-    "lib": [
-      "esnext.asynciterable" /* <-- in addition to any other "lib" entries you have */
-    ]
-  }
-}
-
-```
-
 ## `Iterable`
 
 The `Iterable` class a way to create and compose synchronous collections much like Arrays, Maps and Sets in JavaScript using the Array#extras style using the familiar methods you are used to like `map`, `filter`, `reduce` and more.
@@ -381,15 +352,12 @@ npm install @reactivex/ix-ts # TypeScript target
 npm install @reactivex/ix-es5-cjs # ES5 CommonJS target
 npm install @reactivex/ix-es5-esm # ES5 ESModules target
 npm install @reactivex/ix-es5-umd # ES5 UMD target
-npm install @reactivex/ix-es5-cls # ES5 Google Closure Compiler target
 npm install @reactivex/ix-es2015-cjs # ES2015 CommonJS target
 npm install @reactivex/ix-es2015-esm # ES2015 ESModules target
 npm install @reactivex/ix-es2015-umd # ES2015 UMD target
-npm install @reactivex/ix-es2015-cls # ES2015 Google Closure Compiler target
 npm install @reactivex/ix-esnext-esm # ESNext CommonJS target
 npm install @reactivex/ix-esnext-esm # ESNext ESModules target
 npm install @reactivex/ix-esnext-umd # ESNext UMD target
-npm install @reactivex/ix-esnext-cls # ESNext Google Closure Compiler target
 ```
 
 ### Why we package like this
