@@ -1,28 +1,31 @@
 process.stdout.setMaxListeners(Math.pow(10, 6));
+process.on(`beforeExit`, (code) => didAnyTestError && process.exit(code || 1));
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at:', p, 'reason:', reason);
   throw reason;
 });
 
+let didAnyTestError = false;
 const IS_TRAVIS = process.env.IS_TRAVIS || false;
 
 const del = require(`del`);
 const gulp = require(`gulp`);
 const path = require(`path`);
 const pump = require(`pump`);
+const chalk = require(`chalk`);
 const webpack = require(`webpack`);
 const ts = require(`gulp-typescript`);
 const streamMerge = require(`merge2`);
 const tapdiff = require(`tap-difflet`);
 const gulpRename = require(`gulp-rename`);
 const sourcemaps = require(`gulp-sourcemaps`);
-const { spawn: spawnRx } = require(`spawn-rx`);
 const child_process = require(`child_process`);
 const gulpJsonTransform = require(`gulp-json-transform`);
 const UglifyJSPlugin = require(`uglifyjs-webpack-plugin`);
+const { spawn: spawnRx, spawnDetached } = require(`spawn-rx`);
 const closureCompiler = require(`google-closure-compiler`).gulp();
-const { Observable, Scheduler, ReplaySubject } = require(`rxjs`);
 const esmRequire = require(`@std/esm`)(module, { cjs: true, esm: `js` });
+const { Observable, Scheduler, Subject, ReplaySubject } = require(`rxjs`);
 
 const releasesRootDir = `targets`;
 const knownTargets = [`es5`, `es2015`, `esnext`];
@@ -39,7 +42,7 @@ const argv = require(`command-line-args`)([
   { name: `all`, alias: `a`, type: Boolean },
   { name: `target`, type: String, defaultValue: `` },
   { name: `module`, type: String, defaultValue: `` },
-  { name: `loglvl`, alias: `l`, type: Number, defaultValue: 3 },
+  { name: `loglvl`, alias: `l`, type: Number, defaultValue: 4 },
   { name: `targets`, alias: `t`, type: String, multiple: true, defaultValue: [] },
   { name: `modules`, alias: `m`, type: String, multiple: true, defaultValue: [] }
 ]);
@@ -93,7 +96,6 @@ Observable.prototype.logEverything = function(tag = `Observable`, loglevel = arg
 
 function _die(e) {
   if (e) {
-    console.error(e);
     process.exit(1);
   }
 }
@@ -149,25 +151,57 @@ const bundleTask = ((cache) => memoizeTask(cache, function bundle(target, format
   );
 }))({});
 
-const testsTask = ((cache, testOptions) => memoizeTask(cache, function tests(target, format, debug) {
+const tapePath = require.resolve(`tape/bin/tape`);
+const tsNodePath = require.resolve(`ts-node/dist/bin`);
+const tapDiffPath = require.resolve(`tap-difflet/bin/tap-difflet`);
+const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function tests(target, format, debug) {
   const opts = { ...testOptions };
-  debug && (opts.execArgv = [...opts.execArgv, `--inspect-brk`]);
+  const args = !debug ? execArgv : [...execArgv, `--inspect-brk`];
   opts.env = { ...opts.env, IX_TARGET: target, IX_MODULE: format };
-  const proc = child_process.fork(`spec/index.ts`, [], opts);
-  const diff = tapdiff({ pessimistic: true });
-  pump(proc.stdout, diff, process.stdout, _die);
-  return Observable.fromStream(proc).delay(1000);
-}))({}, {
-  execPath: `./node_modules/.bin/ts-node`,
-  execArgv: [`--harmony_async_iteration`],
-  stdio: [`ignore`, `pipe`, `ignore`, `ipc`],
-  env: {
-    ...process.env,
-    TS_NODE_TYPE_CHECK: false,
-    TS_NODE_CACHE: false, TS_NODE_FAST: true,
-    TS_NODE_PROJECT:  `./spec/tsconfig.json`,
+  return Observable.create((subscriber) => {
+    const taps = new Subject();
+    const diff = spawnDetached(tapDiffPath, [`-p`], { stdin: taps });
+    const tape = spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts);
+    return subscriber.add(
+      diff.subscribe(subscriber),
+      tape.subscribe({
+        next: taps.next.bind(taps),
+        error: taps.complete.bind(taps),
+        complete: taps.complete.bind(taps),
+      })
+    );
+  })
+  .filter((x) => x && x.trim())
+  .map((x) => x.replace(`\n`, ``))
+  .materialize().toArray()
+  .flatMap((out) => {
+    let res = Observable.of;
+    let last = out[out.length - 2];
+    let terminator = out[out.length - 1];
+    let message = last && last.value || ``;
+    if (terminator.kind === `E`) {
+      didAnyTestError = true;
+      res = Observable.throw;
+      message = chalk.red(`\n${
+        out.slice(0, -1).map(({ value }) => value).join(`\n`)
+      }\n`);
+    } else if (message) {
+      process.stdout.write(chalk.green(message) + `\n`);
+    }
+    return res({ stack: message });
+  })
+  .multicast(new ReplaySubject()).refCount();
+}))({},
+  [`--disableWarnings`, `--harmony_async_iteration`],
+  {
+    env: {
+      ...process.env,
+      TS_NODE_TYPE_CHECK: false,
+      TS_NODE_CACHE: false, TS_NODE_FAST: true,
+      TS_NODE_PROJECT:  `./spec/tsconfig.json`,
+    }
   }
-});
+);
 
 const copyTSSources = ((cache) => memoizeTask(cache, function copyTS(target, format) {
   return Observable.fromStream(gulp.src(`src/**/*`), gulp.dest(_dir(target, format)));
@@ -201,7 +235,7 @@ const compileTsickle = ((cache, tsicklePath) => memoizeTask(cache, function tsic
         `${_dir(target, format)}/Ix.externs.js`,
       `--`, `-p`, `tsconfig/${_tsconfig(target, format)}`
     ],
-    { stdio: [`ignore`, `pipe`, `pipe`] }
+    { stdio: [`ignore`, `inherit`, `inherit`] }
   ).multicast(new ReplaySubject()).refCount();
 }))({}, require.resolve(`tsickle/built/src/main`));
   
@@ -376,7 +410,7 @@ const reserveExportedNames = (entryModule) => (
       const fn = function() {};
       const ownKeys = value && Object.getOwnPropertyNames(value) || [];
       const protoKeys = typeof value === `function` && Object.getOwnPropertyNames(value.prototype) || [];
-      const publicNames = [...ownKeys, ...protoKeys].filter((x) => x !== `undefined` && !(x in fn));
+      const publicNames = [...ownKeys, ...protoKeys].filter((x) => x !== `default` && x !== `undefined` && !(x in fn));
       return [...reserved, name, ...publicNames];
     }, []
   )
