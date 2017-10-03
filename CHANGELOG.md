@@ -1,3 +1,8 @@
+<a name="2.1.3"></a>
+## [2.1.3](https://github.com/ReactiveX/IxJS/compare/v2.1.1...v2.1.3) (2017-10-03)
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/ReactiveX/IxJS/compare/v2.1.0...v2.1.1) (2017-10-03)
 
