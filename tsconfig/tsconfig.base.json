@@ -13,7 +13,7 @@
     "noEmitOnError": true,
     "removeComments": false,
     "downlevelIteration": true,
-    
+
     /* Create inline sourcemaps with sources */
     "sourceMap": false,
     "inlineSources": true,
@@ -25,7 +25,6 @@
     "importHelpers": true,
     "noEmitHelpers": true,
     "noUnusedLocals": true,
-    "strictNullChecks": true,
     "noImplicitReturns": true,
     "allowUnusedLabels": false,
     "noUnusedParameters": true,
