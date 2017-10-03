@@ -30,7 +30,7 @@ test('AsyncIterable#throttle drops some', async t => {
     yield await delayItem(3, 100);
     yield await delayItem(4, 100);
   };
-  const ys = throttle(xs(), 200);
+  const ys = throttle(xs(), 150);
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 1);
