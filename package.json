@@ -65,6 +65,7 @@
     "gulp-sourcemaps": "2.6.1",
     "gulp-typescript": "3.2.2",
     "husky": "0.14.3",
+    "json": "9.0.6",
     "lerna": "2.2.0",
     "lint-staged": "4.2.1",
     "merge2": "1.2.0",
