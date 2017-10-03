@@ -14,8 +14,8 @@ export function scanProto<T, R = T>(
 export function scanProto<T, R = T>(
     this: Iterable<T>,
     accumulator: (acc: T | R, value: T, index: number) => R,
-    seed?: T | R): IterableX<T | R> {
-  return arguments.length === 2 ? scan(this, accumulator, seed) : scan(this, accumulator);
+    ...args: (T | R)[]): IterableX<T | R> {
+  return scan(this, accumulator, ...args);
 }
 
 IterableX.prototype.scan = scanProto;

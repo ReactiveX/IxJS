@@ -8,7 +8,7 @@ export function flatMapProto<TSource, TResult>(
     this: IterableX<TSource>,
     fn: (value: TSource) => Iterable<TResult>,
     thisArg?: any): IterableX<TResult> {
-  return flatMap<TSource, TResult>(this, fn);
+  return flatMap<TSource, TResult>(this, fn, thisArg);
 }
 
 IterableX.prototype.flatMap = flatMapProto;

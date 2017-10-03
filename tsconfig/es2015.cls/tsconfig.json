@@ -18,6 +18,7 @@
     "declaration": false,
     "noEmitHelpers": true,
     "importHelpers": false,
+    "noEmitOnError": false,
     "outDir": "../../targets/es2015/cls"
   }
 }

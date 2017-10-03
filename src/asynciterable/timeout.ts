@@ -39,7 +39,7 @@ class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
         throw new TimeoutError();
       }
 
-      if (value.done) { break; }
+      if (!value || value.done) { break; }
       yield value.value;
     }
   }

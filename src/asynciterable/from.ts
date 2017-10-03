@@ -119,7 +119,7 @@ class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncItera
     let i = 0;
     while (1) {
       if (observer.values.length > 0) {
-        yield await this._selector(observer.values.shift(), i++);
+        yield await this._selector(observer.values.shift()!, i++);
       } else if (observer.closed) {
         subscription.unsubscribe();
         if (observer.hasError) {
