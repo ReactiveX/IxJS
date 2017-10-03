@@ -1,3 +1,5 @@
+# handy tips for IxJS development
+
 ## the npm scripts
 
 * `npm run clean` - cleans targets
@@ -6,11 +8,13 @@
 
 These npm scripts accept argument lists of targets × modules:
 
-* Available `targets` are `es5`, `es2015`, `esnext`, and `all` (default: `all`)
-* Available `modules` are `cjs`, `esm`, `cls`, `umd`, and `all` (default: `all`)
+* Available `targets` are `ix`, `ts`, `es5`, `es2015`, `esnext`, and `all` (default: `all`)
+* Available `modules` are `cjs`, `esm`, `umd`, and `all` (default: `all`)
 
 Examples:
+
 * `npm run build` -- builds all ES targets in all module formats
+* `npm run build -- -t ix` -- builds the main Ix target module bundle
 * `npm run build -- -t es5 -m all` -- builds the ES5 target in all module formats
 * `npm run build -- -t all -m cjs` -- builds all ES targets in the CommonJS module format
 * `npm run build -- --targets es5 es2015 -m all` -- builds the ES5 and ES2015 targets in all module formats

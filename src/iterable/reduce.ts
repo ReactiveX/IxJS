@@ -6,25 +6,26 @@ export function reduce<T, R>(
       source: Iterable<T>,
       fn: (acc: R, x: T, index: number) => R,
       seed?: T | R): T | R {
+  let _seed = seed;
   const hasSeed = arguments.length === 3;
   let i = 0, hasValue = false;
   for (let item of source) {
     if (hasValue || (hasValue = hasSeed)) {
-      seed = fn(<R>seed, item, i++);
+      _seed = fn(<R>_seed, item, i++);
     } else {
-      seed = item;
+      _seed = item;
       hasValue = true;
       i++;
     }
   }
 
   if (hasSeed && !hasValue) {
-    return seed!;
+    return _seed!;
   }
 
   if (!hasValue) {
     throw new Error('Sequence contains no elements');
   }
 
-  return seed!;
+  return _seed!;
 }

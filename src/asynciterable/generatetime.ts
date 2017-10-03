@@ -24,7 +24,8 @@ class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult>
 
   async *[Symbol.asyncIterator]() {
     for (let i = this._initialState; await this._condition(i); i = await this._iterate(i)) {
-      await sleep(await this._timeSelector(i));
+      const time = await this._timeSelector(i);
+      await sleep(time);
       yield await this._resultSelector(i);
     }
   }

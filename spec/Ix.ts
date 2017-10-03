@@ -1,11 +1,10 @@
 /* tslint:disable */
 
-// Dynamically load an Ix target build based on command line arguments
+// Dynamically load an Ix target build based on environment vars
 
-const args = process.argv.slice(2);
+const target = process.env.IX_TARGET;
+const format = process.env.IX_MODULE;
 const resolve = require('path').resolve;
-const target = args[args.indexOf('--target') + 1];
-const format = args[args.indexOf('--module') + 1];
 
 // these are duplicated in the gulpfile :<
 const targets = [`es5`, `es2015`, `esnext`];
@@ -15,11 +14,15 @@ function throwInvalidImportError(name: string, value: string, values: string[]) 
     throw new Error('Unrecognized ' + name + ' \'' + value + '\'. Please run tests with \'--' + name + ' <any of ' + values.join(', ') + '>\'');
 }
 
-if (!~targets.indexOf(target)) throwInvalidImportError('target', target, targets);
-if (!~formats.indexOf(format)) throwInvalidImportError('module', format, formats);
+let modulePath = ``;
 
-let Ix: any = require(resolve(`./targets/${target}/${format}/Ix.js`));
-let IxInternal: any = require(resolve(`./targets/${target}/${format}/Ix.internal.js`));
+if (target === `ts` || target === `ix`) modulePath = target;
+else if (!~targets.indexOf(target)) throwInvalidImportError('target', target, targets);
+else if (!~formats.indexOf(format)) throwInvalidImportError('module', format, formats);
+else modulePath = `${target}/${format}`;
+
+let Ix: any = require(resolve(`./targets/${modulePath}/Ix`));
+let IxInternal: any = require(resolve(`./targets/${modulePath}/Ix.internal`));
 
 import { Iterable as Iterable_ } from '../src/Ix';
 import { AsyncSink as AsyncSink_ } from '../src/Ix';

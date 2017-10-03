@@ -64,13 +64,10 @@ export function memoize<TSource, TResult = TSource>(
     source: Iterable<TSource>,
     readerCount: number = -1,
     selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TSource | TResult> {
-  if (readerCount === -1 && !selector) {
-    return new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>());
+  if (!selector) {
+    return readerCount === -1 ?
+    new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>()) :
+    new MemoizeBuffer<TSource>(source[Symbol.iterator](), new RefCountList<TSource>(readerCount));
   }
-
-  if (readerCount !== -1 && !selector) {
-    return new MemoizeBuffer<TSource>(source[Symbol.iterator](), new RefCountList<TSource>(readerCount));
-  }
-
   return create<TSource | TResult>(() => selector!(memoize(source, readerCount))[Symbol.iterator]());
 }

@@ -43,9 +43,12 @@ package-lock.json
 doc
 
 # compilation targets
-dist
-types
+targets
+targets/ix
 targets/ts
 targets/es5
 targets/es2015
 targets/esnext
+
+# local @std/esm module cache
+.esm-cache

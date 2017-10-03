@@ -37,8 +37,10 @@ script:
     elif [ "$CI_MATRIX_LINT" = "true" ]; then
       npm run lint
     elif [ "$CI_MATRIX_TEST" = "true" ]; then
+      export IS_TRAVIS=true
       npm run build
-      npm run test
+      echo "sleeping 10s" && sleep 10
+      npm test
     else
       echo "This code path is run unexpectedly" 1>&2
       exit 1
