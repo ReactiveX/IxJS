@@ -1,10 +1,12 @@
-cp package.json _package.json
 preset=$(conventional-commits-detector) && echo "conventional-commits preset: $preset"
 bump=${1:-$(conventional-recommended-bump -p $preset)} && echo "semantic-version bump: $bump"
+
+run-s --silent lint build test
+lerna publish --yes --skip-git --cd-version $bump --force-publish=*
+
+cp package.json _package.json
 npm --no-git-tag-version version $bump &>/dev/null
 conventional-changelog -i CHANGELOG.md -s -p $preset
-run-s --silent lint build test doc
-lerna publish --yes --skip-git --cd-version $bump --force-publish=*
 git add CHANGELOG.md lerna.json && version=$(json -f package.json version)
 git commit -m "docs(CHANGELOG): $version"
 mv -f _package.json package.json
