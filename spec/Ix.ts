@@ -2,9 +2,9 @@
 
 // Dynamically load an Ix target build based on environment vars
 
-const target = process.env.IX_TARGET;
-const format = process.env.IX_MODULE;
 const resolve = require('path').resolve;
+const target = process.env.IX_TARGET || ``;
+const format = process.env.IX_MODULE || ``;
 
 // these are duplicated in the gulpfile :<
 const targets = [`es5`, `es2015`, `esnext`];
