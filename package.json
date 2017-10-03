@@ -10,11 +10,11 @@
     "clean": "gulp clean",
     "debug": "gulp debug",
     "lint": "run-p lint:*",
+    "release": "./npm-release.sh",
     "doc": "shx rm -rf ./doc && esdoc",
     "commitmsg": "validate-commit-msg",
     "lint:src": "tslint --fix --type-check -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
     "lint:spec": "tslint --fix --type-check -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\"",
-    "lerna:publish": "run-s --silent lint build test doc && lerna publish --conventional-commits",
     "prepublishOnly": "echo \"Error: do 'npm run lerna:publish' instead of 'npm publish'\" && exit 1"
   },
   "author": "Matthew Podwysocki <matthewp@microsoft.com>",

@@ -1,5 +1,6 @@
 {
   "lerna": "2.2.0",
+  "version": "2.1.1",
   "packages": [
     "targets/ix",
     "targets/ts",
