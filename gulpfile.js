@@ -6,7 +6,6 @@ process.on('unhandledRejection', (reason, p) => {
 });
 
 let didAnyTestError = false;
-const IS_TRAVIS = process.env.IS_TRAVIS || false;
 
 const del = require(`del`);
 const gulp = require(`gulp`);
@@ -158,6 +157,10 @@ const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function
   const opts = { ...testOptions };
   const args = !debug ? execArgv : [...execArgv, `--inspect-brk`];
   opts.env = { ...opts.env, IX_TARGET: target, IX_MODULE: format };
+  // do it this way instead once https://github.com/paulcbetts/spawn-rx/pull/18 is merged and published
+  // return spawnDetached(tapDiffPath, [`-p`], {
+  // stdin: spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts)
+  // })
   return Observable.create((subscriber) => {
     const taps = new Subject();
     const diff = spawnDetached(tapDiffPath, [`-p`], { stdin: taps });
@@ -462,7 +465,7 @@ gulp.task(`build:ix`,
   )
 );
 
-const numCPUs = (m = 1) => IS_TRAVIS ? 1 : require(`os`).cpus().length * m | 0;
+const numCPUs = (m = 1) => require(`os`).cpus().length * m | 0;
 function gulpConcurrent(tasks, concurrent = numCPUs(0.5)) {
   const parallel = Observable.bindCallback((tasks, cb) => gulp.parallel(tasks)(cb));
   return () => Observable.from(tasks).bufferCount(Math.max(concurrent, 1)).concatMap((xs) => parallel(xs));
