@@ -6,7 +6,6 @@ process.on('unhandledRejection', (reason, p) => {
 });
 
 let didAnyTestError = false;
-const IS_TRAVIS = process.env.IS_TRAVIS || false;
 
 const del = require(`del`);
 const gulp = require(`gulp`);
@@ -154,10 +153,14 @@ const bundleTask = ((cache) => memoizeTask(cache, function bundle(target, format
 const tapePath = require.resolve(`tape/bin/tape`);
 const tsNodePath = require.resolve(`ts-node/dist/bin`);
 const tapDiffPath = require.resolve(`tap-difflet/bin/tap-difflet`);
-const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function tests(target, format, debug) {
+const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function tests(target, format, extraArgv = []) {
   const opts = { ...testOptions };
-  const args = !debug ? execArgv : [...execArgv, `--inspect-brk`];
+  const args = [...execArgv, ...extraArgv];
   opts.env = { ...opts.env, IX_TARGET: target, IX_MODULE: format };
+  // do it this way instead once https://github.com/paulcbetts/spawn-rx/pull/18 is merged and published
+  // return spawnDetached(tapDiffPath, [`-p`], {
+  // stdin: spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts)
+  // })
   return Observable.create((subscriber) => {
     const taps = new Subject();
     const diff = spawnDetached(tapDiffPath, [`-p`], { stdin: taps });
@@ -328,10 +331,11 @@ const compileClosure = ((cache) => memoizeTask(cache, function closure(target, f
 const createIxPackageJson = (target, format) => (orig) => ({
   ...createTsPackageJson(target, format)(orig),
   name: orig.name,
-  main: `Ix.js`,
+  main: `Ix`,
   module: `Ix.mjs`,
-  browser: `Ix.min.js`,
-  [`@std/esm`]: { esm: `mjs` }
+  browser: `Ix.es5.min.js`,
+  [`@std/esm`]: { esm: `mjs` },
+  [`browser:es2015`]: `Ix.es2015.min.js`,
 });
 
 const createTsPackageJson = (target, format) => (orig) => ({
@@ -345,7 +349,8 @@ const createScopedPackage = (target, format) => (({ name, ...orig }) =>
       (xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }),
       { name: `@reactivex/${name}-${_name(target, format)}`,
         version: undefined, main: `Ix.js`, types: `Ix.d.ts`,
-        module: undefined, browser: undefined, [`@std/esm`]: undefined }
+        browser: undefined, [`browser:es2015`]: undefined,
+        module: undefined, [`@std/esm`]: undefined }
     )
   )
 );
@@ -426,8 +431,8 @@ argv.module && !modules.length && modules.push(argv.module);
 for (const [target, format] of combinations([`all`], [`all`])) {
   const task = _task(target, format);
   gulp.task(`clean:${task}`, cleanTask(target, format));
-  gulp.task( `test:${task}`, testsTask(target, format, false));
-  gulp.task(`debug:${task}`, testsTask(target, format, true));
+  gulp.task( `test:${task}`, testsTask(target, format));
+  gulp.task(`debug:${task}`, testsTask(target, format, [`--inspect-brk`]));
   gulp.task(`build:${task}`, gulp.series(`clean:${task}`,
                                           buildTask(target, format),
                                           bundleTask(target, format)));
@@ -439,10 +444,12 @@ for (const [target, format] of combinations([`all`], [`all`])) {
 knownTargets.forEach((target) =>
   gulp.task(`build:${target}:umd`,
     gulp.series(
-       `clean:${target}:umd`,
-       `build:${UMDSourceTargets[target]}:cls`,
-        buildTask(target, `umd`),
-        bundleTask(target, `umd`)
+      gulp.parallel(
+        cleanTask(target, `umd`),
+        cleanTask(UMDSourceTargets[target], `cls`),
+      ),
+      buildTask(UMDSourceTargets[target], `cls`),
+      buildTask(target, `umd`), bundleTask(target, `umd`)
     )
   )
 );
@@ -452,24 +459,23 @@ knownTargets.forEach((target) =>
 // and renames the compiled output into the ix folder.
 gulp.task(`build:ix`,
   gulp.series(
-   `clean:ix`,
-   `build:${_task(`es5`, `cjs`)}`,
-   `build:${_task(`es5`, `umd`)}`,
-   `build:${_task(`es2015`, `esm`)}`,
-   `build:${_task(`es2015`, `umd`)}`,
-    buildTask(`ix`),
-    bundleTask(`ix`)
+    cleanTask(`ix`),
+    gulp.parallel(
+      `build:${_task(`es5`, `cjs`)}`,
+      `build:${_task(`es5`, `umd`)}`,
+      `build:${_task(`es2015`, `esm`)}`,
+      `build:${_task(`es2015`, `umd`)}`
+    ),
+    buildTask(`ix`), bundleTask(`ix`)
   )
 );
 
-const numCPUs = (m = 1) => IS_TRAVIS ? 1 : require(`os`).cpus().length * m | 0;
-function gulpConcurrent(tasks, concurrent = numCPUs(0.5)) {
-  const parallel = Observable.bindCallback((tasks, cb) => gulp.parallel(tasks)(cb));
-  return () => Observable.from(tasks).bufferCount(Math.max(concurrent, 1)).concatMap((xs) => parallel(xs));
+function gulpConcurrent(tasks) {
+  return () => Observable.bindCallback((tasks, cb) => gulp.parallel(tasks)(cb))(tasks);
 }
 
-const buildConcurrent = (tasks, concurrent = numCPUs()) => () =>
-    gulpConcurrent(tasks, concurrent)()
+const buildConcurrent = (tasks) => () =>
+    gulpConcurrent(tasks)()
       .concat(Observable
         .defer(() => Observable
           .merge(...knownTargets.map((target) =>

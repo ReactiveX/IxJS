@@ -2,7 +2,7 @@
 
 // Dynamically load an Ix target build based on environment vars
 
-const resolve = require('path').resolve;
+const path = require('path');
 const target = process.env.IX_TARGET || ``;
 const format = process.env.IX_MODULE || ``;
 
@@ -19,10 +19,10 @@ let modulePath = ``;
 if (target === `ts` || target === `ix`) modulePath = target;
 else if (!~targets.indexOf(target)) throwInvalidImportError('target', target, targets);
 else if (!~formats.indexOf(format)) throwInvalidImportError('module', format, formats);
-else modulePath = `${target}/${format}`;
+else modulePath = path.join(target, format);
 
-let Ix: any = require(resolve(`./targets/${modulePath}/Ix`));
-let IxInternal: any = require(resolve(`./targets/${modulePath}/Ix.internal`));
+let Ix: any = require(path.resolve(`./targets`, modulePath, `Ix`));
+let IxInternal: any = require(path.resolve(`./targets`, modulePath, `Ix.internal`));
 
 import { Iterable as Iterable_ } from '../src/Ix';
 import { AsyncSink as AsyncSink_ } from '../src/Ix';
