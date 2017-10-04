@@ -331,10 +331,11 @@ const compileClosure = ((cache) => memoizeTask(cache, function closure(target, f
 const createIxPackageJson = (target, format) => (orig) => ({
   ...createTsPackageJson(target, format)(orig),
   name: orig.name,
-  main: `Ix.js`,
+  main: `Ix`,
   module: `Ix.mjs`,
-  browser: `Ix.min.js`,
-  [`@std/esm`]: { esm: `mjs` }
+  browser: `Ix.es5.min.js`,
+  [`@std/esm`]: { esm: `mjs` },
+  [`browser:es2015`]: `Ix.es2015.min.js`,
 });
 
 const createTsPackageJson = (target, format) => (orig) => ({
@@ -348,7 +349,8 @@ const createScopedPackage = (target, format) => (({ name, ...orig }) =>
       (xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }),
       { name: `@reactivex/${name}-${_name(target, format)}`,
         version: undefined, main: `Ix.js`, types: `Ix.d.ts`,
-        module: undefined, browser: undefined, [`@std/esm`]: undefined }
+        browser: undefined, [`browser:es2015`]: undefined,
+        module: undefined, [`@std/esm`]: undefined }
     )
   )
 );
