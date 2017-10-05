@@ -34,6 +34,26 @@ test('AsyncIterable#filter with index', async t => {
   t.end();
 });
 
+test('AsyncIterable#filter with typeguard', async t => {
+  const xs = of<any>(
+    new String('8'), 5,
+    new String('7'), 4,
+    new String('6'), 9,
+    new String('2'), 1,
+    new String('0')
+  );
+  const ys = filter(xs, (x): x is string => x instanceof String);
+
+  const it = ys[Symbol.asyncIterator]();
+  await hasNext(t, it, new String('8'));
+  await hasNext(t, it, new String('7'));
+  await hasNext(t, it, new String('6'));
+  await hasNext(t, it, new String('2'));
+  await hasNext(t, it, new String('0'));
+  await noNext(t, it);
+  t.end();
+});
+
 test('AsyncIterable#filter throws part way through', async t => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const err = new Error();

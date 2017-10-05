@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 import { bindCallback } from '../internal/bindcallback';
+import { booleanAsyncPredicate } from '../internal/predicates';
 
 class FilterIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>;
@@ -32,7 +33,7 @@ class FilterIterable<TSource> extends AsyncIterableX<TSource> {
 */
 export function filterAsync<TSource>(
     source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
-    predicate: (value: TSource, index: number) => boolean | Promise<boolean>,
+    predicate: booleanAsyncPredicate<TSource>,
     thisArg?: any): AsyncIterableX<TSource> {
   return new FilterIterable<TSource>(source, bindCallback(predicate, thisArg, 2));
 }

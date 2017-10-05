@@ -1,12 +1,13 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { every } from '../../asynciterable/every';
+import { booleanAsyncPredicate } from '../../internal/predicates';
 
 /**
  * @ignore
  */
 export function everyProto<T>(
     this: AsyncIterableX<T>,
-    comparer: (value: T, index: number) => boolean | Promise<boolean>): Promise<boolean> {
+    comparer: booleanAsyncPredicate<T>): Promise<boolean> {
   return every<T>(this, comparer);
 }
 
