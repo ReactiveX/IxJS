@@ -1,8 +1,9 @@
 # The Interactive Extensions for JavaScript (IxJS)
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/ReactiveX/IxJS.svg)](https://greenkeeper.io/)
-
 [![Build Status](https://travis-ci.org/ReactiveX/IxJS.svg?branch=master)](https://travis-ci.org/ReactiveX/IxJS)
+[![npm version](https://badge.fury.io/js/ix.svg)](https://badge.fury.io/js/ix)
+[![Join the chat at https://gitter.im/ReactiveXIxJS/](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ReactiveXIxJS/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 *IxJS is a set of libraries to compose synchronous and asynchronous collections and [Array#extras](http://blogs.msdn.com/b/ie/archive/2010/12/13/ecmascript-5-part-2-array-extras.aspx) style composition in JavaScript*
 
