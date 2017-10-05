@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { flatten } = Ix.asynciterable;
 const { of } = Ix.asynciterable;
 const { toArray } = Ix.asynciterable;

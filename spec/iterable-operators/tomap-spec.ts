@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { toMap } = Ix.iterable;
 
 test('Iterable#toMap stores values', t => {

@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { max } = Ix.iterable;
 
 test('Itearble#max laws', t => {

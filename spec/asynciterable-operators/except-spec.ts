@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { except } = Ix.asynciterable;
 const { of } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';

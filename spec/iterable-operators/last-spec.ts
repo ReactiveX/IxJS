@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { last } = Ix.iterable;
 
 test('Iterable#last empty returns undefined', t => {

@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { range } = Ix.asynciterable;
 const { scan } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';

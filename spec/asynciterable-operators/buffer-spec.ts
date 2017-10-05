@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { buffer } = Ix.asynciterable;
 const { empty } = Ix.asynciterable;
 const { range } = Ix.asynciterable;
