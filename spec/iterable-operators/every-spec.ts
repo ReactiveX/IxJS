@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { every } = Ix.iterable;
 
 test('Iterable#every some true', t => {

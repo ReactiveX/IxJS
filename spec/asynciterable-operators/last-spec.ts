@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { empty } = Ix.asynciterable;
 const { last } = Ix.asynciterable;
 const { of } = Ix.asynciterable;

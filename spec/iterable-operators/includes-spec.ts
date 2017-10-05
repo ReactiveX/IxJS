@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { includes } = Ix.iterable;
 
 test('Iterable#includes includes', t => {

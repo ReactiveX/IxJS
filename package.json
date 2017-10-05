@@ -78,13 +78,12 @@
     "rxjs": "5.4.3",
     "shx": "0.2.2",
     "source-map-loader": "0.2.2",
-    "source-map-support": "0.5.0",
     "spawn-rx": "2.0.12",
     "tap-difflet": "0.7.0",
-    "tape": "4.8.0",
+    "tape-async": "2.3.0",
     "trash": "4.1.0",
     "ts-node": "3.3.0",
-    "tsickle": "0.24.1",
+    "tsickle": "0.23.3",
     "tslint": "5.7.0",
     "tsutils": "2.11.2",
     "typescript": "2.5.3",
@@ -113,5 +112,10 @@
     "experimentalProposal": {
       "asyncGenerators": true
     }
+  },
+  "greenkeeper": {
+    "ignore": [
+      "tsickle"
+    ]
   }
 }

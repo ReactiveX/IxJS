@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { concat } = Ix.iterable;
 const { concatAll } = Ix.iterable;
 const { map } = Ix.iterable;

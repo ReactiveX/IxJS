@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { single } = Ix.iterable;
 
 test('Iterable#single no predicate empty returns undefined', t => {

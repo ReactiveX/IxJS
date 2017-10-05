@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import * as test from 'tape-async';
 const { innerJoin } = Ix.asynciterable;
 const { of } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;

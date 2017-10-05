@@ -1,7 +1,7 @@
 /* tslint:disable */
-process.on('unhandledRejection', (reason, p) => {
-  console.error('Unhandled Rejection at:', p, 'reason:', reason);
-  throw reason;
+process.on('unhandledRejection', error => {
+  // Won't execute
+  console.log('unhandledRejection', error.test);
 });
 
 const cwd = process.cwd();
