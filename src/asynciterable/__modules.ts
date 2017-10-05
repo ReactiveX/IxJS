@@ -58,6 +58,7 @@ import { map } from './map';
 import { max } from './max';
 import { maxBy } from './maxby';
 import { memoize } from './memoize';
+import { merge } from './merge';
 import { min } from './min';
 import { minBy } from './minby';
 import { of } from './of';
@@ -171,6 +172,7 @@ export default {
     max,
     maxBy,
     memoize,
+    merge,
     min,
     minBy,
     of,
