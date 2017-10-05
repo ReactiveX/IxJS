@@ -19,10 +19,6 @@ env:
     - CI_MATRIX_LINT=true
     - CI_MATRIX_TEST=true
 
-matrix:
-  allow_failures:
-    - env: CI_MATRIX_TEST=true # TODO https://github.com/ReactiveX/IxJS/issues/2
-
 before_install:
   # Use the latest yarnpkg because Travis' builtin yarn is not the latest.
   - curl -o- -L https://yarnpkg.com/install.sh | bash
