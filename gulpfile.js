@@ -1,7 +1,7 @@
 process.stdout.setMaxListeners(Math.pow(10, 6));
 process.on(`beforeExit`, (code) => didAnyTestError && process.exit(code || 1));
-process.on('unhandledRejection', (reason, p) => {
-  console.error('Unhandled Rejection at:', p, 'reason:', reason);
+process.on(`unhandledRejection`, (reason, p) => {
+  console.error(`Unhandled Rejection at:`, p, `reason:`, reason);
   throw reason;
 });
 
@@ -87,8 +87,8 @@ const uglifyLanguageNames = {
 
 Observable.prototype.logEverything = function(tag = `Observable`, loglevel = argv.loglvl) {
   return this.do({
-    next(x) { loglevel <= 1 && console.log(`${tag} next:`, x) },
-    error(e) { loglevel <= 3 && console.error(`${tag} error:`, e); },
+    next(x) { loglevel <= 1 && console.log(`${tag} next:\n`, x) },
+    error(e) { loglevel <= 3 && console.error(`${tag} error:\n`, e); },
     complete() { loglevel <= 2 && console.log(`${tag} complete`); }
   }).finally(() => loglevel <= 2 && console.log(`${tag} disposed`));
 };
@@ -116,8 +116,8 @@ Observable.fromStream = function observableFromStreams(...streams) {
 const memoizeTask = ((cache, taskFn) => ((target, format, ...args) => {
   // Give the memoized fn a displayName so gulp's output is easier to follow.
   const fn = () => (
-    cache[_taskHash(target, format, ...args)] || (
-    cache[_taskHash(target, format, ...args)] = taskFn(target, format, ...args)
+    cache[_taskHash(target, format)] || (
+    cache[_taskHash(target, format)] = taskFn(target, format, ...args)
                                                .logEverything(fn.displayName)));
   fn.displayName = `${taskFn.name || ``}:${_taskHash(target, format, ...args)}:task`;
   return fn;
@@ -232,13 +232,13 @@ const compileTypescript = ((cache) => memoizeTask(cache, function typescript(tar
   const out = _dir(target, format);
   const tsconfigFile = `tsconfig.${_tsconfig(target, format)}.json`;
   const tsProject = ts.createProject(path.join(`tsconfig`, tsconfigFile));
-  const { observable: compilation, stream: { js, dts } } = Observable.fromStream(
+  const { stream: { js, dts } } = Observable.fromStream(
     tsProject.src(), sourcemaps.init(),
     tsProject(ts.reporter.fullReporter(true))
   );
   const writeDTypes = Observable.fromStream(dts, gulp.dest(out));
   const writeJS = Observable.fromStream(js, sourcemaps.write(), gulp.dest(out));
-  return Observable.forkJoin(compilation, writeDTypes, writeJS).publish(new ReplaySubject()).refCount();
+  return Observable.forkJoin(writeDTypes, writeJS).publish(new ReplaySubject()).refCount();
 }))({});
 
 const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function uglifyJS(target, format) {
@@ -251,13 +251,14 @@ const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function ug
   const targetConfig = {
               ...commonConfig,
     output: { ...commonConfig.output,
-       path: path.join(process.cwd(), `${out}/`) } };
+       path: path.resolve(`./${out}`) } };
 
   const webpackConfigs = [
     [`Ix`, PublicNames],
-    [`Ix.Internal`, InternalNames]
+    [`Ix.internal`, InternalNames]
   ].map(([entry, reserved]) => ({
     ...targetConfig,
+    name: entry,
     entry: { [entry]: path.resolve(`${src}/${entry}.js`) },
     plugins: [
       ...(targetConfig.plugins || []),
@@ -266,7 +267,7 @@ const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function ug
         moduleFilenameTemplate: ({ resourcePath }) =>
           resourcePath
             .replace(/\s/, `_`)
-            .replace(/\.\/node_modules\//, '')
+            .replace(/\.\/node_modules\//, ``)
       }),
       new UglifyJSPlugin({
         sourceMap: true,
@@ -290,8 +291,8 @@ const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function ug
 
 }))({}, {
   resolve: { mainFields: [`module`, `main`] },
-  output: { filename: '[name].js', library: `Ix`, libraryTarget: `umd`, },
-  module: { rules: [{ test: /\.js$/, enforce: `pre`, use: [`source-map-loader`] }] }
+  module: { rules: [{ test: /\.js$/, enforce: `pre`, use: [`source-map-loader`] }] },
+  output: { filename: '[name].js', library: `Ix`, libraryTarget: `umd`, umdNamedDefine: true },
 });
 
 const compileClosure = ((cache) => memoizeTask(cache, function closure(target, format) {
@@ -308,7 +309,7 @@ const compileClosure = ((cache) => memoizeTask(cache, function closure(target, f
     ], { base: `./` }), sourcemaps.init(),
     closureCompiler(createClosureArgs(target, entry, `${src}/Ix.externs.js`)),
     // rename the sourcemaps from *.js.map files to *.min.js.map
-    sourcemaps.write('.', { mapFile: (mapPath) => mapPath.replace(`.js.map`, `.${target}.min.js.map`) }),
+    sourcemaps.write(`.`, { mapFile: (mapPath) => mapPath.replace(`.js.map`, `.${target}.min.js.map`) }),
     gulp.dest(out)
   ]);
   return Observable.forkJoin(closureStreams
@@ -467,7 +468,7 @@ const buildConcurrent = (tasks) => () =>
       .concat(Observable
         .defer(() => Observable
           .merge(...knownTargets.map((target) =>
-            cleanTask(UMDSourceTargets[target], `cls`, target, `umd`)()))));
+            del(`${_dir(UMDSourceTargets[target], `cls`)}/**`)))));
 
 gulp.task( `test`, gulpConcurrent(getTasks(`test`)));
 gulp.task(`build`,buildConcurrent(getTasks(`build`)));
