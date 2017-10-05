@@ -1,4 +1,5 @@
 import { bindCallback } from '../internal/bindcallback';
+import { booleanPredicate } from '../internal/predicates';
 
 /**
  * Returns the value of the first element in the sequence that satisfies the provided testing function.
@@ -11,7 +12,7 @@ import { bindCallback } from '../internal/bindcallback';
  */
 export function find<T>(
     source: Iterable<T>,
-    predicate: (value: T, index: number) => boolean,
+    predicate: booleanPredicate<T>,
     thisArg?: any): T | undefined {
   if (typeof predicate !== 'function') { throw new TypeError(); }
   const f = bindCallback(predicate, thisArg, 2);

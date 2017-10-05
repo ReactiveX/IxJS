@@ -1,3 +1,4 @@
+import { booleanPredicate } from '../internal/predicates';
 /**
  * Determines whether every element of a sequence satisfy a condition.
  * @param {Iterable<T>} source Source sequence.
@@ -7,7 +8,7 @@
  */
 export function every<T>(
     source: Iterable<T>,
-    comparer: (value: T, index: number) => boolean): boolean {
+    comparer: booleanPredicate<T>): boolean {
   let i = 0;
   for (let item of source) {
     if (!comparer(item, i++)) { return false; }

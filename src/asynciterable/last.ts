@@ -1,9 +1,11 @@
+import { booleanAsyncPredicate } from '../internal/predicates';
+
 export async function last<T>(
     source: AsyncIterable<T>,
-    fn: (value: T) => boolean | Promise<boolean> = async () => true): Promise<T | undefined> {
-  let result: T | undefined;
+    fn: booleanAsyncPredicate<T> = async () => true): Promise<T | undefined> {
+  let i = 0, result: T | undefined;
   for await (let item of source) {
-    if (await fn(item)) {
+    if (await fn(item, i++)) {
       result = item;
     }
   }

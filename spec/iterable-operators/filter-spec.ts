@@ -33,6 +33,26 @@ test('Iterable#filter with index', t => {
   t.end();
 });
 
+test('Iterable#filter with typeguard', t => {
+  const xs = [
+    new String('8'), 5,
+    new String('7'), 4,
+    new String('6'), 9,
+    new String('2'), 1,
+    new String('0')
+  ];
+  const ys = filter(xs, (x): x is string => x instanceof String);
+
+  const it = ys[Symbol.iterator]();
+  hasNext(t, it, new String('8'));
+  hasNext(t, it, new String('7'));
+  hasNext(t, it, new String('6'));
+  hasNext(t, it, new String('2'));
+  hasNext(t, it, new String('0'));
+  noNext(t, it);
+  t.end();
+});
+
 test('Iterable#filter throws part way through', t => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];
   const err = new Error();

@@ -1,7 +1,9 @@
-export function last<T>(source: Iterable<T>, fn: (value: T) => boolean = () => true): T | undefined {
-  let result: T | undefined;
+import { booleanPredicate } from '../internal/predicates';
+
+export function last<T>(source: Iterable<T>, fn: booleanPredicate<T> = () => true): T | undefined {
+  let i = 0, result: T | undefined;
   for (let item of source) {
-    if (fn(item)) {
+    if (fn(item, i++)) {
       result = item;
     }
   }

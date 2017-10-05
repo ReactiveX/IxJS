@@ -1,12 +1,13 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { partition } from '../../asynciterable/partition';
+import { booleanAsyncPredicate } from '../../internal/predicates';
 
 /**
  * @ignore
  */
 export function partitionProto<T>(
     this: AsyncIterableX<T>,
-    fn: (value: T, index: number) => boolean,
+    fn: booleanAsyncPredicate<T>,
     thisArg?: any): AsyncIterableX<T>[] {
   return partition<T>(this, fn, thisArg);
 }

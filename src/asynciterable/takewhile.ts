@@ -1,12 +1,13 @@
 import { AsyncIterableX } from '../asynciterable';
+import { booleanAsyncPredicate } from '../internal/predicates';
 
 class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _predicate: (value: TSource, index: number) => boolean | Promise<boolean>;
+  private _predicate: booleanAsyncPredicate<TSource>;
 
   constructor(
       source: AsyncIterable<TSource>,
-      predicate: (value: TSource, index: number) => boolean | Promise<boolean>) {
+      predicate: booleanAsyncPredicate<TSource>) {
     super();
     this._source = source;
     this._predicate = predicate;
@@ -23,6 +24,6 @@ class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function takeWhile<TSource>(
     source: AsyncIterable<TSource>,
-    predicate: (value: TSource, index: number) => boolean| Promise<boolean>): AsyncIterableX<TSource> {
+    predicate: booleanAsyncPredicate<TSource>): AsyncIterableX<TSource> {
   return new TakeWhileAsyncIterable<TSource>(source, predicate);
 }

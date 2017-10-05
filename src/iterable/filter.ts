@@ -1,5 +1,6 @@
 import { IterableX } from '../iterable';
 import { bindCallback } from '../internal/bindcallback';
+import { booleanPredicate } from '../internal/predicates';
 
 class FilterIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
@@ -30,7 +31,7 @@ class FilterIterable<TSource> extends IterableX<TSource> {
  */
 export function filter<T>(
     source: Iterable<T>,
-    predicate: (value: T, index: number) => boolean,
+    predicate: booleanPredicate<T>,
     thisArg?: any): IterableX<T> {
   return new FilterIterable<T>(source, bindCallback(predicate, thisArg, 2));
 }

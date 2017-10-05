@@ -1,10 +1,11 @@
 import { IterableX } from '../iterable';
+import { booleanPredicate } from '../internal/predicates';
 
 class SkipWhileIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
-  private _predicate: (value: TSource, index: number) => boolean;
+  private _predicate: booleanPredicate<TSource>;
 
-  constructor(source: Iterable<TSource>, predicate: (value: TSource, index: number) => boolean) {
+  constructor(source: Iterable<TSource>, predicate: booleanPredicate<TSource>) {
     super();
     this._source = source;
     this._predicate = predicate;
@@ -21,6 +22,6 @@ class SkipWhileIterable<TSource> extends IterableX<TSource> {
 
 export function skipWhile<TSource>(
     source: Iterable<TSource>,
-    predicate: (value: TSource, index: number) => boolean): IterableX<TSource> {
+    predicate: booleanPredicate<TSource>): IterableX<TSource> {
   return new SkipWhileIterable<TSource>(source, predicate);
 }
