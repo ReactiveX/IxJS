@@ -130,7 +130,7 @@ const cleanTask = ((cache) => memoizeTask(cache, function clean(target, format) 
 const buildTask = ((cache) => memoizeTask(cache, function build(target, format, ...args) {
   return target === `ts`  ? copyTSSources(target, format, ...args)()
        : target === `ix`  ? copyIxTargets(target, format, ...args)()
-       : format === `umd` ? target === `es5` 
+       : format === `umd` ? target === `es5`
                           ?  compileClosure(target, format, ...args)()
                           : compileUglifyJS(target, format, ...args)()
        : format === `cls` && target === `es5`
@@ -147,7 +147,7 @@ const bundleTask = ((cache) => memoizeTask(cache, function bundle(target, format
   return Observable.forkJoin(
     Observable.fromStream(gulp.src(metadataFiles), gulp.dest(out)), // copy metadata files
     Observable.fromStream(gulp.src(`package.json`), jsonTransform, gulp.dest(out)) // write packageJSONs
-  );
+  ).publish(new ReplaySubject()).refCount();
 }))({});
 
 const tapePath = require.resolve(`tape/bin/tape`);
@@ -157,22 +157,8 @@ const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function
   const opts = { ...testOptions };
   const args = [...execArgv, ...extraArgv];
   opts.env = { ...opts.env, IX_TARGET: target, IX_MODULE: format };
-  // do it this way instead once https://github.com/paulcbetts/spawn-rx/pull/18 is merged and published
-  // return spawnDetached(tapDiffPath, [`-p`], {
-  // stdin: spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts)
-  // })
-  return Observable.create((subscriber) => {
-    const taps = new Subject();
-    const diff = spawnDetached(tapDiffPath, [`-p`], { stdin: taps });
-    const tape = spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts);
-    return subscriber.add(
-      diff.subscribe(subscriber),
-      tape.subscribe({
-        next: taps.next.bind(taps),
-        error: taps.complete.bind(taps),
-        complete: taps.complete.bind(taps),
-      })
-    );
+  return   spawnDetached(tapDiffPath, [`-p`], {
+    stdin: spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts)
   })
   .filter((x) => x && x.trim())
   .map((x) => x.replace(`\n`, ``))
@@ -228,7 +214,7 @@ const copyIxTargets = ((cache) => memoizeTask(cache, function copyIx(target, for
     Observable.fromStream(gulp.src(es5UmdMaps),                     gulp.dest(out)), // copy es5 umd sourcemap files, but don't rename
     Observable.fromStream(gulp.src(es2015UmdGlob), append(`.es2015.min`), gulp.dest(out)), // copy es2015 umd files and add `.es6.min`
     Observable.fromStream(gulp.src(es2015UmdMaps),                        gulp.dest(out)), // copy es2015 umd sourcemap files, but don't rename
-  );
+  ).publish(new ReplaySubject()).refCount();
 }))({});
 
 const compileTsickle = ((cache, tsicklePath) => memoizeTask(cache, function tsickle(target, format) {
@@ -241,7 +227,7 @@ const compileTsickle = ((cache, tsicklePath) => memoizeTask(cache, function tsic
     { stdio: [`ignore`, `inherit`, `inherit`] }
   ).multicast(new ReplaySubject()).refCount();
 }))({}, require.resolve(`tsickle/built/src/main`));
-  
+
 const compileTypescript = ((cache) => memoizeTask(cache, function typescript(target, format) {
   const out = _dir(target, format);
   const tsconfigFile = `tsconfig.${_tsconfig(target, format)}.json`;
@@ -252,7 +238,7 @@ const compileTypescript = ((cache) => memoizeTask(cache, function typescript(tar
   );
   const writeDTypes = Observable.fromStream(dts, gulp.dest(out));
   const writeJS = Observable.fromStream(js, sourcemaps.write(), gulp.dest(out));
-  return Observable.forkJoin(compilation, writeDTypes, writeJS);
+  return Observable.forkJoin(compilation, writeDTypes, writeJS).publish(new ReplaySubject()).refCount();
 }))({});
 
 const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function uglifyJS(target, format) {
@@ -271,7 +257,7 @@ const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function ug
     [`Ix`, PublicNames],
     [`Ix.Internal`, InternalNames]
   ].map(([entry, reserved]) => ({
-    ...targetConfig, 
+    ...targetConfig,
     entry: { [entry]: path.resolve(`${src}/${entry}.js`) },
     plugins: [
       ...(targetConfig.plugins || []),
@@ -315,7 +301,7 @@ const compileClosure = ((cache) => memoizeTask(cache, function closure(target, f
              [`Ix.internal`, `Ix`]
       ].map(([entry, otherEntryFile]) => [
     gulp.src([
-  /*   tslib comes first, --> */`scripts/tslib.js`,  
+  /*   tslib comes first, --> */`scripts/tslib.js`,
  /*   then sources glob, --> */ `${src}/**/*.js`,
 /*  and exclusions last --> */ `!${src}/Ix.externs.js`,
                                `!${src}/${otherEntryFile}.js`
@@ -325,7 +311,9 @@ const compileClosure = ((cache) => memoizeTask(cache, function closure(target, f
     sourcemaps.write('.', { mapFile: (mapPath) => mapPath.replace(`.js.map`, `.${target}.min.js.map`) }),
     gulp.dest(out)
   ]);
-  return Observable.forkJoin(closureStreams.map((streams) => Observable.fromStream(...streams)));
+  return Observable.forkJoin(closureStreams
+    .map((streams) => Observable.fromStream(...streams)))
+    .publish(new ReplaySubject()).refCount();
 }))({});
 
 const createIxPackageJson = (target, format) => (orig) => ({
@@ -511,15 +499,15 @@ function* combinations(_targets, _modules) {
   const targets = known(knownTargets, _targets || (_targets = [`all`]));
   const modules = known(knownModules, _modules || (_modules = [`all`]));
 
+  if (_targets[0] === `all` && _modules[0] === `all`) {
+    yield [`ts`, ``];
+    yield [`ix`, ``];
+  }
+
   for (const format of modules) {
     for (const target of targets) {
       yield [target, format];
     }
-  }
-
-  if (_targets[0] === `all` && _modules[0] === `all`) {
-    yield [`ts`, ``];
-    yield [`ix`, ``];
   }
 
   function known(known, values) {
