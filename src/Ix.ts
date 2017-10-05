@@ -152,6 +152,7 @@ import './add/asynciterable-operators/last';
 import './add/asynciterable-operators/map';
 import './add/asynciterable-operators/memoize';
 import './add/asynciterable-operators/merge';
+import './add/asynciterable-operators/mergeall';
 import './add/asynciterable-operators/pluck';
 import './add/asynciterable-operators/publish';
 import './add/asynciterable-operators/reduce';

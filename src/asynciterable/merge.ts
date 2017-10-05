@@ -1,4 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
+import { flatMap } from './flatmap';
+import { from } from './from';
 
 // tslint:disable-next-line:no-empty
 const NEVER_PROMISE = new Promise(() => { });
@@ -43,8 +45,12 @@ class MergeAsyncIterable<T> extends AsyncIterableX<T> {
   }
 }
 
-export function _mergeAll<TSource>(source: AsyncIterable<TSource>[]): AsyncIterableX<TSource> {
-  return new MergeAsyncIterable<TSource>(source);
+export function mergeAll<TSource>(source: AsyncIterable<AsyncIterable<TSource>>): AsyncIterableX<TSource> {
+  return flatMap(source, source => source);
+}
+
+export function _mergeAll<TSource>(source: Iterable<AsyncIterable<TSource>>): AsyncIterableX<TSource> {
+  return flatMap(from(source), source => source);
 }
 
 export function merge<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
