@@ -1,5 +1,7 @@
 # The Interactive Extensions for JavaScript (IxJS)
 
+[![Join the chat at https://gitter.im/ReactiveXIxJS/Lobby](https://badges.gitter.im/ReactiveXIxJS/Lobby.svg)](https://gitter.im/ReactiveXIxJS/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/ReactiveX/IxJS.svg)](https://greenkeeper.io/)
 
 [![Build Status](https://travis-ci.org/ReactiveX/IxJS.svg?branch=master)](https://travis-ci.org/ReactiveX/IxJS)
