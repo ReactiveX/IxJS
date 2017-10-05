@@ -6,7 +6,7 @@ const { endWith } = Ix.iterable;
 
 test('Iterable#endWith adds to end', t => {
   const e = range(0, 5);
-  const r = endWith(e, 6, 7);
+  const r = endWith(e, 5, 6);
   t.true(sequenceEqual(r, range(0, 7)));
   t.end();
 });
