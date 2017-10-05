@@ -27,6 +27,7 @@ import { distinctUntilChanged } from './distinctuntilchanged';
 import { doWhile } from './dowhile';
 import { elementAt } from './elementat';
 import { empty } from './empty';
+import { endWith } from './endwith';
 import { every } from './every';
 import { except } from './except';
 import { expand } from './expand';
@@ -139,6 +140,7 @@ export default {
     doWhile,
     elementAt,
     empty,
+    endWith,
     every,
     except,
     expand,
