@@ -21,8 +21,8 @@ else if (!~targets.indexOf(target)) throwInvalidImportError('target', target, ta
 else if (!~formats.indexOf(format)) throwInvalidImportError('module', format, formats);
 else modulePath = path.join(target, format);
 
-let Ix: any = require(path.resolve(`./targets`, modulePath, `Ix`));
-let IxInternal: any = require(path.resolve(`./targets`, modulePath, `Ix.internal`));
+let Ix: any = require(path.resolve(`.`, `targets`, modulePath, `Ix`));
+let IxInternal: any = require(path.resolve(`.`, `targets`, modulePath, `Ix.internal`));
 
 import { Iterable as Iterable_ } from '../src/Ix';
 import { AsyncSink as AsyncSink_ } from '../src/Ix';
