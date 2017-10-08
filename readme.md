@@ -86,7 +86,7 @@ import { filter } from 'ix/iterable/filter';
 
 // CommonJS
 const map = require('ix/iterable/map').map;
-const filters = require('ix/iterable/filter').filter;
+const filter = require('ix/iterable/filter').filter;
 
 const source = [1,2,3];
 const results = map(
