@@ -100,6 +100,8 @@ const results = map(
 for (let item of results) {
   console.log(`Next: ${item}`);
 }
+
+// Next 4
 ```
 
 We can mix the two approaches by adding the minimal `chain` operator which then allows us to create a more fluent style but yet keeping the surface area to a minimum.
