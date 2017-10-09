@@ -53,7 +53,7 @@ const results = Ix.Iterable.from([1,2,3,4])
   .map(x => x * 2);
 
 for (let item of results) {
-  console.log(`Next ${x}`);
+  console.log(`Next ${item}`);
 }
 
 // => 4
