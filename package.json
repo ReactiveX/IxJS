@@ -15,7 +15,7 @@
     "commitmsg": "validate-commit-msg",
     "lint:src": "tslint --fix --type-check -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
     "lint:spec": "tslint --fix --type-check -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\"",
-    "prepublishOnly": "echo \"Error: do 'npm run lerna:publish' instead of 'npm publish'\" && exit 1"
+    "prepublishOnly": "echo \"Error: do 'npm run release' instead of 'npm publish'\" && exit 1"
   },
   "author": "Matthew Podwysocki <matthewp@microsoft.com>",
   "homepage": "https://github.com/ReactiveX/IxJS#readme",
@@ -45,8 +45,8 @@
     "tslib": "^1.7.1"
   },
   "devDependencies": {
-    "@std/esm": "0.11.2",
     "@types/node": "8.0.33",
+    "@std/esm": "0.11.3",
     "@types/tape": "4.2.30",
     "chalk": "2.1.0",
     "command-line-args": "4.0.7",
@@ -85,9 +85,9 @@
     "ts-node": "3.3.0",
     "tsickle": "0.23.3",
     "tslint": "5.7.0",
-    "tsutils": "2.12.0",
+    "tsutils": "2.12.1",
     "typescript": "2.5.3",
-    "uglifyjs-webpack-plugin": "1.0.0-beta.2",
+    "uglifyjs-webpack-plugin": "1.0.0-beta.3",
     "validate-commit-msg": "2.14.0",
     "webpack": "3.6.0"
   },
