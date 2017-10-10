@@ -8,7 +8,7 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 test('AsyncIterable#zip equal length', async t => {
   const xs = of(1, 2, 3);
   const ys = of(4, 5, 6);
-  const res = zip(xs, ys, (x, y) => x * y);
+  const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(t, it, 1 * 4);
@@ -21,7 +21,7 @@ test('AsyncIterable#zip equal length', async t => {
 test('AsyncIterable#zip left longer', async t => {
   const xs = of(1, 2, 3, 4);
   const ys = of(4, 5, 6);
-  const res = zip(xs, ys, (x, y) => x * y);
+  const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(t, it, 1 * 4);
@@ -34,7 +34,7 @@ test('AsyncIterable#zip left longer', async t => {
 test('AsyncIterable#zip right longer', async t => {
   const xs = of(1, 2, 3);
   const ys = of(4, 5, 6, 7);
-  const res = zip(xs, ys, (x, y) => x * y);
+  const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(t, it, 1 * 4);
@@ -44,11 +44,25 @@ test('AsyncIterable#zip right longer', async t => {
   t.end();
 });
 
+test('AsyncIterable#zip multiple sources', async t => {
+  const xs = of(1, 2, 3);
+  const ys = of(4, 5, 6, 7);
+  const zs = of(8, 9, 10);
+  const res = zip(([x, y, z]) => x * y * z, xs, ys, zs);
+
+  const it = res[Symbol.asyncIterator]();
+  await hasNext(t, it, 1 * 4 * 8);
+  await hasNext(t, it, 2 * 5 * 9);
+  await hasNext(t, it, 3 * 6 * 10);
+  await noNext(t, it);
+  t.end();
+});
+
 test('AsyncIterable#zip left throws', async t => {
   const err = new Error();
   const xs = _throw<number>(err);
   const ys = of(4, 5, 6);
-  const res = zip(xs, ys, (x, y) => x * y);
+  const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -63,7 +77,7 @@ test('AsyncIterable#zip right throws', async t => {
   const err = new Error();
   const xs = of(1, 2, 3);
   const ys = _throw<number>(err);
-  const res = zip(xs, ys, (x, y) => x * y);
+  const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -78,7 +92,7 @@ test('AsyncIterable#zip selector throws', async t => {
   const err = new Error();
   const xs = of(1, 2, 3);
   const ys = of(4, 5, 6);
-  const res = zip(xs, ys, (x, y) => { if (x > 0) { throw err; } return x * y; });
+  const res = zip(([x, y]) => { if (x > 0) { throw err; } return x * y; }, xs, ys);
 
   const it = res[Symbol.asyncIterator]();
   try {
