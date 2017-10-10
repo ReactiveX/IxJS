@@ -86,7 +86,7 @@ import { filter } from 'ix/iterable/filter';
 
 // CommonJS
 const map = require('ix/iterable/map').map;
-const filters = require('ix/iterable/filter').filter;
+const filter = require('ix/iterable/filter').filter;
 
 const source = [1,2,3];
 const results = map(
@@ -100,6 +100,8 @@ const results = map(
 for (let item of results) {
   console.log(`Next: ${item}`);
 }
+
+// Next 4
 ```
 
 We can mix the two approaches by adding the minimal `chain` operator which then allows us to create a more fluent style but yet keeping the surface area to a minimum.
