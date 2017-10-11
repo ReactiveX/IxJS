@@ -117,9 +117,9 @@ import { map } from 'ix/iterable/map';
 // CommonJS
 const Iterable = require('ix/iterable').IterableX;
 require('ix/add/iterable-operators/chain');
-const of = require('ix/iterable/of');
-const filter = require('ix/iterable/filter');
-const map = require('ix/iterable/map');
+const of = require('ix/iterable/of').of;
+const filter = require('ix/iterable/filter').filter;
+const map = require('ix/iterable/map').map;
 
 const results = of(1, 2, 3)
   .chain(source => filter(source, x => x % 2 === 0))
