@@ -166,7 +166,7 @@ function* rand() {
 
 test('Iterable#memoize should share effects of random', t => {
   const rnd = memoize(take(rand(), 100));
-  t.true(every(zip(rnd, rnd, (l, r) => l === r), x => x));
+  t.true(every(zip(([l, r]) => l === r, rnd, rnd), x => x));
   t.end();
 });
 
@@ -176,7 +176,7 @@ test('Iterable#memoize with selector', t => {
     memoize(
       tap(range(0, 4), { next: () => n++ }),
       undefined,
-      xs => take(zip(xs, xs, (l, r) => l + r), 4)
+      xs => take(zip(([l, r]) => l + r, xs, xs), 4)
     )
   );
 
@@ -191,7 +191,7 @@ test('Iterable#memoize limited with selector', t => {
     memoize(
       tap(range(0, 4), { next: () => n++ }),
       2,
-      xs => take(zip(xs, xs, (l, r) => l + r), 4)
+      xs => take(zip(([l, r]) => l + r, xs, xs), 4)
     )
   );
 

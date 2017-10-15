@@ -179,7 +179,7 @@ async function* rand() {
 
 test('AsyncIterable#memoize should share effects of random', async t => {
   const rnd = memoize(take(rand(), 100));
-  t.true(await every(zip(rnd, rnd, async (l, r) => l === r), async x => x));
+  t.true(await every(zip(async ([l, r]) => l === r, rnd, rnd), async x => x));
   t.end();
 });
 
@@ -189,7 +189,7 @@ test('AsyncIterable#memoize with selector', async t => {
     memoize(
       tap(range(0, 4), { next: async () => { n++; } }),
       undefined,
-      xs => take(zip(xs, xs, async (l, r) => l + r), 4)
+      xs => take(zip(async ([l, r]) => l + r, xs, xs), 4)
     )
   );
 
@@ -204,7 +204,7 @@ test('AsyncIterable#memoize limited with selector', async t => {
     memoize(
       tap(range(0, 4), { next: async () => { n++; } }),
       2,
-      xs => take(zip(xs, xs, async (l, r) => l + r), 4)
+      xs => take(zip(async ([l, r]) => l + r, xs, xs), 4)
     )
   );
 

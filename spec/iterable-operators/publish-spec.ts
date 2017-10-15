@@ -154,7 +154,7 @@ test('Iterable#publish with selector', t => {
   const res = toArray(
     publish(
       tap(range(0, 10), { next: () => n++ }),
-      xs => take(zip(xs, xs, (l, r) => l + r), 4)
+      xs => take(zip(([l, r]) => l + r, xs, xs), 4)
     )
   );
 
