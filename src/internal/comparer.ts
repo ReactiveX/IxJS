@@ -2,13 +2,13 @@
 /**
  * @ignore
  */
-export function comparer(a: any, b: any) {
+export function comparer(x: any, y: any) {
   return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
 }
 
 /**
  * @ignore
  */
-export async function comparerAsync(a: any, b: any) {
+export async function comparerAsync(x: any, y: any) {
   return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
 }
