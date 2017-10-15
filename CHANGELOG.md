@@ -1,3 +1,38 @@
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/ReactiveX/IxJS/compare/v2.1.4...v2.2.0) (2017-10-15)
+
+
+### Bug Fixes
+
+* **comparer:** fixes bug with comparer ([4098a8c](https://github.com/ReactiveX/IxJS/commit/4098a8c))
+* **comparer:** Fixes comparer  ([c6a67eb](https://github.com/ReactiveX/IxJS/commit/c6a67eb))
+* **concatall:** fix concatall file name case ([#59](https://github.com/ReactiveX/IxJS/issues/59)) ([1d241ca](https://github.com/ReactiveX/IxJS/commit/1d241ca))
+* **endWith:** fix endWith unit tests ([dffa71d](https://github.com/ReactiveX/IxJS/commit/dffa71d))
+* **operators:** import all add/*-operators in Ix.ts ([6ca52f5](https://github.com/ReactiveX/IxJS/commit/6ca52f5))
+
+
+### Features
+
+* **endWith:** adds endWith operator ([f967e3b](https://github.com/ReactiveX/IxJS/commit/f967e3b))
+* **merge:** adds merge operator ([b81a007](https://github.com/ReactiveX/IxJS/commit/b81a007))
+* **merge:** fix indexOf issues with merge ([2a542e5](https://github.com/ReactiveX/IxJS/commit/2a542e5))
+* **mergeAll:** adds mergeAll operator ([47f17fa](https://github.com/ReactiveX/IxJS/commit/47f17fa))
+* **operators:** support user defined type guards in boolean predicates ([ef8764a](https://github.com/ReactiveX/IxJS/commit/ef8764a)), closes [#44](https://github.com/ReactiveX/IxJS/issues/44)
+* **windows:** add windows build support ([0ba498e](https://github.com/ReactiveX/IxJS/commit/0ba498e))
+* **windows:** add windows build support ([59fe0e3](https://github.com/ReactiveX/IxJS/commit/59fe0e3))
+
+
+* Zip `n` sources (#73) ([0c4d513](https://github.com/ReactiveX/IxJS/commit/0c4d513))
+
+
+### BREAKING CHANGES
+
+* zip selectors now take a single "values" Array argument, instead of varargs
+
+* test(zip): update zip tests for variable sources
+
+
+
 <a name="2.1.4"></a>
 ## [2.1.4](https://github.com/ReactiveX/IxJS/compare/v2.1.3...v2.1.4) (2017-10-04)
 
