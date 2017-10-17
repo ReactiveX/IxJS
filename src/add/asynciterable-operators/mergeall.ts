@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable';
-import { mergeAll } from '../../asynciterable/merge';
+import { mergeAll } from '../../asynciterable/mergeall';
 
 /**
  * @ignore

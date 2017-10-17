@@ -15,7 +15,7 @@ import { _catchStatic } from './catch';
 import { catchWith } from './catchwith';
 import { chain } from './chain';
 import { concat } from './concat';
-import { concatAll } from './concat';
+import { concatAll } from './concatall';
 import { concatStatic } from './concat';
 import { count } from './count';
 import { create } from './create';
