@@ -59,7 +59,7 @@ import { max } from './max';
 import { maxBy } from './maxby';
 import { memoize } from './memoize';
 import { merge } from './merge';
-import { mergeAll } from './merge';
+import { mergeAll } from './mergeall';
 import { min } from './min';
 import { minBy } from './minby';
 import { of } from './of';
