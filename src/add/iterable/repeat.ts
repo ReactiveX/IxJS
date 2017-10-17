@@ -8,7 +8,5 @@ export declare namespace iterable {
 }
 
 declare module '../../iterable' {
-  namespace IterableX {
-    export let repeat: typeof _repeatStatic;
-  }
+  namespace IterableX { export let repeat: typeof _repeatStatic; }
 }

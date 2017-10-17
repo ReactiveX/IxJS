@@ -11,13 +11,18 @@ class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    for (let x of this._args) { yield x; }
-    for await (let item of this._source) { yield item; }
+    for (let x of this._args) {
+      yield x;
+    }
+    for await (let item of this._source) {
+      yield item;
+    }
   }
 }
 
 export function startWith<TSource>(
-    source: AsyncIterable<TSource>,
-    ...args: TSource[]): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  ...args: TSource[]
+): AsyncIterableX<TSource> {
   return new StartWithAsyncIterable<TSource>(source, args);
 }

@@ -5,8 +5,9 @@ import { repeat } from '../../iterable/repeat';
  * @ignore
  */
 export function repeatProto<TSource>(
-    this: IterableX<TSource>,
-    count: number = -1): IterableX<TSource> {
+  this: IterableX<TSource>,
+  count: number = -1
+): IterableX<TSource> {
   return repeat(this, count);
 }
 

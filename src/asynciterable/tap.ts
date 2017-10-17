@@ -18,23 +18,30 @@ class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       try {
         next = await it.next();
       } catch (e) {
-        if (this._observer.error) { await this._observer.error(e); }
+        if (this._observer.error) {
+          await this._observer.error(e);
+        }
         throw e;
       }
 
       if (next.done) {
-        if (this._observer.complete) { await this._observer.complete(); }
+        if (this._observer.complete) {
+          await this._observer.complete();
+        }
         break;
       }
 
-      if (this._observer.next) { await this._observer.next(next.value); }
+      if (this._observer.next) {
+        await this._observer.next(next.value);
+      }
       yield next.value;
     }
   }
 }
 
 export function tap<TSource>(
-    source: AsyncIterable<TSource>,
-    observer: PartialAsyncObserver<TSource>): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  observer: PartialAsyncObserver<TSource>
+): AsyncIterableX<TSource> {
   return new TapAsyncIterable<TSource>(source, observer);
 }

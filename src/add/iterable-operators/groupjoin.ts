@@ -5,11 +5,12 @@ import { groupJoin } from '../../iterable/groupjoin';
  * @ignore
  */
 export function groupJoinProto<TOuter, TInner, TKey, TResult>(
-    this: Iterable<TOuter>,
-    inner: Iterable<TInner>,
-    outerSelector: (value: TOuter) => TKey,
-    innerSelector: (value: TInner) => TKey,
-    resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult): IterableX<TResult> {
+  this: IterableX<TOuter>,
+  inner: Iterable<TInner>,
+  outerSelector: (value: TOuter) => TKey,
+  innerSelector: (value: TInner) => TKey,
+  resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult
+): IterableX<TResult> {
   return groupJoin(this, inner, outerSelector, innerSelector, resultSelector);
 }
 

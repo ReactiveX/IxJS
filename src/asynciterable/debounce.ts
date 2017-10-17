@@ -23,7 +23,7 @@ class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     const reset = (hasNoValue: boolean) => {
       noValue = hasNoValue;
       lastItem = undefined;
-      deferred = new Promise<TSource>(r => resolver = r);
+      deferred = new Promise<TSource>(r => (resolver = r));
     };
 
     const run = () => {
@@ -42,19 +42,31 @@ class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     reset(true);
     forEach(this._source, item => {
       lastItem = item;
-      if (noValue) { run(); }
+      if (noValue) {
+        run();
+      }
     })
-    .then(() => done = true)
-    .catch(err => { hasError = true; error = err; });
+      .then(() => (done = true))
+      .catch(err => {
+        hasError = true;
+        error = err;
+      });
 
     while (1) {
-      if (done) { break; }
-      if (hasError) { throw error; }
+      if (done) {
+        break;
+      }
+      if (hasError) {
+        throw error;
+      }
       yield await deferred!;
     }
   }
 }
 
-export function debounce<TSource>(source: AsyncIterable<TSource>, time: number): AsyncIterableX<TSource> {
+export function debounce<TSource>(
+  source: AsyncIterable<TSource>,
+  time: number
+): AsyncIterableX<TSource> {
   return new DebounceAsyncIterable<TSource>(source, time);
 }

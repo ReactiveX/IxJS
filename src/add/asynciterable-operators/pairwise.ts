@@ -4,8 +4,7 @@ import { pairwise } from '../../asynciterable/pairwise';
 /**
  * @ignore
  */
-export function pairwiseProto<TSource>(
-    this: AsyncIterableX<TSource>): AsyncIterableX<TSource[]> {
+export function pairwiseProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource[]> {
   return pairwise(this);
 }
 

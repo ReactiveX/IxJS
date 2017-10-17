@@ -4,7 +4,10 @@ import { merge } from '../../asynciterable/merge';
 /**
  * @ignore
  */
-export function mergeProto<T>(this: AsyncIterableX<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
+export function mergeProto<T>(
+  this: AsyncIterableX<T>,
+  ...args: AsyncIterable<T>[]
+): AsyncIterableX<T> {
   return merge(this, ...args);
 }
 

@@ -7,9 +7,10 @@ import { bindCallback } from '../internal/bindcallback';
  * @param {Object} [thisArg] Optional "this" binding for the callback.
  */
 export function forEach<TSource>(
-    source: Iterable<TSource>,
-    callback: (value: TSource, index: number) => void,
-    thisArg?: any): void {
+  source: Iterable<TSource>,
+  callback: (value: TSource, index: number) => void,
+  thisArg?: any
+): void {
   let i = 0;
   const fn = bindCallback(callback, thisArg, 2);
   for (let item of source) {

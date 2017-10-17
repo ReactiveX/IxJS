@@ -14,7 +14,8 @@ class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult> {
     inner: Iterable<TInner>,
     outerSelector: (value: TOuter) => TKey,
     innerSelector: (value: TInner) => TKey,
-    resultSelector: (outer: TOuter, inner: TInner) => TResult) {
+    resultSelector: (outer: TOuter, inner: TInner) => TResult
+  ) {
     super();
     this._outer = outer;
     this._inner = inner;
@@ -37,15 +38,17 @@ class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult> {
 }
 
 export function innerJoin<TOuter, TInner, TKey, TResult>(
-    outer: Iterable<TOuter>,
-    inner: Iterable<TInner>,
-    outerSelector: (value: TOuter) => TKey,
-    innerSelector: (value: TInner) => TKey,
-    resultSelector: (outer: TOuter, inner: TInner) => TResult): IterableX<TResult> {
+  outer: Iterable<TOuter>,
+  inner: Iterable<TInner>,
+  outerSelector: (value: TOuter) => TKey,
+  innerSelector: (value: TInner) => TKey,
+  resultSelector: (outer: TOuter, inner: TInner) => TResult
+): IterableX<TResult> {
   return new JoinIterable<TOuter, TInner, TKey, TResult>(
     outer,
     inner,
     outerSelector,
     innerSelector,
-    resultSelector);
+    resultSelector
+  );
 }

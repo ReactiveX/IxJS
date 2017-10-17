@@ -17,13 +17,16 @@ class PublishedBuffer<T> extends IterableX<T> {
   private *_getIterable(i: number): Iterable<T> {
     try {
       while (1) {
-        let hasValue = false, current = <T>{};
+        let hasValue = false,
+          current = <T>{};
         if (i >= this._buffer.count) {
           if (!this._stopped) {
             try {
               let next = this._source.next();
               hasValue = !next.done;
-              if (hasValue) { current = next.value; }
+              if (hasValue) {
+                current = next.value;
+              }
             } catch (e) {
               this._error = e;
               this._stopped = true;
@@ -38,7 +41,9 @@ class PublishedBuffer<T> extends IterableX<T> {
             }
           }
 
-          if (hasValue) { this._buffer.push(current); }
+          if (hasValue) {
+            this._buffer.push(current);
+          }
         } else {
           hasValue = true;
         }
@@ -65,11 +70,13 @@ class PublishedBuffer<T> extends IterableX<T> {
 export function publish<TSource>(source: Iterable<TSource>): IterableX<TSource>;
 export function publish<TSource, TResult>(
   source: Iterable<TSource>,
-  selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TResult>;
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>
+): IterableX<TResult>;
 export function publish<TSource, TResult>(
-    source: Iterable<TSource>,
-    selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TSource | TResult> {
-  return selector ?
-    create(() => selector(publish(source))[Symbol.iterator]()) :
-    new PublishedBuffer<TSource>(source[Symbol.iterator]());
+  source: Iterable<TSource>,
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>
+): IterableX<TSource | TResult> {
+  return selector
+    ? create(() => selector(publish(source))[Symbol.iterator]())
+    : new PublishedBuffer<TSource>(source[Symbol.iterator]());
 }

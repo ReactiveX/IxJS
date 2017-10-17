@@ -12,13 +12,16 @@ class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     while (await this._condition()) {
-      for await (let item of this._source) { yield item; }
+      for await (let item of this._source) {
+        yield item;
+      }
     }
   }
 }
 
 export function _while<TSource>(
-    condition: () => boolean | Promise<boolean>,
-    source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+  condition: () => boolean | Promise<boolean>,
+  source: AsyncIterable<TSource>
+): AsyncIterableX<TSource> {
   return new WhileAsyncIterable<TSource>(condition, source);
 }

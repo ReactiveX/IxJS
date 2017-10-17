@@ -10,7 +10,9 @@ export function max(source: Iterable<any>, fn: (x: any) => number = identity): n
       atleastOnce = true;
     }
     let x = fn(item);
-    if (x > value) { value = x; }
+    if (x > value) {
+      value = x;
+    }
   }
   if (!atleastOnce) {
     throw new Error('Sequence contains no elements');

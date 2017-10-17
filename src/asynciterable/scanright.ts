@@ -8,9 +8,10 @@ class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
   private _hasSeed: boolean;
 
   constructor(
-      source: AsyncIterable<T>,
-      fn: (acc: T | R, x: T, index: number) => R | Promise<R>,
-      ...args: (T | R)[]) {
+    source: AsyncIterable<T>,
+    fn: (acc: T | R, x: T, index: number) => R | Promise<R>,
+    ...args: (T | R)[]
+  ) {
     super();
     this._source = source;
     this._fn = fn;
@@ -36,14 +37,17 @@ class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
 
 export function scanRight<T>(
   source: AsyncIterable<T>,
-  accumulator: (acc: T, value: T, index: number) => T | Promise<T>): AsyncIterableX<T>;
+  accumulator: (acc: T, value: T, index: number) => T | Promise<T>
+): AsyncIterableX<T>;
 export function scanRight<T, R = T>(
   source: AsyncIterable<T>,
   accumulator: (acc: R, value: T, index: number) => R | Promise<R>,
-  seed: R): AsyncIterableX<R>;
+  seed: R
+): AsyncIterableX<R>;
 export function scanRight<T, R = T>(
-    source: AsyncIterable<T>,
-    accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
-    ...args: (T | R)[]): AsyncIterableX<T | R> {
+  source: AsyncIterable<T>,
+  accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
+  ...args: (T | R)[]
+): AsyncIterableX<T | R> {
   return new ScanRightAsyncIterable(source, accumulator, ...args);
 }

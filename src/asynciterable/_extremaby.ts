@@ -16,9 +16,10 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   private _cmp: (x: TKey, y: TKey) => number | Promise<number>;
 
   constructor(
-      source: AsyncIterable<TSource>,
-      keyFn: (x: TSource) => TKey | Promise<TKey>,
-      cmp: (x: TKey, y: TKey) => number | Promise<number>) {
+    source: AsyncIterable<TSource>,
+    keyFn: (x: TSource) => TKey | Promise<TKey>,
+    cmp: (x: TKey, y: TKey) => number | Promise<number>
+  ) {
     super();
     this._source = source;
     this._keyFn = keyFn;
@@ -26,7 +27,9 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let result: TSource[] = [], done, next;
+    let result: TSource[] = [],
+      done,
+      next;
     const it = this._source[Symbol.asyncIterator]();
     done = (next = await it.next()).done;
     if (done) {
@@ -57,8 +60,9 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
  * @ignore
  */
 export function extremaBy<TSource, TKey>(
-    source: AsyncIterable<TSource>,
-    keyFn: (x: TSource) => TKey | Promise<TKey>,
-    cmp: (x: TKey, y: TKey) => number | Promise<number>): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  keyFn: (x: TSource) => TKey | Promise<TKey>,
+  cmp: (x: TKey, y: TKey) => number | Promise<number>
+): AsyncIterableX<TSource> {
   return new ExtremaByAsyncIterator<TSource, TKey>(source, keyFn, cmp);
 }

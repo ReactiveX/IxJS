@@ -14,7 +14,8 @@ class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TR
     inner: AsyncIterable<TInner>,
     outerSelector: (value: TOuter) => TKey | Promise<TKey>,
     innerSelector: (value: TInner) => TKey | Promise<TKey>,
-    resultSelector: (outer: TOuter, inner: TInner) => TResult | Promise<TResult>) {
+    resultSelector: (outer: TOuter, inner: TInner) => TResult | Promise<TResult>
+  ) {
     super();
     this._outer = outer;
     this._inner = inner;
@@ -37,15 +38,17 @@ class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TR
 }
 
 export function innerJoin<TOuter, TInner, TKey, TResult>(
-    outer: AsyncIterable<TOuter>,
-    inner: AsyncIterable<TInner>,
-    outerSelector: (value: TOuter) => TKey | Promise<TKey>,
-    innerSelector: (value: TInner) => TKey | Promise<TKey>,
-    resultSelector: (outer: TOuter, inner: TInner) => TResult | Promise<TResult>): AsyncIterableX<TResult> {
+  outer: AsyncIterable<TOuter>,
+  inner: AsyncIterable<TInner>,
+  outerSelector: (value: TOuter) => TKey | Promise<TKey>,
+  innerSelector: (value: TInner) => TKey | Promise<TKey>,
+  resultSelector: (outer: TOuter, inner: TInner) => TResult | Promise<TResult>
+): AsyncIterableX<TResult> {
   return new JoinAsyncIterable<TOuter, TInner, TKey, TResult>(
     outer,
     inner,
     outerSelector,
     innerSelector,
-    resultSelector);
+    resultSelector
+  );
 }

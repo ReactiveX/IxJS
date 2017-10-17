@@ -4,9 +4,7 @@ import { take } from '../../asynciterable/take';
 /**
  * @ignore
  */
-export function takeProto<T>(
-    this: AsyncIterableX<T>,
-    count: number): AsyncIterableX<T> {
+export function takeProto<T>(this: AsyncIterableX<T>, count: number): AsyncIterableX<T> {
   return take(this, count);
 }
 

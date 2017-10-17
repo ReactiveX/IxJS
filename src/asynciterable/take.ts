@@ -15,12 +15,17 @@ class TakeAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     if (i > 0) {
       for await (let item of this._source) {
         yield item;
-        if (--i === 0) { break; }
+        if (--i === 0) {
+          break;
+        }
       }
     }
   }
 }
 
-export function take<TSource>(source: AsyncIterable<TSource>, count: number): AsyncIterableX<TSource> {
+export function take<TSource>(
+  source: AsyncIterable<TSource>,
+  count: number
+): AsyncIterableX<TSource> {
   return new TakeAsyncIterable<TSource>(source, count);
 }

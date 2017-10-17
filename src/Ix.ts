@@ -6,11 +6,7 @@ import { OrderedIterableX } from './iterable/orderby';
 import { GroupedAsyncIterable } from './asynciterable/groupby';
 import { OrderedAsyncIterableX } from './asynciterable/orderby';
 
-export {
-  AsyncSink,
-  IterableX as Iterable,
-  AsyncIterableX as AsyncIterable
-};
+export { AsyncSink, IterableX as Iterable, AsyncIterableX as AsyncIterable };
 
 // Also export default to accommodate quirks of node's `--experimental-modules` mode
 export default {
@@ -37,7 +33,9 @@ try {
     Ix['AsyncSink'] = AsyncSink;
     Ix['AsyncIterable'] = AsyncIterableX;
   }
-} catch (e) { /* not the UMD bundle */ }
+} catch (e) {
+  /* not the UMD bundle */
+}
 /** end google declarations */
 
 // iterable statics

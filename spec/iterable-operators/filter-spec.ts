@@ -41,7 +41,7 @@ test('Iterable#filter with typeguard', t => {
     new String('2'), 1,
     new String('0')
   ];
-  const ys = filter(xs, (x): x is string => x instanceof String);
+  const ys: Iterable<String> = filter(xs, (x): x is String => x instanceof String);
 
   const it = ys[Symbol.iterator]();
   hasNext(t, it, new String('8'));

@@ -24,7 +24,8 @@ class ChainAsyncIterable<TResult> extends AsyncIterableX<TResult> {
  * sequence within a selector function.
  */
 export function chain<TSource, TResult>(
-    source: AsyncIterable<TSource>,
-    selector: (source: AsyncIterable<TSource>) => AsyncIterable<TResult>): AsyncIterableX<TResult> {
+  source: AsyncIterable<TSource>,
+  selector: (source: AsyncIterable<TSource>) => AsyncIterable<TResult>
+): AsyncIterableX<TResult> {
   return new ChainAsyncIterable<TResult>(selector(source));
 }

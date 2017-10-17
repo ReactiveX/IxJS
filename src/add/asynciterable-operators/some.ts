@@ -1,14 +1,23 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { some } from '../../asynciterable/some';
-import { booleanAsyncPredicate } from '../../internal/predicates';
 
 /**
  * @ignore
  */
+
+export function someProto<T, S extends T>(
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => value is S
+): Promise<boolean>;
 export function someProto<T>(
-    this: AsyncIterableX<T>,
-    comparer: booleanAsyncPredicate<T>): Promise<boolean> {
-  return some(this, comparer);
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>
+): Promise<boolean>;
+export function someProto<T>(
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>
+): Promise<boolean> {
+  return some(this, predicate);
 }
 
 AsyncIterableX.prototype.some = someProto;

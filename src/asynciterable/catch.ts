@@ -10,7 +10,8 @@ class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let error = null, hasError = false;
+    let error = null,
+      hasError = false;
 
     for (let source of this._source) {
       const it = source[Symbol.asyncIterator]();
@@ -38,18 +39,27 @@ class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
         yield c;
       }
 
-      if (!hasError) { break; }
+      if (!hasError) {
+        break;
+      }
     }
 
-    if (hasError) { throw error; }
+    if (hasError) {
+      throw error;
+    }
   }
 }
 
-export function _catchAll<TSource>(source: Iterable<AsyncIterable<TSource>>): AsyncIterableX<TSource> {
+export function _catchAll<TSource>(
+  source: Iterable<AsyncIterable<TSource>>
+): AsyncIterableX<TSource> {
   return new CatchAllAsyncIterable<TSource>(source);
 }
 
-export function _catch<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
+export function _catch<T>(
+  source: AsyncIterable<T>,
+  ...args: AsyncIterable<T>[]
+): AsyncIterableX<T> {
   return _catchAll<T>([source].concat(args));
 }
 

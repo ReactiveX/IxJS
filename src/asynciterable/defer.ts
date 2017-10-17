@@ -10,11 +10,14 @@ class DeferAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     let items = await this._fn();
-    for await (let item of items) { yield item; }
+    for await (let item of items) {
+      yield item;
+    }
   }
 }
 
 export function defer<TSource>(
-    factory: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>): AsyncIterableX<TSource> {
+  factory: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+): AsyncIterableX<TSource> {
   return new DeferAsyncIterable<TSource>(factory);
 }

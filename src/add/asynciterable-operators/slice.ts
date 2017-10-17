@@ -5,9 +5,10 @@ import { slice } from '../../asynciterable/slice';
  * @ignore
  */
 export function sliceProto<T>(
-    this: AsyncIterableX<T>,
-    begin: number,
-    end: number): AsyncIterableX<T> {
+  this: AsyncIterableX<T>,
+  begin: number,
+  end: number
+): AsyncIterableX<T> {
   return slice(this, begin, end);
 }
 

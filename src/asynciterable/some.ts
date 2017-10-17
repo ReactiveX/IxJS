@@ -1,11 +1,20 @@
-import { booleanAsyncPredicate } from '../internal/predicates';
-
+export async function some<T, S extends T>(
+  source: AsyncIterable<T>,
+  predicate: (value: T, index: number) => value is S
+): Promise<boolean>;
 export async function some<T>(
-    source: AsyncIterable<T>,
-    comparer: booleanAsyncPredicate<T>): Promise<boolean> {
+  source: AsyncIterable<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>
+): Promise<boolean>;
+export async function some<T>(
+  source: AsyncIterable<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>
+): Promise<boolean> {
   let i = 0;
   for await (let item of source) {
-    if (await comparer(item, i++)) { return true; }
+    if (await predicate(item, i++)) {
+      return true;
+    }
   }
   return false;
 }

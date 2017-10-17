@@ -5,8 +5,9 @@ import { doWhile } from '../../asynciterable/dowhile';
  * @ignore
  */
 export function doWhileProto<TSource>(
-    this: AsyncIterable<TSource>,
-    condition: () => boolean | Promise<boolean>): AsyncIterableX<TSource> {
+  this: AsyncIterableX<TSource>,
+  condition: () => boolean | Promise<boolean>
+): AsyncIterableX<TSource> {
   return doWhile(this, condition);
 }
 

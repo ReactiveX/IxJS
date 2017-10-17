@@ -14,10 +14,14 @@ class OfEntriesAsyncIterable<TSource> extends AsyncIterableX<[string, TSource]> 
   }
 
   [Symbol.asyncIterator]() {
-    return from(Object.keys(this._source), key => makeTuple(key, this._source[key]))[Symbol.asyncIterator]();
+    return from(Object.keys(this._source), key => makeTuple(key, this._source[key]))[
+      Symbol.asyncIterator
+    ]();
   }
 }
 
-export function ofEntries<TSource>(source: { [key: string]: TSource }): AsyncIterableX<[string, TSource]> {
+export function ofEntries<TSource>(source: {
+  [key: string]: TSource;
+}): AsyncIterableX<[string, TSource]> {
   return new OfEntriesAsyncIterable<TSource>(source);
 }

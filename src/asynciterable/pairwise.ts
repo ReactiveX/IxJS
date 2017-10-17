@@ -9,7 +9,8 @@ class PairwiseAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let value: TSource | undefined, hasValue = false;
+    let value: TSource | undefined,
+      hasValue = false;
     for await (const item of this._source) {
       if (!hasValue) {
         hasValue = true;

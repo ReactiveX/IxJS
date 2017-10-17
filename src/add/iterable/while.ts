@@ -8,7 +8,5 @@ export declare namespace iterable {
 }
 
 declare module '../../iterable' {
-  namespace IterableX {
-    export { whileStatic as while };
-  }
+  namespace IterableX { export { whileStatic as while }; }
 }

@@ -12,15 +12,18 @@ class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     let otherDone = false;
-    this._other.then(() => otherDone = true);
+    this._other.then(() => (otherDone = true));
     for await (let item of this._source) {
-      if (otherDone) { yield item; }
+      if (otherDone) {
+        yield item;
+      }
     }
   }
 }
 
 export function skipUntil<TSource>(
-    source: AsyncIterable<TSource>,
-    other: Promise<any>): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  other: Promise<any>
+): AsyncIterableX<TSource> {
   return new SkipUntilAsyncIterable<TSource>(source, other);
 }

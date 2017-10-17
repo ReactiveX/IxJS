@@ -1,14 +1,25 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { find } from '../../asynciterable/find';
-import { booleanAsyncPredicate } from '../../internal/predicates';
 
 /**
  * @ignore
  */
+
+export function findProto<T, S extends T>(
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => value is S,
+  thisArg?: any
+): Promise<S | undefined>;
 export function findProto<T>(
-    this: AsyncIterableX<T>,
-    predicate: booleanAsyncPredicate<T>,
-    thisArg?: any): Promise<T | undefined> {
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>,
+  thisArg?: any
+): Promise<T | undefined>;
+export function findProto<T>(
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>,
+  thisArg?: any
+): Promise<T | undefined> {
   return find(this, predicate, thisArg);
 }
 

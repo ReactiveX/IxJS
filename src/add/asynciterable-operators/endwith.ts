@@ -4,9 +4,7 @@ import { endWith } from '../../asynciterable/endwith';
 /**
  * @ignore
  */
-export function endWithProto<T>(
-    this: AsyncIterableX<T>,
-    ...args: T[]) {
+export function endWithProto<T>(this: AsyncIterableX<T>, ...args: T[]) {
   return endWith(this, ...args);
 }
 

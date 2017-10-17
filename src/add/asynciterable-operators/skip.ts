@@ -4,9 +4,7 @@ import { skip } from '../../asynciterable/skip';
 /**
  * @ignore
  */
-export function skipProto<T>(
-    this: AsyncIterableX<T>,
-    count: number): AsyncIterableX<T> {
+export function skipProto<T>(this: AsyncIterableX<T>, count: number): AsyncIterableX<T> {
   return skip(this, count);
 }
 

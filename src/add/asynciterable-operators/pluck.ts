@@ -5,8 +5,9 @@ import { pluck } from '../../asynciterable/pluck';
  * @ignore
  */
 export function pluckProto<TSource, TResult>(
-    this: AsyncIterableX<TSource>,
-    ...args: string[]): AsyncIterableX<TResult> {
+  this: AsyncIterableX<TSource>,
+  ...args: string[]
+): AsyncIterableX<TResult> {
   return pluck<TSource, TResult>(this, ...args);
 }
 

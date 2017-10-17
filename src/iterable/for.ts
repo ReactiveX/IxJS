@@ -13,7 +13,8 @@ import { map } from './map';
  * result selector for each element in the source.
  */
 export function _for<TSource, TResult>(
-    source: Iterable<TSource>,
-    resultSelector: (value: TSource) => Iterable<TResult>): IterableX<TResult> {
+  source: Iterable<TSource>,
+  resultSelector: (value: TSource) => Iterable<TResult>
+): IterableX<TResult> {
   return concatAll(map(source, resultSelector));
 }

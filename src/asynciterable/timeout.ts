@@ -31,22 +31,29 @@ class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     const it = this._source[Symbol.asyncIterator]();
     while (1) {
       const { type, value } = await Promise.race<TimeoutOperation<TSource>>([
-        it.next().then(value => { return { type: VALUE_TYPE, value }; }),
-        sleep(this._dueTime).then(() => { return { type: ERROR_TYPE }; })
+        it.next().then(value => {
+          return { type: VALUE_TYPE, value };
+        }),
+        sleep(this._dueTime).then(() => {
+          return { type: ERROR_TYPE };
+        })
       ]);
 
       if (type === ERROR_TYPE) {
         throw new TimeoutError();
       }
 
-      if (!value || value.done) { break; }
+      if (!value || value.done) {
+        break;
+      }
       yield value.value;
     }
   }
 }
 
 export function timeout<TSource>(
-    source: AsyncIterable<TSource>,
-    dueTime: number): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  dueTime: number
+): AsyncIterableX<TSource> {
   return new TimeoutAsyncIterable<TSource>(source, dueTime);
 }

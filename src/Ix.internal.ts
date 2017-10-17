@@ -14,5 +14,7 @@ try {
     Ix['iterable'] = iterableX;
     Ix['asynciterable'] = asynciterableX;
   }
-} catch (e) { /* not the UMD bundle */ }
+} catch (e) {
+  /* not the UMD bundle */
+}
 /** end google declarations */

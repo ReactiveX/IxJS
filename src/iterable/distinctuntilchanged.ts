@@ -8,9 +8,10 @@ class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
   private _comparer: (x: TKey, y: TKey) => boolean;
 
   constructor(
-      source: Iterable<TSource>,
-      keySelector: (value: TSource) => TKey,
-      comparer: (first: TKey, second: TKey) => boolean) {
+    source: Iterable<TSource>,
+    keySelector: (value: TSource) => TKey,
+    comparer: (first: TKey, second: TKey) => boolean
+  ) {
     super();
     this._source = source;
     this._keySelector = keySelector;
@@ -18,11 +19,14 @@ class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let currentKey = <TKey>{}, hasCurrentKey = false;
+    let currentKey = <TKey>{},
+      hasCurrentKey = false;
     for (let item of this._source) {
       let key = this._keySelector(item);
       let comparerEquals = false;
-      if (hasCurrentKey) { comparerEquals = this._comparer(currentKey, key); }
+      if (hasCurrentKey) {
+        comparerEquals = this._comparer(currentKey, key);
+      }
       if (!hasCurrentKey || !comparerEquals) {
         hasCurrentKey = true;
         currentKey = key;
@@ -40,8 +44,9 @@ class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
  * @return {Iterable<TSource>} Sequence without adjacent non-distinct elements.
  */
 export function distinctUntilChanged<TSource, TKey>(
-    source: Iterable<TSource>,
-    keySelector: (value: TSource) => TKey = identity,
-    comparer: (first: TKey, second: TKey) => boolean = defaultComparer):  IterableX<TSource> {
+  source: Iterable<TSource>,
+  keySelector: (value: TSource) => TKey = identity,
+  comparer: (first: TKey, second: TKey) => boolean = defaultComparer
+): IterableX<TSource> {
   return new DistinctUntilChangedIterable<TSource, TKey>(source, keySelector, comparer);
 }

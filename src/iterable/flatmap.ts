@@ -30,8 +30,9 @@ class FlatMapIterable<TSource, TResult> extends IterableX<TResult> {
  * transform function on each element of the input sequence.
  */
 export function flatMap<TSource, TResult>(
-    source: Iterable<TSource>,
-    selector: (value: TSource) => Iterable<TResult>,
-    thisArg?: any): IterableX<TResult> {
+  source: Iterable<TSource>,
+  selector: (value: TSource) => Iterable<TResult>,
+  thisArg?: any
+): IterableX<TResult> {
   return new FlatMapIterable<TSource, TResult>(source, bindCallback(selector, thisArg, 1));
 }

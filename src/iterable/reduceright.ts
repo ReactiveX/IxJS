@@ -1,22 +1,26 @@
 import { toArray } from './toarray';
 
 export function reduceRight<T>(
-    source: Iterable<T>,
-    accumulator: (acc: T, value: T, index: number) => T,
-    seed?: T): T;
+  source: Iterable<T>,
+  accumulator: (acc: T, value: T, index: number) => T,
+  seed?: T
+): T;
 export function reduceRight<T>(
-    source: Iterable<T>,
-    accumulator: (acc: T[], value: T, index: number) => T[],
-    seed?: T[]): T[];
+  source: Iterable<T>,
+  accumulator: (acc: T[], value: T, index: number) => T[],
+  seed?: T[]
+): T[];
 export function reduceRight<T, R>(
-    source: Iterable<T>,
-    accumulator: (acc: R, value: T, index: number) => R,
-    seed?: R): R;
+  source: Iterable<T>,
+  accumulator: (acc: R, value: T, index: number) => R,
+  seed?: R
+): R;
 
 export function reduceRight<T, R>(
-    source: Iterable<T>,
-    fn: (acc: R, x: T, index: number) => R,
-    seed?: T | R): T | R {
+  source: Iterable<T>,
+  fn: (acc: R, x: T, index: number) => R,
+  seed?: T | R
+): T | R {
   let _seed = seed;
   const hasSeed = arguments.length === 3;
   let hasValue = false;

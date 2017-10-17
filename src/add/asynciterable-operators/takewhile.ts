@@ -1,13 +1,22 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { takeWhile } from '../../asynciterable/takewhile';
-import { booleanAsyncPredicate } from '../../internal/predicates';
 
 /**
  * @ignore
  */
-export function takeWhileProto<TSource>(
-    this: AsyncIterableX<TSource>,
-    predicate: booleanAsyncPredicate<TSource>): AsyncIterableX<TSource> {
+
+export function takeWhileProto<T, S extends T>(
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => value is S
+): AsyncIterableX<S>;
+export function takeWhileProto<T>(
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>
+): AsyncIterableX<T>;
+export function takeWhileProto<T>(
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>
+): AsyncIterableX<T> {
   return takeWhile(this, predicate);
 }
 

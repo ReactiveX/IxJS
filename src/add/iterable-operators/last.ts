@@ -4,10 +4,19 @@ import { last } from '../../iterable/last';
 /**
  * @ignore
  */
+export function lastProto<T, S extends T>(
+  this: IterableX<T>,
+  predicate?: (value: T, index: number) => value is S
+): S | undefined;
 export function lastProto<T>(
-    this: IterableX<T>,
-    fn: (value: T) => boolean = () => true): T | undefined {
-  return last(this, fn);
+  this: IterableX<T>,
+  predicate?: (value: T, index: number) => boolean
+): T | undefined;
+export function lastProto<T>(
+  this: IterableX<T>,
+  predicate: (value: T, index: number) => boolean = () => true
+): T | undefined {
+  return last(this, predicate);
 }
 
 IterableX.prototype.last = lastProto;

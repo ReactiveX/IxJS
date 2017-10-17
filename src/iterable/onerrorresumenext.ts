@@ -19,7 +19,9 @@ class OnErrorResumeNextIterable<TSource> extends IterableX<TSource> {
           break;
         }
 
-        if (next.done) { break; }
+        if (next.done) {
+          break;
+        }
         yield next.value;
       }
     }

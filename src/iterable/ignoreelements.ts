@@ -10,7 +10,9 @@ class IgnoreElementsIterable<TSource> extends IterableX<TSource> {
 
   *[Symbol.iterator](): Iterator<TSource> {
     const it = this._source[Symbol.iterator]();
-    while (!it.next().done) { /* intentionally empty */ }
+    while (!it.next().done) {
+      /* intentionally empty */
+    }
   }
 }
 

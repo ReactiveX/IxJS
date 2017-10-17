@@ -9,13 +9,16 @@ class AnonymousAsyncIterable<T> extends AsyncIterableX<T> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let it = await this._fn(), next: IteratorResult<T> | undefined;
+    let it = await this._fn(),
+      next: IteratorResult<T> | undefined;
     while (!(next = await it.next()).done) {
       yield next.value;
     }
   }
 }
 
-export function create<T>(fn: () => AsyncIterator<T> | Promise<AsyncIterator<T>>): AsyncIterableX<T> {
+export function create<T>(
+  fn: () => AsyncIterator<T> | Promise<AsyncIterator<T>>
+): AsyncIterableX<T> {
   return new AnonymousAsyncIterable(fn);
 }

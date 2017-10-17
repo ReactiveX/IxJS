@@ -5,8 +5,9 @@ import { expand } from '../../iterable/expand';
  * @ignore
  */
 export function expandProto<TSource>(
-    this: IterableX<TSource>,
-    fn: (value: TSource) => Iterable<TSource>) {
+  this: IterableX<TSource>,
+  fn: (value: TSource) => Iterable<TSource>
+) {
   return expand(this, fn);
 }
 

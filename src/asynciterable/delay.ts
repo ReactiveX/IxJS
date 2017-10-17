@@ -20,7 +20,8 @@ class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function delay<TSource>(
-    source: AsyncIterable<TSource>,
-    dueTime: number): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  dueTime: number
+): AsyncIterableX<TSource> {
   return new DelayAsyncIterable<TSource>(source, dueTime);
 }

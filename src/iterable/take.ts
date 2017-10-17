@@ -15,7 +15,9 @@ class TakeIterable<TSource> extends IterableX<TSource> {
     if (i > 0) {
       for (let item of this._source) {
         yield item;
-        if (--i === 0) { break; }
+        if (--i === 0) {
+          break;
+        }
       }
     }
   }

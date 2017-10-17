@@ -5,9 +5,10 @@ import { except } from '../../iterable/except';
  * @ignore
  */
 export function exceptProto<TSource>(
-    this: IterableX<TSource>,
-    second: Iterable<TSource>,
-    comparer?: (x: TSource, y: TSource) => boolean): IterableX<TSource> {
+  this: IterableX<TSource>,
+  second: Iterable<TSource>,
+  comparer?: (x: TSource, y: TSource) => boolean
+): IterableX<TSource> {
   return except(this, second, comparer);
 }
 
