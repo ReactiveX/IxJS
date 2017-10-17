@@ -20,8 +20,9 @@ class MapIterable<TSource, TResult> extends IterableX<TResult> {
 }
 
 export function map<TSource, TResult>(
-    source: Iterable<TSource>,
-    selector: (value: TSource, index: number) => TResult,
-    thisArg?: any): IterableX<TResult> {
+  source: Iterable<TSource>,
+  selector: (value: TSource, index: number) => TResult,
+  thisArg?: any
+): IterableX<TResult> {
   return new MapIterable<TSource, TResult>(source, bindCallback(selector, thisArg, 2));
 }

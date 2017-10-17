@@ -7,7 +7,8 @@ class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
 
   constructor(
     source: AsyncIterable<TSource>,
-    selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>) {
+    selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
+  ) {
     super();
     this._source = source;
     this._selector = selector;
@@ -24,8 +25,9 @@ class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
 }
 
 export function flatMap<TSource, TResult>(
-    source: AsyncIterable<TSource>,
-    selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
-    thisArg?: any): AsyncIterableX<TResult> {
+  source: AsyncIterable<TSource>,
+  selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
+  thisArg?: any
+): AsyncIterableX<TResult> {
   return new FlatMapAsyncIterable<TSource, TResult>(source, bindCallback(selector, thisArg, 1));
 }

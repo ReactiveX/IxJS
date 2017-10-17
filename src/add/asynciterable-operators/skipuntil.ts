@@ -5,8 +5,9 @@ import { skipUntil } from '../../asynciterable/skipuntil';
  * @ignore
  */
 export function skipUntilProto<TSource>(
-    this: AsyncIterable<TSource>,
-    other: Promise<any>): AsyncIterableX<TSource> {
+  this: AsyncIterableX<TSource>,
+  other: Promise<any>
+): AsyncIterableX<TSource> {
   return skipUntil(this, other);
 }
 

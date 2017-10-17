@@ -14,17 +14,24 @@ class RepeatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   async *[Symbol.asyncIterator]() {
     if (this._count === -1) {
       while (1) {
-        for await (let item of this._source) { yield item; }
+        for await (let item of this._source) {
+          yield item;
+        }
       }
     } else {
       for (let i = 0; i < this._count; i++) {
-        for await (let item of this._source) { yield item; }
+        for await (let item of this._source) {
+          yield item;
+        }
       }
     }
   }
 }
 
-export function repeat<TSource>(source: AsyncIterable<TSource>, count: number = -1): AsyncIterableX<TSource> {
+export function repeat<TSource>(
+  source: AsyncIterable<TSource>,
+  count: number = -1
+): AsyncIterableX<TSource> {
   return new RepeatAsyncIterable<TSource>(source, count);
 }
 

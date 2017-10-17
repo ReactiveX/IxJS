@@ -1,14 +1,25 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { filter } from '../../asynciterable/filter';
-import { booleanAsyncPredicate } from '../../internal/predicates';
 
 /**
  * @ignore
  */
+
+export function filterProto<T, S extends T>(
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => value is S,
+  thisArg?: any
+): AsyncIterableX<S>;
 export function filterProto<TSource>(
-    this: AsyncIterable<TSource>,
-    predicate: booleanAsyncPredicate<TSource>,
-    thisArg?: any): AsyncIterableX<TSource> {
+  this: AsyncIterableX<TSource>,
+  predicate: (value: TSource, index: number) => boolean | Promise<boolean>,
+  thisArg?: any
+): AsyncIterableX<TSource>;
+export function filterProto<TSource>(
+  this: AsyncIterableX<TSource>,
+  predicate: (value: TSource, index: number) => boolean | Promise<boolean>,
+  thisArg?: any
+): AsyncIterableX<TSource> {
   return filter<TSource>(this, predicate, thisArg);
 }
 

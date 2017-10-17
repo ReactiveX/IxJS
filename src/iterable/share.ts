@@ -16,12 +16,14 @@ class SharedIterable<T> extends IterableX<T> {
 
 export function share<TSource>(source: Iterable<TSource>): IterableX<TSource>;
 export function share<TSource, TResult>(
-    source: Iterable<TSource>,
-    fn?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TResult>;
+  source: Iterable<TSource>,
+  fn?: (value: Iterable<TSource>) => Iterable<TResult>
+): IterableX<TResult>;
 export function share<TSource, TResult>(
-    source: Iterable<TSource>,
-    fn?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TSource | TResult> {
-  return fn ?
-    create(() => fn(new SharedIterable(source[Symbol.iterator]()))[Symbol.iterator]()) :
-    new SharedIterable(source[Symbol.iterator]());
+  source: Iterable<TSource>,
+  fn?: (value: Iterable<TSource>) => Iterable<TResult>
+): IterableX<TSource | TResult> {
+  return fn
+    ? create(() => fn(new SharedIterable(source[Symbol.iterator]()))[Symbol.iterator]())
+    : new SharedIterable(source[Symbol.iterator]());
 }

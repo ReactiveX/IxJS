@@ -5,19 +5,16 @@ class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _count: number;
   private _skip: number;
 
-  constructor(
-      source: AsyncIterable<TSource>,
-      count: number,
-      skip: number) {
-      super();
+  constructor(source: AsyncIterable<TSource>, count: number, skip: number) {
+    super();
     this._source = source;
     this._count = count;
     this._skip = skip;
   }
 
   async *[Symbol.asyncIterator]() {
-
-    let buffers: TSource[][] = [],  i = 0;
+    let buffers: TSource[][] = [],
+      i = 0;
     for await (let item of this._source) {
       if (i % this._skip === 0) {
         buffers.push([]);
@@ -41,9 +38,12 @@ class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 }
 
 export function buffer<TSource>(
-    source: AsyncIterable<TSource>,
-    count: number,
-    skip?: number): AsyncIterableX<TSource[]> {
-  if (skip == null) { skip = count; }
+  source: AsyncIterable<TSource>,
+  count: number,
+  skip?: number
+): AsyncIterableX<TSource[]> {
+  if (skip == null) {
+    skip = count;
+  }
   return new BufferAsyncIterable<TSource>(source, count, skip);
 }

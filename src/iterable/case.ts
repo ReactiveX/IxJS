@@ -30,9 +30,10 @@ import { empty } from './empty';
  * @return {Iterable<TResult>} The source sequence corresponding with the evaluated selector value; otherwise, the default source.
  */
 export function _case<TSource, TResult>(
-    selector: () => TSource,
-    sources: Map<TSource, Iterable<TResult>>,
-    defaultSource: Iterable<TResult> = empty<TResult>()): IterableX<TResult> {
+  selector: () => TSource,
+  sources: Map<TSource, Iterable<TResult>>,
+  defaultSource: Iterable<TResult> = empty<TResult>()
+): IterableX<TResult> {
   return defer<TResult>(() => {
     const key = selector();
     return sources.has(key) ? sources.get(key)! : defaultSource;

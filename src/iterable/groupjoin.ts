@@ -11,11 +11,12 @@ class GroupJoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult
   private _resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult;
 
   constructor(
-      outer: Iterable<TOuter>,
-      inner: Iterable<TInner>,
-      outerSelector: (value: TOuter) => TKey,
-      innerSelector: (value: TInner) => TKey,
-      resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult) {
+    outer: Iterable<TOuter>,
+    inner: Iterable<TInner>,
+    outerSelector: (value: TOuter) => TKey,
+    innerSelector: (value: TInner) => TKey,
+    resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult
+  ) {
     super();
     this._outer = outer;
     this._inner = inner;
@@ -28,22 +29,26 @@ class GroupJoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult
     const map = createGrouping(this._inner, this._innerSelector, identity);
     for (let outerElement of this._outer) {
       const outerKey = this._outerSelector(outerElement);
-      const innerElements = map.has(outerKey) ? <Iterable<TInner>>map.get(outerKey) : empty<TInner>();
+      const innerElements = map.has(outerKey)
+        ? <Iterable<TInner>>map.get(outerKey)
+        : empty<TInner>();
       yield this._resultSelector(outerElement, innerElements);
     }
   }
 }
 
 export function groupJoin<TOuter, TInner, TKey, TResult>(
-    outer: Iterable<TOuter>,
-    inner: Iterable<TInner>,
-    outerSelector: (value: TOuter) => TKey,
-    innerSelector: (value: TInner) => TKey,
-    resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult): IterableX<TResult> {
+  outer: Iterable<TOuter>,
+  inner: Iterable<TInner>,
+  outerSelector: (value: TOuter) => TKey,
+  innerSelector: (value: TInner) => TKey,
+  resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult
+): IterableX<TResult> {
   return new GroupJoinIterable<TOuter, TInner, TKey, TResult>(
     outer,
     inner,
     outerSelector,
     innerSelector,
-    resultSelector);
+    resultSelector
+  );
 }

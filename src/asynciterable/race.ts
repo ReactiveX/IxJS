@@ -11,11 +11,19 @@ class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    const leftIt = this._left[Symbol.asyncIterator](), rightIt = this._right[Symbol.asyncIterator]();
-    let leftWins = false, rightWins = false;
+    const leftIt = this._left[Symbol.asyncIterator](),
+      rightIt = this._right[Symbol.asyncIterator]();
+    let leftWins = false,
+      rightWins = false;
     const { value, done } = await Promise.race([
-      leftIt.next().then(x => { leftWins = true; return x; }),
-      rightIt.next().then(x => { rightWins = true; return x; }),
+      leftIt.next().then(x => {
+        leftWins = true;
+        return x;
+      }),
+      rightIt.next().then(x => {
+        rightWins = true;
+        return x;
+      })
     ]);
 
     if (!done) {
@@ -32,7 +40,9 @@ class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     }
 
     // Cancel/finish other iterator
-    if (otherIterator.return) { await otherIterator.return(); }
+    if (otherIterator.return) {
+      await otherIterator.return();
+    }
 
     let next;
     while (!(next = await resultIterator.next()).done) {
@@ -48,7 +58,8 @@ class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @return {AsyncIterable<T>} An async sequence that surfaces either of the given sequences, whichever reacted first.
  */
 export function race<TSource>(
-    left: AsyncIterable<TSource>,
-    right: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+  left: AsyncIterable<TSource>,
+  right: AsyncIterable<TSource>
+): AsyncIterableX<TSource> {
   return new RaceAsyncIterable<TSource>(left, right);
 }

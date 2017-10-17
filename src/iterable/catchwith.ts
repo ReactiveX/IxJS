@@ -12,7 +12,9 @@ class CatchWithIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let err: Iterable<TSource> | undefined, hasError = false, it = this._source[Symbol.iterator]();
+    let err: Iterable<TSource> | undefined,
+      hasError = false,
+      it = this._source[Symbol.iterator]();
     while (1) {
       let c = <IteratorResult<TSource>>{};
 
@@ -48,7 +50,8 @@ class CatchWithIterable<TSource> extends IterableX<TSource> {
  * @return {Iterable<TSource>} Source sequence, concatenated with an exception handler result sequence in case of an error.
  */
 export function catchWith<TSource>(
-    source: Iterable<TSource>,
-    handler: (error: any) => Iterable<TSource>): IterableX<TSource> {
+  source: Iterable<TSource>,
+  handler: (error: any) => Iterable<TSource>
+): IterableX<TSource> {
   return new CatchWithIterable<TSource>(source, handler);
 }

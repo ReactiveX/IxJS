@@ -41,7 +41,7 @@ export class AsyncSink<TSource> implements AsyncIterableIterator<TSource> {
     }
 
     if (this._resolvers.length > 0) {
-      const {resolve, reject } = this._resolvers.shift()!;
+      const { resolve, reject } = this._resolvers.shift()!;
       if (item.type === ARRAY_ERROR) {
         reject(item.error!);
       } else {

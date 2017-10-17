@@ -4,9 +4,7 @@ import { throttle } from '../../asynciterable/throttle';
 /**
  * @ignore
  */
-export function throttleProto<T>(
-    this: AsyncIterableX<T>,
-    time: number): AsyncIterableX<T> {
+export function throttleProto<T>(this: AsyncIterableX<T>, time: number): AsyncIterableX<T> {
   return throttle(this, time);
 }
 

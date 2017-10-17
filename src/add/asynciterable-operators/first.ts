@@ -1,14 +1,23 @@
 import { AsyncIterableX } from '../../asynciterable';
 import { first } from '../../asynciterable/first';
-import { booleanAsyncPredicate } from '../../internal/predicates';
 
 /**
  * @ignore
  */
+
+export function firstProto<T, S extends T>(
+  this: AsyncIterableX<T>,
+  predicate?: (value: T, index: number) => value is S
+): Promise<S | undefined>;
 export function firstProto<T>(
-    this: AsyncIterableX<T>,
-    fn?: booleanAsyncPredicate<T>): Promise<T | undefined> {
-  return first(this, fn);
+  this: AsyncIterableX<T>,
+  predicate?: (value: T, index: number) => boolean | Promise<boolean>
+): Promise<T | undefined>;
+export function firstProto<T>(
+  this: AsyncIterableX<T>,
+  predicate?: (value: T, index: number) => boolean | Promise<boolean>
+): Promise<T | undefined> {
+  return first(this, predicate);
 }
 
 AsyncIterableX.prototype.first = firstProto;

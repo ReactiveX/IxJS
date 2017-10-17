@@ -18,10 +18,7 @@ export interface CompletionObserver<T> {
   complete: () => void;
 }
 
-export type PartialObserver<T> =
-  NextObserver<T> |
-  ErrorObserver<T> |
-  CompletionObserver<T>;
+export type PartialObserver<T> = NextObserver<T> | ErrorObserver<T> | CompletionObserver<T>;
 
 export interface NextAsyncObserver<T> {
   next: (value: T) => void | Promise<void>;
@@ -42,9 +39,9 @@ export interface CompletionAsyncObserver<T> {
 }
 
 export type PartialAsyncObserver<T> =
-  NextAsyncObserver<T> |
-  ErrorAsyncObserver<T> |
-  CompletionAsyncObserver<T>;
+  | NextAsyncObserver<T>
+  | ErrorAsyncObserver<T>
+  | CompletionAsyncObserver<T>;
 
 export interface Observer<T> {
   closed?: boolean;

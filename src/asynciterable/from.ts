@@ -10,8 +10,9 @@ class FromArrayIterable<TSource, TResult = TSource> extends AsyncIterableX<TResu
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
 
   constructor(
-      source: ArrayLike<TSource>,
-      selector: (value: TSource, index: number) => TResult | Promise<TResult>) {
+    source: ArrayLike<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult>
+  ) {
     super();
     this._source = source;
     this._selector = selector;
@@ -31,8 +32,9 @@ class FromAsyncIterable<TSource, TResult = TSource> extends AsyncIterableX<TResu
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
 
   constructor(
-      source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
-      selector: (value: TSource, index: number) => TResult | Promise<TResult>) {
+    source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult>
+  ) {
     super();
     this._source = source;
     this._selector = selector;
@@ -51,8 +53,9 @@ class FromPromiseIterable<TSource, TResult = TSource> extends AsyncIterableX<TRe
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
 
   constructor(
-      source: PromiseLike<TSource>,
-      selector: (value: TSource, index: number) => TResult | Promise<TResult>) {
+    source: PromiseLike<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult>
+  ) {
     super();
     this._source = source;
     this._selector = selector;
@@ -105,8 +108,9 @@ class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncItera
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
 
   constructor(
-      observable: Observable<TSource>,
-      selector: (value: TSource, index: number) => TResult | Promise<TResult>) {
+    observable: Observable<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult>
+  ) {
     super();
     this._observable = observable;
     this._selector = selector;
@@ -133,11 +137,11 @@ class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncItera
 }
 
 export type AsyncIterableInput<TSource> =
-  Iterable<TSource | PromiseLike<TSource>> |
-  AsyncIterable<TSource> |
-  ArrayLike<TSource> |
-  PromiseLike<TSource> |
-  Observable<TSource>;
+  | Iterable<TSource | PromiseLike<TSource>>
+  | AsyncIterable<TSource>
+  | ArrayLike<TSource>
+  | PromiseLike<TSource>
+  | Observable<TSource>;
 
 function isPromise(x: any): x is PromiseLike<any> {
   return x != null && Object(x) === x && typeof x['then'] === 'function';
@@ -152,9 +156,10 @@ function isArrayLike(x: any): x is ArrayLike<any> {
 }
 
 export function from<TSource, TResult = TSource>(
-    source: AsyncIterableInput<TSource>,
-    selector: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
-    thisArg?: any): AsyncIterableX<TResult> {
+  source: AsyncIterableInput<TSource>,
+  selector: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
+  thisArg?: any
+): AsyncIterableX<TResult> {
   const fn = bindCallback(selector, thisArg, 2);
   if (isIterable(source) || isAsyncIterable(source)) {
     return new FromAsyncIterable<TSource, TResult>(source, fn);

@@ -16,9 +16,10 @@ class ExtremaByIterable<TSource, TKey> extends IterableX<TSource> {
   private _cmp: (x: TKey, y: TKey) => number;
 
   constructor(
-      source: Iterable<TSource>,
-      keyFn: (x: TSource) => TKey,
-      cmp: (x: TKey, y: TKey) => number) {
+    source: Iterable<TSource>,
+    keyFn: (x: TSource) => TKey,
+    cmp: (x: TKey, y: TKey) => number
+  ) {
     super();
     this._source = source;
     this._keyFn = keyFn;
@@ -26,16 +27,19 @@ class ExtremaByIterable<TSource, TKey> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let result: TSource[] = [], next;
+    let result: TSource[] = [],
+      next;
     const it = this._source[Symbol.iterator]();
     if ((next = it.next()).done) {
       throw new Error('Sequence contains no elements');
     }
 
-    let current = next.value, resKey = this._keyFn(current);
+    let current = next.value,
+      resKey = this._keyFn(current);
     result.push(current);
     while (!(next = it.next()).done) {
-      let curr = next.value, key = this._keyFn(curr);
+      let curr = next.value,
+        key = this._keyFn(curr);
       const c = this._cmp(key, resKey);
       if (c === 0) {
         result.push(curr);
@@ -53,8 +57,9 @@ class ExtremaByIterable<TSource, TKey> extends IterableX<TSource> {
  * @ignore
  */
 export function extremaBy<TSource, TKey>(
-    source: Iterable<TSource>,
-    keyFn: (x: TSource) => TKey,
-    cmp: (x: TKey, y: TKey) => number): IterableX<TSource> {
+  source: Iterable<TSource>,
+  keyFn: (x: TSource) => TKey,
+  cmp: (x: TKey, y: TKey) => number
+): IterableX<TSource> {
   return new ExtremaByIterable<TSource, TKey>(source, keyFn, cmp);
 }

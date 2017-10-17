@@ -11,13 +11,18 @@ class StartWithIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    for (let x of this._args) { yield x; }
-    for (let item of this._source) { yield item; }
+    for (let x of this._args) {
+      yield x;
+    }
+    for (let item of this._source) {
+      yield item;
+    }
   }
 }
 
 export function startWith<TSource>(
-    source: Iterable<TSource>,
-    ...args: TSource[]): IterableX<TSource> {
+  source: Iterable<TSource>,
+  ...args: TSource[]
+): IterableX<TSource> {
   return new StartWithIterable<TSource>(source, args);
 }

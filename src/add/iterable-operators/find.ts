@@ -4,11 +4,23 @@ import { find } from '../../iterable/find';
 /**
  * @ignore
  */
+
+export function findProto<T, S extends T>(
+  this: IterableX<T>,
+  predicate: (value: T, index: number) => value is S,
+  thisArg?: any
+): S | undefined;
 export function findProto<T>(
-    this: IterableX<T>,
-    fn: (value: T, index: number) => boolean,
-    thisArg?: any): T | undefined {
-  return find(this, fn, thisArg);
+  this: IterableX<T>,
+  predicate: (value: T, index: number) => boolean,
+  thisArg?: any
+): T | undefined;
+export function findProto<T>(
+  this: IterableX<T>,
+  predicate: (value: T, index: number) => boolean,
+  thisArg?: any
+): T | undefined {
+  return find(this, predicate, thisArg);
 }
 
 IterableX.prototype.find = findProto;

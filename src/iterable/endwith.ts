@@ -11,13 +11,18 @@ class EndWithIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    for (let item of this._source) { yield item; }
-    for (let x of this._args) { yield x; }
+    for (let item of this._source) {
+      yield item;
+    }
+    for (let x of this._args) {
+      yield x;
+    }
   }
 }
 
 export function endWith<TSource>(
-    source: Iterable<TSource>,
-    ...args: TSource[]): IterableX<TSource> {
+  source: Iterable<TSource>,
+  ...args: TSource[]
+): IterableX<TSource> {
   return new EndWithIterable<TSource>(source, args);
 }

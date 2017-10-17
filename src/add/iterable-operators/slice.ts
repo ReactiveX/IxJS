@@ -4,10 +4,7 @@ import { slice } from '../../iterable/slice';
 /**
  * @ignore
  */
-export function sliceProto<T>(
-    this: IterableX<T>,
-    begin: number,
-    end: number): IterableX<T> {
+export function sliceProto<T>(this: IterableX<T>, begin: number, end: number): IterableX<T> {
   return slice(this, begin, end);
 }
 

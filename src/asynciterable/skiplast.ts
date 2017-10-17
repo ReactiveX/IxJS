@@ -21,6 +21,9 @@ class SkipLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function skipLast<TSource>(source: AsyncIterable<TSource>, count: number): AsyncIterableX<TSource> {
+export function skipLast<TSource>(
+  source: AsyncIterable<TSource>,
+  count: number
+): AsyncIterableX<TSource> {
   return new SkipLastAsyncIterable<TSource>(source, count);
 }

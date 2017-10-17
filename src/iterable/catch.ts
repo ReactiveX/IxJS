@@ -10,7 +10,8 @@ class CatchIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let error = null, hasError = false;
+    let error = null,
+      hasError = false;
 
     for (let source of this._source) {
       const it = source[Symbol.iterator]();
@@ -38,10 +39,14 @@ class CatchIterable<TSource> extends IterableX<TSource> {
         yield c;
       }
 
-      if (!hasError) { break; }
+      if (!hasError) {
+        break;
+      }
     }
 
-    if (hasError) { throw error; }
+    if (hasError) {
+      throw error;
+    }
   }
 }
 
@@ -59,7 +64,10 @@ export function _catchAll<TSource>(source: Iterable<Iterable<TSource>>): Iterabl
  * @param {Iterable<TSource>} source The first source.
  * @param {...Iterable<TSource>} args The rest of the sequence that continues to concatenate source sequences while errors occur.
  */
-export function _catch<TSource>(source: Iterable<TSource>, ...args: Iterable<TSource>[]): IterableX<TSource> {
+export function _catch<TSource>(
+  source: Iterable<TSource>,
+  ...args: Iterable<TSource>[]
+): IterableX<TSource> {
   return new CatchIterable<TSource>([source, ...args]);
 }
 

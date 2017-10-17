@@ -5,9 +5,10 @@ import { union } from '../../asynciterable/union';
  * @ignore
  */
 export function unionProto<T>(
-    this: AsyncIterableX<T>,
-    right: AsyncIterable<T>,
-    comparer?: (x: T, y: T) => boolean | Promise<boolean>): AsyncIterableX<T> {
+  this: AsyncIterableX<T>,
+  right: AsyncIterable<T>,
+  comparer?: (x: T, y: T) => boolean | Promise<boolean>
+): AsyncIterableX<T> {
   return union(this, right, comparer);
 }
 

@@ -7,7 +7,11 @@ class ExceptIterable<TSource> extends IterableX<TSource> {
   private _second: Iterable<TSource>;
   private _comparer: (x: TSource, y: TSource) => boolean;
 
-  constructor(first: Iterable<TSource>, second: Iterable<TSource>, comparer: (x: TSource, y: TSource) => boolean) {
+  constructor(
+    first: Iterable<TSource>,
+    second: Iterable<TSource>,
+    comparer: (x: TSource, y: TSource) => boolean
+  ) {
     super();
     this._first = first;
     this._second = second;
@@ -38,8 +42,9 @@ class ExceptIterable<TSource> extends IterableX<TSource> {
  * @return {Iterable<T>} A sequence that contains the set difference of the elements of two sequences.
  */
 export function except<TSource>(
-    first: Iterable<TSource>,
-    second: Iterable<TSource>,
-    comparer: (x: TSource, y: TSource) => boolean = defaultComparer): IterableX<TSource> {
+  first: Iterable<TSource>,
+  second: Iterable<TSource>,
+  comparer: (x: TSource, y: TSource) => boolean = defaultComparer
+): IterableX<TSource> {
   return new ExceptIterable<TSource>(first, second, comparer);
 }

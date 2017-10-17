@@ -20,6 +20,9 @@ function plucker(props: string[], length: number): (x: any) => any {
 
 export function pluck<TSource, TResult>(
   source: AsyncIterable<TSource>,
-  ...args: string[]): AsyncIterableX<TResult> {
-  return map<TSource, TResult>(source, plucker(args, args.length) as any as (value: TSource) => TResult);
+  ...args: string[]
+): AsyncIterableX<TResult> {
+  return map<TSource, TResult>(source, (plucker(args, args.length) as any) as (
+    value: TSource
+  ) => TResult);
 }

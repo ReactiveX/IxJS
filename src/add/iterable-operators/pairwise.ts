@@ -4,8 +4,7 @@ import { pairwise } from '../../iterable/pairwise';
 /**
  * @ignore
  */
-export function pairwiseProto<TSource>(
-    this: IterableX<TSource>): IterableX<TSource[]> {
+export function pairwiseProto<TSource>(this: IterableX<TSource>): IterableX<TSource[]> {
   return pairwise(this);
 }
 

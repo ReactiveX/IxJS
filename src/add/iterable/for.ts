@@ -8,7 +8,5 @@ export declare namespace iterable {
 }
 
 declare module '../../iterable' {
-  namespace IterableX {
-    export { forStatic as for };
-  }
+  namespace IterableX { export { forStatic as for }; }
 }

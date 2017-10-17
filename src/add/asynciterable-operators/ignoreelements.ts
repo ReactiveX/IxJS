@@ -4,8 +4,7 @@ import { ignoreElements } from '../../asynciterable/ignoreelements';
 /**
  * @ignore
  */
-export function ignoreElementsProto<T>(
-    this: AsyncIterableX<T>): AsyncIterableX<T> {
+export function ignoreElementsProto<T>(this: AsyncIterableX<T>): AsyncIterableX<T> {
   return ignoreElements(this);
 }
 

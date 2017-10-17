@@ -1,9 +1,8 @@
 import { IterableX } from '../iterable';
-import { booleanPredicate } from '../internal/predicates';
 
 class TakeWhileIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
-  private _predicate: booleanPredicate<TSource>;
+  private _predicate: (value: TSource, index: number) => boolean;
 
   constructor(source: Iterable<TSource>, predicate: (value: TSource, index: number) => boolean) {
     super();
@@ -14,14 +13,25 @@ class TakeWhileIterable<TSource> extends IterableX<TSource> {
   *[Symbol.iterator]() {
     let i = 0;
     for (let item of this._source) {
-      if (!this._predicate(item, i++)) { break; }
+      if (!this._predicate(item, i++)) {
+        break;
+      }
       yield item;
     }
   }
 }
 
+export function takeWhile<T, S extends T>(
+  source: Iterable<T>,
+  predicate: (value: T, index: number) => value is S
+): IterableX<S>;
 export function takeWhile<TSource>(
-    source: Iterable<TSource>,
-    predicate: booleanPredicate<TSource>): IterableX<TSource> {
+  source: Iterable<TSource>,
+  predicate: (value: TSource, index: number) => boolean
+): IterableX<TSource>;
+export function takeWhile<TSource>(
+  source: Iterable<TSource>,
+  predicate: (value: TSource, index: number) => boolean
+): IterableX<TSource> {
   return new TakeWhileIterable<TSource>(source, predicate);
 }

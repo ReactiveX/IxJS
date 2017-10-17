@@ -21,6 +21,7 @@ class TimestampAsyncIterable<TSource> extends AsyncIterableX<Timestamp<TSource>>
 }
 
 export function timestamp<TSource>(
-    source: AsyncIterable<TSource>): AsyncIterableX<Timestamp<TSource>> {
+  source: AsyncIterable<TSource>
+): AsyncIterableX<Timestamp<TSource>> {
   return new TimestampAsyncIterable<TSource>(source);
 }

@@ -25,22 +25,37 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
   }
 
   thenBy<TKey>(
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedAsyncIterableBaseX<TSource> {
+    keySelector: (item: TSource) => TKey,
+    comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+  ): OrderedAsyncIterableBaseX<TSource> {
     /* tslint:disable-next-line: no-use-before-declare */
-    return new OrderedAsyncIterableX<TKey, TSource>(this._source, keySelector, comparer, false, this);
+    return new OrderedAsyncIterableX<TKey, TSource>(
+      this._source,
+      keySelector,
+      comparer,
+      false,
+      this
+    );
   }
 
   thenByDescending<TKey>(
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedAsyncIterableBaseX<TSource> {
+    keySelector: (item: TSource) => TKey,
+    comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+  ): OrderedAsyncIterableBaseX<TSource> {
     /* tslint:disable-next-line: no-use-before-declare */
-    return new OrderedAsyncIterableX<TKey, TSource>(this._source, keySelector, comparer, true, this);
+    return new OrderedAsyncIterableX<TKey, TSource>(
+      this._source,
+      keySelector,
+      comparer,
+      true,
+      this
+    );
   }
 
   abstract _getSorter(
     elements: TSource[],
-    next?: (x: number, y: number) => number): (x: number, y: number) => number;
+    next?: (x: number, y: number) => number
+  ): (x: number, y: number) => number;
 }
 
 export class OrderedAsyncIterableX<TKey, TSource> extends OrderedAsyncIterableBaseX<TSource> {
@@ -50,11 +65,12 @@ export class OrderedAsyncIterableX<TKey, TSource> extends OrderedAsyncIterableBa
   private _parent?: OrderedAsyncIterableBaseX<TSource>;
 
   constructor(
-      source: AsyncIterable<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number,
-      descending: boolean,
-      parent?: OrderedAsyncIterableBaseX<TSource>) {
+    source: AsyncIterable<TSource>,
+    keySelector: (item: TSource) => TKey,
+    comparer: (fst: TKey, snd: TKey) => number,
+    descending: boolean,
+    parent?: OrderedAsyncIterableBaseX<TSource>
+  ) {
     super(source);
     this._keySelector = keySelector;
     this._comparer = comparer;
@@ -63,8 +79,9 @@ export class OrderedAsyncIterableX<TKey, TSource> extends OrderedAsyncIterableBa
   }
 
   _getSorter(
-      elements: TSource[],
-      next?: (x: number, y: number) => number): (x: number, y: number) => number {
+    elements: TSource[],
+    next?: (x: number, y: number) => number
+  ): (x: number, y: number) => number {
     const keys = elements.map(this._keySelector);
     const comparer = this._comparer;
     const parent = this._parent;
@@ -83,29 +100,45 @@ export class OrderedAsyncIterableX<TKey, TSource> extends OrderedAsyncIterableBa
 }
 
 export function orderBy<TKey, TSource>(
-      source: AsyncIterable<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedAsyncIterableX<TKey, TSource> {
+  source: AsyncIterable<TSource>,
+  keySelector: (item: TSource) => TKey,
+  comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+): OrderedAsyncIterableX<TKey, TSource> {
   return new OrderedAsyncIterableX<TKey, TSource>(source, keySelector, comparer, false);
 }
 
 export function orderByDescending<TKey, TSource>(
-      source: AsyncIterable<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedAsyncIterableX<TKey, TSource> {
+  source: AsyncIterable<TSource>,
+  keySelector: (item: TSource) => TKey,
+  comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+): OrderedAsyncIterableX<TKey, TSource> {
   return new OrderedAsyncIterableX<TKey, TSource>(source, keySelector, comparer, true);
 }
 
 export function thenBy<TKey, TSource>(
-      source: OrderedAsyncIterableBaseX<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedAsyncIterableX<TKey, TSource> {
-  return new OrderedAsyncIterableX<TKey, TSource>(source._source, keySelector, comparer, false, source);
+  source: OrderedAsyncIterableBaseX<TSource>,
+  keySelector: (item: TSource) => TKey,
+  comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+): OrderedAsyncIterableX<TKey, TSource> {
+  return new OrderedAsyncIterableX<TKey, TSource>(
+    source._source,
+    keySelector,
+    comparer,
+    false,
+    source
+  );
 }
 
 export function thenByDescending<TKey, TSource>(
-      source: OrderedAsyncIterableBaseX<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedAsyncIterableX<TKey, TSource> {
-  return new OrderedAsyncIterableX<TKey, TSource>(source._source, keySelector, comparer, true, source);
+  source: OrderedAsyncIterableBaseX<TSource>,
+  keySelector: (item: TSource) => TKey,
+  comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+): OrderedAsyncIterableX<TKey, TSource> {
+  return new OrderedAsyncIterableX<TKey, TSource>(
+    source._source,
+    keySelector,
+    comparer,
+    true,
+    source
+  );
 }

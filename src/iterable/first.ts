@@ -1,5 +1,3 @@
-import { booleanPredicate } from '../internal/predicates';
-
 /**
  * Returns the first element in a sequence that satisfies a specified condition if provided, else
  * the first element in the sequence.
@@ -9,12 +7,21 @@ import { booleanPredicate } from '../internal/predicates';
  * specified predicate function if provided, else the first element. If there are no elements,
  * undefined is returned.
  */
+export function first<T, S extends T>(
+  source: Iterable<T>,
+  predicate?: (value: T, index: number) => value is S
+): S | undefined;
 export function first<T>(
-    source: Iterable<T>,
-    selector: booleanPredicate<T> = () => true): T | undefined {
+  source: Iterable<T>,
+  predicate?: (value: T, index: number) => boolean
+): T | undefined;
+export function first<T>(
+  source: Iterable<T>,
+  predicate: (value: T, index: number) => boolean = () => true
+): T | undefined {
   let i = 0;
   for (let item of source) {
-    if (selector(item, i++)) {
+    if (predicate(item, i++)) {
       return item;
     }
   }

@@ -8,7 +8,5 @@ export declare namespace asynciterable {
 }
 
 declare module '../../asynciterable' {
-  namespace AsyncIterableX {
-    export { ifStatic as if };
-  }
+  namespace AsyncIterableX { export { ifStatic as if }; }
 }

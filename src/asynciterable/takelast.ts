@@ -11,7 +11,9 @@ class TakeLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    if (this._count === 0) { return; }
+    if (this._count === 0) {
+      return;
+    }
 
     let q = [];
     for await (let item of this._source) {
@@ -27,6 +29,9 @@ class TakeLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function takeLast<TSource>(source: AsyncIterable<TSource>, count: number): AsyncIterableX<TSource> {
+export function takeLast<TSource>(
+  source: AsyncIterable<TSource>,
+  count: number
+): AsyncIterableX<TSource> {
   return new TakeLastAsyncIterable<TSource>(source, count);
 }

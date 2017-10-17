@@ -13,7 +13,9 @@ class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let it = this._source[Symbol.asyncIterator](), begin = this._begin, next;
+    let it = this._source[Symbol.asyncIterator](),
+      begin = this._begin,
+      next;
     while (begin > 0 && !(next = await it.next()).done) {
       begin--;
     }
@@ -22,15 +24,18 @@ class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     if (end > 0) {
       while (!(next = await it.next()).done) {
         yield next.value;
-        if (--end === 0) { break; }
+        if (--end === 0) {
+          break;
+        }
       }
     }
   }
 }
 
 export function slice<TSource>(
-    source: AsyncIterable<TSource>,
-    begin: number,
-    end: number = Infinity): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  begin: number,
+  end: number = Infinity
+): AsyncIterableX<TSource> {
   return new SliceAsyncIterable<TSource>(source, begin, end);
 }
