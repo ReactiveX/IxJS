@@ -172,8 +172,8 @@ Ix.AsyncIterable.from(gen())
   .forEach(x => console.log(`Next ${x}`))
   .catch(err => console.log(`Error ${err}`));
 
-// => 4
-// => 8
+// => Next 4
+// => Next 8
 ```
 
 Much like with the `Iterable` object where we can iterate through our collections, we can use `for await ... of` instead which allows us to iterate over the asynchronous collection.
@@ -199,8 +199,8 @@ for await (let item of results) {
   console.log(`Next ${x}`);
 }
 
-// => 4
-// => 8
+// => Next 4
+// => Next 8
 ```
 
 Instead of bringing in the entire library for `AsyncIterable`, we can pick and choose which operators we want, for bundling concerns.
