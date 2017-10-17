@@ -1,17 +1,13 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { debounce } = Ix.asynciterable;
-import { hasNext, noNext } from '../asynciterablehelpers';
-
-function delayItem<T>(item: T, delay: number) {
-  return new Promise<T>(res => setTimeout(() => res(item), delay));
-}
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
 test('AsyncIterable#debounce none drop', async t => {
   const xs = async function*() {
-    yield await delayItem(1, 100);
-    yield await delayItem(2, 100);
-    yield await delayItem(3, 100);
+    yield await delayValue(1, 100);
+    yield await delayValue(2, 100);
+    yield await delayValue(3, 100);
   };
   const ys = debounce(xs(), 50);
 
@@ -25,11 +21,11 @@ test('AsyncIterable#debounce none drop', async t => {
 
 test('AsyncIterable#debounce some drop', async t => {
   const xs = async function*() {
-    yield await delayItem(1, 5 * 200);
-    yield await delayItem(2, 5 * 200);
-    yield await delayItem(3, 5 * 200);
+    yield await delayValue(1, 200);
+    yield await delayValue(2, 200);
+    yield await delayValue(3, 200);
   };
-  const ys = debounce(xs(), 5 * 500);
+  const ys = debounce(xs(), 500);
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 1);

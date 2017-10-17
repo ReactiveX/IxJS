@@ -1,11 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { skipUntil } = Ix.asynciterable;
-import { hasNext, noNext } from '../asynciterablehelpers';
-
-async function delayValue<T>(value: T, delay: number) {
-  return new Promise<T>(resolve => setTimeout(() => resolve(value), delay));
-}
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
 test('AsyncIterable#skipUntil hits', async t => {
   const xs = async function* () {
