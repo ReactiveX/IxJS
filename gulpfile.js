@@ -150,9 +150,9 @@ const bundleTask = ((cache) => memoizeTask(cache, function bundle(target, format
   ).publish(new ReplaySubject()).refCount();
 }))({});
 
-const tapePath = require.resolve(path.join(`tape`, `bin`, `tape`));
-const tsNodePath = require.resolve(path.join(`ts-node`, `dist`, `bin`));
-const tapDiffPath = require.resolve(path.join(`tap-difflet`, `bin`, `tap-difflet`));
+const tapePath = `tape`;
+const tsNodePath = `ts-node`;
+const tapDiffPath = `tap-difflet`;
 const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function tests(target, format, extraArgv = []) {
   const opts = { ...testOptions };
   const args = [...execArgv, ...extraArgv];
@@ -227,7 +227,7 @@ const compileTsickle = ((cache, tsicklePath) => memoizeTask(cache, function tsic
     ],
     { stdio: [`ignore`, `inherit`, `inherit`] }
   ).multicast(new ReplaySubject()).refCount();
-}))({}, require.resolve(path.join(`tsickle`, `built`, `src`, `main`)));
+}))({}, `tsickle`);
 
 const compileTypescript = ((cache) => memoizeTask(cache, function typescript(target, format) {
   const out = _dir(target, format);
