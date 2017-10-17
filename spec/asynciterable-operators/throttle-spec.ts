@@ -25,12 +25,12 @@ test('AsyncIterable#throttle drops none', async t => {
 
 test('AsyncIterable#throttle drops some', async t => {
   const xs = async function*() {
-    yield await delayItem(1, 100);
-    yield await delayItem(2, 100);
-    yield await delayItem(3, 100);
-    yield await delayItem(4, 100);
+    yield await delayItem(1, 5 * 200);
+    yield await delayItem(2, 5 * 200);
+    yield await delayItem(3, 5 * 200);
+    yield await delayItem(4, 5 * 200);
   };
-  const ys = throttle(xs(), 150);
+  const ys = throttle(xs(), 5 * 300);
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 1);

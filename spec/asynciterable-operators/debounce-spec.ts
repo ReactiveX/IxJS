@@ -25,11 +25,11 @@ test('AsyncIterable#debounce none drop', async t => {
 
 test('AsyncIterable#debounce some drop', async t => {
   const xs = async function*() {
-    yield await delayItem(1, 100);
-    yield await delayItem(2, 100);
-    yield await delayItem(3, 100);
+    yield await delayItem(1, 5 * 200);
+    yield await delayItem(2, 5 * 200);
+    yield await delayItem(3, 5 * 200);
   };
-  const ys = debounce(xs(), 300);
+  const ys = debounce(xs(), 5 * 500);
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 1);
