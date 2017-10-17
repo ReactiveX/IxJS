@@ -13,6 +13,6 @@ build_script:
   - npm run build
 
 test_script:
-  - npm test
+  - npm run build && npm test
 
 version: "{build}"

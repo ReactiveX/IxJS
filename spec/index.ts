@@ -4,9 +4,8 @@ process.on('unhandledRejection', error => {
   console.log('unhandledRejection', error.test);
 });
 
-const cwd = process.cwd();
-const resolve = require('path').resolve;
-require('glob')(`./spec/**/*-spec.ts`, (err: Error, files: string[]) => {
+const cwd = process.cwd(), path = require('path');
+require('glob')(path.join(`.`, `spec`, `**`, `*-spec.ts`), (err: Error, files: string[]) => {
   if (err) throw err;
-  files.forEach((file) => require(resolve(cwd, file)));
+  files.forEach((file) => require(path.resolve(cwd, file)));
 });

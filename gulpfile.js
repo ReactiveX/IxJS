@@ -150,16 +150,17 @@ const bundleTask = ((cache) => memoizeTask(cache, function bundle(target, format
   ).publish(new ReplaySubject()).refCount();
 }))({});
 
-const tapePath = require.resolve(`tape/bin/tape`);
-const tsNodePath = require.resolve(`ts-node/dist/bin`);
-const tapDiffPath = require.resolve(`tap-difflet/bin/tap-difflet`);
+const tapePath = require.resolve(path.join(`tape`, `bin`, `tape`));
+const tsNodePath = require.resolve(path.join(`ts-node`, `dist`, `bin`));
+const tapDiffPath = require.resolve(path.join(`tap-difflet`, `bin`, `tap-difflet`));
 const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function tests(target, format, extraArgv = []) {
   const opts = { ...testOptions };
   const args = [...execArgv, ...extraArgv];
   opts.env = { ...opts.env, IX_TARGET: target, IX_MODULE: format };
-  return   spawnDetached(tapDiffPath, [`-p`], {
-    stdin: spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts)
+  return   spawnRx(tapDiffPath, [`-p`], {
+    stdin: spawnRx(tsNodePath, [...args, path.join(`.`, `spec`, `index.ts`)], opts).logEverything(`ts-node`, 1)
   })
+  .logEverything(`tap-difflet`, 1)
   .filter((x) => x && x.trim())
   .map((x) => x.replace(`\n`, ``))
   .materialize().toArray()
@@ -221,12 +222,12 @@ const compileTsickle = ((cache, tsicklePath) => memoizeTask(cache, function tsic
   return spawnRx(tsicklePath,
     [
       `--typed`, `--externs`,
-        `${_dir(target, format)}/Ix.externs.js`,
-      `--`, `-p`, `tsconfig/${_tsconfig(target, format)}`
+        path.join(`.`, _dir(target, format), `Ix.externs.js`),
+      `--`, `-p`, path.join(`.`, `tsconfig`, _tsconfig(target, format))
     ],
     { stdio: [`ignore`, `inherit`, `inherit`] }
   ).multicast(new ReplaySubject()).refCount();
-}))({}, require.resolve(`tsickle/built/src/main`));
+}))({}, require.resolve(path.join(`tsickle`, `built`, `src`, `main`)));
 
 const compileTypescript = ((cache) => memoizeTask(cache, function typescript(target, format) {
   const out = _dir(target, format);
