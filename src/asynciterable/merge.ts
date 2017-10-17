@@ -1,6 +1,4 @@
 import { AsyncIterableX } from '../asynciterable';
-import { flatMap } from './flatmap';
-import { from } from './from';
 
 // tslint:disable-next-line:no-empty
 const NEVER_PROMISE = new Promise(() => {});
@@ -45,21 +43,77 @@ class MergeAsyncIterable<T> extends AsyncIterableX<T> {
   }
 }
 
-export function mergeAll<TSource>(
-  source: AsyncIterable<AsyncIterable<TSource>>
-): AsyncIterableX<TSource> {
-  return flatMap(source, source => source);
-}
-
-export function _mergeAll<TSource>(
-  source: Iterable<AsyncIterable<TSource>>
-): AsyncIterableX<TSource> {
-  return flatMap(from(source), source => source);
-}
+/* tslint:disable:max-line-length */
+export function merge<T>(source: AsyncIterable<T>): AsyncIterableX<T>;
+export function merge<T, T2>(
+  source: AsyncIterable<T>,
+  v2: AsyncIterable<T2>
+): AsyncIterableX<T | T2>;
+export function merge<T, T2, T3>(
+  source: AsyncIterable<T>,
+  v2: AsyncIterable<T2>,
+  v3: AsyncIterable<T3>
+): AsyncIterableX<T | T2 | T3>;
+export function merge<T, T2, T3, T4>(
+  source: AsyncIterable<T>,
+  v2: AsyncIterable<T2>,
+  v3: AsyncIterable<T3>,
+  v4: AsyncIterable<T4>
+): AsyncIterableX<T | T2 | T3 | T4>;
+export function merge<T, T2, T3, T4, T5>(
+  source: AsyncIterable<T>,
+  v2: AsyncIterable<T2>,
+  v3: AsyncIterable<T3>,
+  v4: AsyncIterable<T4>,
+  v5: AsyncIterable<T5>
+): AsyncIterable<T | T2 | T3 | T4 | T5>;
+export function merge<T, T2, T3, T4, T5, T6>(
+  source: AsyncIterable<T>,
+  v2: AsyncIterable<T2>,
+  v3: AsyncIterable<T3>,
+  v4: AsyncIterable<T4>,
+  v5: AsyncIterable<T5>,
+  v6: AsyncIterable<T6>
+): AsyncIterable<T | T2 | T3 | T4 | T5 | T6>;
+/* tslint:enable:max-line-length */
 
 export function merge<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
   return new MergeAsyncIterable<T>([source, ...args]);
 }
+
+/* tslint:disable:max-line-length */
+export function mergeStatic<T>(v1: AsyncIterable<T>): AsyncIterableX<T>;
+export function mergeStatic<T, T2>(
+  v1: AsyncIterable<T>,
+  v2: AsyncIterable<T2>
+): AsyncIterableX<T | T2>;
+export function mergeStatic<T, T2, T3>(
+  v1: AsyncIterable<T>,
+  v2: AsyncIterable<T2>,
+  v3: AsyncIterable<T3>
+): AsyncIterableX<T | T2 | T3>;
+export function mergeStatic<T, T2, T3, T4>(
+  v1: AsyncIterable<T>,
+  v2: AsyncIterable<T2>,
+  v3: AsyncIterable<T3>,
+  v4: AsyncIterable<T4>
+): AsyncIterableX<T | T2 | T3 | T4>;
+export function mergeStatic<T, T2, T3, T4, T5>(
+  v1: AsyncIterable<T>,
+  v2: AsyncIterable<T2>,
+  v3: AsyncIterable<T3>,
+  v4: AsyncIterable<T4>,
+  v5: AsyncIterable<T5>
+): AsyncIterable<T | T2 | T3 | T4 | T5>;
+export function mergeStatic<T, T2, T3, T4, T5, T6>(
+  v1: AsyncIterable<T>,
+  v2: AsyncIterable<T2>,
+  v3: AsyncIterable<T3>,
+  v4: AsyncIterable<T4>,
+  v5: AsyncIterable<T5>,
+  v6: AsyncIterable<T6>
+): AsyncIterable<T | T2 | T3 | T4 | T5 | T6>;
+/* tslint:enable:max-line-length */
 
 export function mergeStatic<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
   return new MergeAsyncIterable<T>(args);
