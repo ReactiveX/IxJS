@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class ConcatIterable<TSource> extends IterableX<TSource> {
+export class ConcatIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<Iterable<TSource>>;
 
   constructor(source: Iterable<Iterable<TSource>>) {
@@ -15,30 +15,72 @@ class ConcatIterable<TSource> extends IterableX<TSource> {
   }
 }
 
-/**
- * Concatenates the input sequences.
- * @param {Iterable<Iterable<TSource>>} source Source sequences.
- * @return {Iterable<TSource>} Sequence with the elements of the source sequences concatenated.
- */
-export function concatAll<TSource>(source: Iterable<Iterable<TSource>>): IterableX<TSource> {
-  return new ConcatIterable<TSource>(source);
-}
+/* tslint:disable:max-line-length */
+export function concat<T>(source: Iterable<T>): IterableX<T>;
+export function concat<T, T2>(source: Iterable<T>, v2: Iterable<T2>): IterableX<T | T2>;
+export function concat<T, T2, T3>(
+  source: Iterable<T>,
+  v2: Iterable<T2>,
+  v3: Iterable<T3>
+): IterableX<T | T2 | T3>;
+export function concat<T, T2, T3, T4>(
+  source: Iterable<T>,
+  v2: Iterable<T2>,
+  v3: Iterable<T3>,
+  v4: Iterable<T4>
+): IterableX<T | T2 | T3 | T4>;
+export function concat<T, T2, T3, T4, T5>(
+  source: Iterable<T>,
+  v2: Iterable<T2>,
+  v3: Iterable<T3>,
+  v4: Iterable<T4>,
+  v5: Iterable<T5>
+): Iterable<T | T2 | T3 | T4 | T5>;
+export function concat<T, T2, T3, T4, T5, T6>(
+  source: Iterable<T>,
+  v2: Iterable<T2>,
+  v3: Iterable<T3>,
+  v4: Iterable<T4>,
+  v5: Iterable<T5>,
+  v6: Iterable<T6>
+): Iterable<T | T2 | T3 | T4 | T5 | T6>;
+/* tslint:enable:max-line-length */
 
-/**
- * Concatenates the input sequences.
- * @param {Iterable<TSource>} source The first source sequence.
- * @param {...Iterable<TSource>} args The rest of the source sequences.
- * @return {Iterable<TSource>} Sequence with the elements of the source sequences concatenated.
- */
 export function concat<T>(source: Iterable<T>, ...args: Iterable<T>[]): IterableX<T> {
-  return new ConcatIterable([source, ...args]);
+  return new ConcatIterable<T>([source, ...args]);
 }
 
-/**
- * Concatenates the input sequences.
- * @param {...Iterable<TSource>} args Source sequences.
- * @return {Iterable<TSource>} Sequence with the elements of the source sequences concatenated.
- */
+/* tslint:disable:max-line-length */
+export function concatStatic<T>(v1: Iterable<T>): IterableX<T>;
+export function concatStatic<T, T2>(v1: Iterable<T>, v2: Iterable<T2>): IterableX<T | T2>;
+export function concatStatic<T, T2, T3>(
+  v1: Iterable<T>,
+  v2: Iterable<T2>,
+  v3: Iterable<T3>
+): IterableX<T | T2 | T3>;
+export function concatStatic<T, T2, T3, T4>(
+  v1: Iterable<T>,
+  v2: Iterable<T2>,
+  v3: Iterable<T3>,
+  v4: Iterable<T4>
+): IterableX<T | T2 | T3 | T4>;
+export function concatStatic<T, T2, T3, T4, T5>(
+  v1: Iterable<T>,
+  v2: Iterable<T2>,
+  v3: Iterable<T3>,
+  v4: Iterable<T4>,
+  v5: Iterable<T5>
+): Iterable<T | T2 | T3 | T4 | T5>;
+export function concatStatic<T, T2, T3, T4, T5, T6>(
+  v1: Iterable<T>,
+  v2: Iterable<T2>,
+  v3: Iterable<T3>,
+  v4: Iterable<T4>,
+  v5: Iterable<T5>,
+  v6: Iterable<T6>
+): Iterable<T | T2 | T3 | T4 | T5 | T6>;
+/* tslint:enable:max-line-length */
+
 export function concatStatic<T>(...args: Iterable<T>[]): IterableX<T> {
-  return new ConcatIterable(args);
+  return new ConcatIterable<T>(args);
 }

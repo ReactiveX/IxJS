@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable';
-import { concatAll } from '../../iterable/concat';
+import { concatAll } from '../../iterable/concatall';
 
 /**
  * @ignore
