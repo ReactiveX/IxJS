@@ -157,8 +157,8 @@ const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function
   const opts = { ...testOptions };
   const args = [...execArgv, ...extraArgv];
   opts.env = { ...opts.env, IX_TARGET: target, IX_MODULE: format };
-  return   spawnDetached(tapDiffPath, [`-p`], {
-    stdin: spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts)
+  return   spawnRx(tapDiffPath, [`-p`], {
+    stdin: spawnRx(tsNodePath, [...args, `spec/index.ts`], opts)
   })
   .filter((x) => x && x.trim())
   .map((x) => x.replace(`\n`, ``))
