@@ -5,8 +5,9 @@ import { pluck } from '../../iterable/pluck';
  * @ignore
  */
 export function pluckProto<TSource, TResult>(
-    this: IterableX<TSource>,
-    ...args: string[]): IterableX<TResult> {
+  this: IterableX<TSource>,
+  ...args: string[]
+): IterableX<TResult> {
   return pluck<TSource, TResult>(this, ...args);
 }
 

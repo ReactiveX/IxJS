@@ -14,10 +14,14 @@ class OfEntriesIterable<TSource> extends IterableX<[string, TSource]> {
   }
 
   [Symbol.iterator]() {
-    return map(Object.keys(this._source), key => makeTuple(key, this._source[key]))[Symbol.iterator]();
+    return map(Object.keys(this._source), key => makeTuple(key, this._source[key]))[
+      Symbol.iterator
+    ]();
   }
 }
 
-export function ofEntries<TSource>(source: { [key: string]: TSource }): IterableX<[string, TSource]> {
+export function ofEntries<TSource>(source: {
+  [key: string]: TSource;
+}): IterableX<[string, TSource]> {
   return new OfEntriesIterable<TSource>(source);
 }

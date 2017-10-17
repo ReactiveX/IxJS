@@ -5,9 +5,10 @@ import { includes } from '../../asynciterable/includes';
  * @ignore
  */
 export function includesProto<T>(
-    this: AsyncIterableX<T>,
-    searchElement: T,
-    fromIndex: number): Promise<boolean> {
+  this: AsyncIterableX<T>,
+  searchElement: T,
+  fromIndex: number
+): Promise<boolean> {
   return includes(this, searchElement, fromIndex);
 }
 

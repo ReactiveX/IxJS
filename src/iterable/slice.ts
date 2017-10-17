@@ -13,7 +13,9 @@ class SliceIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let it = this._source[Symbol.iterator](), begin = this._begin, next;
+    let it = this._source[Symbol.iterator](),
+      begin = this._begin,
+      next;
     while (begin > 0 && !(next = it.next()).done) {
       begin--;
     }
@@ -22,15 +24,18 @@ class SliceIterable<TSource> extends IterableX<TSource> {
     if (end > 0) {
       while (!(next = it.next()).done) {
         yield next.value;
-        if (--end === 0) { break; }
+        if (--end === 0) {
+          break;
+        }
       }
     }
   }
 }
 
 export function slice<TSource>(
-    source: Iterable<TSource>,
-    begin: number,
-    end: number = Infinity): IterableX<TSource> {
+  source: Iterable<TSource>,
+  begin: number,
+  end: number = Infinity
+): IterableX<TSource> {
   return new SliceIterable<TSource>(source, begin, end);
 }

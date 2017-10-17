@@ -6,7 +6,8 @@ import { expand } from '../../asynciterable/expand';
  */
 export function expandProto<TSource>(
   this: AsyncIterableX<TSource>,
-  selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>) {
+  selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+) {
   return expand(this, selector);
 }
 

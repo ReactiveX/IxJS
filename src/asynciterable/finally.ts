@@ -12,7 +12,9 @@ class FinalyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     try {
-      for await (let item of this._source) { yield item; }
+      for await (let item of this._source) {
+        yield item;
+      }
     } finally {
       await this._action();
     }
@@ -20,7 +22,8 @@ class FinalyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function _finally<TSource>(
-    source: AsyncIterable<TSource>,
-    action: () => void | Promise<void>): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  action: () => void | Promise<void>
+): AsyncIterableX<TSource> {
   return new FinalyAsyncIterable<TSource>(source, action);
 }

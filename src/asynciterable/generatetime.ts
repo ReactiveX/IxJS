@@ -9,11 +9,12 @@ class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult>
   private _timeSelector: (value: TState) => number | Promise<number>;
 
   constructor(
-      initialState: TState,
-      condition: (value: TState) => boolean | Promise<boolean>,
-      iterate: (value: TState) => TState | Promise<TState>,
-      resultSelector: (value: TState) => TResult | Promise<TResult>,
-      timeSelector: (value: TState) => number | Promise<number>) {
+    initialState: TState,
+    condition: (value: TState) => boolean | Promise<boolean>,
+    iterate: (value: TState) => TState | Promise<TState>,
+    resultSelector: (value: TState) => TResult | Promise<TResult>,
+    timeSelector: (value: TState) => number | Promise<number>
+  ) {
     super();
     this._initialState = initialState;
     this._condition = condition;
@@ -32,15 +33,17 @@ class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult>
 }
 
 export function generateTime<TState, TResult>(
-    initialState: TState,
-    condition: (value: TState) => boolean | Promise<boolean>,
-    iterate: (value: TState) => TState | Promise<TState>,
-    resultSelector: (value: TState) => TResult | Promise<TResult>,
-    timeSelector: (value: TState) => number | Promise<number>): AsyncIterableX<TResult> {
+  initialState: TState,
+  condition: (value: TState) => boolean | Promise<boolean>,
+  iterate: (value: TState) => TState | Promise<TState>,
+  resultSelector: (value: TState) => TResult | Promise<TResult>,
+  timeSelector: (value: TState) => number | Promise<number>
+): AsyncIterableX<TResult> {
   return new GenerateTimeAsyncIterable<TState, TResult>(
     initialState,
     condition,
     iterate,
     resultSelector,
-    timeSelector);
+    timeSelector
+  );
 }

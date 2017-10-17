@@ -20,7 +20,8 @@ class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function delayEach<TSource>(
-    source: AsyncIterable<TSource>,
-    dueTime: number): AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  dueTime: number
+): AsyncIterableX<TSource> {
   return new DelayEachAsyncIterable<TSource>(source, dueTime);
 }

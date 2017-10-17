@@ -9,7 +9,9 @@ class ConcatIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    for (let outer of this._source) { yield* outer; }
+    for (let outer of this._source) {
+      yield* outer;
+    }
   }
 }
 

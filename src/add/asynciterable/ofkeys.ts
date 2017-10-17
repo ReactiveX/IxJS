@@ -4,7 +4,5 @@ import { ofKeys as ofKeysStatic } from '../../asynciterable/ofkeys';
 AsyncIterableX.ofKeys = ofKeysStatic;
 
 declare module '../../asynciterable' {
-  namespace AsyncIterableX {
-    export let ofKeys: typeof ofKeysStatic;
-  }
+  namespace AsyncIterableX { export let ofKeys: typeof ofKeysStatic; }
 }

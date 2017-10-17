@@ -5,8 +5,9 @@ class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
 
   constructor(
-      source: AsyncIterable<TSource>,
-      selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>) {
+    source: AsyncIterable<TSource>,
+    selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+  ) {
     super();
     this._source = source;
     this._selector = selector;
@@ -26,8 +27,8 @@ class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function expand<TSource>(
-    source: AsyncIterable<TSource>,
-    selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>):
-      AsyncIterableX<TSource> {
+  source: AsyncIterable<TSource>,
+  selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+): AsyncIterableX<TSource> {
   return new ExpandAsyncIterable<TSource>(source, selector);
 }

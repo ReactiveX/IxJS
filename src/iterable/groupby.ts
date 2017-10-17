@@ -24,10 +24,11 @@ export class GroupByIterable<TSource, TKey, TValue, TResult> extends IterableX<T
   private _resultSelector: (key: TKey, values: Iterable<TValue>) => TResult;
 
   constructor(
-      source: Iterable<TSource>,
-      keySelector: (value: TSource) => TKey,
-      elementSelector: (value: TSource) => TValue,
-      resultSelector: (key: TKey, values: Iterable<TValue>) => TResult) {
+    source: Iterable<TSource>,
+    keySelector: (value: TSource) => TKey,
+    elementSelector: (value: TSource) => TValue,
+    resultSelector: (key: TKey, values: Iterable<TValue>) => TResult
+  ) {
     super();
     this._source = source;
     this._keySelector = keySelector;
@@ -49,20 +50,29 @@ export function groupByResultIdentity<TKey, TValue>(key: TKey, values: Iterable<
 
 export function groupBy<TSource, TKey>(
   source: Iterable<TSource>,
-  keySelector: (value: TSource) => TKey): IterableX<GroupedIterable<TKey, TSource>>;
+  keySelector: (value: TSource) => TKey
+): IterableX<GroupedIterable<TKey, TSource>>;
 export function groupBy<TSource, TKey, TValue>(
   source: Iterable<TSource>,
   keySelector: (value: TSource) => TKey,
-  elementSelector?: (value: TSource) => TValue): IterableX<GroupedIterable<TKey, TValue>>;
+  elementSelector?: (value: TSource) => TValue
+): IterableX<GroupedIterable<TKey, TValue>>;
 export function groupBy<TSource, TKey, TValue, TResult>(
   source: Iterable<TSource>,
   keySelector: (value: TSource) => TKey,
   elementSelector?: (value: TSource) => TValue,
-  resultSelector?: (key: TKey, values: Iterable<TValue>) => TResult): IterableX<TResult>;
+  resultSelector?: (key: TKey, values: Iterable<TValue>) => TResult
+): IterableX<TResult>;
 export function groupBy<TSource, TKey, TValue, TResult>(
-    source: Iterable<TSource>,
-    keySelector: (value: TSource) => TKey,
-    elementSelector: (value: TSource) => TValue = identity,
-    resultSelector: (key: TKey, values: Iterable<TValue>) => TResult = groupByResultIdentity): IterableX<TResult> {
-  return new GroupByIterable<TSource, TKey, TValue, TResult>(source, keySelector, elementSelector, resultSelector);
+  source: Iterable<TSource>,
+  keySelector: (value: TSource) => TKey,
+  elementSelector: (value: TSource) => TValue = identity,
+  resultSelector: (key: TKey, values: Iterable<TValue>) => TResult = groupByResultIdentity
+): IterableX<TResult> {
+  return new GroupByIterable<TSource, TKey, TValue, TResult>(
+    source,
+    keySelector,
+    elementSelector,
+    resultSelector
+  );
 }

@@ -25,6 +25,7 @@ class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInterval<TSo
 }
 
 export function timeInterval<TSource>(
-    source: AsyncIterable<TSource>): AsyncIterableX<TimeInterval<TSource>> {
+  source: AsyncIterable<TSource>
+): AsyncIterableX<TimeInterval<TSource>> {
   return new TimeIntervalAsyncIterable<TSource>(source);
 }

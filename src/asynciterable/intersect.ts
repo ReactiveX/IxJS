@@ -3,10 +3,14 @@ import { arrayIndexOfAsync } from '../internal/arrayindexof';
 import { comparerAsync } from '../internal/comparer';
 
 async function arrayRemove<T>(
-    array: T[], item: T,
-    comparer: (x: T, y: T) => boolean | Promise<boolean>): Promise<boolean> {
+  array: T[],
+  item: T,
+  comparer: (x: T, y: T) => boolean | Promise<boolean>
+): Promise<boolean> {
   let idx = await arrayIndexOfAsync(array, item, comparer);
-  if (idx === -1) { return false; }
+  if (idx === -1) {
+    return false;
+  }
   array.splice(idx, 1);
   return true;
 }
@@ -19,7 +23,8 @@ class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   constructor(
     first: AsyncIterable<TSource>,
     second: AsyncIterable<TSource>,
-    comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>) {
+    comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>
+  ) {
     super();
     this._first = first;
     this._second = second;
@@ -41,8 +46,9 @@ class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function intersect<TSource>(
-    first: AsyncIterable<TSource>,
-    second: AsyncIterable<TSource>,
-    comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync): AsyncIterableX<TSource> {
+  first: AsyncIterable<TSource>,
+  second: AsyncIterable<TSource>,
+  comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync
+): AsyncIterableX<TSource> {
   return new IntersectAsyncIterable<TSource>(first, second, comparer);
 }

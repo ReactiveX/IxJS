@@ -5,9 +5,10 @@ import { intersect } from '../../iterable/intersect';
  * @ignore
  */
 export function intersectProto<T>(
-    this: IterableX<T>,
-    second: IterableX<T>,
-    comparer?: (x: T, y: T) => boolean) {
+  this: IterableX<T>,
+  second: IterableX<T>,
+  comparer?: (x: T, y: T) => boolean
+) {
   return intersect(this, second, comparer);
 }
 

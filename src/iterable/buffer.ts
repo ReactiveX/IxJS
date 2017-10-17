@@ -13,7 +13,8 @@ class BufferIterable<TSource> extends IterableX<TSource[]> {
   }
 
   *[Symbol.iterator]() {
-    let buffers: TSource[][] = [],  i = 0;
+    let buffers: TSource[][] = [],
+      i = 0;
     for (let item of this._source) {
       if (i % this._skip === 0) {
         buffers.push([]);
@@ -66,9 +67,12 @@ class BufferIterable<TSource> extends IterableX<TSource[]> {
  * @return {IterableX<TSource>[]} Sequence of buffers containing source sequence elements
  */
 export function buffer<TSource>(
-    source: Iterable<TSource>,
-    count: number,
-    skip?: number): IterableX<TSource[]> {
-  if (skip == null) { skip = count; }
- return new BufferIterable(source, count, skip);
+  source: Iterable<TSource>,
+  count: number,
+  skip?: number
+): IterableX<TSource[]> {
+  if (skip == null) {
+    skip = count;
+  }
+  return new BufferIterable(source, count, skip);
 }

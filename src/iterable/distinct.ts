@@ -8,7 +8,11 @@ class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   private _keySelector: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
 
-  constructor(source: Iterable<TSource>, keySelector: (value: TSource) => TKey, cmp: (x: TKey, y: TKey) => boolean) {
+  constructor(
+    source: Iterable<TSource>,
+    keySelector: (value: TSource) => TKey,
+    cmp: (x: TKey, y: TKey) => boolean
+  ) {
     super();
     this._source = source;
     this._keySelector = keySelector;
@@ -36,8 +40,9 @@ class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
  * @return {Iterable<T>} Sequence that contains the elements from the source sequence with distinct key values.
  */
 export function distinct<TSource, TKey>(
-    source: Iterable<TSource>,
-    keySelector: (value: TSource) => TKey = identity,
-    comparer: (x: TKey, y: TKey) => boolean = defaultComparer): IterableX<TSource> {
+  source: Iterable<TSource>,
+  keySelector: (value: TSource) => TKey = identity,
+  comparer: (x: TKey, y: TKey) => boolean = defaultComparer
+): IterableX<TSource> {
   return new DistinctIterable(source, keySelector, comparer);
 }

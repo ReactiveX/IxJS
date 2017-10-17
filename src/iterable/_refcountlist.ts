@@ -23,13 +23,21 @@ export interface IRefCountList<T> {
 export class MaxRefCountList<T> implements IRefCountList<T> {
   private _list: T[] = [];
 
-  clear() { this._list = []; }
-  get count() { return this._list.length; }
-  get(index: number): T { return this._list[index]; }
-  push(value: T) { this._list.push(value); }
+  clear() {
+    this._list = [];
+  }
+  get count() {
+    return this._list.length;
+  }
+  get(index: number): T {
+    return this._list[index];
+  }
+  push(value: T) {
+    this._list.push(value);
+  }
 
   // tslint:disable-next-line:no-empty
-  done() { }
+  done() {}
 }
 
 /**
@@ -45,11 +53,21 @@ export class RefCountList<T> implements IRefCountList<T> {
     this._list = new Map<number, RefCount<T>>();
   }
 
-  clear() { this._list.clear(); }
-  get count() { return this._count; }
-  get readerCount() { return this._readerCount; }
-  set readerCount(value: number) { this._readerCount = value; }
-  done() { this._readerCount--; }
+  clear() {
+    this._list.clear();
+  }
+  get count() {
+    return this._count;
+  }
+  get readerCount() {
+    return this._readerCount;
+  }
+  set readerCount(value: number) {
+    this._readerCount = value;
+  }
+  done() {
+    this._readerCount--;
+  }
 
   get(index: number): T {
     if (!this._list.has(index)) {

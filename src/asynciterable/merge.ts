@@ -3,12 +3,12 @@ import { flatMap } from './flatmap';
 import { from } from './from';
 
 // tslint:disable-next-line:no-empty
-const NEVER_PROMISE = new Promise(() => { });
+const NEVER_PROMISE = new Promise(() => {});
 
-type MergeResult<T> = { value: T, index: number };
+type MergeResult<T> = { value: T; index: number };
 
 function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
-  return promise.then((value) => ({ value, index })) as Promise<MergeResult<T>>;
+  return promise.then(value => ({ value, index })) as Promise<MergeResult<T>>;
 }
 
 class MergeAsyncIterable<T> extends AsyncIterableX<T> {
@@ -34,7 +34,7 @@ class MergeAsyncIterable<T> extends AsyncIterableX<T> {
       const next = Promise.race(nexts);
       const { value: next$, index } = await next;
       if (next$.done) {
-        nexts[index] = <Promise<MergeResult<IteratorResult<T>>>>(NEVER_PROMISE);
+        nexts[index] = <Promise<MergeResult<IteratorResult<T>>>>NEVER_PROMISE;
         active--;
       } else {
         const iterator$ = iterators[index];
@@ -45,11 +45,15 @@ class MergeAsyncIterable<T> extends AsyncIterableX<T> {
   }
 }
 
-export function mergeAll<TSource>(source: AsyncIterable<AsyncIterable<TSource>>): AsyncIterableX<TSource> {
+export function mergeAll<TSource>(
+  source: AsyncIterable<AsyncIterable<TSource>>
+): AsyncIterableX<TSource> {
   return flatMap(source, source => source);
 }
 
-export function _mergeAll<TSource>(source: Iterable<AsyncIterable<TSource>>): AsyncIterableX<TSource> {
+export function _mergeAll<TSource>(
+  source: Iterable<AsyncIterable<TSource>>
+): AsyncIterableX<TSource> {
   return flatMap(from(source), source => source);
 }
 

@@ -4,9 +4,7 @@ import { debounce } from '../../asynciterable/debounce';
 /**
  * @ignore
  */
-export function debounceProto<T>(
-    this: AsyncIterableX<T>,
-    time: number): AsyncIterableX<T> {
+export function debounceProto<T>(this: AsyncIterableX<T>, time: number): AsyncIterableX<T> {
   return debounce(this, time);
 }
 

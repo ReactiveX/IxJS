@@ -59,7 +59,7 @@ test('AsyncIterable#share with selector', async t => {
   const res = await toArray(
     share(
       tap(range(0, 10), { next: async () => { n++;} }),
-      xs => take(zip(xs, xs, (l, r) => l + r), 4)
+      xs => take(zip(([l, r]) => l + r, xs, xs), 4)
     )
   );
 

@@ -26,7 +26,8 @@ class FinalyIterable<TSource> extends IterableX<TSource> {
  * @return {Iterable<T>} Source sequence with guarantees on the invocation of the finally action.
  */
 export function _finally<TSource>(
-    source: Iterable<TSource>,
-    action: () => void): IterableX<TSource> {
+  source: Iterable<TSource>,
+  action: () => void
+): IterableX<TSource> {
   return new FinalyIterable<TSource>(source, action);
 }

@@ -1,9 +1,10 @@
 import { bindCallback } from '../internal/bindcallback';
 
 export async function findIndex<T>(
-    source: AsyncIterable<T>,
-    predicate: (value: T, index: number) => boolean | Promise<boolean>,
-    thisArg?: any): Promise<number> {
+  source: AsyncIterable<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>,
+  thisArg?: any
+): Promise<number> {
   const fn = bindCallback(predicate, thisArg, 2);
   let i = 0;
 

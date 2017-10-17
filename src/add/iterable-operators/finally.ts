@@ -4,9 +4,7 @@ import { _finally as _finallyProto } from '../../iterable/finally';
 /**
  * @ignore
  */
-export function finallyProto<TSource>(
-    this: IterableX<TSource>,
-    action: () => void) {
+export function finallyProto<TSource>(this: IterableX<TSource>, action: () => void) {
   return _finallyProto(this, action);
 }
 

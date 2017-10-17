@@ -5,9 +5,10 @@ import { intersect } from '../../asynciterable/intersect';
  * @ignore
  */
 export function intersectProto<T>(
-    this: AsyncIterableX<T>,
-    second: AsyncIterable<T>,
-    comparer?: (x: T, y: T) => boolean | Promise<boolean>) {
+  this: AsyncIterableX<T>,
+  second: AsyncIterable<T>,
+  comparer?: (x: T, y: T) => boolean | Promise<boolean>
+) {
   return intersect(this, second, comparer);
 }
 

@@ -17,6 +17,9 @@ class WhileIterable<TSource> extends IterableX<TSource> {
   }
 }
 
-export function _while<TSource>(condition: () => boolean, source: Iterable<TSource>): IterableX<TSource> {
+export function _while<TSource>(
+  condition: () => boolean,
+  source: Iterable<TSource>
+): IterableX<TSource> {
   return new WhileIterable<TSource>(condition, source);
 }

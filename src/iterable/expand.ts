@@ -29,7 +29,8 @@ class ExpandIterable<TSource> extends IterableX<TSource> {
  * @return {Iterable<T>} Sequence with results from the recursive expansion of the source sequence.
  */
 export function expand<TSource>(
-    source: Iterable<TSource>,
-    selector: (value: TSource) => Iterable<TSource>): IterableX<TSource> {
-  return new ExpandIterable<TSource>(source,selector);
+  source: Iterable<TSource>,
+  selector: (value: TSource) => Iterable<TSource>
+): IterableX<TSource> {
+  return new ExpandIterable<TSource>(source, selector);
 }

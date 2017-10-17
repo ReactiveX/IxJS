@@ -24,22 +24,25 @@ export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
   }
 
   thenBy<TKey>(
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedIterableBaseX<TSource> {
+    keySelector: (item: TSource) => TKey,
+    comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+  ): OrderedIterableBaseX<TSource> {
     /* tslint:disable-next-line: no-use-before-declare */
     return new OrderedIterableX<TKey, TSource>(this._source, keySelector, comparer, false, this);
   }
 
   thenByDescending<TKey>(
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedIterableBaseX<TSource> {
+    keySelector: (item: TSource) => TKey,
+    comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+  ): OrderedIterableBaseX<TSource> {
     /* tslint:disable-next-line: no-use-before-declare */
     return new OrderedIterableX<TKey, TSource>(this._source, keySelector, comparer, true, this);
   }
 
   abstract _getSorter(
     elements: TSource[],
-    next?: (x: number, y: number) => number): (x: number, y: number) => number;
+    next?: (x: number, y: number) => number
+  ): (x: number, y: number) => number;
 }
 
 export class OrderedIterableX<TKey, TSource> extends OrderedIterableBaseX<TSource> {
@@ -49,11 +52,12 @@ export class OrderedIterableX<TKey, TSource> extends OrderedIterableBaseX<TSourc
   private _parent?: OrderedIterableBaseX<TSource>;
 
   constructor(
-      source: Iterable<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number,
-      descending: boolean,
-      parent?: OrderedIterableBaseX<TSource>) {
+    source: Iterable<TSource>,
+    keySelector: (item: TSource) => TKey,
+    comparer: (fst: TKey, snd: TKey) => number,
+    descending: boolean,
+    parent?: OrderedIterableBaseX<TSource>
+  ) {
     super(source);
     this._keySelector = keySelector;
     this._comparer = comparer;
@@ -62,8 +66,9 @@ export class OrderedIterableX<TKey, TSource> extends OrderedIterableBaseX<TSourc
   }
 
   _getSorter(
-      elements: TSource[],
-      next?: (x: number, y: number) => number): (x: number, y: number) => number {
+    elements: TSource[],
+    next?: (x: number, y: number) => number
+  ): (x: number, y: number) => number {
     const keys = elements.map(this._keySelector);
     const comparer = this._comparer;
     const parent = this._parent;
@@ -82,29 +87,33 @@ export class OrderedIterableX<TKey, TSource> extends OrderedIterableBaseX<TSourc
 }
 
 export function orderBy<TKey, TSource>(
-      source: Iterable<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedIterableX<TKey, TSource> {
+  source: Iterable<TSource>,
+  keySelector: (item: TSource) => TKey,
+  comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+): OrderedIterableX<TKey, TSource> {
   return new OrderedIterableX<TKey, TSource>(source, keySelector, comparer, false);
 }
 
 export function orderByDescending<TKey, TSource>(
-      source: Iterable<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedIterableX<TKey, TSource> {
+  source: Iterable<TSource>,
+  keySelector: (item: TSource) => TKey,
+  comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+): OrderedIterableX<TKey, TSource> {
   return new OrderedIterableX<TKey, TSource>(source, keySelector, comparer, true);
 }
 
 export function thenBy<TKey, TSource>(
-      source: OrderedIterableBaseX<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedIterableX<TKey, TSource> {
+  source: OrderedIterableBaseX<TSource>,
+  keySelector: (item: TSource) => TKey,
+  comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+): OrderedIterableX<TKey, TSource> {
   return new OrderedIterableX<TKey, TSource>(source._source, keySelector, comparer, false, source);
 }
 
 export function thenByDescending<TKey, TSource>(
-      source: OrderedIterableBaseX<TSource>,
-      keySelector: (item: TSource) => TKey,
-      comparer: (fst: TKey, snd: TKey) => number = defaultSorter): OrderedIterableX<TKey, TSource> {
+  source: OrderedIterableBaseX<TSource>,
+  keySelector: (item: TSource) => TKey,
+  comparer: (fst: TKey, snd: TKey) => number = defaultSorter
+): OrderedIterableX<TKey, TSource> {
   return new OrderedIterableX<TKey, TSource>(source._source, keySelector, comparer, true, source);
 }

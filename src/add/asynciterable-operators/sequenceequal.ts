@@ -6,9 +6,10 @@ import { comparerAsync } from '../../internal/comparer';
  * @ignore
  */
 export function sequenceEqualProto<T>(
-    this: AsyncIterableX<T>,
-    other: AsyncIterable<T>,
-    comparer: (first: T, second: T) => boolean | Promise<boolean> = comparerAsync): Promise<boolean> {
+  this: AsyncIterableX<T>,
+  other: AsyncIterable<T>,
+  comparer: (first: T, second: T) => boolean | Promise<boolean> = comparerAsync
+): Promise<boolean> {
   return sequenceEqual(this, other, comparer);
 }
 

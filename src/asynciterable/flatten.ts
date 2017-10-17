@@ -13,12 +13,16 @@ class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   private async *_flatten(source: AsyncIterable<TSource>, depth: number): AsyncIterable<TSource> {
     if (depth === 0) {
-      for await (let item of source) { yield item; }
+      for await (let item of source) {
+        yield item;
+      }
       return;
     }
     for await (let item of source) {
       if (isAsyncIterable(item)) {
-        for await (let innerItem of this._flatten(item, depth - 1)) { yield innerItem; }
+        for await (let innerItem of this._flatten(item, depth - 1)) {
+          yield innerItem;
+        }
       } else {
         yield item;
       }

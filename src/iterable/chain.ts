@@ -24,7 +24,8 @@ class ChainIterable<TResult> extends IterableX<TResult> {
  * sequence within a selector function.
  */
 export function chain<TSource, TResult>(
-    source: Iterable<TSource>,
-    selector: (source: Iterable<TSource>) => Iterable<TResult>): IterableX<TResult> {
+  source: Iterable<TSource>,
+  selector: (source: Iterable<TSource>) => Iterable<TResult>
+): IterableX<TResult> {
   return new ChainIterable<TResult>(selector(source));
 }

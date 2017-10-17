@@ -163,7 +163,7 @@ test('AsyncIterable#publish with selector', async t => {
   const res = await toArray(
     publish(
       tap(range(0, 10), { next: async () => { n++; } }),
-      xs => take(zip(xs, xs, async (l, r) => l + r), 4)
+      xs => take(zip(async ([l, r]) => l + r, xs, xs), 4)
     )
   );
 

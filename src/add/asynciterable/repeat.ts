@@ -8,7 +8,5 @@ export declare namespace asynciterable {
 }
 
 declare module '../../asynciterable' {
-  namespace AsyncIterableX {
-    export let repeat: typeof _repeatStatic;
-  }
+  namespace AsyncIterableX { export let repeat: typeof _repeatStatic; }
 }

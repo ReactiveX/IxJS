@@ -11,7 +11,9 @@ class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let it = this._source[Symbol.asyncIterator](), count = this._count, next;
+    let it = this._source[Symbol.asyncIterator](),
+      count = this._count,
+      next;
     while (count > 0 && !(next = await it.next()).done) {
       count--;
     }
@@ -23,6 +25,9 @@ class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function skip<TSource>(source: AsyncIterable<TSource>, count: number): AsyncIterableX<TSource> {
+export function skip<TSource>(
+  source: AsyncIterable<TSource>,
+  count: number
+): AsyncIterableX<TSource> {
   return new SkipAsyncIterable<TSource>(source, count);
 }

@@ -4,9 +4,7 @@ import { skip } from '../../iterable/skip';
 /**
  * @ignore
  */
-export function skipProto<T>(
-    this: IterableX<T>,
-    count: number): IterableX<T> {
+export function skipProto<T>(this: IterableX<T>, count: number): IterableX<T> {
   return skip(this, count);
 }
 

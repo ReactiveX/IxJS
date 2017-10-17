@@ -9,7 +9,9 @@ class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    for (let item of this._args) { yield item; }
+    for (let item of this._args) {
+      yield item;
+    }
   }
 }
 

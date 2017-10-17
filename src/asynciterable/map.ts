@@ -7,7 +7,8 @@ class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
 
   constructor(
     source: AsyncIterable<TSource>,
-    selector: (value: TSource, index: number) => Promise<TResult> | TResult) {
+    selector: (value: TSource, index: number) => Promise<TResult> | TResult
+  ) {
     super();
     this._source = source;
     this._selector = selector;
@@ -15,7 +16,7 @@ class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
 
   async *[Symbol.asyncIterator]() {
     let i = 0;
-    for await (let item of <AsyncIterable<TSource>>(this._source)) {
+    for await (let item of <AsyncIterable<TSource>>this._source) {
       let result = await this._selector(item, i++);
       yield result;
     }
@@ -23,8 +24,9 @@ class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
 }
 
 export function map<TSource, TResult>(
-    source: AsyncIterable<TSource>,
-    selector: (value: TSource, index: number) => Promise<TResult> | TResult,
-    thisArg?: any): AsyncIterableX<TResult> {
+  source: AsyncIterable<TSource>,
+  selector: (value: TSource, index: number) => Promise<TResult> | TResult,
+  thisArg?: any
+): AsyncIterableX<TResult> {
   return new MapAsyncIterable<TSource, TResult>(source, bindCallback(selector, thisArg, 2));
 }

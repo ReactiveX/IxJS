@@ -1,13 +1,20 @@
 import { AsyncIterableX } from '../asynciterable';
 import { filter } from './filter';
-import { booleanAsyncPredicate } from '../internal/predicates';
 
-export function partition<TSource>(
-    source: AsyncIterable<TSource>,
-    predicate: booleanAsyncPredicate<TSource>,
-    thisArg?: any): AsyncIterableX<TSource>[] {
-  return [
-    filter(source, predicate, thisArg),
-    filter(source, (x, i) => !predicate(x, i), thisArg)
-  ];
+export function partition<T, S extends T>(
+  source: AsyncIterable<T>,
+  predicate: (value: T, index: number) => value is S,
+  thisArg?: any
+): AsyncIterableX<S>[];
+export function partition<T>(
+  source: AsyncIterable<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>,
+  thisArg?: any
+): AsyncIterableX<T>[];
+export function partition<T>(
+  source: AsyncIterable<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>,
+  thisArg?: any
+): AsyncIterableX<T>[] {
+  return [filter(source, predicate, thisArg), filter(source, (x, i) => !predicate(x, i), thisArg)];
 }

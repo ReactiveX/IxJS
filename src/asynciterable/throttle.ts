@@ -22,6 +22,9 @@ class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function throttle<TSource>(source: AsyncIterable<TSource>, time: number): AsyncIterableX<TSource> {
+export function throttle<TSource>(
+  source: AsyncIterable<TSource>,
+  time: number
+): AsyncIterableX<TSource> {
   return new ThrottleAsyncIterable<TSource>(source, time);
 }

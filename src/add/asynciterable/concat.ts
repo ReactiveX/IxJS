@@ -8,7 +8,5 @@ export declare namespace asynciterable {
 }
 
 declare module '../../asynciterable' {
-  namespace AsyncIterableX {
-    export let concat: typeof concatStatic_;
-  }
+  namespace AsyncIterableX { export let concat: typeof concatStatic_; }
 }

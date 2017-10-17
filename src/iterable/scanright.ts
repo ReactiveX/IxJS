@@ -7,10 +7,7 @@ class ScanRightIterable<T, R> extends IterableX<R> {
   private _seed?: T | R;
   private _hasSeed: boolean;
 
-  constructor(
-      source: Iterable<T>,
-      fn: (acc: T | R, x: T, index: number) => R,
-      ...args: (T | R)[]) {
+  constructor(source: Iterable<T>, fn: (acc: T | R, x: T, index: number) => R, ...args: (T | R)[]) {
     super();
     this._source = source;
     this._fn = fn;
@@ -36,14 +33,17 @@ class ScanRightIterable<T, R> extends IterableX<R> {
 
 export function scanRight<T>(
   source: Iterable<T>,
-  accumulator: (acc: T, value: T, index: number) => T): IterableX<T>;
+  accumulator: (acc: T, value: T, index: number) => T
+): IterableX<T>;
 export function scanRight<T, R = T>(
   source: Iterable<T>,
   accumulator: (acc: R, value: T, index: number) => R,
-  seed: R): IterableX<R>;
+  seed: R
+): IterableX<R>;
 export function scanRight<T, R = T>(
-    source: Iterable<T>,
-    accumulator: (acc: T | R, value: T, index: number) => R,
-    ...args: (T | R)[]): IterableX<T | R> {
+  source: Iterable<T>,
+  accumulator: (acc: T | R, value: T, index: number) => R,
+  ...args: (T | R)[]
+): IterableX<T | R> {
   return new ScanRightIterable(source, accumulator, ...args);
 }

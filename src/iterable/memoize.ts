@@ -18,13 +18,16 @@ class MemoizeBuffer<T> extends IterableX<T> {
     let i = 0;
     try {
       while (1) {
-        let hasValue = false, current = <T>{};
+        let hasValue = false,
+          current = <T>{};
         if (i >= this._buffer.count) {
           if (!this._stopped) {
             try {
               let next = this._source.next();
               hasValue = !next.done;
-              if (hasValue) { current = next.value; }
+              if (hasValue) {
+                current = next.value;
+              }
             } catch (e) {
               this._error = e;
               this._stopped = true;
@@ -35,7 +38,9 @@ class MemoizeBuffer<T> extends IterableX<T> {
             throw this._error;
           }
 
-          if (hasValue) { this._buffer.push(current); }
+          if (hasValue) {
+            this._buffer.push(current);
+          }
         } else {
           hasValue = true;
         }
@@ -55,19 +60,27 @@ class MemoizeBuffer<T> extends IterableX<T> {
 }
 export function memoize<TSource>(
   source: Iterable<TSource>,
-  readerCount?: number): IterableX<TSource>;
+  readerCount?: number
+): IterableX<TSource>;
 export function memoize<TSource, TResult>(
   source: Iterable<TSource>,
   readerCount?: number,
-  selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TResult>;
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>
+): IterableX<TResult>;
 export function memoize<TSource, TResult = TSource>(
-    source: Iterable<TSource>,
-    readerCount: number = -1,
-    selector?: (value: Iterable<TSource>) => Iterable<TResult>): IterableX<TSource | TResult> {
+  source: Iterable<TSource>,
+  readerCount: number = -1,
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>
+): IterableX<TSource | TResult> {
   if (!selector) {
-    return readerCount === -1 ?
-    new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>()) :
-    new MemoizeBuffer<TSource>(source[Symbol.iterator](), new RefCountList<TSource>(readerCount));
+    return readerCount === -1
+      ? new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>())
+      : new MemoizeBuffer<TSource>(
+          source[Symbol.iterator](),
+          new RefCountList<TSource>(readerCount)
+        );
   }
-  return create<TSource | TResult>(() => selector!(memoize(source, readerCount))[Symbol.iterator]());
+  return create<TSource | TResult>(() =>
+    selector!(memoize(source, readerCount))[Symbol.iterator]()
+  );
 }

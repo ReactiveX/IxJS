@@ -4,9 +4,7 @@ import { take } from '../../iterable/take';
 /**
  * @ignore
  */
-export function takeProto<T>(
-    this: IterableX<T>,
-    count: number): IterableX<T> {
+export function takeProto<T>(this: IterableX<T>, count: number): IterableX<T> {
   return take(this, count);
 }
 

@@ -7,7 +7,8 @@ import { except } from '../../asynciterable/except';
 export function exceptProto<TSource>(
   this: AsyncIterableX<TSource>,
   second: AsyncIterable<TSource>,
-  comparer?: (x: TSource, y: TSource) => boolean | Promise<boolean>): AsyncIterableX<TSource> {
+  comparer?: (x: TSource, y: TSource) => boolean | Promise<boolean>
+): AsyncIterableX<TSource> {
   return except(this, second, comparer);
 }
 

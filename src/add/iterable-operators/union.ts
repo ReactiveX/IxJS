@@ -5,9 +5,10 @@ import { union } from '../../iterable/union';
  * @ignore
  */
 export function unionProto<T>(
-    this: IterableX<T>,
-    right: Iterable<T>,
-    comparer?: (x: T, y: T) => boolean): IterableX<T> {
+  this: IterableX<T>,
+  right: Iterable<T>,
+  comparer?: (x: T, y: T) => boolean
+): IterableX<T> {
   return union(this, right, comparer);
 }
 

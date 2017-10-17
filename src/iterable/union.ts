@@ -7,7 +7,11 @@ class UnionIterable<TSource> extends IterableX<TSource> {
   private _right: Iterable<TSource>;
   private _comparer: (x: TSource, y: TSource) => boolean;
 
-  constructor(left: Iterable<TSource>, right: Iterable<TSource>, comparer: (x: TSource, y: TSource) => boolean) {
+  constructor(
+    left: Iterable<TSource>,
+    right: Iterable<TSource>,
+    comparer: (x: TSource, y: TSource) => boolean
+  ) {
     super();
     this._left = left;
     this._right = right;
@@ -33,8 +37,9 @@ class UnionIterable<TSource> extends IterableX<TSource> {
 }
 
 export function union<TSource>(
-    left: Iterable<TSource>,
-    right: Iterable<TSource>,
-    comparer: (x: TSource, y: TSource) => boolean = defaultComparer): IterableX<TSource> {
+  left: Iterable<TSource>,
+  right: Iterable<TSource>,
+  comparer: (x: TSource, y: TSource) => boolean = defaultComparer
+): IterableX<TSource> {
   return new UnionIterable<TSource>(left, right, comparer);
 }

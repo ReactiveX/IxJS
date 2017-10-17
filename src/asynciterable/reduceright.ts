@@ -2,15 +2,18 @@ import { toArray } from './toarray';
 
 export async function reduceRight<T>(
   source: AsyncIterable<T>,
-  accumulator: (acc: T, value: T, index: number) => T | Promise<T>): Promise<T>;
+  accumulator: (acc: T, value: T, index: number) => T | Promise<T>
+): Promise<T>;
 export async function reduceRight<T, R = T>(
   source: AsyncIterable<T>,
   accumulator: (acc: R, value: T, index: number) => R | Promise<R>,
-  seed: R): Promise<R>;
+  seed: R
+): Promise<R>;
 export async function reduceRight<T, R = T>(
-    source: AsyncIterable<T>,
-    accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
-    ...args: (T | R)[]): Promise<T | R> {
+  source: AsyncIterable<T>,
+  accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
+  ...args: (T | R)[]
+): Promise<T | R> {
   let [seed] = args;
   const hasSeed = args.length === 1;
   let hasValue = false;

@@ -7,10 +7,11 @@ class GenerateIterable<TState, TResult> extends IterableX<TResult> {
   private _resultSelector: (value: TState) => TResult;
 
   constructor(
-      initialState: TState,
-      condition: (value: TState) => boolean,
-      iterate: (value: TState) => TState,
-      resultSelector: (value: TState) => TResult) {
+    initialState: TState,
+    condition: (value: TState) => boolean,
+    iterate: (value: TState) => TState,
+    resultSelector: (value: TState) => TResult
+  ) {
     super();
     this._initialState = initialState;
     this._condition = condition;
@@ -26,9 +27,10 @@ class GenerateIterable<TState, TResult> extends IterableX<TResult> {
 }
 
 export function generate<TState, TResult>(
-    initialState: TState,
-    condition: (value: TState) => boolean,
-    iterate: (value: TState) => TState,
-    resultSelector: (value: TState) => TResult): IterableX<TResult> {
+  initialState: TState,
+  condition: (value: TState) => boolean,
+  iterate: (value: TState) => TState,
+  resultSelector: (value: TState) => TResult
+): IterableX<TResult> {
   return new GenerateIterable<TState, TResult>(initialState, condition, iterate, resultSelector);
 }

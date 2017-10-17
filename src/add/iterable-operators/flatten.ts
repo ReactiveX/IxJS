@@ -4,9 +4,7 @@ import { flatten } from '../../iterable/flatten';
 /**
  * @ignore
  */
-export function flattenProto<T>(
-    this: IterableX<T>,
-    depth?: number): IterableX<T> {
+export function flattenProto<T>(this: IterableX<T>, depth?: number): IterableX<T> {
   return flatten(this, depth);
 }
 

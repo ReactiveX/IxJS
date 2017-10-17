@@ -8,7 +8,10 @@ class FromIterable<TSource, TResult = TSource> extends IterableX<TResult> {
   private _source: Iterable<TSource> | ArrayLike<TSource>;
   private _fn: (value: TSource, index: number) => TResult;
 
-  constructor(source: Iterable<TSource> | ArrayLike<TSource>, fn: (value: TSource, index: number) => TResult) {
+  constructor(
+    source: Iterable<TSource> | ArrayLike<TSource>,
+    fn: (value: TSource, index: number) => TResult
+  ) {
     super();
     this._source = source;
     this._fn = fn;
@@ -32,8 +35,9 @@ class FromIterable<TSource, TResult = TSource> extends IterableX<TResult> {
 }
 
 export function from<TSource, TResult = TSource>(
-    source: Iterable<TSource> | ArrayLike<TSource>,
-    fn: (value: TSource, index: number) => TResult = identity,
-    thisArg?: any): IterableX<TResult> {
+  source: Iterable<TSource> | ArrayLike<TSource>,
+  fn: (value: TSource, index: number) => TResult = identity,
+  thisArg?: any
+): IterableX<TResult> {
   return new FromIterable<TSource, TResult>(source, bindCallback(fn, thisArg, 2));
 }

@@ -19,14 +19,19 @@ class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSource> {
           break;
         }
 
-        if (next.done) { break; }
+        if (next.done) {
+          break;
+        }
         yield next.value;
       }
     }
   }
 }
 
-export function onErrorResumeNext<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
+export function onErrorResumeNext<T>(
+  source: AsyncIterable<T>,
+  ...args: AsyncIterable<T>[]
+): AsyncIterableX<T> {
   return new OnErrorResumeNextAsyncIterable<T>([source, ...args]);
 }
 

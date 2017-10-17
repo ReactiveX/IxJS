@@ -5,8 +5,9 @@
  * @param {function(value: T): boolean} [predicate] A function to test each element for a condition.
  */
 export function count<T>(
-    source: Iterable<T>,
-    predicate: (value: T) => boolean = () => true): number {
+  source: Iterable<T>,
+  predicate: (value: T) => boolean = () => true
+): number {
   let i = 0;
 
   for (let item of source) {

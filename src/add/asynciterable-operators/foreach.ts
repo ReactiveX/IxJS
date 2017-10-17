@@ -6,7 +6,8 @@ import { forEach } from '../../asynciterable/foreach';
  */
 export function forEachproto<T>(
   this: AsyncIterableX<T>,
-  action: (value: T, index: number) => void | Promise<void>): Promise<void> {
+  action: (value: T, index: number) => void | Promise<void>
+): Promise<void> {
   return forEach(this, action);
 }
 

@@ -5,9 +5,10 @@ import { findIndex } from '../../asynciterable/findindex';
  * @ignore
  */
 export function findIndexProto<T>(
-    this: AsyncIterableX<T>,
-    predicate: (value: T, index: number) => boolean | Promise<boolean>,
-    thisArg?: any): Promise<number> {
+  this: AsyncIterableX<T>,
+  predicate: (value: T, index: number) => boolean | Promise<boolean>,
+  thisArg?: any
+): Promise<number> {
   return findIndex(this, predicate, thisArg);
 }
 

@@ -8,7 +8,5 @@ export declare namespace asynciterable {
 }
 
 declare module '../../asynciterable' {
-  namespace AsyncIterableX {
-    export let onErrorResumeNext: typeof _onErrorResumeNextStatic;
-  }
+  namespace AsyncIterableX { export let onErrorResumeNext: typeof _onErrorResumeNextStatic; }
 }
