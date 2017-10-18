@@ -1,3 +1,4 @@
+import { AsyncIterableX } from '../asynciterable';
 import { fromEventPattern } from './fromeventpattern';
 
 export type NodeEventEmitter = {
@@ -31,7 +32,7 @@ export function fromEvent<TSource>(
   obj: EventedTarget,
   type: string,
   options?: EventListenerOptions
-) {
+): AsyncIterableX<TSource> {
   if (isEventTarget(obj)) {
     const target = <EventTarget>obj;
     return fromEventPattern<TSource>(

@@ -7,6 +7,8 @@ import { GroupedAsyncIterable } from './groupby';
 import { OrderedAsyncIterableX } from './orderby';
 import { OrderedAsyncIterableBaseX } from './orderby';
 
+import { asyncify } from './asyncify';
+import { asyncifyErrback } from './asyncifyerrback';
 import { average } from './average';
 import { buffer } from './buffer';
 import { _case } from './case';
@@ -122,6 +124,8 @@ export type OrderedAsyncIterableX<TKey, TSource> = OrderedAsyncIterableX<TKey, T
 export type OrderedAsyncIterableBaseX<TSource> = OrderedAsyncIterableBaseX<TSource>;
 
 export default {
+  asyncify,
+  asyncifyErrback,
   average,
   buffer,
   _case,

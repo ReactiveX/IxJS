@@ -1,10 +1,11 @@
+import { AsyncIterableX } from '../asynciterable';
 import { AsyncSink } from '../asyncsink';
 import { memoize } from './memoize';
 
 export function fromEventPattern<TSource>(
   addHandler: (handler: (...args: any[]) => void) => void,
   removeHandler: (handler: (...args: any[]) => void) => void
-): AsyncIterable<TSource> {
+): AsyncIterableX<TSource> {
   const sink = new AsyncSink<TSource>();
   const handler = (e: TSource) => sink.write(e);
 
