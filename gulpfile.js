@@ -150,15 +150,12 @@ const bundleTask = ((cache) => memoizeTask(cache, function bundle(target, format
   ).publish(new ReplaySubject()).refCount();
 }))({});
 
-const tapePath = require.resolve(`tape/bin/tape`);
-const tsNodePath = require.resolve(`ts-node/dist/bin`);
-const tapDiffPath = require.resolve(`tap-difflet/bin/tap-difflet`);
 const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function tests(target, format, extraArgv = []) {
   const opts = { ...testOptions };
   const args = [...execArgv, ...extraArgv];
   opts.env = { ...opts.env, IX_TARGET: target, IX_MODULE: format };
-  return   spawnDetached(tapDiffPath, [`-p`], {
-    stdin: spawnDetached(tsNodePath, [...args, `spec/index.ts`], opts)
+  return   spawnRx(`tap-difflet`, [`-p`], {
+    stdin: spawnRx(`ts-node`, [...args, path.join(`.`, `spec`, `index.ts`)], opts)
   })
   .filter((x) => x && x.trim())
   .map((x) => x.replace(`\n`, ``))
@@ -217,16 +214,15 @@ const copyIxTargets = ((cache) => memoizeTask(cache, function copyIx(target, for
   ).publish(new ReplaySubject()).refCount();
 }))({});
 
-const compileTsickle = ((cache, tsicklePath) => memoizeTask(cache, function tsickle(target, format) {
-  return spawnRx(tsicklePath,
+const compileTsickle = ((cache) => memoizeTask(cache, function tsickle(target, format) {
+  return spawnRx(`tsickle`,
     [
-      `--typed`, `--externs`,
-        `${_dir(target, format)}/Ix.externs.js`,
-      `--`, `-p`, `tsconfig/${_tsconfig(target, format)}`
+      `--typed`, `--externs`, path.join(`.`, _dir(target, format), `Ix.externs.js`),
+      `--`,             `-p`, path.join(`.`, `tsconfig`, _tsconfig(target, format))
     ],
     { stdio: [`ignore`, `inherit`, `inherit`] }
   ).multicast(new ReplaySubject()).refCount();
-}))({}, require.resolve(`tsickle/built/src/main`));
+}))({});
 
 const compileTypescript = ((cache) => memoizeTask(cache, function typescript(target, format) {
   const out = _dir(target, format);
@@ -459,8 +455,8 @@ gulp.task(`build:ix`,
   )
 );
 
-function gulpConcurrent(tasks) {
-  return () => Observable.bindCallback((tasks, cb) => gulp.parallel(tasks)(cb))(tasks);
+function gulpConcurrent(tasks, concurrency = 'parallel') {
+  return () => Observable.bindCallback((tasks, cb) => gulp[concurrency](tasks)(cb))(tasks);
 }
 
 const buildConcurrent = (tasks) => () =>
@@ -470,7 +466,9 @@ const buildConcurrent = (tasks) => () =>
           .merge(...knownTargets.map((target) =>
             del(`${_dir(UMDSourceTargets[target], `cls`)}/**`)))));
 
-gulp.task( `test`, gulpConcurrent(getTasks(`test`)));
+const testConcurrency = process.env.IS_APPVEYOR_CI ? 'series' : 'parallel';
+
+gulp.task( `test`, gulpConcurrent(getTasks(`test`), testConcurrency));
 gulp.task(`build`,buildConcurrent(getTasks(`build`)));
 gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
 gulp.task(`debug`, gulpConcurrent(getTasks(`debug`)));
