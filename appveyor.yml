@@ -6,6 +6,7 @@ environment:
 install:
   - ps: Install-Product node $env:nodejs_version
   - set PATH=%APPDATA%\npm;%PATH%
+  - set IS_APPVEYOR_CI=true
   - node -v && npm i -g npm@4 && npm -v
   - npm install
 

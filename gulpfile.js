@@ -455,8 +455,8 @@ gulp.task(`build:ix`,
   )
 );
 
-function gulpConcurrent(tasks) {
-  return () => Observable.bindCallback((tasks, cb) => gulp.parallel(tasks)(cb))(tasks);
+function gulpConcurrent(tasks, concurrency = 'parallel') {
+  return () => Observable.bindCallback((tasks, cb) => gulp[concurrency](tasks)(cb))(tasks);
 }
 
 const buildConcurrent = (tasks) => () =>
@@ -466,7 +466,9 @@ const buildConcurrent = (tasks) => () =>
           .merge(...knownTargets.map((target) =>
             del(`${_dir(UMDSourceTargets[target], `cls`)}/**`)))));
 
-gulp.task( `test`, gulpConcurrent(getTasks(`test`)));
+const testConcurrency = process.env.IS_APPVEYOR_CI ? 'series' : 'parallel';
+
+gulp.task( `test`, gulpConcurrent(getTasks(`test`), testConcurrency));
 gulp.task(`build`,buildConcurrent(getTasks(`build`)));
 gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
 gulp.task(`debug`, gulpConcurrent(getTasks(`debug`)));
