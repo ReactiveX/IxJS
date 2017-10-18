@@ -45,8 +45,8 @@
     "tslib": "^1.7.1"
   },
   "devDependencies": {
-    "@types/node": "8.0.42",
     "@std/esm": "0.11.3",
+    "@types/node": "8.0.42",
     "@types/tape": "4.2.30",
     "chalk": "2.1.0",
     "command-line-args": "4.0.7",
@@ -72,6 +72,7 @@
     "merge2": "1.2.0",
     "mkdirp": "0.5.1",
     "npm-run-all": "4.1.1",
+    "pre-git": "3.15.3",
     "prettier": "1.7.4",
     "pump": "1.0.2",
     "rimraf": "2.6.2",
@@ -94,10 +95,20 @@
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
+    },
+    "pre-git": {
+      "pre-commit": [
+        "npx lint-staged"
+      ],
+      "pre-push": [],
+      "post-commit": [],
+      "post-checkout": [],
+      "post-merge": []
     }
   },
   "lint-staged": {
     "*.@(ts)": [
+      "prettier --config .prettierrc --write",
       "tslint --fix",
       "git add"
     ]
@@ -117,5 +128,8 @@
     "ignore": [
       "tsickle"
     ]
+  },
+  "release": {
+    "analyzeCommits": "simple-commit-message"
   }
 }
