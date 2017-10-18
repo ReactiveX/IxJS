@@ -12,6 +12,7 @@ export function asyncifyErrback<TSource>(
     const handler = function(err: any, ...innerArgs: any[]) {
       if (err) {
         sink.error(err);
+        sink.end();
       } else {
         sink.write(innerArgs.length === 1 ? innerArgs[0] : innerArgs);
         sink.end();
@@ -22,6 +23,7 @@ export function asyncifyErrback<TSource>(
       func(...args.concat(handler));
     } catch (e) {
       sink.error(e);
+      sink.end();
     }
 
     return memoize(
@@ -29,8 +31,6 @@ export function asyncifyErrback<TSource>(
         for (let next; !(next = await sink.next()).done; ) {
           yield next.value;
         }
-
-        sink.end();
       })()
     );
   };

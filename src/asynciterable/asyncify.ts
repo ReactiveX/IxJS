@@ -18,6 +18,7 @@ export function asyncify<TSource>(
       func(...args.concat(handler));
     } catch (e) {
       sink.error(e);
+      sink.end();
     }
 
     return memoize(
@@ -25,8 +26,6 @@ export function asyncify<TSource>(
         for (let next; !(next = await sink.next()).done; ) {
           yield next.value;
         }
-
-        sink.end();
       })()
     );
   };
