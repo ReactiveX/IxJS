@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterable';
 import { sleep } from './_sleep';
 
-class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _dueTime: number;
 
