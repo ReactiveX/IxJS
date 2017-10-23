@@ -78,7 +78,7 @@
     "rimraf": "2.6.2",
     "rxjs": "5.5.0",
     "shx": "0.2.2",
-    "source-map-loader": "0.2.2",
+    "source-map-loader": "0.2.3",
     "spawn-rx": "2.0.12",
     "tap-difflet": "0.7.0",
     "tape-async": "2.3.0",
