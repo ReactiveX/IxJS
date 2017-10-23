@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterable';
 import { forEach } from './foreach';
 
-class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _time: number;
 
