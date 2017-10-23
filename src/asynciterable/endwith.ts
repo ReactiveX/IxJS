@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class EndWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class EndWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _args: TSource[];
 
