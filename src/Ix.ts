@@ -128,6 +128,8 @@ import './add/iterable-operators/union';
 import './add/iterable-operators/zip';
 
 // async iterable statics
+import './add/asynciterable/asyncify';
+import './add/asynciterable/asyncifyerrback';
 import './add/asynciterable/case';
 import './add/asynciterable/catch';
 import './add/asynciterable/concat';

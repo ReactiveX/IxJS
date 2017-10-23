@@ -2,11 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { of } = Ix.asynciterable;
 const { race } = Ix.asynciterable;
-import { hasNext, noNext } from '../asynciterablehelpers';
-
-function delayValue<T>(value: T, time: number) {
-  return new Promise<T>(resolve => setTimeout(() => resolve(value), time));
-}
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
 async function* delayedValues<T>(time: number, value: T, ...values: T[]): AsyncIterable<T> {
   yield await delayValue<T>(value, time);
