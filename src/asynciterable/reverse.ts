@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
 
   constructor(source: AsyncIterable<TSource>) {
