@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
 
   constructor(source: AsyncIterable<TSource>) {
