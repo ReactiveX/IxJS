@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterable';
 import { toArray } from './toarray';
 
-class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
+export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
   private _source: AsyncIterable<T>;
   private _fn: (acc: T | R, x: T, index: number) => R | Promise<R>;
   private _seed?: T | R;
