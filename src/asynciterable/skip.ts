@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _count: number;
 
