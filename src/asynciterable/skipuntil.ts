@@ -1,10 +1,10 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _other: Promise<any>;
+  private _other: () => Promise<any>;
 
-  constructor(source: AsyncIterable<TSource>, other: Promise<any>) {
+  constructor(source: AsyncIterable<TSource>, other: () => Promise<any>) {
     super();
     this._source = source;
     this._other = other;
@@ -12,7 +12,7 @@ class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     let otherDone = false;
-    this._other.then(() => (otherDone = true));
+    this._other().then(() => (otherDone = true));
     for await (let item of this._source) {
       if (otherDone) {
         yield item;
@@ -23,7 +23,7 @@ class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function skipUntil<TSource>(
   source: AsyncIterable<TSource>,
-  other: Promise<any>
+  other: () => Promise<any>
 ): AsyncIterableX<TSource> {
   return new SkipUntilAsyncIterable<TSource>(source, other);
 }
