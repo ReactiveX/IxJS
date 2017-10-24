@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _begin: number;
   private _end: number;
