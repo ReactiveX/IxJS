@@ -17,7 +17,7 @@ interface TimeoutOperation<T> {
   value?: IteratorResult<T>;
 }
 
-class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _dueTime: number;
 
