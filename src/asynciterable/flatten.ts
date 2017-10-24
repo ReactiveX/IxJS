@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterable';
 import { isAsyncIterable } from '../internal/isiterable';
 
-class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _depth: number;
 
