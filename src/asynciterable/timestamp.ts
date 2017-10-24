@@ -5,7 +5,7 @@ export interface Timestamp<TSource> {
   value: TSource;
 }
 
-class TimestampAsyncIterable<TSource> extends AsyncIterableX<Timestamp<TSource>> {
+export class TimestampAsyncIterable<TSource> extends AsyncIterableX<Timestamp<TSource>> {
   private _source: AsyncIterable<TSource>;
 
   constructor(source: AsyncIterable<TSource>) {
