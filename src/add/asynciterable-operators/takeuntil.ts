@@ -6,7 +6,7 @@ import { takeUntil } from '../../asynciterable/takeuntil';
  */
 export function takeUntilProto<TSource>(
   this: AsyncIterableX<TSource>,
-  other: Promise<any>
+  other: () => Promise<any>
 ): AsyncIterableX<TSource> {
   return takeUntil(this, other);
 }

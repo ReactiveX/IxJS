@@ -4,12 +4,12 @@ const { takeUntil } = Ix.asynciterable;
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
 test('AsyncIterable#takeUntil hits', async t => {
-  const xs = async function* () {
+  const xs = async function*() {
     yield await delayValue(1, 100);
     yield await delayValue(2, 300);
     yield await delayValue(3, 1200);
   };
-  const ys = takeUntil(xs(), delayValue(42, 500));
+  const ys = takeUntil(xs(), () => delayValue(42, 500));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 1);
@@ -19,12 +19,12 @@ test('AsyncIterable#takeUntil hits', async t => {
 });
 
 test('AsyncIterable#takeUntil misses', async t => {
-  const xs = async function* () {
+  const xs = async function*() {
     yield await delayValue(1, 100);
     yield await delayValue(2, 300);
     yield await delayValue(3, 600);
   };
-  const ys = takeUntil(xs(), delayValue(42, 1200));
+  const ys = takeUntil(xs(), () => delayValue(42, 1200));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 1);
