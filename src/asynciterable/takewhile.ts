@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _predicate: (value: TSource, index: number) => boolean | Promise<boolean>;
 
