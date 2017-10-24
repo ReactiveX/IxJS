@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterable';
 import { IRefCountList, MaxRefCountList, RefCountList } from '../iterable/_refcountlist';
 import { create } from './create';
 
-class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
+export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
   private _source: AsyncIterator<T>;
   private _buffer: IRefCountList<T>;
   private _error: any;
@@ -58,6 +58,7 @@ class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
     }
   }
 }
+
 export function memoize<TSource>(
   source: AsyncIterable<TSource>,
   readerCount?: number
