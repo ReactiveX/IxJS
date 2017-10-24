@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterable';
 import { PartialAsyncObserver } from '../observer';
 
-class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _observer: PartialAsyncObserver<TSource>;
 
