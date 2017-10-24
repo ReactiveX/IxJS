@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class FinalyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class FinalyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _action: () => void | Promise<void>;
 
