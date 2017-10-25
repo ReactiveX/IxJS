@@ -2,7 +2,7 @@ import { IterableX } from '../iterable';
 import { arrayIndexOf } from '../internal/arrayindexof';
 import { comparer as defaultComparer } from '../internal/comparer';
 
-class UnionIterable<TSource> extends IterableX<TSource> {
+export class UnionIterable<TSource> extends IterableX<TSource> {
   private _left: Iterable<TSource>;
   private _right: Iterable<TSource>;
   private _comparer: (x: TSource, y: TSource) => boolean;
