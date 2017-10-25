@@ -11,7 +11,7 @@ function arrayRemove<T>(array: T[], item: T, comparer: (x: T, y: T) => boolean):
   return true;
 }
 
-class IntersectIterable<TSource> extends IterableX<TSource> {
+export class IntersectIterable<TSource> extends IterableX<TSource> {
   private _first: Iterable<TSource>;
   private _second: Iterable<TSource>;
   private _comparer: (x: TSource, y: TSource) => boolean;
