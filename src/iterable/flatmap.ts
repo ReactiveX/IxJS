@@ -1,7 +1,7 @@
 import { IterableX } from '../iterable';
 import { bindCallback } from '../internal/bindcallback';
 
-class FlatMapIterable<TSource, TResult> extends IterableX<TResult> {
+export class FlatMapIterable<TSource, TResult> extends IterableX<TResult> {
   private _source: Iterable<TSource>;
   private _fn: (value: TSource) => Iterable<TResult>;
 
