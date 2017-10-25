@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/node": "8.0.47",
     "@std/esm": "0.12.3",
-    "@types/tape": "4.2.30",
+    "@types/tape": "4.2.31",
     "chalk": "2.3.0",
     "command-line-args": "4.0.7",
     "commitizen": "2.9.6",
