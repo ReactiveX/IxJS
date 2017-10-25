@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class DefaultIfEmptyIterable<TSource> extends IterableX<TSource> {
+export class DefaultIfEmptyIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _defaultValue: TSource;
 
