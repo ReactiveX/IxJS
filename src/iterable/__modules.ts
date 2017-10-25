@@ -67,6 +67,7 @@ import { thenBy } from './orderby';
 import { thenByDescending } from './orderby';
 import { pairwise } from './pairwise';
 import { partition } from './partition';
+import { pipe } from './pipe';
 import { pluck } from './pluck';
 import { publish } from './publish';
 import { range } from './range';
@@ -170,6 +171,7 @@ export default {
   thenByDescending,
   pairwise,
   partition,
+  pipe,
   pluck,
   publish,
   range,
