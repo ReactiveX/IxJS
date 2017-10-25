@@ -1,7 +1,7 @@
 import { IterableX } from '../iterable';
 import { toArray } from './toarray';
 
-class ScanRightIterable<T, R> extends IterableX<R> {
+export class ScanRightIterable<T, R> extends IterableX<R> {
   private _source: Iterable<T>;
   private _fn: (acc: T | R, x: T, index: number) => R;
   private _seed?: T | R;
