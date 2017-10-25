@@ -2,7 +2,7 @@ import { IterableX } from '../iterable';
 import { createGrouping } from './_grouping';
 import { identity } from '../internal/identity';
 
-class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult> {
+export class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult> {
   private _outer: Iterable<TOuter>;
   private _inner: Iterable<TInner>;
   private _outerSelector: (value: TOuter) => TKey;
