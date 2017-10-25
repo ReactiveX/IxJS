@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class ScanIterable<T, R> extends IterableX<R> {
+export class ScanIterable<T, R> extends IterableX<R> {
   private _source: Iterable<T>;
   private _fn: (acc: T | R, x: T, index: number) => R;
   private _seed?: T | R;
