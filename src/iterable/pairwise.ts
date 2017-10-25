@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class PairwiseIterable<TSource> extends IterableX<TSource[]> {
+export class PairwiseIterable<TSource> extends IterableX<TSource[]> {
   private _source: Iterable<TSource>;
 
   constructor(source: Iterable<TSource>) {
