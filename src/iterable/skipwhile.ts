@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class SkipWhileIterable<TSource> extends IterableX<TSource> {
+export class SkipWhileIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _predicate: (value: TSource, index: number) => boolean;
 
