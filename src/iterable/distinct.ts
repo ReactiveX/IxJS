@@ -3,7 +3,7 @@ import { identity } from '../internal/identity';
 import { arrayIndexOf } from '../internal/arrayindexof';
 import { comparer as defaultComparer } from '../internal/comparer';
 
-class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
+export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _keySelector: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
