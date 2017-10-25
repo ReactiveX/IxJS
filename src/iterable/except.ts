@@ -2,7 +2,7 @@ import { IterableX } from '../iterable';
 import { arrayIndexOf } from '../internal/arrayindexof';
 import { comparer as defaultComparer } from '../internal/comparer';
 
-class ExceptIterable<TSource> extends IterableX<TSource> {
+export class ExceptIterable<TSource> extends IterableX<TSource> {
   private _first: Iterable<TSource>;
   private _second: Iterable<TSource>;
   private _comparer: (x: TSource, y: TSource) => boolean;
