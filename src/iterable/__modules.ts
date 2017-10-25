@@ -38,7 +38,6 @@ import { first } from './first';
 import { flatMap } from './flatmap';
 import { flatten } from './flatten';
 import { _for } from './for';
-import { forEach } from './foreach';
 import { from } from './from';
 import { generate } from './generate';
 import { groupBy } from './groupby';
@@ -142,7 +141,6 @@ export default {
   flatMap,
   flatten,
   _for,
-  forEach,
   from,
   generate,
   groupBy,
