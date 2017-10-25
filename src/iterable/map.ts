@@ -1,7 +1,7 @@
 import { IterableX } from '../iterable';
 import { bindCallback } from '../internal/bindcallback';
 
-class MapIterable<TSource, TResult> extends IterableX<TResult> {
+export class MapIterable<TSource, TResult> extends IterableX<TResult> {
   private _source: Iterable<TSource>;
   private _selector: (value: TSource, index: number) => TResult;
 
