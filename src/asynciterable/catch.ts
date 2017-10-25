@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterable';
 import { returnAsyncIterator } from '../internal/returniterator';
 
-class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<AsyncIterable<TSource>>;
 
   constructor(source: Iterable<AsyncIterable<TSource>>) {
@@ -60,7 +60,7 @@ export function _catch<T>(
   source: AsyncIterable<T>,
   ...args: AsyncIterable<T>[]
 ): AsyncIterableX<T> {
-  return _catchAll<T>([source].concat(args));
+  return _catchAll<T>([source, ...args]);
 }
 
 export function _catchStatic<T>(...source: AsyncIterable<T>[]): AsyncIterableX<T> {
