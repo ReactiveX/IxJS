@@ -1,7 +1,7 @@
 import { of } from './of';
 import { IterableX } from '../iterable';
 
-class RepeatIterable<TSource> extends IterableX<TSource> {
+export class RepeatIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _count: number;
 
