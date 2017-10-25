@@ -2,7 +2,7 @@ import { IterableX } from '../iterable';
 import { identity } from '../internal/identity';
 import { returnIterator } from '../internal/returniterator';
 
-class ZipIterable<TSource, TResult> extends IterableX<TResult> {
+export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
   private _sources: Iterable<TSource>[];
   private _fn: (values: any[]) => TResult;
 

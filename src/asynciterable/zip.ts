@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterable';
 import { identityAsync } from '../internal/identity';
 import { returnAsyncIterator } from '../internal/returniterator';
 
-class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
+export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _sources: AsyncIterable<TSource>[];
   private _fn: (values: any[]) => TResult | Promise<TResult>;
 

@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-export class ReverseIterator<TSource> extends IterableX<TSource> {
+export class ReverseIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
 
   constructor(source: Iterable<TSource>) {
@@ -18,5 +18,5 @@ export class ReverseIterator<TSource> extends IterableX<TSource> {
 }
 
 export function reverse<TSource>(source: Iterable<TSource>): IterableX<TSource> {
-  return new ReverseIterator<TSource>(source);
+  return new ReverseIterable<TSource>(source);
 }
