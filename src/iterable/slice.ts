@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class SliceIterable<TSource> extends IterableX<TSource> {
+export class SliceIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _begin: number;
   private _end: number;
