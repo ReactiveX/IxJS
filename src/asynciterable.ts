@@ -254,8 +254,8 @@ class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncItera
 }
 
 export type AsyncIterableInput<TSource> =
-  | Iterable<TSource | PromiseLike<TSource>>
   | AsyncIterable<TSource>
+  | Iterable<TSource | PromiseLike<TSource>>
   | ArrayLike<TSource>
   | PromiseLike<TSource>
   | Observable<TSource>;

@@ -19,7 +19,7 @@ test('AsyncIterable#from from promise list', async t => {
   t.end();
 });
 
-async function* getData() {
+async function* getData(): AsyncIterable<number> {
   yield 1;
   yield 2;
   yield 3;
