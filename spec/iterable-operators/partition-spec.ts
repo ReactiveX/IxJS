@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.iterable;
-const { of } = Ix.iterable;
+const { of } = Ix.Iterable;
 const { partition } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 

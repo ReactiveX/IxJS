@@ -2,7 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { count } = Ix.asynciterable;
 const { empty } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 
 test('AsyncItearble#count some', async (t: test.Test) => {
@@ -67,7 +67,9 @@ test('AsyncIterable#count predicate throws', async (t: test.Test) => {
   const xs = of(1, 2, 3, 4);
 
   try {
-    await count(xs, async () => { throw err; });
+    await count(xs, async () => {
+      throw err;
+    });
   } catch (e) {
     t.same(err, e);
   }

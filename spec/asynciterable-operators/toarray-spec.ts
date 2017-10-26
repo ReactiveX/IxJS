@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.asynciterable;
-const { from } = Ix.asynciterable;
+const { from } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.iterable;
 const { toArray } = Ix.asynciterable;
 

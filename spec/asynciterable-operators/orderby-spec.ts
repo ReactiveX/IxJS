@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { orderBy, orderByDescending, thenBy, thenByDescending } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
@@ -20,7 +20,9 @@ test('AsyncIterable#orderBy normal ordering', async t => {
 test('AsyncIterable#orderBy normal ordering with thenBy throws', async t => {
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-  const ys = thenBy(orderBy(xs, x => x), () => { throw err; });
+  const ys = thenBy(orderBy(xs, x => x), () => {
+    throw err;
+  });
 
   const it = ys[Symbol.asyncIterator]();
   try {
@@ -34,7 +36,9 @@ test('AsyncIterable#orderBy normal ordering with thenBy throws', async t => {
 test('AsyncIterable#orderBy selector throws', async t => {
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-  const ys = orderBy(xs, () => { throw err; });
+  const ys = orderBy(xs, () => {
+    throw err;
+  });
 
   const it = ys[Symbol.asyncIterator]();
   try {
@@ -61,7 +65,9 @@ test('AsyncIterable#orderByDescending normal ordering', async t => {
 test('AsyncIterable#orderByDescending normal ordering with thenByDescending throws', async t => {
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-  const ys = thenByDescending(orderByDescending(xs, x => x), () => { throw err; });
+  const ys = thenByDescending(orderByDescending(xs, x => x), () => {
+    throw err;
+  });
 
   const it = ys[Symbol.asyncIterator]();
   try {

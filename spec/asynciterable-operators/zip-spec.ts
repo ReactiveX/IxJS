@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 const { zip } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
@@ -92,7 +92,16 @@ test('AsyncIterable#zip selector throws', async t => {
   const err = new Error();
   const xs = of(1, 2, 3);
   const ys = of(4, 5, 6);
-  const res = zip(([x, y]) => { if (x > 0) { throw err; } return x * y; }, xs, ys);
+  const res = zip(
+    ([x, y]) => {
+      if (x > 0) {
+        throw err;
+      }
+      return x * y;
+    },
+    xs,
+    ys
+  );
 
   const it = res[Symbol.asyncIterator]();
   try {

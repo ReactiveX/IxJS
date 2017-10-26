@@ -2,7 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { elementAt } = Ix.asynciterable;
 const { empty } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 
 test('AsyncIterable#elementAt empty returns undefined', async (t: test.Test) => {
   const xs = empty<number>();

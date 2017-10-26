@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.asynciterable;
-const { from } = Ix.asynciterable;
+const { from } = Ix.AsyncIterable;
 const { groupBy } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
@@ -168,7 +168,12 @@ test('AsyncIterable#groupBy element selector', async t => {
 test('AsyncIterable#groupBy result selector', async t => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const xss = from<number, number>(xs);
-  const ys = groupBy(xss, async x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v: from(v) }));
+  const ys = groupBy(
+    xss,
+    async x => x % 3,
+    x => String.fromCharCode(97 + x),
+    (k, v) => ({ k, v: from(v) })
+  );
 
   const it = ys[Symbol.asyncIterator]();
 

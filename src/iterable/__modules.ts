@@ -38,7 +38,6 @@ import { first } from './first';
 import { flatMap } from './flatmap';
 import { flatten } from './flatten';
 import { _for } from './for';
-import { from } from './from';
 import { generate } from './generate';
 import { groupBy } from './groupby';
 import { groupJoin } from './groupjoin';
@@ -55,7 +54,6 @@ import { maxBy } from './maxby';
 import { memoize } from './memoize';
 import { min } from './min';
 import { minBy } from './minby';
-import { of } from './of';
 import { ofEntries } from './ofentries';
 import { ofKeys } from './ofkeys';
 import { ofValues } from './ofvalues';
@@ -141,7 +139,6 @@ export default {
   flatMap,
   flatten,
   _for,
-  from,
   generate,
   groupBy,
   groupJoin,
@@ -158,7 +155,6 @@ export default {
   memoize,
   min,
   minBy,
-  of,
   ofEntries,
   ofKeys,
   ofValues,

@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { except } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#except with default comparer', async t => {

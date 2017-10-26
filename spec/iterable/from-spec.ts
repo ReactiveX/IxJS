@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { from } = Ix.iterable;
+const { from } = Ix.Iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#from from array/iterable', t => {

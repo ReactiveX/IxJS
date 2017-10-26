@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { every } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 
 test('AsyncIterable#every not all match', async (t: test.Test) => {
@@ -39,7 +39,9 @@ test('AsyncIterable#every predicate throws', async (t: test.Test) => {
   const xs = of(1, 2, 3, 4);
 
   try {
-    await every(xs, async () => { throw err; });
+    await every(xs, async () => {
+      throw err;
+    });
   } catch (e) {
     t.same(err, e);
   }

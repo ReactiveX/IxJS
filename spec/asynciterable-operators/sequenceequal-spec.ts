@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 
@@ -153,7 +153,9 @@ test('Itearble#sequenceEqual with custom comparer should be equal', async t => {
 
 test('Itearble#sequenceEqual with custom comparer throws', async t => {
   const err = new Error();
-  const comparer = (x: number, y: number) => { throw err; };
+  const comparer = (x: number, y: number) => {
+    throw err;
+  };
   const xs = of(1, 2, -3, 4);
   const ys = of(1, -2, 3, 4);
 

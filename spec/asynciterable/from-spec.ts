@@ -1,10 +1,14 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { from } = Ix.asynciterable;
+const { from } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#from from promise list', async t => {
-  const xs: Iterable<Promise<number>> = [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];
+  const xs: Iterable<Promise<number>> = [
+    Promise.resolve(1),
+    Promise.resolve(2),
+    Promise.resolve(3)
+  ];
   const res = from(xs);
 
   const it = res[Symbol.asyncIterator]();

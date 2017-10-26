@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { takeWhile } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
@@ -51,7 +51,9 @@ test('AsyncIterable#takeWhile uses index', async t => {
 test('AsyncIterable#takeWhile predicate throws', async t => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, () => { throw err; });
+  const ys = takeWhile(xs, () => {
+    throw err;
+  });
 
   const it = ys[Symbol.asyncIterator]();
   try {

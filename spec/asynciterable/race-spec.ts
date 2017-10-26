@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { race } = Ix.asynciterable;
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 

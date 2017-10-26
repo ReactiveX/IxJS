@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { groupJoin } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { reduce } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
@@ -14,7 +14,8 @@ test('AsyncIterable#groupJoin all groups have values', async t => {
     ys,
     async x => x % 3,
     async y => y % 3,
-    async (x, i) => x + ' - ' + await reduce(i, async (s, j) => s + j, ''));
+    async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+  );
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(t, it, '0 - 639');
@@ -32,7 +33,8 @@ test('AsyncIterable#groupJoin some groups have values', async t => {
     ys,
     async x => x % 3,
     async y => y % 3,
-    async (x, i) => x + ' - ' + await reduce(i, async (s, j) => s + j, ''));
+    async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+  );
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(t, it, '0 - 36');
@@ -51,7 +53,8 @@ test('AsyncIterable#groupJoin left throws', async t => {
     ys,
     async x => x % 3,
     async y => y % 3,
-    async (x, i) => x + ' - ' + await reduce(i, async (s, j) => s + j, ''));
+    async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+  );
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -71,7 +74,8 @@ test('AsyncIterable#groupJoin right throws', async t => {
     ys,
     async x => x % 3,
     async y => y % 3,
-    async (x, i) => x + ' - ' + await reduce(i, async (s, j) => s + j, ''));
+    async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+  );
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -89,9 +93,12 @@ test('AsyncIterable#groupJoin left selector throws', async t => {
   const res = groupJoin(
     xs,
     ys,
-    async x => { throw err; },
+    async x => {
+      throw err;
+    },
     async y => y % 3,
-    async (x, i) => x + ' - ' + await reduce(i, async (s, j) => s + j, ''));
+    async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+  );
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -110,8 +117,11 @@ test('AsyncIterable#groupJoin right selector throws', async t => {
     xs,
     ys,
     async x => x % 3,
-    async y => { throw err; },
-    async (x, i) => x + ' - ' + await reduce(i, async (s, j) => s + j, ''));
+    async y => {
+      throw err;
+    },
+    async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+  );
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -131,7 +141,13 @@ test('AsyncIterable#groupJoin result selector eventually throws', async t => {
     ys,
     async x => x % 3,
     async y => y % 3,
-    async (x, i) => { if (x === 1) { throw err; } return x + ' - ' + await reduce(i, async (s, j) => s + j, ''); });
+    async (x, i) => {
+      if (x === 1) {
+        throw err;
+      }
+      return x + ' - ' + (await reduce(i, async (s, j) => s + j, ''));
+    }
+  );
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(t, it, '0 - 36');

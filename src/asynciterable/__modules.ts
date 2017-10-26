@@ -41,7 +41,6 @@ import { first } from './first';
 import { flatMap } from './flatmap';
 import { flatten } from './flatten';
 import { _for } from './for';
-import { from } from './from';
 import { fromEvent } from './fromevent';
 import { fromEventPattern } from './fromeventpattern';
 import { generate } from './generate';
@@ -63,7 +62,6 @@ import { merge } from './merge';
 import { mergeAll } from './mergeall';
 import { min } from './min';
 import { minBy } from './minby';
-import { of } from './of';
 import { ofEntries } from './ofentries';
 import { ofKeys } from './ofkeys';
 import { ofValues } from './ofvalues';
@@ -157,7 +155,6 @@ export default {
   flatMap,
   flatten,
   _for,
-  from,
   fromEvent,
   fromEventPattern,
   generate,
@@ -179,7 +176,6 @@ export default {
   mergeAll,
   min,
   minBy,
-  of,
   ofEntries,
   ofKeys,
   ofValues,

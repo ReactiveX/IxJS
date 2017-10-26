@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { single } = Ix.asynciterable;
 
 test('AsyncIterable#single no predicate empty returns undefined', async (t: test.Test) => {

@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { skipWhile } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
@@ -54,7 +54,9 @@ test('AsyncIterable#skipWhile skips some another run', async t => {
 test('AsyncIterable#skipWhile predicate throws', async t => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
-  const ys = skipWhile(xs, () => { throw err; });
+  const ys = skipWhile(xs, () => {
+    throw err;
+  });
 
   const it = ys[Symbol.asyncIterator]();
   try {

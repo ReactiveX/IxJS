@@ -2,7 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { average } = Ix.asynciterable;
 const { empty } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 
 test('Iterable#average empty', async (t: test.Test) => {
   const xs = empty<number>();

@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { toMap } = Ix.asynciterable;
 
 test('AsyncIterable#toMap stores values', async (t: test.Test) => {

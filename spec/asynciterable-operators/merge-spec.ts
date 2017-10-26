@@ -2,7 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { merge } = Ix.asynciterable;
 const { mergeAll } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 
 test('AsyncIterable#merge mergeAll behavior', async t => {

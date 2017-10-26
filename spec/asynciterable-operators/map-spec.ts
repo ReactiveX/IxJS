@@ -1,8 +1,8 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import * as test from 'tape';
 const { empty } = Ix.asynciterable;
 const { map } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 
 test('AsyncIterable#map single element', async t => {
@@ -19,7 +19,7 @@ test('AsyncIterable#map maps property', t => {
     { name: 'Bob', custId: 29099 },
     { name: 'Chris', custId: 39033 },
     { name: null, custId: 30349 },
-    { name: 'Frank', custId: 39030 },
+    { name: 'Frank', custId: 39030 }
   );
   const expected = of('Frank', 'Bob', 'Chris', null, 'Frank');
 
@@ -40,7 +40,7 @@ test('AsyncIterable#map map property using index', async t => {
   );
   const expected = of('Frank', null, null);
 
-  t.true(await sequenceEqual(expected, map(source, (x, i) => i === 0 ? x.name : null)));
+  t.true(await sequenceEqual(expected, map(source, (x, i) => (i === 0 ? x.name : null))));
   t.end();
 });
 
@@ -50,17 +50,20 @@ test('AsyncIterable#map map property using index on last', async t => {
     { name: 'Bob', custId: 29099 },
     { name: 'Chris', custId: 39033 },
     { name: 'Bill', custId: 30349 },
-    { name: 'Frank', custId: 39030 },
+    { name: 'Frank', custId: 39030 }
   );
   const expected = of(null, null, null, null, 'Frank');
 
-  t.true(await sequenceEqual(expected, map(source, (x, i) => i === 4 ? x.name : null)));
+  t.true(await sequenceEqual(expected, map(source, (x, i) => (i === 4 ? x.name : null))));
   t.end();
 });
 
 test('AsyncIterable#map execution is deferred', async t => {
   let fnCalled = false;
-  const source = of(() => { fnCalled = true; return 1; });
+  const source = of(() => {
+    fnCalled = true;
+    return 1;
+  });
 
   map(source, x => x());
 

@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.iterable;
-const { of } = Ix.iterable;
+const { of } = Ix.Iterable;
 const { reduce } = Ix.iterable;
 
 test('Iterable#reduce no seed', t => {

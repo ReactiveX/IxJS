@@ -2,7 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.asynciterable;
 const { minBy } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 
 test('AsyncIterable#minBy', async t => {

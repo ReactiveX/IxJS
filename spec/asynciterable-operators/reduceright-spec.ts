@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { reduceRight } = Ix.asynciterable;
 
 test('AsyncIterable#reduceRight no seed', async t => {

@@ -1,17 +1,11 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { pluck } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#pluck simple prop', async t => {
-  const xs = of(
-    {prop: 1},
-    {prop: 2},
-    {prop: 3},
-    {prop: 4},
-    {prop: 5}
-  );
+  const xs = of({ prop: 1 }, { prop: 2 }, { prop: 3 }, { prop: 4 }, { prop: 5 });
   const ys = pluck(xs, 'prop');
 
   const it = ys[Symbol.asyncIterator]();
@@ -26,11 +20,11 @@ test('Iterable#pluck simple prop', async t => {
 
 test('Iterable#pluck nested prop', async t => {
   const xs = of(
-    {a: {b: {c: 1}}},
-    {a: {b: {c: 2}}},
-    {a: {b: {c: 3}}},
-    {a: {b: {c: 4}}},
-    {a: {b: {c: 5}}}
+    { a: { b: { c: 1 } } },
+    { a: { b: { c: 2 } } },
+    { a: { b: { c: 3 } } },
+    { a: { b: { c: 4 } } },
+    { a: { b: { c: 5 } } }
   );
   const ys = pluck(xs, 'a', 'b', 'c');
 
@@ -46,11 +40,11 @@ test('Iterable#pluck nested prop', async t => {
 
 test('Iterable#pluck edge cases', async t => {
   const xs = of<any>(
-    {a: {b: {c: 1}}},
-    {a: {b: 2}},
-    {a: {c: {c: 3}}},
+    { a: { b: { c: 1 } } },
+    { a: { b: 2 } },
+    { a: { c: { c: 3 } } },
     {},
-    {a: {b: {c: 5}}}
+    { a: { b: { c: 5 } } }
   );
   const ys = pluck(xs, 'a', 'b', 'c');
 

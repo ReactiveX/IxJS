@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import * as test from 'tape';
 const { concat } = Ix.asynciterable;
-const { from } = Ix.asynciterable;
+const { from } = Ix.AsyncIterable;
 const { map } = Ix.asynciterable;
 const { publish } = Ix.asynciterable;
 const { range } = Ix.asynciterable;
@@ -11,7 +11,7 @@ const { take } = Ix.asynciterable;
 const { tap } = Ix.asynciterable;
 const { toArray } = Ix.asynciterable;
 const { zip } = Ix.asynciterable;
-import { hasNext , noNext  } from '../asynciterablehelpers';
+import { hasNext, noNext } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;
@@ -23,7 +23,11 @@ async function* tick(t: (x: number) => void | Promise<void>) {
 
 test('AsyncIterable#publish starts at beginning', async t => {
   let n = 0;
-  const rng = publish(tick(async i => { n += i; }));
+  const rng = publish(
+    tick(async i => {
+      n += i;
+    })
+  );
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
@@ -162,7 +166,11 @@ test('AsyncIterable#publish with selector', async t => {
   let n = 0;
   const res = await toArray(
     publish(
-      tap(range(0, 10), { next: async () => { n++; } }),
+      tap(range(0, 10), {
+        next: async () => {
+          n++;
+        }
+      }),
       xs => take(zip(async ([l, r]) => l + r, xs, xs), 4)
     )
   );

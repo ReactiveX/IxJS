@@ -2,7 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { empty } = Ix.asynciterable;
 const { filter } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
@@ -36,10 +36,14 @@ test('AsyncIterable#filter with index', async t => {
 
 test('AsyncIterable#filter with typeguard', async t => {
   const xs = of<any>(
-    new String('8'), 5,
-    new String('7'), 4,
-    new String('6'), 9,
-    new String('2'), 1,
+    new String('8'),
+    5,
+    new String('7'),
+    4,
+    new String('6'),
+    9,
+    new String('2'),
+    1,
     new String('0')
   );
   const ys = filter(xs, (x): x is string => x instanceof String);
@@ -57,7 +61,12 @@ test('AsyncIterable#filter with typeguard', async t => {
 test('AsyncIterable#filter throws part way through', async t => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const err = new Error();
-  const ys = filter(xs, async x => { if (x === 4) { throw err; } return true; });
+  const ys = filter(xs, async x => {
+    if (x === 4) {
+      throw err;
+    }
+    return true;
+  });
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 8);
@@ -74,7 +83,12 @@ test('AsyncIterable#filter throws part way through', async t => {
 test('AsyncIterable#filter with index throws part way through', async t => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const err = new Error();
-  const ys = filter(xs, async (x, i) => { if (i === 3) { throw err; } return true; });
+  const ys = filter(xs, async (x, i) => {
+    if (i === 3) {
+      throw err;
+    }
+    return true;
+  });
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 8);

@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { some } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 
@@ -35,7 +35,9 @@ test('AsyncIterable#some predicate throws', async (t: test.Test) => {
   const xs = of(1, 2, 3, 4);
 
   try {
-    await some(xs, async () => { throw err; });
+    await some(xs, async () => {
+      throw err;
+    });
   } catch (e) {
     t.same(err, e);
   }
