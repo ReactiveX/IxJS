@@ -2,9 +2,8 @@ import { OperatorAsyncFunction } from './interfaces';
 import { bindCallback } from './internal/bindcallback';
 import { identityAsync } from './internal/identity';
 import { toLength } from './internal/tolength';
-import { isIterable, isAsyncIterable } from './internal/isiterable';
+import { isArrayLike, isIterable, isAsyncIterable } from './internal/isiterable';
 import { Observable } from './observer';
-import { AsyncIterable } from './Ix';
 
 /**
  * This clas serves as the base for all operations which support [Symbol.asyncIterator].
@@ -89,14 +88,17 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     }
 
     const piped = (input: AsyncIterable<T>): AsyncIterableX<R> => {
-      return operations.reduce((prev: any, fn: OperatorAsyncFunction<T, R>) => fn(prev), input);
+      return operations.reduce(
+        (prev: any, fn: OperatorAsyncFunction<T, R>) => fn(prev),
+        input as any
+      );
     };
 
     return piped(this);
   }
 
   static from<TSource, TResult = TSource>(
-    source: AsyncIterableInput<TSource>,
+    source: AsyncIterableInput<TSource> | TSource,
     selector: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
     thisArg?: any
   ): AsyncIterableX<TResult> {
@@ -114,8 +116,11 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     if (isArrayLike(source)) {
       return new FromArrayIterable<TSource, TResult>(source, fn);
     }
+    return new FromAsyncIterable<TSource, TResult>(
+      new OfAsyncIterable<TSource>([source as TSource]),
+      fn
+    );
     /* tslint:enable */
-    throw new TypeError('Input type not supported');
   }
 
   static of<TSource>(...args: TSource[]): AsyncIterableX<TSource> {
@@ -268,10 +273,6 @@ function isPromise(x: any): x is PromiseLike<any> {
 
 function isObservable(x: any): x is Observable<any> {
   return x != null && Object(x) === x && typeof x['subscribe'] === 'function';
-}
-
-function isArrayLike(x: any): x is ArrayLike<any> {
-  return x != null && Object(x) === x && typeof x['length'] === 'number';
 }
 
 class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {

@@ -59,3 +59,23 @@ test('Iterable#from from array-like with selector', t => {
   noNext(t, it);
   t.end();
 });
+
+test('Iterable#from from non-iterable', t => {
+  const xs = {};
+  const res = from(xs);
+
+  const it = res[Symbol.iterator]();
+  hasNext(t, it, xs);
+  noNext(t, it);
+  t.end();
+});
+
+test('Iterable#from from non-iterable with selector', t => {
+  const xs = {};
+  const res = from(xs, (x, i) => [x, i]);
+
+  const it = res[Symbol.iterator]();
+  hasNext(t, it, [xs, 0]);
+  noNext(t, it);
+  t.end();
+});
