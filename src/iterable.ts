@@ -2,7 +2,7 @@ import { OperatorFunction } from './interfaces';
 import { bindCallback } from './internal/bindcallback';
 import { identity } from './internal/identity';
 import { toLength } from './internal/tolength';
-import { isIterable } from './internal/isiterable';
+import { isArrayLike, isIterable } from './internal/isiterable';
 
 /**
  * This clas serves as the base for all operations which support [Symbol.iterator].
@@ -85,19 +85,27 @@ export abstract class IterableX<T> implements Iterable<T> {
     }
 
     const piped = (input: Iterable<T>): IterableX<R> => {
-      return operations.reduce((prev: any, fn: OperatorFunction<T, R>) => fn(prev), input);
+      return operations.reduce((prev: any, fn: OperatorFunction<T, R>) => fn(prev), input as any);
     };
 
     return piped(this);
   }
 
   static from<TSource, TResult = TSource>(
-    source: Iterable<TSource> | ArrayLike<TSource>,
-    fn: (value: TSource, index: number) => TResult = identity,
+    source: Iterable<TSource> | ArrayLike<TSource> | TSource,
+    selector: (value: TSource, index: number) => TResult = identity,
     thisArg?: any
   ): IterableX<TResult> {
-    //tslint:disable-next-line
-    return new FromIterable<TSource, TResult>(source, bindCallback(fn, thisArg, 2));
+    const fn = bindCallback(selector, thisArg, 2);
+    /* tslint:disable */
+    if (isIterable(source)) {
+      return new FromIterable<TSource, TResult>(source, fn);
+    }
+    if (isArrayLike(source)) {
+      return new FromIterable<TSource, TResult>(source, fn);
+    }
+    return new FromIterable<TSource, TResult>(new OfIterable<TSource>([source as TSource]), fn);
+    /* tslint:enable */
   }
 
   static of<TSource>(...args: TSource[]): IterableX<TSource> {

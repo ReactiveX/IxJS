@@ -126,6 +126,26 @@ test('AsyncIterable#from from promise with selector', async t => {
   t.end();
 });
 
+test('AsyncIterable#from from non-iterable', async t => {
+  const xs = {};
+  const res = from(xs);
+
+  const it = res[Symbol.asyncIterator]();
+  await hasNext(t, it, xs);
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#from from array-like with selector', async t => {
+  const xs = {};
+  const res = from(xs, (x, i) => [x, i]);
+
+  const it = res[Symbol.asyncIterator]();
+  await hasNext(t, it, [xs, 0]);
+  await noNext(t, it);
+  t.end();
+});
+
 interface Observer<T> {
   next: (value: T) => void;
   error: (err: any) => void;
