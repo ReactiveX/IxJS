@@ -59,7 +59,7 @@
     "del": "3.0.0",
     "esdoc": "1.0.3",
     "esdoc-standard-plugin": "1.0.0",
-    "google-closure-compiler": "20170910.0.0",
+    "google-closure-compiler": "20171023.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-json-transform": "0.4.3",
     "gulp-rename": "1.2.2",
