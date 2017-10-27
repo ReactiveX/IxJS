@@ -101,6 +101,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     thisArg?: any
   ): AsyncIterableX<TResult> {
     const fn = bindCallback(selector, thisArg, 2);
+    /* tslint:disable */
     if (isIterable(source) || isAsyncIterable(source)) {
       return new FromAsyncIterable<TSource, TResult>(source, fn);
     }
@@ -113,11 +114,12 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     if (isArrayLike(source)) {
       return new FromArrayIterable<TSource, TResult>(source, fn);
     }
-
+    /* tslint:enable */
     throw new TypeError('Input type not supported');
   }
 
   static of<TSource>(...args: TSource[]): AsyncIterableX<TSource> {
+    //tslint:disable-next-line
     return new OfAsyncIterable<TSource>(args);
   }
 }

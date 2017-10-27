@@ -96,10 +96,12 @@ export abstract class IterableX<T> implements Iterable<T> {
     fn: (value: TSource, index: number) => TResult = identity,
     thisArg?: any
   ): IterableX<TResult> {
+    //tslint:disable-next-line
     return new FromIterable<TSource, TResult>(source, bindCallback(fn, thisArg, 2));
   }
 
   static of<TSource>(...args: TSource[]): IterableX<TSource> {
+    //tslint:disable-next-line
     return new OfIterable<TSource>(args);
   }
 }

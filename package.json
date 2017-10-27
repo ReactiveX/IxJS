@@ -13,8 +13,8 @@
     "release": "./npm-release.sh",
     "doc": "shx rm -rf ./doc && esdoc",
     "commitmsg": "validate-commit-msg",
-    "lint:src": "tslint --fix --type-check -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
-    "lint:spec": "tslint --fix --type-check -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\"",
+    "lint:src": "tslint --fix --project -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
+    "lint:spec": "tslint --fix --project -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\"",
     "prepublishOnly": "echo \"Error: do 'npm run release' instead of 'npm publish'\" && exit 1"
   },
   "author": "Matthew Podwysocki <matthewp@microsoft.com>",
