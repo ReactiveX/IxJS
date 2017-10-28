@@ -122,8 +122,6 @@ import { intersect as intersectPipe } from './pipe/intersect';
 import { map as mapPipe } from './pipe/map';
 import { maxBy as maxByPipe } from './pipe/maxby';
 import { memoize as memoizePipe } from './pipe/memoize';
-import { merge as mergePipe } from './pipe/merge';
-import { mergeAll as mergeAllPipe } from './pipe/mergeall';
 import { minBy as minByPipe } from './pipe/minby';
 import { onErrorResumeNext as onErrorResumeNextPipe } from './pipe/onerrorresumenext';
 import { pairwise as pairwisePipe } from './pipe/pairwise';
@@ -272,8 +270,6 @@ export default {
   mapPipe,
   maxByPipe,
   memoizePipe,
-  mergePipe,
-  mergeAllPipe,
   minByPipe,
   onErrorResumeNextPipe,
   pairwisePipe,
