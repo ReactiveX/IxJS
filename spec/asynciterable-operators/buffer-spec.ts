@@ -1,7 +1,7 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { buffer } = Ix.asynciterable;
-const { bufferPipe } = Ix.asynciterable;
+const { buffer: bufferPipe } = Ix.asynciterablePipe;
 const { empty } = Ix.asynciterable;
 const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.iterable;
