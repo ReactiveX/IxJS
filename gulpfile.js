@@ -271,7 +271,7 @@ const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function ug
           compress: { unsafe: true, },
           output: { comments: false, beautify: false },
           mangle: { eval: true, safari10: true, // <-- Works around a Safari 10 bug: // https://github.com/mishoo/UglifyJS2/issues/1753
-              properties: { reserved }
+            properties: { reserved: [`configurable`, `enumerable`, ...reserved] }
           }
         },
       })
