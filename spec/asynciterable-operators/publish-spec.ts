@@ -1,9 +1,9 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.publish]);
 const { concat } = Ix.asynciterable;
-const { from } = Ix.asynciterable;
+const { from } = Ix.AsyncIterable;
 const { map } = Ix.asynciterable;
-const { publish } = Ix.asynciterable;
 const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
@@ -11,7 +11,7 @@ const { take } = Ix.asynciterable;
 const { tap } = Ix.asynciterable;
 const { toArray } = Ix.asynciterable;
 const { zip } = Ix.asynciterable;
-import { hasNext , noNext  } from '../asynciterablehelpers';
+import { hasNext, noNext } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;
@@ -21,9 +21,13 @@ async function* tick(t: (x: number) => void | Promise<void>) {
   }
 }
 
-test('AsyncIterable#publish starts at beginning', async t => {
+test('AsyncIterable#publish starts at beginning', async (t, [publish]) => {
   let n = 0;
-  const rng = publish(tick(async i => { n += i; }));
+  const rng = publish(
+    tick(async i => {
+      n += i;
+    })
+  );
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
@@ -57,7 +61,7 @@ test('AsyncIterable#publish starts at beginning', async t => {
   t.end();
 });
 
-test('AsyncIterable#publish single', async t => {
+test('AsyncIterable#publish single', async (t, [publish]) => {
   const rng = publish(range(0, 5));
 
   const it = rng[Symbol.asyncIterator]();
@@ -70,7 +74,7 @@ test('AsyncIterable#publish single', async t => {
   t.end();
 });
 
-test('AsyncIterable#publish two interleaved', async t => {
+test('AsyncIterable#publish two interleaved', async (t, [publish]) => {
   const rng = publish(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -91,7 +95,7 @@ test('AsyncIterable#publish two interleaved', async t => {
   t.end();
 });
 
-test('AsyncIterable#publish sequential', async t => {
+test('AsyncIterable#publish sequential', async (t, [publish]) => {
   const rng = publish(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -113,7 +117,7 @@ test('AsyncIterable#publish sequential', async t => {
   t.end();
 });
 
-test('AsyncIterable#publish second late', async t => {
+test('AsyncIterable#publish second late', async (t, [publish]) => {
   const rng = publish(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -132,7 +136,7 @@ test('AsyncIterable#publish second late', async t => {
   t.end();
 });
 
-test('AsyncIterbale#publish shared exceptions', async t => {
+test('AsyncIterbale#publish shared exceptions', async (t, [publish]) => {
   const error = new Error();
   const rng = publish(concat(range(0, 2), _throw<number>(error)));
 
@@ -158,11 +162,15 @@ test('AsyncIterbale#publish shared exceptions', async t => {
   t.end();
 });
 
-test('AsyncIterable#publish with selector', async t => {
+test('AsyncIterable#publish with selector', async (t, [publish]) => {
   let n = 0;
   const res = await toArray(
     publish(
-      tap(range(0, 10), { next: async () => { n++; } }),
+      tap(range(0, 10), {
+        next: async () => {
+          n++;
+        }
+      }),
       xs => take(zip(async ([l, r]) => l + r, xs, xs), 4)
     )
   );

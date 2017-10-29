@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
+export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
   private _source: AsyncIterable<T>;
   private _fn: (acc: T | R, x: T, index: number) => R | Promise<R>;
   private _seed?: T | R;

@@ -1,9 +1,9 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { skipWhile } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.skipWhile]);
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#skipWhile skips some', t => {
+test('Iterable#skipWhile skips some', (t, [skipWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = skipWhile(xs, x => x < 3);
 
@@ -14,7 +14,7 @@ test('Iterable#skipWhile skips some', t => {
   t.end();
 });
 
-test('Iterable#skipWhile skips none', t => {
+test('Iterable#skipWhile skips none', (t, [skipWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = skipWhile(xs, () => false);
 
@@ -27,7 +27,7 @@ test('Iterable#skipWhile skips none', t => {
   t.end();
 });
 
-test('Iterable#skipWhile skips all', t => {
+test('Iterable#skipWhile skips all', (t, [skipWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = skipWhile(xs, () => true);
 
@@ -36,7 +36,7 @@ test('Iterable#skipWhile skips all', t => {
   t.end();
 });
 
-test('Iterable#skipWhile skips some another run', t => {
+test('Iterable#skipWhile skips some another run', (t, [skipWhile]) => {
   const xs = [1, 2, 3, 4, 3, 2, 1];
   const ys = skipWhile(xs, x => x < 3);
 
@@ -50,7 +50,7 @@ test('Iterable#skipWhile skips some another run', t => {
   t.end();
 });
 
-test('Iterable#skipWhile predicate throws', t => {
+test('Iterable#skipWhile predicate throws', (t, [skipWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = skipWhile(xs, () => { throw new Error(); });
 
@@ -59,7 +59,7 @@ test('Iterable#skipWhile predicate throws', t => {
   t.end();
 });
 
-test('Iterable#skipWhile with index', t => {
+test('Iterable#skipWhile with index', (t, [skipWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = skipWhile(xs, (x, i) => i < 2);
 

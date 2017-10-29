@@ -1,12 +1,12 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.reverse]);
 const { empty } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
-const { reverse } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#reverse empty', async t => {
+test('AsyncIterable#reverse empty', async (t, [reverse]) => {
   const xs = empty<number>();
   const ys = reverse(xs);
 
@@ -15,7 +15,7 @@ test('AsyncIterable#reverse empty', async t => {
   t.end();
 });
 
-test('AsyncIterable#revrse single element', async t => {
+test('AsyncIterable#revrse single element', async (t, [reverse]) => {
   const xs = of(42);
   const ys = reverse(xs);
 
@@ -25,7 +25,7 @@ test('AsyncIterable#revrse single element', async t => {
   t.end();
 });
 
-test('AsyncIterable#reverse multiple elements', async t => {
+test('AsyncIterable#reverse multiple elements', async (t, [reverse]) => {
   const xs = of(1, 2, 3);
   const ys = reverse(xs);
 
@@ -37,7 +37,7 @@ test('AsyncIterable#reverse multiple elements', async t => {
   t.end();
 });
 
-test('AsyncIterable#reverse throws', async t => {
+test('AsyncIterable#reverse throws', async (t, [reverse]) => {
   const xs = _throw<number>(new Error());
   const ys = reverse(xs);
 

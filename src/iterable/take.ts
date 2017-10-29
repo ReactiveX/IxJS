@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class TakeIterable<TSource> extends IterableX<TSource> {
+export class TakeIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _count: number;
 

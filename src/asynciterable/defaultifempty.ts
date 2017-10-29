@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _defaultValue: TSource;
 

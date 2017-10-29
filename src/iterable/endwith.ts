@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class EndWithIterable<TSource> extends IterableX<TSource> {
+export class EndWithIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _args: TSource[];
 

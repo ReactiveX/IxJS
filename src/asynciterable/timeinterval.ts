@@ -5,7 +5,7 @@ export interface TimeInterval<T> {
   elapsed: number;
 }
 
-class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInterval<TSource>> {
+export class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInterval<TSource>> {
   private _source: AsyncIterable<TSource>;
 
   constructor(source: AsyncIterable<TSource>) {

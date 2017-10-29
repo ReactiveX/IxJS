@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.toArray]);
 const { empty } = Ix.asynciterable;
-const { from } = Ix.asynciterable;
+const { from } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.iterable;
-const { toArray } = Ix.asynciterable;
 
-test('AsyncIterable#toArray some', async (t: test.Test) => {
+test('AsyncIterable#toArray some', async (t, [toArray]) => {
   const xs = [42, 25, 39];
   const ys = from(xs);
   const res = await toArray(ys);
@@ -13,7 +13,7 @@ test('AsyncIterable#toArray some', async (t: test.Test) => {
   t.end();
 });
 
-test('AsyncIterable#toArray empty', async (t: test.Test) => {
+test('AsyncIterable#toArray empty', async (t, [toArray]) => {
   const xs = empty<number>();
   const res = await toArray(xs);
   t.equal(res.length, 0);

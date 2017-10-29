@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterable';
 import { returnAsyncIterator } from '../internal/returniterator';
 
-class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _handler: (error: any) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
 

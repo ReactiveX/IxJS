@@ -1,5 +1,4 @@
 import { AsyncIterableX } from '../asynciterable';
-import { from } from './from';
 
 function makeTuple<TFirst, TSecond>(x: TFirst, y: TSecond): [TFirst, TSecond] {
   return [x, y];
@@ -14,7 +13,7 @@ class OfEntriesAsyncIterable<TSource> extends AsyncIterableX<[string, TSource]> 
   }
 
   [Symbol.asyncIterator]() {
-    return from(Object.keys(this._source), key => makeTuple(key, this._source[key]))[
+    return AsyncIterableX.from(Object.keys(this._source), key => makeTuple(key, this._source[key]))[
       Symbol.asyncIterator
     ]();
   }

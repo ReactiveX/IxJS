@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.tap]);
 const { range } = Ix.asynciterable;
-const { tap } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 
-test('AsyncItearble#tap next', async t => {
+test('AsyncItearble#tap next', async (t, [tap]) => {
   let n = 0;
   let source = tap(range(0, 10), {
     next: async x => {
@@ -19,7 +19,7 @@ test('AsyncItearble#tap next', async t => {
   t.end();
 });
 
-test('AsyncIterable#tap next complete', async t => {
+test('AsyncIterable#tap next complete', async (t, [tap]) => {
   let n = 0;
   let source = tap(range(0, 10), {
     next: async x => {
@@ -37,7 +37,7 @@ test('AsyncIterable#tap next complete', async t => {
   t.end();
 });
 
-test('AsyncIterable#tap with error', async t => {
+test('AsyncIterable#tap with error', async (t, [tap]) => {
   let err = new Error();
   let ok = false;
 
@@ -72,7 +72,7 @@ class MyObserver {
   }
 }
 
-test('AsyncItearble#tap with observer class', async t => {
+test('AsyncItearble#tap with observer class', async (t, [tap]) => {
   const obs = new MyObserver();
   const source = tap(range(0, 10), obs);
 

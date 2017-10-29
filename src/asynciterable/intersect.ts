@@ -15,7 +15,7 @@ async function arrayRemove<T>(
   return true;
 }
 
-class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _first: AsyncIterable<TSource>;
   private _second: AsyncIterable<TSource>;
   private _comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>;

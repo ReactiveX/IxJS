@@ -2,7 +2,7 @@ import { IterableX } from '../iterable';
 import { identity } from '../internal/identity';
 import { comparer as defaultComparer } from '../internal/comparer';
 
-class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
+export class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _keySelector: (value: TSource) => TKey;
   private _comparer: (x: TKey, y: TKey) => boolean;

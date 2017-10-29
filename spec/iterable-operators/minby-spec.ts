@@ -1,9 +1,9 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
-const { minBy } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.minBy]);
 const { sequenceEqual } = Ix.iterable;
 
-test('Iterable#minBy', t => {
+test('Iterable#minBy', (t, [minBy]) => {
   const source = [2, 5, 0, 7, 4, 3, 6, 2, 1];
 
   const res = minBy(source, x => x % 3);
@@ -11,7 +11,7 @@ test('Iterable#minBy', t => {
   t.end();
 });
 
-test('Iterable#minBy empty throws', t => {
+test('Iterable#minBy empty throws', (t, [minBy]) => {
   const source: number[] = [];
 
   try {

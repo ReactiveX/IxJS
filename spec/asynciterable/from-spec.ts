@@ -1,10 +1,14 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { from } = Ix.asynciterable;
+const { from } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#from from promise list', async t => {
-  const xs: Iterable<Promise<number>> = [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];
+  const xs: Iterable<Promise<number>> = [
+    Promise.resolve(1),
+    Promise.resolve(2),
+    Promise.resolve(3)
+  ];
   const res = from(xs);
 
   const it = res[Symbol.asyncIterator]();
@@ -15,7 +19,7 @@ test('AsyncIterable#from from promise list', async t => {
   t.end();
 });
 
-async function* getData() {
+async function* getData(): AsyncIterable<number> {
   yield 1;
   yield 2;
   yield 3;
@@ -118,6 +122,26 @@ test('AsyncIterable#from from promise with selector', async t => {
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(t, it, 42);
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#from from non-iterable', async t => {
+  const xs = {};
+  const res = from(xs);
+
+  const it = res[Symbol.asyncIterator]();
+  await hasNext(t, it, xs);
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#from from array-like with selector', async t => {
+  const xs = {};
+  const res = from(xs, (x, i) => [x, i]);
+
+  const it = res[Symbol.asyncIterator]();
+  await hasNext(t, it, [xs, 0]);
   await noNext(t, it);
   t.end();
 });

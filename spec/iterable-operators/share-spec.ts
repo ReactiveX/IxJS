@@ -1,15 +1,15 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.share]);
 const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
-const { share } = Ix.iterable;
 const { take } = Ix.iterable;
 const { tap } = Ix.iterable;
 const { toArray } = Ix.iterable;
 const { zip } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#share single', t => {
+test('Iterable#share single', (t, [share]) => {
   const rng = share(range(0, 5));
 
   const it = rng[Symbol.iterator]();
@@ -22,7 +22,7 @@ test('Iterable#share single', t => {
   t.end();
 });
 
-test('Iterable#share shared exhausts in the beginning', t => {
+test('Iterable#share shared exhausts in the beginning', (t, [share]) => {
   const rng = share(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
@@ -37,7 +37,7 @@ test('Iterable#share shared exhausts in the beginning', t => {
   t.end();
 });
 
-test('Iterable#share shared exhausts any time', t => {
+test('Iterable#share shared exhausts any time', (t, [share]) => {
   const rng = share(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
@@ -54,7 +54,7 @@ test('Iterable#share shared exhausts any time', t => {
   t.end();
 });
 
-test('Iterable#share with selector', t => {
+test('Iterable#share with selector', (t, [share]) => {
   let n = 0;
   const res = toArray(
     share(

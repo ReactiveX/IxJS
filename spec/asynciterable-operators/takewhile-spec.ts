@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
-const { takeWhile } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.takeWhile]);
+const { of } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#takeWhile some match', async t => {
+test('AsyncIterable#takeWhile some match', async (t, [takeWhile]) => {
   const xs = of(1, 2, 3, 4);
   const ys = takeWhile(xs, x => x < 3);
 
@@ -15,7 +15,7 @@ test('AsyncIterable#takeWhile some match', async t => {
   t.end();
 });
 
-test('AsyncIterable#takeWhile no match', async t => {
+test('AsyncIterable#takeWhile no match', async (t, [takeWhile]) => {
   const xs = of(1, 2, 3, 4);
   const ys = takeWhile(xs, () => false);
 
@@ -24,7 +24,7 @@ test('AsyncIterable#takeWhile no match', async t => {
   t.end();
 });
 
-test('AsyncItearble#takeWhile all match', async t => {
+test('AsyncItearble#takeWhile all match', async (t, [takeWhile]) => {
   const xs = of(1, 2, 3, 4);
   const ys = takeWhile(xs, () => true);
 
@@ -37,7 +37,7 @@ test('AsyncItearble#takeWhile all match', async t => {
   t.end();
 });
 
-test('AsyncIterable#takeWhile uses index', async t => {
+test('AsyncIterable#takeWhile uses index', async (t, [takeWhile]) => {
   const xs = of(1, 2, 3, 4);
   const ys = takeWhile(xs, (x, i) => i < 2);
 
@@ -48,10 +48,12 @@ test('AsyncIterable#takeWhile uses index', async t => {
   t.end();
 });
 
-test('AsyncIterable#takeWhile predicate throws', async t => {
+test('AsyncIterable#takeWhile predicate throws', async (t, [takeWhile]) => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, () => { throw err; });
+  const ys = takeWhile(xs, () => {
+    throw err;
+  });
 
   const it = ys[Symbol.asyncIterator]();
   try {

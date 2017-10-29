@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class FinalyIterable<TSource> extends IterableX<TSource> {
+export class FinallyIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _action: () => void;
 
@@ -29,5 +29,5 @@ export function _finally<TSource>(
   source: Iterable<TSource>,
   action: () => void
 ): IterableX<TSource> {
-  return new FinalyIterable<TSource>(source, action);
+  return new FinallyIterable<TSource>(source, action);
 }

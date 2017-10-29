@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
 

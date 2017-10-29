@@ -1,15 +1,15 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.partition]);
 const { empty } = Ix.iterable;
-const { of } = Ix.iterable;
-const { partition } = Ix.iterable;
+const { of } = Ix.Iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
 function isEven(x: number) {
   return x % 2 === 0;
 }
 
-test('Iterable#partition both empty', t => {
+test('Iterable#partition both empty', (t, [partition]) => {
   const xs = empty<number>();
   const [fst, snd] = partition(xs, isEven);
 
@@ -21,7 +21,7 @@ test('Iterable#partition both empty', t => {
   t.end();
 });
 
-test('Iterable#partition has left', t => {
+test('Iterable#partition has left', (t, [partition]) => {
   const xs = of(4);
   const [fst, snd] = partition(xs, isEven);
 
@@ -34,7 +34,7 @@ test('Iterable#partition has left', t => {
   t.end();
 });
 
-test('Iterable#partition has right', t => {
+test('Iterable#partition has right', (t, [partition]) => {
   const xs = of(3);
   const [fst, snd] = partition(xs, isEven);
 
@@ -47,7 +47,7 @@ test('Iterable#partition has right', t => {
   t.end();
 });
 
-test('Iterable#partition has both', t => {
+test('Iterable#partition has both', (t, [partition]) => {
   const xs = of(1, 2, 3, 4);
   const [fst, snd] = partition(xs, isEven);
 

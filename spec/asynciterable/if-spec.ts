@@ -2,7 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { _if } = Ix.asynciterable;
 const { isEmpty } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { single } = Ix.asynciterable;
 
 test('AsyncIterable#if then and else', async t => {

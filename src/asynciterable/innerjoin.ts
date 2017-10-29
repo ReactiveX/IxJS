@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterable';
 import { createGrouping } from './_grouping';
 import { identity } from '../internal/identity';
 
-class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TResult> {
+export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TResult> {
   private _outer: AsyncIterable<TOuter>;
   private _inner: AsyncIterable<TInner>;
   private _outerSelector: (value: TOuter) => TKey | Promise<TKey>;

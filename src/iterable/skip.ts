@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class SkipIterable<TSource> extends IterableX<TSource> {
+export class SkipIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _count: number;
 

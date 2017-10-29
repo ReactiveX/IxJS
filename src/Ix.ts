@@ -2,9 +2,11 @@ import { IterableX } from './iterable';
 import { AsyncSink } from './asyncsink';
 import { AsyncIterableX } from './asynciterable';
 import { GroupedIterable } from './iterable/groupby';
-import { OrderedIterableX } from './iterable/orderby';
 import { GroupedAsyncIterable } from './asynciterable/groupby';
-import { OrderedAsyncIterableX } from './asynciterable/orderby';
+export { OrderedIterableX as OrderedIterable } from './iterable/orderby';
+export { OrderedIterableBaseX as OrderedIterableBase } from './iterable/orderby';
+export { OrderedAsyncIterableX as OrderedAsyncIterable } from './asynciterable/orderby';
+export { OrderedAsyncIterableBaseX as OrderedAsyncIterableBase } from './asynciterable/orderby';
 
 export { AsyncSink, IterableX as Iterable, AsyncIterableX as AsyncIterable };
 
@@ -16,9 +18,7 @@ export default {
 };
 
 export type GroupedIterable<TKey, TValue> = GroupedIterable<TKey, TValue>;
-export type OrderedIterable<TKey, TSource> = OrderedIterableX<TKey, TSource>;
 export type GroupedAsyncIterable<TKey, TValue> = GroupedAsyncIterable<TKey, TValue>;
-export type OrderedAsyncIterable<TKey, TSource> = OrderedAsyncIterableX<TKey, TSource>;
 
 /* These declarations are needed for the closure/umd targets */
 export declare namespace Symbol {
@@ -47,8 +47,6 @@ import './add/iterable/create';
 import './add/iterable/defer';
 import './add/iterable/empty';
 import './add/iterable/for';
-import './add/iterable/from';
-import './add/iterable/of';
 import './add/iterable/range';
 import './add/iterable/repeat';
 import './add/iterable/throw';
@@ -79,7 +77,6 @@ import './add/iterable-operators/findindex';
 import './add/iterable-operators/first';
 import './add/iterable-operators/flatmap';
 import './add/iterable-operators/flatten';
-import './add/iterable-operators/foreach';
 import './add/iterable-operators/groupby';
 import './add/iterable-operators/groupjoin';
 import './add/iterable-operators/ignoreelements';
@@ -137,10 +134,8 @@ import './add/asynciterable/create';
 import './add/asynciterable/defer';
 import './add/asynciterable/empty';
 import './add/asynciterable/for';
-import './add/asynciterable/from';
 import './add/asynciterable/fromevent';
 import './add/asynciterable/fromeventpattern';
-import './add/asynciterable/of';
 import './add/asynciterable/race';
 import './add/asynciterable/range';
 import './add/asynciterable/repeat';
@@ -172,7 +167,6 @@ import './add/asynciterable-operators/findindex';
 import './add/asynciterable-operators/first';
 import './add/asynciterable-operators/flatmap';
 import './add/asynciterable-operators/flatten';
-import './add/asynciterable-operators/foreach';
 import './add/asynciterable-operators/groupby';
 import './add/asynciterable-operators/groupjoin';
 import './add/asynciterable-operators/ignoreelements';

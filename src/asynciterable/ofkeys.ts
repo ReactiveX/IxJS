@@ -1,5 +1,4 @@
 import { AsyncIterableX } from '../asynciterable';
-import { from } from './from';
 
 class OfKeysAsyncIterable<TSource> extends AsyncIterableX<string> {
   private _source: { [key: string]: TSource };
@@ -10,7 +9,7 @@ class OfKeysAsyncIterable<TSource> extends AsyncIterableX<string> {
   }
 
   [Symbol.asyncIterator]() {
-    return from<string, string>(Object.keys(this._source))[Symbol.asyncIterator]();
+    return AsyncIterableX.from<string, string>(Object.keys(this._source))[Symbol.asyncIterator]();
   }
 }
 

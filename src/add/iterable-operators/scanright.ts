@@ -18,7 +18,7 @@ export function scanRightProto<T, R = T>(
   accumulator: (acc: T | R, value: T, index: number) => R,
   ...args: (T | R)[]
 ): IterableX<T | R> {
-  return args.length === 3 ? scanRight(this, accumulator, args[0]) : scanRight(this, accumulator);
+  return args.length === 1 ? scanRight(this, accumulator, args[0]) : scanRight(this, accumulator);
 }
 
 IterableX.prototype.scanRight = scanRightProto;

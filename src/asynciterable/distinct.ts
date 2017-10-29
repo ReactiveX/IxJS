@@ -3,7 +3,7 @@ import { identityAsync } from '../internal/identity';
 import { arrayIndexOfAsync } from '../internal/arrayindexof';
 import { comparerAsync } from '../internal/comparer';
 
-class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
+export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>;
   private _keySelector: (value: TSource) => TKey | Promise<TKey>;
   private _comparer: (x: TKey, y: TKey) => boolean | Promise<boolean>;

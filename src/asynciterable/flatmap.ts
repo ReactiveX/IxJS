@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterable';
 import { bindCallback } from '../internal/bindcallback';
 
-class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
+export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: AsyncIterable<TSource>;
   private _selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 

@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class OnErrorResumeNextIterable<TSource> extends IterableX<TSource> {
+export class OnErrorResumeNextIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<Iterable<TSource>>;
 
   constructor(source: Iterable<Iterable<TSource>>) {

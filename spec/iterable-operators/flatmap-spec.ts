@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { flatMap } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.flatMap]);
 const { range } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#flatMap with range', t => {
+test('Iterable#flatMap with range', (t, [flatMap]) => {
   const xs = [1, 2, 3];
   const ys = flatMap(xs, x => range(0, x));
 
@@ -20,7 +20,7 @@ test('Iterable#flatMap with range', t => {
   t.end();
 });
 
-test('Iterable#flatMap selector returns throw', t => {
+test('Iterable#flatMap selector returns throw', (t, [flatMap]) => {
   const err = new Error();
   const xs = [1, 2, 3];
   const ys = flatMap(xs, x => x < 3 ? range(0, x) : _throw(err));
@@ -33,7 +33,7 @@ test('Iterable#flatMap selector returns throw', t => {
   t.end();
 });
 
-test('Iterable#flatMap with error throws', t => {
+test('Iterable#flatMap with error throws', (t, [flatMap]) => {
   const err = new Error();
   const xs = _throw<number>(err);
   const ys = flatMap(xs, x => range(0, x));
@@ -43,7 +43,7 @@ test('Iterable#flatMap with error throws', t => {
   t.end();
 });
 
-test('Iterable#flatMap selector throws error', t => {
+test('Iterable#flatMap selector throws error', (t, [flatMap]) => {
   const err = new Error();
   const xs = [1, 2, 3];
   const ys = flatMap(xs, x => {

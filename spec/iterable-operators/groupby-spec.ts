@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.groupBy]);
 const { empty } = Ix.iterable;
-const { groupBy } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#groupBy normal', t => {
+test('Iterable#groupBy normal', (t, [groupBy]) => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -52,7 +52,7 @@ test('Iterable#groupBy normal', t => {
   t.end();
 });
 
-test('Iterable#groupBy normal can get results later', t => {
+test('Iterable#groupBy normal can get results later', (t, [groupBy]) => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -105,7 +105,7 @@ test('Iterable#groupBy normal can get results later', t => {
   t.end();
 });
 
-test('Iterable#groupBy empty', t => {
+test('Iterable#groupBy empty', (t, [groupBy]) => {
   const xs = empty<number>();
   const ys = groupBy(xs, x => x);
 
@@ -114,7 +114,7 @@ test('Iterable#groupBy empty', t => {
   t.end();
 });
 
-test('Iterable#groupBy element selector', t => {
+test('Iterable#groupBy element selector', (t, [groupBy]) => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const ys = groupBy(xs, x => x % 3, x => String.fromCharCode(97 + x));
 
@@ -156,7 +156,7 @@ test('Iterable#groupBy element selector', t => {
   t.end();
 });
 
-test('Iterable#groupBy result selector', t => {
+test('Iterable#groupBy result selector', (t, [groupBy]) => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const ys = groupBy(xs, x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v }));
 

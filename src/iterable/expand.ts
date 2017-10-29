@@ -1,6 +1,6 @@
 import { IterableX } from '../iterable';
 
-class ExpandIterable<TSource> extends IterableX<TSource> {
+export class ExpandIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _fn: (value: TSource) => Iterable<TSource>;
 

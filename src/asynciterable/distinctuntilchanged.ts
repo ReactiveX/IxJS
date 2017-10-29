@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterable';
 import { identityAsync } from '../internal/identity';
 import { comparerAsync } from '../internal/comparer';
 
-class DistinctUntilChangedAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
+export class DistinctUntilChangedAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _keySelector: (value: TSource) => TKey | Promise<TKey>;
   private _comparer: (x: TKey, y: TKey) => boolean | Promise<boolean>;

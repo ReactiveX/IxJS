@@ -1,7 +1,7 @@
 import { IterableX } from '../iterable';
 import { PartialObserver } from '../observer';
 
-class TapIterable<TSource> extends IterableX<TSource> {
+export class TapIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _observer: PartialObserver<TSource>;
 

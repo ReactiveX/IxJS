@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _time: number;
 

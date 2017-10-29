@@ -1,7 +1,7 @@
 import { IterableX } from '../iterable';
 import { returnIterator } from '../internal/returniterator';
 
-class CatchWithIterable<TSource> extends IterableX<TSource> {
+export class CatchWithIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _handler: (error: any) => Iterable<TSource>;
 

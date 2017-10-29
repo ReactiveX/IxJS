@@ -1,13 +1,14 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { flatten } = Ix.iterable;
+import * as tape from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.flatten]);
 const { toArray } = Ix.iterable;
 
-function compareArrays<T>(t: test.Test, fst: Iterable<T>, snd: Iterable<T>) {
+function compareArrays<T>(t: tape.Test, fst: Iterable<T>, snd: Iterable<T>) {
   t.equal(fst.toString(), snd.toString());
 }
 
-test('Iterable#flatten flattens all', t => {
+test('Iterable#flatten flattens all', (t, [flatten]) => {
   const xs = [1, [2, [3]], 4];
   const ys = toArray(flatten(xs));
 
@@ -15,7 +16,7 @@ test('Iterable#flatten flattens all', t => {
   t.end();
 });
 
-test('Iterable#flatten flattens two layers', t => {
+test('Iterable#flatten flattens two layers', (t, [flatten]) => {
   const xs = [1, [2, [3]], 4];
   const ys = toArray(flatten(xs, 2));
 
@@ -23,7 +24,7 @@ test('Iterable#flatten flattens two layers', t => {
   t.end();
 });
 
-test('Iterable#flatten flattens one layer', t => {
+test('Iterable#flatten flattens one layer', (t, [flatten]) => {
   const xs = [1, [2, [3]], 4];
   const ys = toArray(flatten(xs, 1));
 
@@ -31,7 +32,7 @@ test('Iterable#flatten flattens one layer', t => {
   t.end();
 });
 
-test('Iterable#flatten flattens no layers', t => {
+test('Iterable#flatten flattens no layers', (t, [flatten]) => {
   const xs = [1, [2, [3]], 4];
   const ys = toArray(flatten(xs, 1));
 

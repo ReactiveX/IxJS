@@ -1,7 +1,15 @@
 import { AsyncIterableX } from '../asynciterable';
-import { forEach } from './foreach';
 
-class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+async function forEach<T>(
+  source: AsyncIterable<T>,
+  fn: (item: T) => void | Promise<void>
+): Promise<void> {
+  for await (const item of source) {
+    await fn(item);
+  }
+}
+
+export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _time: number;
 

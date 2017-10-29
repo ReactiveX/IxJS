@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterable';
 
-class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<AsyncIterable<TSource>>;
 
   constructor(source: Iterable<AsyncIterable<TSource>>) {

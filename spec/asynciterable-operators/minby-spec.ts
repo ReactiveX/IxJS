@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.minBy]);
 const { empty } = Ix.asynciterable;
-const { minBy } = Ix.asynciterable;
-const { of } = Ix.asynciterable;
+const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 
-test('AsyncIterable#minBy', async t => {
+test('AsyncIterable#minBy', async (t, [minBy]) => {
   const source = of(2, 5, 0, 7, 4, 3, 6, 2, 1);
 
   const res = minBy(source, async x => x % 3);
@@ -13,7 +13,7 @@ test('AsyncIterable#minBy', async t => {
   t.end();
 });
 
-test('AsyncIterable#minBy empty throws', async t => {
+test('AsyncIterable#minBy empty throws', async (t, [minBy]) => {
   const source = empty<number>();
 
   try {

@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { of } = Ix.asynciterable;
-const { skip } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.skip]);
+const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#skip skips some', async t => {
+test('AsyncIterable#skip skips some', async (t, [skip]) => {
   const xs = of(1, 2, 3, 4);
   const ys = skip(xs, 2);
 
@@ -16,7 +16,7 @@ test('AsyncIterable#skip skips some', async t => {
   t.end();
 });
 
-test('AsyncIterable#skip skips more than count', async t => {
+test('AsyncIterable#skip skips more than count', async (t, [skip]) => {
   const xs = of(1, 2, 3, 4);
   const ys = skip(xs, 10);
 
@@ -25,7 +25,7 @@ test('AsyncIterable#skip skips more than count', async t => {
   t.end();
 });
 
-test('AsyncIterable#skip none', async t => {
+test('AsyncIterable#skip none', async (t, [skip]) => {
   const xs = of(1, 2, 3, 4);
   const ys = skip(xs, 0);
 
@@ -38,7 +38,7 @@ test('AsyncIterable#skip none', async t => {
   t.end();
 });
 
-test('AsyncIterable#skip throws', async t => {
+test('AsyncIterable#skip throws', async (t, [skip]) => {
   const err = new Error();
   const xs = _throw<number>(err);
   const ys = skip(xs, 2);

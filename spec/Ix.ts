@@ -11,7 +11,17 @@ const targets = [`es5`, `es2015`, `esnext`];
 const formats = [`cjs`, `esm`, `cls`, `umd`];
 
 function throwInvalidImportError(name: string, value: string, values: string[]) {
-    throw new Error('Unrecognized ' + name + ' \'' + value + '\'. Please run tests with \'--' + name + ' <any of ' + values.join(', ') + '>\'');
+  throw new Error(
+    'Unrecognized ' +
+      name +
+      " '" +
+      value +
+      "'. Please run tests with '--" +
+      name +
+      ' <any of ' +
+      values.join(', ') +
+      ">'"
+  );
 }
 
 let modulePath = ``;
@@ -28,10 +38,14 @@ import { Iterable as Iterable_ } from '../src/Ix';
 import { AsyncSink as AsyncSink_ } from '../src/Ix';
 import { AsyncIterable as AsyncIterable_ } from '../src/Ix';
 import { iterable as iterable_ } from '../src/Ix.internal';
+import { iterablePipe as iterablePipe_ } from '../src/Ix.internal';
 import { asynciterable as asynciterable_ } from '../src/Ix.internal';
+import { asynciterablePipe as asynciterablePipe_ } from '../src/Ix.internal';
 
 export let Iterable: typeof Iterable_ = Ix.Iterable;
 export let AsyncSink: typeof AsyncSink_ = Ix.AsyncSink;
 export let AsyncIterable: typeof AsyncIterable_ = Ix.AsyncIterable;
 export let iterable: typeof iterable_ = IxInternal.iterable;
+export let iterablePipe: typeof iterablePipe_ = IxInternal.iterablePipe;
 export let asynciterable: typeof asynciterable_ = IxInternal.asynciterable;
+export let asynciterablePipe: typeof asynciterablePipe_ = IxInternal.asynciterablePipe;

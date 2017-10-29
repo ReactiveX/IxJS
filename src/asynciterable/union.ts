@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterable';
 import { arrayIndexOfAsync } from '../internal/arrayindexof';
 import { comparerAsync } from '../internal/comparer';
 
-class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _left: AsyncIterable<TSource>;
   private _right: AsyncIterable<TSource>;
   private _comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>;

@@ -1,7 +1,6 @@
-import { of } from './of';
 import { IterableX } from '../iterable';
 
-class RepeatIterable<TSource> extends IterableX<TSource> {
+export class RepeatIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _count: number;
 
@@ -33,5 +32,5 @@ export function repeat<TSource>(source: Iterable<TSource>, count: number = -1): 
 }
 
 export function repeatStatic<TSource>(value: TSource, count: number = -1): IterableX<TSource> {
-  return new RepeatIterable<TSource>(of(value), count);
+  return new RepeatIterable<TSource>(IterableX.of(value), count);
 }

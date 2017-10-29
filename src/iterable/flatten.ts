@@ -1,7 +1,7 @@
 import { IterableX } from '../iterable';
 import { isIterable } from '../internal/isiterable';
 
-class FlattenIterable<TSource> extends IterableX<TSource> {
+export class FlattenIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _depth: number;
 
