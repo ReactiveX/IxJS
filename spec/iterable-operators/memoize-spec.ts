@@ -1,9 +1,9 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.memoize]);
 const { concat } = Ix.iterable;
 const { every } = Ix.iterable;
 const { map } = Ix.iterable;
-const { memoize } = Ix.iterable;
 const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { take } = Ix.iterable;
@@ -21,7 +21,7 @@ function* tick(t: (x: number) => void) {
   }
 }
 
-test('Iterable#memoize memoizes effects', t => {
+test('Iterable#memoize memoizes effects', (t, [memoize]) => {
   let n = 0;
   const rng = memoize(tick(i => n += i));
 
@@ -57,7 +57,7 @@ test('Iterable#memoize memoizes effects', t => {
   t.end();
 });
 
-test('Iterable#memoize single', t => {
+test('Iterable#memoize single', (t, [memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
@@ -72,7 +72,7 @@ test('Iterable#memoize single', t => {
   t.end();
 });
 
-test('Iterable#memoize order of operations', t => {
+test('Iterable#memoize order of operations', (t, [memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
@@ -94,7 +94,7 @@ test('Iterable#memoize order of operations', t => {
   t.end();
 });
 
-test('Iterable#memoize second early', t => {
+test('Iterable#memoize second early', (t, [memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
@@ -117,7 +117,7 @@ test('Iterable#memoize second early', t => {
   t.end();
 });
 
-test('Iterable#memoize max two readers', t => {
+test('Iterable#memoize max two readers', (t, [memoize]) => {
   const rng = memoize(range(0, 5), 2);
 
   const it1 = rng[Symbol.iterator]();
@@ -136,7 +136,7 @@ test('Iterable#memoize max two readers', t => {
   t.end();
 });
 
-test('Iterable#memoize concat with error', t => {
+test('Iterable#memoize concat with error', (t, [memoize]) => {
   const error = new Error();
   const rng = memoize(concat(range(0, 2), _throw(error)));
 
@@ -164,13 +164,13 @@ function* rand() {
   }
 }
 
-test('Iterable#memoize should share effects of random', t => {
+test('Iterable#memoize should share effects of random', (t, [memoize]) => {
   const rnd = memoize(take(rand(), 100));
   t.true(every(zip(([l, r]) => l === r, rnd, rnd), x => x));
   t.end();
 });
 
-test('Iterable#memoize with selector', t => {
+test('Iterable#memoize with selector', (t, [memoize]) => {
   let n = 0;
   const res = toArray(
     memoize(
@@ -185,7 +185,7 @@ test('Iterable#memoize with selector', t => {
   t.end();
 });
 
-test('Iterable#memoize limited with selector', t => {
+test('Iterable#memoize limited with selector', (t, [memoize]) => {
   let n = 0;
   const res = toArray(
     memoize(

@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.filter]);
 const { empty } = Ix.iterable;
-const { filter } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#filter', t => {
+test('Iterable#filter', (t, [filter]) => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];
   const ys = filter(xs, x => x % 2 === 0);
 
@@ -19,7 +19,7 @@ test('Iterable#filter', t => {
   t.end();
 });
 
-test('Iterable#filter with index', t => {
+test('Iterable#filter with index', (t, [filter]) => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];
   const ys = filter(xs, (x, i) => i % 2 === 0);
 
@@ -33,7 +33,7 @@ test('Iterable#filter with index', t => {
   t.end();
 });
 
-test('Iterable#filter with typeguard', t => {
+test('Iterable#filter with typeguard', (t, [filter]) => {
   const xs = [
     new String('8'), 5,
     new String('7'), 4,
@@ -53,7 +53,7 @@ test('Iterable#filter with typeguard', t => {
   t.end();
 });
 
-test('Iterable#filter throws part way through', t => {
+test('Iterable#filter throws part way through', (t, [filter]) => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];
   const err = new Error();
   const ys = filter(xs, x => { if (x === 4) { throw err; } return true; });
@@ -66,7 +66,7 @@ test('Iterable#filter throws part way through', t => {
   t.end();
 });
 
-test('Iterable#filter with index throws part way through', t => {
+test('Iterable#filter with index throws part way through', (t, [filter]) => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];
   const err = new Error();
   const ys = filter(xs, (x, i) => { if (i === 3) { throw err; } return true; });
@@ -79,7 +79,7 @@ test('Iterable#filter with index throws part way through', t => {
   t.end();
 });
 
-test('Iterable#filter with error source', t => {
+test('Iterable#filter with error source', (t, [filter]) => {
   const xs = _throw<number>(new Error());
   const ys = filter(xs, x => x % 2 === 0);
 
@@ -88,7 +88,7 @@ test('Iterable#filter with error source', t => {
   t.end();
 });
 
-test('Iterable#filter with empty source', t => {
+test('Iterable#filter with empty source', (t, [filter]) => {
   const xs = empty<number>();
   const ys = filter(xs, x => x % 2 === 0);
 

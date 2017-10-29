@@ -1,15 +1,15 @@
 import * as Ix from '../Ix';
-import * as test  from 'tape';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.repeat]);
 const { buffer } = Ix.iterable;
 const { every } = Ix.iterable;
 const { map } = Ix.iterable;
-const { repeat } = Ix.iterable;
 const { sum } = Ix.iterable;
 const { take } = Ix.iterable;
 const { tap } = Ix.iterable;
 const { toArray } = Ix.iterable;
 
-test('Iterable#repeat infinite', t => {
+test('Iterable#repeat infinite', (t, [repeat]) => {
   let i = 0;
   const xs = repeat(tap([1,2], { next: () => ++i }));
 
@@ -20,7 +20,7 @@ test('Iterable#repeat infinite', t => {
   t.end();
 });
 
-test('Iterable#repeat finite', t => {
+test('Iterable#repeat finite', (t, [repeat]) => {
   let i = 0;
   const xs = repeat(tap([1,2], { next: () => ++i }), 5);
 

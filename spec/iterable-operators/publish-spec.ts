@@ -1,8 +1,8 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.publish]);
 const { concat } = Ix.iterable;
 const { map } = Ix.iterable;
-const { publish } = Ix.iterable;
 const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { _throw } = Ix.iterable;
@@ -20,7 +20,7 @@ function* tick(t: (x: number) => void) {
   }
 }
 
-test('Iterable#publish starts at beginning', t => {
+test('Iterable#publish starts at beginning', (t, [publish]) => {
   let n = 0;
   const rng = publish(tick(i => n += i));
 
@@ -56,7 +56,7 @@ test('Iterable#publish starts at beginning', t => {
   t.end();
 });
 
-test('Iterable#publish single', t => {
+test('Iterable#publish single', (t, [publish]) => {
   const rng = publish(range(0, 5));
 
   const it = rng[Symbol.iterator]();
@@ -69,7 +69,7 @@ test('Iterable#publish single', t => {
   t.end();
 });
 
-test('Iterable#publish two interleaved', t => {
+test('Iterable#publish two interleaved', (t, [publish]) => {
   const rng = publish(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
@@ -90,7 +90,7 @@ test('Iterable#publish two interleaved', t => {
   t.end();
 });
 
-test('Iterable#publish sequential', t => {
+test('Iterable#publish sequential', (t, [publish]) => {
   const rng = publish(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
@@ -112,7 +112,7 @@ test('Iterable#publish sequential', t => {
   t.end();
 });
 
-test('Iterable#publish second late', t => {
+test('Iterable#publish second late', (t, [publish]) => {
   const rng = publish(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
@@ -131,7 +131,7 @@ test('Iterable#publish second late', t => {
   t.end();
 });
 
-test('Iterbale#publish shared exceptions', t => {
+test('Iterbale#publish shared exceptions', (t, [publish]) => {
   const error = new Error();
   const rng = publish(concat(range(0, 2), _throw<number>(error)));
 
@@ -149,7 +149,7 @@ test('Iterbale#publish shared exceptions', t => {
   t.end();
 });
 
-test('Iterable#publish with selector', t => {
+test('Iterable#publish with selector', (t, [publish]) => {
   let n = 0;
   const res = toArray(
     publish(

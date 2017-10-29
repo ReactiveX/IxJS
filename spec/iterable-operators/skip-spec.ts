@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { skip } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.skip]);
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#skip skips some', t => {
+test('Iterable#skip skips some', (t, [skip]) => {
   const xs = [1, 2, 3, 4];
   const ys = skip(xs, 2);
 
@@ -15,7 +15,7 @@ test('Iterable#skip skips some', t => {
   t.end();
 });
 
-test('Iterable#skip skips more than count', t => {
+test('Iterable#skip skips more than count', (t, [skip]) => {
   const xs = [1, 2, 3, 4];
   const ys = skip(xs, 10);
 
@@ -24,7 +24,7 @@ test('Iterable#skip skips more than count', t => {
   t.end();
 });
 
-test('Iterable#skip none', t => {
+test('Iterable#skip none', (t, [skip]) => {
   const xs = [1, 2, 3, 4];
   const ys = skip(xs, 0);
 
@@ -37,7 +37,7 @@ test('Iterable#skip none', t => {
   t.end();
 });
 
-test('Iterable#skip throws', t => {
+test('Iterable#skip throws', (t, [skip]) => {
   const xs = _throw<number>(new Error());
   const ys = skip(xs, 2);
 

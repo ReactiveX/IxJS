@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.map]);
 const { empty } = Ix.iterable;
-const { map } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 
-test('Iterable#map single element', t => {
+test('Iterable#map single element', (t, [map]) => {
   const source = [{ name: 'Frank', custId: 98088 }];
   const expected = ['Frank'];
 
@@ -12,7 +12,7 @@ test('Iterable#map single element', t => {
   t.end();
 });
 
-test('Iterable#map maps property', t => {
+test('Iterable#map maps property', (t, [map]) => {
   const source = [
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
@@ -26,12 +26,12 @@ test('Iterable#map maps property', t => {
   t.end();
 });
 
-test('Iterable#map empty', t => {
+test('Iterable#map empty', (t, [map]) => {
   t.true(sequenceEqual(empty<number>(), map(empty<string>(), (s, i) => s.length + i)));
   t.end();
 });
 
-test('Iterable#map map property using index', t => {
+test('Iterable#map map property using index', (t, [map]) => {
   const source = [
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
@@ -43,7 +43,7 @@ test('Iterable#map map property using index', t => {
   t.end();
 });
 
-test('Iterable#map map property using index on last', t => {
+test('Iterable#map map property using index on last', (t, [map]) => {
   const source = [
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
@@ -57,7 +57,7 @@ test('Iterable#map map property using index on last', t => {
   t.end();
 });
 
-test('Iterable#map execution is deferred', t => {
+test('Iterable#map execution is deferred', (t, [map]) => {
   let fnCalled = false;
   const source = [() => { fnCalled = true; return 1; }];
 
@@ -67,7 +67,7 @@ test('Iterable#map execution is deferred', t => {
   t.end();
 });
 
-test('Iterable#map source returns expected values', t => {
+test('Iterable#map source returns expected values', (t, [map]) => {
   const source = [1, 2, 3, 4, 5];
   const fn = (i: number) => i + 1;
 

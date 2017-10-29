@@ -1,12 +1,12 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
-const { buffer } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.buffer]);
 const { empty } = Ix.iterable;
 const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { toArray } = Ix.iterable;
 
-test('Iterable#buffer no skip non-full buffer', t => {
+test('Iterable#buffer no skip non-full buffer', (t, [buffer]) => {
   const rng = range(0, 10);
 
   const res = toArray(buffer(rng, 3));
@@ -19,7 +19,7 @@ test('Iterable#buffer no skip non-full buffer', t => {
   t.end();
 });
 
-test('Iterable#buffer no skip all full', t => {
+test('Iterable#buffer no skip all full', (t, [buffer]) => {
   const rng = range(0, 10);
 
   const res = toArray(buffer(rng, 5));
@@ -30,7 +30,7 @@ test('Iterable#buffer no skip all full', t => {
   t.end();
 });
 
-test('Iterable#buffer no skip empty buffer', t => {
+test('Iterable#buffer no skip empty buffer', (t, [buffer]) => {
   const rng = empty<number>();
 
   const res = toArray(buffer(rng, 5));
@@ -38,7 +38,7 @@ test('Iterable#buffer no skip empty buffer', t => {
   t.end();
 });
 
-test('Iterable#buffer skip non-full buffer', t => {
+test('Iterable#buffer skip non-full buffer', (t, [buffer]) => {
   const rng = range(0, 10);
 
   const res = toArray(buffer(rng, 3, 2));
@@ -52,7 +52,7 @@ test('Iterable#buffer skip non-full buffer', t => {
   t.end();
 });
 
-test('Iterable#buffer skip full buffer', t => {
+test('Iterable#buffer skip full buffer', (t, [buffer]) => {
   const rng = range(0, 10);
 
   const res = toArray(buffer(rng, 3, 4));

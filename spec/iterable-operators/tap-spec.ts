@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.tap]);
 const { range } = Ix.iterable;
-const { tap } = Ix.iterable;
 const { _throw } = Ix.iterable;
 
-test('Itearble#tap next', t => {
+test('Itearble#tap next', (t, [tap]) => {
   let n = 0;
   let source = tap(range(0, 10), {
     next: function (x) {
@@ -19,7 +19,7 @@ test('Itearble#tap next', t => {
   t.end();
 });
 
-test('Iterable#tap next complete', t => {
+test('Iterable#tap next complete', (t, [tap]) => {
   let n = 0;
   let source = tap(range(0, 10), {
     next: function (x) {
@@ -37,7 +37,7 @@ test('Iterable#tap next complete', t => {
   t.end();
 });
 
-test('Iterable#tap with error', t => {
+test('Iterable#tap with error', (t, [tap]) => {
   let err = new Error();
   let ok = false;
 
@@ -70,7 +70,7 @@ class MyObserver {
   }
 }
 
-test('Itearble#tap with observer class', t => {
+test('Itearble#tap with observer class', (t, [tap]) => {
   const obs = new MyObserver();
   const source = tap(range(0, 10), obs);
 

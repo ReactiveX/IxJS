@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { take } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.take]);
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#take zero or less takes nothing', t => {
+test('Iterable#take zero or less takes nothing', (t, [take]) => {
   const xs = [1, 2, 3, 4];
   const ys = take(xs, -2);
 
@@ -13,7 +13,7 @@ test('Iterable#take zero or less takes nothing', t => {
   t.end();
 });
 
-test('Iterable#take less than count', t => {
+test('Iterable#take less than count', (t, [take]) => {
   const xs = [1, 2, 3, 4];
   const ys = take(xs, 2);
 
@@ -24,7 +24,7 @@ test('Iterable#take less than count', t => {
   t.end();
 });
 
-test('Iterable#take more than count', t => {
+test('Iterable#take more than count', (t, [take]) => {
   const xs = [1, 2, 3, 4];
   const ys = take(xs, 10);
 
@@ -37,7 +37,7 @@ test('Iterable#take more than count', t => {
   t.end();
 });
 
-test('Iterable#take throws with error', t => {
+test('Iterable#take throws with error', (t, [take]) => {
   const xs = _throw<number>(new Error());
   const ys = take(xs, 2);
 
