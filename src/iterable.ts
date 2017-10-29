@@ -160,4 +160,3 @@ declare module './iterable' {
     pipe<R>(...operations: OperatorFunction<T, R>[]): IterableX<R>;
   }
 }
-

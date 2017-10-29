@@ -234,7 +234,10 @@ declare module './asynciterable' {
   interface AsyncIterableX<T> {
     pipe(): AsyncIterableX<T>;
     pipe<A>(op1: OperatorAsyncFunction<T, A>): AsyncIterableX<A>;
-    pipe<A, B>(op1: OperatorAsyncFunction<T, A>, op2: OperatorAsyncFunction<A, B>): AsyncIterableX<B>;
+    pipe<A, B>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>
+    ): AsyncIterableX<B>;
     pipe<A, B, C>(
       op1: OperatorAsyncFunction<T, A>,
       op2: OperatorAsyncFunction<A, B>,
@@ -291,6 +294,6 @@ declare module './asynciterable' {
       op8: OperatorAsyncFunction<G, H>,
       op9: OperatorAsyncFunction<H, I>
     ): AsyncIterableX<I>;
-    pipe<R>(...operations: OperatorAsyncFunction<T, R>[]): AsyncIterableX<R>
+    pipe<R>(...operations: OperatorAsyncFunction<T, R>[]): AsyncIterableX<R>;
   }
 }
