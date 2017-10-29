@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { every } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.every]);
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 
-test('AsyncIterable#every not all match', async (t: test.Test) => {
+test('AsyncIterable#every not all match', async (t, [every]) => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await every(xs, async x => x % 2 === 0);
@@ -13,7 +13,7 @@ test('AsyncIterable#every not all match', async (t: test.Test) => {
   t.end();
 });
 
-test('AsyncIterable#every all match', async (t: test.Test) => {
+test('AsyncIterable#every all match', async (t, [every]) => {
   const xs = of(2, 4, 6, 8);
 
   const ys = await every(xs, async x => x % 2 === 0);
@@ -22,7 +22,7 @@ test('AsyncIterable#every all match', async (t: test.Test) => {
   t.end();
 });
 
-test('AsyncIterable#every throws', async (t: test.Test) => {
+test('AsyncIterable#every throws', async (t, [every]) => {
   const err = new Error();
   const xs = _throw<number>(err);
 
@@ -34,7 +34,7 @@ test('AsyncIterable#every throws', async (t: test.Test) => {
   t.end();
 });
 
-test('AsyncIterable#every predicate throws', async (t: test.Test) => {
+test('AsyncIterable#every predicate throws', async (t, [every]) => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
 

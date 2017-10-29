@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.pairwise]);
 const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
-const { pairwise } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#pairwise empty return empty', async t => {
+test('AsyncIterable#pairwise empty return empty', async (t, [pairwise]) => {
   const xs = empty<number>();
   const ys = pairwise(xs);
 
@@ -14,7 +14,7 @@ test('AsyncIterable#pairwise empty return empty', async t => {
   t.end();
 });
 
-test('AsyncIterable#pairwise single returns empty', async t => {
+test('AsyncIterable#pairwise single returns empty', async (t, [pairwise]) => {
   const xs = of(5);
   const ys = pairwise(xs);
 
@@ -23,7 +23,7 @@ test('AsyncIterable#pairwise single returns empty', async t => {
   t.end();
 });
 
-test('AsyncIterable#pairwise behavior', async t => {
+test('AsyncIterable#pairwise behavior', async (t, [pairwise]) => {
   const xs = of(5, 4, 3, 2, 1);
   const ys = pairwise(xs);
 

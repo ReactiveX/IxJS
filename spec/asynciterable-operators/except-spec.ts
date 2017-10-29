@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { except } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.except]);
 const { of } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('Iterable#except with default comparer', async t => {
+test('Iterable#except with default comparer', async (t, [except]) => {
   const xs = of(1, 2, 3);
   const ys = of(3, 5, 1, 4);
   const res = except(xs, ys);
@@ -15,7 +15,7 @@ test('Iterable#except with default comparer', async t => {
   t.end();
 });
 
-test('Iterable#except with custom comparer', async t => {
+test('Iterable#except with custom comparer', async (t, [except]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, -3);
   const ys = of(3, 5, -1, 4);

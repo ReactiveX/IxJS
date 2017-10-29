@@ -1,12 +1,12 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.filter]);
 const { empty } = Ix.asynciterable;
-const { filter } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#filter', async t => {
+test('AsyncIterable#filter', async (t, [filter]) => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const ys = filter(xs, async x => x % 2 === 0);
 
@@ -20,7 +20,7 @@ test('AsyncIterable#filter', async t => {
   t.end();
 });
 
-test('AsyncIterable#filter with index', async t => {
+test('AsyncIterable#filter with index', async (t, [filter]) => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const ys = filter(xs, async (x, i) => i % 2 === 0);
 
@@ -34,7 +34,7 @@ test('AsyncIterable#filter with index', async t => {
   t.end();
 });
 
-test('AsyncIterable#filter with typeguard', async t => {
+test('AsyncIterable#filter with typeguard', async (t, [filter]) => {
   const xs = of<any>(
     new String('8'),
     5,
@@ -58,7 +58,7 @@ test('AsyncIterable#filter with typeguard', async t => {
   t.end();
 });
 
-test('AsyncIterable#filter throws part way through', async t => {
+test('AsyncIterable#filter throws part way through', async (t, [filter]) => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const err = new Error();
   const ys = filter(xs, async x => {
@@ -80,7 +80,7 @@ test('AsyncIterable#filter throws part way through', async t => {
   t.end();
 });
 
-test('AsyncIterable#filter with index throws part way through', async t => {
+test('AsyncIterable#filter with index throws part way through', async (t, [filter]) => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const err = new Error();
   const ys = filter(xs, async (x, i) => {
@@ -102,7 +102,7 @@ test('AsyncIterable#filter with index throws part way through', async t => {
   t.end();
 });
 
-test('AsyncIterable#filter with error source', async t => {
+test('AsyncIterable#filter with error source', async (t, [filter]) => {
   const xs = _throw<number>(new Error());
   const ys = filter(xs, async x => x % 2 === 0);
 
@@ -115,7 +115,7 @@ test('AsyncIterable#filter with error source', async t => {
   t.end();
 });
 
-test('AsyncIterable#filter with empty source', async t => {
+test('AsyncIterable#filter with empty source', async (t, [filter]) => {
   const xs = empty<number>();
   const ys = filter(xs, async x => x % 2 === 0);
 

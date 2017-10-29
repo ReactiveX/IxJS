@@ -1,8 +1,8 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.groupBy]);
 const { empty } = Ix.asynciterable;
 const { from } = Ix.AsyncIterable;
-const { groupBy } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 interface Employee {
@@ -10,7 +10,7 @@ interface Employee {
   age: number;
 }
 
-test('AsyncIterable#groupBy normal', async t => {
+test('AsyncIterable#groupBy normal', async (t, [groupBy]) => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -59,7 +59,7 @@ test('AsyncIterable#groupBy normal', async t => {
   t.end();
 });
 
-test('AsyncIterable#groupBy normal can get results later', async t => {
+test('AsyncIterable#groupBy normal can get results later', async (t, [groupBy]) => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -113,7 +113,7 @@ test('AsyncIterable#groupBy normal can get results later', async t => {
   t.end();
 });
 
-test('AsyncIterable#groupBy empty', async t => {
+test('AsyncIterable#groupBy empty', async (t, [groupBy]) => {
   const xs = empty<number>();
   const ys = groupBy(xs, x => x);
 
@@ -122,7 +122,7 @@ test('AsyncIterable#groupBy empty', async t => {
   t.end();
 });
 
-test('AsyncIterable#groupBy element selector', async t => {
+test('AsyncIterable#groupBy element selector', async (t, [groupBy]) => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const xss = from<number, number>(xs);
   const ys = groupBy(xss, async x => x % 3, x => String.fromCharCode(97 + x));
@@ -165,7 +165,7 @@ test('AsyncIterable#groupBy element selector', async t => {
   t.end();
 });
 
-test('AsyncIterable#groupBy result selector', async t => {
+test('AsyncIterable#groupBy result selector', async (t, [groupBy]) => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const xss = from<number, number>(xs);
   const ys = groupBy(

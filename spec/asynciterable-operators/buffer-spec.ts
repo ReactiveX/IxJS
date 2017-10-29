@@ -1,14 +1,12 @@
 import * as Ix from '../Ix';
 import { testOperator } from '../asynciterablehelpers';
-const { buffer } = Ix.asynciterable;
+const test = testOperator([Ix.asynciterable.buffer]);
 const { empty } = Ix.asynciterable;
 const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.iterable;
 const { toArray } = Ix.asynciterable;
 
-const test = testOperator(buffer);
-
-test('AsyncIterable#buffer no skip non-full buffer', async (t, buffer) => {
+test('AsyncIterable#buffer no skip non-full buffer', async (t, [buffer]) => {
   const rng = range(0, 10);
 
   const res = await toArray(buffer(rng, 3));
@@ -21,7 +19,7 @@ test('AsyncIterable#buffer no skip non-full buffer', async (t, buffer) => {
   t.end();
 });
 
-test('AsyncIterable#buffer no skip all full', async (t, buffer) => {
+test('AsyncIterable#buffer no skip all full', async (t, [buffer]) => {
   const rng = range(0, 10);
 
   const res = await toArray(buffer(rng, 5));
@@ -32,7 +30,7 @@ test('AsyncIterable#buffer no skip all full', async (t, buffer) => {
   t.end();
 });
 
-test('AsyncIterable#buffer no skip empty buffer', async (t, buffer) => {
+test('AsyncIterable#buffer no skip empty buffer', async (t, [buffer]) => {
   const rng = empty<number>();
 
   const res = await toArray(buffer(rng, 5));
@@ -40,7 +38,7 @@ test('AsyncIterable#buffer no skip empty buffer', async (t, buffer) => {
   t.end();
 });
 
-test('AsyncIterable#buffer skip non-full buffer', async (t, buffer) => {
+test('AsyncIterable#buffer skip non-full buffer', async (t, [buffer]) => {
   const rng = range(0, 10);
 
   const res = await toArray(buffer(rng, 3, 2));
@@ -54,7 +52,7 @@ test('AsyncIterable#buffer skip non-full buffer', async (t, buffer) => {
   t.end();
 });
 
-test('AsyncIterable#buffer skip full buffer', async (t, buffer) => {
+test('AsyncIterable#buffer skip full buffer', async (t, [buffer]) => {
   const rng = range(0, 10);
 
   const res = await toArray(buffer(rng, 3, 4));

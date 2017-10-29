@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { innerJoin } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.innerJoin]);
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#innerJoin normal', async t => {
+test('AsyncIterable#innerJoin normal', async (t, [innerJoin]) => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
   const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
@@ -18,7 +18,7 @@ test('AsyncIterable#innerJoin normal', async t => {
   t.end();
 });
 
-test('AsyncIterable#innerJoin reversed', async t => {
+test('AsyncIterable#innerJoin reversed', async (t, [innerJoin]) => {
   const xs = of(3, 6, 4);
   const ys = of(0, 1, 2);
   const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
@@ -31,7 +31,7 @@ test('AsyncIterable#innerJoin reversed', async t => {
   t.end();
 });
 
-test('AsyncIterable#innerJoin only one group matches', async t => {
+test('AsyncIterable#innerJoin only one group matches', async (t, [innerJoin]) => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6);
   const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
@@ -43,7 +43,7 @@ test('AsyncIterable#innerJoin only one group matches', async t => {
   t.end();
 });
 
-test('AsyncIterable#innerJoin only one group matches reversed', async t => {
+test('AsyncIterable#innerJoin only one group matches reversed', async (t, [innerJoin]) => {
   const xs = of(3, 6);
   const ys = of(0, 1, 2);
   const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
@@ -55,7 +55,7 @@ test('AsyncIterable#innerJoin only one group matches reversed', async t => {
   t.end();
 });
 
-test('AsyncIterable#innerJoin left throws', async t => {
+test('AsyncIterable#innerJoin left throws', async (t, [innerJoin]) => {
   const xs = _throw<number>(new Error());
   const ys = of(3, 6, 4);
   const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
@@ -69,7 +69,7 @@ test('AsyncIterable#innerJoin left throws', async t => {
   t.end();
 });
 
-test('AsyncIterable#innerJoin right throws', async t => {
+test('AsyncIterable#innerJoin right throws', async (t, [innerJoin]) => {
   const xs = of(0, 1, 2);
   const ys = _throw<number>(new Error());
   const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
@@ -83,7 +83,7 @@ test('AsyncIterable#innerJoin right throws', async t => {
   t.end();
 });
 
-test('AsyncIterable#innerJoin left selector throws', async t => {
+test('AsyncIterable#innerJoin left selector throws', async (t, [innerJoin]) => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
   const res = innerJoin(
@@ -105,7 +105,7 @@ test('AsyncIterable#innerJoin left selector throws', async t => {
   t.end();
 });
 
-test('AsyncIterable#innerJoin right selector throws', async t => {
+test('AsyncIterable#innerJoin right selector throws', async (t, [innerJoin]) => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
   const res = innerJoin(
@@ -127,7 +127,7 @@ test('AsyncIterable#innerJoin right selector throws', async t => {
   t.end();
 });
 
-test('AsyncIterable#innerJoin result selector throws', async t => {
+test('AsyncIterable#innerJoin result selector throws', async (t, [innerJoin]) => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
   const res = innerJoin(

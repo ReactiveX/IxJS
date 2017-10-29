@@ -1,17 +1,17 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { merge } = Ix.asynciterable;
-const { mergeAll } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const testMerge = testOperator([Ix.asynciterable.merge]);
+const testMergeAll = testOperator([Ix.asynciterable.mergeAll]);
 const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 
-test('AsyncIterable#merge mergeAll behavior', async t => {
+testMergeAll('AsyncIterable#merge mergeAll behavior', async (t, [mergeAll]) => {
   const res = mergeAll(of(of(1, 2, 3), of(4, 5)));
   t.true(await sequenceEqual(res, of(1, 2, 3, 4, 5)));
   t.end();
 });
 
-test('AsyncIterable#merge behavior', async t => {
+testMerge('AsyncIterable#merge behavior', async (t, [merge]) => {
   const res = merge(of(1, 2, 3), of(4, 5));
   t.true(await sequenceEqual(res, of(1, 2, 3, 4, 5)));
   t.end();

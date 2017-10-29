@@ -1,16 +1,16 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.repeat]);
 const { buffer } = Ix.iterable;
 const { every } = Ix.iterable;
 const { map } = Ix.iterable;
 const { of } = Ix.AsyncIterable;
-const { repeat } = Ix.asynciterable;
 const { sum } = Ix.iterable;
 const { take } = Ix.asynciterable;
 const { tap } = Ix.asynciterable;
 const { toArray } = Ix.asynciterable;
 
-test('AsyncIterable#repeat infinite', async t => {
+test('AsyncIterable#repeat infinite', async (t, [repeat]) => {
   let i = 0;
   const xs = repeat(
     tap(of(1, 2), {
@@ -27,7 +27,7 @@ test('AsyncIterable#repeat infinite', async t => {
   t.end();
 });
 
-test('AsyncIterable#repeat finite', async t => {
+test('AsyncIterable#repeat finite', async (t, [repeat]) => {
   let i = 0;
   const xs = repeat(
     tap(of(1, 2), {

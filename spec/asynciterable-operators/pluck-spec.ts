@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.pluck]);
 const { of } = Ix.AsyncIterable;
-const { pluck } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('Iterable#pluck simple prop', async t => {
+test('Iterable#pluck simple prop', async (t, [pluck]) => {
   const xs = of({ prop: 1 }, { prop: 2 }, { prop: 3 }, { prop: 4 }, { prop: 5 });
   const ys = pluck(xs, 'prop');
 
@@ -18,7 +18,7 @@ test('Iterable#pluck simple prop', async t => {
   t.end();
 });
 
-test('Iterable#pluck nested prop', async t => {
+test('Iterable#pluck nested prop', async (t, [pluck]) => {
   const xs = of(
     { a: { b: { c: 1 } } },
     { a: { b: { c: 2 } } },
@@ -38,7 +38,7 @@ test('Iterable#pluck nested prop', async t => {
   t.end();
 });
 
-test('Iterable#pluck edge cases', async t => {
+test('Iterable#pluck edge cases', async (t, [pluck]) => {
   const xs = of<any>(
     { a: { b: { c: 1 } } },
     { a: { b: 2 } },

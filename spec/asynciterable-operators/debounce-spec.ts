@@ -1,9 +1,9 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { debounce } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.debounce]);
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
-test('AsyncIterable#debounce none drop', async t => {
+test('AsyncIterable#debounce none drop', async (t, [debounce]) => {
   const xs = async function*() {
     yield await delayValue(1, 100);
     yield await delayValue(2, 100);
@@ -19,7 +19,7 @@ test('AsyncIterable#debounce none drop', async t => {
   t.end();
 });
 
-test('AsyncIterable#debounce some drop', async t => {
+test('AsyncIterable#debounce some drop', async (t, [debounce]) => {
   const xs = async function*() {
     yield await delayValue(1, 200);
     yield await delayValue(2, 200);

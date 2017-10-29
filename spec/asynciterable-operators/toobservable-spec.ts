@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.toObservable]);
 const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
-const { toObservable } = Ix.asynciterable;
 
-test('AsyncIterable#toObservable empty', async t => {
+test('AsyncIterable#toObservable empty', async (t, [toObservable]) => {
   const xs = empty<number>();
   const ys = toObservable(xs);
   let fail = false;
@@ -24,7 +24,7 @@ test('AsyncIterable#toObservable empty', async t => {
   });
 });
 
-test('AsyncIterable#toObservable non-empty', async t => {
+test('AsyncIterable#toObservable non-empty', async (t, [toObservable]) => {
   const results: number[] = [];
   const xs = of(1, 2, 3);
   const ys = toObservable(xs);
@@ -45,7 +45,7 @@ test('AsyncIterable#toObservable non-empty', async t => {
   });
 });
 
-test('AsyncIterable#toObservable error', async t => {
+test('AsyncIterable#toObservable error', async (t, [toObservable]) => {
   const error = new Error();
   const xs = _throw<number>(error);
   const ys = toObservable(xs);

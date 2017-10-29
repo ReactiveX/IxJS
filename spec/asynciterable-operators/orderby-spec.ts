@@ -1,10 +1,13 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { hasNext, noNext, testOperator } from '../asynciterablehelpers';
 const { of } = Ix.AsyncIterable;
 const { orderBy, orderByDescending, thenBy, thenByDescending } = Ix.asynciterable;
-import { hasNext, noNext } from '../asynciterablehelpers';
+const testOrderBy = testOperator([orderBy]);
+const testOrderByDescending = testOperator([orderByDescending]);
+const testOrderByThenBy = testOperator([orderBy, thenBy] as [typeof orderBy, typeof thenBy]);
+const testOrderByDescendingThenByDescending = testOperator([orderByDescending, thenByDescending] as [typeof orderByDescending, typeof thenByDescending]);
 
-test('AsyncIterable#orderBy normal ordering', async t => {
+testOrderBy('AsyncIterable#orderBy normal ordering', async (t, [orderBy]) => {
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
   const ys = orderBy(xs, x => x);
 
@@ -17,7 +20,7 @@ test('AsyncIterable#orderBy normal ordering', async t => {
   t.end();
 });
 
-test('AsyncIterable#orderBy normal ordering with thenBy throws', async t => {
+testOrderByThenBy('AsyncIterable#orderBy normal ordering with thenBy throws', async (t, [orderBy, thenBy]) => {
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
   const ys = thenBy(orderBy(xs, x => x), () => {
@@ -33,7 +36,7 @@ test('AsyncIterable#orderBy normal ordering with thenBy throws', async t => {
   t.end();
 });
 
-test('AsyncIterable#orderBy selector throws', async t => {
+testOrderBy('AsyncIterable#orderBy selector throws', async (t, [orderBy]) => {
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
   const ys = orderBy(xs, () => {
@@ -49,7 +52,7 @@ test('AsyncIterable#orderBy selector throws', async t => {
   t.end();
 });
 
-test('AsyncIterable#orderByDescending normal ordering', async t => {
+testOrderByDescending('AsyncIterable#orderByDescending normal ordering', async (t, [orderByDescending]) => {
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
   const ys = orderByDescending(xs, x => x);
 
@@ -62,7 +65,7 @@ test('AsyncIterable#orderByDescending normal ordering', async t => {
   t.end();
 });
 
-test('AsyncIterable#orderByDescending normal ordering with thenByDescending throws', async t => {
+testOrderByDescendingThenByDescending('AsyncIterable#orderByDescending normal ordering with thenByDescending throws', async (t, [orderByDescending, thenByDescending]) => {
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
   const ys = thenByDescending(orderByDescending(xs, x => x), () => {

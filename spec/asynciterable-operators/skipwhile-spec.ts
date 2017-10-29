@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.skipWhile]);
 const { of } = Ix.AsyncIterable;
-const { skipWhile } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#skipWhile skips some', async t => {
+test('AsyncIterable#skipWhile skips some', async (t, [skipWhile]) => {
   const xs = of(1, 2, 3, 4);
   const ys = skipWhile(xs, async x => x < 3);
 
@@ -15,7 +15,7 @@ test('AsyncIterable#skipWhile skips some', async t => {
   t.end();
 });
 
-test('AsyncIterable#skipWhile skips none', async t => {
+test('AsyncIterable#skipWhile skips none', async (t, [skipWhile]) => {
   const xs = of(1, 2, 3, 4);
   const ys = skipWhile(xs, async () => false);
 
@@ -28,7 +28,7 @@ test('AsyncIterable#skipWhile skips none', async t => {
   t.end();
 });
 
-test('AsyncIterable#skipWhile skips all', async t => {
+test('AsyncIterable#skipWhile skips all', async (t, [skipWhile]) => {
   const xs = of(1, 2, 3, 4);
   const ys = skipWhile(xs, async () => true);
 
@@ -37,7 +37,7 @@ test('AsyncIterable#skipWhile skips all', async t => {
   t.end();
 });
 
-test('AsyncIterable#skipWhile skips some another run', async t => {
+test('AsyncIterable#skipWhile skips some another run', async (t, [skipWhile]) => {
   const xs = of(1, 2, 3, 4, 3, 2, 1);
   const ys = skipWhile(xs, x => x < 3);
 
@@ -51,7 +51,7 @@ test('AsyncIterable#skipWhile skips some another run', async t => {
   t.end();
 });
 
-test('AsyncIterable#skipWhile predicate throws', async t => {
+test('AsyncIterable#skipWhile predicate throws', async (t, [skipWhile]) => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
   const ys = skipWhile(xs, () => {
@@ -67,7 +67,7 @@ test('AsyncIterable#skipWhile predicate throws', async t => {
   t.end();
 });
 
-test('AsyncIterable#skipWhile with index', async t => {
+test('AsyncIterable#skipWhile with index', async (t, [skipWhile]) => {
   const xs = of(1, 2, 3, 4);
   const ys = skipWhile(xs, async (x, i) => i < 2);
 
