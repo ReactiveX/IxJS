@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { innerJoin } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.innerJoin]);
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#innerJoin normal', t => {
+test('Iterable#innerJoin normal', (t, [innerJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = innerJoin(
@@ -22,7 +22,7 @@ test('Iterable#innerJoin normal', t => {
   t.end();
 });
 
-test('Iterable#innerJoin reversed', t => {
+test('Iterable#innerJoin reversed', (t, [innerJoin]) => {
   const xs = [3, 6, 4];
   const ys = [0, 1, 2];
   const res = innerJoin(
@@ -40,7 +40,7 @@ test('Iterable#innerJoin reversed', t => {
   t.end();
 });
 
-test('Iterable#innerJoin only one group matches', t => {
+test('Iterable#innerJoin only one group matches', (t, [innerJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6];
   const res = innerJoin(
@@ -57,7 +57,7 @@ test('Iterable#innerJoin only one group matches', t => {
   t.end();
 });
 
-test('Iterable#innerJoin only one group matches reversed', t => {
+test('Iterable#innerJoin only one group matches reversed', (t, [innerJoin]) => {
   const xs = [3, 6];
   const ys = [0, 1, 2];
   const res = innerJoin(
@@ -74,7 +74,7 @@ test('Iterable#innerJoin only one group matches reversed', t => {
   t.end();
 });
 
-test('Iterable#innerJoin left throws', t => {
+test('Iterable#innerJoin left throws', (t, [innerJoin]) => {
   const xs = _throw<number>(new Error());
   const ys = [3, 6, 4];
   const res = innerJoin(
@@ -89,7 +89,7 @@ test('Iterable#innerJoin left throws', t => {
   t.end();
 });
 
-test('Iterable#innerJoin right throws', t => {
+test('Iterable#innerJoin right throws', (t, [innerJoin]) => {
   const xs = [0, 1, 2];
   const ys = _throw<number>(new Error());
   const res = innerJoin(
@@ -104,7 +104,7 @@ test('Iterable#innerJoin right throws', t => {
   t.end();
 });
 
-test('Iterable#innerJoin left selector throws', t => {
+test('Iterable#innerJoin left selector throws', (t, [innerJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = innerJoin(
@@ -119,7 +119,7 @@ test('Iterable#innerJoin left selector throws', t => {
   t.end();
 });
 
-test('Iterable#join right selector throws', t => {
+test('Iterable#join right selector throws', (t, [innerJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = innerJoin(
@@ -134,7 +134,7 @@ test('Iterable#join right selector throws', t => {
   t.end();
 });
 
-test('Iterable#innerJoin result selector throws', t => {
+test('Iterable#innerJoin result selector throws', (t, [innerJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = innerJoin(

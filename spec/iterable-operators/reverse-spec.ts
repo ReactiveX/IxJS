@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.reverse]);
 const { empty } = Ix.iterable;
-const { reverse } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#reverse empty', t => {
+test('Iterable#reverse empty', (t, [reverse]) => {
   const xs = empty<number>();
   const ys = reverse(xs);
 
@@ -14,7 +14,7 @@ test('Iterable#reverse empty', t => {
   t.end();
 });
 
-test('Iterable#revrse single element', t => {
+test('Iterable#revrse single element', (t, [reverse]) => {
   const xs = [42];
   const ys = reverse(xs);
 
@@ -24,7 +24,7 @@ test('Iterable#revrse single element', t => {
   t.end();
 });
 
-test('Iterable#reverse multiple elements', t => {
+test('Iterable#reverse multiple elements', (t, [reverse]) => {
   const xs = [1, 2, 3];
   const ys = reverse(xs);
 
@@ -36,7 +36,7 @@ test('Iterable#reverse multiple elements', t => {
   t.end();
 });
 
-test('Iterable#reverse throws', t => {
+test('Iterable#reverse throws', (t, [reverse]) => {
   const xs = _throw<number>(new Error());
   const ys = reverse(xs);
 

@@ -1,9 +1,9 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { takeUntil } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.takeUntil]);
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
-test('AsyncIterable#takeUntil hits', async t => {
+test('AsyncIterable#takeUntil hits', async (t, [takeUntil]) => {
   const xs = async function*() {
     yield await delayValue(1, 100);
     yield await delayValue(2, 300);
@@ -18,7 +18,7 @@ test('AsyncIterable#takeUntil hits', async t => {
   t.end();
 });
 
-test('AsyncIterable#takeUntil misses', async t => {
+test('AsyncIterable#takeUntil misses', async (t, [takeUntil]) => {
   const xs = async function*() {
     yield await delayValue(1, 100);
     yield await delayValue(2, 300);

@@ -1,19 +1,19 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { _catch } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable._catch]);
 const { concat } = Ix.asynciterable;
 const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#catch with no errors', async t => {
+test('AsyncIterable#catch with no errors', async (t, [_catch]) => {
   const res = _catch(range(0, 5), range(5, 5));
   t.true(await sequenceEqual(res, range(0, 5)));
   t.end();
 });
 
-test('AsyncIterable#catch with concat error', async t => {
+test('AsyncIterable#catch with concat error', async (t, [_catch]) => {
   const res = _catch(
     concat(range(0, 5), _throw(new Error())),
     range(5, 5)
@@ -23,7 +23,7 @@ test('AsyncIterable#catch with concat error', async t => {
   t.end();
 });
 
-test('AsyncIterable#catch still throws', async t => {
+test('AsyncIterable#catch still throws', async (t, [_catch]) => {
   const e1 = new Error();
   const er1 = _throw(e1);
 

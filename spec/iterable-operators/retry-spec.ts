@@ -1,13 +1,13 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.retry]);
 const { concat } = Ix.iterable;
 const { range } = Ix.iterable;
-const { retry } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext } from '../iterablehelpers';
 
-test('Iterable#retry infinite no errors does not retry', t => {
+test('Iterable#retry infinite no errors does not retry', (t, [retry]) => {
   const xs = range(0, 10);
 
   const res = retry(xs);
@@ -15,7 +15,7 @@ test('Iterable#retry infinite no errors does not retry', t => {
   t.end();
 });
 
-test('Iterable#retry finite no errors does not retry', t => {
+test('Iterable#retry finite no errors does not retry', (t, [retry]) => {
   const xs = range(0, 10);
 
   const res = retry(xs, 2);
@@ -23,7 +23,7 @@ test('Iterable#retry finite no errors does not retry', t => {
   t.end();
 });
 
-test('Iterable#retry finite eventually gives up', t => {
+test('Iterable#retry finite eventually gives up', (t, [retry]) => {
   const err = new Error();
   const xs = concat(range(0, 2), _throw(err));
 

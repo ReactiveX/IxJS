@@ -24,7 +24,7 @@ export function reduceRightProto<T, R>(
   fn: (acc: R, x: T, index: number) => R,
   seed?: T | R
 ): T | R {
-  return arguments.length === 3 ? reduceRight(this, fn, seed) : reduceRight(this, fn);
+  return arguments.length === 2 ? reduceRight(this, fn, seed) : reduceRight(this, fn);
 }
 
 IterableX.prototype.reduceRight = reduceRightProto;

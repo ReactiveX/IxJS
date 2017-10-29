@@ -1,15 +1,15 @@
 import * as Ix from '../Ix';
-import  * as test  from 'tape';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.share]);
 const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.iterable;
-const { share } = Ix.asynciterable;
 const { take } = Ix.asynciterable;
 const { tap } = Ix.asynciterable;
 const { toArray } = Ix.asynciterable;
 const { zip } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#share single', async t => {
+test('AsyncIterable#share single', async (t, [share]) => {
   const rng = share(range(0, 5));
 
   const it = rng[Symbol.asyncIterator]();
@@ -22,7 +22,7 @@ test('AsyncIterable#share single', async t => {
   t.end();
 });
 
-test('AsyncIterable#share shared exhausts in the beginning', async t => {
+test('AsyncIterable#share shared exhausts in the beginning', async (t, [share]) => {
   const rng = share(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -37,7 +37,7 @@ test('AsyncIterable#share shared exhausts in the beginning', async t => {
   t.end();
 });
 
-test('AsyncIterable#share shared exhausts any time', async t => {
+test('AsyncIterable#share shared exhausts any time', async (t, [share]) => {
   const rng = share(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -54,7 +54,7 @@ test('AsyncIterable#share shared exhausts any time', async t => {
   t.end();
 });
 
-test('AsyncIterable#share with selector', async t => {
+test('AsyncIterable#share with selector', async (t, [share]) => {
   let n = 0;
   const res = await toArray(
     share(

@@ -29,7 +29,6 @@ const { Observable, Scheduler, Subject, ReplaySubject } = require(`rxjs`);
 const releasesRootDir = `targets`;
 const knownTargets = [`es5`, `es2015`, `esnext`];
 const knownModules = [`cjs`, `esm`, `cls`, `umd`];
-const moduleFormatsToSkipCombosOf = { cls: true };
 const metadataFiles = [`LICENSE`, `readme.md`, `CHANGELOG.md`];
 const packageJSONFields = [
   `version`, `license`, `description`,
@@ -272,7 +271,7 @@ const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function ug
           compress: { unsafe: true, },
           output: { comments: false, beautify: false },
           mangle: { eval: true, safari10: true, // <-- Works around a Safari 10 bug: // https://github.com/mishoo/UglifyJS2/issues/1753
-              properties: { reserved }
+            properties: { reserved: [`configurable`, `enumerable`, ...reserved] }
           }
         },
       })
@@ -462,9 +461,10 @@ function gulpConcurrent(tasks, concurrency = 'parallel') {
 const buildConcurrent = (tasks) => () =>
     gulpConcurrent(tasks)()
       .concat(Observable
-        .defer(() => Observable
-          .merge(...knownTargets.map((target) =>
-            del(`${_dir(UMDSourceTargets[target], `cls`)}/**`)))));
+        .defer(() => modules.indexOf(`cls`) > -1 ?
+          Observable.empty() :
+          Observable.merge(...knownTargets.map((target) =>
+            del(`${_dir(target, `cls`)}/**`)))));
 
 const testConcurrency = process.env.IS_APPVEYOR_CI ? 'series' : 'parallel';
 
@@ -479,7 +479,7 @@ function getTasks(name) {
   if (targets.indexOf(`ts`) !== -1) tasks.push(`${name}:ts`);
   if (targets.indexOf(`ix`) !== -1) tasks.push(`${name}:ix`);
   for (const [target, format] of combinations(targets, modules)) {
-    if (format in moduleFormatsToSkipCombosOf) {
+    if (format === `cls` && (name === `test` || modules.indexOf(`cls`) === -1)) {
       continue;
     }
     tasks.push(`${name}:${_task(target, format)}`);
@@ -495,10 +495,10 @@ function _dir(target, format) { return path.join(releasesRootDir, ...(!format ? 
 
 function* combinations(_targets, _modules) {
 
-  const targets = known(knownTargets, _targets || (_targets = [`all`]));
-  const modules = known(knownModules, _modules || (_modules = [`all`]));
+  const targets = known(knownTargets, _targets || [`all`]);
+  const modules = known(knownModules, _modules || [`all`]);
 
-  if (_targets[0] === `all` && _modules[0] === `all`) {
+  if (targets[0] === `all` && modules[0] === `all`) {
     yield [`ts`, ``];
     yield [`ix`, ``];
   }

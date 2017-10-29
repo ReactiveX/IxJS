@@ -1,9 +1,9 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { union } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.union]);
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#union with default comparer', t => {
+test('Iterable#union with default comparer', (t, [union]) => {
   const xs = [1, 2, 3];
   const ys = [3, 5, 1, 4];
   const res = union(xs, ys);
@@ -18,7 +18,7 @@ test('Iterable#union with default comparer', t => {
   t.end();
 });
 
-test('Iterable#union with custom comparer', t => {
+test('Iterable#union with custom comparer', (t, [union]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = [1, 2, -3];
   const ys = [3, 5, -1, 4];

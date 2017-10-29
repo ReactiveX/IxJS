@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.memoize]);
 const { concat } = Ix.asynciterable;
 const { every } = Ix.asynciterable;
 const { from } = Ix.AsyncIterable;
 const { map } = Ix.asynciterable;
-const { memoize } = Ix.asynciterable;
 const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.asynciterable;
 const { take } = Ix.asynciterable;
@@ -22,7 +22,7 @@ async function* tick(t: (x: number) => void | Promise<void>) {
   }
 }
 
-test('AsyncIterable#memoize memoizes effects', async t => {
+test('AsyncIterable#memoize memoizes effects', async (t, [memoize]) => {
   let n = 0;
   const rng = memoize(
     tick(async i => {
@@ -62,7 +62,7 @@ test('AsyncIterable#memoize memoizes effects', async t => {
   t.end();
 });
 
-test('AsyncIterable#memoize single', async t => {
+test('AsyncIterable#memoize single', async (t, [memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -77,7 +77,7 @@ test('AsyncIterable#memoize single', async t => {
   t.end();
 });
 
-test('AsyncIterable#memoize order of operations', async t => {
+test('AsyncIterable#memoize order of operations', async (t, [memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -99,7 +99,7 @@ test('AsyncIterable#memoize order of operations', async t => {
   t.end();
 });
 
-test('AsyncIterable#memoize second early', async t => {
+test('AsyncIterable#memoize second early', async (t, [memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -122,7 +122,7 @@ test('AsyncIterable#memoize second early', async t => {
   t.end();
 });
 
-test('AsyncIterable#memoize max two readers', async t => {
+test('AsyncIterable#memoize max two readers', async (t, [memoize]) => {
   const rng = memoize(range(0, 5), 2);
 
   const it1 = rng[Symbol.asyncIterator]();
@@ -145,7 +145,7 @@ test('AsyncIterable#memoize max two readers', async t => {
   t.end();
 });
 
-test('AsyncIterable#memoize concat with error', async t => {
+test('AsyncIterable#memoize concat with error', async (t, [memoize]) => {
   const error = new Error();
   const rng = memoize(concat(range(0, 2), _throw(error)));
 
@@ -182,13 +182,13 @@ async function* rand() {
   }
 }
 
-test('AsyncIterable#memoize should share effects of random', async t => {
+test('AsyncIterable#memoize should share effects of random', async (t, [memoize]) => {
   const rnd = memoize(take(rand(), 100));
   t.true(await every(zip(async ([l, r]) => l === r, rnd, rnd), async x => x));
   t.end();
 });
 
-test('AsyncIterable#memoize with selector', async t => {
+test('AsyncIterable#memoize with selector', async (t, [memoize]) => {
   let n = 0;
   const res = await toArray(
     memoize(
@@ -207,7 +207,7 @@ test('AsyncIterable#memoize with selector', async t => {
   t.end();
 });
 
-test('AsyncIterable#memoize limited with selector', async t => {
+test('AsyncIterable#memoize limited with selector', async (t, [memoize]) => {
   let n = 0;
   const res = await toArray(
     memoize(

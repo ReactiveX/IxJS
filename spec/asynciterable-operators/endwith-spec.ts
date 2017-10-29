@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.endWith]);
 const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.asynciterable;
-const { endWith } = Ix.asynciterable;
 
-test('AsyncIterable#endWith adds to end', async t => {
+test('AsyncIterable#endWith adds to end', async (t, [endWith]) => {
   const e = range(0, 5);
   const r = endWith(e, 5, 6);
   t.true(await sequenceEqual(r, range(0, 7)));

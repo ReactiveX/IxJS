@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { _finally } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable._finally]);
 const { range } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#finally defers behavior', async t => {
+test('AsyncIterable#finally defers behavior', async (t, [_finally]) => {
   let done = false;
 
   const xs = _finally(range(0, 2), async () => { done = true; });
@@ -26,7 +26,7 @@ test('AsyncIterable#finally defers behavior', async t => {
   t.end();
 });
 
-test('AsyncIterable#finally calls even with error', async t => {
+test('AsyncIterable#finally calls even with error', async (t, [_finally]) => {
   let done = false;
 
   const err = new Error();

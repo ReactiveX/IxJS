@@ -1,10 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.scan]);
 const { range } = Ix.iterable;
-const { scan } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#scan no seed', t => {
+test('Iterable#scan no seed', (t, [scan]) => {
   const res = scan(range(0, 5), (n, x, i) => n + x + i);
 
   const it = res[Symbol.iterator]();
@@ -16,7 +16,7 @@ test('Iterable#scan no seed', t => {
   t.end();
 });
 
-test('Iterable#scan with seed', t => {
+test('Iterable#scan with seed', (t, [scan]) => {
   const res = scan(range(0, 5), (n, x, i) => n - x - i, 20);
 
   const it = res[Symbol.iterator]();

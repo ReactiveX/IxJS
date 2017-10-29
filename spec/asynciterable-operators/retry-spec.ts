@@ -1,13 +1,13 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.retry]);
 const { concat } = Ix.asynciterable;
 const { range } = Ix.asynciterable;
-const { retry } = Ix.asynciterable;
 const { sequenceEqual } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#retry infinite no errors does not retry', async t => {
+test('AsyncIterable#retry infinite no errors does not retry', async (t, [retry]) => {
   const xs = range(0, 10);
 
   const res = retry(xs);
@@ -15,7 +15,7 @@ test('AsyncIterable#retry infinite no errors does not retry', async t => {
   t.end();
 });
 
-test('AsyncIterable#retry finite no errors does not retry', async t => {
+test('AsyncIterable#retry finite no errors does not retry', async (t, [retry]) => {
   const xs = range(0, 10);
 
   const res = retry(xs, 2);
@@ -23,7 +23,7 @@ test('AsyncIterable#retry finite no errors does not retry', async t => {
   t.end();
 });
 
-test('AsyncIterable#retry finite eventually gives up', async t => {
+test('AsyncIterable#retry finite eventually gives up', async (t, [retry]) => {
   const err = new Error();
   const xs = concat(range(0, 2), _throw(err));
 

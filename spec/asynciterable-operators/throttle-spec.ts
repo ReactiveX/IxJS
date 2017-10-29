@@ -1,9 +1,9 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { throttle } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.throttle]);
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
-test('AsyncIterable#throttle drops none', async t => {
+test('AsyncIterable#throttle drops none', async (t, [throttle]) => {
   const xs = async function*() {
     yield await delayValue(1, 100);
     yield await delayValue(2, 100);
@@ -19,7 +19,7 @@ test('AsyncIterable#throttle drops none', async t => {
   t.end();
 });
 
-test('AsyncIterable#throttle drops some', async t => {
+test('AsyncIterable#throttle drops some', async (t, [throttle]) => {
   const xs = async function*() {
     yield await delayValue(1, 200);
     yield await delayValue(2, 200);

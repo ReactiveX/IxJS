@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.take]);
 const { of } = Ix.AsyncIterable;
-const { take } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#take zero or less takes nothing', async t => {
+test('AsyncIterable#take zero or less takes nothing', async (t, [take]) => {
   const xs = of(1, 2, 3, 4);
   const ys = take(xs, -2);
 
@@ -14,7 +14,7 @@ test('AsyncIterable#take zero or less takes nothing', async t => {
   t.end();
 });
 
-test('AsyncIterable#take less than count', async t => {
+test('AsyncIterable#take less than count', async (t, [take]) => {
   const xs = of(1, 2, 3, 4);
   const ys = take(xs, 2);
 
@@ -25,7 +25,7 @@ test('AsyncIterable#take less than count', async t => {
   t.end();
 });
 
-test('AsyncIterable#take more than count', async t => {
+test('AsyncIterable#take more than count', async (t, [take]) => {
   const xs = of(1, 2, 3, 4);
   const ys = take(xs, 10);
 
@@ -38,7 +38,7 @@ test('AsyncIterable#take more than count', async t => {
   t.end();
 });
 
-test('AsyncIterable#take throws with error', async t => {
+test('AsyncIterable#take throws with error', async (t, [take]) => {
   const err = new Error();
   const xs = _throw<number>(err);
   const ys = take(xs, 2);

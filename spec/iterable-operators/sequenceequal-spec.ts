@@ -1,17 +1,17 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.sequenceEqual]);
 const { empty } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
 const { _throw } = Ix.iterable;
 
-test('Iterable#sequenceEqual sequence equals itself', t => {
+test('Iterable#sequenceEqual sequence equals itself', (t, [sequenceEqual]) => {
   const xs = [1, 2, 3];
 
   t.true(sequenceEqual(xs, xs));
   t.end();
 });
 
-test('Iterable#sequenceEqual empty sequence equals itself', t => {
+test('Iterable#sequenceEqual empty sequence equals itself', (t, [sequenceEqual]) => {
   const xs = empty<number>();
   const ys = empty<number>();
 
@@ -19,7 +19,7 @@ test('Iterable#sequenceEqual empty sequence equals itself', t => {
   t.end();
 });
 
-test('Iterable#sequenceEqual two different sequences not equal', t => {
+test('Iterable#sequenceEqual two different sequences not equal', (t, [sequenceEqual]) => {
   const xs = [1, 2, 3];
   const ys = [1, 3, 2];
 
@@ -27,7 +27,7 @@ test('Iterable#sequenceEqual two different sequences not equal', t => {
   t.end();
 });
 
-test('Iterable#sequenceEqual left longer than right not equal', t => {
+test('Iterable#sequenceEqual left longer than right not equal', (t, [sequenceEqual]) => {
   const xs = [1, 2, 3, 4];
   const ys = [1, 2, 3];
 
@@ -35,7 +35,7 @@ test('Iterable#sequenceEqual left longer than right not equal', t => {
   t.end();
 });
 
-test('Iterable#sequenceEqual right longer than left not equal', t => {
+test('Iterable#sequenceEqual right longer than left not equal', (t, [sequenceEqual]) => {
   const xs = [1, 2, 3];
   const ys = [1, 2, 3, 4];
 
@@ -43,7 +43,7 @@ test('Iterable#sequenceEqual right longer than left not equal', t => {
   t.end();
 });
 
-test('Iterable#sequenceEqual left throws', t => {
+test('Iterable#sequenceEqual left throws', (t, [sequenceEqual]) => {
   const xs = _throw<number>(new Error());
   const ys = [1, 2, 3];
 
@@ -51,7 +51,7 @@ test('Iterable#sequenceEqual left throws', t => {
   t.end();
 });
 
-test('Iterable#sequenceEqual right throws', t => {
+test('Iterable#sequenceEqual right throws', (t, [sequenceEqual]) => {
   const xs = [1, 2, 3];
   const ys = _throw<number>(new Error());
 
@@ -59,7 +59,7 @@ test('Iterable#sequenceEqual right throws', t => {
   t.end();
 });
 
-test('Iterable#sequenceEqual with ccustom omparer sequence equals itself', t => {
+test('Iterable#sequenceEqual with ccustom omparer sequence equals itself', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = [1, 2, 3];
 
@@ -67,7 +67,7 @@ test('Iterable#sequenceEqual with ccustom omparer sequence equals itself', t => 
   t.end();
 });
 
-test('Iterable#sequenceEqual with custom comparer empty sequence equals itself', t => {
+test('Iterable#sequenceEqual with custom comparer empty sequence equals itself', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = empty<number>();
   const ys = empty<number>();
@@ -76,7 +76,7 @@ test('Iterable#sequenceEqual with custom comparer empty sequence equals itself',
   t.end();
 });
 
-test('Iterable#sequenceEqual with custom comparer two different sequences not equal', t => {
+test('Iterable#sequenceEqual with custom comparer two different sequences not equal', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = [1, 2, 3];
   const ys = [1, 3, 2];
@@ -85,7 +85,7 @@ test('Iterable#sequenceEqual with custom comparer two different sequences not eq
   t.end();
 });
 
-test('Iterable#sequenceEqual with custom comparer left longer than right not equal', t => {
+test('Iterable#sequenceEqual with custom comparer left longer than right not equal', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = [1, 2, 3, 4];
   const ys = [1, 2, 3];
@@ -94,7 +94,7 @@ test('Iterable#sequenceEqual with custom comparer left longer than right not equ
   t.end();
 });
 
-test('Iterable#sequenceEqual with custom comparer right longer than left not equal', t => {
+test('Iterable#sequenceEqual with custom comparer right longer than left not equal', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = [1, 2, 3];
   const ys = [1, 2, 3, 4];
@@ -103,7 +103,7 @@ test('Iterable#sequenceEqual with custom comparer right longer than left not equ
   t.end();
 });
 
-test('Iterable#sequenceEqual with custom comparer left throws', t => {
+test('Iterable#sequenceEqual with custom comparer left throws', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = _throw<number>(new Error());
   const ys = [1, 2, 3];
@@ -112,7 +112,7 @@ test('Iterable#sequenceEqual with custom comparer left throws', t => {
   t.end();
 });
 
-test('Iterable#sequenceEqual with custom comparer right throws', t => {
+test('Iterable#sequenceEqual with custom comparer right throws', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = [1, 2, 3];
   const ys = _throw<number>(new Error());
@@ -121,7 +121,7 @@ test('Iterable#sequenceEqual with custom comparer right throws', t => {
   t.end();
 });
 
-test('Itearble#sequenceEqual with custom comparer should be equal', t => {
+test('Itearble#sequenceEqual with custom comparer should be equal', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = [1, 2, -3, 4];
   const ys = [1, -2, 3, 4];
@@ -130,7 +130,7 @@ test('Itearble#sequenceEqual with custom comparer should be equal', t => {
   t.end();
 });
 
-test('Itearble#sequenceEqual with custom comparer throws', t => {
+test('Itearble#sequenceEqual with custom comparer throws', (t, [sequenceEqual]) => {
   const comparer = (x: number, y: number) => { throw new Error(); };
   const xs = [1, 2, -3, 4];
   const ys = [1, -2, 3, 4];

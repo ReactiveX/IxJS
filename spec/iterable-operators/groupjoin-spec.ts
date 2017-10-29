@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { groupJoin } = Ix.iterable;
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.groupJoin]);
 const { reduce } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#groupJoin all groups have values', t => {
+test('Iterable#groupJoin all groups have values', (t, [groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [4, 7, 6, 2, 3, 4, 8, 9];
   const res = groupJoin(
@@ -23,7 +23,7 @@ test('Iterable#groupJoin all groups have values', t => {
   t.end();
 });
 
-test('Iterable#groupJoin some groups have values', t => {
+test('Iterable#groupJoin some groups have values', (t, [groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = groupJoin(
@@ -41,7 +41,7 @@ test('Iterable#groupJoin some groups have values', t => {
   t.end();
 });
 
-test('Iterable#groupJoin left throws', t => {
+test('Iterable#groupJoin left throws', (t, [groupJoin]) => {
   const xs = _throw<number>(new Error());
   const ys = [3, 6, 4];
   const res = groupJoin(
@@ -56,7 +56,7 @@ test('Iterable#groupJoin left throws', t => {
   t.end();
 });
 
-test('Iterable#groupJoin right throws', t => {
+test('Iterable#groupJoin right throws', (t, [groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = _throw<number>(new Error());
   const res = groupJoin(
@@ -71,7 +71,7 @@ test('Iterable#groupJoin right throws', t => {
   t.end();
 });
 
-test('Iterable#groupJoin left selector throws', t => {
+test('Iterable#groupJoin left selector throws', (t, [groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = groupJoin(
@@ -86,7 +86,7 @@ test('Iterable#groupJoin left selector throws', t => {
   t.end();
 });
 
-test('Iterable#groupJoin right selector throws', t => {
+test('Iterable#groupJoin right selector throws', (t, [groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = groupJoin(
@@ -101,7 +101,7 @@ test('Iterable#groupJoin right selector throws', t => {
   t.end();
 });
 
-test('Iterable#groupJoin result selector eventually throws', t => {
+test('Iterable#groupJoin result selector eventually throws', (t, [groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = groupJoin(

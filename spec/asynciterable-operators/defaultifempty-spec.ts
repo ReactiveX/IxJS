@@ -1,12 +1,12 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
-const { defaultIfEmpty } = Ix.asynciterable;
+import { testOperator } from '../asynciterablehelpers';
+const test = testOperator([Ix.asynciterable.defaultIfEmpty]);
 const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#defaultIfEmpty with empty', async t => {
+test('AsyncIterable#defaultIfEmpty with empty', async (t, [defaultIfEmpty]) => {
   const xs = empty<number>();
   const ys = defaultIfEmpty(xs, 0);
 
@@ -16,7 +16,7 @@ test('AsyncIterable#defaultIfEmpty with empty', async t => {
   t.end();
 });
 
-test('AsyncIterable#defaultIfEmpty with no empty', async t => {
+test('AsyncIterable#defaultIfEmpty with no empty', async (t, [defaultIfEmpty]) => {
   const xs = of(42);
   const ys = defaultIfEmpty(xs, 0);
 
@@ -26,7 +26,7 @@ test('AsyncIterable#defaultIfEmpty with no empty', async t => {
   t.end();
 });
 
-test('AsyncIterable#defaultIfEmpty throws', async t => {
+test('AsyncIterable#defaultIfEmpty throws', async (t, [defaultIfEmpty]) => {
   const xs = _throw<number>(new Error());
   const ys = defaultIfEmpty(xs, 0);
 

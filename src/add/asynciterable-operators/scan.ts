@@ -13,12 +13,12 @@ export function scanProto<T, R = T>(
 /**
  * @ignore
  */
-export async function* scanProto<T, R = T>(
+export function scanProto<T, R = T>(
   this: AsyncIterableX<T>,
   accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
   ...args: (T | R)[]
 ): AsyncIterable<T | R> {
-  return args.length === 3 ? scan(this, accumulator, args[0]) : scan(this, accumulator);
+  return args.length === 1 ? scan(this, accumulator, args[0]) : scan(this, accumulator);
 }
 
 AsyncIterableX.prototype.scan = scanProto;

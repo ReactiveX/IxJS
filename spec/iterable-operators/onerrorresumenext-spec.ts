@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.onErrorResumeNext]);
 const { concat } = Ix.iterable;
-const { onErrorResumeNext } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { _throw } = Ix.iterable;
 
-test('Iterable#onErrorResumeNext continues without error', t => {
+test('Iterable#onErrorResumeNext continues without error', (t, [onErrorResumeNext]) => {
   const xs = [1, 2];
   const ys = [3, 4];
 
@@ -14,7 +14,7 @@ test('Iterable#onErrorResumeNext continues without error', t => {
   t.end();
 });
 
-test('Iterable#onErrorResumeNext continues after error', t => {
+test('Iterable#onErrorResumeNext continues after error', (t, [onErrorResumeNext]) => {
   const xs = concat([1, 2], _throw(new Error()));
   const ys = [3, 4];
 

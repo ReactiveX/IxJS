@@ -1,12 +1,12 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import { testOperator } from '../iterablehelpers';
+const test = testOperator([Ix.iterable.doWhile]);
 const { defer } = Ix.iterable;
-const { doWhile } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { tap } = Ix.iterable;
 const { toArray } = Ix.iterable;
 
-test('Iterable#doWhile some', t => {
+test('Iterable#doWhile some', (t, [doWhile]) => {
   let x = 5;
   const res = toArray(
     doWhile(defer(() => tap([x], { next: () => x--})), () => x > 0)
@@ -16,7 +16,7 @@ test('Iterable#doWhile some', t => {
   t.end();
 });
 
-test('Iterable#doWhile one', t => {
+test('Iterable#doWhile one', (t, [doWhile]) => {
   let x = 0;
   const res = toArray(
     doWhile(defer(() => tap([x], { next: () => x--})), () => x > 0)

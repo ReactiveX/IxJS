@@ -13,12 +13,12 @@ export async function reduceProto<T, R = T>(
 /**
  * @ignore
  */
-export async function reduceProto<T, R = T>(
+export function reduceProto<T, R = T>(
   this: AsyncIterableX<T>,
   accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
   ...args: (T | R)[]
 ): Promise<T | R> {
-  return args.length === 3 ? reduce(this, accumulator, args[0]) : reduce(this, accumulator);
+  return args.length === 1 ? reduce(this, accumulator, args[0]) : reduce(this, accumulator);
 }
 
 AsyncIterableX.prototype.reduce = reduceProto;
