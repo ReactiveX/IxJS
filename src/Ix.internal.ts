@@ -1,9 +1,13 @@
-import * as iterableX from './iterable/__modules';
-import * as iterableXPipe from './iterable/pipe/__modules';
-import * as asynciterableX from './asynciterable/__modules';
-import * as asynciterableXPipe from './asynciterable/pipe/__modules';
-export { iterableX as iterable, asynciterableX as asynciterable };
-export { iterableXPipe as iterablePipe, asynciterableXPipe as asynciterablePipe };
+/* `/index` required for closure compiler */
+import * as iterableX from './iterable/index';
+import * as iterableXPipe from './iterable/pipe/index';
+import * as asynciterableX from './asynciterable/index';
+import * as asynciterableXPipe from './asynciterable/pipe/index';
+
+export { iterableX as iterable };
+export { iterableXPipe as iterablePipe };
+export { asynciterableX as asynciterable };
+export { asynciterableXPipe as asynciterablePipe };
 
 /* These declarations are needed for the closure/umd targets */
 export declare namespace Symbol {
