@@ -2,7 +2,7 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/ReactiveX/IxJS.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/ReactiveX/IxJS.svg?branch=master)](https://travis-ci.org/ReactiveX/IxJS)
-[![Build status](https://ci.appveyor.com/api/projects/status/dfuqvf29l477m54k?svg=true)](https://ci.appveyor.com/project/mattpodwysocki/ixjs)
+[![Build status](https://ci.appveyor.com/api/projects/status/dfuqvf29l477m54k/branch/master?svg=true)](https://ci.appveyor.com/project/mattpodwysocki/ixjs/branch/master)
 [![npm version](https://badge.fury.io/js/ix.svg)](https://badge.fury.io/js/ix)
 [![Join the chat at https://gitter.im/ReactiveXIxJS/](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ReactiveXIxJS/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
