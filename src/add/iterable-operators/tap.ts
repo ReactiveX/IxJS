@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { tap } from '../../iterable/tap';
 import { PartialObserver } from '../../observer';
 
@@ -11,7 +11,7 @@ export function tapProto<T>(this: IterableX<T>, observer: PartialObserver<T>): I
 
 IterableX.prototype.tap = tapProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     tap: typeof tapProto;
   }

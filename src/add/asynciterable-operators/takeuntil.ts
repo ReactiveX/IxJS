@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { takeUntil } from '../../asynciterable/takeuntil';
 
 /**
@@ -13,7 +13,7 @@ export function takeUntilProto<TSource>(
 
 AsyncIterableX.prototype.takeUntil = takeUntilProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     takeUntil: typeof takeUntilProto;
   }

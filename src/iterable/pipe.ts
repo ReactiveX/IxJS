@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../interfaces';
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 /* tslint:disable:max-line-length */
 export function pipe<T>(source: Iterable<T>): IterableX<T>;

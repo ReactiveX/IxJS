@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { concat } from '../../iterable/concat';
 
 /* tslint:disable:max-line-length */
@@ -56,7 +56,7 @@ export function concatProto<T>(this: IterableX<T>, ...args: Iterable<T>[]): Iter
 
 IterableX.prototype.concat = concatProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     concat: typeof concatProto;
   }

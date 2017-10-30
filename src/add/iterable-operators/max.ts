@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { max } from '../../iterable/max';
 
 export function maxProto(this: IterableX<number>, fn?: (x: number) => number): number;
@@ -12,7 +12,7 @@ export function maxProto(this: IterableX<any>, fn: (x: any) => number = x => x):
 
 IterableX.prototype.max = maxProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     max: typeof maxProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
   private _source: AsyncIterable<T>;

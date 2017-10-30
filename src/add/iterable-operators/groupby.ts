@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { groupBy, GroupedIterable, groupByResultIdentity } from '../../iterable/groupby';
 import { identity } from '../../internal/identity';
 
@@ -36,7 +36,7 @@ export function groupByProto<TSource, TKey, TValue, TResult>(
 
 IterableX.prototype.groupBy = groupByProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     groupBy: typeof groupByProto;
   }

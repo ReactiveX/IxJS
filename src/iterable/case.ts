@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { defer } from './defer';
 import { empty } from './empty';
 

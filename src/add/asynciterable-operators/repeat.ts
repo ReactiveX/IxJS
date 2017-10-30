@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { repeat } from '../../asynciterable/repeat';
 
 /**
@@ -13,7 +13,7 @@ export function repeatProto<TSource>(
 
 AsyncIterableX.prototype.repeat = repeatProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     repeat: typeof repeatProto;
   }

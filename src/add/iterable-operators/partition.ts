@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { partition } from '../../iterable/partition';
 
 /**
@@ -25,7 +25,7 @@ export function partitionProto<T>(
 
 IterableX.prototype.partition = partitionProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     partition: typeof partitionProto;
   }

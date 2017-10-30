@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { orderBy, orderByDescending, OrderedAsyncIterableX } from '../../asynciterable/orderby';
 import {
   thenBy as _thenBy,
@@ -35,7 +35,7 @@ export declare namespace asynciterable {
   let thenByDescending: typeof _thenByDescending;
 }
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     orderBy: typeof orderByProto;
     orderByDescending: typeof orderByDescendingProto;

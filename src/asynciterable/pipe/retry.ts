@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { retry as retryStatic } from '../retry';
 
 export function retry<TSource>(count: number = -1): MonoTypeOperatorAsyncFunction<TSource> {

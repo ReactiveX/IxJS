@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 class EmptyIterable<TSource> extends IterableX<TSource> {
   *[Symbol.iterator](): Iterator<TSource> {

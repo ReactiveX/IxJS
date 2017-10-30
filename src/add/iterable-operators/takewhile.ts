@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { takeWhile } from '../../iterable/takewhile';
 
 /**
@@ -21,7 +21,7 @@ export function takeWhileProto<TSource>(
 
 IterableX.prototype.takeWhile = takeWhileProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     takeWhile: typeof takeWhileProto;
   }

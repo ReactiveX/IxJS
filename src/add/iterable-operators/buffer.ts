@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { buffer } from '../../iterable/buffer';
 
 /**
@@ -10,7 +10,7 @@ export function bufferProto<T>(this: IterableX<T>, count: number, skip?: number)
 
 IterableX.prototype.buffer = bufferProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     buffer: typeof bufferProto;
   }

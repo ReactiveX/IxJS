@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { onErrorResumeNext } from '../../iterable/onerrorresumenext';
 
 /**
@@ -13,7 +13,7 @@ export function onErrorResumeNextProto<TSource>(
 
 IterableX.prototype.onErrorResumeNext = onErrorResumeNextProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     onErrorResumeNext: typeof onErrorResumeNextProto;
   }

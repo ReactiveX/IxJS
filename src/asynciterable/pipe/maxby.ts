@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { extremaBy, defaultCompareAsync } from '../_extremaby';
 
 export function maxBy<TSource, TKey>(

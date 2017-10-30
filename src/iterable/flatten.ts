@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { isIterable } from '../internal/isiterable';
 
 export class FlattenIterable<TSource> extends IterableX<TSource> {

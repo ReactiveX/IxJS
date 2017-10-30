@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { expand } from '../../iterable/expand';
 
 /**
@@ -13,7 +13,7 @@ export function expandProto<TSource>(
 
 IterableX.prototype.expand = expandProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     expand: typeof expandProto;
   }

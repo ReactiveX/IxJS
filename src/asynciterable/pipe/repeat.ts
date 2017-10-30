@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { RepeatAsyncIterable } from '../repeat';
 
 export function repeat<TSource>(count: number = -1): MonoTypeOperatorAsyncFunction<TSource> {

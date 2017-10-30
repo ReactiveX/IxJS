@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { toObservable } from '../../asynciterable/toobservable';
 import { Observable } from '../../observer';
 
@@ -11,7 +11,7 @@ export function toObservableProto<TSource>(this: AsyncIterableX<TSource>): Obser
 
 AsyncIterableX.prototype.toObservable = toObservableProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     toObservable: typeof toObservableProto;
   }

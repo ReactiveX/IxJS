@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { toArray } from './toarray';
 
 export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {

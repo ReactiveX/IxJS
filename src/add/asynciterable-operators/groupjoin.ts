@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { groupJoin } from '../../asynciterable/groupjoin';
 
 /**
@@ -16,7 +16,7 @@ export function groupJoinProto<TOuter, TInner, TKey, TResult>(
 
 AsyncIterableX.prototype.groupJoin = groupJoinProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     groupJoin: typeof groupJoinProto;
   }

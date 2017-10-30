@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { maxBy } from '../../iterable/maxby';
 
 /**
@@ -14,7 +14,7 @@ export function maxByProto<TSource, TKey>(
 
 IterableX.prototype.maxBy = maxByProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     maxBy: typeof maxByProto;
   }

@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { memoize as memoizeStatic } from '../memoize';
 
 export function memoize<TSource>(readerCount?: number): OperatorAsyncFunction<TSource, TSource>;

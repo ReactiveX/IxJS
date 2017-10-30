@@ -1,8 +1,8 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { create as createStatic } from '../../asynciterable/create';
 
 AsyncIterableX.create = createStatic;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   namespace AsyncIterableX { export let create: typeof createStatic; }
 }

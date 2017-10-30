@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { expand } from '../../asynciterable/expand';
 
 /**
@@ -13,7 +13,7 @@ export function expandProto<TSource>(
 
 AsyncIterableX.prototype.expand = expandProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     expand: typeof expandProto;
   }

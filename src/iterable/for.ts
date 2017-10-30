@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { concatAll } from './concatall';
 import { map } from './map';
 

@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { reduce } from '../../iterable/reduce';
 
 export function reduceProto<T>(
@@ -29,7 +29,7 @@ export function reduceProto<T, R>(
 
 IterableX.prototype.reduce = reduceProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     reduce: typeof reduceProto;
   }

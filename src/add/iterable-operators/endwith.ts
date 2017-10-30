@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { endWith } from '../../iterable/endwith';
 
 /**
@@ -10,7 +10,7 @@ export function endWithProto<T>(this: IterableX<T>, ...args: T[]) {
 
 IterableX.prototype.endWith = endWithProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     endWith: typeof endWithProto;
   }

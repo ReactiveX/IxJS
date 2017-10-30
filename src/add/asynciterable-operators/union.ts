@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { union } from '../../asynciterable/union';
 
 /**
@@ -14,7 +14,7 @@ export function unionProto<T>(
 
 AsyncIterableX.prototype.union = unionProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     union: typeof unionProto;
   }

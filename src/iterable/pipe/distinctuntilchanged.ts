@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { DistinctUntilChangedIterable } from '../distinctuntilchanged';
 import { identity } from '../../internal/identity';
 import { comparer as defaultComparer } from '../../internal/comparer';

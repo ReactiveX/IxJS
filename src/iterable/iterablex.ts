@@ -1,8 +1,8 @@
-import { OperatorFunction } from './interfaces';
-import { bindCallback } from './internal/bindcallback';
-import { identity } from './internal/identity';
-import { toLength } from './internal/tolength';
-import { isArrayLike, isIterable } from './internal/isiterable';
+import { OperatorFunction } from '../interfaces';
+import { bindCallback } from '../internal/bindcallback';
+import { identity } from '../internal/identity';
+import { toLength } from '../internal/tolength';
+import { isArrayLike, isIterable } from '../internal/isiterable';
 
 /**
  * This clas serves as the base for all operations which support [Symbol.iterator].
@@ -96,8 +96,8 @@ class OfIterable<TSource> extends IterableX<TSource> {
   }
 }
 
-declare module './iterable' {
-  interface IterableX<T> {
+declare module '../iterable/iterablex' {
+  interface IterableX<T> extends Iterable<T> {
     pipe(): IterableX<T>;
     pipe<A>(op1: OperatorFunction<T, A>): IterableX<A>;
     pipe<A, B>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>): IterableX<B>;

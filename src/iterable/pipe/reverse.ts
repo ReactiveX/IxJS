@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { ReverseIterable } from '../reverse';
 
 export function reverse<TSource>(): MonoTypeOperatorFunction<TSource> {

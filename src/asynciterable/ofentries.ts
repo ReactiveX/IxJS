@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 function makeTuple<TFirst, TSecond>(x: TFirst, y: TSecond): [TFirst, TSecond] {
   return [x, y];

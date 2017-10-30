@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { FlatMapIterable } from '../flatmap';
 import { bindCallback } from '../../internal/bindcallback';
 

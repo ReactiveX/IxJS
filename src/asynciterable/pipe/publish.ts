@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { publish as publishStatic } from '../publish';
 
 export function publish<TSource>(): OperatorAsyncFunction<TSource, TSource>;

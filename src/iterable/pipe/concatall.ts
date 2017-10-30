@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { ConcatIterable } from '../concat';
 
 export function concatAll<T>(): OperatorFunction<Iterable<T>, T> {

@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { distinct } from '../../iterable/distinct';
 
 /**
@@ -14,7 +14,7 @@ export function distinctProto<TSource, TKey>(
 
 IterableX.prototype.distinct = distinctProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     distinct: typeof distinctProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { memoize } from '../../asynciterable/memoize';
 
 export function memoizeProto<TSource>(
@@ -23,7 +23,7 @@ export function memoizeProto<TSource, TResult = TSource>(
 
 AsyncIterableX.prototype.memoize = memoizeProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     memoize: typeof memoizeProto;
   }

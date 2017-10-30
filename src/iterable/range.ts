@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 class RangeIterable extends IterableX<number> {
   private _start: number;

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { scan } from '../../asynciterable/scan';
 
 export function scanProto<T>(
@@ -23,7 +23,7 @@ export function scanProto<T, R = T>(
 
 AsyncIterableX.prototype.scan = scanProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     scan: typeof scanProto;
   }

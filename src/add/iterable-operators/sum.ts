@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { sum } from '../../iterable/sum';
 
 export function sumProto(this: IterableX<number>, fn?: (x: number) => number): number;
@@ -12,7 +12,7 @@ export function sumProto(this: IterableX<any>, fn: (x: any) => number = x => x):
 
 IterableX.prototype.sum = sumProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     sum: typeof sumProto;
   }

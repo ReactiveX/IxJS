@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { zip } from '../../iterable/zip';
 
 /**
@@ -85,7 +85,7 @@ export function zipProto<T, R>(this: IterableX<T>, ...args: any[]): IterableX<R>
 
 IterableX.prototype.zip = zipProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     zip: typeof zipProto;
   }

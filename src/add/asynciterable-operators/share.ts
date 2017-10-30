@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { share } from '../../asynciterable/share';
 
 export function shareProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource>;
@@ -22,7 +22,7 @@ export function shareProto<TSource, TResult = TSource>(
 
 AsyncIterableX.prototype.share = shareProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     share: typeof shareProto;
   }

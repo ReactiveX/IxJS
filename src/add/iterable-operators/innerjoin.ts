@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { innerJoin } from '../../iterable/innerjoin';
 
 /**
@@ -16,7 +16,7 @@ export function innerJoinProto<TOuter, TInner, TKey, TResult>(
 
 IterableX.prototype.innerJoin = innerJoinProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     innerJoin: typeof innerJoinProto;
   }

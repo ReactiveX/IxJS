@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { arrayIndexOf } from '../internal/arrayindexof';
 import { comparer as defaultComparer } from '../internal/comparer';
 

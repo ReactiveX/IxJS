@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { toArray } from '../../iterable/toarray';
 
 /**
@@ -10,7 +10,7 @@ export function toArrayProto<TSource>(this: IterableX<TSource>): TSource[] {
 
 IterableX.prototype.toArray = toArrayProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     toArray: typeof toArrayProto;
   }

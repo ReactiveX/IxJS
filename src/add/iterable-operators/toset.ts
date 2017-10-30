@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { toSet } from '../../iterable/toset';
 
 /**
@@ -10,7 +10,7 @@ export function toSetProto<TSource>(this: IterableX<TSource>): Set<TSource> {
 
 IterableX.prototype.toSet = toSetProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     toSet: typeof toSetProto;
   }

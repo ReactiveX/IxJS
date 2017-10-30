@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { partition } from '../../asynciterable/partition';
 
 /**
@@ -25,7 +25,7 @@ export function partitionProto<T>(
 
 AsyncIterableX.prototype.partition = partitionProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     partition: typeof partitionProto;
   }

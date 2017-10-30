@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { buffer } from '../../asynciterable/buffer';
 
 /**
@@ -14,7 +14,7 @@ export function bufferProto<T>(
 
 AsyncIterableX.prototype.buffer = bufferProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     buffer: typeof bufferProto;
   }

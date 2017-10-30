@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 class OfKeysIterable<TSource> extends IterableX<string> {
   private _source: { [key: string]: TSource };

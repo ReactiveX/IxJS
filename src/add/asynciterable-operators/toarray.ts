@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { toArray } from '../../asynciterable/toarray';
 
 /**
@@ -10,7 +10,7 @@ export function toArrayProto<TSource>(this: AsyncIterableX<TSource>): Promise<TS
 
 AsyncIterableX.prototype.toArray = toArrayProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     toArray: typeof toArrayProto;
   }

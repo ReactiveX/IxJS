@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { AsyncSink } from '../asyncsink';
 import { memoize } from './memoize';
 
@@ -6,7 +6,6 @@ export function asyncifyErrback<TSource>(
   func: Function
 ): (...args: any[]) => AsyncIterableX<TSource> {
   return function(...args: any[]) {
-
     const sink = new AsyncSink<TSource>();
 
     const handler = function(err: any, ...innerArgs: any[]) {

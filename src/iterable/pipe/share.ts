@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { share as shareStatic } from '../share';
 
 export function share<TSource>(): OperatorFunction<TSource, TSource>;

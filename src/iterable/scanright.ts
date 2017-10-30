@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { toArray } from './toarray';
 
 export class ScanRightIterable<T, R> extends IterableX<R> {

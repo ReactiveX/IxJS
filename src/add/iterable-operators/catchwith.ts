@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { catchWith as catchWithStatic } from '../../iterable/catchwith';
 
 /**
@@ -13,7 +13,7 @@ export function catchWithProto<T>(
 
 IterableX.prototype.catchWith = catchWithProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     catchWith: typeof catchWithProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { debounce } from '../../asynciterable/debounce';
 
 /**
@@ -10,7 +10,7 @@ export function debounceProto<T>(this: AsyncIterableX<T>, time: number): AsyncIt
 
 AsyncIterableX.prototype.debounce = debounceProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     debounce: typeof debounceProto;
   }

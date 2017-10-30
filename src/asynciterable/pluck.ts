@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { map } from './map';
 
 function plucker(props: string[], length: number): (x: any) => any {

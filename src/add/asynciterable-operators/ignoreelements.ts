@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { ignoreElements } from '../../asynciterable/ignoreelements';
 
 /**
@@ -10,7 +10,7 @@ export function ignoreElementsProto<T>(this: AsyncIterableX<T>): AsyncIterableX<
 
 AsyncIterableX.prototype.ignoreElements = ignoreElementsProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     ignoreElements: typeof ignoreElementsProto;
   }

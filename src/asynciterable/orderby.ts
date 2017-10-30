@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { toArray } from './toarray';
 import { sorter as defaultSorter } from '../internal/sorter';
 

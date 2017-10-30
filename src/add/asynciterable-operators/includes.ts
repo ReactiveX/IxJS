@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { includes } from '../../asynciterable/includes';
 
 /**
@@ -14,7 +14,7 @@ export function includesProto<T>(
 
 AsyncIterableX.prototype.includes = includesProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     includes: typeof includesProto;
   }

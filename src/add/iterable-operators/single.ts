@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { single } from '../../iterable/single';
 
 /**
@@ -21,7 +21,7 @@ export function singleProto<T>(
 
 IterableX.prototype.single = singleProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     single: typeof singleProto;
   }

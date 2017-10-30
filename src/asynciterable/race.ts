@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _left: AsyncIterable<TSource>;

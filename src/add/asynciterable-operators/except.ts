@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { except } from '../../asynciterable/except';
 
 /**
@@ -14,7 +14,7 @@ export function exceptProto<TSource>(
 
 AsyncIterableX.prototype.except = exceptProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     except: typeof exceptProto;
   }

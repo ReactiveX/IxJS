@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { SkipAsyncIterable } from '../skip';
 
 export function skip<TSource>(count: number): MonoTypeOperatorAsyncFunction<TSource> {

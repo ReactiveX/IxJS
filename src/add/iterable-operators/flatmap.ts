@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { flatMap } from '../../iterable/flatmap';
 
 /**
@@ -14,7 +14,7 @@ export function flatMapProto<TSource, TResult>(
 
 IterableX.prototype.flatMap = flatMapProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     flatMap: typeof flatMapProto;
   }

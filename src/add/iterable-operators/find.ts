@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { find } from '../../iterable/find';
 
 /**
@@ -25,7 +25,7 @@ export function findProto<T>(
 
 IterableX.prototype.find = findProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     find: typeof findProto;
   }

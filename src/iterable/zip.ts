@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { identity } from '../internal/identity';
 import { returnIterator } from '../internal/returniterator';
 

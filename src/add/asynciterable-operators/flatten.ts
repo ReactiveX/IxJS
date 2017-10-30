@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { flatten } from '../../asynciterable/flatten';
 
 /**
@@ -10,7 +10,7 @@ export function flattenProto<T>(this: AsyncIterableX<T>, depth?: number): AsyncI
 
 AsyncIterableX.prototype.flatten = flattenProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     flatten: typeof flattenProto;
   }

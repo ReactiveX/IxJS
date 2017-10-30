@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { TakeIterable } from '../take';
 
 export function take<TSource>(count: number): MonoTypeOperatorFunction<TSource> {

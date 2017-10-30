@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 class ChainIterable<TResult> extends IterableX<TResult> {
   private _result: Iterable<TResult>;

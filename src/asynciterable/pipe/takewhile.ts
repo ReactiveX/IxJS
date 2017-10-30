@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { TakeWhileAsyncIterable } from '../takewhile';
 
 export function takeWhile<T, S extends T>(

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class ThrowAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _error: any;

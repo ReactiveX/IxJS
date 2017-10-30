@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { createGrouping } from './_grouping';
 import { identity } from '../internal/identity';
 

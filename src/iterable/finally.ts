@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 export class FinallyIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;

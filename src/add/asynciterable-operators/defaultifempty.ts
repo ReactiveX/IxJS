@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { defaultIfEmpty } from '../../asynciterable/defaultifempty';
 
 /**
@@ -13,7 +13,7 @@ export function defaultIfEmptyProto<T>(
 
 AsyncIterableX.prototype.defaultIfEmpty = defaultIfEmptyProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     defaultIfEmpty: typeof defaultIfEmptyProto;
   }

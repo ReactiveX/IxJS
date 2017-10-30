@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { retry } from '../../asynciterable/retry';
 
 /**
@@ -13,7 +13,7 @@ export function retryProto<TSource>(
 
 AsyncIterableX.prototype.retry = retryProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     retry: typeof retryProto;
   }

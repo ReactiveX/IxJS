@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { _finally as _finallyProto } from '../../asynciterable/finally';
 
 /**
@@ -17,7 +17,7 @@ export declare namespace asynciterable {
   let _finally: typeof _finallyProto;
 }
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     finally: typeof finallyProto;
   }

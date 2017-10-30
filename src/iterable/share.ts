@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { create } from './create';
 
 class SharedIterable<T> extends IterableX<T> {

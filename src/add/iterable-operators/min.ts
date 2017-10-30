@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { min } from '../../iterable/min';
 
 export function minProto(this: IterableX<number>, fn?: (x: number) => number): number;
@@ -12,7 +12,7 @@ export function minProto(this: IterableX<any>, fn: (x: any) => number = x => x):
 
 IterableX.prototype.min = minProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     min: typeof minProto;
   }

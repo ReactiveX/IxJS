@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { every } from '../../iterable/every';
 
 /**
@@ -21,7 +21,7 @@ export function everyProto<T>(
 
 IterableX.prototype.every = everyProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     every: typeof everyProto;
   }

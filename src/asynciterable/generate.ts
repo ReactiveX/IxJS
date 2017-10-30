@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
   private _initialState: TState;

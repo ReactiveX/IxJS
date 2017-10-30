@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { find } from '../../asynciterable/find';
 
 /**
@@ -25,7 +25,7 @@ export function findProto<T>(
 
 AsyncIterableX.prototype.find = findProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     find: typeof findProto;
   }

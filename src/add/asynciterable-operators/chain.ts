@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { chain as chainStatic } from '../../asynciterable/chain';
 
 /**
@@ -13,7 +13,7 @@ export function chainProto<TSource, TResult>(
 
 AsyncIterableX.prototype.chain = chainProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     chain: typeof chainProto;
   }

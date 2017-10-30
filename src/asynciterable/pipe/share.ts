@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { share as shareStatic } from '../share';
 
 export function share<TSource>(): OperatorAsyncFunction<TSource, TSource>;

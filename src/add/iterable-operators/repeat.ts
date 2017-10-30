@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { repeat } from '../../iterable/repeat';
 
 /**
@@ -13,7 +13,7 @@ export function repeatProto<TSource>(
 
 IterableX.prototype.repeat = repeatProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     repeat: typeof repeatProto;
   }

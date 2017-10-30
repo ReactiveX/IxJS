@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { toMap } from '../../asynciterable/tomap';
 
 export function toMapProto<TSource, TKey>(
@@ -23,7 +23,7 @@ export function toMapProto<TSource, TKey, TElement = TSource>(
 
 AsyncIterableX.prototype.toMap = toMapProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     toMap: typeof toMapProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { some } from '../../asynciterable/some';
 
 /**
@@ -22,7 +22,7 @@ export function someProto<T>(
 
 AsyncIterableX.prototype.some = someProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     some: typeof someProto;
   }

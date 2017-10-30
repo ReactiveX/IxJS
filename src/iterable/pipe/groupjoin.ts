@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { GroupJoinIterable } from '../groupjoin';
 
 export function groupJoin<TOuter, TInner, TKey, TResult>(

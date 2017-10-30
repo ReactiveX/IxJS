@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { every } from '../../asynciterable/every';
 
 /**
@@ -21,7 +21,7 @@ export function everyProto<T>(
 
 AsyncIterableX.prototype.every = everyProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     every: typeof everyProto;
   }

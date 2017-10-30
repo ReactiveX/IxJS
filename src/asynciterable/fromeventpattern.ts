@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { AsyncSink } from '../asyncsink';
 import { memoize } from './memoize';
 

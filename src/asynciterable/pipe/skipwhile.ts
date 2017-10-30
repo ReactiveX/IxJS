@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { SkipWhileAsyncIterable } from '../skipwhile';
 
 export function skipWhile<T, S extends T>(

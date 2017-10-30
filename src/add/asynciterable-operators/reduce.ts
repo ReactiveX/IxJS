@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { reduce } from '../../asynciterable/reduce';
 
 export async function reduceProto<T>(
@@ -23,7 +23,7 @@ export function reduceProto<T, R = T>(
 
 AsyncIterableX.prototype.reduce = reduceProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     reduce: typeof reduceProto;
   }

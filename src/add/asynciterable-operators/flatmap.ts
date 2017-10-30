@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { flatMap } from '../../asynciterable/flatmap';
 
 /**
@@ -14,7 +14,7 @@ export function flatMapProto<TSource, TResult>(
 
 AsyncIterableX.prototype.flatMap = flatMapProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     flatMap: typeof flatMapProto;
   }

@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { skipWhile } from '../../iterable/skipwhile';
 
 /**
@@ -21,7 +21,7 @@ export function skipWhileProto<TSource>(
 
 IterableX.prototype.skipWhile = skipWhileProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     skipWhile: typeof skipWhileProto;
   }

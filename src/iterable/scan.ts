@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 export class ScanIterable<T, R> extends IterableX<R> {
   private _source: Iterable<T>;

@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { concatStatic } from './concat';
 import { _while } from './while';
 

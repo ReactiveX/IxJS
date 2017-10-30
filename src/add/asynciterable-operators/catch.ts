@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { _catch as _catchProto } from '../../asynciterable/catch';
 
 /**
@@ -17,7 +17,7 @@ export declare namespace asynciterable {
   let _catch: typeof _catchProto;
 }
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     catch: typeof catchProto;
   }

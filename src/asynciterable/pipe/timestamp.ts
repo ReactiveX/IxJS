@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { TimestampAsyncIterable, Timestamp } from '../timestamp';
 
 export function timestamp<TSource>(): OperatorAsyncFunction<TSource, Timestamp<TSource>> {

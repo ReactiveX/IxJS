@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { JoinAsyncIterable } from '../innerjoin';
 
 export function innerJoin<TOuter, TInner, TKey, TResult>(

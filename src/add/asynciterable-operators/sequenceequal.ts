@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { sequenceEqual } from '../../asynciterable/sequenceequal';
 import { comparerAsync } from '../../internal/comparer';
 
@@ -15,7 +15,7 @@ export function sequenceEqualProto<T>(
 
 AsyncIterableX.prototype.sequenceEqual = sequenceEqualProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     sequenceEqual: typeof sequenceEqualProto;
   }

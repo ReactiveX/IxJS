@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { map } from './map';
 
 function makeTuple<TFirst, TSecond>(x: TFirst, y: TSecond): [TFirst, TSecond] {
