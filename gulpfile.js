@@ -495,10 +495,10 @@ function _dir(target, format) { return path.join(releasesRootDir, ...(!format ? 
 
 function* combinations(_targets, _modules) {
 
-  const targets = known(knownTargets, _targets || [`all`]);
-  const modules = known(knownModules, _modules || [`all`]);
+  const targets = known(knownTargets, _targets || (_targets = [`all`]));
+  const modules = known(knownModules, _modules || (_modules = [`all`]));
 
-  if (targets[0] === `all` && modules[0] === `all`) {
+  if (_targets[0] === `all` && _modules[0] === `all`) {
     yield [`ts`, ``];
     yield [`ix`, ``];
   }
