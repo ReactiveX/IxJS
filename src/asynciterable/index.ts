@@ -35,6 +35,7 @@ export { flatten } from './flatten';
 export { _for } from './for';
 export { fromEvent } from './fromevent';
 export { fromEventPattern } from './fromeventpattern';
+export { fromNodeStream } from './fromnodestream';
 export { generate } from './generate';
 export { generateTime } from './generatetime';
 export { groupBy } from './groupby';
