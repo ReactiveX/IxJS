@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { memoize as memoizeStatic } from '../memoize';
 
 export function memoize<TSource>(readerCount?: number): OperatorFunction<TSource, TSource>;

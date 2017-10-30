@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { findIndex } from '../../iterable/findindex';
 
 /**
@@ -14,7 +14,7 @@ export function findIndexProto<T>(
 
 IterableX.prototype.findIndex = findIndexProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     findIndex: typeof findIndexProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _condition: () => boolean | Promise<boolean>;

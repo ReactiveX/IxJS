@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { sleep } from './_sleep';
 
 export class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {

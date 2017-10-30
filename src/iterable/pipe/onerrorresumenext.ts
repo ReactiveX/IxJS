@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { OnErrorResumeNextIterable } from '../onerrorresumenext';
 
 export function onErrorResumeNext<T>(...args: Iterable<T>[]): MonoTypeOperatorFunction<T> {

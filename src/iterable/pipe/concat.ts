@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { ConcatIterable } from '../concat';
 
 /* tslint:disable:max-line-length */

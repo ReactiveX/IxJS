@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { filter } from '../../asynciterable/filter';
 
 /**
@@ -25,7 +25,7 @@ export function filterProto<TSource>(
 
 AsyncIterableX.prototype.filter = filterProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     filter: typeof filterProto;
   }

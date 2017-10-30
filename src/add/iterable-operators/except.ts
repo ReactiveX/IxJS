@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { except } from '../../iterable/except';
 
 /**
@@ -14,7 +14,7 @@ export function exceptProto<TSource>(
 
 IterableX.prototype.except = exceptProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     except: typeof exceptProto;
   }

@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { bindCallback } from '../internal/bindcallback';
 
 export class MapIterable<TSource, TResult> extends IterableX<TResult> {

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { take } from '../../asynciterable/take';
 
 /**
@@ -10,7 +10,7 @@ export function takeProto<T>(this: AsyncIterableX<T>, count: number): AsyncItera
 
 AsyncIterableX.prototype.take = takeProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     take: typeof takeProto;
   }

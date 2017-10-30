@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { throttle } from '../../asynciterable/throttle';
 
 /**
@@ -10,7 +10,7 @@ export function throttleProto<T>(this: AsyncIterableX<T>, time: number): AsyncIt
 
 AsyncIterableX.prototype.throttle = throttleProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     throttle: typeof throttleProto;
   }

@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { extremaBy, defaultCompare } from './_extremaby';
 
 export function minBy<TSource, TKey>(

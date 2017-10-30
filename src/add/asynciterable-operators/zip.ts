@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { zip } from '../../asynciterable/zip';
 
 /**
@@ -94,7 +94,7 @@ export function zipProto<T, R>(this: AsyncIterableX<T>, ...args: any[]): AsyncIt
 
 AsyncIterableX.prototype.zip = zipProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     zip: typeof zipProto;
   }

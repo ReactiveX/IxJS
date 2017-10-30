@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { identityAsync } from '../internal/identity';
 import { returnAsyncIterator } from '../internal/returniterator';
 

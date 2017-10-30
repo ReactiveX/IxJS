@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { DefaultIfEmptyIterable } from '../defaultifempty';
 
 export function defaultIfEmpty<T>(defaultValue: T): MonoTypeOperatorFunction<T> {

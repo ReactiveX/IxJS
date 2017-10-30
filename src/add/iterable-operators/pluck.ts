@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { pluck } from '../../iterable/pluck';
 
 /**
@@ -13,7 +13,7 @@ export function pluckProto<TSource, TResult>(
 
 IterableX.prototype.pluck = pluckProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     pluck: typeof pluckProto;
   }

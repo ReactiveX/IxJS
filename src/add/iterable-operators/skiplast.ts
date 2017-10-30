@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { skipLast } from '../../iterable/skiplast';
 
 /**
@@ -10,7 +10,7 @@ export function skipLastProto<T>(this: IterableX<T>, count: number): IterableX<T
 
 IterableX.prototype.skipLast = skipLastProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     skipLast: typeof skipLastProto;
   }

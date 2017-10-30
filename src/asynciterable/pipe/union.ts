@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { UnionAsyncIterable } from '../union';
 import { comparerAsync } from '../../internal/comparer';
 

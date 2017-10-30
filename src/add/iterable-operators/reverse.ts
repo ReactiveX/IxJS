@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { reverse } from '../../iterable/reverse';
 
 /**
@@ -10,7 +10,7 @@ export function reverseProto<TSource>(this: IterableX<TSource>): IterableX<TSour
 
 IterableX.prototype.reverse = reverseProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     reverse: typeof reverseProto;
   }

@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { filter } from '../../iterable/filter';
 
 /**
@@ -24,7 +24,7 @@ export function filterProto<T>(
 
 IterableX.prototype.filter = filterProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     filter: typeof filterProto;
   }

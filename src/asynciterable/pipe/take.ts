@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { TakeAsyncIterable } from '../take';
 
 export function take<TSource>(count: number): MonoTypeOperatorAsyncFunction<TSource> {

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 export class ConcatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<AsyncIterable<TSource>>;

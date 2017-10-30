@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { publish as publishStatic } from '../publish';
 
 export function publish<TSource>(): OperatorFunction<TSource, TSource>;

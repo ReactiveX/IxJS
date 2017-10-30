@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { RefCountList } from './_refcountlist';
 import { create } from './create';
 

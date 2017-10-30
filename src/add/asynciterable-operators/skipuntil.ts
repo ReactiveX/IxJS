@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { skipUntil } from '../../asynciterable/skipuntil';
 
 /**
@@ -13,7 +13,7 @@ export function skipUntilProto<TSource>(
 
 AsyncIterableX.prototype.skipUntil = skipUntilProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     skipUntil: typeof skipUntilProto;
   }

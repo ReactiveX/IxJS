@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { publish } from '../../asynciterable/publish';
 
 export function publishProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource>;
@@ -18,7 +18,7 @@ export function publishProto<TSource, TResult>(
 
 AsyncIterableX.prototype.publish = publishProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     publish: typeof publishProto;
   }

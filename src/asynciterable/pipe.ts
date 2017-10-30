@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../interfaces';
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 /* tslint:disable:max-line-length */
 export function pipe<T>(source: AsyncIterable<T>): AsyncIterableX<T>;

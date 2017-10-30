@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { bindCallback } from '../internal/bindcallback';
 
 export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {

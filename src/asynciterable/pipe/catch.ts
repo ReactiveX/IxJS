@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { CatchAllAsyncIterable } from '../catch';
 
 export function _catch<T>(...args: AsyncIterable<T>[]): MonoTypeOperatorAsyncFunction<T> {

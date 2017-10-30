@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { filter } from './filter';
 
 export function partition<T, S extends T>(

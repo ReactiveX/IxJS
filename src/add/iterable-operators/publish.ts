@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { publish } from '../../iterable/publish';
 
 export function publishProto<TSource>(this: IterableX<TSource>): IterableX<TSource>;
@@ -18,7 +18,7 @@ export function publishProto<TSource, TResult>(
 
 IterableX.prototype.publish = publishProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     publish: typeof publishProto;
   }

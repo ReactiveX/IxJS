@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { TakeWhileIterable } from '../takewhile';
 
 export function takeWhile<T, S extends T>(

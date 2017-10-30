@@ -1,8 +1,8 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { ofValues as ofValuesStatic } from '../../iterable/ofvalues';
 
 IterableX.ofValues = ofValuesStatic;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   namespace IterableX { export let ofValues: typeof ofValuesStatic; }
 }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class EmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   async *[Symbol.asyncIterator](): AsyncIterator<TSource> {

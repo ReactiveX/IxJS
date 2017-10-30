@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { doWhile } from '../../asynciterable/dowhile';
 
 /**
@@ -13,7 +13,7 @@ export function doWhileProto<TSource>(
 
 AsyncIterableX.prototype.doWhile = doWhileProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     doWhile: typeof doWhileProto;
   }

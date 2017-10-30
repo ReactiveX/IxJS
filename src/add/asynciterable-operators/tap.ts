@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { tap } from '../../asynciterable/tap';
 import { PartialAsyncObserver } from '../../observer';
 
@@ -14,7 +14,7 @@ export function tapProto<T>(
 
 AsyncIterableX.prototype.tap = tapProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     tap: typeof tapProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { takeWhile } from '../../asynciterable/takewhile';
 
 /**
@@ -22,7 +22,7 @@ export function takeWhileProto<T>(
 
 AsyncIterableX.prototype.takeWhile = takeWhileProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     takeWhile: typeof takeWhileProto;
   }

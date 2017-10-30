@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { GroupByIterable, GroupedIterable, groupByResultIdentity } from '../groupby';
 import { identity } from '../../internal/identity';
 

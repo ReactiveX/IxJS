@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { max } from '../../asynciterable/max';
 import { identityAsync } from '../../internal/identity';
 
@@ -19,7 +19,7 @@ export function maxProto(
 
 AsyncIterableX.prototype.max = maxProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     max: typeof maxProto;
   }

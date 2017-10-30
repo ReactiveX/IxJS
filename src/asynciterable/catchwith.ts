@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { returnAsyncIterator } from '../internal/returniterator';
 
 export class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {

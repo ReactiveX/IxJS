@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { extremaBy, defaultCompareAsync } from './_extremaby';
 
 export function minBy<TSource, TKey>(

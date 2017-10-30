@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { flatten } from '../../iterable/flatten';
 
 /**
@@ -10,7 +10,7 @@ export function flattenProto<T>(this: IterableX<T>, depth?: number): IterableX<T
 
 IterableX.prototype.flatten = flattenProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     flatten: typeof flattenProto;
   }

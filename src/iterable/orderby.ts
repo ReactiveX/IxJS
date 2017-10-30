@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { sorter as defaultSorter } from '../internal/sorter';
 
 export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {

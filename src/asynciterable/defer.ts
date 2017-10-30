@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class DeferAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _fn: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;

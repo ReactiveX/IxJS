@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { chain as chainStatic } from '../../iterable/chain';
 
 /**
@@ -13,7 +13,7 @@ export function chainProto<TSource, TResult>(
 
 IterableX.prototype.chain = chainProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     chain: typeof chainProto;
   }

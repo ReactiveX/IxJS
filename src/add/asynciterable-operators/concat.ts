@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { concat } from '../../asynciterable/concat';
 
 /* tslint:disable:max-line-length */
@@ -65,7 +65,7 @@ export function concatProto<T>(
 
 AsyncIterableX.prototype.concat = concatProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     concat: typeof concatProto;
   }

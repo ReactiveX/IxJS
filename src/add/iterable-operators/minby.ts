@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { minBy } from '../../iterable/minby';
 
 /**
@@ -14,7 +14,7 @@ export function minByProto<TSource, TKey>(
 
 IterableX.prototype.minBy = minByProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     minBy: typeof minByProto;
   }

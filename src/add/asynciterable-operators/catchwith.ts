@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { catchWith as catchWithStatic } from '../../asynciterable/catchwith';
 
 /**
@@ -13,7 +13,7 @@ export function catchWithProto<T>(
 
 AsyncIterableX.prototype.catchWith = catchWithProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     catchWith: typeof catchWithProto;
   }

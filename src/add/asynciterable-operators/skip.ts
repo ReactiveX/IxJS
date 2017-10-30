@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { skip } from '../../asynciterable/skip';
 
 /**
@@ -10,7 +10,7 @@ export function skipProto<T>(this: AsyncIterableX<T>, count: number): AsyncItera
 
 AsyncIterableX.prototype.skip = skipProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     skip: typeof skipProto;
   }

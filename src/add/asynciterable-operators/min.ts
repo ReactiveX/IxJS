@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { min } from '../../asynciterable/min';
 import { identityAsync } from '../../internal/identity';
 
@@ -22,7 +22,7 @@ export function minProto(
 
 AsyncIterableX.prototype.min = minProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     min: typeof minProto;
   }

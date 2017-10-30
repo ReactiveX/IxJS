@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;

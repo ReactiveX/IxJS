@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { scanRight } from '../../iterable/scanright';
 
 export function scanRightProto<T>(
@@ -23,7 +23,7 @@ export function scanRightProto<T, R = T>(
 
 IterableX.prototype.scanRight = scanRightProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     scanRight: typeof scanRightProto;
   }

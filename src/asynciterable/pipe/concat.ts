@@ -1,11 +1,9 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { ConcatAsyncIterable } from '../concat';
 
 /* tslint:disable:max-line-length */
-export function concat<T, T2>(
-  v2: AsyncIterable<T2>
-): MonoTypeOperatorAsyncFunction<T | T2>;
+export function concat<T, T2>(v2: AsyncIterable<T2>): MonoTypeOperatorAsyncFunction<T | T2>;
 export function concat<T, T2, T3>(
   v2: AsyncIterable<T2>,
   v3: AsyncIterable<T3>
@@ -30,9 +28,7 @@ export function concat<T, T2, T3, T4, T5, T6>(
 ): MonoTypeOperatorAsyncFunction<T | T2 | T3 | T4 | T5 | T6>;
 /* tslint:enable:max-line-length */
 
-export function concat<T>(
-  ...args: AsyncIterable<T>[]
-): MonoTypeOperatorAsyncFunction<T> {
+export function concat<T>(...args: AsyncIterable<T>[]): MonoTypeOperatorAsyncFunction<T> {
   return function concatOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
     return new ConcatAsyncIterable<T>([source, ...args]);
   };

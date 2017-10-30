@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 class AnonymousIterable<T> extends IterableX<T> {
   private _fn: () => Iterator<T>;

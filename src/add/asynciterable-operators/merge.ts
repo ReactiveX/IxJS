@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { merge } from '../../asynciterable/merge';
 
 /* tslint:disable:max-line-length */
@@ -65,7 +65,7 @@ export function mergeProto<T>(
 
 AsyncIterableX.prototype.merge = mergeProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     merge: typeof mergeProto;
   }

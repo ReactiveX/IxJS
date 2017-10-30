@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { pluck as pluckStatic } from '../pluck';
 
 export function pluck<TSource, TResult>(...args: string[]): OperatorFunction<TSource, TResult> {

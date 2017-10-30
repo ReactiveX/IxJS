@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class ChainAsyncIterable<TResult> extends AsyncIterableX<TResult> {
   private _result: AsyncIterable<TResult>;

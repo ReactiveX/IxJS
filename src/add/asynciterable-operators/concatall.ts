@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { concatAll } from '../../asynciterable/concatall';
 
 /**
@@ -10,7 +10,7 @@ export function concatAllProto<T>(this: AsyncIterableX<AsyncIterable<T>>): Async
 
 AsyncIterableX.prototype.concatAll = concatAllProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     concatAll: typeof concatAllProto;
   }

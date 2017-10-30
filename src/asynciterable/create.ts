@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class AnonymousAsyncIterable<T> extends AsyncIterableX<T> {
   private _fn: () => AsyncIterator<T> | Promise<AsyncIterator<T>>;

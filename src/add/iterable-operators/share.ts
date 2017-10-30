@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { share } from '../../iterable/share';
 
 export function shareProto<TSource>(this: IterableX<TSource>): IterableX<TSource>;
@@ -18,7 +18,7 @@ export function shareProto<TSource, TResult>(
 
 IterableX.prototype.share = shareProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     share: typeof shareProto;
   }

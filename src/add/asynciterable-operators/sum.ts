@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { sum } from '../../asynciterable/sum';
 import { identityAsync } from '../../internal/identity';
 
@@ -22,7 +22,7 @@ export function sumProto(
 
 AsyncIterableX.prototype.sum = sumProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     sum: typeof sumProto;
   }

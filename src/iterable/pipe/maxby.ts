@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { extremaBy, defaultCompare } from '../_extremaby';
 
 export function maxBy<TSource, TKey>(

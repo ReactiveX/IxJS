@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { slice } from '../../iterable/slice';
 
 /**
@@ -10,7 +10,7 @@ export function sliceProto<T>(this: IterableX<T>, begin: number, end: number): I
 
 IterableX.prototype.slice = sliceProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     slice: typeof sliceProto;
   }

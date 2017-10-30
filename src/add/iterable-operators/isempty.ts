@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { isEmpty } from '../../iterable/isempty';
 
 /**
@@ -10,7 +10,7 @@ export function isEmptyProto<T>(this: IterableX<T>): boolean {
 
 IterableX.prototype.isEmpty = isEmptyProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     isEmpty: typeof isEmptyProto;
   }

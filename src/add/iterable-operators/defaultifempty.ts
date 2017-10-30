@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { defaultIfEmpty } from '../../iterable/defaultifempty';
 
 /**
@@ -10,7 +10,7 @@ export function defaultIfEmptyProto<T>(this: IterableX<T>, defaultValue: T): Ite
 
 IterableX.prototype.defaultIfEmpty = defaultIfEmptyProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     defaultIfEmpty: typeof defaultIfEmptyProto;
   }

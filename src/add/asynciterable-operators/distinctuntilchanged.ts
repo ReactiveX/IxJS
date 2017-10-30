@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { distinctUntilChanged } from '../../asynciterable/distinctuntilchanged';
 
 /**
@@ -14,7 +14,7 @@ export function distinctUntilChangedProto<TSource, TKey>(
 
 AsyncIterableX.prototype.distinctUntilChanged = distinctUntilChangedProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     distinctUntilChanged: typeof distinctUntilChangedProto;
   }

@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { _finally as _finallyProto } from '../../iterable/finally';
 
 /**
@@ -14,7 +14,7 @@ export declare namespace iterable {
   let _finally: typeof _finallyProto;
 }
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     finally: typeof finallyProto;
   }

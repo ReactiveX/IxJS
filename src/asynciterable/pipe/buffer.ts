@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { BufferAsyncIterable } from '../buffer';
 
 export function buffer<TSource>(

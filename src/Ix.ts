@@ -1,6 +1,6 @@
-import { IterableX } from './iterable';
 import { AsyncSink } from './asyncsink';
-import { AsyncIterableX } from './asynciterable';
+import { IterableX } from './iterable/iterablex';
+import { AsyncIterableX } from './asynciterable/asynciterablex';
 import { GroupedIterable } from './iterable/groupby';
 import { GroupedAsyncIterable } from './asynciterable/groupby';
 export { OrderedIterableX as OrderedIterable } from './iterable/orderby';

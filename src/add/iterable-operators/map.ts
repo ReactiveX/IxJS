@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { map } from '../../iterable/map';
 
 /**
@@ -14,7 +14,7 @@ export function mapProto<T, U>(
 
 IterableX.prototype.map = mapProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     map: typeof mapProto;
   }

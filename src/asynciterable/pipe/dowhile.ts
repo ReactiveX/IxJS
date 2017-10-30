@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { concatStatic } from '../concat';
 import { _while } from '../while';
 

@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { pairwise } from '../../iterable/pairwise';
 
 /**
@@ -10,7 +10,7 @@ export function pairwiseProto<TSource>(this: IterableX<TSource>): IterableX<TSou
 
 IterableX.prototype.pairwise = pairwiseProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     pairwise: typeof pairwiseProto;
   }

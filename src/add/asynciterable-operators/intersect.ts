@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { intersect } from '../../asynciterable/intersect';
 
 /**
@@ -14,7 +14,7 @@ export function intersectProto<T>(
 
 AsyncIterableX.prototype.intersect = intersectProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     intersect: typeof intersectProto;
   }

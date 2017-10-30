@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { pairwise } from '../../asynciterable/pairwise';
 
 /**
@@ -10,7 +10,7 @@ export function pairwiseProto<TSource>(this: AsyncIterableX<TSource>): AsyncIter
 
 AsyncIterableX.prototype.pairwise = pairwiseProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     pairwise: typeof pairwiseProto;
   }

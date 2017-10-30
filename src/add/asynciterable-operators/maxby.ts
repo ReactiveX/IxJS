@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { maxBy } from '../../asynciterable/maxby';
 
 /**
@@ -14,7 +14,7 @@ export function maxByProto<TSource, TKey>(
 
 AsyncIterableX.prototype.maxBy = maxByProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     maxBy: typeof maxByProto;
   }

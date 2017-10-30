@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { includes } from '../../iterable/includes';
 
 /**
@@ -10,7 +10,7 @@ export function includesProto<T>(this: IterableX<T>, searchElement: T, fromIndex
 
 IterableX.prototype.includes = includesProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     includes: typeof includesProto;
   }

@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { TimeoutAsyncIterable } from '../timeout';
 
 export function timeout<TSource>(dueTime: number): MonoTypeOperatorAsyncFunction<TSource> {

@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 export class ConcatIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<Iterable<TSource>>;

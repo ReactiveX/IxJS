@@ -1,5 +1,5 @@
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { ReverseAsyncIterable } from '../reverse';
 
 export function reverse<TSource>(): MonoTypeOperatorAsyncFunction<TSource> {

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { toSet } from '../../asynciterable/toset';
 
 /**
@@ -10,7 +10,7 @@ export function toSetProto<TSource>(this: AsyncIterableX<TSource>): Promise<Set<
 
 AsyncIterableX.prototype.toSet = toSetProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     toSet: typeof toSetProto;
   }

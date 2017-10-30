@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { RefCountList } from '../iterable/_refcountlist';
 import { create } from './create';
 

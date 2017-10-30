@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import {
   groupBy,
   groupByResultIdentityAsync,
@@ -43,7 +43,7 @@ export function groupByProto<TSource, TKey, TValue, TResult>(
 
 AsyncIterableX.prototype.groupBy = groupByProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     groupBy: typeof groupByProto;
   }

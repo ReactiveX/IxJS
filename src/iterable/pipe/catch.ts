@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { CatchIterable } from '../catch';
 
 export function _catch<T>(...args: Iterable<T>[]): MonoTypeOperatorFunction<T> {

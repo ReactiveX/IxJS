@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { create } from './create';
 
 class SharedAsyncIterable<T> extends AsyncIterableX<T> {

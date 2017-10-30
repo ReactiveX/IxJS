@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { union } from '../../iterable/union';
 
 /**
@@ -14,7 +14,7 @@ export function unionProto<T>(
 
 IterableX.prototype.union = unionProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     union: typeof unionProto;
   }

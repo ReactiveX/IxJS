@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { endWith } from '../../asynciterable/endwith';
 
 /**
@@ -10,7 +10,7 @@ export function endWithProto<T>(this: AsyncIterableX<T>, ...args: T[]) {
 
 AsyncIterableX.prototype.endWith = endWithProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     endWith: typeof endWithProto;
   }

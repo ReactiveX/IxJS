@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { innerJoin } from '../../asynciterable/innerjoin';
 
 /**
@@ -16,7 +16,7 @@ export function innerJoinProto<TOuter, TInner, TKey, TResult>(
 
 AsyncIterableX.prototype.innerJoin = innerJoinProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     innerJoin: typeof innerJoinProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { repeatStatic } from '../iterable/repeat';
 import { _catchAll } from './catch';
 

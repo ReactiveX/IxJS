@@ -1,9 +1,9 @@
-import { OperatorAsyncFunction } from './interfaces';
-import { bindCallback } from './internal/bindcallback';
-import { identityAsync } from './internal/identity';
-import { toLength } from './internal/tolength';
-import { isArrayLike, isIterable, isAsyncIterable } from './internal/isiterable';
-import { Observable } from './observer';
+import { OperatorAsyncFunction } from '../interfaces';
+import { bindCallback } from '../internal/bindcallback';
+import { identityAsync } from '../internal/identity';
+import { toLength } from '../internal/tolength';
+import { isArrayLike, isIterable, isAsyncIterable } from '../internal/isiterable';
+import { Observable } from '../observer';
 
 /**
  * This clas serves as the base for all operations which support [Symbol.asyncIterator].
@@ -230,7 +230,7 @@ class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-declare module './asynciterable' {
+declare module '../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     pipe(): AsyncIterableX<T>;
     pipe<A>(op1: OperatorAsyncFunction<T, A>): AsyncIterableX<A>;

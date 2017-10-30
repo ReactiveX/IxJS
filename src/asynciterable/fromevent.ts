@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { fromEventPattern } from './fromeventpattern';
 
 export type NodeEventEmitter = {

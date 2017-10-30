@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { FlatMapAsyncIterable } from '../flatmap';
 import { bindCallback } from '../../internal/bindcallback';
 

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class RangeAsyncIterable extends AsyncIterableX<number> {
   private _start: number;

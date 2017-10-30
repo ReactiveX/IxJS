@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { retry } from '../../iterable/retry';
 
 /**
@@ -13,7 +13,7 @@ export function retryProto<TSource>(
 
 IterableX.prototype.retry = retryProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     retry: typeof retryProto;
   }

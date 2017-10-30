@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 class OfValuesAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: { [key: string]: TSource };

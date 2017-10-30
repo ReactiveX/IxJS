@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 
 class DeferIterable<T> extends IterableX<T> {
   private _fn: () => Iterable<T>;

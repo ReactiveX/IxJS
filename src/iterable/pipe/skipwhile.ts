@@ -1,5 +1,5 @@
 import { OperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { SkipWhileIterable } from '../skipwhile';
 
 export function skipWhile<T, S extends T>(

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { average } from '../../asynciterable/average';
 
 export function averageProto(
@@ -21,7 +21,7 @@ export function averageProto(
 
 AsyncIterableX.prototype.average = averageProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     average: typeof averageProto;
   }

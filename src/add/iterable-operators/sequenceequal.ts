@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { sequenceEqual } from '../../iterable/sequenceequal';
 
 /**
@@ -14,7 +14,7 @@ export function sequenceEqualProto<T>(
 
 IterableX.prototype.sequenceEqual = sequenceEqualProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     sequenceEqual: typeof sequenceEqualProto;
   }

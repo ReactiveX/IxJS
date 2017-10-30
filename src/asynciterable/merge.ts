@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 
 // tslint:disable-next-line:no-empty
 const NEVER_PROMISE = new Promise(() => {});

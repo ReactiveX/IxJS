@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { count } from '../../asynciterable/count';
 
 /**
@@ -13,7 +13,7 @@ export function countProto<T>(
 
 AsyncIterableX.prototype.count = countProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     count: typeof countProto;
   }

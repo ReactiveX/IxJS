@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { createGrouping } from './_grouping';
 import { empty } from './empty';
 import { identity } from '../internal/identity';

@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { returnIterator } from '../internal/returniterator';
 
 export class CatchWithIterable<TSource> extends IterableX<TSource> {

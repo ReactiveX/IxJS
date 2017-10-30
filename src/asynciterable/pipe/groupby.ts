@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { GroupByAsyncIterable, GroupedAsyncIterable, groupByResultIdentityAsync } from '../groupby';
 import { identityAsync } from '../../internal/identity';
 

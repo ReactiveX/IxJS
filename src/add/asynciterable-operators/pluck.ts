@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { pluck } from '../../asynciterable/pluck';
 
 /**
@@ -13,7 +13,7 @@ export function pluckProto<TSource, TResult>(
 
 AsyncIterableX.prototype.pluck = pluckProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     pluck: typeof pluckProto;
   }

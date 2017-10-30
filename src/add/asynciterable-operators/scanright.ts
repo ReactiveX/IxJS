@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { scanRight } from '../../asynciterable/scanright';
 
 export function scanRightProto<T>(
@@ -23,7 +23,7 @@ export function scanRightProto<T, R = T>(
 
 AsyncIterableX.prototype.scanRight = scanRightProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     scanRight: typeof scanRightProto;
   }

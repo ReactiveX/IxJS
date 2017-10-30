@@ -1,4 +1,4 @@
-import { IterableX } from '../iterable';
+import { IterableX } from './iterablex';
 import { map } from './map';
 
 class OfValuesIterable<TSource> extends IterableX<TSource> {

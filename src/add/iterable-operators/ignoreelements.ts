@@ -1,4 +1,4 @@
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { ignoreElements } from '../../iterable/ignoreelements';
 
 /**
@@ -10,7 +10,7 @@ export function ignoreElementsProto<T>(this: IterableX<T>): IterableX<T> {
 
 IterableX.prototype.ignoreElements = ignoreElementsProto;
 
-declare module '../../iterable' {
+declare module '../../iterable/iterablex' {
   interface IterableX<T> {
     ignoreElements: typeof ignoreElementsProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { mergeAll } from '../../asynciterable/mergeall';
 
 /**
@@ -10,7 +10,7 @@ export function mergeAllProto<T>(this: AsyncIterableX<AsyncIterable<T>>): AsyncI
 
 AsyncIterableX.prototype.mergeAll = mergeAllProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     mergeAll: typeof mergeAllProto;
   }

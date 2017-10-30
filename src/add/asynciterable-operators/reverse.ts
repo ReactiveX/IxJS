@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { reverse } from '../../asynciterable/reverse';
 
 /**
@@ -10,7 +10,7 @@ export function reverseProto<TSource>(this: AsyncIterableX<TSource>): AsyncItera
 
 AsyncIterableX.prototype.reverse = reverseProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     reverse: typeof reverseProto;
   }

@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../../asynciterable';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { isEmpty } from '../../asynciterable/isempty';
 
 /**
@@ -10,7 +10,7 @@ export function isEmptyProto<T>(this: AsyncIterableX<T>): Promise<boolean> {
 
 AsyncIterableX.prototype.isEmpty = isEmptyProto;
 
-declare module '../../asynciterable' {
+declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     isEmpty: typeof isEmptyProto;
   }

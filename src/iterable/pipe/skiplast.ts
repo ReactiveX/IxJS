@@ -1,5 +1,5 @@
 import { MonoTypeOperatorFunction } from '../../interfaces';
-import { IterableX } from '../../iterable';
+import { IterableX } from '../../iterable/iterablex';
 import { SkipLastIterable } from '../skiplast';
 
 export function skipLast<TSource>(count: number): MonoTypeOperatorFunction<TSource> {

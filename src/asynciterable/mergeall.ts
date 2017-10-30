@@ -1,4 +1,4 @@
-import { AsyncIterableX } from '../asynciterable';
+import { AsyncIterableX } from './asynciterablex';
 import { flatMap } from './flatmap';
 
 export function mergeAll<TSource>(
