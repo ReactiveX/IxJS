@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable/iterablex';
 import { _for as forStatic } from '../../iterable/for';
 
-IterableX['for'] = forStatic;
+IterableX.for = forStatic;
 
 export declare namespace iterable {
   let _for: typeof forStatic;
