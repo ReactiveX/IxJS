@@ -82,7 +82,7 @@ export function pipe<TSource, TResult>(
   ...operations: OperatorAsyncFunction<TSource, TResult>[]
 ): AsyncIterableX<TResult> {
   if (operations.length === 0) {
-    return source as any;
+    return source instanceof AsyncIterableX ? source : AsyncIterableX.from(source);
   }
 
   const piped = (input: AsyncIterable<TSource>): AsyncIterableX<TResult> => {
