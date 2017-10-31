@@ -79,7 +79,7 @@ export function pipe<TSource, TResult>(
   ...operations: OperatorFunction<TSource, TResult>[]
 ): IterableX<TResult> {
   if (operations.length === 0) {
-    return source as any;
+    return source instanceof IterableX ? source : IterableX.from(source);
   }
 
   const piped = (input: Iterable<TSource>): IterableX<TResult> => {
