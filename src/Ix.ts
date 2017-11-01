@@ -136,7 +136,6 @@ import './add/asynciterable/empty';
 import './add/asynciterable/for';
 import './add/asynciterable/fromevent';
 import './add/asynciterable/fromeventpattern';
-import './add/asynciterable/fromnodestream';
 import './add/asynciterable/race';
 import './add/asynciterable/range';
 import './add/asynciterable/repeat';

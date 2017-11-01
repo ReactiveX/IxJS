@@ -1,6 +1,6 @@
 import * as Ix from '../Ix';
 import * as test from 'tape-async';
-const { fromNodeStream } = Ix.asynciterable;
+const { fromNodeStream } = Ix;
 import { Readable, ReadableOptions } from 'stream';
 
 class Counter extends Readable {
