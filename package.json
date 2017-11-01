@@ -67,7 +67,7 @@
     "gulp-typescript": "3.2.3",
     "husky": "0.14.3",
     "json": "9.0.6",
-    "lerna": "2.5.0",
+    "lerna": "2.5.1",
     "lint-staged": "4.3.0",
     "merge2": "1.2.0",
     "mkdirp": "0.5.1",
