@@ -1,45 +1,35 @@
-export function reduce<T>(
+export function reduce<T, R = T>(
   source: Iterable<T>,
-  accumulator: (acc: T, value: T, index: number) => T,
-  seed?: T
-): T;
-export function reduce<T>(
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  seed?: never[]
+): R;
+export function reduce<T, R = T>(
   source: Iterable<T>,
-  accumulator: (acc: T[], value: T, index: number) => T[],
-  seed?: T[]
-): T[];
-export function reduce<T, R>(
-  source: Iterable<T>,
-  accumulator: (acc: R, value: T, index: number) => R,
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
   seed?: R
 ): R;
-
-export function reduce<T, R>(
+export function reduce<T, R = T>(
   source: Iterable<T>,
-  fn: (acc: R, x: T, index: number) => R,
-  seed?: T | R
-): T | R {
-  let _seed = seed;
-  const hasSeed = arguments.length === 3;
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  ...seed: R[]
+): R {
+  const hasSeed = seed.length === 1;
   let i = 0,
-    hasValue = false;
+    hasValue = false,
+    acc = seed[0] as T | R;
   for (let item of source) {
     if (hasValue || (hasValue = hasSeed)) {
-      _seed = fn(<R>_seed, item, i++);
+      acc = accumulator(<R>acc, item, i++);
     } else {
-      _seed = item;
+      acc = item;
       hasValue = true;
       i++;
     }
   }
 
-  if (hasSeed && !hasValue) {
-    return _seed!;
-  }
-
-  if (!hasValue) {
+  if (!(hasSeed || hasValue)) {
     throw new Error('Sequence contains no elements');
   }
 
-  return _seed!;
+  return acc as R;
 }

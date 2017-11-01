@@ -85,7 +85,7 @@ export function pipe<TSource, TResult>(
   const piped = (input: Iterable<TSource>): IterableX<TResult> => {
     return operations.reduce(
       (prev: any, fn: OperatorFunction<TSource, TResult>) => fn(prev),
-      input
+      input as any
     );
   };
 

@@ -1,24 +1,25 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { reduce } from '../../asynciterable/reduce';
 
-export async function reduceProto<T>(
-  this: AsyncIterableX<T>,
-  accumulator: (acc: T, value: T, index: number) => T | Promise<T>
-): Promise<T>;
 export async function reduceProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (acc: R, value: T, index: number) => R | Promise<R>,
-  seed: R
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
+  seed?: never[]
+): Promise<R>;
+export async function reduceProto<T, R = T>(
+  this: AsyncIterableX<T>,
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
+  seed?: R
 ): Promise<R>;
 /**
  * @ignore
  */
-export function reduceProto<T, R = T>(
+export async function reduceProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
-  ...args: (T | R)[]
-): Promise<T | R> {
-  return args.length === 1 ? reduce(this, accumulator, args[0]) : reduce(this, accumulator);
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
+  ...seed: R[]
+): Promise<R> {
+  return reduce(this, accumulator, ...seed);
 }
 
 AsyncIterableX.prototype.reduce = reduceProto;

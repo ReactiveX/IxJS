@@ -1,13 +1,17 @@
 import { IterableX } from '../../iterable/iterablex';
+import { identity } from '../../internal/identity';
 import { average } from '../../iterable/average';
 
-export function averageProto(this: IterableX<number>, fn?: (x: number) => number): number;
-export function averageProto<T>(this: IterableX<T>, fn?: (x: T) => number): number;
+export function averageProto(this: IterableX<number>, selector?: (x: number) => number): number;
+export function averageProto<T>(this: IterableX<T>, selector?: (x: T) => number): number;
 /**
  * @ignore
  */
-export function averageProto(this: IterableX<any>, fn: (x: any) => number = x => x): number {
-  return average(this, fn);
+export function averageProto(
+  this: IterableX<any>,
+  selector: (x: any) => number = identity
+): number {
+  return average(this, selector);
 }
 
 IterableX.prototype.average = averageProto;

@@ -9,7 +9,7 @@ export async function average<TSource>(
   selector?: (x: TSource) => number | Promise<number>
 ): Promise<number>;
 export async function average(
-  source: AsyncIterable<any>,
+  source: Iterable<number | PromiseLike<number>> | AsyncIterable<any>,
   selector: (x: any) => number | Promise<number> = identityAsync
 ): Promise<number> {
   let sum = 0;

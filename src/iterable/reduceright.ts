@@ -1,47 +1,36 @@
 import { toArray } from './toarray';
-
-export function reduceRight<T>(
+export function reduceRight<T, R = T>(
   source: Iterable<T>,
-  accumulator: (acc: T, value: T, index: number) => T,
-  seed?: T
-): T;
-export function reduceRight<T>(
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  seed?: never[]
+): R;
+export function reduceRight<T, R = T>(
   source: Iterable<T>,
-  accumulator: (acc: T[], value: T, index: number) => T[],
-  seed?: T[]
-): T[];
-export function reduceRight<T, R>(
-  source: Iterable<T>,
-  accumulator: (acc: R, value: T, index: number) => R,
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
   seed?: R
 ): R;
-
-export function reduceRight<T, R>(
+export function reduceRight<T, R = T>(
   source: Iterable<T>,
-  fn: (acc: R, x: T, index: number) => R,
-  seed?: T | R
-): T | R {
-  let _seed = seed;
-  const hasSeed = arguments.length === 3;
-  let hasValue = false;
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  ...seed: R[]
+): R {
   const array = toArray(source);
+  const hasSeed = seed.length === 1;
+  let hasValue = false,
+    acc = seed[0] as T | R;
   for (let offset = array.length - 1; offset >= 0; offset--) {
     const item = array[offset];
     if (hasValue || (hasValue = hasSeed)) {
-      _seed = fn(<R>_seed, item, offset);
+      acc = accumulator(<R>acc, item, offset);
     } else {
-      _seed = item;
+      acc = item;
       hasValue = true;
     }
   }
 
-  if (hasSeed && !hasValue) {
-    return _seed!;
-  }
-
-  if (!hasValue) {
+  if (!(hasSeed || hasValue)) {
     throw new Error('Sequence contains no elements');
   }
 
-  return _seed!;
+  return acc as R;
 }
