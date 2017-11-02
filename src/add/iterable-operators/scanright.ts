@@ -1,24 +1,25 @@
 import { IterableX } from '../../iterable/iterablex';
 import { scanRight } from '../../iterable/scanright';
 
-export function scanRightProto<T>(
-  this: IterableX<T>,
-  accumulator: (acc: T, value: T, index: number) => T
-): IterableX<T>;
 export function scanRightProto<T, R = T>(
   this: IterableX<T>,
-  accumulator: (acc: R, value: T, index: number) => R,
-  seed: R
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  seed?: never[]
+): IterableX<R>;
+export function scanRightProto<T, R = T>(
+  this: IterableX<T>,
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  seed?: R
 ): IterableX<R>;
 /**
  * @ignore
  */
 export function scanRightProto<T, R = T>(
   this: IterableX<T>,
-  accumulator: (acc: T | R, value: T, index: number) => R,
-  ...args: (T | R)[]
-): IterableX<T | R> {
-  return args.length === 1 ? scanRight(this, accumulator, args[0]) : scanRight(this, accumulator);
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  ...seed: R[]
+): IterableX<R> {
+  return scanRight(this, accumulator, ...seed);
 }
 
 IterableX.prototype.scanRight = scanRightProto;

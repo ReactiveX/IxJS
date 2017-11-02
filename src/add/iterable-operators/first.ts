@@ -11,7 +11,7 @@ export function firstProto<T, S extends T>(
 ): S | undefined;
 export function firstProto<T>(
   this: IterableX<T>,
-  predicate?: (value: T, index: number) => boolean | Promise<boolean>
+  predicate?: (value: T, index: number) => boolean
 ): T | undefined;
 export function firstProto<T>(
   this: IterableX<T>,

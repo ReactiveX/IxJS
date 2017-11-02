@@ -1,24 +1,25 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { scan } from '../../asynciterable/scan';
 
-export function scanProto<T>(
-  this: AsyncIterableX<T>,
-  accumulator: (acc: T, value: T, index: number) => T | Promise<T>
-): AsyncIterable<T>;
 export function scanProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (acc: R, value: T, index: number) => R | Promise<R>,
-  seed: R
-): AsyncIterable<R>;
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  seed?: never[]
+): AsyncIterableX<R>;
+export function scanProto<T, R = T>(
+  this: AsyncIterableX<T>,
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  seed?: R
+): AsyncIterableX<R>;
 /**
  * @ignore
  */
 export function scanProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (acc: T | R, value: T, index: number) => R | Promise<R>,
-  ...args: (T | R)[]
-): AsyncIterable<T | R> {
-  return args.length === 1 ? scan(this, accumulator, args[0]) : scan(this, accumulator);
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  ...seed: R[]
+): AsyncIterableX<R> {
+  return scan(this, accumulator, ...seed);
 }
 
 AsyncIterableX.prototype.scan = scanProto;

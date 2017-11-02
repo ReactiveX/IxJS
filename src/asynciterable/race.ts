@@ -13,15 +13,21 @@ class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   async *[Symbol.asyncIterator]() {
     const leftIt = this._left[Symbol.asyncIterator](),
       rightIt = this._right[Symbol.asyncIterator]();
-    let leftWins = false,
-      rightWins = false;
+    let otherIterator: AsyncIterator<TSource>;
+    let resultIterator: AsyncIterator<TSource>;
     const { value, done } = await Promise.race([
       leftIt.next().then(x => {
-        leftWins = true;
+        if (!resultIterator) {
+          resultIterator = leftIt;
+          otherIterator = rightIt;
+        }
         return x;
       }),
       rightIt.next().then(x => {
-        rightWins = true;
+        if (!resultIterator) {
+          resultIterator = rightIt;
+          otherIterator = leftIt;
+        }
         return x;
       })
     ]);
@@ -30,18 +36,12 @@ class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       yield value;
     }
 
-    let resultIterator: AsyncIterator<TSource>, otherIterator: AsyncIterator<TSource>;
-    if (leftWins) {
-      resultIterator = leftIt;
-      otherIterator = rightIt;
-    } else {
-      resultIterator = rightIt;
-      otherIterator = leftIt;
-    }
+    otherIterator = otherIterator!;
+    resultIterator = resultIterator!;
 
     // Cancel/finish other iterator
     if (otherIterator.return) {
-      await otherIterator.return();
+      await otherIterator.return!();
     }
 
     let next;
