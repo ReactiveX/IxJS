@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable/iterablex';
 import { _catchStatic as catchStatic } from '../../iterable/catch';
 
-IterableX['catch'] = catchStatic;
+IterableX.catch = catchStatic;
 
 export declare namespace iterable {
   let _catchStatic: typeof catchStatic;
