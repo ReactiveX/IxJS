@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { _if as ifStatic } from '../../asynciterable/if';
 
-AsyncIterableX['if'] = ifStatic;
+AsyncIterableX.if = ifStatic;
 
 export declare namespace asynciterable {
   let _if: typeof ifStatic;

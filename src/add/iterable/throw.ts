@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable/iterablex';
 import { _throw as throwStatic } from '../../iterable/throw';
 
-IterableX['throw'] = throwStatic;
+IterableX.throw = throwStatic;
 
 export declare namespace iterable {
   let _throw: typeof throwStatic;

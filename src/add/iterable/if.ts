@@ -1,7 +1,7 @@
 import { IterableX } from '../../iterable/iterablex';
 import { _if as ifStatic } from '../../iterable/if';
 
-IterableX['if'] = ifStatic;
+IterableX.if = ifStatic;
 
 export declare namespace iterable {
   let _if: typeof ifStatic;

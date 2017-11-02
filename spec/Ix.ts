@@ -41,6 +41,7 @@ import { iterable as iterable_ } from '../src/Ix.internal';
 import { iterablePipe as iterablePipe_ } from '../src/Ix.internal';
 import { asynciterable as asynciterable_ } from '../src/Ix.internal';
 import { asynciterablePipe as asynciterablePipe_ } from '../src/Ix.internal';
+import { fromNodeStream as fromNodeStream_ } from '../src/Ix.internal';
 
 export let Iterable: typeof Iterable_ = Ix.Iterable;
 export let AsyncSink: typeof AsyncSink_ = Ix.AsyncSink;
@@ -49,3 +50,4 @@ export let iterable: typeof iterable_ = IxInternal.iterable;
 export let iterablePipe: typeof iterablePipe_ = IxInternal.iterablePipe;
 export let asynciterable: typeof asynciterable_ = IxInternal.asynciterable;
 export let asynciterablePipe: typeof asynciterablePipe_ = IxInternal.asynciterablePipe;
+export let fromNodeStream: typeof fromNodeStream_ = IxInternal.fromNodeStream;

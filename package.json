@@ -15,7 +15,8 @@
     "commitmsg": "validate-commit-msg",
     "lint:src": "tslint --fix --project -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
     "lint:spec": "tslint --fix --project -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\"",
-    "prepublishOnly": "echo \"Error: do 'npm run release' instead of 'npm publish'\" && exit 1"
+    "prepublishOnly": "echo \"Error: do 'npm run release' instead of 'npm publish'\" && exit 1",
+    "postinstall": "git apply --ignore-whitespace patches/tsickle+0.24.1.patch"
   },
   "author": "Matthew Podwysocki <matthewp@microsoft.com>",
   "homepage": "https://github.com/ReactiveX/IxJS#readme",
@@ -42,11 +43,11 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "tslib": "^1.7.1"
+    "tslib": "^1.8.0"
   },
   "devDependencies": {
-    "@types/node": "8.0.47",
     "@std/esm": "0.12.5",
+    "@types/node": "8.0.47",
     "@types/tape": "4.2.31",
     "chalk": "2.3.0",
     "command-line-args": "4.0.7",
@@ -61,13 +62,13 @@
     "esdoc-standard-plugin": "1.0.0",
     "google-closure-compiler": "20171023.0.1",
     "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-json-transform": "0.4.3",
+    "gulp-json-transform": "0.4.5",
     "gulp-rename": "1.2.2",
     "gulp-sourcemaps": "2.6.1",
     "gulp-typescript": "3.2.3",
     "husky": "0.14.3",
     "json": "9.0.6",
-    "lerna": "2.5.0",
+    "lerna": "2.5.1",
     "lint-staged": "4.3.0",
     "merge2": "1.2.0",
     "mkdirp": "0.5.1",
@@ -84,13 +85,13 @@
     "tape-async": "2.3.0",
     "trash": "4.1.0",
     "ts-node": "3.3.0",
-    "tsickle": "0.23.3",
+    "tsickle": "0.24.1",
     "tslint": "5.8.0",
     "tsutils": "2.12.1",
     "typescript": "2.6.1",
-    "uglifyjs-webpack-plugin": "1.0.0",
+    "uglifyjs-webpack-plugin": "1.0.1",
     "validate-commit-msg": "2.14.0",
-    "webpack": "3.8.0"
+    "webpack": "3.8.1"
   },
   "config": {
     "commitizen": {

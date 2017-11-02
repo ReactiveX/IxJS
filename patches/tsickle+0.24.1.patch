@@ -1,0 +1,12 @@
+diff --git a/node_modules/tsickle/built/src/jsdoc.js b/node_modules/tsickle/built/src/jsdoc.js
+index c29b669..785dee7 100644
+--- a/node_modules/tsickle/built/src/jsdoc.js
++++ b/node_modules/tsickle/built/src/jsdoc.js
+@@ -111,6 +111,7 @@ var JSDOC_TAGS_WITH_TYPES = new Set([
+ // others (e.g. @suppress). We should introduce a proper model class with a more suitable data
+ // strucure (e.g. a Map<TagName, Values[]>).
+ function parse(comment) {
++    return null;
+     // Make sure we have proper line endings before parsing on Windows.
+     comment = util_1.normalizeLineEndings(comment);
+     // TODO(evanm): this is a pile of hacky regexes for now, because we

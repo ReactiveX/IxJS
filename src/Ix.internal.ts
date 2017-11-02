@@ -27,3 +27,6 @@ try {
   /* not the UMD bundle */
 }
 /** end google declarations */
+
+import './add/asynciterable/fromnodestream';
+export { fromNodeStream } from './asynciterable/fromnodestream';
