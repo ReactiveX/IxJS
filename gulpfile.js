@@ -194,18 +194,18 @@ const copyTSSources = ((cache) => memoizeTask(cache, function copyTS(target, for
 
 const copyIxTargets = ((cache) => memoizeTask(cache, function copyIx(target, format) {
   const out = _dir(target), srcGlob = `src/**/*`;
-  const es5Glob = `${_dir(`es5`, `cjs`)}/**/*.js`;
-  const esmGlob = `${_dir(`es2015`, `esm`)}/**/*.js`;
   const es5UmdGlob = `${_dir(`es5`, `umd`)}/**/*.js`;
   const es5UmdMaps = `${_dir(`es5`, `umd`)}/**/*.map`;
+  const es2015CjsGlob = `${_dir(`es2015`, `cjs`)}/**/*.js`;
+  const es2015EsmGlob = `${_dir(`es2015`, `esm`)}/**/*.js`;
   const es2015UmdGlob = `${_dir(`es2015`, `umd`)}/**/*.js`;
   const es2015UmdMaps = `${_dir(`es2015`, `umd`)}/**/*.map`;
   const ch_ext = (ext) => gulpRename((p) => { p.extname = ext; });
   const append = (ap) => gulpRename((p) => { p.basename += ap; });
   return Observable.forkJoin(
     Observable.fromStream(gulp.src(srcGlob), gulp.dest(out)), // copy src ts files
-    Observable.fromStream(gulp.src(es5Glob), gulp.dest(out)), // copy es5 cjs files
-    Observable.fromStream(gulp.src(esmGlob), ch_ext(`.mjs`), gulp.dest(out)), // copy es2015 esm files and rename to `.mjs`
+    Observable.fromStream(gulp.src(es2015CjsGlob), gulp.dest(out)), // copy es2015 cjs files
+    Observable.fromStream(gulp.src(es2015EsmGlob), ch_ext(`.mjs`), gulp.dest(out)), // copy es2015 esm files and rename to `.mjs`
     Observable.fromStream(gulp.src(es5UmdGlob), append(`.es5.min`), gulp.dest(out)), // copy es5 umd files and add `.min`
     Observable.fromStream(gulp.src(es5UmdMaps),                     gulp.dest(out)), // copy es5 umd sourcemap files, but don't rename
     Observable.fromStream(gulp.src(es2015UmdGlob), append(`.es2015.min`), gulp.dest(out)), // copy es2015 umd files and add `.es6.min`
@@ -438,17 +438,17 @@ knownTargets.forEach((target) =>
   )
 );
 
-// The main "ix" module builds the es5/cjs, es5/umd,
+// The main "ix" module builds the es5/umd, es2015/cjs,
 // es2015/esm, es2015/umd, and ts targets, then copies
 // and renames the compiled output into the ix folder.
 gulp.task(`build:ix`,
   gulp.series(
     cleanTask(`ix`),
     gulp.parallel(
-      `build:${_task(`es5`, `cjs`)}`,
       `build:${_task(`es5`, `umd`)}`,
-      `build:${_task(`es2015`, `esm`)}`,
-      `build:${_task(`es2015`, `umd`)}`
+      `build:${_task(`es2015`, `umd`)}`,
+      `build:${_task(`es2015`, `cjs`)}`,
+      `build:${_task(`es2015`, `esm`)}`
     ),
     buildTask(`ix`), bundleTask(`ix`)
   )
