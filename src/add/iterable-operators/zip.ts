@@ -76,7 +76,6 @@ export function zipProto<T, R>(
   project: (values: T[]) => R,
   ...sources: Iterable<T>[]
 ): IterableX<R>;
-/* tslint:enable:max-line-length */
 export function zipProto<T, R>(this: IterableX<T>, ...args: any[]): IterableX<R> {
   let [arg1, ...sources] = args;
   sources = typeof arg1 === 'function' ? [this, ...sources] : (arg1 = this) && args;
