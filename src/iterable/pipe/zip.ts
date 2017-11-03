@@ -71,7 +71,7 @@ export function zip<T, R>(...sources: any[]): OperatorFunction<T, R> {
   return function zipOperatorFunction(source: Iterable<T>): IterableX<R> {
     let fn = sources.shift() as (values: any[]) => R;
     if (typeof fn !== 'function') {
-      sources.push(fn);
+      sources.unshift(fn);
       fn = identity;
     }
     return new ZipIterable<T, R>([source, ...sources] as Iterable<T>[], fn);

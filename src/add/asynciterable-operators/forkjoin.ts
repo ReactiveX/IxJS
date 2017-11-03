@@ -1,72 +1,72 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { zip } from '../../asynciterable/zip';
+import { forkJoin } from '../../asynciterable/forkjoin';
 
 /**
  * @ignore
  */
 
-export function zipProto<T, T2>(
+export function forkJoinProto<T, T2>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>
-): AsyncIterableX<[T, T2]>;
-export function zipProto<T, T2, T3>(
+): Promise<[T, T2] | undefined>;
+export function forkJoinProto<T, T2, T3>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>
-): AsyncIterableX<[T, T2, T3]>;
-export function zipProto<T, T2, T3, T4>(
+): Promise<[T, T2, T3] | undefined>;
+export function forkJoinProto<T, T2, T3, T4>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>
-): AsyncIterableX<[T, T2, T3, T4]>;
-export function zipProto<T, T2, T3, T4, T5>(
+): Promise<[T, T2, T3, T4] | undefined>;
+export function forkJoinProto<T, T2, T3, T4, T5>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>,
   source5: AsyncIterable<T5>
-): AsyncIterableX<[T, T2, T3, T4, T5]>;
-export function zipProto<T, T2, T3, T4, T5, T6>(
+): Promise<[T, T2, T3, T4, T5] | undefined>;
+export function forkJoinProto<T, T2, T3, T4, T5, T6>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>,
   source5: AsyncIterable<T5>,
   source6: AsyncIterable<T6>
-): AsyncIterableX<[T, T2, T3, T4, T5, T6]>;
+): Promise<[T, T2, T3, T4, T5, T6] | undefined>;
 
-export function zipProto<T, R>(
+export function forkJoinProto<T, R>(
   this: AsyncIterableX<T>,
   project: (values: [T]) => R
-): AsyncIterableX<R>;
-export function zipProto<T, T2, R>(
+): Promise<R>;
+export function forkJoinProto<T, T2, R>(
   this: AsyncIterableX<T>,
   project: (values: [T, T2]) => R,
   source2: AsyncIterable<T2>
-): AsyncIterableX<R>;
-export function zipProto<T, T2, T3, R>(
+): Promise<R | undefined>;
+export function forkJoinProto<T, T2, T3, R>(
   this: AsyncIterableX<T>,
   project: (values: [T, T2, T3]) => R,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>
-): AsyncIterableX<R>;
-export function zipProto<T, T2, T3, T4, R>(
+): Promise<R | undefined>;
+export function forkJoinProto<T, T2, T3, T4, R>(
   this: AsyncIterableX<T>,
   project: (values: [T, T2, T3, T4]) => R,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>
-): AsyncIterableX<R>;
-export function zipProto<T, T2, T3, T4, T5, R>(
+): Promise<R | undefined>;
+export function forkJoinProto<T, T2, T3, T4, T5, R>(
   this: AsyncIterableX<T>,
   project: (values: [T, T2, T3, T4, T5]) => R,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>,
   source5: AsyncIterable<T5>
-): AsyncIterableX<R>;
-export function zipProto<T, T2, T3, T4, T5, T6, R>(
+): Promise<R | undefined>;
+export function forkJoinProto<T, T2, T3, T4, T5, T6, R>(
   this: AsyncIterableX<T>,
   project: (values: [T, T2, T3, T4, T5, T6]) => R,
   source2: AsyncIterable<T2>,
@@ -74,27 +74,31 @@ export function zipProto<T, T2, T3, T4, T5, T6, R>(
   source4: AsyncIterable<T4>,
   source5: AsyncIterable<T5>,
   source6: AsyncIterable<T6>
-): AsyncIterableX<R>;
+): Promise<R | undefined>;
 
-export function zipProto<T>(
+export function forkJoinProto<T>(
   this: AsyncIterableX<T>,
   ...sources: AsyncIterable<T>[]
-): AsyncIterableX<T[]>;
-export function zipProto<T, R>(
+): Promise<T[] | undefined>;
+export function forkJoinProto<T, R>(
   this: AsyncIterableX<T>,
   project: (values: T[]) => R,
   ...sources: AsyncIterable<T>[]
-): AsyncIterableX<R>;
-export function zipProto<T, R>(this: AsyncIterableX<T>, ...args: any[]): AsyncIterableX<R> {
+): Promise<R | undefined>;
+/* tslint:enable:max-line-length */
+export function forkJoinProto<T, R>(
+  this: AsyncIterableX<T>,
+  ...args: any[]
+): Promise<R | undefined> {
   let [arg1, ...sources] = args;
   sources = typeof arg1 === 'function' ? [this, ...sources] : (arg1 = this) && args;
-  return zip<T, R>(arg1, ...sources);
+  return forkJoin<T, R>(arg1, ...sources);
 }
 
-AsyncIterableX.prototype.zip = zipProto;
+AsyncIterableX.prototype.forkJoin = forkJoinProto;
 
 declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
-    zip: typeof zipProto;
+    forkJoin: typeof forkJoinProto;
   }
 }

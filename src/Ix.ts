@@ -51,6 +51,7 @@ import './add/iterable/range';
 import './add/iterable/repeat';
 import './add/iterable/throw';
 import './add/iterable/while';
+import './add/iterable/zip';
 
 // // iterable operators
 import './add/iterable-operators/average';
@@ -129,17 +130,20 @@ import './add/asynciterable/asyncify';
 import './add/asynciterable/asyncifyerrback';
 import './add/asynciterable/case';
 import './add/asynciterable/catch';
+import './add/asynciterable/combinelatest';
 import './add/asynciterable/concat';
 import './add/asynciterable/create';
 import './add/asynciterable/defer';
 import './add/asynciterable/empty';
 import './add/asynciterable/for';
+import './add/asynciterable/forkjoin';
 import './add/asynciterable/fromevent';
 import './add/asynciterable/fromeventpattern';
 import './add/asynciterable/race';
 import './add/asynciterable/range';
 import './add/asynciterable/repeat';
 import './add/asynciterable/throw';
+import './add/asynciterable/zip';
 
 // async iterable operators
 import './add/asynciterable-operators/average';
@@ -147,6 +151,7 @@ import './add/asynciterable-operators/buffer';
 import './add/asynciterable-operators/catch';
 import './add/asynciterable-operators/catchwith';
 import './add/asynciterable-operators/chain';
+import './add/asynciterable-operators/combinelatest';
 import './add/asynciterable-operators/concat';
 import './add/asynciterable-operators/concatall';
 import './add/asynciterable-operators/count';
@@ -167,6 +172,7 @@ import './add/asynciterable-operators/findindex';
 import './add/asynciterable-operators/first';
 import './add/asynciterable-operators/flatmap';
 import './add/asynciterable-operators/flatten';
+import './add/asynciterable-operators/forkjoin';
 import './add/asynciterable-operators/groupby';
 import './add/asynciterable-operators/groupjoin';
 import './add/asynciterable-operators/ignoreelements';
