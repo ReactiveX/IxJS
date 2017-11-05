@@ -6,11 +6,11 @@ import { single } from '../../iterable/single';
  */
 export function singleProto<T, S extends T>(
   this: IterableX<T>,
-  predicate: (value: T, index: number) => value is S
+  predicate?: (value: T, index: number) => value is S
 ): S | undefined;
 export function singleProto<T>(
   this: IterableX<T>,
-  predicate: (value: T, index: number) => boolean
+  predicate?: (value: T, index: number) => boolean
 ): T | undefined;
 export function singleProto<T>(
   this: IterableX<T>,
