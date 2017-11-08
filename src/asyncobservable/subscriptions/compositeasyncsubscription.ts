@@ -21,7 +21,7 @@ export class CompositeAsyncSubscription implements AsyncSubscription {
     }
   }
 
-  async remove(subscription: AsyncSubscription) {
+  async delete(subscription: AsyncSubscription) {
     let shouldUnsubscribe = false;
     const index = this._subscriptions.indexOf(subscription);
     if (!this._unsubscribed && index !== -1) {
