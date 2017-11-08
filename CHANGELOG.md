@@ -1,3 +1,13 @@
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/ReactiveX/IxJS/compare/v2.3.0...v2.3.1) (2017-11-08)
+
+
+### Bug Fixes
+
+* **single:** make iterable prototype single predicate an optional parameter again ([2bea5ab](https://github.com/ReactiveX/IxJS/commit/2bea5ab))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/ReactiveX/IxJS/compare/v2.2.0...v2.3.0) (2017-11-03)
 
