@@ -1,3 +1,35 @@
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/ReactiveX/IxJS/compare/v2.3.0...v2.3.1) (2017-11-08)
+
+
+### Bug Fixes
+
+* **single:** make iterable prototype single predicate an optional parameter again ([2bea5ab](https://github.com/ReactiveX/IxJS/commit/2bea5ab))
+
+
+
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/ReactiveX/IxJS/compare/v2.2.0...v2.3.0) (2017-11-03)
+
+
+### Bug Fixes
+
+* **pipe:** pipe() should always return IterableX<T> ([#126](https://github.com/ReactiveX/IxJS/issues/126)) ([d7c0556](https://github.com/ReactiveX/IxJS/commit/d7c0556))
+* **type-guards:** fix user-defined type guards ([#83](https://github.com/ReactiveX/IxJS/issues/83)) ([fd45455](https://github.com/ReactiveX/IxJS/commit/fd45455)), closes [#44](https://github.com/ReactiveX/IxJS/issues/44)
+
+
+### Features
+
+* **asyncify:** adds asyncify and asyncifyErrback ([#96](https://github.com/ReactiveX/IxJS/issues/96)) ([f75dfaf](https://github.com/ReactiveX/IxJS/commit/f75dfaf))
+* **exports:** move abstract class definitions into subfolders ([#121](https://github.com/ReactiveX/IxJS/issues/121)) ([8c45138](https://github.com/ReactiveX/IxJS/commit/8c45138)), closes [#52](https://github.com/ReactiveX/IxJS/issues/52)
+* **forkJoin/combineLatest:** adds forkJoin and combineLatest ([#132](https://github.com/ReactiveX/IxJS/issues/132)) ([c0e3596](https://github.com/ReactiveX/IxJS/commit/c0e3596))
+* **fromNodeStream:** adds fromNodeStream readable ([#124](https://github.com/ReactiveX/IxJS/issues/124)) ([952509e](https://github.com/ReactiveX/IxJS/commit/952509e))
+* **merge/concat:** add typed overloads for merge/concat ([#84](https://github.com/ReactiveX/IxJS/issues/84)) ([752aa96](https://github.com/ReactiveX/IxJS/commit/752aa96))
+* **operators:** rename __modules.ts to index.ts for tree-shaking ([#120](https://github.com/ReactiveX/IxJS/issues/120)) ([83ab288](https://github.com/ReactiveX/IxJS/commit/83ab288)), closes [#52](https://github.com/ReactiveX/IxJS/issues/52)
+* **pipe:** add piped operators [WIP - DO NOT MERGE] ([#75](https://github.com/ReactiveX/IxJS/issues/75)) ([76a4b4f](https://github.com/ReactiveX/IxJS/commit/76a4b4f)), closes [#119](https://github.com/ReactiveX/IxJS/issues/119)
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/ReactiveX/IxJS/compare/v2.1.4...v2.2.0) (2017-10-15)
 

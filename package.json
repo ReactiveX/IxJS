@@ -1,6 +1,6 @@
 {
   "name": "ix",
-  "version": "2.2.0",
+  "version": "2.3.1",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@std/esm": "0.13.0",
-    "@types/node": "8.0.47",
+    "@types/node": "8.0.50",
     "@types/tape": "4.2.31",
     "chalk": "2.3.0",
     "command-line-args": "4.0.7",
@@ -72,9 +72,9 @@
     "lint-staged": "4.3.0",
     "merge2": "1.2.0",
     "mkdirp": "0.5.1",
-    "npm-run-all": "4.1.1",
+    "npm-run-all": "4.1.2",
     "pre-git": "3.16.0",
-    "prettier": "1.7.4",
+    "prettier": "1.8.1",
     "pump": "1.0.2",
     "rimraf": "2.6.2",
     "rxjs": "5.5.2",
@@ -98,6 +98,7 @@
       "path": "cz-conventional-changelog"
     },
     "pre-git": {
+      "allow-untracked-files": true,
       "pre-commit": [
         "npx lint-staged"
       ],
