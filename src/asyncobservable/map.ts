@@ -58,6 +58,6 @@ class MapObservable<T, R> extends AsyncObservableX<R> {
 export function map<T, R>(
   source: AsyncObservable<T>,
   selector: (value: T, index: number) => Promise<R> | R
-): AsyncObservable<R> {
+): AsyncObservableX<R> {
   return new MapObservable<T, R>(source, selector);
 }

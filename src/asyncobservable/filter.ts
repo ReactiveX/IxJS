@@ -65,6 +65,6 @@ class FilterObservable<T> extends AsyncObservableX<T> {
 export function filter<T>(
   source: AsyncObservable<T>,
   predicate: (value: T, index: number) => Promise<boolean> | boolean
-): AsyncObservable<T> {
+): AsyncObservableX<T> {
   return new FilterObservable<T>(source, predicate);
 }
