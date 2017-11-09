@@ -1,7 +1,7 @@
 import { AsyncObserver, AsyncObserverX } from './asyncobserver';
 import { AsyncObservable, AsyncObservableX } from './asyncobservable';
 import { AsyncSubscription } from './asyncsubscription';
-import { AsyncSubscriptionX } from './subscriptions/asyncsubscriptionx';
+import { subscribeSafe } from './subscribesafe';
 
 class FilterObserver<T> extends AsyncObserverX<T> {
   private _observer: AsyncObserver<T>;
@@ -53,12 +53,7 @@ class FilterObservable<T> extends AsyncObservableX<T> {
   }
 
   async _subscribe(observer: AsyncObserver<T>): Promise<AsyncSubscription> {
-    try {
-      return await this._source.subscribe(new FilterObserver<T>(observer, this._predicate));
-    } catch (e) {
-      await observer.error(e);
-      return AsyncSubscriptionX.empty();
-    }
+    return await subscribeSafe(this._source, new FilterObserver<T>(observer, this._predicate));
   }
 }
 

@@ -1,7 +1,7 @@
 import { AsyncObserver, AsyncObserverX } from './asyncobserver';
 import { AsyncObservable, AsyncObservableX } from './asyncobservable';
 import { AsyncSubscription } from './asyncsubscription';
-import { AsyncSubscriptionX } from './subscriptions/asyncsubscriptionx';
+import { subscribeSafe } from './subscribesafe';
 
 class MapObserver<T, R> extends AsyncObserverX<T> {
   private _observer: AsyncObserver<R>;
@@ -46,12 +46,7 @@ class MapObservable<T, R> extends AsyncObservableX<R> {
   }
 
   async _subscribe(observer: AsyncObserver<R>): Promise<AsyncSubscription> {
-    try {
-      return await this._source.subscribe(new MapObserver<T, R>(observer, this._selector));
-    } catch (e) {
-      await observer.error(e);
-      return AsyncSubscriptionX.empty();
-    }
+    return await subscribeSafe(this._source, new MapObserver<T, R>(observer, this._selector));
   }
 }
 

@@ -1,7 +1,7 @@
 import { AsyncObserver, AsyncObserverX } from './asyncobserver';
 import { AsyncObservable, AsyncObservableX } from './asyncobservable';
 import { AsyncSubscription } from './asyncsubscription';
-import { AsyncSubscriptionX } from './subscriptions/asyncsubscriptionx';
+import { subscribeSafe } from './subscribesafe';
 import { CompositeAsyncSubscription } from './subscriptions/compositeasyncsubscription';
 import { BinarySubscription } from './subscriptions/stablecompositeasyncsubscription';
 import { SingleAssignmentAsyncSubscription } from './subscriptions/singleassignmentasyncsubscription';
@@ -62,15 +62,7 @@ class FlatMapObserver<T, R> extends AsyncObserverX<T> {
     const inner = new SingleAssignmentAsyncSubscription();
     await this._subscription.add(inner);
     const innerObserver = new InnerObserver<T, R>(this, inner);
-
-    let innerSubscription;
-    try {
-      innerSubscription = await collection.subscribe(innerObserver);
-    } catch (e) {
-      await innerObserver.error(e);
-      return;
-    }
-
+    const innerSubscription = await subscribeSafe(collection, innerObserver);
     await inner.assign(innerSubscription);
   }
 
@@ -101,14 +93,7 @@ class FlatMapObservable<T, R> extends AsyncObservableX<R> {
   async _subscribe(observer: AsyncObserver<R>): Promise<AsyncSubscription> {
     const inner = new CompositeAsyncSubscription();
     const sink = new FlatMapObserver<T, R>(observer, this._selector, inner);
-
-    let subscription;
-    try {
-      subscription = await this._source.subscribe(sink);
-    } catch (e) {
-      await observer.error(e);
-      return AsyncSubscriptionX.empty();
-    }
+    const subscription = await subscribeSafe(this._source, sink);
 
     return new BinarySubscription(subscription, inner);
   }
