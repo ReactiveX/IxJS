@@ -93,7 +93,7 @@ class AutoDetachObserver<T> extends AsyncObserverX<T> {
   }
 }
 
-class SafeObserver<T> extends AsyncObserverX<T> {
+export class SafeObserver<T> extends AsyncObserverX<T> {
   private _observer: PartialAsyncObserver<T>;
 
   constructor(observer: PartialAsyncObserver<T>) {
