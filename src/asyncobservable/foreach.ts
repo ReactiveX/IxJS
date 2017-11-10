@@ -49,7 +49,7 @@ export function forEach<T>(
   onNext: (value: T, index: number) => void,
   thisArg?: any
 ): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>(async (resolve, reject) => {
     const subscription = new SingleAssignmentAsyncSubscription();
     const observer = new ForEachObserver<T>(
       bindCallback(onNext, thisArg, 2),
@@ -57,6 +57,7 @@ export function forEach<T>(
       reject,
       subscription
     );
-    source.subscribe(observer).then(s => subscription.assign(s));
+    const s = await source.subscribe(observer);
+    await subscription.assign(s);
   });
 }
