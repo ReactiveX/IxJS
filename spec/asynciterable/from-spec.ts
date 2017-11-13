@@ -207,7 +207,7 @@ test('AsyncIterable#fromObservable with completion', async t => {
   t.end();
 });
 
-test('AsyncIterable#fromObservable without completion', async t => {
+test('AsyncIterable#fromObservable with multiple', async t => {
   const xs = new TestObservable<number>(obs => {
     let count = 0;
     const interval = setInterval(() => {
@@ -229,7 +229,7 @@ test('AsyncIterable#fromObservable without completion', async t => {
   t.end();
 });
 
-test('AsyncIterable#fromObservable without completion', async t => {
+test('AsyncIterable#fromObservable multiple with selector', async t => {
   const xs = new TestObservable<number>(obs => {
     let count = 0;
     const interval = setInterval(() => {
