@@ -52,7 +52,7 @@
     "chalk": "2.3.0",
     "command-line-args": "4.0.7",
     "commitizen": "2.9.6",
-    "conventional-changelog": "1.1.6",
+    "conventional-changelog": "1.1.7",
     "conventional-commits-detector": "0.1.1",
     "conventional-github-releaser": "2.0.0",
     "conventional-recommended-bump": "1.0.2",
