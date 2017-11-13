@@ -1,3 +1,4 @@
+import { AsyncSink } from './../asyncsink';
 import { OperatorAsyncFunction } from '../interfaces';
 import { bindCallback } from '../internal/bindcallback';
 import { identityAsync } from '../internal/identity';
@@ -131,42 +132,6 @@ class FromPromiseIterable<TSource, TResult = TSource> extends AsyncIterableX<TRe
   }
 }
 
-class AsyncObserver<TSource> {
-  public values: TSource[];
-  public hasError: boolean;
-  public hasCompleted: boolean;
-  public errorValue: any;
-  public closed: boolean;
-
-  constructor() {
-    this.values = [];
-    this.hasCompleted = false;
-    this.hasError = false;
-    this.errorValue = null;
-    this.closed = false;
-  }
-
-  next(value: TSource) {
-    if (!this.closed) {
-      this.values.push(value);
-    }
-  }
-
-  error(err: any) {
-    if (!this.closed) {
-      this.closed = true;
-      this.hasError = true;
-      this.errorValue = err;
-    }
-  }
-
-  complete() {
-    if (!this.closed) {
-      this.closed = true;
-    }
-  }
-}
-
 class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncIterableX<TResult> {
   private _observable: Observable<TSource>;
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
@@ -181,21 +146,26 @@ class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncItera
   }
 
   async *[Symbol.asyncIterator]() {
-    const observer = new AsyncObserver<TSource>();
-    const subscription = this._observable.subscribe(observer);
+    const sink: AsyncSink<TSource> = new AsyncSink<TSource>();
+    const subscription = this._observable.subscribe({
+      next(value: TSource) {
+        sink.write(value);
+      },
+      error(err: any) {
+        sink.error(err);
+      },
+      complete() {
+        sink.end();
+      }
+    });
 
     let i = 0;
-    while (1) {
-      if (observer.values.length > 0) {
-        yield await this._selector(observer.values.shift()!, i++);
-      } else if (observer.closed) {
-        subscription.unsubscribe();
-        if (observer.hasError) {
-          throw observer.errorValue;
-        } else {
-          break;
-        }
+    try {
+      for (let next; !(next = await sink.next()).done; ) {
+        yield await this._selector(next.value!, i++);
       }
+    } finally {
+      subscription.unsubscribe();
     }
   }
 }
