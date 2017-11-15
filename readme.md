@@ -66,12 +66,10 @@ Instead of bringing in the entire library for `Iterable`, we can pick and choose
 ```js
 // ES
 import { IterableX as Iterable } from 'ix/iterable';
-import 'ix/add/iterable/of';
 import 'ix/add/iterable-operators/map';
 
 // CommonJS
 const Iterable = require('ix/iterable').IterableX;
-require('ix/add/iterable/of');
 require('ix/add/iterable-operators/map');
 
 const results = Iterable.of(1,2,3)
@@ -105,26 +103,21 @@ for (let item of results) {
 // Next 4
 ```
 
-We can mix the two approaches by adding the minimal `chain` operator which then allows us to create a more fluent style but yet keeping the surface area to a minimum.
+Just like RxJS, IxJS supports "lettable" operators which allow you to chain together operators, keeping the surface area to a minimum on the `Iterable` object.
 
 ```js
 // ES
 import { IterableX as Iterable } from 'ix/iterable';
-import 'ix/add/iterable-operators/chain';
-import { of } from 'ix/iterable/of';
-import { filter } from 'ix/iterable/filter';
-import { map } from 'ix/iterable/map';
+import { map, filter } from 'ix/iterable/pipe';
 
 // CommonJS
 const Iterable = require('ix/iterable').IterableX;
-require('ix/add/iterable-operators/chain');
-const of = require('ix/iterable/of').of;
-const filter = require('ix/iterable/filter').filter;
-const map = require('ix/iterable/map').map;
+const { map, filter } = require('ix/iterable/pipe');
 
-const results = of(1, 2, 3)
-  .chain(source => filter(source, x => x % 2 === 0))
-  .chain(source => map(source, x => x * x));
+const results = of(1, 2, 3).pipe(
+  filter(x => x % 2 === 0),
+  map(x => x * x)
+);
 
 for (let item of results) {
   console.log(`Next: ${item}`);
@@ -209,12 +202,10 @@ Instead of bringing in the entire library for `AsyncIterable`, we can pick and c
 ```js
 // ES
 import { AsyncIterableX as AsyncIterable } from 'ix/asynciterable';
-import 'ix/add/asynciterable/of';
 import 'ix/add/asynciterable-operators/map';
 
 // CommonJS
 const AsyncIterable = require('ix/asynciterable').AsyncIterableX;
-require('ix/add/asynciterable/of');
 require('ix/add/asynciterable-operators/map');
 
 const results = AsyncIterable.of(1,2,3)
@@ -252,23 +243,16 @@ for await (let item of results) {
 }
 ```
 
-Much like with the `Iterable` object, we can mix the two approaches for the `AsyncIterable` object by adding the minimal `chain` operator which then allows us to create a more fluent style but yet keeping the surface area to a minimum.
+Just like RxJS, IxJS supports "lettable" operators which allow you to chain together operators, keeping the surface area to a minimum on the `AsyncIterable` object.
 
 ```js
 // ES
 import { AsyncIterableX as AsyncIterable } from 'ix/asynciterable';
-import 'ix/add/asynciterable-operators/chain';
-import { from } from 'ix/asynciterable/from';
-import { filter } from 'ix/asynciterable/filter';
-import { map } from 'ix/asynciterable/map';
+import { filter, map } from 'ix/asynciterable/pipe';
 
 // CommonJS
-const Iterable = require('ix/asynciterable').IterableX;
-require('ix/add/asynciterable-operators/chain');
-const from = require('ix/asynciterable/from');
-const filter = require('ix/asynciterable/filter');
-const map = require('ix/asynciterable/map');
-
+const AsyncIterable = require('ix/asynciterable').AsyncIterableX;
+const { filter, map } = require('ix/asynciterable/pipe');
 
 const source = async function* () {
   yield 1;
@@ -277,9 +261,10 @@ const source = async function* () {
   yield 4;
 };
 
-const results = from(source())
-  .chain(source => filter(source, async x => x % 2 === 0))
-  .chain(source => map(source, async x => x * x));
+const results = from(source()).pipe(
+  filter(async x => x % 2 === 0),
+  map(async x => x * x)
+);
 
 for await (let item of results) {
   console.log(`Next: ${item}`);

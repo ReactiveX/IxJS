@@ -2,6 +2,7 @@ import * as Ix from '../Ix';
 import * as test from 'tape-async';
 const { from } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { setInterval, clearInterval } from 'timers';
 
 test('AsyncIterable#from from promise list', async t => {
   const xs: Iterable<Promise<number>> = [
@@ -202,6 +203,50 @@ test('AsyncIterable#fromObservable with completion', async t => {
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(t, it, 42);
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#fromObservable with multiple', async t => {
+  const xs = new TestObservable<number>(obs => {
+    let count = 0;
+    const interval = setInterval(() => {
+      obs.next(count++);
+      if (count === 3) {
+        clearInterval(interval);
+        obs.complete();
+      }
+    }, 10);
+    return new EmptySubscription();
+  });
+  const ys = from(xs);
+
+  const it = ys[Symbol.asyncIterator]();
+  await hasNext(t, it, 0);
+  await hasNext(t, it, 1);
+  await hasNext(t, it, 2);
+  await noNext(t, it);
+  t.end();
+});
+
+test('AsyncIterable#fromObservable multiple with selector', async t => {
+  const xs = new TestObservable<number>(obs => {
+    let count = 0;
+    const interval = setInterval(() => {
+      obs.next(count++);
+      if (count === 3) {
+        clearInterval(interval);
+        obs.complete();
+      }
+    }, 10);
+    return new EmptySubscription();
+  });
+  const ys = from(xs, (x, i) => x + i);
+
+  const it = ys[Symbol.asyncIterator]();
+  await hasNext(t, it, 0);
+  await hasNext(t, it, 2);
+  await hasNext(t, it, 4);
   await noNext(t, it);
   t.end();
 });
