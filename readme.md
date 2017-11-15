@@ -112,12 +112,12 @@ import { map, filter } from 'ix/iterable/pipe';
 
 // CommonJS
 const Iterable = require('ix/iterable').IterableX;
-require('ix/add/iterable-operators/chain');
 const { map, filter } = require('ix/iterable/pipe');
 
 const results = of(1, 2, 3).pipe(
   filter(x => x % 2 === 0),
-  map(x => x * x)));
+  map(x => x * x)
+);
 
 for (let item of results) {
   console.log(`Next: ${item}`);
@@ -254,7 +254,6 @@ import { filter, map } from 'ix/asynciterable/pipe';
 const AsyncIterable = require('ix/asynciterable').AsyncIterableX;
 const { filter, map } = require('ix/asynciterable/pipe');
 
-
 const source = async function* () {
   yield 1;
   yield 2;
@@ -264,7 +263,8 @@ const source = async function* () {
 
 const results = from(source()).pipe(
   filter(async x => x % 2 === 0),
-  map(async x => x * x)));
+  map(async x => x * x)
+);
 
 for await (let item of results) {
   console.log(`Next: ${item}`);
