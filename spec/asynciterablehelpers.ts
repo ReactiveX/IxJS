@@ -41,8 +41,6 @@ export function testOperator<Op>(op: Op) {
     test(`(proto) ${message}`, async t => await (testFn as any)(t, fnNames.map(wrapProto)));
     if (pipeFns.every(xs => typeof xs === 'function')) {
       test(`(pipe) ${message}`, async t => await (testFn as any)(t, pipeFns.map(wrapPipe)));
-      // } else {
-      //   console.log(`AsyncIterable missing a pipe fn in [${internalNames.join(`, `)}], skipping...`);
     }
   };
 }
@@ -64,5 +62,5 @@ function wrapPipe(fn: any) {
 }
 
 function cast(source: any): any {
-  return source instanceof Ix.AsyncIterable ? source : Ix.AsyncIterable.from(source);
+  return source instanceof Ix.AsyncIterable ? source : Ix.AsyncIterable.as(source);
 }

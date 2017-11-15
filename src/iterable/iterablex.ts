@@ -30,8 +30,27 @@ export abstract class IterableX<T> implements Iterable<T> {
     return piped(this);
   }
 
+  static as(source: string): IterableX<string>;
+  static as<T>(source: Iterable<T>): IterableX<T>;
+  static as<T>(source: ArrayLike<T>): IterableX<T>;
+  static as<T>(source: T): IterableX<T>;
+  static as(source: any) {
+    /* tslint:disable */
+    if (typeof source === 'string') {
+      return new OfIterable([source]);
+    }
+    if (isIterable(source)) {
+      return new FromIterable(source, identity);
+    }
+    if (isArrayLike(source)) {
+      return new FromIterable(source, identity);
+    }
+    return new OfIterable([source]);
+    /* tslint:enable */
+  }
+
   static from<TSource, TResult = TSource>(
-    source: Iterable<TSource> | ArrayLike<TSource> | TSource,
+    source: Iterable<TSource> | ArrayLike<TSource>,
     selector: (value: TSource, index: number) => TResult = identity,
     thisArg?: any
   ): IterableX<TResult> {
@@ -43,7 +62,7 @@ export abstract class IterableX<T> implements Iterable<T> {
     if (isArrayLike(source)) {
       return new FromIterable<TSource, TResult>(source, fn);
     }
-    return new FromIterable<TSource, TResult>(new OfIterable<TSource>([source as TSource]), fn);
+    throw new TypeError('Input type not supported');
     /* tslint:enable */
   }
 

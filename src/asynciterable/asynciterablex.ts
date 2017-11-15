@@ -38,8 +38,32 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     return piped(this);
   }
 
+  static as(source: string): AsyncIterableX<string>;
+  static as<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
+  static as<T>(source: T): AsyncIterableX<T>;
+  static as(source: any) {
+    /* tslint:disable */
+    if (typeof source === 'string') {
+      return new OfAsyncIterable([source]);
+    }
+    if (isIterable(source) || isAsyncIterable(source)) {
+      return new FromAsyncIterable(source, identityAsync);
+    }
+    if (isPromise(source)) {
+      return new FromPromiseIterable(source, identityAsync);
+    }
+    if (isObservable(source)) {
+      return new FromObservableAsyncIterable(source, identityAsync);
+    }
+    if (isArrayLike(source)) {
+      return new FromArrayIterable(source, identityAsync);
+    }
+    return new OfAsyncIterable([source]);
+    /* tslint:enable */
+  }
+
   static from<TSource, TResult = TSource>(
-    source: AsyncIterableInput<TSource> | TSource,
+    source: AsyncIterableInput<TSource>,
     selector: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
     thisArg?: any
   ): AsyncIterableX<TResult> {
@@ -57,10 +81,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     if (isArrayLike(source)) {
       return new FromArrayIterable<TSource, TResult>(source, fn);
     }
-    return new FromAsyncIterable<TSource, TResult>(
-      new OfAsyncIterable<TSource>([source as TSource]),
-      fn
-    );
+    throw new TypeError('Input type not supported');
     /* tslint:enable */
   }
 
