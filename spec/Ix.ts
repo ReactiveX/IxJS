@@ -5,6 +5,7 @@
 const path = require('path');
 const target = process.env.IX_TARGET || ``;
 const format = process.env.IX_MODULE || ``;
+const useSrc = process.env.TEST_TS_SOURCE === `true`;
 
 // these are duplicated in the gulpfile :<
 const targets = [`es5`, `es2015`, `esnext`];
@@ -26,7 +27,8 @@ function throwInvalidImportError(name: string, value: string, values: string[]) 
 
 let modulePath = ``;
 
-if (target === `ts` || target === `ix`) modulePath = target;
+if (useSrc) modulePath = '../src';
+else if (target === `ts` || target === `ix`) modulePath = target;
 else if (!~targets.indexOf(target)) throwInvalidImportError('target', target, targets);
 else if (!~formats.indexOf(format)) throwInvalidImportError('module', format, formats);
 else modulePath = path.join(target, format);
