@@ -9,6 +9,10 @@ export { iterableXPipe as iterablePipe };
 export { asynciterableX as asynciterable };
 export { asynciterableXPipe as asynciterablePipe };
 
+import './add/asynciterable/fromnodestream';
+import { fromNodeStream, ReadableStreamAsyncIterable } from './asynciterable/fromnodestream';
+export { fromNodeStream, ReadableStreamAsyncIterable };
+
 /* These declarations are needed for the closure/umd targets */
 export declare namespace Symbol {
   export const iterator: symbol;
@@ -22,11 +26,9 @@ try {
     Ix['iterablePipe'] = iterableXPipe;
     Ix['asynciterable'] = asynciterableX;
     Ix['asynciterablePipe'] = asynciterableXPipe;
+    Ix['fromNodeStream'] = fromNodeStream;
   }
 } catch (e) {
   /* not the UMD bundle */
 }
 /** end google declarations */
-
-import './add/asynciterable/fromnodestream';
-export { fromNodeStream } from './asynciterable/fromnodestream';
