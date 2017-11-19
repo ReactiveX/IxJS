@@ -1,4 +1,3 @@
-import { Readable } from 'stream';
 import { AsyncIterableX } from './asynciterablex';
 
 const NON_FLOWING = 0;
@@ -8,13 +7,13 @@ const ERRORED = 3;
 
 export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
   implements AsyncIterator<string | Buffer> {
-  private _stream: Readable;
+  private _stream: NodeJS.ReadableStream;
   private _size?: number;
   private _state: number;
   private _error: any;
   private _rejectFns: Set<(err: any) => void>;
 
-  constructor(stream: Readable, size?: number) {
+  constructor(stream: NodeJS.ReadableStream, size?: number) {
     super();
     this._stream = stream;
     this._size = size;
@@ -92,6 +91,9 @@ export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
   }
 }
 
-export function fromNodeStream(stream: Readable, size?: number): AsyncIterableX<string | Buffer> {
+export function fromNodeStream(
+  stream: NodeJS.ReadableStream,
+  size?: number
+): AsyncIterableX<string | Buffer> {
   return new ReadableStreamAsyncIterable(stream, size);
 }
