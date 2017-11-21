@@ -1,3 +1,21 @@
+<a name="2.3.2"></a>
+## [2.3.2](https://github.com/ReactiveX/IxJS/compare/v2.3.1...v2.3.2) (2017-11-21)
+
+
+### Bug Fixes
+
+* **fromnodestream:** enable fromnodestream tests, fix minification problems ([#156](https://github.com/ReactiveX/IxJS/issues/156)) ([745d763](https://github.com/ReactiveX/IxJS/commit/745d763))
+* **fromnodestream:** type fromNodeStream to accept NodeJS.ReadableStream interface ([3cbf2dd](https://github.com/ReactiveX/IxJS/commit/3cbf2dd))
+* **FromObservableAsyncIterable:** Fix handling of asynchronously emitting Observables ([#150](https://github.com/ReactiveX/IxJS/issues/150)) ([2c7222c](https://github.com/ReactiveX/IxJS/commit/2c7222c))
+* **readme:** fix lettable syntax ([0e46181](https://github.com/ReactiveX/IxJS/commit/0e46181))
+
+
+### Features
+
+* **as:** Add static as convenience methods to wrap values as Async/Iterables ([#154](https://github.com/ReactiveX/IxJS/issues/154)) ([79a14c5](https://github.com/ReactiveX/IxJS/commit/79a14c5))
+
+
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://github.com/ReactiveX/IxJS/compare/v2.3.0...v2.3.1) (2017-11-08)
 
