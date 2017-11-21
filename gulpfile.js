@@ -321,13 +321,7 @@ const createIxPackageJson = (target, format) => (orig) => ({
   module: `Ix.mjs`,
   browser: `Ix.es5.min.js`,
   [`@std/esm`]: { esm: `mjs` },
-  [`browser:es2015`]: `Ix.es2015.min.js`,
-  // Temporary workaround until https://github.com/Microsoft/tslib/pull/44 is merged
-  scripts: {
-    postinstall: `npm i shx && npm run tslib_mjs && npm run tslib_pkg && npm r shx`,
-    tslib_mjs: `shx cp $(node -e \"console.log(require.resolve('tslib/tslib.es6.js'))\") $(node -e \"var r=require,p=r('path');console.log(p.join(p.dirname(r.resolve('tslib')),'tslib.mjs'))\")`,
-    tslib_pkg: `node -e \"var r=require,p=r('path'),f=r('fs'),k=p.join(p.dirname(r.resolve('tslib')),'package.json'),x=JSON.parse(f.readFileSync(k));x.main='tslib';f.writeFileSync(k,JSON.stringify(x))\"`
-  }
+  [`browser:es2015`]: `Ix.es2015.min.js`
 });
 
 const createTsPackageJson = (target, format) => (orig) => ({
