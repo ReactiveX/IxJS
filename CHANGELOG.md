@@ -1,3 +1,13 @@
+<a name="2.3.3"></a>
+## [2.3.3](https://github.com/ReactiveX/IxJS/compare/v2.3.2...v2.3.3) (2017-11-21)
+
+
+### Reverts
+
+* **npm:** revert 4493754d9fbbc061347d8ef785704b61ecb486c5 ([564c600](https://github.com/ReactiveX/IxJS/commit/564c600)), closes [#163](https://github.com/ReactiveX/IxJS/issues/163)
+
+
+
 <a name="2.3.2"></a>
 ## [2.3.2](https://github.com/ReactiveX/IxJS/compare/v2.3.1...v2.3.2) (2017-11-21)
 
