@@ -191,11 +191,11 @@ const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function
 );
 
 const copyTSSources = ((cache) => memoizeTask(cache, function copyTS(target, format) {
-  return Observable.fromStream(gulp.src(`src/**/*`), gulp.dest(_dir(target, format)));
+  return Observable.fromStream(gulp.src(`src/**/*.ts`), gulp.dest(_dir(target, format)));
 }))({});
 
 const copyIxTargets = ((cache) => memoizeTask(cache, function copyIx(target, format) {
-  const out = _dir(target), srcGlob = `src/**/*`;
+  const out = _dir(target), srcGlob = `src/**/*.ts`;
   const es5UmdGlob = `${_dir(`es5`, `umd`)}/**/*.js`;
   const es5UmdMaps = `${_dir(`es5`, `umd`)}/**/*.map`;
   const es2015CjsGlob = `${_dir(`es2015`, `cjs`)}/**/*.js`;
@@ -322,6 +322,12 @@ const createIxPackageJson = (target, format) => (orig) => ({
   browser: `Ix.es5.min.js`,
   [`@std/esm`]: { esm: `mjs` },
   [`browser:es2015`]: `Ix.es2015.min.js`,
+  // Temporary workaround until https://github.com/Microsoft/tslib/pull/44 is merged
+  scripts: {
+    postinstall: `npm i shx && npm run tslib_mjs && npm run tslib_pkg && npm r shx`,
+    tslib_mjs: `shx cp $(node -e \"console.log(require.resolve('tslib/tslib.es6.js'))\") $(node -e \"var r=require,p=r('path');console.log(p.join(p.dirname(r.resolve('tslib')),'tslib.mjs'))\")`,
+    tslib_pkg: `node -e \"var r=require,p=r('path'),f=r('fs'),k=p.join(p.dirname(r.resolve('tslib')),'package.json'),x=JSON.parse(f.readFileSync(k));x.main='tslib';f.writeFileSync(k,JSON.stringify(x))\"`
+  }
 });
 
 const createTsPackageJson = (target, format) => (orig) => ({
