@@ -7,7 +7,7 @@ import { single } from '../../asynciterable/single';
 
 export function singleProto<T, S extends T>(
   this: AsyncIterableX<T>,
-  predicate?: (value: T, index: number) => value is S
+  predicate: (value: T, index: number) => value is S
 ): Promise<S | undefined>;
 export function singleProto<T>(
   this: AsyncIterableX<T>,
