@@ -9,7 +9,7 @@
  */
 export function first<T, S extends T>(
   source: Iterable<T>,
-  predicate?: (value: T, index: number) => value is S
+  predicate: (value: T, index: number) => value is S
 ): S | undefined;
 export function first<T>(
   source: Iterable<T>,

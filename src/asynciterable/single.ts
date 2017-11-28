@@ -1,6 +1,6 @@
 export async function single<T, S extends T>(
   source: AsyncIterable<T>,
-  predicate?: (value: T, index: number) => value is S
+  predicate: (value: T, index: number) => value is S
 ): Promise<S | undefined>;
 export async function single<T>(
   source: AsyncIterable<T>,
