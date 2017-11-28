@@ -46,7 +46,7 @@
     "tslib": "^1.8.0"
   },
   "devDependencies": {
-    "@std/esm": "0.17.0",
+    "@std/esm": "0.17.3",
     "@types/node": "8.0.53",
     "@types/tape": "4.2.31",
     "chalk": "2.3.0",
