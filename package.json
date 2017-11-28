@@ -88,7 +88,7 @@
     "tsickle": "0.24.1",
     "tslint": "5.8.0",
     "tsutils": "2.12.2",
-    "typescript": "2.6.1",
+    "typescript": "2.6.2",
     "uglifyjs-webpack-plugin": "1.1.0",
     "validate-commit-msg": "2.14.0",
     "webpack": "3.8.1"
