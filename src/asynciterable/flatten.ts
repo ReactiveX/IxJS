@@ -16,7 +16,7 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       for await (let item of source) {
         yield item;
       }
-      return;
+      return undefined;
     }
     for await (let item of source) {
       if (isAsyncIterable(item)) {

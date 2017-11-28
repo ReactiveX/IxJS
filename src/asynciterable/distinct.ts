@@ -20,7 +20,7 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
   }
 
   async *[Symbol.asyncIterator]() {
-    let set = [];
+    let set = [] as TKey[];
 
     for await (let item of <AsyncIterable<TSource>>this._source) {
       let key = await this._keySelector(item);

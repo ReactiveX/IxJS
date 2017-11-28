@@ -11,7 +11,7 @@ export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
     this._sources = sources;
     this._fn = fn;
   }
-  *[Symbol.iterator]() {
+  *[Symbol.iterator](): IterableIterator<TResult> {
     const fn = this._fn;
     const sourcesLength = this._sources.length;
     const its = this._sources.map(x => x[Symbol.iterator]());
@@ -21,7 +21,7 @@ export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
         const result = its[index].next();
         if (result.done) {
           its.forEach(returnIterator);
-          return;
+          return undefined;
         }
         values[index] = result.value;
       }

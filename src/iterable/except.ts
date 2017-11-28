@@ -19,7 +19,7 @@ export class ExceptIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let map = [];
+    let map = [] as TSource[];
     for (let secondItem of this._second) {
       map.push(secondItem);
     }

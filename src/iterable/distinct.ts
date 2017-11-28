@@ -20,7 +20,7 @@ export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let set = [];
+    let set = [] as TKey[];
 
     for (let item of this._source) {
       let key = this._keySelector(item);
