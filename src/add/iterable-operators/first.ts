@@ -7,7 +7,7 @@ import { first } from '../../iterable/first';
 
 export function firstProto<T, S extends T>(
   this: IterableX<T>,
-  predicate?: (value: T, index: number) => value is S
+  predicate: (value: T, index: number) => value is S
 ): S | undefined;
 export function firstProto<T>(
   this: IterableX<T>,

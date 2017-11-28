@@ -7,7 +7,7 @@ import { last } from '../../asynciterable/last';
 
 export function lastProto<T, S extends T>(
   this: AsyncIterableX<T>,
-  predicate?: (value: T, index: number) => value is S
+  predicate: (value: T, index: number) => value is S
 ): Promise<S | undefined>;
 export function lastProto<T>(
   this: AsyncIterableX<T>,
