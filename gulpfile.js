@@ -231,7 +231,7 @@ const compileTypescript = ((cache) => memoizeTask(cache, function typescript(tar
   const tsProject = ts.createProject(path.join(`tsconfig`, tsconfigFile));
   const { stream: { js, dts } } = Observable.fromStream(
     tsProject.src(), sourcemaps.init(),
-    tsProject(ts.reporter.fullReporter(true))
+    tsProject(ts.reporter.defaultReporter())
   );
   const writeDTypes = Observable.fromStream(dts, gulp.dest(out));
   const writeJS = Observable.fromStream(js, sourcemaps.write(), gulp.dest(out));

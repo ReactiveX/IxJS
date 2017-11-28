@@ -19,7 +19,7 @@ export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let map = [];
+    let map = [] as TSource[];
     for await (let lItem of this._left) {
       if ((await arrayIndexOfAsync(map, lItem, this._comparer)) === -1) {
         map.push(lItem);

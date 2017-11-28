@@ -11,7 +11,7 @@ export class SkipLastIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let q = [];
+    let q = [] as TSource[];
     for (let item of this._source) {
       q.push(item);
       if (q.length > this._count) {

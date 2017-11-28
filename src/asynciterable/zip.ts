@@ -15,7 +15,7 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
     this._fn = fn;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](): AsyncIterableIterator<TResult> {
     const fn = this._fn;
     const sourcesLength = this._sources.length;
     const its = this._sources.map(x => x[Symbol.asyncIterator]());
@@ -25,7 +25,7 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
         const result = await its[i].next();
         if (result.done) {
           await Promise.all(its.map(returnAsyncIterator));
-          return;
+          return undefined;
         }
         values[i] = result.value;
       }

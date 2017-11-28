@@ -19,7 +19,7 @@ export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let map = [];
+    let map = [] as TSource[];
     for await (let secondItem of this._second) {
       map.push(secondItem);
     }

@@ -16,7 +16,7 @@ export class FlattenIterable<TSource> extends IterableX<TSource> {
       for (let item of source) {
         yield item;
       }
-      return;
+      return undefined;
     }
     for (let item of source) {
       if (isIterable(item)) {

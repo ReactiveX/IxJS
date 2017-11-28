@@ -19,7 +19,7 @@ export class UnionIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let map = [];
+    let map = [] as TSource[];
     for (let lItem of this._left) {
       if (arrayIndexOf(map, lItem, this._comparer) === -1) {
         map.push(lItem);
