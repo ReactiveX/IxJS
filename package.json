@@ -1,6 +1,6 @@
 {
   "name": "ix",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
