@@ -1,3 +1,14 @@
+<a name="2.3.4"></a>
+## [2.3.4](https://github.com/ReactiveX/IxJS/compare/v2.3.3...v2.3.4) (2017-11-29)
+
+
+### Bug Fixes
+
+* **typings:** Fix optional predicate typings for user-defined typeguard predicates ([fedd563](https://github.com/ReactiveX/IxJS/commit/fedd563))
+* **typings:** workaround typescript bugs when noImplicitAny or strictNullChecks are not true ([ce03239](https://github.com/ReactiveX/IxJS/commit/ce03239))
+
+
+
 <a name="2.3.3"></a>
 ## [2.3.3](https://github.com/ReactiveX/IxJS/compare/v2.3.2...v2.3.3) (2017-11-21)
 
