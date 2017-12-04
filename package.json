@@ -1,6 +1,6 @@
 {
   "name": "ix",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@std/esm": "0.17.3",
-    "@types/node": "8.0.53",
+    "@types/node": "8.0.54",
     "@types/tape": "4.2.31",
     "chalk": "2.3.0",
     "command-line-args": "4.0.7",
@@ -69,7 +69,7 @@
     "husky": "0.14.3",
     "json": "9.0.6",
     "lerna": "2.5.1",
-    "lint-staged": "5.0.0",
+    "lint-staged": "6.0.0",
     "merge2": "1.2.0",
     "mkdirp": "0.5.1",
     "npm-run-all": "4.1.2",
@@ -77,21 +77,21 @@
     "prettier": "1.8.2",
     "pump": "1.0.3",
     "rimraf": "2.6.2",
-    "rxjs": "5.5.2",
+    "rxjs": "5.5.3",
     "shx": "0.2.2",
     "source-map-loader": "0.2.3",
     "spawn-rx": "2.0.12",
     "tap-difflet": "0.7.0",
     "tape-async": "2.3.0",
-    "trash": "4.1.0",
+    "trash": "4.2.0",
     "ts-node": "3.3.0",
     "tsickle": "0.24.1",
     "tslint": "5.8.0",
     "tsutils": "2.12.2",
     "typescript": "2.6.2",
-    "uglifyjs-webpack-plugin": "1.1.0",
+    "uglifyjs-webpack-plugin": "1.1.2",
     "validate-commit-msg": "2.14.0",
-    "webpack": "3.8.1"
+    "webpack": "3.9.0"
   },
   "config": {
     "commitizen": {
