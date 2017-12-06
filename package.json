@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@std/esm": "0.17.3",
-    "@types/node": "8.0.54",
+    "@types/node": "8.0.55",
     "@types/tape": "4.2.31",
     "chalk": "2.3.0",
     "command-line-args": "4.0.7",
@@ -74,10 +74,10 @@
     "mkdirp": "0.5.1",
     "npm-run-all": "4.1.2",
     "pre-git": "3.16.0",
-    "prettier": "1.8.2",
+    "prettier": "1.9.0",
     "pump": "1.0.3",
     "rimraf": "2.6.2",
-    "rxjs": "5.5.3",
+    "rxjs": "5.5.4",
     "shx": "0.2.2",
     "source-map-loader": "0.2.3",
     "spawn-rx": "2.0.12",
@@ -91,7 +91,7 @@
     "typescript": "2.6.2",
     "uglifyjs-webpack-plugin": "1.1.2",
     "validate-commit-msg": "2.14.0",
-    "webpack": "3.9.0"
+    "webpack": "3.10.0"
   },
   "config": {
     "commitizen": {
