@@ -91,7 +91,7 @@
     "typescript": "2.6.2",
     "uglifyjs-webpack-plugin": "1.1.2",
     "validate-commit-msg": "2.14.0",
-    "webpack": "3.9.0"
+    "webpack": "3.10.0"
   },
   "config": {
     "commitizen": {
