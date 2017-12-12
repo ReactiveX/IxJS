@@ -74,7 +74,7 @@
     "mkdirp": "0.5.1",
     "npm-run-all": "4.1.2",
     "pre-git": "3.16.0",
-    "prettier": "1.9.0",
+    "prettier": "1.9.2",
     "pump": "1.0.3",
     "rimraf": "2.6.2",
     "rxjs": "5.5.4",
