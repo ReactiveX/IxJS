@@ -16,6 +16,7 @@
     "lint:src": "tslint --fix --project -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
     "lint:spec": "tslint --fix --project -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\"",
     "prepublishOnly": "echo \"Error: do 'npm run release' instead of 'npm publish'\" && exit 1",
+    "preinstall": "npm i rimraf && rimraf node_modules/tsickle",
     "postinstall": "git apply --ignore-whitespace patches/tsickle+0.24.1.patch"
   },
   "author": "Matthew Podwysocki <matthewp@microsoft.com>",
@@ -61,7 +62,7 @@
     "esdoc": "1.0.4",
     "esdoc-standard-plugin": "1.0.0",
     "google-closure-compiler": "20171203.0.0",
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "github:gulpjs/gulp#6d71a658c61edb3090221579d8f97dbe086ba2ed",
     "gulp-json-transform": "0.4.5",
     "gulp-rename": "1.2.2",
     "gulp-sourcemaps": "2.6.1",
