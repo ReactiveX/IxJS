@@ -85,7 +85,7 @@
     "tap-difflet": "0.7.0",
     "tape-async": "2.3.0",
     "trash": "4.2.0",
-    "ts-node": "3.3.0",
+    "ts-node": "4.0.0",
     "tsickle": "0.24.1",
     "tslint": "5.8.0",
     "tsutils": "2.12.2",
