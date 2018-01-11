@@ -66,7 +66,7 @@
     "gulp-json-transform": "0.4.5",
     "gulp-rename": "1.2.2",
     "gulp-sourcemaps": "2.6.1",
-    "gulp-typescript": "3.2.3",
+    "gulp-typescript": "4.0.0-alpha.1",
     "husky": "0.14.3",
     "json": "9.0.6",
     "lerna": "2.5.1",
