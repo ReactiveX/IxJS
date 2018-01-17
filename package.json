@@ -51,7 +51,7 @@
     "@std/esm": "0.17.3",
     "@types/tape": "4.2.31",
     "chalk": "2.3.0",
-    "command-line-args": "4.0.7",
+    "command-line-args": "5.0.0",
     "commitizen": "2.9.6",
     "conventional-changelog": "1.1.7",
     "conventional-commits-detector": "0.1.1",
