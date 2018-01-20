@@ -52,7 +52,7 @@ export class CatchIterable<TSource> extends IterableX<TSource> {
 
 /**
  * Creates a sequence by concatenating source sequences until a source sequence completes successfully.
- * @param {Iterabe<Iterable<TSource>>} source Source sequences.
+ * @param {Iterable<Iterable<TSource>>} source Source sequences.
  * @return {Iterable<TSource>} Sequence that continues to concatenate source sequences while errors occur.
  */
 export function _catchAll<TSource>(source: Iterable<Iterable<TSource>>): IterableX<TSource> {
