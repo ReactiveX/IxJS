@@ -67,7 +67,7 @@
     "gulp-rename": "1.2.2",
     "gulp-sourcemaps": "2.6.1",
     "gulp-typescript": "3.2.3",
-    "husky": "0.14.3",
+    "husky": "0.15.0-rc.2",
     "json": "9.0.6",
     "lerna": "2.5.1",
     "lint-staged": "6.0.0",
