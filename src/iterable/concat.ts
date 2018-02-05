@@ -44,6 +44,7 @@ export function concat<T, T2, T3, T4, T5, T6>(
   v5: Iterable<T5>,
   v6: Iterable<T6>
 ): Iterable<T | T2 | T3 | T4 | T5 | T6>;
+export function concat<T>(source: Iterable<T>, ...args: Iterable<T>[]): IterableX<T>;
 /* tslint:enable:max-line-length */
 
 export function concat<T>(source: Iterable<T>, ...args: Iterable<T>[]): IterableX<T> {

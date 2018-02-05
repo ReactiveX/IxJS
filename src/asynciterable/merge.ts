@@ -75,6 +75,7 @@ export function merge<T, T2, T3, T4, T5, T6>(
   v5: AsyncIterable<T5>,
   v6: AsyncIterable<T6>
 ): AsyncIterable<T | T2 | T3 | T4 | T5 | T6>;
+export function merge<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T>;
 /* tslint:enable:max-line-length */
 
 export function merge<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
