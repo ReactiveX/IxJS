@@ -50,7 +50,7 @@
     "@types/node": "8.0.56",
     "@std/esm": "0.17.3",
     "@types/tape": "4.2.31",
-    "chalk": "2.3.0",
+    "chalk": "2.3.1",
     "command-line-args": "4.0.7",
     "commitizen": "2.9.6",
     "conventional-changelog": "1.1.7",
