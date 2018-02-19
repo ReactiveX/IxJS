@@ -1,3 +1,18 @@
+<a name="2.3.5"></a>
+## [2.3.5](https://github.com/ReactiveX/IxJS/compare/v2.3.4...v2.3.5) (2018-02-19)
+
+
+### Bug Fixes
+
+* **compile:** adding some missing exports to deal with typescript 2.7.x compat issue ([0b0c837](https://github.com/ReactiveX/IxJS/commit/0b0c837)), closes [#214](https://github.com/ReactiveX/IxJS/issues/214)
+
+
+### Features
+
+* **orderby:** add piped orderby ([#190](https://github.com/ReactiveX/IxJS/issues/190)) ([aaa527a](https://github.com/ReactiveX/IxJS/commit/aaa527a))
+
+
+
 <a name="2.3.4"></a>
 ## [2.3.4](https://github.com/ReactiveX/IxJS/compare/v2.3.3...v2.3.4) (2017-11-29)
 
