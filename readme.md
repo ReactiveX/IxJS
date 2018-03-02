@@ -108,13 +108,13 @@ Just like RxJS, IxJS supports "lettable" operators which allow you to chain toge
 ```js
 // ES
 import { IterableX as Iterable } from 'ix/iterable';
-import { map, filter } from 'ix/iterable/pipe';
+import { map, filter } from 'ix/iterable/pipe/index';
 
 // CommonJS
 const Iterable = require('ix/iterable').IterableX;
-const { map, filter } = require('ix/iterable/pipe');
+const { map, filter } = require('ix/iterable/pipe/index');
 
-const results = of(1, 2, 3).pipe(
+const results = Iterable.of(1, 2, 3).pipe(
   filter(x => x % 2 === 0),
   map(x => x * x)
 );
