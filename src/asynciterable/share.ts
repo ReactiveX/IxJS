@@ -6,7 +6,12 @@ class SharedAsyncIterable<T> extends AsyncIterableX<T> {
 
   constructor(it: AsyncIterator<T>) {
     super();
-    this._it = it;
+    // wrap iterator to prevent `return` propagation
+    this._it = {
+      next(value) {
+        return it.next(value);
+      }
+    };
   }
 
   [Symbol.asyncIterator]() {

@@ -54,11 +54,26 @@ test('AsyncIterable#share shared exhausts any time', async (t, [share]) => {
   t.end();
 });
 
+test('AsyncIterable#share shared does not interrupt', async (t, [share]) => {
+  const rng = share(range(0, 5));
+
+  const res1 = await toArray(take(rng, 3));
+  t.true(sequenceEqual(res1, [0, 1, 2]));
+
+  const res2 = await toArray(rng);
+  t.true(sequenceEqual(res2, [3, 4]));
+  t.end();
+});
+
 test('AsyncIterable#share with selector', async (t, [share]) => {
   let n = 0;
   const res = await toArray(
     share(
-      tap(range(0, 10), { next: async () => { n++;} }),
+      tap(range(0, 10), {
+        next: async () => {
+          n++;
+        }
+      }),
       xs => take(zip(([l, r]) => l + r, xs, xs), 4)
     )
   );
