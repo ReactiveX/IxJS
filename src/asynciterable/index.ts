@@ -2,6 +2,7 @@ export * from './asynciterablex';
 export { asyncify } from './asyncify';
 export { asyncifyErrback } from './asyncifyerrback';
 export { average } from './average';
+export { batch } from './batch';
 export { buffer } from './buffer';
 export { _case } from './case';
 export { _catch } from './catch';
