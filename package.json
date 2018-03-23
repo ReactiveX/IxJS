@@ -82,7 +82,7 @@
     "shx": "0.2.2",
     "source-map-loader": "0.2.3",
     "spawn-rx": "2.0.12",
-    "tap-difflet": "0.7.0",
+    "tap-difflet": "0.7.1",
     "tape-async": "2.3.0",
     "trash": "4.2.0",
     "ts-node": "3.3.0",
