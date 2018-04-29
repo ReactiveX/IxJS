@@ -59,7 +59,7 @@
     "conventional-recommended-bump": "1.1.0",
     "cz-conventional-changelog": "2.1.0",
     "del": "3.0.0",
-    "esdoc": "1.0.4",
+    "esdoc": "1.1.0",
     "esdoc-standard-plugin": "1.0.0",
     "google-closure-compiler": "20171203.0.0",
     "gulp": "github:gulpjs/gulp#6d71a658c61edb3090221579d8f97dbe086ba2ed",
