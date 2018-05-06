@@ -73,7 +73,7 @@
     "lint-staged": "6.0.0",
     "merge2": "1.2.0",
     "mkdirp": "0.5.1",
-    "npm-run-all": "4.1.2",
+    "npm-run-all": "4.1.3",
     "pre-git": "3.16.0",
     "prettier": "1.9.2",
     "pump": "1.0.3",
