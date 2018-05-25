@@ -7,7 +7,7 @@ import { isArrayLike, isIterable, isAsyncIterable } from '../internal/isiterable
 import { Observable } from '../observer';
 
 /**
- * This clas serves as the base for all operations which support [Symbol.asyncIterator].
+ * This class serves as the base for all operations which support [Symbol.asyncIterator].
  */
 export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
   abstract [Symbol.asyncIterator](): AsyncIterator<T>;
