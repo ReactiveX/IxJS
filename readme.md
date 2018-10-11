@@ -324,7 +324,7 @@ for await (let item of mapped) {
 
 ## Contributing
 
-We are grateful for contributions to the IxJS project.  The IxJS project evolves because of community involvemnent from people such as yourselves.  Please read below on how to get involved.
+We are grateful for contributions to the IxJS project.  The IxJS project evolves because of community involvement from people such as yourselves.  Please read below on how to get involved.
 
 ### [Code Of Conduct](CODE_OF_CONDUCT.md)
 
