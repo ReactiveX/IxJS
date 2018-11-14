@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
-import { returnAsyncIterator } from '../internal/returniterator';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
+import { returnAsyncIterator } from '../util/returniterator';
 
 export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<AsyncIterable<TSource>>;
@@ -50,19 +51,8 @@ export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function _catchAll<TSource>(
-  source: Iterable<AsyncIterable<TSource>>
-): AsyncIterableX<TSource> {
-  return new CatchAllAsyncIterable<TSource>(source);
-}
-
-export function _catch<T>(
-  source: AsyncIterable<T>,
-  ...args: AsyncIterable<T>[]
-): AsyncIterableX<T> {
-  return _catchAll<T>([source, ...args]);
-}
-
-export function _catchStatic<T>(...source: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return _catchAll(source);
+export function catchError<T>(...args: AsyncIterable<T>[]): MonoTypeOperatorAsyncFunction<T> {
+  return function catchOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
+    return new CatchAllAsyncIterable<T>([source, ...args]);
+  };
 }

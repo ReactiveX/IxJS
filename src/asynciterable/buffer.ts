@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _source: AsyncIterable<TSource>;
@@ -38,12 +39,15 @@ export class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 }
 
 export function buffer<TSource>(
-  source: AsyncIterable<TSource>,
   count: number,
   skip?: number
-): AsyncIterableX<TSource[]> {
+): OperatorAsyncFunction<TSource, TSource[]> {
   if (skip == null) {
     skip = count;
   }
-  return new BufferAsyncIterable<TSource>(source, count, skip);
+  return function bufferOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource[]> {
+    return new BufferAsyncIterable<TSource>(source, count, skip!);
+  };
 }
