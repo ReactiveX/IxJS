@@ -28,7 +28,7 @@ test('AsyncIterable#asyncify multiple arguments', async t => {
 
   const it = xs[Symbol.asyncIterator]();
   const { value, done } = await it.next();
-  t.true(sequenceEqual(<number[]>value, [1, 2]));
+  t.true(sequenceEqual(value as number[], [1, 2]));
   t.false(done);
   await noNext(t, it);
   t.end();
