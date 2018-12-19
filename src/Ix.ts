@@ -20,24 +20,6 @@ export default {
 export type GroupedIterable<TKey, TValue> = GroupedIterable<TKey, TValue>;
 export type GroupedAsyncIterable<TKey, TValue> = GroupedAsyncIterable<TKey, TValue>;
 
-/* These declarations are needed for the closure/umd targets */
-export declare namespace Symbol {
-  export const iterator: symbol;
-  export const asyncIterator: symbol;
-}
-try {
-  const Ix = eval('exports');
-  if (typeof Ix === 'object') {
-    // string indexers tell closure compiler not to rename these properties
-    Ix['Iterable'] = IterableX;
-    Ix['AsyncSink'] = AsyncSink;
-    Ix['AsyncIterable'] = AsyncIterableX;
-  }
-} catch (e) {
-  /* not the UMD bundle */
-}
-/** end google declarations */
-
 // iterable statics
 /* tslint:disable:no-use-before-declare */
 import './add/iterable/case';

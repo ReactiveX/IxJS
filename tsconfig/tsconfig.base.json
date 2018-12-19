@@ -24,6 +24,7 @@
     "skipLibCheck": false,
     "importHelpers": true,
     "noEmitHelpers": true,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "allowUnusedLabels": false,
