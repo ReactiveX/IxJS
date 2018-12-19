@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { from } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 import { setInterval, clearInterval } from 'timers';

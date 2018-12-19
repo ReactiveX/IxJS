@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { empty } = Ix.iterable;
 import { noNext } from '../iterablehelpers';
 

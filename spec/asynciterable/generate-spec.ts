@@ -1,15 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { generate } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#generate generates normal sequence', async (t: test.Test) => {
-  const xs = generate(
-    0,
-    async x => x < 5,
-    async x => x + 1,
-    async x => x * x
-  );
+  const xs = generate(0, async x => x < 5, async x => x + 1, async x => x * x);
 
   const it = xs[Symbol.asyncIterator]();
   await hasNext(t, it, 0);
@@ -25,7 +20,9 @@ test('AsyncIterable#generate condition throws', async (t: test.Test) => {
   const err = new Error();
   const xs = generate(
     0,
-    async x => { throw err; },
+    async x => {
+      throw err;
+    },
     async x => x + 1,
     async x => x * x
   );
@@ -45,7 +42,9 @@ test('AsyncIterable#generate increment throws', async (t: test.Test) => {
   const xs = generate(
     0,
     async x => x < 5,
-    async x => { throw err; },
+    async x => {
+      throw err;
+    },
     async x => x * x
   );
 
@@ -65,7 +64,9 @@ test('AsyncIterable#generate result selector throws', async (t: test.Test) => {
     0,
     async x => x < 5,
     async x => x + 1,
-    async x => { throw err; }
+    async x => {
+      throw err;
+    }
   );
 
   const it = xs[Symbol.asyncIterator]();

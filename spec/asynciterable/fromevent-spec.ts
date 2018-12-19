@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { fromEvent } = Ix.asynciterable;
 import { hasNext } from '../asynciterablehelpers';
 import { EventEmitter } from 'events';

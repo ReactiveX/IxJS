@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { defer } = Ix.iterable;
 const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;

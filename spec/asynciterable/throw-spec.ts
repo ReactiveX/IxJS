@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { _throw } = Ix.asynciterable;
 
 test('AsyncIterable#throw throws', async t => {

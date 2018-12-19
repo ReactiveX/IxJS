@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { ofValues } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 

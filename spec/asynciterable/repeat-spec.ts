@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { repeatStatic } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 

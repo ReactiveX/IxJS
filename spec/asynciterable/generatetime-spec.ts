@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { generateTime } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
@@ -26,7 +26,9 @@ test('AsyncIterable#generateTime condition throws', async t => {
   const err = new Error();
   const xs = generateTime(
     0,
-    async x => { throw err; },
+    async x => {
+      throw err;
+    },
     async x => x + 1,
     async x => x * x,
     async x => x * 100
@@ -47,7 +49,9 @@ test('AsyncIterable#generateTime increment throws', async t => {
   const xs = generateTime(
     0,
     async x => x < 5,
-    async x => { throw err; },
+    async x => {
+      throw err;
+    },
     async x => x * x,
     async x => x * 100
   );
@@ -68,7 +72,9 @@ test('AsyncIterable#generateTime result selector throws', async t => {
     0,
     async x => x < 5,
     async x => x + 1,
-    async x => { throw err; },
+    async x => {
+      throw err;
+    },
     async x => x * 100
   );
 
@@ -89,7 +95,9 @@ test('AsyncIterable#generateTime time selector throws', async t => {
     async x => x < 5,
     async x => x + 1,
     async x => x * x,
-    async x => { throw err; }
+    async x => {
+      throw err;
+    }
   );
 
   const it = xs[Symbol.asyncIterator]();

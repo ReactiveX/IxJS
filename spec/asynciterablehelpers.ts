@@ -1,5 +1,5 @@
 import * as Ix from './Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 
 export async function hasNext<T>(t: test.Test, source: AsyncIterator<T>, expected: T) {
   const { done, value } = await source.next();

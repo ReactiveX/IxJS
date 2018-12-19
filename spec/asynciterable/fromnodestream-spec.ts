@@ -1,4 +1,4 @@
-import * as test from 'tape-async';
+import * as test from 'tape';
 import { fromNodeStream } from '../Ix';
 import { Readable, ReadableOptions } from 'stream';
 

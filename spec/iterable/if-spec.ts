@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
+import * as test from 'tape';
 const { _if } = Ix.iterable;
 const { isEmpty } = Ix.iterable;
 const { single } = Ix.iterable;
