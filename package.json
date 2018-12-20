@@ -6,7 +6,7 @@
     "lerna": "lerna",
     "commit": "git-cz",
     "test": "gulp test",
-    "build": "gulp build",
+    "build": "gulp clean:build",
     "clean": "gulp clean",
     "debug": "gulp debug",
     "lint": "run-p lint:*",

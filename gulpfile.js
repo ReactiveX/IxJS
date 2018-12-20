@@ -19,9 +19,9 @@ const gulp = require('gulp');
 const { Observable } = require('rxjs');
 const buildTask = require('./gulp/build-task');
 const cleanTask = require('./gulp/clean-task');
+const { testTask } = require('./gulp/test-task');
 const packageTask = require('./gulp/package-task');
 const { targets, modules } = require('./gulp/argv');
-const { testTask, createTestData, cleanTestData } = require('./gulp/test-task');
 const {
     taskName, combinations,
     knownTargets,
@@ -34,9 +34,8 @@ for (const [target, format] of combinations([`all`], [`all`])) {
     gulp.task(`clean:${task}`, cleanTask(target, format));
     gulp.task( `test:${task}`,  testTask(target, format));
     gulp.task(`debug:${task}`,  testTask(target, format, true));
-    gulp.task(`build:${task}`, gulp.series(`clean:${task}`,
-                                            buildTask(target, format),
-                                            packageTask(target, format)));
+    gulp.task(`build:${task}`, gulp.series(buildTask(target, format), packageTask(target, format)));
+    gulp.task(`clean:build:${task}`, gulp.series(cleanTask(target, format), `build:${task}`));
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
@@ -78,13 +77,12 @@ function gulpConcurrent(tasks) {
         .flatMap((task) => Observable.bindNodeCallback(task)(), numCPUs);
 }
 
-gulp.task(`clean:testdata`, cleanTestData);
-gulp.task(`create:testdata`, createTestData);
 gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
 gulp.task(`debug`, gulp.series(getTasks(`debug`)));
 gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
-gulp.task(`default`,  gulp.series(`build`, `test`));
+gulp.task(`clean:build`, gulp.parallel(getTasks(`clean:build`)));
+gulp.task(`default`,  gulp.series(`clean:build`, `test`));
 
 function getTasks(name) {
     const tasks = [];
