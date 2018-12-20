@@ -34,8 +34,9 @@ for (const [target, format] of combinations([`all`], [`all`])) {
     gulp.task(`clean:${task}`, cleanTask(target, format));
     gulp.task( `test:${task}`,  testTask(target, format));
     gulp.task(`debug:${task}`,  testTask(target, format, true));
-    gulp.task(`compile:${task}`, gulp.series(compileTask(target, format), packageTask(target, format)));
-    gulp.task(`build:${task}`, gulp.series(`clean:${task}`, `compile:${task}`));
+    gulp.task(`compile:${task}`, compileTask(target, format));
+    gulp.task(`package:${task}`, packageTask(target, format));
+    gulp.task(`build:${task}`, gulp.series(`clean:${task}`, `compile:${task}`, `package:${task}`));
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
@@ -44,12 +45,8 @@ for (const [target, format] of combinations([`all`], [`all`])) {
 knownTargets.forEach((target) =>
     gulp.task(`compile:${target}:umd`,
         gulp.series(
-            gulp.parallel(
-                cleanTask(target, `umd`),
-                cleanTask(UMDSourceTargets[target], `cls`)
-            ),
             compileTask(UMDSourceTargets[target], `cls`),
-            compileTask(target, `umd`), packageTask(target, `umd`),
+            compileTask(target, `umd`),
             cleanTask(UMDSourceTargets[target], `cls`)
         )
     )
@@ -60,14 +57,13 @@ knownTargets.forEach((target) =>
 // compiled output into the apache-arrow folder
 gulp.task(`compile:${npmPkgName}`,
     gulp.series(
-        cleanTask(npmPkgName),
         gulp.parallel(
             `compile:${taskName(`es5`, `umd`)}`,
             `compile:${taskName(`es2015`, `cjs`)}`,
             `compile:${taskName(`es2015`, `esm`)}`,
             `compile:${taskName(`es2015`, `umd`)}`
         ),
-        compileTask(npmPkgName), packageTask(npmPkgName)
+        compileTask(npmPkgName)
     )
 );
 
@@ -81,6 +77,7 @@ gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
 gulp.task(`debug`, gulp.series(getTasks(`debug`)));
 gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
+gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
 gulp.task(`build`, gulp.series(`clean`, `compile`));
 gulp.task(`default`,  gulp.series(`clean`, `compile`, `test`));
 
