@@ -27,7 +27,7 @@ argv.coverage
     : jestArgv.push(`-c`, `jest.config.js`, `-i`)
 
 const debugArgv = [`--runInBand`, `--env`, `node-debug`];
-const jest = require.resolve(path.join(__dirname, `../node_modules/.bin/jest`));
+const jest = path.join(path.parse(require.resolve(`jest`)).dir, `../bin/jest.js`);
 const testOptions = {
     stdio: [`ignore`, `inherit`, `inherit`],
     env: {

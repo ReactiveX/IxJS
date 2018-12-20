@@ -62,13 +62,6 @@ const closureTask = ((cache) => memoizeTask(cache, function closure(target, form
             fs.promises.writeFile(path.resolve(externsPath), generateExternsFile(path.resolve(`${src}/${entry}.js`)))
         ]);
 
-        // sleep for appveyor
-        // if (process.env.IS_APPVEYOR_CI) {
-        //     await new Promise((r) => setTimeout(r, 1000));
-        //     console.log(await fs.promises.stat(path.resolve(entry_point)));
-        //     console.log(await fs.promises.stat(path.resolve(externsPath)));
-        // }
-
         return await observableFromStreams(
             gulp.src([
                 `node_modules/tslib/package.json`, /* <-- external libs first */

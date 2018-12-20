@@ -18,8 +18,8 @@
 const gulp = require('gulp');
 const { Observable } = require('rxjs');
 const cleanTask = require('./gulp/clean-task');
-const compileTask = require('./gulp/build-task');
 const { testTask } = require('./gulp/test-task');
+const compileTask = require('./gulp/compile-task');
 const packageTask = require('./gulp/package-task');
 const { targets, modules } = require('./gulp/argv');
 const {
@@ -79,7 +79,7 @@ gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
-gulp.task(`default`,  gulp.series(`build`, `test`));
+gulp.task(`default`,  gulp.series(`clean`, `compile`, `test`, `package`));
 
 function getTasks(name) {
     const tasks = [];

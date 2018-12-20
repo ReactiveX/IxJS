@@ -24,7 +24,7 @@ const closureTask = require('./closure-task');
 const typescriptTask = require('./typescript-task');
 const { copyMainTask, copyTSTask } = require('./copy-main-task');
 
-const buildTask = ((cache) => memoizeTask(cache, function build(target, format, ...args) {
+const compileTask = ((cache) => memoizeTask(cache, function compile(target, format, ...args) {
     return target === `src`                    ? Observable.empty()
          : target === npmPkgName               ? copyMainTask(target, format, ...args)()
          : target === `ts`                     ? copyTSTask(target, format, ...args)()
@@ -33,5 +33,5 @@ const buildTask = ((cache) => memoizeTask(cache, function build(target, format, 
                                                : typescriptTask(target, format, ...args)();
 }))({});
 
-module.exports = buildTask;
-module.exports.buildTask = buildTask;
+module.exports = compileTask;
+module.exports.compileTask = compileTask;
