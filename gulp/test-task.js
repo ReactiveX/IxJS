@@ -26,7 +26,6 @@ argv.coverage
     ? jestArgv.push(`-c`, `jest.coverage.config.js`, `--coverage`)
     : jestArgv.push(`-c`, `jest.config.js`, `-i`)
 
-const debugArgv = [`--runInBand`, `--env`, `node-debug`];
 const jest = path.join(path.parse(require.resolve(`jest`)).dir, `../bin/jest.js`);
 const testOptions = {
     stdio: [`ignore`, `inherit`, `inherit`],
@@ -38,9 +37,9 @@ const testOptions = {
     },
 };
 
-const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function test(target, format, debug = false) {
+const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function test(target, format) {
+    const args = [...execArgv];
     const opts = { ...testOptions };
-    const args = !debug ? [...execArgv] : [...debugArgv, ...execArgv];
     if (!argv.coverage) {
         args.push(`spec/*`);
     }
@@ -51,10 +50,8 @@ const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function 
         TEST_NODE_STREAMS: (target ==='src' || format !== 'umd').toString(),
         TEST_TS_SOURCE: !!argv.coverage || (target === 'src') || (opts.env.TEST_TS_SOURCE === 'true')
     };
-    return !debug ?
-        child_process.spawn(jest, args, opts) :
-        child_process.exec(`node --inspect-brk ${jest} ${args.join(` `)}`, opts);
-}))({}, jestArgv, testOptions);
+    return child_process.spawn(`node`, args, opts);
+}))({}, [jest, ...jestArgv], testOptions);
 
 module.exports = testTask;
 module.exports.testTask = testTask;

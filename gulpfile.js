@@ -33,7 +33,6 @@ for (const [target, format] of combinations([`all`], [`all`])) {
     const task = taskName(target, format);
     gulp.task(`clean:${task}`, cleanTask(target, format));
     gulp.task( `test:${task}`,  testTask(target, format));
-    gulp.task(`debug:${task}`,  testTask(target, format, true));
     gulp.task(`compile:${task}`, compileTask(target, format));
     gulp.task(`package:${task}`, packageTask(target, format));
     gulp.task(`build:${task}`, gulp.series(`clean:${task}`, `compile:${task}`, `package:${task}`));
@@ -74,7 +73,6 @@ function gulpConcurrent(tasks) {
 }
 
 gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
-gulp.task(`debug`, gulp.series(getTasks(`debug`)));
 gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
