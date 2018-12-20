@@ -52,17 +52,22 @@ const closureTask = ((cache) => memoizeTask(cache, function closure(target, form
     
     async function closureCompile(entry) {
 
-        const entry_point = path.join(`${src}/${entry}.dom.cls.js`);
-        const externsPath = path.join(`${out}/${entry}.externs.js`);
+        const entry_point = path.join(src, `${entry}.dom.cls.js`);
+        const externsPath = path.join(out, `${entry}.externs.js`);
+
+        console.log({ entry_point, externsPath });
 
         await Promise.all([
-            fs.promises.writeFile(entry_point, generateUMDExportAssignnent(entry)),
-            fs.promises.writeFile(externsPath, generateExternsFile(path.resolve(`${src}/${entry}.js`)))
+            fs.promises.writeFile(path.resolve(entry_point), generateUMDExportAssignnent(entry)),
+            fs.promises.writeFile(path.resolve(externsPath), generateExternsFile(path.resolve(`${src}/${entry}.js`)))
         ]);
+
+        // sleep for appveyor?
+        // await new Promise((r) => setTimeout(r, 500));
 
         return await observableFromStreams(
             gulp.src([
-                `node_modules/tslib/package.json`, /* <-- external libs first */ 
+                `node_modules/tslib/package.json`, /* <-- external libs first */
                 `node_modules/tslib/tslib.es6.js`, 
                 `${src}/**/*.js`,                  /* <-- then sources globs  */
             ], { base: `./` }),
