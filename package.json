@@ -13,6 +13,7 @@
     "release": "./npm-release.sh",
     "doc": "shx rm -rf ./doc && esdoc",
     "commitmsg": "validate-commit-msg",
+    "test:coverage": "gulp test -t src --coverage",
     "lint:src": "tslint --fix --project -p tsconfig.json -c tslint.json \"src/**/*.ts\"",
     "lint:spec": "tslint --fix --project -p spec/tsconfig.json -c tslint.json \"spec/**/*.ts\"",
     "prepublishOnly": "echo \"Error: do 'npm run release' instead of 'npm publish'\" && exit 1"
