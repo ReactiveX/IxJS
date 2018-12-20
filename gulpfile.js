@@ -78,15 +78,14 @@ for (const [target, format] of combinations([`all`], [`all`])) {
 }
 
 // And finally the global composite tasks
-gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
+gulp.task(`test`, gulpConcurrent(getTasks(`test`), process.env.IS_APPVEYOR_CI ? 1 : void 0));
 gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
 gulp.task(`default`,  gulp.series(`clean`, `build`, `test`));
 
-function gulpConcurrent(tasks) {
-    const numCPUs = require('os').cpus().length;
+function gulpConcurrent(tasks, numCPUs = require('os').cpus().length) {
     return () => Observable.from(tasks.map((task) => gulp.series(task)))
         .flatMap((task) => Observable.bindNodeCallback(task)(), numCPUs);
 }
