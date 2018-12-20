@@ -35,25 +35,22 @@ for (const [target, format] of combinations([`all`], [`all`])) {
     gulp.task( `test:${task}`,  testTask(target, format));
     gulp.task(`compile:${task}`, compileTask(target, format));
     gulp.task(`package:${task}`, packageTask(target, format));
-    gulp.task(`build:${task}`, gulp.series(`clean:${task}`, `compile:${task}`, `package:${task}`));
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
 // then run the TS source through either closure-compiler or
 // a minifier, so we special case that here.
-knownTargets.forEach((target) =>
-    gulp.task(`compile:${target}:umd`,
-        gulp.series(
-            compileTask(UMDSourceTargets[target], `cls`),
-            compileTask(target, `umd`),
-            cleanTask(UMDSourceTargets[target], `cls`)
-        )
-    )
-);
+knownTargets.forEach((target) => {
+    const umd = taskName(target, `umd`);
+    const cls = taskName(UMDSourceTargets[target], `cls`);
+    gulp.task(`compile:${umd}`, gulp.series(
+        `compile:${cls}`, compileTask(target, `umd`), `clean:${cls}`
+    ));
+});
 
-// The main "apache-arrow" module builds the es5/umd, es2015/cjs,
+// The main "ix" module builds the es5/umd, es2015/cjs,
 // es2015/esm, and es2015/umd targets, then copies and renames the
-// compiled output into the apache-arrow folder
+// compiled output into the ix folder
 gulp.task(`compile:${npmPkgName}`,
     gulp.series(
         gulp.parallel(
@@ -66,18 +63,28 @@ gulp.task(`compile:${npmPkgName}`,
     )
 );
 
+// Now that all the compile and package tasks have been defined,
+// define the composite `build` tasks
+for (const [target, format] of combinations([`all`], [`all`])) {
+    const task = taskName(target, format);
+    gulp.task(`build:${task}`, gulp.series(
+        `clean:${task}`,  `compile:${task}`, `package:${task}`
+    ));
+}
+
+// And finally the global composite tasks
+gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
+gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
+gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
+gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
+gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
+gulp.task(`default`,  gulp.series(`clean`, `compile`, `package`, `test`));
+
 function gulpConcurrent(tasks) {
     const numCPUs = process.env.IS_APPVEYOR_CI ? 1 : require('os').cpus().length;
     return () => Observable.from(tasks.map((task) => gulp.series(task)))
         .flatMap((task) => Observable.bindNodeCallback(task)(), numCPUs);
 }
-
-gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
-gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
-gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
-gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
-gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
-gulp.task(`default`,  gulp.series(`clean`, `compile`, `test`, `package`));
 
 function getTasks(name) {
     const tasks = [];

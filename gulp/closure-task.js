@@ -28,13 +28,12 @@ const {
 const fs = require('fs');
 const gulp = require('gulp');
 const path = require('path');
-const mkdirp = require('mkdirp');
 const sourcemaps = require('gulp-sourcemaps');
 const { memoizeTask } = require('./memoize-task');
-const { Observable, ReplaySubject } = require('rxjs');
+const mkdirp = require('util').promisify(require('mkdirp'));
 const closureCompiler = require('google-closure-compiler').gulp();
 
-const closureTask = ((cache) => memoizeTask(cache, function closure(target, format) {
+const closureTask = ((cache) => memoizeTask(cache, async function closure(target, format) {
 
     if (shouldRunInChildProcess(target, format)) {
         return spawnGulpCommandInChildProcess('compile', target, format);
@@ -42,31 +41,30 @@ const closureTask = ((cache) => memoizeTask(cache, function closure(target, form
 
     const src = targetDir(target, `cls`);
     const out = targetDir(target, format);
-    const entrypoints = [`${mainExport}`, `${mainExport}.internal`];
 
-    mkdirp.sync(out);
+    await mkdirp(out);
 
-    return Observable
-        .from(entrypoints).concatMap(closureCompile)
-        .takeLast(1).publish(new ReplaySubject()).refCount();
+    await Promise.all([
+        `${mainExport}`,
+        `${mainExport}.internal`
+    ].map(closureCompile));
     
     async function closureCompile(entry) {
 
         const entry_point = path.join(src, `${entry}.dom.cls.js`);
         const externsPath = path.join(out, `${entry}.externs.js`);
 
-        console.log({ entry_point, externsPath });
-
         await Promise.all([
-            fs.promises.writeFile(path.resolve(entry_point), generateUMDExportAssignnent(entry)),
-            fs.promises.writeFile(path.resolve(externsPath), generateExternsFile(path.resolve(`${src}/${entry}.js`)))
+            fs.promises.writeFile(entry_point, generateUMDExportAssignnent(entry)),
+            fs.promises.writeFile(externsPath, generateExternsFile(path.resolve(`${src}/${entry}.js`)))
         ]);
 
         return await observableFromStreams(
             gulp.src([
-                `node_modules/tslib/package.json`, /* <-- external libs first */
+                /* external libs first */
+                `node_modules/tslib/package.json`,
                 `node_modules/tslib/tslib.es6.js`, 
-                `${src}/**/*.js`,                  /* <-- then sources globs  */
+                `${src}/**/*.js` /* <-- then sources globs  */
             ], { base: `./` }),
             sourcemaps.init(),
             closureCompiler(createClosureArgs(entry_point, entry, externsPath)),
@@ -96,7 +94,7 @@ const createClosureArgs = (entry_point, output, externs) => ({
     language_out: gCCLanguageNames[`esnext`],
     output_wrapper: `(function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['exports'], factory) :
+    typeof define === 'function' && define.amd ? define(['Ix'], factory) :
     (factory(global.Ix = global.Ix || {}));
 }(this, (function (exports) {%output%}.bind(this))));`
 });
@@ -115,11 +113,9 @@ function generateExternsFile(entryModulePath) {
     const entryModule = esmRequire(entryModulePath, { warnings: false });
     return [
         externsHeader(),
-        getPublicExportedNames(entryModule)
-            .map(externBody)
-            .filter(Boolean).join('\n')
+        ...getPublicExportedNames(entryModule)
+            .map(externBody).filter(Boolean)
     ].join('\n');
-    
 }
 
 function externBody({ exportName, staticNames, instanceNames }) {

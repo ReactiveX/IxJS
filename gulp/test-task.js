@@ -24,13 +24,15 @@ const jestArgv = [];
 argv.verbose && jestArgv.push(`--verbose`);
 argv.coverage
     ? jestArgv.push(`-c`, `jest.coverage.config.js`, `--coverage`)
-    : jestArgv.push(`-c`, `jest.config.js`, `-i`)
+    : jestArgv.push(`-c`, `jest.config.js`, ...(process.env.IS_APPVEYOR_CI ? [] : [`-i`]))
 
 const jest = path.join(path.parse(require.resolve(`jest`)).dir, `../bin/jest.js`);
 const testOptions = {
     stdio: [`ignore`, `inherit`, `inherit`],
     env: {
         ...process.env,
+        // hide fs.promises/stream[Symbol.asyncIterator] warnings
+        NODE_NO_WARNINGS: `1`,
         // prevent the user-land `readable-stream` module from
         // patching node's streams -- they're better now
         READABLE_STREAM: `disable`
