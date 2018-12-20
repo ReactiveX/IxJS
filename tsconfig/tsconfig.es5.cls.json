@@ -2,7 +2,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2015",
+    "target": "ES5",
     "module": "es2015",
     "declaration": false,
     "noEmitHelpers": true,

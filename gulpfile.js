@@ -15,9 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const del = require('del');
 const gulp = require('gulp');
-const path = require('path');
 const { Observable } = require('rxjs');
 const buildTask = require('./gulp/build-task');
 const cleanTask = require('./gulp/clean-task');

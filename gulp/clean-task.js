@@ -16,15 +16,15 @@
 // under the License.
 
 const del = require('del');
+const { Observable } = require('rxjs');
 const { targetDir } = require('./util');
 const { createTask } = require('./memoize-task');
-const { Observable, ReplaySubject } = require('rxjs');
 
 const cleanTask = createTask(function clean(target, format) {
+    const dir = targetDir(target, format);
     return Observable
-        .from(del(`${targetDir(target, format)}/**`))
-        .catch((e) => Observable.empty())
-        .multicast(new ReplaySubject()).refCount();
+        .defer(() => del(dir))
+        .catch((e) => Observable.empty());
 });
 
 module.exports = cleanTask;

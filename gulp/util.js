@@ -124,7 +124,7 @@ function spawnGulpCommandInChildProcess(command, target, format) {
 
 function observableFromStreams(...streams) {
     if (streams.length <= 0) { return Observable.empty(); }
-    const pumped = streams.length <= 1 ? streams[0] : pump(...streams, (e) => e && process.exit(1));
+    const pumped = streams.length <= 1 ? streams[0] : pump(...streams, (e) => { if (e) { console.error(e); process.exit(1) }});
     const fromEvent = Observable.fromEvent.bind(null, pumped);
     const streamObs = fromEvent(`data`)
                .merge(fromEvent(`error`).flatMap((e) => Observable.throw(e)))
@@ -171,10 +171,6 @@ function* combinations(_targets, _modules) {
     }
 }
 
-const publicModulePaths = (dir) => [
-    `${dir}/${mainExport}.js`
-];
-
 const esmRequire = require(`esm`)(module, {
     mode: `auto`,
     cjs: {
@@ -201,5 +197,5 @@ module.exports = {
     gCCLanguageNames, UMDSourceTargets, terserLanguageNames,
 
     taskName, packageName, tsconfigName, targetDir, combinations, observableFromStreams,
-    ESKeywords, publicModulePaths, esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess
+    ESKeywords, esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess
 };

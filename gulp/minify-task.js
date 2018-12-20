@@ -43,7 +43,7 @@ const minifyTask = ((cache, commonConfig) => memoizeTask(cache, function minifyJ
         output: { ...commonConfig.output,
             path: path.resolve(`./${out}`) } };
 
-    const webpackConfigs = [mainExport].map((entry) => ({
+    const webpackConfigs = [mainExport, `${mainExport}.internal`].map((entry) => ({
         ...targetConfig,
         name: entry,
         entry: { [entry]: path.resolve(`${src}/${entry}.js`) },
