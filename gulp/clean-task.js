@@ -18,14 +18,14 @@
 const del = require('del');
 const { Observable } = require('rxjs');
 const { targetDir } = require('./util');
-const { createTask } = require('./memoize-task');
+const memoizeTask = require('./memoize-task');
 
-const cleanTask = createTask(function clean(target, format) {
+const cleanTask = ((cache) => memoizeTask(cache, function clean(target, format) {
     const dir = targetDir(target, format);
     return Observable
         .defer(() => del(dir))
         .catch((e) => Observable.empty());
-});
+}))({});
 
 module.exports = cleanTask;
 module.exports.cleanTask = cleanTask;

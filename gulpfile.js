@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+const del = require('del');
 const gulp = require('gulp');
 const { Observable } = require('rxjs');
 const cleanTask = require('./gulp/clean-task');
@@ -24,7 +25,7 @@ const packageTask = require('./gulp/package-task');
 const { targets, modules } = require('./gulp/argv');
 const {
     taskName, combinations,
-    knownTargets,
+    targetDir, knownTargets,
     npmPkgName, UMDSourceTargets,
     tasksToSkipPerTargetOrFormat
 } = require('./gulp/util');
@@ -35,6 +36,9 @@ for (const [target, format] of combinations([`all`], [`all`])) {
     gulp.task( `test:${task}`,  testTask(target, format));
     gulp.task(`compile:${task}`, compileTask(target, format));
     gulp.task(`package:${task}`, packageTask(target, format));
+    gulp.task(`build:${task}`, gulp.series(
+        `clean:${task}`, `compile:${task}`, `package:${task}`
+    ));
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
@@ -44,7 +48,8 @@ knownTargets.forEach((target) => {
     const umd = taskName(target, `umd`);
     const cls = taskName(UMDSourceTargets[target], `cls`);
     gulp.task(`compile:${umd}`, gulp.series(
-        `compile:${cls}`, compileTask(target, `umd`), `clean:${cls}`
+        `build:${cls}`, compileTask(target, `umd`),
+        async () => await del(targetDir(target, `cls`))
     ));
 });
 
@@ -54,10 +59,10 @@ knownTargets.forEach((target) => {
 gulp.task(`compile:${npmPkgName}`,
     gulp.series(
         gulp.parallel(
-            `compile:${taskName(`es5`, `umd`)}`,
-            `compile:${taskName(`es2015`, `cjs`)}`,
-            `compile:${taskName(`es2015`, `esm`)}`,
-            `compile:${taskName(`es2015`, `umd`)}`
+            `build:${taskName(`es5`, `umd`)}`,
+            `build:${taskName(`es2015`, `cjs`)}`,
+            `build:${taskName(`es2015`, `esm`)}`,
+            `build:${taskName(`es2015`, `umd`)}`
         ),
         compileTask(npmPkgName)
     )
@@ -68,7 +73,7 @@ gulp.task(`compile:${npmPkgName}`,
 for (const [target, format] of combinations([`all`], [`all`])) {
     const task = taskName(target, format);
     gulp.task(`build:${task}`, gulp.series(
-        `clean:${task}`,  `compile:${task}`, `package:${task}`
+        `clean:${task}`, `compile:${task}`, `package:${task}`
     ));
 }
 
@@ -78,7 +83,7 @@ gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
-gulp.task(`default`,  gulp.series(`clean`, `compile`, `package`, `test`));
+gulp.task(`default`,  gulp.series(`clean`, `build`, `test`));
 
 function gulpConcurrent(tasks) {
     const numCPUs = require('os').cpus().length;
