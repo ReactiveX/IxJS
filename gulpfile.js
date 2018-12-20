@@ -35,7 +35,7 @@ for (const [target, format] of combinations([`all`], [`all`])) {
     gulp.task( `test:${task}`,  testTask(target, format));
     gulp.task(`debug:${task}`,  testTask(target, format, true));
     gulp.task(`compile:${task}`, gulp.series(compileTask(target, format), packageTask(target, format)));
-    gulp.task(`clean:build:${task}`, gulp.series(cleanTask(target, format), `compile:${task}`));
+    gulp.task(`build:${task}`, gulp.series(`clean:${task}`, `compile:${task}`));
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
