@@ -1,12 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
 const { empty } = Ix.asynciterable;
 import { noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#empty empty', async (t: test.Test) => {
+test('AsyncIterable#empty empty', async () => {
   const xs = empty<number>();
 
   const it = xs[Symbol.asyncIterator]();
-  await noNext(t, it);
-  t.end();
+  await noNext(it);
 });

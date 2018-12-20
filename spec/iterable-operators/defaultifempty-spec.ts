@@ -5,31 +5,28 @@ const { empty } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#defaultIfEmpty with empty', (t, [defaultIfEmpty]) => {
+test('Iterable#defaultIfEmpty with empty', ([defaultIfEmpty]) => {
   const xs = empty<number>();
   const ys = defaultIfEmpty(xs, 0);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 0);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 0);
+  noNext(it);
 });
 
-test('Iterable#defaultIfEmpty with no empty', (t, [defaultIfEmpty]) => {
+test('Iterable#defaultIfEmpty with no empty', ([defaultIfEmpty]) => {
   const xs = [42];
   const ys = defaultIfEmpty(xs, 0);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 42);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 42);
+  noNext(it);
 });
 
-test('Iterable#defaultIfEmpty throws', (t, [defaultIfEmpty]) => {
+test('Iterable#defaultIfEmpty throws', ([defaultIfEmpty]) => {
   const xs = _throw<number>(new Error());
   const ys = defaultIfEmpty(xs, 0);
 
   const it = ys[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });

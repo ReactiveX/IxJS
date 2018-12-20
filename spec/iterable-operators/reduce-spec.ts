@@ -4,29 +4,25 @@ const test = testOperator([Ix.iterable.reduce]);
 const { empty } = Ix.iterable;
 const { of } = Ix.Iterable;
 
-test('Iterable#reduce no seed', (t, [reduce]) => {
+test('Iterable#reduce no seed', ([reduce]) => {
   const xs = of(0, 1, 2, 3, 4);
   const ys = reduce(xs, (x, y, i) => x + y + i);
-  t.equal(ys, 20);
-  t.end();
+  expect(ys).toBe(20);
 });
 
-test('Iterable#reduce no seed empty throws', (t, [reduce]) => {
+test('Iterable#reduce no seed empty throws', ([reduce]) => {
   const xs = empty<number>();
-  t.throws(() => reduce(xs, (x, y, i) => x + y + i));
-  t.end();
+  expect(() => reduce(xs, (x, y, i) => x + y + i)).toThrow();
 });
 
-test('Iterable#reduce with seed', (t, [reduce]) => {
+test('Iterable#reduce with seed', ([reduce]) => {
   const xs = of(0, 1, 2, 3, 4);
   const ys = reduce(xs, (x, y, i) => x - y - i, 20);
-  t.equal(ys, 0);
-  t.end();
+  expect(ys).toBe(0);
 });
 
-test('Iterable#reduce with seed empty', (t, [reduce]) => {
+test('Iterable#reduce with seed empty', ([reduce]) => {
   const xs = empty<number>();
   const ys = reduce(xs, (x, y, i) => x - y - i, 20);
-  t.equal(ys, 20);
-  t.end();
+  expect(ys).toBe(20);
 });

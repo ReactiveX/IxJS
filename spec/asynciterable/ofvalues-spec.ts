@@ -1,15 +1,13 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
 const { ofValues } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#ofValues behavior', async t => {
+test('AsyncIterable#ofValues behavior', async () => {
   const xs = { first: 'Bob', last: 'Smith' };
   const ys = ofValues(xs);
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, 'Bob');
-  await hasNext(t, it, 'Smith');
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 'Bob');
+  await hasNext(it, 'Smith');
+  await noNext(it);
 });

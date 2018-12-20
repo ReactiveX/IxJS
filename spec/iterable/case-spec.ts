@@ -1,11 +1,10 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
 const { _case } = Ix.iterable;
 const { defer } = Ix.iterable;
 const { isEmpty } = Ix.iterable;
 const { single } = Ix.iterable;
 
-test('Iterable#case no default', t => {
+test('Iterable#case no default', () => {
   let x = 1;
   let d = 'd';
   const map = new Map<number, Iterable<string>>([
@@ -16,28 +15,26 @@ test('Iterable#case no default', t => {
   ]);
   const res = _case(() => x, map);
 
-  t.equal('b', single(res));
-  t.equal('b', single(res));
+  expect('b').toBe(single(res));
+  expect('b').toBe(single(res));
 
   x = 0;
-  t.equal('a', single(res));
+  expect('a').toBe(single(res));
 
   x = 2;
-  t.equal('c', single(res));
+  expect('c').toBe(single(res));
 
   x = 3;
-  t.equal('d', single(res));
+  expect('d').toBe(single(res));
 
   d = 'e';
-  t.equal('e', single(res));
+  expect('e').toBe(single(res));
 
   x = 4;
-  t.true(isEmpty(res));
-
-  t.end();
+  expect(isEmpty(res)).toBeTruthy();
 });
 
-test('Iterable#case with default', t => {
+test('Iterable#case with default', () => {
   let x = 1;
   let d = 'd';
   const map = new Map<number, Iterable<string>>([
@@ -48,23 +45,21 @@ test('Iterable#case with default', t => {
   ]);
   const res = _case(() => x, map, ['z']);
 
-  t.equal('b', single(res));
-  t.equal('b', single(res));
+  expect('b').toBe(single(res));
+  expect('b').toBe(single(res));
 
   x = 0;
-  t.equal('a', single(res));
+  expect('a').toBe(single(res));
 
   x = 2;
-  t.equal('c', single(res));
+  expect('c').toBe(single(res));
 
   x = 3;
-  t.equal('d', single(res));
+  expect('d').toBe(single(res));
 
   d = 'e';
-  t.equal('e', single(res));
+  expect('e').toBe(single(res));
 
   x = 4;
-  t.equal('z', single(res));
-
-  t.end();
+  expect('z').toBe(single(res));
 });

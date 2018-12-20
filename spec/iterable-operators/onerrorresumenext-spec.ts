@@ -5,20 +5,18 @@ const { concat } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { _throw } = Ix.iterable;
 
-test('Iterable#onErrorResumeNext continues without error', (t, [onErrorResumeNext]) => {
+test('Iterable#onErrorResumeNext continues without error', ([onErrorResumeNext]) => {
   const xs = [1, 2];
   const ys = [3, 4];
 
   const res = onErrorResumeNext(xs, ys);
-  t.true(sequenceEqual(res, [1, 2, 3, 4]));
-  t.end();
+  expect(sequenceEqual(res, [1, 2, 3, 4])).toBeTruthy();
 });
 
-test('Iterable#onErrorResumeNext continues after error', (t, [onErrorResumeNext]) => {
+test('Iterable#onErrorResumeNext continues after error', ([onErrorResumeNext]) => {
   const xs = concat([1, 2], _throw(new Error()));
   const ys = [3, 4];
 
   const res = onErrorResumeNext(xs, ys);
-  t.true(sequenceEqual(res, [1, 2, 3, 4]));
-  t.end();
+  expect(sequenceEqual(res, [1, 2, 3, 4])).toBeTruthy();
 });

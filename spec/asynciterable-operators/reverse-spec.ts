@@ -6,38 +6,35 @@ const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#reverse empty', async (t, [reverse]) => {
+test('AsyncIterable#reverse empty', async ([reverse]) => {
   const xs = empty<number>();
   const ys = reverse(xs);
 
   const it = ys[Symbol.asyncIterator]();
-  await noNext(t, it);
-  t.end();
+  await noNext(it);
 });
 
-test('AsyncIterable#revrse single element', async (t, [reverse]) => {
+test('AsyncIterable#revrse single element', async ([reverse]) => {
   const xs = of(42);
   const ys = reverse(xs);
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, 42);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 42);
+  await noNext(it);
 });
 
-test('AsyncIterable#reverse multiple elements', async (t, [reverse]) => {
+test('AsyncIterable#reverse multiple elements', async ([reverse]) => {
   const xs = of(1, 2, 3);
   const ys = reverse(xs);
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, 3);
-  await hasNext(t, it, 2);
-  await hasNext(t, it, 1);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 3);
+  await hasNext(it, 2);
+  await hasNext(it, 1);
+  await noNext(it);
 });
 
-test('AsyncIterable#reverse throws', async (t, [reverse]) => {
+test('AsyncIterable#reverse throws', async ([reverse]) => {
   const xs = _throw<number>(new Error());
   const ys = reverse(xs);
 
@@ -45,7 +42,6 @@ test('AsyncIterable#reverse throws', async (t, [reverse]) => {
   try {
     await it.next();
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });

@@ -4,33 +4,29 @@ const test = testOperator([Ix.asynciterable.reduce]);
 const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 
-test('Iterable#reduce no seed', async (t, [reduce]) => {
+test('Iterable#reduce no seed', async ([reduce]) => {
   const xs = of(0, 1, 2, 3, 4);
   const ys = await reduce(xs, (x, y, i) => x + y + i);
-  t.equal(ys, 20);
-  t.end();
+  expect(ys).toBe(20);
 });
 
-test('Iterable#reduce no seed empty throws', async (t, [reduce]) => {
+test('Iterable#reduce no seed empty throws', async ([reduce]) => {
   const xs = empty<number>();
   try {
     await reduce(xs, (x, y, i) => x + y + i);
   } catch (e) {
-    t.assert(e !== null);
+    expect(e !== null).toBeTruthy();
   }
-  t.end();
 });
 
-test('Iterable#reduce with seed', async (t, [reduce]) => {
+test('Iterable#reduce with seed', async ([reduce]) => {
   const xs = of(0, 1, 2, 3, 4);
   const ys = await reduce(xs, (x, y, i) => x - y - i, 20);
-  t.equal(ys, 0);
-  t.end();
+  expect(ys).toBe(0);
 });
 
-test('Iterable#reduce with seed empty', async (t, [reduce]) => {
+test('Iterable#reduce with seed empty', async ([reduce]) => {
   const xs = empty<number>();
   const ys = await reduce(xs, (x, y, i) => x - y - i, 20);
-  t.equal(ys, 20);
-  t.end();
+  expect(ys).toBe(20);
 });

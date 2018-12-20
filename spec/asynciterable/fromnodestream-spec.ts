@@ -1,4 +1,3 @@
-import * as test from 'tape';
 import { fromNodeStream } from '../Ix';
 import { Readable, ReadableOptions } from 'stream';
 
@@ -23,25 +22,23 @@ class Counter extends Readable {
   }
 }
 
-test('AsyncIterable#fromNodeStream with readable', async t => {
+test('AsyncIterable#fromNodeStream with readable', async () => {
   const c = new Counter({ objectMode: true });
   const xs = fromNodeStream(c);
 
   const it = xs[Symbol.asyncIterator]();
   let next = await it.next();
-  t.false(next.done);
-  t.equal((next.value as Buffer).compare(Buffer.from('1', 'utf8')), 0);
+  expect(next.done).toBeFalsy();
+  expect((next.value as Buffer).compare(Buffer.from('1', 'utf8'))).toBe(0);
 
   next = await it.next();
-  t.false(next.done);
-  t.equal((next.value as Buffer).compare(Buffer.from('2', 'utf8')), 0);
+  expect(next.done).toBeFalsy();
+  expect((next.value as Buffer).compare(Buffer.from('2', 'utf8'))).toBe(0);
 
   next = await it.next();
-  t.false(next.done);
-  t.equal((next.value as Buffer).compare(Buffer.from('3', 'utf8')), 0);
+  expect(next.done).toBeFalsy();
+  expect((next.value as Buffer).compare(Buffer.from('3', 'utf8'))).toBe(0);
 
   next = await it.next();
-  t.true(next.done);
-
-  t.end();
+  expect(next.done).toBeTruthy();
 });

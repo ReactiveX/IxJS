@@ -1,3 +1,4 @@
+export * from './Ix.node';
 import * as iterableX from './iterable/index';
 import * as iterableXPipe from './iterable/pipe/index';
 import * as asynciterableX from './asynciterable/index';

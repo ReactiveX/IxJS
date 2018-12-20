@@ -1,29 +1,24 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
 const { _if } = Ix.iterable;
 const { isEmpty } = Ix.iterable;
 const { single } = Ix.iterable;
 
-test('Iterable#if then and else', t => {
+test('Iterable#if then and else', () => {
   let x = 5;
   const res = _if(() => x > 0, [+1], [-1]);
 
-  t.equal(+1, single(res));
+  expect(+1).toBe(single(res));
 
   x = -x;
-  t.equal(-1, single(res));
-
-  t.end();
+  expect(-1).toBe(single(res));
 });
 
-test('Iterable#if then default else', t => {
+test('Iterable#if then default else', () => {
   let x = 5;
   const res = _if(() => x > 0, [+1]);
 
-  t.equal(+1, single(res));
+  expect(+1).toBe(single(res));
 
   x = -x;
-  t.true(isEmpty(res));
-
-  t.end();
+  expect(isEmpty(res)).toBeTruthy();
 });

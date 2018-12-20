@@ -2,32 +2,27 @@ import * as Ix from '../Ix';
 import { testOperator } from '../iterablehelpers';
 const test = testOperator([Ix.iterable.sum]);
 
-test('Iterable#sum laws', (t, [sum]) => {
+test('Iterable#sum laws', ([sum]) => {
   const xs = [1, 2, 3];
-  t.equal(sum(xs), sum(xs, x => x));
-  t.end();
+  expect(sum(xs)).toBe(sum(xs, x => x));
 });
 
-test('Iterable#sum no selector empty', (t, [sum]) => {
+test('Iterable#sum no selector empty', ([sum]) => {
   const xs: number[] = [];
-  t.equal(sum(xs), 0);
-  t.end();
+  expect(sum(xs)).toBe(0);
 });
 
-test('#Iterable#sum no selector', (t, [sum]) => {
+test('#Iterable#sum no selector', ([sum]) => {
   const xs: number[] = [1, 2, 3];
-  t.equal(sum(xs), 6);
-  t.end();
+  expect(sum(xs)).toBe(6);
 });
 
-test('Iterable#sum with selector empty', (t, [sum]) => {
+test('Iterable#sum with selector empty', ([sum]) => {
   const xs: number[] = [];
-  t.equal(sum(xs, x => x * 2), 0);
-  t.end();
+  expect(sum(xs, x => x * 2)).toBe(0);
 });
 
-test('#Iterable#sum with selector', (t, [sum]) => {
+test('#Iterable#sum with selector', ([sum]) => {
   const xs: number[] = [1, 2, 3];
-  t.equal(sum(xs, x => x * 2), 12);
-  t.end();
+  expect(sum(xs, x => x * 2)).toBe(12);
 });

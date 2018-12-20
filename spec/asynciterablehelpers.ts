@@ -1,15 +1,14 @@
 import * as Ix from './Ix';
-import * as test from 'tape';
 
-export async function hasNext<T>(t: test.Test, source: AsyncIterator<T>, expected: T) {
+export async function hasNext<T>(source: AsyncIterator<T>, expected: T) {
   const { done, value } = await source.next();
-  t.false(done, 'should not be done');
-  t.deepEqual(value, expected);
+  expect(done).toBeFalsy();
+  expect(value).toEqual(expected);
 }
 
-export async function noNext<T>(t: test.Test, source: AsyncIterator<T>) {
+export async function noNext<T>(source: AsyncIterator<T>) {
   const next = await source.next();
-  t.true(next.done, 'should be done');
+  expect(next.done).toBeTruthy();
 }
 
 export function delayValue<T>(item: T, delay: number): Promise<T> {
@@ -33,14 +32,11 @@ export function testOperator<Op>(op: Op) {
   const internalNames = ops.map(op => operatorNamesMap.get(op)!);
   const fnNames = internalNames.map(name => name.replace('_', ''));
   const pipeFns = internalNames.map(name => (Ix.asynciterablePipe as any)[name]);
-  return function operatorTest(
-    message: string,
-    testFn: (t: test.Test, op: Op) => any | Promise<any>
-  ) {
-    test(`(fp) ${message}`, async t => await (testFn as any)(t, ops));
-    test(`(proto) ${message}`, async t => await (testFn as any)(t, fnNames.map(wrapProto)));
+  return function operatorTest(message: string, testFn: (op: Op) => any | Promise<any>) {
+    test(`(fp) ${message}`, async () => await (testFn as any)(ops));
+    test(`(proto) ${message}`, async () => await (testFn as any)(fnNames.map(wrapProto)));
     if (pipeFns.every(xs => typeof xs === 'function')) {
-      test(`(pipe) ${message}`, async t => await (testFn as any)(t, pipeFns.map(wrapPipe)));
+      test(`(pipe) ${message}`, async () => await (testFn as any)(pipeFns.map(wrapPipe)));
     }
   };
 }

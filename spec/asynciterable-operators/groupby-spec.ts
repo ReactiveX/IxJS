@@ -10,7 +10,7 @@ interface Employee {
   age: number;
 }
 
-test('AsyncIterable#groupBy normal', async (t, [groupBy]) => {
+test('AsyncIterable#groupBy normal', async ([groupBy]) => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -25,41 +25,40 @@ test('AsyncIterable#groupBy normal', async (t, [groupBy]) => {
 
   const it = ys[Symbol.asyncIterator]();
   let next = await it.next();
-  t.false(next.done);
-  t.equal(next.value.key, 2);
+  expect(next.done).toBeFalsy();
+  expect(next.value.key).toBe(2);
   const g1 = next.value[Symbol.asyncIterator]();
-  await hasNext(t, g1, xs[0]);
-  await hasNext(t, g1, xs[2]);
-  await hasNext(t, g1, xs[4]);
-  await hasNext(t, g1, xs[5]);
-  await noNext(t, g1);
+  await hasNext(g1, xs[0]);
+  await hasNext(g1, xs[2]);
+  await hasNext(g1, xs[4]);
+  await hasNext(g1, xs[5]);
+  await noNext(g1);
 
   next = await it.next();
-  t.false(next.done);
-  t.equal(next.value.key, 6);
+  expect(next.done).toBeFalsy();
+  expect(next.value.key).toBe(6);
   const g2 = next.value[Symbol.asyncIterator]();
-  await hasNext(t, g2, xs[1]);
-  await noNext(t, g2);
+  await hasNext(g2, xs[1]);
+  await noNext(g2);
 
   next = await it.next();
-  t.false(next.done);
-  t.equal(next.value.key, 1);
+  expect(next.done).toBeFalsy();
+  expect(next.value.key).toBe(1);
   const g3 = next.value[Symbol.asyncIterator]();
-  await hasNext(t, g3, xs[3]);
-  await noNext(t, g3);
+  await hasNext(g3, xs[3]);
+  await noNext(g3);
 
   next = await it.next();
-  t.false(next.done);
-  t.equal(next.value.key, 4);
+  expect(next.done).toBeFalsy();
+  expect(next.value.key).toBe(4);
   const g4 = next.value[Symbol.asyncIterator]();
-  await hasNext(t, g4, xs[6]);
-  await noNext(t, g4);
+  await hasNext(g4, xs[6]);
+  await noNext(g4);
 
-  await noNext(t, it);
-  t.end();
+  await noNext(it);
 });
 
-test('AsyncIterable#groupBy normal can get results later', async (t, [groupBy]) => {
+test('AsyncIterable#groupBy normal can get results later', async ([groupBy]) => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -74,55 +73,52 @@ test('AsyncIterable#groupBy normal can get results later', async (t, [groupBy]) 
 
   const it = ys[Symbol.asyncIterator]();
   const g1 = await it.next();
-  t.false(g1.done);
-  t.equal(g1.value.key, 2);
+  expect(g1.done).toBeFalsy();
+  expect(g1.value.key).toBe(2);
 
   const g2 = await it.next();
-  t.false(g2.done);
-  t.equal(g2.value.key, 6);
+  expect(g2.done).toBeFalsy();
+  expect(g2.value.key).toBe(6);
 
   const g3 = await it.next();
-  t.false(g3.done);
-  t.equal(g3.value.key, 1);
+  expect(g3.done).toBeFalsy();
+  expect(g3.value.key).toBe(1);
 
   const g4 = await it.next();
-  t.false(g4.done);
-  t.equal(g4.value.key, 4);
+  expect(g4.done).toBeFalsy();
+  expect(g4.value.key).toBe(4);
 
-  await noNext(t, it);
+  await noNext(it);
 
   const g1it = g1.value[Symbol.asyncIterator]();
-  await hasNext(t, g1it, xs[0]);
-  await hasNext(t, g1it, xs[2]);
-  await hasNext(t, g1it, xs[4]);
-  await hasNext(t, g1it, xs[5]);
-  await noNext(t, g1it);
+  await hasNext(g1it, xs[0]);
+  await hasNext(g1it, xs[2]);
+  await hasNext(g1it, xs[4]);
+  await hasNext(g1it, xs[5]);
+  await noNext(g1it);
 
   const g2it = g2.value[Symbol.asyncIterator]();
-  await hasNext(t, g2it, xs[1]);
-  await noNext(t, g2it);
+  await hasNext(g2it, xs[1]);
+  await noNext(g2it);
 
   const g3it = g3.value[Symbol.asyncIterator]();
-  await hasNext(t, g3it, xs[3]);
-  await noNext(t, g3it);
+  await hasNext(g3it, xs[3]);
+  await noNext(g3it);
 
   const g4it = g4.value[Symbol.asyncIterator]();
-  await hasNext(t, g4it, xs[6]);
-  await noNext(t, g4it);
-
-  t.end();
+  await hasNext(g4it, xs[6]);
+  await noNext(g4it);
 });
 
-test('AsyncIterable#groupBy empty', async (t, [groupBy]) => {
+test('AsyncIterable#groupBy empty', async ([groupBy]) => {
   const xs = empty<number>();
   const ys = groupBy(xs, x => x);
 
   const it = ys[Symbol.asyncIterator]();
-  await noNext(t, it);
-  t.end();
+  await noNext(it);
 });
 
-test('AsyncIterable#groupBy element selector', async (t, [groupBy]) => {
+test('AsyncIterable#groupBy element selector', async ([groupBy]) => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const xss = from<number, number>(xs);
   const ys = groupBy(xss, async x => x % 3, x => String.fromCharCode(97 + x));
@@ -130,42 +126,40 @@ test('AsyncIterable#groupBy element selector', async (t, [groupBy]) => {
   const it = ys[Symbol.asyncIterator]();
 
   let next = await it.next();
-  t.false(next.done);
+  expect(next.done).toBeFalsy();
   const g1 = next.value;
-  t.equal(g1.key, 0);
+  expect(g1.key).toBe(0);
   const g1it = g1[Symbol.asyncIterator]();
-  await hasNext(t, g1it, 'a');
-  await hasNext(t, g1it, 'd');
-  await hasNext(t, g1it, 'g');
-  await hasNext(t, g1it, 'j');
-  await noNext(t, g1it);
+  await hasNext(g1it, 'a');
+  await hasNext(g1it, 'd');
+  await hasNext(g1it, 'g');
+  await hasNext(g1it, 'j');
+  await noNext(g1it);
 
   next = await it.next();
-  t.false(next.done);
+  expect(next.done).toBeFalsy();
   const g2 = next.value;
-  t.equal(g2.key, 1);
+  expect(g2.key).toBe(1);
   const g2it = g2[Symbol.asyncIterator]();
-  await hasNext(t, g2it, 'b');
-  await hasNext(t, g2it, 'e');
-  await hasNext(t, g2it, 'h');
-  await noNext(t, g2it);
+  await hasNext(g2it, 'b');
+  await hasNext(g2it, 'e');
+  await hasNext(g2it, 'h');
+  await noNext(g2it);
 
   next = await it.next();
-  t.false(next.done);
+  expect(next.done).toBeFalsy();
   const g3 = next.value;
-  t.equal(g3.key, 2);
+  expect(g3.key).toBe(2);
   const g3it = g3[Symbol.asyncIterator]();
-  await hasNext(t, g3it, 'c');
-  await hasNext(t, g3it, 'f');
-  await hasNext(t, g3it, 'i');
-  await noNext(t, g3it);
+  await hasNext(g3it, 'c');
+  await hasNext(g3it, 'f');
+  await hasNext(g3it, 'i');
+  await noNext(g3it);
 
-  await noNext(t, it);
-
-  t.end();
+  await noNext(it);
 });
 
-test('AsyncIterable#groupBy result selector', async (t, [groupBy]) => {
+test('AsyncIterable#groupBy result selector', async ([groupBy]) => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const xss = from<number, number>(xs);
   const ys = groupBy(
@@ -178,37 +172,35 @@ test('AsyncIterable#groupBy result selector', async (t, [groupBy]) => {
   const it = ys[Symbol.asyncIterator]();
 
   let next = await it.next();
-  t.false(next.done);
+  expect(next.done).toBeFalsy();
   const g1 = next.value;
-  t.equal(g1.k, 0);
+  expect(g1.k).toBe(0);
   const g1it = g1.v[Symbol.asyncIterator]();
-  await hasNext(t, g1it, 'a');
-  await hasNext(t, g1it, 'd');
-  await hasNext(t, g1it, 'g');
-  await hasNext(t, g1it, 'j');
-  await noNext(t, g1it);
+  await hasNext(g1it, 'a');
+  await hasNext(g1it, 'd');
+  await hasNext(g1it, 'g');
+  await hasNext(g1it, 'j');
+  await noNext(g1it);
 
   next = await it.next();
-  t.false(next.done);
+  expect(next.done).toBeFalsy();
   const g2 = next.value;
-  t.equal(g2.k, 1);
+  expect(g2.k).toBe(1);
   const g2it = g2.v[Symbol.asyncIterator]();
-  await hasNext(t, g2it, 'b');
-  await hasNext(t, g2it, 'e');
-  await hasNext(t, g2it, 'h');
-  await noNext(t, g2it);
+  await hasNext(g2it, 'b');
+  await hasNext(g2it, 'e');
+  await hasNext(g2it, 'h');
+  await noNext(g2it);
 
   next = await it.next();
-  t.false(next.done);
+  expect(next.done).toBeFalsy();
   const g3 = next.value;
-  t.equal(g3.k, 2);
+  expect(g3.k).toBe(2);
   const g3it = g3.v[Symbol.asyncIterator]();
-  await hasNext(t, g3it, 'c');
-  await hasNext(t, g3it, 'f');
-  await hasNext(t, g3it, 'i');
-  await noNext(t, g3it);
+  await hasNext(g3it, 'c');
+  await hasNext(g3it, 'f');
+  await hasNext(g3it, 'i');
+  await noNext(g3it);
 
-  await noNext(t, it);
-
-  t.end();
+  await noNext(it);
 });

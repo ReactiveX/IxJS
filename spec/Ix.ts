@@ -18,9 +18,7 @@ else if (target === `ts` || target === `apache-arrow`) modulePath = target;
 else modulePath = path.join(target, format);
 
 modulePath = path.resolve(`./targets`, modulePath);
-const IxPath = path.join(modulePath, `Ix${format === 'umd' ? '' : '.node'}`);
 const IxInternalPath = path.join(modulePath, `Ix.internal`);
-const Ix: typeof import('../src/Ix') = require(IxPath);
 const IxInternal: typeof import('../src/Ix.internal') = require(IxInternalPath);
 
-export = { ...Ix, ...IxInternal };
+export = IxInternal;

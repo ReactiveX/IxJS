@@ -5,12 +5,11 @@ const { range } = Ix.iterable;
 const { take } = Ix.iterable;
 const { tap } = Ix.iterable;
 
-test('Iterable#ignoreElements has side effects', (t, [ignoreElements]) => {
+test('Iterable#ignoreElements has side effects', ([ignoreElements]) => {
   let n = 0;
   take(ignoreElements(tap(range(0, 10), { next: () => n++ })), 5).forEach(() => {
     /* tslint:disable-next-line:no-empty */
   });
 
-  t.equal(10, n);
-  t.end();
+  expect(10).toBe(n);
 });

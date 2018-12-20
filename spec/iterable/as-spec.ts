@@ -1,82 +1,74 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
 const { as } = Ix.Iterable;
 const { map } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#as from array/iterable', t => {
+test('Iterable#as from array/iterable', () => {
   const xs = [1, 2, 3];
   const res = as(xs);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  hasNext(t, it, 3);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  hasNext(it, 3);
+  noNext(it);
 });
 
-test('Iterable#as from array/iterable with selector', t => {
+test('Iterable#as from array/iterable with selector', () => {
   const xs = [1, 2, 3];
   const res = map(as(xs), (x, i) => x + i);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 3);
-  hasNext(t, it, 5);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 3);
+  hasNext(it, 5);
+  noNext(it);
 });
 
-test('Iterable#as from empty array/iterable', t => {
+test('Iterable#as from empty array/iterable', () => {
   const xs: number[] = [];
   const res = as(xs);
 
   const it = res[Symbol.iterator]();
-  noNext(t, it);
-  t.end();
+  noNext(it);
 });
 
-test('Iterable#as from array-like', t => {
+test('Iterable#as from array-like', () => {
   const xs = { length: 3 };
   const res = as(xs);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, undefined);
-  hasNext(t, it, undefined);
-  hasNext(t, it, undefined);
-  noNext(t, it);
-  t.end();
+  hasNext(it, undefined);
+  hasNext(it, undefined);
+  hasNext(it, undefined);
+  noNext(it);
 });
 
-test('Iterable#as from array-like with selector', t => {
+test('Iterable#as from array-like with selector', () => {
   const xs = { length: 3 };
-  const res = map(as(xs), (x, i) => i);
+  const res = map(as(xs), (_, i) => i);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 0);
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 0);
+  hasNext(it, 1);
+  hasNext(it, 2);
+  noNext(it);
 });
 
-test('Iterable#as from non-iterable', t => {
+test('Iterable#as from non-iterable', () => {
   const xs = {};
   const res = as(xs);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, xs);
-  noNext(t, it);
-  t.end();
+  hasNext(it, xs);
+  noNext(it);
 });
 
-test('Iterable#as from non-iterable with selector', t => {
+test('Iterable#as from non-iterable with selector', () => {
   const xs = {};
   const res = map(as(xs), (x, i) => [x, i]);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, [xs, 0]);
-  noNext(t, it);
-  t.end();
+  hasNext(it, [xs, 0]);
+  noNext(it);
 });

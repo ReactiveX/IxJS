@@ -5,46 +5,41 @@ const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 
-test('AsyncIterable#sequenceEqual sequence equals itself', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual sequence equals itself', async ([sequenceEqual]) => {
   const xs = of(1, 2, 3);
 
-  t.true(await sequenceEqual(xs, xs));
-  t.end();
+  expect(await sequenceEqual(xs, xs)).toBeTruthy();
 });
 
-test('AsyncIterable#sequenceEqual empty sequence equals itself', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual empty sequence equals itself', async ([sequenceEqual]) => {
   const xs = empty<number>();
   const ys = empty<number>();
 
-  t.true(await sequenceEqual(xs, ys));
-  t.end();
+  expect(await sequenceEqual(xs, ys)).toBeTruthy();
 });
 
-test('AsyncIterable#sequenceEqual two different sequences not equal', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual two different sequences not equal', async ([sequenceEqual]) => {
   const xs = of(1, 2, 3);
   const ys = of(1, 3, 2);
 
-  t.false(await sequenceEqual(xs, ys));
-  t.end();
+  expect(await sequenceEqual(xs, ys)).toBeFalsy();
 });
 
-test('AsyncIterable#sequenceEqual left longer than right not equal', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual left longer than right not equal', async ([sequenceEqual]) => {
   const xs = of(1, 2, 3, 4);
   const ys = of(1, 2, 3);
 
-  t.false(await sequenceEqual(xs, ys));
-  t.end();
+  expect(await sequenceEqual(xs, ys)).toBeFalsy();
 });
 
-test('AsyncIterable#sequenceEqual right longer than left not equal', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual right longer than left not equal', async ([sequenceEqual]) => {
   const xs = of(1, 2, 3);
   const ys = of(1, 2, 3, 4);
 
-  t.false(await sequenceEqual(xs, ys));
-  t.end();
+  expect(await sequenceEqual(xs, ys)).toBeFalsy();
 });
 
-test('AsyncIterable#sequenceEqual left throws', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual left throws', async ([sequenceEqual]) => {
   const err = new Error();
   const xs = _throw<number>(err);
   const ys = of(1, 2, 3);
@@ -52,12 +47,11 @@ test('AsyncIterable#sequenceEqual left throws', async (t, [sequenceEqual]) => {
   try {
     await sequenceEqual(xs, ys);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#sequenceEqual right throws', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual right throws', async ([sequenceEqual]) => {
   const err = new Error();
   const xs = of(1, 2, 3);
   const ys = _throw<number>(err);
@@ -65,56 +59,60 @@ test('AsyncIterable#sequenceEqual right throws', async (t, [sequenceEqual]) => {
   try {
     await sequenceEqual(xs, ys);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#sequenceEqual with ccustom omparer sequence equals itself', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual with ccustom omparer sequence equals itself', async ([
+  sequenceEqual
+]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, 3);
 
-  t.true(await sequenceEqual(xs, xs, comparer));
-  t.end();
+  expect(await sequenceEqual(xs, xs, comparer)).toBeTruthy();
 });
 
-test('AsyncIterable#sequenceEqual with custom comparer empty sequence equals itself', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual with custom comparer empty sequence equals itself', async ([
+  sequenceEqual
+]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = empty<number>();
   const ys = empty<number>();
 
-  t.true(await sequenceEqual(xs, ys, comparer));
-  t.end();
+  expect(await sequenceEqual(xs, ys, comparer)).toBeTruthy();
 });
 
-test('AsyncIterable#sequenceEqual with custom comparer two different sequences not equal', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual with custom comparer two different sequences not equal', async ([
+  sequenceEqual
+]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, 3);
   const ys = of(1, 3, 2);
 
-  t.false(await sequenceEqual(xs, ys, comparer));
-  t.end();
+  expect(await sequenceEqual(xs, ys, comparer)).toBeFalsy();
 });
 
-test('AsyncIterable#sequenceEqual with custom comparer left longer than right not equal', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual with custom comparer left longer than right not equal', async ([
+  sequenceEqual
+]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, 3, 4);
   const ys = of(1, 2, 3);
 
-  t.false(await sequenceEqual(xs, ys, comparer));
-  t.end();
+  expect(await sequenceEqual(xs, ys, comparer)).toBeFalsy();
 });
 
-test('AsyncIterable#sequenceEqual with custom comparer right longer than left not equal', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual with custom comparer right longer than left not equal', async ([
+  sequenceEqual
+]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, 3);
   const ys = of(1, 2, 3, 4);
 
-  t.false(await sequenceEqual(xs, ys, comparer));
-  t.end();
+  expect(await sequenceEqual(xs, ys, comparer)).toBeFalsy();
 });
 
-test('AsyncIterable#sequenceEqual with custom comparer left throws', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual with custom comparer left throws', async ([sequenceEqual]) => {
   const err = new Error();
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = _throw<number>(err);
@@ -123,12 +121,11 @@ test('AsyncIterable#sequenceEqual with custom comparer left throws', async (t, [
   try {
     await sequenceEqual(xs, ys, comparer);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#sequenceEqual with custom comparer right throws', async (t, [sequenceEqual]) => {
+test('AsyncIterable#sequenceEqual with custom comparer right throws', async ([sequenceEqual]) => {
   const err = new Error();
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, 3);
@@ -137,23 +134,21 @@ test('AsyncIterable#sequenceEqual with custom comparer right throws', async (t, 
   try {
     await sequenceEqual(xs, ys, comparer);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('Itearble#sequenceEqual with custom comparer should be equal', async (t, [sequenceEqual]) => {
+test('Itearble#sequenceEqual with custom comparer should be equal', async ([sequenceEqual]) => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, -3, 4);
   const ys = of(1, -2, 3, 4);
 
-  t.true(await sequenceEqual(xs, ys, comparer));
-  t.end();
+  expect(await sequenceEqual(xs, ys, comparer)).toBeTruthy();
 });
 
-test('Itearble#sequenceEqual with custom comparer throws', async (t, [sequenceEqual]) => {
+test('Itearble#sequenceEqual with custom comparer throws', async ([sequenceEqual]) => {
   const err = new Error();
-  const comparer = (x: number, y: number) => {
+  const comparer = (_x: number, _y: number) => {
     throw err;
   };
   const xs = of(1, 2, -3, 4);
@@ -162,7 +157,6 @@ test('Itearble#sequenceEqual with custom comparer throws', async (t, [sequenceEq
   try {
     await sequenceEqual(xs, ys, comparer);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });

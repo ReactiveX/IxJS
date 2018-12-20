@@ -1,71 +1,65 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
 const { from } = Ix.Iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#from from array/iterable', t => {
+test('Iterable#from from array/iterable', () => {
   const xs = [1, 2, 3];
   const res = from(xs);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  hasNext(t, it, 3);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  hasNext(it, 3);
+  noNext(it);
 });
 
-test('Iterable#from from array/iterable with selector', t => {
+test('Iterable#from from array/iterable with selector', () => {
   const xs = [1, 2, 3];
   const res = from(xs, (x, i) => x + i);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 3);
-  hasNext(t, it, 5);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 3);
+  hasNext(it, 5);
+  noNext(it);
 });
 
-test('Iterable#from from empty array/iterable', t => {
+test('Iterable#from from empty array/iterable', () => {
   const xs: number[] = [];
   const res = from(xs);
 
   const it = res[Symbol.iterator]();
-  noNext(t, it);
-  t.end();
+  noNext(it);
 });
 
-test('Iterable#from from array-like', t => {
+test('Iterable#from from array-like', () => {
   const xs = { length: 3 };
   const res = from(xs);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, undefined);
-  hasNext(t, it, undefined);
-  hasNext(t, it, undefined);
-  noNext(t, it);
-  t.end();
+  hasNext(it, undefined);
+  hasNext(it, undefined);
+  hasNext(it, undefined);
+  noNext(it);
 });
 
-test('Iterable#from from array-like with selector', t => {
+test('Iterable#from from array-like with selector', () => {
   const xs = { length: 3 };
-  const res = from(xs, (x, i) => i);
+  const res = from(xs, (_, i) => i);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 0);
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 0);
+  hasNext(it, 1);
+  hasNext(it, 2);
+  noNext(it);
 });
 
-test('Iterable#from from with non-iterable throws', t => {
+test('Iterable#from from with non-iterable throws', done => {
   let error = false;
   try {
     from({} as any);
   } catch (e) {
     error = true;
   }
-  error ? t.end() : t.fail('expected from to throw');
+  error ? done() : done.fail('expected from to throw');
 });

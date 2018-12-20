@@ -3,12 +3,10 @@ import { testOperator } from '../iterablehelpers';
 const test = testOperator([Ix.iterable.isEmpty]);
 const { empty } = Ix.iterable;
 
-test('Iterable#isEmpty empty', (t, [isEmpty]) => {
-  t.true(isEmpty(empty<number>()));
-  t.end();
+test('Iterable#isEmpty empty', ([isEmpty]) => {
+  expect(isEmpty(empty<number>())).toBeTruthy();
 });
 
-test('Iterable#isEmpty not-empty', (t, [isEmpty]) => {
-  t.false(isEmpty([1]));
-  t.end();
+test('Iterable#isEmpty not-empty', ([isEmpty]) => {
+  expect(isEmpty([1])).toBeFalsy();
 });

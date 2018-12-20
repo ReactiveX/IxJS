@@ -5,28 +5,24 @@ const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { skip } = Ix.iterable;
 
-test('Iterable#takeLast none', (t, [takeLast]) => {
+test('Iterable#takeLast none', ([takeLast]) => {
   const res = takeLast(range(1, 5), 0);
-  t.true(sequenceEqual(res, []));
-  t.end();
+  expect(sequenceEqual(res, [])).toBeTruthy();
 });
 
-test('Iterable#takeLast empty', (t, [takeLast]) => {
+test('Iterable#takeLast empty', ([takeLast]) => {
   const res = takeLast([], 1);
-  t.true(sequenceEqual(res, []));
-  t.end();
+  expect(sequenceEqual(res, [])).toBeTruthy();
 });
 
-test('Iterable#takeLast has all', (t, [takeLast]) => {
+test('Iterable#takeLast has all', ([takeLast]) => {
   const e = range(0, 5);
   const r = takeLast(e, 5);
-  t.true(sequenceEqual(r, e));
-  t.end();
+  expect(sequenceEqual(r, e)).toBeTruthy();
 });
 
-test('Iterable#takeLast has part', (t, [takeLast]) => {
+test('Iterable#takeLast has part', ([takeLast]) => {
   const e = range(0, 5);
   const r = takeLast(e, 3);
-  t.true(sequenceEqual(r, skip(e, 2)));
-  t.end();
+  expect(sequenceEqual(r, skip(e, 2))).toBeTruthy();
 });

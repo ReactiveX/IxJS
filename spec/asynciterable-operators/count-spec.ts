@@ -5,64 +5,58 @@ const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 
-test('AsyncItearble#count some', async (t, [count]) => {
+test('AsyncItearble#count some', async ([count]) => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await count(xs);
 
-  t.equal(ys, 4);
-  t.end();
+  expect(ys).toBe(4);
 });
 
-test('AsyncIterable#count empty', async (t, [count]) => {
+test('AsyncIterable#count empty', async ([count]) => {
   const xs = empty<number>();
 
   const ys = await count(xs);
 
-  t.equal(ys, 0);
-  t.end();
+  expect(ys).toBe(0);
 });
 
-test('AsyncIterable#count throws', async (t, [count]) => {
+test('AsyncIterable#count throws', async ([count]) => {
   const err = new Error();
   const xs = _throw<number>(err);
 
   try {
     await count(xs);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#count predicate some match', async (t, [count]) => {
+test('AsyncIterable#count predicate some match', async ([count]) => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await count(xs, async x => x > 3);
 
-  t.equal(ys, 1);
-  t.end();
+  expect(ys).toBe(1);
 });
 
-test('AsyncIterable#count predicate all match', async (t, [count]) => {
+test('AsyncIterable#count predicate all match', async ([count]) => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await count(xs, async x => x > 0);
 
-  t.equal(ys, 4);
-  t.end();
+  expect(ys).toBe(4);
 });
 
-test('AsyncIterable#count predicate none match', async (t, [count]) => {
+test('AsyncIterable#count predicate none match', async ([count]) => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await count(xs, async x => x > 4);
 
-  t.equal(ys, 0);
-  t.end();
+  expect(ys).toBe(0);
 });
 
-test('AsyncIterable#count predicate throws', async (t, [count]) => {
+test('AsyncIterable#count predicate throws', async ([count]) => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
 
@@ -71,7 +65,6 @@ test('AsyncIterable#count predicate throws', async (t, [count]) => {
       throw err;
     });
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });

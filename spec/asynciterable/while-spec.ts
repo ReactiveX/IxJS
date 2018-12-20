@@ -1,12 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape';
 const { defer } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { tap } = Ix.asynciterable;
 const { _while } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#while some', async t => {
+test('AsyncIterable#while some', async () => {
   let x = 5;
   const res = _while(
     async () => x > 0,
@@ -20,16 +19,15 @@ test('AsyncIterable#while some', async t => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  await hasNext(t, it, 5);
-  await hasNext(t, it, 4);
-  await hasNext(t, it, 3);
-  await hasNext(t, it, 2);
-  await hasNext(t, it, 1);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 5);
+  await hasNext(it, 4);
+  await hasNext(it, 3);
+  await hasNext(it, 2);
+  await hasNext(it, 1);
+  await noNext(it);
 });
 
-test('AsyncIterable#while none', async t => {
+test('AsyncIterable#while none', async () => {
   let x = 0;
   const res = _while(
     async () => x > 0,
@@ -43,6 +41,5 @@ test('AsyncIterable#while none', async t => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  await noNext(t, it);
-  t.end();
+  await noNext(it);
 });

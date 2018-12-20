@@ -5,14 +5,12 @@ const testMergeAll = testOperator([Ix.asynciterable.mergeAll]);
 const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 
-testMergeAll('AsyncIterable#merge mergeAll behavior', async (t, [mergeAll]) => {
+testMergeAll('AsyncIterable#merge mergeAll behavior', async ([mergeAll]) => {
   const res = mergeAll(of(of(1, 2, 3), of(4, 5)));
-  t.true(await sequenceEqual(res, of(1, 2, 3, 4, 5)));
-  t.end();
+  expect(await sequenceEqual(res, of(1, 2, 3, 4, 5))).toBeTruthy();
 });
 
-testMerge('AsyncIterable#merge behavior', async (t, [merge]) => {
+testMerge('AsyncIterable#merge behavior', async ([merge]) => {
   const res = merge(of(1, 2, 3), of(4, 5));
-  t.true(await sequenceEqual(res, of(1, 2, 3, 4, 5)));
-  t.end();
+  expect(await sequenceEqual(res, of(1, 2, 3, 4, 5))).toBeTruthy();
 });

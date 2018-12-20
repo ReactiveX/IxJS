@@ -5,21 +5,19 @@ const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 
-test('AsyncIterable#maxBy', async (t, [maxBy]) => {
+test('AsyncIterable#maxBy', async ([maxBy]) => {
   const source = of(2, 5, 0, 7, 4, 3, 6, 2, 1);
 
   const res = await maxBy(source, async x => x % 3);
-  t.true(sequenceEqual(res, of(2, 5, 2)));
-  t.end();
+  expect(sequenceEqual(res, of(2, 5, 2))).toBeTruthy();
 });
 
-test('AsyncIterable#maxBy empty throws', async (t, [maxBy]) => {
+test('AsyncIterable#maxBy empty throws', async ([maxBy]) => {
   const source = empty<number>();
 
   try {
     await maxBy(source, async x => x % 3);
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });

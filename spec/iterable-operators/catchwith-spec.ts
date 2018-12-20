@@ -6,16 +6,19 @@ const { sequenceEqual } = Ix.iterable;
 const { single } = Ix.iterable;
 const { _throw } = Ix.iterable;
 
-test('Iterable#catchWith error catches', (t, [catchWith]) => {
+test('Iterable#catchWith error catches', ([catchWith]) => {
   const err = new Error();
-  const res = single(catchWith(_throw(err), e => { t.same(err, e); return [42]; }));
-  t.equal(42, res);
-  t.end();
+  const res = single(
+    catchWith(_throw(err), e => {
+      expect(err).toEqual(e);
+      return [42];
+    })
+  );
+  expect(42).toBe(res);
 });
 
-test('Iterable#catchWith no error misses', (t, [catchWith]) => {
+test('Iterable#catchWith no error misses', ([catchWith]) => {
   const xs = range(0, 10);
-  const res = catchWith(xs, e => { t.fail(); return [42]; });
-  t.true(sequenceEqual(res, xs));
-  t.end();
+  const res = catchWith(xs, _ => [42]);
+  expect(sequenceEqual(res, xs)).toBeTruthy();
 });

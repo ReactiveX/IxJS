@@ -4,27 +4,25 @@ const test = testOperator([Ix.iterable.scan]);
 const { range } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#scan no seed', (t, [scan]) => {
+test('Iterable#scan no seed', ([scan]) => {
   const res = scan(range(0, 5), (n, x, i) => n + x + i);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 2);
-  hasNext(t, it, 6);
-  hasNext(t, it, 12);
-  hasNext(t, it, 20);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 2);
+  hasNext(it, 6);
+  hasNext(it, 12);
+  hasNext(it, 20);
+  noNext(it);
 });
 
-test('Iterable#scan with seed', (t, [scan]) => {
+test('Iterable#scan with seed', ([scan]) => {
   const res = scan(range(0, 5), (n, x, i) => n - x - i, 20);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 20);
-  hasNext(t, it, 18);
-  hasNext(t, it, 14);
-  hasNext(t, it, 8);
-  hasNext(t, it, 0);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 20);
+  hasNext(it, 18);
+  hasNext(it, 14);
+  hasNext(it, 8);
+  hasNext(it, 0);
+  noNext(it);
 });
