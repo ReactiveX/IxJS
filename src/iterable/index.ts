@@ -1,4 +1,4 @@
-export * from './iterablex';
+export { IterableX } from './iterablex';
 export { average } from './average';
 export { buffer } from './buffer';
 export { _case } from './case';

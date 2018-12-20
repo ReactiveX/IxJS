@@ -1,4 +1,4 @@
-export * from './asynciterablex';
+export { AsyncIterableX } from './asynciterablex';
 export { asyncify } from './asyncify';
 export { asyncifyErrback } from './asyncifyerrback';
 export { average } from './average';
