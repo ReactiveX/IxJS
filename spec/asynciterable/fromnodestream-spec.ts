@@ -2,9 +2,10 @@ import { fromNodeStream } from '../Ix';
 import { Readable, ReadableOptions } from 'stream';
 
 (() => {
-
   if (!fromNodeStream || process.env.TEST_NODE_STREAMS !== 'true') {
-    return test('not testing node streams because process.env.TEST_NODE_STREAMS !== "true"', () => {});
+    return test('not testing node streams because process.env.TEST_NODE_STREAMS !== "true"', () => {
+      /**/
+    });
   }
 
   class Counter extends Readable {
