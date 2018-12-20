@@ -16,7 +16,7 @@ test('AsyncIterable#debounce none drop', async ([debounce]) => {
   await hasNext(it, 2);
   await hasNext(it, 3);
   await noNext(it);
-});
+}, 10 * 1000);
 
 test('AsyncIterable#debounce some drop', async ([debounce]) => {
   const xs = async function*() {
@@ -30,4 +30,4 @@ test('AsyncIterable#debounce some drop', async ([debounce]) => {
   await hasNext(it, 1);
   await hasNext(it, 3);
   await noNext(it);
-});
+}, 10 * 1000);

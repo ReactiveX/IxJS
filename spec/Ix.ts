@@ -1,5 +1,7 @@
 /* tslint:disable */
 
+(<any> global).window = (<any> global).window || global;
+
 // these are duplicated in the gulpfile :<
 const targets = [`es5`, `es2015`, `esnext`];
 const formats = [`cjs`, `esm`, `cls`, `umd`];
@@ -18,7 +20,7 @@ else if (target === `ts` || target === `apache-arrow`) modulePath = target;
 else modulePath = path.join(target, format);
 
 modulePath = path.resolve(`./targets`, modulePath);
-const IxInternalPath = path.join(modulePath, `Ix.internal`);
-const IxInternal: typeof import('../src/Ix.internal') = require(IxInternalPath);
+const IxPath = path.join(modulePath, `Ix${format === 'umd' ? '' : '.node'}.internal`);
+const IxInternal: typeof import('../src/Ix.node.internal') = require(IxPath);
 
 export = IxInternal;

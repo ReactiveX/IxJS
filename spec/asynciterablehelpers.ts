@@ -32,11 +32,11 @@ export function testOperator<Op>(op: Op) {
   const internalNames = ops.map(op => operatorNamesMap.get(op)!);
   const fnNames = internalNames.map(name => name.replace('_', ''));
   const pipeFns = internalNames.map(name => (Ix.asynciterablePipe as any)[name]);
-  return function operatorTest(message: string, testFn: (op: Op) => any | Promise<any>) {
-    test(`(fp) ${message}`, async () => await (testFn as any)(ops));
-    test(`(proto) ${message}`, async () => await (testFn as any)(fnNames.map(wrapProto)));
+  return function operatorTest(message: string, testFn: (op: Op) => any | Promise<any>, timeout?: number) {
+    test(`(fp) ${message}`, async () => await (testFn as any)(ops), timeout);
+    test(`(proto) ${message}`, async () => await (testFn as any)(fnNames.map(wrapProto)), timeout);
     if (pipeFns.every(xs => typeof xs === 'function')) {
-      test(`(pipe) ${message}`, async () => await (testFn as any)(pipeFns.map(wrapPipe)));
+      test(`(pipe) ${message}`, async () => await (testFn as any)(pipeFns.map(wrapPipe)), timeout);
     }
   };
 }

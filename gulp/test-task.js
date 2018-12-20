@@ -20,11 +20,11 @@ const { argv } = require('./argv');
 const child_process = require(`child_process`);
 const { memoizeTask } = require('./memoize-task');
 
-const jestArgv = ['-i'];
+const jestArgv = [];
 argv.verbose && jestArgv.push(`--verbose`);
 argv.coverage
     ? jestArgv.push(`-c`, `jest.coverage.config.js`, `--coverage`)
-    : jestArgv.push(`-c`, `jest.config.js`)
+    : jestArgv.push(`-c`, `jest.config.js`, `-i`)
 
 const debugArgv = [`--runInBand`, `--env`, `node-debug`];
 const jest = require.resolve(path.join(__dirname, `../node_modules/.bin/jest`));
