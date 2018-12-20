@@ -76,10 +76,10 @@ function gulpConcurrent(tasks) {
 gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
 gulp.task(`debug`, gulp.series(getTasks(`debug`)));
 gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
+gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
-gulp.task(`build`, gulp.series(`clean`, `compile`));
-gulp.task(`default`,  gulp.series(`clean`, `compile`, `test`));
+gulp.task(`default`,  gulp.series(`build`, `test`));
 
 function getTasks(name) {
     const tasks = [];
