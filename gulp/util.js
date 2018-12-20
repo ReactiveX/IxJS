@@ -112,8 +112,6 @@ function targetDir(target, format) {
 }
 
 function shouldRunInChildProcess(target, format) {
-    // Appveyor doesn't like child processes much
-    if (process.env.IS_APPVEYOR_CI) { return false; }
     // If we're building more than one module/target, then yes run this task in a child process
     if (targets.length > 1 || modules.length > 1) { return true; }
     // If the target we're building *isn't* the target the gulp command was configured to run, then yes run that in a child process
@@ -122,12 +120,16 @@ function shouldRunInChildProcess(target, format) {
     return false;
 }
 
+const gulp = path.join(path.parse(require.resolve(`gulp`)).dir, `bin/gulp.js`);
 function spawnGulpCommandInChildProcess(command, target, format) {
-    return asyncDone(() => child_process.spawn(
-        require.resolve(path.join(__dirname, `../node_modules/gulp/bin/gulp.js`)),
-        [command, '-t', target, '-m', format]
-    ));
+    const args = [gulp, command, '-t', target, '-m', format];
+    const opts = {
+        stdio: [`ignore`, `ignore`, `inherit`],
+        env: { ...process.env, NODE_NO_WARNINGS: `1` }
+    };
+    return asyncDone(() => child_process.spawn(`node`, args, opts));
 }
+
 
 function observableFromStreams(...streams) {
     if (streams.length <= 0) { return Observable.empty(); }

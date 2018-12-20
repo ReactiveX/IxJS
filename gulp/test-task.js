@@ -24,7 +24,7 @@ const jestArgv = [];
 argv.verbose && jestArgv.push(`--verbose`);
 argv.coverage
     ? jestArgv.push(`-c`, `jest.coverage.config.js`, `--coverage`)
-    : jestArgv.push(`-c`, `jest.config.js`, ...(process.env.IS_APPVEYOR_CI ? [] : [`-i`]))
+    : jestArgv.push(`-c`, `jest.config.js`, `-i`)
 
 const jest = path.join(path.parse(require.resolve(`jest`)).dir, `../bin/jest.js`);
 const testOptions = {
