@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { mergeStatic as mergeStatic_ } from '../../asynciterable/merge';
 
+/** @nocollapse */
 AsyncIterableX.merge = mergeStatic_;
 
 export declare namespace asynciterable {

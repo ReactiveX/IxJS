@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { _for as forStatic } from '../../asynciterable/for';
 
+/** @nocollapse */
 AsyncIterableX.for = forStatic;
 
 export declare namespace asynciterable {

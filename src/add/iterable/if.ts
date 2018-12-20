@@ -1,6 +1,7 @@
 import { IterableX } from '../../iterable/iterablex';
 import { _if as ifStatic } from '../../iterable/if';
 
+/** @nocollapse */
 IterableX.if = ifStatic;
 
 export declare namespace iterable {

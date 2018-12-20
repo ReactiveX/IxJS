@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { _throw as throwStatic } from '../../asynciterable/throw';
 
+/** @nocollapse */
 AsyncIterableX.throw = throwStatic;
 
 export declare namespace asynciterable {

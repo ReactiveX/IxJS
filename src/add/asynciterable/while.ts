@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { _while as whileStatic } from '../../asynciterable/while';
 
+/** @nocollapse */
 AsyncIterableX.while = whileStatic;
 
 export declare namespace asynciterable {

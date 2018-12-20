@@ -34,6 +34,7 @@ export abstract class IterableX<T> implements Iterable<T> {
   static as<T>(source: Iterable<T>): IterableX<T>;
   static as<T>(source: ArrayLike<T>): IterableX<T>;
   static as<T>(source: T): IterableX<T>;
+  /** @nocollapse */
   static as(source: any) {
     /* tslint:disable */
     if (typeof source === 'string') {
@@ -49,6 +50,7 @@ export abstract class IterableX<T> implements Iterable<T> {
     /* tslint:enable */
   }
 
+  /** @nocollapse */
   static from<TSource, TResult = TSource>(
     source: Iterable<TSource> | ArrayLike<TSource>,
     selector: (value: TSource, index: number) => TResult = identity,
@@ -66,6 +68,7 @@ export abstract class IterableX<T> implements Iterable<T> {
     /* tslint:enable */
   }
 
+  /** @nocollapse */
   static of<TSource>(...args: TSource[]): IterableX<TSource> {
     //tslint:disable-next-line
     return new OfIterable<TSource>(args);

@@ -1,6 +1,7 @@
 import { IterableX } from '../../iterable/iterablex';
 import { repeatStatic as _repeatStatic } from '../../iterable/repeat';
 
+/** @nocollapse */
 IterableX.repeat = _repeatStatic;
 
 export declare namespace iterable {

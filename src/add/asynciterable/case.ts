@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { _case as caseStatic } from '../../asynciterable/case';
 
+/** @nocollapse */
 AsyncIterableX.case = caseStatic;
 
 export declare namespace asynciterable {

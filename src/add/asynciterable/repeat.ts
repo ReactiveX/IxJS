@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { repeatStatic as _repeatStatic } from '../../asynciterable/repeat';
 
+/** @nocollapse */
 AsyncIterableX.repeat = _repeatStatic;
 
 export declare namespace asynciterable {

@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { concatStatic as concatStatic_ } from '../../asynciterable/concat';
 
+/** @nocollapse */
 AsyncIterableX.concat = concatStatic_;
 
 export declare namespace asynciterable {

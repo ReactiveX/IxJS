@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { combineLatest as combineLatestStatic } from '../../asynciterable/combinelatest';
 
+/** @nocollapse */
 AsyncIterableX.combineLatest = combineLatestStatic;
 
 export declare namespace asynciterable {
