@@ -15,6 +15,7 @@ env:
   global:
     - PATH=$HOME/.yarn/bin:$HOME/.local/bin:$PATH
   matrix:
+    - CI_MATRIX_BUILD=true
     - CI_MATRIX_LINT=true
     - CI_MATRIX_TEST=true
 
@@ -27,7 +28,9 @@ before_install:
 
 script:
   - |
-    if [ "$CI_MATRIX_LINT" = "true" ]; then
+    if [ "$CI_MATRIX_BUILD" = "true" ]; then
+      yarn build
+    elif [ "$CI_MATRIX_LINT" = "true" ]; then
       yarn lint
     elif [ "$CI_MATRIX_TEST" = "true" ]; then
       yarn start
