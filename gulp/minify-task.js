@@ -33,7 +33,7 @@ const TerserPlugin = require(`terser-webpack-plugin`);
 const minifyTask = ((cache, commonConfig) => memoizeTask(cache, function minifyJS(target, format) {
 
     if (shouldRunInChildProcess(target, format)) {
-        return spawnGulpCommandInChildProcess('build', target, format);
+        return spawnGulpCommandInChildProcess('compile', target, format);
     }
 
     const sourceTarget = UMDSourceTargets[target];

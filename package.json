@@ -5,8 +5,9 @@
   "scripts": {
     "lerna": "lerna",
     "commit": "git-cz",
+    "start": "gulp",
     "test": "gulp test",
-    "build": "gulp clean:build",
+    "build": "gulp build",
     "clean": "gulp clean",
     "debug": "gulp debug",
     "lint": "run-p lint:*",

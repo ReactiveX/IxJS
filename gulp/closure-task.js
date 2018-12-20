@@ -37,7 +37,7 @@ const closureCompiler = require('google-closure-compiler').gulp();
 const closureTask = ((cache) => memoizeTask(cache, function closure(target, format) {
 
     if (shouldRunInChildProcess(target, format)) {
-        return spawnGulpCommandInChildProcess('build', target, format);
+        return spawnGulpCommandInChildProcess('compile', target, format);
     }
 
     const src = targetDir(target, `cls`);

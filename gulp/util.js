@@ -112,7 +112,14 @@ function targetDir(target, format) {
 }
 
 function shouldRunInChildProcess(target, format) {
-    return (targets.length > 1 || modules.length > 1 || targets[0] !== target || modules[0] !== format);
+    // Appveyor doesn't like child processes much
+    if (process.env.IS_APPVEYOR_CI) { return false; }
+    // If we're building more than one module/target, then yes run this task in a child process
+    if (targets.length > 1 || modules.length > 1) { return true; }
+    // If the target we're building *isn't* the target the gulp command was configured to run, then yes run that in a child process
+    if (targets[0] !== target || modules[0] !== format) { return true; }
+    // Otherwise no need -- either gulp was run for just one target, or we've been spawned as the child of a multi-target parent gulp
+    return false;
 }
 
 function spawnGulpCommandInChildProcess(command, target, format) {
