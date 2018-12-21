@@ -22,8 +22,7 @@ const memoizeTask = require('./memoize-task');
 
 const cleanTask = ((cache) => memoizeTask(cache, function clean(target, format) {
     const dir = targetDir(target, format);
-    return Observable
-        .defer(() => del(dir))
+    return Observable.from(del(dir))
         .catch((e) => Observable.empty());
 }))({});
 

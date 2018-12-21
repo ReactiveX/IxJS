@@ -47,8 +47,9 @@ for (const [target, format] of combinations([`all`], [`all`])) {
 knownTargets.forEach((target) => {
     const umd = taskName(target, `umd`);
     const cls = taskName(UMDSourceTargets[target], `cls`);
-    gulp.task(`compile:${umd}`, gulp.series(
-        `build:${cls}`, compileTask(target, `umd`),
+    gulp.task(`build:${umd}`, gulp.series(
+        `build:${cls}`,
+        `clean:${umd}`, `compile:${umd}`,
         function remove_closure_tmp_files() {
             return del(require('path').resolve(targetDir(target, `cls`)))
         }
@@ -58,7 +59,7 @@ knownTargets.forEach((target) => {
 // The main "ix" module builds the es5/umd, es2015/cjs,
 // es2015/esm, and es2015/umd targets, then copies and renames the
 // compiled output into the ix folder
-gulp.task(`compile:${npmPkgName}`,
+gulp.task(`build:${npmPkgName}`,
     gulp.series(
         gulp.parallel(
             `build:${taskName(`es5`, `umd`)}`,
@@ -66,18 +67,11 @@ gulp.task(`compile:${npmPkgName}`,
             `build:${taskName(`es2015`, `esm`)}`,
             `build:${taskName(`es2015`, `umd`)}`
         ),
-        compileTask(npmPkgName)
+        `clean:${npmPkgName}`,
+        `compile:${npmPkgName}`,
+        `package:${npmPkgName}`
     )
 );
-
-// Now that all the compile and package tasks have been defined,
-// define the composite `build` tasks
-for (const [target, format] of combinations([`all`], [`all`])) {
-    const task = taskName(target, format);
-    gulp.task(`build:${task}`, gulp.series(
-        `clean:${task}`, `compile:${task}`, `package:${task}`
-    ));
-}
 
 // And finally the global composite tasks
 gulp.task(`test`, gulpConcurrent(getTasks(`test`), process.env.IS_APPVEYOR_CI ? 1 : void 0));
