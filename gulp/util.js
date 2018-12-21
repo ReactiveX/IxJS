@@ -32,7 +32,7 @@ const knownTargets = [`es5`, `es2015`, `esnext`];
 const knownModules = [`cjs`, `esm`, `cls`, `umd`];
 const tasksToSkipPerTargetOrFormat = {
     src: { clean: true, build: true },
-    cls: { test: true }
+    cls: { test: true, package: true }
 };
 const packageJSONFields = [
   `version`, `license`, `description`,

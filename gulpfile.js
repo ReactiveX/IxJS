@@ -49,7 +49,9 @@ knownTargets.forEach((target) => {
     const cls = taskName(UMDSourceTargets[target], `cls`);
     gulp.task(`compile:${umd}`, gulp.series(
         `build:${cls}`, compileTask(target, `umd`),
-        async () => await del(targetDir(target, `cls`))
+        function remove_closure_tmp_files() {
+            return del(require('path').resolve(targetDir(target, `cls`)))
+        }
     ));
 });
 
@@ -79,7 +81,7 @@ for (const [target, format] of combinations([`all`], [`all`])) {
 
 // And finally the global composite tasks
 gulp.task(`test`, gulpConcurrent(getTasks(`test`), process.env.IS_APPVEYOR_CI ? 1 : void 0));
-gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
+gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
@@ -87,7 +89,7 @@ gulp.task(`default`,  gulp.series(`clean`, `build`, `test`));
 
 function gulpConcurrent(tasks, numCPUs = require('os').cpus().length) {
     return () => Observable.from(tasks.map((task) => gulp.series(task)))
-        .flatMap((task) => Observable.bindNodeCallback(task)(), numCPUs);
+        .flatMap((task) => Observable.bindNodeCallback(task)(), numCPUs || 1);
 }
 
 function getTasks(name) {

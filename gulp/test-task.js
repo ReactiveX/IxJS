@@ -19,6 +19,7 @@ const path = require('path');
 const { argv } = require('./argv');
 const child_process = require(`child_process`);
 const { memoizeTask } = require('./memoize-task');
+const asyncDone = require('util').promisify(require('async-done'));
 
 const jestArgv = [];
 argv.verbose && jestArgv.push(`--verbose`);
@@ -52,7 +53,7 @@ const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function 
         TEST_NODE_STREAMS: (target ==='src' || format !== 'umd').toString(),
         TEST_TS_SOURCE: !!argv.coverage || (target === 'src') || (opts.env.TEST_TS_SOURCE === 'true')
     };
-    return child_process.spawn(`node`, args, opts);
+    return asyncDone(() => child_process.spawn(`node`, args, opts));
 }))({}, [jest, ...jestArgv], testOptions);
 
 module.exports = testTask;
