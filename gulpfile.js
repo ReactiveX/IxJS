@@ -49,9 +49,9 @@ knownTargets.forEach((target) => {
     const cls = taskName(UMDSourceTargets[target], `cls`);
     gulp.task(`build:${umd}`, gulp.series(
         `build:${cls}`,
-        `clean:${umd}`, `compile:${umd}`,
+        `clean:${umd}`, `compile:${umd}`, `package:${umd}`,
         function remove_closure_tmp_files() {
-            return del(require('path').resolve(targetDir(target, `cls`)))
+            return del(targetDir(target, `cls`))
         }
     ));
 });
@@ -74,7 +74,7 @@ gulp.task(`build:${npmPkgName}`,
 );
 
 // And finally the global composite tasks
-gulp.task(`test`, gulpConcurrent(getTasks(`test`), process.env.IS_APPVEYOR_CI ? 1 : void 0));
+gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
 gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
