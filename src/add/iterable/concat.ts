@@ -1,6 +1,7 @@
 import { IterableX } from '../../iterable/iterablex';
 import { concatStatic } from '../../iterable/concat';
 
+/** @nocollapse */
 IterableX.concat = concatStatic;
 
 declare module '../../iterable/iterablex' {

@@ -3,69 +3,65 @@ import { testOperator } from '../iterablehelpers';
 const test = testOperator([Ix.iterable.skipWhile]);
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#skipWhile skips some', (t, [skipWhile]) => {
+test('Iterable#skipWhile skips some', ([skipWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = skipWhile(xs, x => x < 3);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 3);
-  hasNext(t, it, 4);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 3);
+  hasNext(it, 4);
+  noNext(it);
 });
 
-test('Iterable#skipWhile skips none', (t, [skipWhile]) => {
+test('Iterable#skipWhile skips none', ([skipWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = skipWhile(xs, () => false);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  hasNext(t, it, 3);
-  hasNext(t, it, 4);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  hasNext(it, 3);
+  hasNext(it, 4);
+  noNext(it);
 });
 
-test('Iterable#skipWhile skips all', (t, [skipWhile]) => {
+test('Iterable#skipWhile skips all', ([skipWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = skipWhile(xs, () => true);
 
   const it = ys[Symbol.iterator]();
-  noNext(t, it);
-  t.end();
+  noNext(it);
 });
 
-test('Iterable#skipWhile skips some another run', (t, [skipWhile]) => {
+test('Iterable#skipWhile skips some another run', ([skipWhile]) => {
   const xs = [1, 2, 3, 4, 3, 2, 1];
   const ys = skipWhile(xs, x => x < 3);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 3);
-  hasNext(t, it, 4);
-  hasNext(t, it, 3);
-  hasNext(t, it, 2);
-  hasNext(t, it, 1);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 3);
+  hasNext(it, 4);
+  hasNext(it, 3);
+  hasNext(it, 2);
+  hasNext(it, 1);
+  noNext(it);
 });
 
-test('Iterable#skipWhile predicate throws', (t, [skipWhile]) => {
+test('Iterable#skipWhile predicate throws', ([skipWhile]) => {
   const xs = [1, 2, 3, 4];
-  const ys = skipWhile(xs, () => { throw new Error(); });
+  const ys = skipWhile(xs, () => {
+    throw new Error();
+  });
 
   const it = ys[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });
 
-test('Iterable#skipWhile with index', (t, [skipWhile]) => {
+test('Iterable#skipWhile with index', ([skipWhile]) => {
   const xs = [1, 2, 3, 4];
-  const ys = skipWhile(xs, (x, i) => i < 2);
+  const ys = skipWhile(xs, (_, i) => i < 2);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 3);
-  hasNext(t, it, 4);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 3);
+  hasNext(it, 4);
+  noNext(it);
 });

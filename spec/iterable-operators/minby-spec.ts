@@ -3,21 +3,19 @@ import { testOperator } from '../iterablehelpers';
 const test = testOperator([Ix.iterable.minBy]);
 const { sequenceEqual } = Ix.iterable;
 
-test('Iterable#minBy', (t, [minBy]) => {
+test('Iterable#minBy', ([minBy]) => {
   const source = [2, 5, 0, 7, 4, 3, 6, 2, 1];
 
   const res = minBy(source, x => x % 3);
-  t.true(sequenceEqual(res, [0, 3, 6]));
-  t.end();
+  expect(sequenceEqual(res, [0, 3, 6])).toBeTruthy();
 });
 
-test('Iterable#minBy empty throws', (t, [minBy]) => {
+test('Iterable#minBy empty throws', ([minBy]) => {
   const source: number[] = [];
 
   try {
     minBy(source, x => x % 3);
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });

@@ -4,34 +4,31 @@ const test = testOperator([Ix.iterable.map]);
 const { empty } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 
-test('Iterable#map single element', (t, [map]) => {
+test('Iterable#map single element', ([map]) => {
   const source = [{ name: 'Frank', custId: 98088 }];
   const expected = ['Frank'];
 
-  t.true(sequenceEqual(expected, map(source, x => x.name)));
-  t.end();
+  expect(sequenceEqual(expected, map(source, x => x.name))).toBeTruthy();
 });
 
-test('Iterable#map maps property', (t, [map]) => {
+test('Iterable#map maps property', ([map]) => {
   const source = [
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
     { name: 'Chris', custId: 39033 },
     { name: null, custId: 30349 },
-    { name: 'Frank', custId: 39030 },
+    { name: 'Frank', custId: 39030 }
   ];
   const expected = ['Frank', 'Bob', 'Chris', null, 'Frank'];
 
-  t.true(sequenceEqual(expected, map(source, x => x.name)));
-  t.end();
+  expect(sequenceEqual(expected, map(source, x => x.name))).toBeTruthy();
 });
 
-test('Iterable#map empty', (t, [map]) => {
-  t.true(sequenceEqual(empty<number>(), map(empty<string>(), (s, i) => s.length + i)));
-  t.end();
+test('Iterable#map empty', ([map]) => {
+  expect(sequenceEqual(empty<number>(), map(empty<string>(), (s, i) => s.length + i))).toBeTruthy();
 });
 
-test('Iterable#map map property using index', (t, [map]) => {
+test('Iterable#map map property using index', ([map]) => {
   const source = [
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
@@ -39,35 +36,37 @@ test('Iterable#map map property using index', (t, [map]) => {
   ];
   const expected = ['Frank', null, null];
 
-  t.true(sequenceEqual(expected, map(source, (x, i) => i === 0 ? x.name : null)));
-  t.end();
+  expect(sequenceEqual(expected, map(source, (x, i) => (i === 0 ? x.name : null)))).toBeTruthy();
 });
 
-test('Iterable#map map property using index on last', (t, [map]) => {
+test('Iterable#map map property using index on last', ([map]) => {
   const source = [
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
     { name: 'Chris', custId: 39033 },
     { name: 'Bill', custId: 30349 },
-    { name: 'Frank', custId: 39030 },
+    { name: 'Frank', custId: 39030 }
   ];
   const expected = [null, null, null, null, 'Frank'];
 
-  t.true(sequenceEqual(expected, map(source, (x, i) => i === 4 ? x.name : null)));
-  t.end();
+  expect(sequenceEqual(expected, map(source, (x, i) => (i === 4 ? x.name : null)))).toBeTruthy();
 });
 
-test('Iterable#map execution is deferred', (t, [map]) => {
+test('Iterable#map execution is deferred', ([map]) => {
   let fnCalled = false;
-  const source = [() => { fnCalled = true; return 1; }];
+  const source = [
+    () => {
+      fnCalled = true;
+      return 1;
+    }
+  ];
 
   map(source, x => x());
 
-  t.false(fnCalled);
-  t.end();
+  expect(fnCalled).toBeFalsy();
 });
 
-test('Iterable#map source returns expected values', (t, [map]) => {
+test('Iterable#map source returns expected values', ([map]) => {
   const source = [1, 2, 3, 4, 5];
   const fn = (i: number) => i + 1;
 
@@ -75,10 +74,9 @@ test('Iterable#map source returns expected values', (t, [map]) => {
   let index = 0;
   for (let item of query) {
     let expected = fn(source[index]);
-    t.equal(expected, item);
+    expect(expected).toBe(item);
     index++;
   }
 
-  t.equal(source.length, index);
-  t.end();
+  expect(source.length).toBe(index);
 });

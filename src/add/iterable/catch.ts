@@ -1,6 +1,7 @@
 import { IterableX } from '../../iterable/iterablex';
 import { _catchStatic as catchStatic } from '../../iterable/catch';
 
+/** @nocollapse */
 IterableX.catch = catchStatic;
 
 export declare namespace iterable {

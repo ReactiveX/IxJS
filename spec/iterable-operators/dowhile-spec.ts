@@ -6,22 +6,16 @@ const { sequenceEqual } = Ix.iterable;
 const { tap } = Ix.iterable;
 const { toArray } = Ix.iterable;
 
-test('Iterable#doWhile some', (t, [doWhile]) => {
+test('Iterable#doWhile some', ([doWhile]) => {
   let x = 5;
-  const res = toArray(
-    doWhile(defer(() => tap([x], { next: () => x--})), () => x > 0)
-  );
+  const res = toArray(doWhile(defer(() => tap([x], { next: () => x-- })), () => x > 0));
 
-  t.true(sequenceEqual(res, [5, 4, 3, 2, 1]));
-  t.end();
+  expect(sequenceEqual(res, [5, 4, 3, 2, 1])).toBeTruthy();
 });
 
-test('Iterable#doWhile one', (t, [doWhile]) => {
+test('Iterable#doWhile one', ([doWhile]) => {
   let x = 0;
-  const res = toArray(
-    doWhile(defer(() => tap([x], { next: () => x--})), () => x > 0)
-  );
+  const res = toArray(doWhile(defer(() => tap([x], { next: () => x-- })), () => x > 0));
 
-  t.true(sequenceEqual(res, [0]));
-  t.end();
+  expect(sequenceEqual(res, [0])).toBeTruthy();
 });

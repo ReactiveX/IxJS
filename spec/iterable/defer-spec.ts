@@ -1,10 +1,9 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { defer } = Ix.iterable;
 const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 
-test('Iterable#defer defers side effects', t => {
+test('Iterable#defer defers side effects', () => {
   let i = 0;
   let n = 5;
   const xs = defer(() => {
@@ -12,14 +11,12 @@ test('Iterable#defer defers side effects', t => {
     return range(0, n);
   });
 
-  t.equal(0, i);
+  expect(0).toBe(i);
 
-  t.true(sequenceEqual(xs, range(0, n)));
-  t.equal(1, i);
+  expect(sequenceEqual(xs, range(0, n))).toBeTruthy();
+  expect(1).toBe(i);
 
   n = 3;
-  t.true(sequenceEqual(xs, range(0, n)));
-  t.equal(2, i);
-
-  t.end();
+  expect(sequenceEqual(xs, range(0, n))).toBeTruthy();
+  expect(2).toBe(i);
 });

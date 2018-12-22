@@ -4,37 +4,34 @@ const test = testOperator([Ix.asynciterable.every]);
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 
-test('AsyncIterable#every not all match', async (t, [every]) => {
+test('AsyncIterable#every not all match', async ([every]) => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await every(xs, async x => x % 2 === 0);
 
-  t.false(ys);
-  t.end();
+  expect(ys).toBeFalsy();
 });
 
-test('AsyncIterable#every all match', async (t, [every]) => {
+test('AsyncIterable#every all match', async ([every]) => {
   const xs = of(2, 4, 6, 8);
 
   const ys = await every(xs, async x => x % 2 === 0);
 
-  t.true(ys);
-  t.end();
+  expect(ys).toBeTruthy();
 });
 
-test('AsyncIterable#every throws', async (t, [every]) => {
+test('AsyncIterable#every throws', async ([every]) => {
   const err = new Error();
   const xs = _throw<number>(err);
 
   try {
     await every(xs, async x => x % 2 === 0);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#every predicate throws', async (t, [every]) => {
+test('AsyncIterable#every predicate throws', async ([every]) => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
 
@@ -43,7 +40,6 @@ test('AsyncIterable#every predicate throws', async (t, [every]) => {
       throw err;
     });
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });

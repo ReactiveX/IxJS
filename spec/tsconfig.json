@@ -1,16 +1,18 @@
-//Compiler configuaration to build the CommonJS target
 {
   "extends": "../tsconfig.json",
   "include": ["./**/*.ts"],
   "compilerOptions": {
-    "target": "ES5",
+    "target": "esnext",
     "module": "commonjs",
     "allowJs": true,
-    "sourceMap": true,
+    "declaration": false,
     "importHelpers": false,
     "noEmitHelpers": false,
+    "noEmitOnError": false,
+
+    "sourceMap": false,
     "inlineSources": false,
     "inlineSourceMap": false,
-    "noUnusedParameters": false
+    "downlevelIteration": false
   }
 }

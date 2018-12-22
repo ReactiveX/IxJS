@@ -5,7 +5,7 @@ const { range } = Ix.asynciterable;
 const { take } = Ix.asynciterable;
 const { tap } = Ix.asynciterable;
 
-test('Iterable#ignoreElements has side effects', async (t, [ignoreElements]) => {
+test('Iterable#ignoreElements has side effects', async ([ignoreElements]) => {
   let n = 0;
   await take(
     ignoreElements(
@@ -20,6 +20,5 @@ test('Iterable#ignoreElements has side effects', async (t, [ignoreElements]) => 
     /* tslint:disable-next-line:no-empty */
   });
 
-  t.equal(10, n);
-  t.end();
+  expect(n).toBe(10);
 });

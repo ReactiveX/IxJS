@@ -5,43 +5,40 @@ const { range } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#finally defers behavior', (t, [_finally]) => {
+test('Iterable#finally defers behavior', ([_finally]) => {
   let done = false;
 
-  const xs = _finally(range(0, 2), () => done = true);
-  t.false(done);
+  const xs = _finally(range(0, 2), () => (done = true));
+  expect(done).toBeFalsy();
 
   const it = xs[Symbol.iterator]();
-  t.false(done);
+  expect(done).toBeFalsy();
 
-  hasNext(t, it, 0);
-  t.false(done);
+  hasNext(it, 0);
+  expect(done).toBeFalsy();
 
-  hasNext(t, it, 1);
-  t.false(done);
+  hasNext(it, 1);
+  expect(done).toBeFalsy();
 
-  noNext(t, it);
-  t.true(done);
-
-  t.end();
+  noNext(it);
+  expect(done).toBeTruthy();
 });
 
-test('Iterable#finally calls even with error', (t, [_finally]) => {
+test('Iterable#finally calls even with error', ([_finally]) => {
   let done = false;
 
   const err = new Error();
-  const xs = _finally(_throw(err), () => done = true);
-  t.false(done);
+  const xs = _finally(_throw(err), () => (done = true));
+  expect(done).toBeFalsy();
 
   const it = xs[Symbol.iterator]();
-  t.false(done);
+  expect(done).toBeFalsy();
 
   try {
-    hasNext(t, it, 0);
+    hasNext(it, 0);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
 
-  t.true(done);
-  t.end();
+  expect(done).toBeTruthy();
 });

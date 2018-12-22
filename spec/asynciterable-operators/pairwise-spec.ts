@@ -5,33 +5,30 @@ const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#pairwise empty return empty', async (t, [pairwise]) => {
+test('AsyncIterable#pairwise empty return empty', async ([pairwise]) => {
   const xs = empty<number>();
   const ys = pairwise(xs);
 
   const it = ys[Symbol.asyncIterator]();
-  await noNext(t, it);
-  t.end();
+  await noNext(it);
 });
 
-test('AsyncIterable#pairwise single returns empty', async (t, [pairwise]) => {
+test('AsyncIterable#pairwise single returns empty', async ([pairwise]) => {
   const xs = of(5);
   const ys = pairwise(xs);
 
   const it = ys[Symbol.asyncIterator]();
-  await noNext(t, it);
-  t.end();
+  await noNext(it);
 });
 
-test('AsyncIterable#pairwise behavior', async (t, [pairwise]) => {
+test('AsyncIterable#pairwise behavior', async ([pairwise]) => {
   const xs = of(5, 4, 3, 2, 1);
   const ys = pairwise(xs);
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, [5, 4]);
-  await hasNext(t, it, [4, 3]);
-  await hasNext(t, it, [3, 2]);
-  await hasNext(t, it, [2, 1]);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, [5, 4]);
+  await hasNext(it, [4, 3]);
+  await hasNext(it, [3, 2]);
+  await hasNext(it, [2, 1]);
+  await noNext(it);
 });

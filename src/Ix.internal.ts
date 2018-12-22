@@ -1,4 +1,3 @@
-/* `/index` required for closure compiler */
 import * as iterableX from './iterable/index';
 import * as iterableXPipe from './iterable/pipe/index';
 import * as asynciterableX from './asynciterable/index';
@@ -9,26 +8,10 @@ export { iterableXPipe as iterablePipe };
 export { asynciterableX as asynciterable };
 export { asynciterableXPipe as asynciterablePipe };
 
-import './add/asynciterable/fromnodestream';
-import { fromNodeStream, ReadableStreamAsyncIterable } from './asynciterable/fromnodestream';
-export { fromNodeStream, ReadableStreamAsyncIterable };
-
-/* These declarations are needed for the closure/umd targets */
-export declare namespace Symbol {
-  export const iterator: symbol;
-  export const asyncIterator: symbol;
-}
-try {
-  const Ix = eval('exports');
-  if (typeof Ix === 'object') {
-    // string indexers tell closure compiler not to rename these properties
-    Ix['iterable'] = iterableX;
-    Ix['iterablePipe'] = iterableXPipe;
-    Ix['asynciterable'] = asynciterableX;
-    Ix['asynciterablePipe'] = asynciterableXPipe;
-    Ix['fromNodeStream'] = fromNodeStream;
-  }
-} catch (e) {
-  /* not the UMD bundle */
-}
-/** end google declarations */
+// Manually re-export because closure-compiler doesn't support `export * from X` syntax yet
+export { default } from './Ix';
+export { OrderedIterable } from './Ix';
+export { OrderedIterableBase } from './Ix';
+export { OrderedAsyncIterable } from './Ix';
+export { OrderedAsyncIterableBase } from './Ix';
+export { AsyncSink, Iterable, AsyncIterable } from './Ix';

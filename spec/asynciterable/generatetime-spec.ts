@@ -1,9 +1,8 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { generateTime } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#generateTime generateTimes normal sequence', async t => {
+test('AsyncIterable#generateTime generateTimes normal sequence', async () => {
   const xs = generateTime(
     0,
     async x => x < 5,
@@ -13,20 +12,21 @@ test('AsyncIterable#generateTime generateTimes normal sequence', async t => {
   );
 
   const it = xs[Symbol.asyncIterator]();
-  await hasNext(t, it, 0);
-  await hasNext(t, it, 1);
-  await hasNext(t, it, 4);
-  await hasNext(t, it, 9);
-  await hasNext(t, it, 16);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 0);
+  await hasNext(it, 1);
+  await hasNext(it, 4);
+  await hasNext(it, 9);
+  await hasNext(it, 16);
+  await noNext(it);
 });
 
-test('AsyncIterable#generateTime condition throws', async t => {
+test('AsyncIterable#generateTime condition throws', async () => {
   const err = new Error();
   const xs = generateTime(
     0,
-    async x => { throw err; },
+    async _ => {
+      throw err;
+    },
     async x => x + 1,
     async x => x * x,
     async x => x * 100
@@ -37,17 +37,18 @@ test('AsyncIterable#generateTime condition throws', async t => {
   try {
     await it.next();
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#generateTime increment throws', async t => {
+test('AsyncIterable#generateTime increment throws', async () => {
   const err = new Error();
   const xs = generateTime(
     0,
     async x => x < 5,
-    async x => { throw err; },
+    async _ => {
+      throw err;
+    },
     async x => x * x,
     async x => x * 100
   );
@@ -57,18 +58,19 @@ test('AsyncIterable#generateTime increment throws', async t => {
   try {
     await it.next();
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#generateTime result selector throws', async t => {
+test('AsyncIterable#generateTime result selector throws', async () => {
   const err = new Error();
   const xs = generateTime(
     0,
     async x => x < 5,
     async x => x + 1,
-    async x => { throw err; },
+    async _ => {
+      throw err;
+    },
     async x => x * 100
   );
 
@@ -77,19 +79,20 @@ test('AsyncIterable#generateTime result selector throws', async t => {
   try {
     await it.next();
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#generateTime time selector throws', async t => {
+test('AsyncIterable#generateTime time selector throws', async () => {
   const err = new Error();
   const xs = generateTime(
     0,
     async x => x < 5,
     async x => x + 1,
     async x => x * x,
-    async x => { throw err; }
+    async _ => {
+      throw err;
+    }
   );
 
   const it = xs[Symbol.asyncIterator]();
@@ -97,7 +100,6 @@ test('AsyncIterable#generateTime time selector throws', async t => {
   try {
     await it.next();
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });

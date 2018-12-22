@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { _catchStatic as catchStatic } from '../../asynciterable/catch';
 
+/** @nocollapse */
 AsyncIterableX.catch = catchStatic;
 
 export declare namespace asynciterable {

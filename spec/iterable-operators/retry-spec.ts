@@ -7,32 +7,29 @@ const { sequenceEqual } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext } from '../iterablehelpers';
 
-test('Iterable#retry infinite no errors does not retry', (t, [retry]) => {
+test('Iterable#retry infinite no errors does not retry', ([retry]) => {
   const xs = range(0, 10);
 
   const res = retry(xs);
-  t.true(sequenceEqual(res, xs));
-  t.end();
+  expect(sequenceEqual(res, xs)).toBeTruthy();
 });
 
-test('Iterable#retry finite no errors does not retry', (t, [retry]) => {
+test('Iterable#retry finite no errors does not retry', ([retry]) => {
   const xs = range(0, 10);
 
   const res = retry(xs, 2);
-  t.true(sequenceEqual(res, xs));
-  t.end();
+  expect(sequenceEqual(res, xs)).toBeTruthy();
 });
 
-test('Iterable#retry finite eventually gives up', (t, [retry]) => {
+test('Iterable#retry finite eventually gives up', ([retry]) => {
   const err = new Error();
   const xs = concat(range(0, 2), _throw(err));
 
   const res = retry(xs, 2);
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 0);
-  hasNext(t, it, 1);
-  hasNext(t, it, 0);
-  hasNext(t, it, 1);
-  t.throws(() => it.next());
-  t.end();
+  hasNext(it, 0);
+  hasNext(it, 1);
+  hasNext(it, 0);
+  hasNext(it, 1);
+  expect(() => it.next()).toThrow();
 });

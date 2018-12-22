@@ -41,6 +41,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
   static as(source: string): AsyncIterableX<string>;
   static as<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
   static as<T>(source: T): AsyncIterableX<T>;
+  /** @nocollapse */
   static as(source: any) {
     /* tslint:disable */
     if (typeof source === 'string') {
@@ -62,6 +63,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     /* tslint:enable */
   }
 
+  /** @nocollapse */
   static from<TSource, TResult = TSource>(
     source: AsyncIterableInput<TSource>,
     selector: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
@@ -85,6 +87,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     /* tslint:enable */
   }
 
+  /** @nocollapse */
   static of<TSource>(...args: TSource[]): AsyncIterableX<TSource> {
     //tslint:disable-next-line
     return new OfAsyncIterable<TSource>(args);

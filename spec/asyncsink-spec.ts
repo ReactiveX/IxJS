@@ -1,9 +1,8 @@
 import * as Ix from './Ix';
-import * as test from 'tape-async';
 const { AsyncSink } = Ix;
 import { hasNext, noNext } from './asynciterablehelpers';
 
-test('AsyncSink writes before next', async t => {
+test('AsyncSink writes before next', async () => {
   const a = new AsyncSink<number>();
 
   a.write(1);
@@ -12,14 +11,13 @@ test('AsyncSink writes before next', async t => {
   a.end();
 
   const it = a[Symbol.asyncIterator]();
-  await hasNext(t, it, 1);
-  await hasNext(t, it, 2);
-  await hasNext(t, it, 3);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 1);
+  await hasNext(it, 2);
+  await hasNext(it, 3);
+  await noNext(it);
 });
 
-test('AsyncSink writes and errors before next', async t => {
+test('AsyncSink writes and errors before next', async () => {
   const err = new Error();
   const a = new AsyncSink<number>();
 
@@ -30,18 +28,17 @@ test('AsyncSink writes and errors before next', async t => {
   a.end();
 
   const it = a[Symbol.asyncIterator]();
-  await hasNext(t, it, 1);
-  await hasNext(t, it, 2);
-  await hasNext(t, it, 3);
+  await hasNext(it, 1);
+  await hasNext(it, 2);
+  await hasNext(it, 3);
   try {
     await it.next();
   } catch (e) {
-    t.equal(err, e);
+    expect(err).toBe(e);
   }
-  t.end();
 });
 
-test('AsyncSink writes after next', async t => {
+test('AsyncSink writes after next', async () => {
   const a = new AsyncSink<number>();
 
   const asyncResults = Promise.all([a.next(), a.next(), a.next()]);
@@ -51,11 +48,10 @@ test('AsyncSink writes after next', async t => {
 
   const results = await asyncResults;
   const mappedResults = results.map(x => x.value);
-  t.deepEqual(mappedResults, [1, 2, 3]);
-  t.end();
+  expect(mappedResults).toEqual([1, 2, 3]);
 });
 
-test('AsyncSink writes and error after next', async t => {
+test('AsyncSink writes and error after next', async () => {
   const err = new Error();
   const a = new AsyncSink<number>();
 
@@ -67,7 +63,6 @@ test('AsyncSink writes and error after next', async t => {
   try {
     await asyncResults;
   } catch (e) {
-    t.equal(err, e);
+    expect(err).toBe(e);
   }
-  t.end();
 });

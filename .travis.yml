@@ -29,11 +29,11 @@ before_install:
 script:
   - |
     if [ "$CI_MATRIX_BUILD" = "true" ]; then
-      npm run build
+      yarn build
     elif [ "$CI_MATRIX_LINT" = "true" ]; then
-      npm run lint
+      yarn lint
     elif [ "$CI_MATRIX_TEST" = "true" ]; then
-      npm run build && npm test
+      yarn start
     else
       echo "This code path is run unexpectedly" 1>&2
       exit 1

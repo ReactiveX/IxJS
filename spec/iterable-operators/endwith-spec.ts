@@ -4,9 +4,8 @@ const test = testOperator([Ix.iterable.endWith]);
 const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 
-test('Iterable#endWith adds to end', (t, [endWith]) => {
+test('Iterable#endWith adds to end', ([endWith]) => {
   const e = range(0, 5);
   const r = endWith(e, 5, 6);
-  t.true(sequenceEqual(r, range(0, 7)));
-  t.end();
+  expect(sequenceEqual(r, range(0, 7))).toBeTruthy();
 });

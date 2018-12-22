@@ -1,10 +1,10 @@
 import { AsyncIterableX } from './asynciterablex';
 import { fromEventPattern } from './fromeventpattern';
 
-export type NodeEventEmitter = {
-  addListener: (eventName: string, handler: Function) => void;
-  removeListener: (eventName: string, handler: Function) => void;
-};
+export interface NodeEventEmitter {
+  addListener(event: string | symbol, listener: (...args: any[]) => void): this;
+  removeListener(event: string | symbol, listener: (...args: any[]) => void): this;
+}
 
 export type EventListenerOptions =
   | {

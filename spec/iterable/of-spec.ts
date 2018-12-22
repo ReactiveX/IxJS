@@ -1,15 +1,13 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { of } = Ix.Iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#of behavior', t => {
+test('Iterable#of behavior', () => {
   const res = of(1, 2, 3);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  hasNext(t, it, 3);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  hasNext(it, 3);
+  noNext(it);
 });

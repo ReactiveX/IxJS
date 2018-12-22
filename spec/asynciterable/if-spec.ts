@@ -1,30 +1,25 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { _if } = Ix.asynciterable;
 const { isEmpty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { single } = Ix.asynciterable;
 
-test('AsyncIterable#if then and else', async t => {
+test('AsyncIterable#if then and else', async () => {
   let x = 5;
   const res = _if(async () => x > 0, of(+1), of(-1));
 
-  t.equal(+1, await single(res));
+  expect(+1).toBe(await single(res));
 
   x = -x;
-  t.equal(-1, await single(res));
-
-  t.end();
+  expect(-1).toBe(await single(res));
 });
 
-test('AsyncIterable#if then default else', async t => {
+test('AsyncIterable#if then default else', async () => {
   let x = 5;
   const res = _if(async () => x > 0, of(+1));
 
-  t.equal(+1, await single(res));
+  expect(+1).toBe(await single(res));
 
   x = -x;
-  t.true(await isEmpty(res));
-
-  t.end();
+  expect(await isEmpty(res)).toBeTruthy();
 });

@@ -36,7 +36,8 @@ package-lock.json
 .node_repl_history
 
 # editor configurations
-.vscode
+.vscode/**
+!.vscode/launch.json
 .editorconfig
 
 # esdoc output

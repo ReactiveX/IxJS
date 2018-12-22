@@ -6,28 +6,24 @@ const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.asynciterable;
 const { skip } = Ix.asynciterable;
 
-test('AsyncIterable#takeLast none', async (t, [takeLast]) => {
+test('AsyncIterable#takeLast none', async ([takeLast]) => {
   const res = takeLast(range(1, 5), 0);
-  t.true(await sequenceEqual(res, empty<number>()));
-  t.end();
+  expect(await sequenceEqual(res, empty<number>())).toBeTruthy();
 });
 
-test('AsyncIterable#takeLast empty', async (t, [takeLast]) => {
+test('AsyncIterable#takeLast empty', async ([takeLast]) => {
   const res = takeLast(empty<number>(), 1);
-  t.true(await sequenceEqual(res, empty<number>()));
-  t.end();
+  expect(await sequenceEqual(res, empty<number>())).toBeTruthy();
 });
 
-test('AsyncIterable#takeLast has all', async (t, [takeLast]) => {
+test('AsyncIterable#takeLast has all', async ([takeLast]) => {
   const e = range(0, 5);
   const r = takeLast(e, 5);
-  t.true(await sequenceEqual(r, e));
-  t.end();
+  expect(await sequenceEqual(r, e)).toBeTruthy();
 });
 
-test('AsyncIterable#takeLast has part', async (t, [takeLast]) => {
+test('AsyncIterable#takeLast has part', async ([takeLast]) => {
   const e = range(0, 5);
   const r = takeLast(e, 3);
-  t.true(await sequenceEqual(r, skip(e, 2)));
-  t.end();
+  expect(await sequenceEqual(r, skip(e, 2))).toBeTruthy();
 });

@@ -5,7 +5,7 @@ const { reduce } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#groupJoin all groups have values', (t, [groupJoin]) => {
+test('Iterable#groupJoin all groups have values', ([groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [4, 7, 6, 2, 3, 4, 8, 9];
   const res = groupJoin(
@@ -13,17 +13,17 @@ test('Iterable#groupJoin all groups have values', (t, [groupJoin]) => {
     ys,
     x => x % 3,
     y => y % 3,
-    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''));
+    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, '')
+  );
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, '0 - 639');
-  hasNext(t, it, '1 - 474');
-  hasNext(t, it, '2 - 28');
-  noNext(t, it);
-  t.end();
+  hasNext(it, '0 - 639');
+  hasNext(it, '1 - 474');
+  hasNext(it, '2 - 28');
+  noNext(it);
 });
 
-test('Iterable#groupJoin some groups have values', (t, [groupJoin]) => {
+test('Iterable#groupJoin some groups have values', ([groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = groupJoin(
@@ -31,17 +31,17 @@ test('Iterable#groupJoin some groups have values', (t, [groupJoin]) => {
     ys,
     x => x % 3,
     y => y % 3,
-    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''));
+    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, '')
+  );
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, '0 - 36');
-  hasNext(t, it, '1 - 4');
-  hasNext(t, it, '2 - ');
-  noNext(t, it);
-  t.end();
+  hasNext(it, '0 - 36');
+  hasNext(it, '1 - 4');
+  hasNext(it, '2 - ');
+  noNext(it);
 });
 
-test('Iterable#groupJoin left throws', (t, [groupJoin]) => {
+test('Iterable#groupJoin left throws', ([groupJoin]) => {
   const xs = _throw<number>(new Error());
   const ys = [3, 6, 4];
   const res = groupJoin(
@@ -49,14 +49,14 @@ test('Iterable#groupJoin left throws', (t, [groupJoin]) => {
     ys,
     x => x % 3,
     y => y % 3,
-    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''));
+    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, '')
+  );
 
   const it = res[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });
 
-test('Iterable#groupJoin right throws', (t, [groupJoin]) => {
+test('Iterable#groupJoin right throws', ([groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = _throw<number>(new Error());
   const res = groupJoin(
@@ -64,44 +64,48 @@ test('Iterable#groupJoin right throws', (t, [groupJoin]) => {
     ys,
     x => x % 3,
     y => y % 3,
-    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''));
+    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, '')
+  );
 
   const it = res[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });
 
-test('Iterable#groupJoin left selector throws', (t, [groupJoin]) => {
+test('Iterable#groupJoin left selector throws', ([groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = groupJoin(
     xs,
     ys,
-    x => { throw new Error(); },
+    _ => {
+      throw new Error();
+    },
     y => y % 3,
-    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''));
+    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, '')
+  );
 
   const it = res[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });
 
-test('Iterable#groupJoin right selector throws', (t, [groupJoin]) => {
+test('Iterable#groupJoin right selector throws', ([groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = groupJoin(
     xs,
     ys,
     x => x % 3,
-    y => { throw new Error(); },
-    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''));
+    _ => {
+      throw new Error();
+    },
+    (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, '')
+  );
 
   const it = res[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });
 
-test('Iterable#groupJoin result selector eventually throws', (t, [groupJoin]) => {
+test('Iterable#groupJoin result selector eventually throws', ([groupJoin]) => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = groupJoin(
@@ -109,10 +113,15 @@ test('Iterable#groupJoin result selector eventually throws', (t, [groupJoin]) =>
     ys,
     x => x % 3,
     y => y % 3,
-    (x, i) => { if (x === 1) { throw new Error(); } return x + ' - ' + reduce(i, (s, j) => s + j, ''); });
+    (x, i) => {
+      if (x === 1) {
+        throw new Error();
+      }
+      return x + ' - ' + reduce(i, (s, j) => s + j, '');
+    }
+  );
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, '0 - 36');
-  t.throws(() => it.next());
-  t.end();
+  hasNext(it, '0 - 36');
+  expect(() => it.next()).toThrow();
 });

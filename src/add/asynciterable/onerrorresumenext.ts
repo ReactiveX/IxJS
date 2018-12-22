@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { onErrorResumeNextStatic as _onErrorResumeNextStatic } from '../../asynciterable/onerrorresumenext';
 
+/** @nocollapse */
 AsyncIterableX.onErrorResumeNext = _onErrorResumeNextStatic;
 
 export declare namespace asynciterable {

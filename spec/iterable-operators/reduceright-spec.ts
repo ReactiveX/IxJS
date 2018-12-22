@@ -4,29 +4,25 @@ const test = testOperator([Ix.iterable.reduceRight]);
 const { empty } = Ix.iterable;
 const { of } = Ix.Iterable;
 
-test('Iterable#reduceRight no seed', (t, [reduceRight]) => {
+test('Iterable#reduceRight no seed', ([reduceRight]) => {
   const xs = of(0, 1, 2, 3, 4);
   const ys = reduceRight(xs, (x, y, i) => x + y + i);
-  t.equal(ys, 16);
-  t.end();
+  expect(ys).toBe(16);
 });
 
-test('Iterable#reduceRight no seed empty throws', (t, [reduceRight]) => {
+test('Iterable#reduceRight no seed empty throws', ([reduceRight]) => {
   const xs = empty<number>();
-  t.throws(() => reduceRight(xs, (x, y, i) => x + y + i));
-  t.end();
+  expect(() => reduceRight(xs, (x, y, i) => x + y + i)).toThrow();
 });
 
-test('Iterable#reduceRight with seed', (t, [reduceRight]) => {
+test('Iterable#reduceRight with seed', ([reduceRight]) => {
   const xs = of(0, 1, 2, 3, 4);
   const ys = reduceRight(xs, (x, y, i) => x - y - i, 20);
-  t.equal(ys, 0);
-  t.end();
+  expect(ys).toBe(0);
 });
 
-test('Iterable#reduceRight with seed empty', (t, [reduceRight]) => {
+test('Iterable#reduceRight with seed empty', ([reduceRight]) => {
   const xs = empty<number>();
   const ys = reduceRight(xs, (x, y, i) => x - y - i, 20);
-  t.equal(ys, 20);
-  t.end();
+  expect(ys).toBe(20);
 });

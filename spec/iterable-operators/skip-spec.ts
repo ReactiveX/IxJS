@@ -4,44 +4,40 @@ const test = testOperator([Ix.iterable.skip]);
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#skip skips some', (t, [skip]) => {
+test('Iterable#skip skips some', ([skip]) => {
   const xs = [1, 2, 3, 4];
   const ys = skip(xs, 2);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 3);
-  hasNext(t, it, 4);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 3);
+  hasNext(it, 4);
+  noNext(it);
 });
 
-test('Iterable#skip skips more than count', (t, [skip]) => {
+test('Iterable#skip skips more than count', ([skip]) => {
   const xs = [1, 2, 3, 4];
   const ys = skip(xs, 10);
 
   const it = ys[Symbol.iterator]();
-  noNext(t, it);
-  t.end();
+  noNext(it);
 });
 
-test('Iterable#skip none', (t, [skip]) => {
+test('Iterable#skip none', ([skip]) => {
   const xs = [1, 2, 3, 4];
   const ys = skip(xs, 0);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  hasNext(t, it, 3);
-  hasNext(t, it, 4);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  hasNext(it, 3);
+  hasNext(it, 4);
+  noNext(it);
 });
 
-test('Iterable#skip throws', (t, [skip]) => {
+test('Iterable#skip throws', ([skip]) => {
   const xs = _throw<number>(new Error());
   const ys = skip(xs, 2);
 
   const it = ys[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });

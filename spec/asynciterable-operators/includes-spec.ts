@@ -3,30 +3,26 @@ import { testOperator } from '../asynciterablehelpers';
 const test = testOperator([Ix.asynciterable.includes]);
 const { of } = Ix.AsyncIterable;
 
-test('AsyncIterable#includes includes', async (t, [includes]) => {
+test('AsyncIterable#includes includes', async ([includes]) => {
   const xs = of(1, 2, 3, 4, 5);
   const ys = await includes(xs, 3);
-  t.true(ys);
-  t.end();
+  expect(ys).toBeTruthy();
 });
 
-test('AsyncIterable#includes does not include', async (t, [includes]) => {
+test('AsyncIterable#includes does not include', async ([includes]) => {
   const xs = of(1, 2, 3, 4, 5);
   const ys = await includes(xs, 6);
-  t.false(ys);
-  t.end();
+  expect(ys).toBeFalsy();
 });
 
-test('AsyncIterable#includes fromIndex hits', async (t, [includes]) => {
+test('AsyncIterable#includes fromIndex hits', async ([includes]) => {
   const xs = of(1, 2, 3, 4, 5);
   const ys = await includes(xs, 3, 2);
-  t.true(ys);
-  t.end();
+  expect(ys).toBeTruthy();
 });
 
-test('AsyncIterable#includes fromIndex misses', async (t, [includes]) => {
+test('AsyncIterable#includes fromIndex misses', async ([includes]) => {
   const xs = of(1, 2, 3, 4, 5);
   const ys = await includes(xs, 1, 2);
-  t.false(ys);
-  t.end();
+  expect(ys).toBeFalsy();
 });
