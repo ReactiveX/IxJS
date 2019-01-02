@@ -8,9 +8,9 @@ import { AsyncIterable, AsyncIterableReadable } from '../Ix';
     });
   }
 
-  const objectsItr = () => stringsItr().map(val => ({ val }));
-  const buffersItr = () => stringsItr().map(val => Buffer.from(val));
   const stringsItr = () => AsyncIterable.from([1, 2, 3]).map(i => `${i}`);
+  const buffersItr = () => stringsItr().map(val => Buffer.from(val));
+  const objectsItr = () => stringsItr().map(val => ({ val }));
   const compare = <T>(a: T, b: T) => {
     let aVal = ArrayBuffer.isView(a) ? `${Buffer.from(a.buffer, a.byteOffset, a.byteLength)}` : a;
     let bVal = ArrayBuffer.isView(b) ? `${Buffer.from(b.buffer, b.byteOffset, b.byteLength)}` : b;
