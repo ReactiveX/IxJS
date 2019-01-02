@@ -1,5 +1,6 @@
-import { fromNodeStream } from '../Ix';
+import '../asynciterablehelpers';
 import { Readable, ReadableOptions } from 'stream';
+import { fromNodeStream, AsyncIterable } from '../Ix';
 
 (() => {
   if (!fromNodeStream || process.env.TEST_NODE_STREAMS !== 'true') {
@@ -19,34 +20,25 @@ import { Readable, ReadableOptions } from 'stream';
     }
 
     _read() {
-      const i = ++this._index;
-      if (i > this._max) {
-        this.push(null);
-      } else {
-        const buf = Buffer.from(`${i}`, 'utf8');
-        this.push(buf);
-      }
+      this.push(++this._index > this._max ? null : `${this._index}`);
     }
   }
 
-  test('AsyncIterable#fromNodeStream with readable', async () => {
-    const c = new Counter({ objectMode: true });
-    const xs = fromNodeStream(c);
+  const compare = (a: string, b: string) => Buffer.from(a).compare(Buffer.from(b)) === 0;
 
-    const it = xs[Symbol.asyncIterator]();
-    let next = await it.next();
-    expect(next.done).toBeFalsy();
-    expect((next.value as Buffer).compare(Buffer.from('1', 'utf8'))).toBe(0);
+  describe(`AsyncIterable#fromNodeStream`, () => {
+    test('objectMode: true', async () => {
+      const c = new Counter({ objectMode: true });
+      const xs = fromNodeStream(c) as AsyncIterable<string>;
+      const expected = AsyncIterable.from(['1', '2', '3']);
+      await expect(xs).toEqualStream(expected, compare);
+    });
 
-    next = await it.next();
-    expect(next.done).toBeFalsy();
-    expect((next.value as Buffer).compare(Buffer.from('2', 'utf8'))).toBe(0);
-
-    next = await it.next();
-    expect(next.done).toBeFalsy();
-    expect((next.value as Buffer).compare(Buffer.from('3', 'utf8'))).toBe(0);
-
-    next = await it.next();
-    expect(next.done).toBeTruthy();
+    test('objectMode: false', async () => {
+      const c = new Counter({ objectMode: false });
+      const xs = fromNodeStream(c) as AsyncIterable<string>;
+      const expected = AsyncIterable.from(['123']);
+      await expect(xs).toEqualStream(expected, compare);
+    });
   });
 })();
