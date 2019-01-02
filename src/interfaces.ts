@@ -10,3 +10,5 @@ export type OperatorAsyncFunction<T, R> = UnaryFunction<AsyncIterable<T>, AsyncI
 export type MonoTypeOperatorFunction<T> = OperatorFunction<T, T>;
 
 export type MonoTypeOperatorAsyncFunction<T> = OperatorAsyncFunction<T, T>;
+
+export type BufferLike = string | Buffer | Uint8Array;
