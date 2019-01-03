@@ -1,5 +1,6 @@
 {
   "name": "ix",
+  "private": true,
   "version": "2.4.1",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
