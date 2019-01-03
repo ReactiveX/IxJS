@@ -45,6 +45,7 @@
   ],
   "dependencies": {
     "@types/node": "10.12.18",
+    "is-stream": "1.1.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

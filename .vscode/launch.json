@@ -20,6 +20,7 @@
             "request": "launch",
             "name": "Debug Unit Tests",
             "cwd": "${workspaceRoot}",
+            "console": "integratedTerminal",
             "program": "${workspaceFolder}/node_modules/.bin/jest",
             "skipFiles": [
                 "<node_internals>/**/*.js",
