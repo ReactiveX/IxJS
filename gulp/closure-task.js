@@ -65,8 +65,8 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
                 `node_modules/tslib/package.json`,
                 `node_modules/tslib/tslib.es6.js`,
                 `node_modules/rxjs/package.json`,
-                `node_modules/rxjs/_esm2015/util/root.js`,
-                `node_modules/rxjs/_esm2015/symbol/observable.js`,
+                `node_modules/rxjs/util/root.js`,
+                `node_modules/rxjs/symbol/observable.js`,
                 `${src}/**/*.js` /* <-- then sources globs  */
             ], { base: `./` }),
             sourcemaps.init(),
@@ -89,6 +89,7 @@ const createClosureArgs = (entry_point, output, externs) => ({
     // formatting: `PRETTY_PRINT`,
     // debug: true,
     compilation_level: `ADVANCED`,
+    process_common_js_modules: true,
     allow_method_call_decomposing: true,
     package_json_entry_names: `module,jsnext:main,main`,
     assume_function_wrapper: true,

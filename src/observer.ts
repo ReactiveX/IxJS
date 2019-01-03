@@ -10,10 +10,10 @@ declare global {
 }
 
 /** Symbol.observable or a string "@@observable". Used for interop */
-// @ts-ignore
-import { observable as symbolObservable } from 'rxjs/_esm2015/symbol/observable';
+//tslint:disable-next-line
+const { observable: Symbol_observable } = require('rxjs/symbol/observable');
 
-let observableSymbol = symbolObservable;
+let symbolObservable = Symbol_observable;
 if (typeof Symbol !== 'undefined') {
   // Older versions of Rx will polyfill Symbol.observable, which gets
   // compiled into our UMD bundle. At runtime, our UMD bundle defines its
@@ -24,12 +24,12 @@ if (typeof Symbol !== 'undefined') {
   // that Rx's polyfill will pick it up. Alternatively if there's already a global
   // Symbol.observable (like if Rx was required first), we should use that one inside Ix.
   if (typeof Symbol['observable'] === 'undefined') {
-    (Symbol as any)['observable'] = observableSymbol;
+    (Symbol as any)['observable'] = symbolObservable;
   } else {
-    observableSymbol = Symbol['observable'];
+    symbolObservable = Symbol['observable'];
   }
 }
-export { observableSymbol as symbolObservable };
+export { symbolObservable };
 
 export interface NextObserver<T> {
   next: (value: T) => void;
