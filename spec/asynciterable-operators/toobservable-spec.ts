@@ -143,10 +143,8 @@ function endOfObservable<T>(
 ): Promise<void> {
   let reject: (x?: any) => void;
   let resolve: (x?: any) => void;
-  const done = new Promise<void>((a, b) => {
-    resolve = a;
-    reject = b;
-  });
+  // prettier-ignore
+  const done = new Promise<void>((a, b) => { resolve = a; reject = b; });
   const wrap = (promiseFn: (x?: any) => void, originalFn: (...args: any[]) => any) => (
     ...args: any
   ) => {
@@ -154,39 +152,15 @@ function endOfObservable<T>(
     originalFn(...args);
   };
   if (next && typeof next === 'object') {
-    next.error = wrap(
-      e => reject(e),
-      (
-        next.error ||
-        (() => {
-          /**/
-        })
-      ).bind(next)
-    );
-    next.complete = wrap(
-      () => resolve(),
-      (
-        next.complete ||
-        (() => {
-          /**/
-        })
-      ).bind(next)
-    );
+    // prettier-ignore
+    next.error = wrap(e => reject(e),(next.error || (() => { /**/ })).bind(next));
+    // prettier-ignore
+    next.complete = wrap(() => resolve(), (next.complete || (() => { /**/ })).bind(next));
   } else {
-    error = wrap(
-      e => reject(e),
-      error ||
-        (() => {
-          /**/
-        })
-    );
-    complete = wrap(
-      () => resolve(),
-      complete ||
-        (() => {
-          /**/
-        })
-    );
+    // prettier-ignore
+    error = wrap(e => reject(e),error || (() => { /**/ }));
+    // prettier-ignore
+    complete = wrap(() => resolve(),complete || (() => { /**/ }));
   }
 
   observable.subscribe(<any>next, <any>error, <any>complete);

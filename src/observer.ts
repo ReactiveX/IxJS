@@ -16,11 +16,13 @@ import { observable as symbolObservable } from 'rxjs/_esm2015/symbol/observable'
 let observableSymbol = symbolObservable;
 if (typeof Symbol !== 'undefined') {
   // Older versions of Rx will polyfill Symbol.observable, which gets
-  // compiled into our UMD bundle. Then, the Rx-polyfilled Symbol.observable
-  // ends up being different than what's bundled into the UMD bundle, leading
-  // do mismatches. Assigning the global Symbol.observable to the one we bundle
-  // in here means that Rx's polyfill will pick it up. Alternatively if there's
-  // already a global Symbol.observable, we should use that one inside Ix.
+  // compiled into our UMD bundle. At runtime, our UMD bundle defines its
+  // version of Symbol.observable, and since it's not getting it from Rx via
+  // `require()` anymore, Rx defines and looks for a different Symbol.observable,
+  // instance, leading to mismatches.
+  // Assigning the global Symbol.observable to the one we bundle in here means
+  // that Rx's polyfill will pick it up. Alternatively if there's already a global
+  // Symbol.observable (like if Rx was required first), we should use that one inside Ix.
   if (typeof Symbol['observable'] === 'undefined') {
     (Symbol as any)['observable'] = observableSymbol;
   } else {
