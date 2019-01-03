@@ -36,8 +36,8 @@ Ix.Iterable.from([1,2,3,4])
   .map(x => x * 2)
   .forEach(x => console.log(`Next ${x}`));
 
-// => 4
-// => 8
+// => Next 4
+// => Next 8
 ```
 
 Alternatively, we can use the [`for ... of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) statements to iterate our collections.
@@ -57,8 +57,8 @@ for (let item of results) {
   console.log(`Next ${item}`);
 }
 
-// => 4
-// => 8
+// => Next 4
+// => Next 8
 ```
 
 Instead of bringing in the entire library for `Iterable`, we can pick and choose which operators we want, for bundling concerns.
@@ -122,6 +122,8 @@ const results = of(1, 2, 3).pipe(
 for (let item of results) {
   console.log(`Next: ${item}`);
 }
+
+// Next 4
 ```
 
 The `Iterable` object implements the iterator pattern in JavaScript by exposing the `[Symbol.iterator]` method which in turn exposes the `Iterator` class.  The iterator yields values by calling the `next()` method which returns the `IteratorResult` class.
@@ -241,6 +243,9 @@ const results = map(
 for await (let item of results) {
   console.log(`Next: ${item}`);
 }
+
+// Next 4
+// Next 8
 ```
 
 Just like RxJS, IxJS supports "lettable" operators which allow you to chain together operators, keeping the surface area to a minimum on the `AsyncIterable` object.
@@ -269,6 +274,9 @@ const results = from(source()).pipe(
 for await (let item of results) {
   console.log(`Next: ${item}`);
 }
+
+// Next 4
+// Next 8
 ```
 
 The `AsyncIterable` class implements the async iterator pattern in JavaScript by exposing the `[Symbol.asyncIterator]` method which in turn exposes the `AsyncIterator` class.  The iterator yields values by calling the `next()` method which returns a Promise which resolves a `IteratorResult` class.
@@ -307,6 +315,11 @@ const mapped = map(asyncIterable, async (item, index) => item * index);
 for await (let item of mapped) {
   console.log(`Next: ${item}`);
 }
+
+// Next 0
+// Next 2
+// Next 6
+// Next 12
 ```
 
 In addition, you can use the specialized async methods that are suffixed with `Async`, such as `mapAsync`, `filterAsync`, `flatMapAsync` amongst others. These functions accept async functions which allow you to return a `Promise` as the result.
@@ -320,6 +333,11 @@ const mapped = mapAsync(xs, async (item, index) => item * index);
 for await (let item of mapped) {
   console.log(`Next: ${item}`);
 }
+
+// Next 0
+// Next 2
+// Next 6
+// Next 12
 ```
 
 ## Contributing
