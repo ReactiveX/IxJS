@@ -1,4 +1,5 @@
 import * as Ix from '../Ix';
+import symbolObservable from 'symbol-observable';
 import { testOperator } from '../asynciterablehelpers';
 const test = testOperator([Ix.asynciterable.toObservable]);
 const { empty } = Ix.asynciterable;
@@ -61,4 +62,11 @@ test('AsyncIterable#toObservable error', async ([toObservable]) => {
       fail = true;
     }
   });
+});
+
+test('AsyncIterable#toObservable Symbol.observable should return same instance', async ([
+  toObservable
+]) => {
+  const ys = toObservable(empty<number>());
+  expect(ys).toBe((<any>ys)[symbolObservable]());
 });

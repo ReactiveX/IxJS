@@ -1,5 +1,10 @@
-import { Observable, Observer } from '../observer';
+import symbolObservable from 'symbol-observable';
+import { Observable, PartialObserver } from '../observer';
 import { Subscription } from '../subscription';
+
+const noop = (_?: any) => {
+  /**/
+};
 
 class BooleanSubscription implements Subscription {
   public isUnsubscribed: boolean = false;
@@ -16,13 +21,23 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
     this._source = source;
   }
 
-  subscribe(observer: Observer<TSource>) {
+  [symbolObservable]() {
+    return this;
+  }
+  subscribe(
+    observerOrNext?: PartialObserver<TSource> | ((value: TSource) => void),
+    error?: (err: any) => void,
+    complete?: () => void
+  ) {
+    const observer =
+      typeof observerOrNext !== 'function'
+        ? { next: noop, error: noop, complete: noop, ...observerOrNext }
+        : { next: observerOrNext || noop, error: error || noop, complete: complete || noop };
     const subscription = new BooleanSubscription();
 
     const it = this._source[Symbol.asyncIterator]();
     const f = () => {
-      it
-        .next()
+      it.next()
         .then(({ value, done }) => {
           if (!subscription.isUnsubscribed) {
             if (done) {
