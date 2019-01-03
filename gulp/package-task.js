@@ -49,7 +49,7 @@ const createMainPackageJson = (target, format) => (orig) => ({
     main: `${mainExport}.node`,
     browser: `${mainExport}.dom`,
     types: `${mainExport}.node.d.ts`,
-    unpkg: `${mainExport}.es5.min.js`,
+    unpkg: `${mainExport}.dom.es5.min.js`,
     [`esm`]: { mode: `all`, sourceMap: true }
 });
   
