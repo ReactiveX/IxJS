@@ -51,6 +51,7 @@ export interface Observer<T> {
 }
 
 export interface Observable<T> {
+  [Symbol.observable](): Observable<T>;
   subscribe: (
     observerOrNext?: PartialObserver<T> | ((value: T) => void),
     error?: (err: any) => void,

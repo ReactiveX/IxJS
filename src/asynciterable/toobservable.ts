@@ -1,4 +1,4 @@
-import symbolObservable from 'symbol-observable';
+import 'symbol-observable';
 import { Observable, PartialObserver } from '../observer';
 import { Subscription } from '../subscription';
 
@@ -21,7 +21,10 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
     this._source = source;
   }
 
-  [symbolObservable]() {
+  [Symbol.observable](): Observable<TSource> {
+    return this;
+  }
+  [Symbol['observable']](): Observable<TSource> {
     return this;
   }
   subscribe(
