@@ -129,6 +129,7 @@ import './add/asynciterable/zip';
 
 // async iterable operators
 import './add/asynciterable-operators/average';
+import './add/asynciterable-operators/batch';
 import './add/asynciterable-operators/buffer';
 import './add/asynciterable-operators/catch';
 import './add/asynciterable-operators/catchwith';
