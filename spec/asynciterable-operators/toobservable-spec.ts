@@ -1,4 +1,6 @@
 import * as Ix from '../Ix';
+import { Observable as RxJSObservable } from 'rxjs';
+import { Observable, PartialObserver } from '../../src/observer';
 import { testOperator } from '../asynciterablehelpers';
 const test = testOperator([Ix.asynciterable.toObservable]);
 const { empty } = Ix.asynciterable;
@@ -62,3 +64,106 @@ test('AsyncIterable#toObservable error', async ([toObservable]) => {
     }
   });
 });
+
+test('AsyncIterable#toObservable Symbol.observable should return same instance', async ([
+  toObservable
+]) => {
+  const ys = toObservable(of(1, 2, 3));
+  expect(ys).toBe(ys[Symbol.observable]());
+});
+
+test('AsyncIterable#toObservable accepts partial observers', async ([toObservable]) => {
+  const expectedValues = [1, 2, 3];
+  const expectedError = new Error();
+
+  let actualValues: number[] = [];
+  let actualError: any = null;
+  let completeCalled = false;
+
+  const valueObs = toObservable(of(1, 2, 3));
+  const errorObs = toObservable(_throw<number>(expectedError));
+
+  const onNext = (val: number) => actualValues.push(val);
+  const onError = (error: any) => (actualError = error);
+  const onComplete = () => (completeCalled = true);
+
+  await endOfObservable(valueObs, { next: onNext });
+  try {
+    await endOfObservable(errorObs, { error: onError });
+  } catch (e) {
+    /**/
+  }
+  await endOfObservable(valueObs, { complete: onComplete });
+
+  expect(actualValues).toEqual(expectedValues);
+  expect(actualError).toEqual(expectedError);
+  expect(completeCalled).toEqual(true);
+});
+
+test('AsyncIterable#toObservable accepts observer functions', async ([toObservable]) => {
+  const expectedValues = [1, 2, 3];
+  const expectedError = new Error();
+
+  let actualValues: number[] = [];
+  let actualError: any = null;
+  let completeCalled = false;
+
+  const valueObs = toObservable(of(1, 2, 3));
+  const errorObs = toObservable(_throw<number>(expectedError));
+
+  const onNext = (val: number) => actualValues.push(val);
+  const onError = (error: any) => (actualError = error);
+  const onComplete = () => (completeCalled = true);
+
+  await endOfObservable(valueObs, onNext);
+  try {
+    await endOfObservable(errorObs, null, onError);
+  } catch (e) {
+    /**/
+  }
+  await endOfObservable(valueObs, null, null, onComplete);
+
+  expect(actualValues).toEqual(expectedValues);
+  expect(actualError).toEqual(expectedError);
+  expect(completeCalled).toEqual(true);
+});
+
+test('AsyncIterable#toObservable interop with rxjs', async ([toObservable]) => {
+  const xs: number[] = [];
+  const ys = RxJSObservable.from(toObservable(of(1, 2, 3)));
+  await endOfObservable(ys, x => xs.push(x));
+  expect(xs).toEqual([1, 2, 3]);
+});
+
+function endOfObservable<T>(
+  observable: Observable<T> | RxJSObservable<T>,
+  next?: PartialObserver<T> | ((x: T) => void) | null,
+  error?: ((err: any) => void) | null,
+  complete?: (() => void) | null
+): Promise<void> {
+  let reject: (x?: any) => void;
+  let resolve: (x?: any) => void;
+  // prettier-ignore
+  const done = new Promise<void>((a, b) => { resolve = a; reject = b; });
+  const wrap = (promiseFn: (x?: any) => void, originalFn: (...args: any[]) => any) => (
+    ...args: any
+  ) => {
+    promiseFn(...args);
+    originalFn(...args);
+  };
+  if (next && typeof next === 'object') {
+    // prettier-ignore
+    next.error = wrap(e => reject(e),(next.error || (() => { /**/ })).bind(next));
+    // prettier-ignore
+    next.complete = wrap(() => resolve(), (next.complete || (() => { /**/ })).bind(next));
+  } else {
+    // prettier-ignore
+    error = wrap(e => reject(e),error || (() => { /**/ }));
+    // prettier-ignore
+    complete = wrap(() => resolve(),complete || (() => { /**/ }));
+  }
+
+  observable.subscribe(<any>next, <any>error, <any>complete);
+
+  return done;
+}

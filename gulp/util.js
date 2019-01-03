@@ -124,7 +124,7 @@ const gulp = path.join(path.parse(require.resolve(`gulp`)).dir, `bin/gulp.js`);
 function spawnGulpCommandInChildProcess(command, target, format) {
     const args = [gulp, command, '-t', target, '-m', format];
     const opts = {
-        stdio: [`ignore`, `ignore`, `inherit`],
+        stdio: [`ignore`, `inherit`, `inherit`],
         env: { ...process.env, NODE_NO_WARNINGS: `1` }
     };
     return asyncDone(() => child_process.spawn(`node`, args, opts));
