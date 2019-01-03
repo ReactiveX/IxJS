@@ -63,7 +63,9 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
             gulp.src([
                 /* external libs first */
                 `node_modules/tslib/package.json`,
-                `node_modules/tslib/tslib.es6.js`, 
+                `node_modules/tslib/tslib.es6.js`,
+                `node_modules/symbol-observable/package.json`,
+                `node_modules/symbol-observable/es/*.js`,
                 `${src}/**/*.js` /* <-- then sources globs  */
             ], { base: `./` }),
             sourcemaps.init(),
