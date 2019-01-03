@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class ConcatAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<AsyncIterable<TSource>>;
@@ -17,8 +18,10 @@ export class ConcatAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function concatAll<TSource>(
-  source: AsyncIterable<AsyncIterable<TSource>>
-): AsyncIterableX<TSource> {
-  return new ConcatAllAsyncIterable<TSource>(source);
+export function concatAll<T>(): OperatorAsyncFunction<AsyncIterable<T>, T> {
+  return function concatAllOperatorFunction(
+    source: AsyncIterable<AsyncIterable<T>>
+  ): AsyncIterableX<T> {
+    return new ConcatAllAsyncIterable<T>(source);
+  };
 }

@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 async function forEach<T>(
   source: AsyncIterable<T>,
@@ -72,9 +73,10 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function debounce<TSource>(
-  source: AsyncIterable<TSource>,
-  time: number
-): AsyncIterableX<TSource> {
-  return new DebounceAsyncIterable<TSource>(source, time);
+export function debounce<TSource>(time: number): MonoTypeOperatorAsyncFunction<TSource> {
+  return function debounceOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new DebounceAsyncIterable<TSource>(source, time);
+  };
 }

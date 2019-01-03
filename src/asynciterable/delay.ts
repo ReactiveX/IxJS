@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 import { sleep } from './_sleep';
 
 export class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
@@ -19,9 +20,8 @@ export class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function delay<TSource>(
-  source: AsyncIterable<TSource>,
-  dueTime: number
-): AsyncIterableX<TSource> {
-  return new DelayAsyncIterable<TSource>(source, dueTime);
+export function delay<TSource>(dueTime: number): MonoTypeOperatorAsyncFunction<TSource> {
+  return function delayOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new DelayAsyncIterable<TSource>(source, dueTime);
+  };
 }

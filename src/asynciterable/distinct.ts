@@ -1,7 +1,8 @@
 import { AsyncIterableX } from './asynciterablex';
-import { identityAsync } from '../internal/identity';
-import { arrayIndexOfAsync } from '../internal/arrayindexof';
-import { comparerAsync } from '../internal/comparer';
+import { identityAsync } from '../util/identity';
+import { arrayIndexOfAsync } from '../util/arrayindexof';
+import { comparerAsync } from '../util/comparer';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>;
@@ -33,9 +34,12 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
 }
 
 export function distinct<TSource, TKey>(
-  source: AsyncIterable<TSource>,
   keySelector: (value: TSource) => TKey | Promise<TKey> = identityAsync,
   comparer: (x: TKey, y: TKey) => boolean | Promise<boolean> = comparerAsync
-): AsyncIterableX<TSource> {
-  return new DistinctAsyncIterable<TSource, TKey>(source, keySelector, comparer);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function distinctOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new DistinctAsyncIterable<TSource, TKey>(source, keySelector, comparer);
+  };
 }

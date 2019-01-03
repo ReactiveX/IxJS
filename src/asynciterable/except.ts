@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
-import { arrayIndexOfAsync } from '../internal/arrayindexof';
-import { comparerAsync } from '../internal/comparer';
+import { arrayIndexOfAsync } from '../util/arrayindexof';
+import { comparerAsync } from '../util/comparer';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _first: AsyncIterable<TSource>;
@@ -34,9 +35,10 @@ export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function except<TSource>(
-  first: AsyncIterable<TSource>,
   second: AsyncIterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync
-): AsyncIterableX<TSource> {
-  return new ExceptAsyncIterable<TSource>(first, second, comparer);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function exceptOperatorFunction(first: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new ExceptAsyncIterable<TSource>(first, second, comparer);
+  };
 }

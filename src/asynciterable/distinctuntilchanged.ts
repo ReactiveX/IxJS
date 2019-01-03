@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
-import { identityAsync } from '../internal/identity';
-import { comparerAsync } from '../internal/comparer';
+import { identityAsync } from '../util/identity';
+import { comparerAsync } from '../util/comparer';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class DistinctUntilChangedAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -37,9 +38,12 @@ export class DistinctUntilChangedAsyncIterable<TSource, TKey> extends AsyncItera
 }
 
 export function distinctUntilChanged<TSource, TKey>(
-  source: AsyncIterable<TSource>,
   keySelector: (value: TSource) => TKey | Promise<TKey> = identityAsync,
   comparer: (first: TKey, second: TKey) => boolean | Promise<boolean> = comparerAsync
-): AsyncIterableX<TSource> {
-  return new DistinctUntilChangedAsyncIterable<TSource, TKey>(source, keySelector, comparer);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function distinctUntilChangedOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new DistinctUntilChangedAsyncIterable<TSource, TKey>(source, keySelector, comparer);
+  };
 }

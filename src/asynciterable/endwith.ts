@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class EndWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -20,9 +21,10 @@ export class EndWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function endWith<TSource>(
-  source: AsyncIterable<TSource>,
-  ...args: TSource[]
-): AsyncIterableX<TSource> {
-  return new EndWithAsyncIterable<TSource>(source, args);
+export function endWith<TSource>(...args: TSource[]): MonoTypeOperatorAsyncFunction<TSource> {
+  return function endsWithOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new EndWithAsyncIterable<TSource>(source, args);
+  };
 }

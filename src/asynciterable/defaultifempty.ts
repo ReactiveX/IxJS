@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -22,6 +23,9 @@ export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource
   }
 }
 
-export function defaultIfEmpty<T>(source: AsyncIterable<T>, defaultValue: T): AsyncIterableX<T> {
-  return new DefaultIfEmptyAsyncIterable<T>(source, defaultValue);
+export function defaultIfEmpty<T>(defaultValue: T): MonoTypeOperatorAsyncFunction<T> {
+  return function defaultIfEmptyOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
+    return new DefaultIfEmptyAsyncIterable<T>(source, defaultValue);
+  };
 }
+

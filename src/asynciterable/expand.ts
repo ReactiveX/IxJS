@@ -27,8 +27,9 @@ export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function expand<TSource>(
-  source: AsyncIterable<TSource>,
   selector: (value: TSource) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
-): AsyncIterableX<TSource> {
-  return new ExpandAsyncIterable<TSource>(source, selector);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function expandOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new ExpandAsyncIterable<TSource>(source, selector);
+  };
 }
