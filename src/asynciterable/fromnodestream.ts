@@ -8,15 +8,16 @@ const ERRORED = 3;
 export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
   implements AsyncIterator<string | Buffer> {
   private _stream: NodeJS.ReadableStream;
-  private _size?: number;
+  private _defaultSize?: number;
   private _state: number;
   private _error: any;
   private _rejectFns: Set<(err: any) => void>;
+  private _endPromise: Promise<void> | undefined;
 
   constructor(stream: NodeJS.ReadableStream, size?: number) {
     super();
     this._stream = stream;
-    this._size = size;
+    this._defaultSize = size;
     this._state = NON_FLOWING;
     this._error = null;
     this._rejectFns = new Set<(err: any) => void>();
@@ -41,10 +42,10 @@ export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
     return this;
   }
 
-  async next(): Promise<IteratorResult<string | Buffer>> {
+  async next(size = this._defaultSize): Promise<IteratorResult<string | Buffer>> {
     if (this._state === NON_FLOWING) {
       await Promise.race([this._waitReadable(), this._waitEnd()]);
-      return this.next();
+      return await this.next(size);
     }
 
     if (this._state === ENDED) {
@@ -55,12 +56,12 @@ export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
       throw this._error;
     }
 
-    const read = this._stream['read'](this._size);
-    if (read !== null) {
-      return { done: false, value: <string | Buffer>read };
+    const value = this._stream['read'](size);
+    if (value !== null) {
+      return { done: false, value };
     } else {
       this._state = NON_FLOWING;
-      return this.next();
+      return await this.next(size);
     }
   }
 
@@ -78,16 +79,19 @@ export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
   }
 
   private _waitEnd(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      const onEnd = () => {
-        this._state = ENDED;
-        this._rejectFns.delete(reject);
-        resolve();
-      };
+    if (!this._endPromise) {
+      this._endPromise = new Promise<void>((resolve, reject) => {
+        const onEnd = () => {
+          this._state = ENDED;
+          this._rejectFns.delete(reject);
+          resolve();
+        };
 
-      this._rejectFns.add(reject);
-      this._stream['once']('end', onEnd);
-    });
+        this._rejectFns.add(reject);
+        this._stream['once']('end', onEnd);
+      });
+    }
+    return this._endPromise;
   }
 }
 

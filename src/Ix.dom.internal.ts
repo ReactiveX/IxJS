@@ -9,9 +9,9 @@ export { asynciterableX as asynciterable };
 export { asynciterableXPipe as asynciterablePipe };
 
 // Manually re-export because closure-compiler doesn't support `export * from X` syntax yet
-export { default } from './Ix';
-export { OrderedIterable } from './Ix';
-export { OrderedIterableBase } from './Ix';
-export { OrderedAsyncIterable } from './Ix';
-export { OrderedAsyncIterableBase } from './Ix';
-export { AsyncSink, Iterable, AsyncIterable } from './Ix';
+export { default } from './Ix.dom';
+export { OrderedIterable } from './Ix.dom';
+export { OrderedIterableBase } from './Ix.dom';
+export { OrderedAsyncIterable } from './Ix.dom';
+export { OrderedAsyncIterableBase } from './Ix.dom';
+export { AsyncSink, Iterable, AsyncIterable } from './Ix.dom';

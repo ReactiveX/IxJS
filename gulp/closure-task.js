@@ -45,8 +45,8 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
     await mkdirp(out);
 
     await Promise.all([
-        `${mainExport}`,
-        `${mainExport}.internal`
+        `${mainExport}.dom`,
+        `${mainExport}.dom.internal`
     ].map(closureCompile));
     
     async function closureCompile(entry) {
