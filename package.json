@@ -44,9 +44,8 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "@types/node": "10.12.18",
+    "@types/node": "^10.12.18",
     "is-stream": "1.1.0",
-    "symbol-observable": "1.2.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
