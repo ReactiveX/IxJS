@@ -4,7 +4,7 @@ const test = testOperator([Ix.asynciterable.batch]);
 
 const delay = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
 
-test('AsyncIterable#batch basic', async (t, [batch]) => {
+test('AsyncIterable#batch basic', async ([batch]) => {
   const sink = new Ix.AsyncSink<number>();
 
   const it = batch(sink)[Symbol.asyncIterator]();
@@ -13,29 +13,27 @@ test('AsyncIterable#batch basic', async (t, [batch]) => {
   sink.write(2);
 
   await delay();
-  t.deepEqual(await it.next(), { done: false, value: [1, 2] });
+  expect(await it.next()).toEqual({ done: false, value: [1, 2] });
 
   setTimeout(() => sink.write(3), 50);
 
-  t.deepEqual(await it.next(), { done: false, value: [3] });
+  expect(await it.next()).toEqual({ done: false, value: [3] });
 
   sink.write(4);
   sink.write(5);
   sink.end();
 
   await delay();
-  t.deepEqual(await it.next(), {
+  expect(await it.next()).toEqual({
     done: false,
     value: [4, 5]
   });
-  t.deepEqual(await it.next(), {
+  expect(await it.next()).toEqual({
     done: true
   });
-
-  t.end();
 });
 
-test('done while waiting', async (t, [batch]) => {
+test('done while waiting', async ([batch]) => {
   const sink = new Ix.AsyncSink<number>();
 
   const it = batch(sink)[Symbol.asyncIterator]();
@@ -44,16 +42,14 @@ test('done while waiting', async (t, [batch]) => {
   sink.write(2);
 
   await delay();
-  t.deepEqual(await it.next(), { done: false, value: [1, 2] });
+  expect(await it.next()).toEqual({ done: false, value: [1, 2] });
 
   setTimeout(() => sink.end(), 50);
 
-  t.deepEqual(await it.next(), { done: true });
-
-  t.end();
+  expect(await it.next()).toEqual({ done: true });
 });
 
-test('canceled', async (t, [batch]) => {
+test('canceled', async ([batch]) => {
   let canceled = false;
 
   async function* generate() {
@@ -70,10 +66,8 @@ test('canceled', async (t, [batch]) => {
   const it = batch(generate())[Symbol.asyncIterator]();
 
   await delay(150);
-  t.deepEqual(await it.next(), { done: false, value: [0] });
+  expect(await it.next()).toEqual({ done: false, value: [0] });
 
-  t.deepEqual(await it.return!(), { done: true });
-  t.true(canceled);
-
-  t.end();
+  expect(await it.return!()).toEqual({ done: true });
+  expect(canceled).toBe(true);
 });
