@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class TakeLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -27,9 +28,10 @@ export class TakeLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function takeLast<TSource>(
-  source: AsyncIterable<TSource>,
-  count: number
-): AsyncIterableX<TSource> {
-  return new TakeLastAsyncIterable<TSource>(source, count);
+export function takeLast<TSource>(count: number): MonoTypeOperatorAsyncFunction<TSource> {
+  return function takeLastOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new TakeLastAsyncIterable<TSource>(source, count);
+  };
 }

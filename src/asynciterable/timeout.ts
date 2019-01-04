@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { sleep } from './_sleep';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class TimeoutError extends Error {
   constructor() {
@@ -51,9 +52,8 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function timeout<TSource>(
-  source: AsyncIterable<TSource>,
-  dueTime: number
-): AsyncIterableX<TSource> {
-  return new TimeoutAsyncIterable<TSource>(source, dueTime);
+export function timeout<TSource>(dueTime: number): MonoTypeOperatorAsyncFunction<TSource> {
+  return function timeoutOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new TimeoutAsyncIterable<TSource>(source, dueTime);
+  };
 }

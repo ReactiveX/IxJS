@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -22,8 +23,11 @@ export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function skipUntil<TSource>(
-  source: AsyncIterable<TSource>,
   other: () => Promise<any>
-): AsyncIterableX<TSource> {
-  return new SkipUntilAsyncIterable<TSource>(source, other);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function skipUntilOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new SkipUntilAsyncIterable<TSource>(source, other);
+  };
 }

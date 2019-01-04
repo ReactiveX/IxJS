@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { IRefCountList, MaxRefCountList, RefCountList } from '../iterable/_refcountlist';
 import { create } from './create';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
   private _source: AsyncIterator<T>;
@@ -59,32 +60,31 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
   }
 }
 
-export function memoize<TSource>(
-  source: AsyncIterable<TSource>,
-  readerCount?: number
-): AsyncIterableX<TSource>;
+export function memoize<TSource>(readerCount?: number): OperatorAsyncFunction<TSource, TSource>;
 export function memoize<TSource, TResult>(
-  source: AsyncIterable<TSource>,
   readerCount?: number,
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): AsyncIterableX<TResult>;
+): OperatorAsyncFunction<TSource, TResult>;
 export function memoize<TSource, TResult = TSource>(
-  source: AsyncIterable<TSource>,
   readerCount: number = -1,
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): AsyncIterableX<TSource | TResult> {
-  if (!selector) {
-    return readerCount === -1
-      ? new MemoizeAsyncBuffer<TSource>(
-          source[Symbol.asyncIterator](),
-          new MaxRefCountList<TSource>()
-        )
-      : new MemoizeAsyncBuffer<TSource>(
-          source[Symbol.asyncIterator](),
-          new RefCountList<TSource>(readerCount)
-        );
-  }
-  return create<TSource | TResult>(() =>
-    selector!(memoize(source, readerCount))[Symbol.asyncIterator]()
-  );
+): OperatorAsyncFunction<TSource, TSource | TResult> {
+  return function memoizeOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource | TResult> {
+    if (!selector) {
+      return readerCount === -1
+        ? new MemoizeAsyncBuffer<TSource>(
+            source[Symbol.asyncIterator](),
+            new MaxRefCountList<TSource>()
+          )
+        : new MemoizeAsyncBuffer<TSource>(
+            source[Symbol.asyncIterator](),
+            new RefCountList<TSource>(readerCount)
+          );
+    }
+    return create<TSource | TResult>(() =>
+      selector!((memoize<TSource>(readerCount))(source))[Symbol.asyncIterator]()
+    );
+  };
 }

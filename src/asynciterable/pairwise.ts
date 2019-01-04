@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class PairwiseAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _source: AsyncIterable<TSource>;
@@ -22,11 +23,10 @@ export class PairwiseAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   }
 }
 
-/**
- * Returns a new sequence that triggers on the second and subsequent triggerings of the input sequence.
- * @param {AsyncIterable<T>} source Source sequence.
- * @return {AsyncIterable<T[]>} A sequence that triggers on successive pairs of iterations from the input sequence.
- */
-export function pairwise<TSource>(source: AsyncIterable<TSource>): AsyncIterableX<TSource[]> {
-  return new PairwiseAsyncIterable<TSource>(source);
+export function pairwise<TSource>(): OperatorAsyncFunction<TSource, TSource[]> {
+  return function pairwiseOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource[]> {
+    return new PairwiseAsyncIterable<TSource>(source);
+  };
 }

@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { create } from './create';
+import { OperatorAsyncFunction } from '../interfaces';
 
 class SharedAsyncIterable<T> extends AsyncIterableX<T> {
   private _it: AsyncIterator<T>;
@@ -14,23 +15,25 @@ class SharedAsyncIterable<T> extends AsyncIterableX<T> {
   }
 }
 
-export function share<TSource>(source: AsyncIterable<TSource>): AsyncIterableX<TSource>;
+export function share<TSource>(): OperatorAsyncFunction<TSource, TSource>;
 export function share<TSource, TResult>(
-  source: AsyncIterable<TSource>,
   selector?: (
     value: AsyncIterable<TSource>
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
-): AsyncIterableX<TResult>;
+): OperatorAsyncFunction<TSource, TResult>;
 export function share<TSource, TResult = TSource>(
-  source: AsyncIterable<TSource>,
   selector?: (
     value: AsyncIterable<TSource>
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
-): AsyncIterableX<TSource | TResult> {
-  return selector
+): OperatorAsyncFunction<TSource, TSource | TResult> {
+  return function shareOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource | TResult> {
+    return selector
     ? create<TResult>(async () => {
         const it = await selector(new SharedAsyncIterable(source[Symbol.asyncIterator]()));
         return it[Symbol.asyncIterator]();
       })
     : new SharedAsyncIterable<TSource>(source[Symbol.asyncIterator]());
+  };
 }

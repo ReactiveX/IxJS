@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class RepeatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -27,13 +28,8 @@ export class RepeatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function repeat<TSource>(
-  source: AsyncIterable<TSource>,
-  count: number = -1
-): AsyncIterableX<TSource> {
-  return new RepeatAsyncIterable<TSource>(source, count);
-}
-
-export function repeatStatic<TSource>(value: TSource, count: number = -1): AsyncIterableX<TSource> {
-  return new RepeatAsyncIterable<TSource>(AsyncIterableX.of(value), count);
+export function repeat<TSource>(count: number = -1): MonoTypeOperatorAsyncFunction<TSource> {
+  return function repeatOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new RepeatAsyncIterable<TSource>(source, count);
+  };
 }

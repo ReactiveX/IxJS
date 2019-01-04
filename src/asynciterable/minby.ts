@@ -1,10 +1,12 @@
 import { AsyncIterableX } from './asynciterablex';
-import { extremaBy, defaultCompareAsync } from './_extremaby';
+import { extremaBy, defaultCompareAsync } from './operators/_extremaby';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export function minBy<TSource, TKey>(
-  source: AsyncIterable<TSource>,
   keySelector: (x: TSource) => TKey | Promise<TKey>,
   comparer: (x: TKey, y: TKey) => number | Promise<number> = defaultCompareAsync
-): AsyncIterableX<TSource> {
-  return extremaBy(source, keySelector, async (key, minValue) => -await comparer(key, minValue));
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function minByOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return extremaBy(source, keySelector, async (key, minValue) => -await comparer(key, minValue));
+  };
 }

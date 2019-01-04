@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -15,6 +16,10 @@ export class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource
   }
 }
 
-export function ignoreElements<TSource>(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-  return new IgnoreElementsAsyncIterable<TSource>(source);
+export function ignoreElements<TSource>(): MonoTypeOperatorAsyncFunction<TSource> {
+  return function ignoreElementsOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new IgnoreElementsAsyncIterable<TSource>(source);
+  };
 }

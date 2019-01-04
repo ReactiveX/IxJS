@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
-import { arrayIndexOfAsync } from '../internal/arrayindexof';
-import { comparerAsync } from '../internal/comparer';
+import { arrayIndexOfAsync } from '../util/arrayindexof';
+import { comparerAsync } from '../util/comparer';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _left: AsyncIterable<TSource>;
@@ -37,9 +38,10 @@ export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function union<TSource>(
-  left: AsyncIterable<TSource>,
   right: AsyncIterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync
-): AsyncIterableX<TSource> {
-  return new UnionAsyncIterable<TSource>(left, right, comparer);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function unionOperatorFunction(left: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new UnionAsyncIterable<TSource>(left, right, comparer);
+  };
 }

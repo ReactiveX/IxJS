@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -25,16 +26,15 @@ export class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function takeWhile<T, S extends T>(
-  source: AsyncIterable<T>,
   predicate: (value: T, index: number) => value is S
-): AsyncIterableX<S>;
+): OperatorAsyncFunction<T, S>;
 export function takeWhile<T>(
-  source: AsyncIterable<T>,
   predicate: (value: T, index: number) => boolean | Promise<boolean>
-): AsyncIterableX<T>;
+): OperatorAsyncFunction<T, T>;
 export function takeWhile<T>(
-  source: AsyncIterable<T>,
   predicate: (value: T, index: number) => boolean | Promise<boolean>
-): AsyncIterableX<T> {
-  return new TakeWhileAsyncIterable<T>(source, predicate);
+): OperatorAsyncFunction<T, T> {
+  return function takeWhileOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
+    return new TakeWhileAsyncIterable<T>(source, predicate);
+  };
 }

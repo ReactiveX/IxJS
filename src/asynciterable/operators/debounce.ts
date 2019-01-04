@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../interfaces';
+import { AsyncIterableX } from '../asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 
 async function forEach<T>(
   source: AsyncIterable<T>,

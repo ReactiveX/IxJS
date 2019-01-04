@@ -1,6 +1,6 @@
-import { AsyncIterableX } from './asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../interfaces';
-import { sleep } from './_sleep';
+import { AsyncIterableX } from '../asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { sleep } from '../_sleep';
 
 export class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;

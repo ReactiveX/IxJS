@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
-import { arrayIndexOfAsync } from '../internal/arrayindexof';
-import { comparerAsync } from '../internal/comparer';
+import { arrayIndexOfAsync } from '../util/arrayindexof';
+import { comparerAsync } from '../util/comparer';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 async function arrayRemove<T>(
   array: T[],
@@ -46,9 +47,12 @@ export class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function intersect<TSource>(
-  first: AsyncIterable<TSource>,
   second: AsyncIterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync
-): AsyncIterableX<TSource> {
-  return new IntersectAsyncIterable<TSource>(first, second, comparer);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function intersectOperatorFunction(
+    first: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new IntersectAsyncIterable<TSource>(first, second, comparer);
+  };
 }

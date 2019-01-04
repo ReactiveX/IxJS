@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { RefCountList } from '../iterable/_refcountlist';
 import { create } from './create';
+import { OperatorAsyncFunction } from '../interfaces';
 
 class PublishedAsyncBuffer<T> extends AsyncIterableX<T> {
   private _buffer: RefCountList<T>;
@@ -67,16 +68,18 @@ class PublishedAsyncBuffer<T> extends AsyncIterableX<T> {
   }
 }
 
-export function publish<TSource>(source: AsyncIterable<TSource>): AsyncIterableX<TSource>;
+export function publish<TSource>(): OperatorAsyncFunction<TSource, TSource>;
 export function publish<TSource, TResult>(
-  source: AsyncIterable<TSource>,
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): AsyncIterableX<TResult>;
+): OperatorAsyncFunction<TSource, TResult>;
 export function publish<TSource, TResult>(
-  source: AsyncIterable<TSource>,
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): AsyncIterableX<TSource | TResult> {
-  return selector
-    ? create(async () => selector(publish(source))[Symbol.asyncIterator]())
-    : new PublishedAsyncBuffer<TSource>(source[Symbol.asyncIterator]());
+): OperatorAsyncFunction<TSource, TSource | TResult> {
+  return function publishOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource | TResult> {
+    return selector
+      ? create(async () => selector(publish<TSource>()(source))[Symbol.asyncIterator]())
+      : new PublishedAsyncBuffer<TSource>(source[Symbol.asyncIterator]());
+  };
 }

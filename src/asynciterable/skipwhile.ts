@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class SkipWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -28,16 +29,15 @@ export class SkipWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function skipWhile<T, S extends T>(
-  source: AsyncIterable<T>,
   predicate: (value: T, index: number) => value is S
-): AsyncIterableX<S>;
+): OperatorAsyncFunction<T, S>;
 export function skipWhile<T>(
-  source: AsyncIterable<T>,
   predicate: (value: T, index: number) => boolean | Promise<boolean>
-): AsyncIterableX<T>;
+): OperatorAsyncFunction<T, T>;
 export function skipWhile<T>(
-  source: AsyncIterable<T>,
   predicate: (value: T, index: number) => boolean | Promise<boolean>
-): AsyncIterableX<T> {
-  return new SkipWhileAsyncIterable<T>(source, predicate);
+): OperatorAsyncFunction<T, T> {
+  return function skipWhileOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
+    return new SkipWhileAsyncIterable<T>(source, predicate);
+  };
 }

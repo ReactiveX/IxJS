@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { OperatorAsyncFunction } from '../interfaces';
+import { AsyncIterableX } from '../asynciterablex';
+import { OperatorAsyncFunction } from '../../interfaces';
 
 export class ConcatAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<AsyncIterable<TSource>>;

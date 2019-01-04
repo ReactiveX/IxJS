@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { toArray } from './toarray';
-import { sorter as defaultSorter } from '../internal/sorter';
+import { sorter as defaultSorter } from '../util/sorter';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<TSource> {
   _source: AsyncIterable<TSource>;
@@ -100,45 +101,51 @@ export class OrderedAsyncIterableX<TKey, TSource> extends OrderedAsyncIterableBa
 }
 
 export function orderBy<TKey, TSource>(
-  source: AsyncIterable<TSource>,
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
-): OrderedAsyncIterableX<TKey, TSource> {
-  return new OrderedAsyncIterableX<TKey, TSource>(source, keySelector, comparer, false);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function orderByOperatorFunction(source: AsyncIterable<TSource>) {
+    return new OrderedAsyncIterableX<TKey, TSource>(source, keySelector, comparer, false);
+  };
 }
 
 export function orderByDescending<TKey, TSource>(
-  source: AsyncIterable<TSource>,
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
-): OrderedAsyncIterableX<TKey, TSource> {
-  return new OrderedAsyncIterableX<TKey, TSource>(source, keySelector, comparer, true);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function orderByDescendingOperatorFunction(source: AsyncIterable<TSource>) {
+    return new OrderedAsyncIterableX<TKey, TSource>(source, keySelector, comparer, true);
+  };
 }
 
 export function thenBy<TKey, TSource>(
-  source: OrderedAsyncIterableBaseX<TSource>,
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
-): OrderedAsyncIterableX<TKey, TSource> {
-  return new OrderedAsyncIterableX<TKey, TSource>(
-    source._source,
-    keySelector,
-    comparer,
-    false,
-    source
-  );
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function thenByOperatorFunction(source: AsyncIterable<TSource>) {
+    const orderSource = <OrderedAsyncIterableBaseX<TSource>>source;
+    return new OrderedAsyncIterableX<TKey, TSource>(
+      orderSource._source,
+      keySelector,
+      comparer,
+      false,
+      orderSource
+    );
+  };
 }
 
 export function thenByDescending<TKey, TSource>(
-  source: OrderedAsyncIterableBaseX<TSource>,
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
-): OrderedAsyncIterableX<TKey, TSource> {
-  return new OrderedAsyncIterableX<TKey, TSource>(
-    source._source,
-    keySelector,
-    comparer,
-    true,
-    source
-  );
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function thenByDescendingOperatorFunction(source: AsyncIterable<TSource>) {
+    const orderSource = <OrderedAsyncIterableBaseX<TSource>>source;
+    return new OrderedAsyncIterableX<TKey, TSource>(
+      orderSource._source,
+      keySelector,
+      comparer,
+      true,
+      orderSource
+    );
+  };
 }

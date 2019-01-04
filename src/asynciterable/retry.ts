@@ -1,10 +1,10 @@
 import { AsyncIterableX } from './asynciterablex';
 import { repeatStatic } from '../iterable/repeat';
-import { _catchAll } from './catch';
+import { CatchAllAsyncIterable } from './catch';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
-export function retry<TSource>(
-  source: AsyncIterable<TSource>,
-  count: number = -1
-): AsyncIterableX<TSource> {
-  return _catchAll<TSource>(repeatStatic<AsyncIterable<TSource>>(source, count));
+export function retry<TSource>(count: number = -1): MonoTypeOperatorAsyncFunction<TSource> {
+  return function retryOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new CatchAllAsyncIterable<TSource>(repeatStatic<AsyncIterable<TSource>>(source, count));
+  };
 }

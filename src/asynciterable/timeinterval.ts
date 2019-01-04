@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export interface TimeInterval<T> {
   value: T;
@@ -24,8 +25,10 @@ export class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInter
   }
 }
 
-export function timeInterval<TSource>(
-  source: AsyncIterable<TSource>
-): AsyncIterableX<TimeInterval<TSource>> {
-  return new TimeIntervalAsyncIterable<TSource>(source);
+export function timeInterval<TSource>(): OperatorAsyncFunction<TSource, TimeInterval<TSource>> {
+  return function timeIntervalOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TimeInterval<TSource>> {
+    return new TimeIntervalAsyncIterable<TSource>(source);
+  };
 }

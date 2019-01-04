@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { PartialAsyncObserver } from '../observer';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -40,8 +41,9 @@ export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function tap<TSource>(
-  source: AsyncIterable<TSource>,
   observer: PartialAsyncObserver<TSource>
-): AsyncIterableX<TSource> {
-  return new TapAsyncIterable<TSource>(source, observer);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function tapOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new TapAsyncIterable<TSource>(source, observer);
+  };
 }

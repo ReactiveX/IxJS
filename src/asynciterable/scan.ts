@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
   private _source: AsyncIterable<T>;
@@ -36,19 +37,18 @@ export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
 }
 
 export function scan<T, R = T>(
-  source: AsyncIterable<T>,
   accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
   seed?: never[]
-): AsyncIterableX<R>;
+): OperatorAsyncFunction<T, R>;
 export function scan<T, R = T>(
-  source: AsyncIterable<T>,
   accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
   seed?: R
-): AsyncIterableX<R>;
+): OperatorAsyncFunction<T, R>;
 export function scan<T, R = T>(
-  source: AsyncIterable<T>,
   accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
   ...seed: R[]
-): AsyncIterableX<R> {
-  return new ScanAsyncIterable(source, accumulator, seed);
+): OperatorAsyncFunction<T, R> {
+  return function scanOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<R> {
+    return new ScanAsyncIterable(source, accumulator, seed);
+  };
 }

@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
-import { bindCallback } from '../internal/bindcallback';
+import { bindCallback } from '../util/bindcallback';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: AsyncIterable<TSource>;
@@ -25,9 +26,10 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
 }
 
 export function flatMap<TSource, TResult>(
-  source: AsyncIterable<TSource>,
   selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
   thisArg?: any
-): AsyncIterableX<TResult> {
-  return new FlatMapAsyncIterable<TSource, TResult>(source, bindCallback(selector, thisArg, 1));
+): OperatorAsyncFunction<TSource, TResult> {
+  return function flatMapOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TResult> {
+    return new FlatMapAsyncIterable<TSource, TResult>(source, bindCallback(selector, thisArg, 1));
+  };
 }

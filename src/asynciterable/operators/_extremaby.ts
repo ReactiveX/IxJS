@@ -1,4 +1,4 @@
-import { AsyncIterableX } from './asynciterablex';
+import { AsyncIterableX } from '../asynciterablex';
 
 /**
  * @ignore

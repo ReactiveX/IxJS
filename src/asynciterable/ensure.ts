@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class FinallyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -21,9 +22,10 @@ export class FinallyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function _finally<TSource>(
-  source: AsyncIterable<TSource>,
+export function ensure<TSource>(
   action: () => void | Promise<void>
-): AsyncIterableX<TSource> {
-  return new FinallyAsyncIterable<TSource>(source, action);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function finallyOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new FinallyAsyncIterable<TSource>(source, action);
+  };
 }

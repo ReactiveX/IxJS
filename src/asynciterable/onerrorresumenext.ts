@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<AsyncIterable<TSource>>;
@@ -29,12 +30,9 @@ export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSou
 }
 
 export function onErrorResumeNext<T>(
-  source: AsyncIterable<T>,
   ...args: AsyncIterable<T>[]
-): AsyncIterableX<T> {
-  return new OnErrorResumeNextAsyncIterable<T>([source, ...args]);
-}
-
-export function onErrorResumeNextStatic<T>(...source: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return new OnErrorResumeNextAsyncIterable<T>(source);
+): MonoTypeOperatorAsyncFunction<T> {
+  return function onErrorResumeNextOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
+    return new OnErrorResumeNextAsyncIterable<T>([source, ...args]);
+  };
 }

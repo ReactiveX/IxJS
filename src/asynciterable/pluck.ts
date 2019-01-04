@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { map } from './map';
+import { OperatorAsyncFunction } from '../interfaces';
 
 function plucker(props: string[], length: number): (x: any) => any {
   const mapper = (x: any) => {
@@ -19,10 +20,11 @@ function plucker(props: string[], length: number): (x: any) => any {
 }
 
 export function pluck<TSource, TResult>(
-  source: AsyncIterable<TSource>,
   ...args: string[]
-): AsyncIterableX<TResult> {
-  return map<TSource, TResult>(source, (plucker(args, args.length) as any) as (
-    value: TSource
-  ) => TResult);
+): OperatorAsyncFunction<TSource, TResult> {
+  return function pluckOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TResult> {
+    return (map<TSource, TResult>((plucker(args, args.length) as any) as (
+      value: TSource
+    ) => TResult))(source);
+  };
 }

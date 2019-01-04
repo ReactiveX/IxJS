@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export interface Timestamp<TSource> {
   time: number;
@@ -20,8 +21,10 @@ export class TimestampAsyncIterable<TSource> extends AsyncIterableX<Timestamp<TS
   }
 }
 
-export function timestamp<TSource>(
-  source: AsyncIterable<TSource>
-): AsyncIterableX<Timestamp<TSource>> {
-  return new TimestampAsyncIterable<TSource>(source);
+export function timestamp<TSource>(): OperatorAsyncFunction<TSource, Timestamp<TSource>> {
+  return function timestampOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<Timestamp<TSource>> {
+    return new TimestampAsyncIterable<TSource>(source);
+  };
 }

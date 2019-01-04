@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
-import { isAsyncIterable } from '../internal/isiterable';
+import { isAsyncIterable } from '../util/isiterable';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -34,6 +35,8 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function flatten<T>(source: AsyncIterable<T>, depth: number = Infinity): AsyncIterableX<T> {
-  return new FlattenAsyncIterable<T>(source, depth);
+export function flat<T>(depth: number = Infinity): MonoTypeOperatorAsyncFunction<T> {
+  return function flattenOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
+    return new FlattenAsyncIterable<T>(source, depth);
+  };
 }

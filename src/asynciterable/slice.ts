@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -33,9 +34,10 @@ export class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function slice<TSource>(
-  source: AsyncIterable<TSource>,
   begin: number,
   end: number = Infinity
-): AsyncIterableX<TSource> {
-  return new SliceAsyncIterable<TSource>(source, begin, end);
+): MonoTypeOperatorAsyncFunction<TSource> {
+  return function sliceOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new SliceAsyncIterable<TSource>(source, begin, end);
+  };
 }

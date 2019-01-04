@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -17,6 +18,8 @@ export class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function reverse<TSource>(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-  return new ReverseAsyncIterable<TSource>(source);
+export function reverse<TSource>(): MonoTypeOperatorAsyncFunction<TSource> {
+  return function reverseOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+    return new ReverseAsyncIterable<TSource>(source);
+  };
 }

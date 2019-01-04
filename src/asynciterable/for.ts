@@ -1,5 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
-import { concatAll } from './concatall';
+import { concatAll } from './operators/concatall';
 import { map } from './map';
 
 export function _for<TSource, TResult>(

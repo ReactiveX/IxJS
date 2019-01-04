@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 
 export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -22,9 +23,10 @@ export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function throttle<TSource>(
-  source: AsyncIterable<TSource>,
-  time: number
-): AsyncIterableX<TSource> {
-  return new ThrottleAsyncIterable<TSource>(source, time);
+export function throttle<TSource>(time: number): MonoTypeOperatorAsyncFunction<TSource> {
+  return function throttleOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
+    return new ThrottleAsyncIterable<TSource>(source, time);
+  };
 }

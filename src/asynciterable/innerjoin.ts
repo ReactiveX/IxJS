@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
-import { createGrouping } from './_grouping';
-import { identity } from '../internal/identity';
+import { createGrouping } from './operators/_grouping';
+import { identity } from '../util/identity';
+import { OperatorAsyncFunction } from '../interfaces';
 
 export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TResult> {
   private _outer: AsyncIterable<TOuter>;
@@ -38,17 +39,18 @@ export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncItera
 }
 
 export function innerJoin<TOuter, TInner, TKey, TResult>(
-  outer: AsyncIterable<TOuter>,
   inner: AsyncIterable<TInner>,
   outerSelector: (value: TOuter) => TKey | Promise<TKey>,
   innerSelector: (value: TInner) => TKey | Promise<TKey>,
   resultSelector: (outer: TOuter, inner: TInner) => TResult | Promise<TResult>
-): AsyncIterableX<TResult> {
-  return new JoinAsyncIterable<TOuter, TInner, TKey, TResult>(
-    outer,
-    inner,
-    outerSelector,
-    innerSelector,
-    resultSelector
-  );
+): OperatorAsyncFunction<TOuter, TResult> {
+  return function innerJoinOperatorFunction(outer: AsyncIterable<TOuter>): AsyncIterableX<TResult> {
+    return new JoinAsyncIterable<TOuter, TInner, TKey, TResult>(
+      outer,
+      inner,
+      outerSelector,
+      innerSelector,
+      resultSelector
+    );
+  };
 }
