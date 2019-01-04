@@ -1,5 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
-import { AsyncSink } from '../asyncsink';
+import { AsyncSink } from './asyncsink';
 import { memoize } from './operators/memoize';
 
 export function asyncifyErrback<TSource>(
@@ -25,12 +25,12 @@ export function asyncifyErrback<TSource>(
       sink.end();
     }
 
-    return memoize(
-      (async function*() {
-        for (let next; !(next = await sink.next()).done; ) {
-          yield next.value;
-        }
-      })()
-    );
+    const yielder = async function*() {
+      for (let next; !(next = await sink.next()).done; ) {
+        yield next.value;
+      }
+    };
+
+    return (memoize()(yielder()));
   };
 }

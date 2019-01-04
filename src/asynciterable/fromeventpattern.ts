@@ -1,5 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
-import { AsyncSink } from '../asyncsink';
+import { AsyncSink } from './asyncsink';
 import { memoize } from './operators/memoize';
 
 export function fromEventPattern<TSource>(
@@ -11,13 +11,13 @@ export function fromEventPattern<TSource>(
 
   addHandler(handler);
 
-  return memoize(
-    (async function*() {
-      for (let next; !(next = await sink.next()).done; ) {
-        yield next.value;
-      }
-      removeHandler(handler);
-      sink.end();
-    })()
-  );
+  const yielder = async function*() {
+    for (let next; !(next = await sink.next()).done; ) {
+      yield next.value;
+    }
+    removeHandler(handler);
+    sink.end();
+  };
+
+  return (memoize())(yielder());
 }

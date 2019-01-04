@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../interfaces';
+import { AsyncIterableX } from '../asynciterablex';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 
 export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;

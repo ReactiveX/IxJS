@@ -1,9 +1,9 @@
-import { AsyncSink } from './../asyncsink';
+import { AsyncSink } from './asyncsink';
 import { OperatorAsyncFunction } from '../interfaces';
-import { bindCallback } from '../internal/bindcallback';
-import { identityAsync } from '../internal/identity';
-import { toLength } from '../internal/tolength';
-import { isArrayLike, isIterable, isAsyncIterable } from '../internal/isiterable';
+import { bindCallback } from '../util/bindcallback';
+import { identityAsync } from '../util/identity';
+import { toLength } from '../util/tolength';
+import { isArrayLike, isIterable, isAsyncIterable } from '../util/isiterable';
 import { Observable } from '../observer';
 
 /**

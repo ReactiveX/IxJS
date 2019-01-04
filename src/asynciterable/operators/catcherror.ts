@@ -46,7 +46,7 @@ export class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function catchWith<TSource>(
+export function catchError<TSource>(
   handler: (error: any) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function catchWithOperatorFunction(
