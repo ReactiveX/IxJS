@@ -1,6 +1,6 @@
 {
   "lerna": "2.2.0",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "packages": [
     "targets/es2015/*",
     "targets/es5/*",
