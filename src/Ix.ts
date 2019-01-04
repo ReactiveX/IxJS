@@ -5,8 +5,8 @@ import { GroupedIterable } from './iterable/groupby';
 import { GroupedAsyncIterable } from './asynciterable/operators/groupby';
 export { OrderedIterableX as OrderedIterable } from './iterable/orderby';
 export { OrderedIterableBaseX as OrderedIterableBase } from './iterable/orderby';
-export { OrderedAsyncIterableX as OrderedAsyncIterable } from './asynciterable/orderby';
-export { OrderedAsyncIterableBaseX as OrderedAsyncIterableBase } from './asynciterable/orderby';
+export { OrderedAsyncIterableX as OrderedAsyncIterable } from './asynciterable/operators/orderby';
+export { OrderedAsyncIterableBaseX as OrderedAsyncIterableBase } from './asynciterable/operators/orderby';
 
 export { AsyncSink, IterableX as Iterable, AsyncIterableX as AsyncIterable };
 
