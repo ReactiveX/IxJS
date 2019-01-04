@@ -1,4 +1,4 @@
-import { comparerAsync } from '../internal/comparer';
+import { comparerAsync } from '../util/comparer';
 
 export async function sequenceEqual<T>(
   source: AsyncIterable<T>,

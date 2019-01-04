@@ -1,6 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { AsyncSink } from '../asyncsink';
-import { memoize } from './memoize';
+import { memoize } from './operators/memoize';
 
 export function asyncify<TSource>(func: Function): (...args: any[]) => AsyncIterableX<TSource> {
   return function(...args: any[]) {

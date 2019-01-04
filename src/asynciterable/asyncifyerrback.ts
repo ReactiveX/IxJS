@@ -1,6 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { AsyncSink } from '../asyncsink';
-import { memoize } from './memoize';
+import { memoize } from './operators/memoize';
 
 export function asyncifyErrback<TSource>(
   func: Function
