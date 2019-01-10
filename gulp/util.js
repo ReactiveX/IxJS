@@ -25,7 +25,7 @@ const asyncDone = require('util').promisify(require('async-done'));
 
 const mainExport = `Ix`;
 const npmPkgName = `ix`;
-const npmOrgName = `@${npmPkgName}`;
+const npmOrgName = `@reactivex`;
 
 const releasesRootDir = `targets`;
 const knownTargets = [`es5`, `es2015`, `esnext`];

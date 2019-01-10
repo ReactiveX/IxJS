@@ -148,6 +148,8 @@ function externsHeader() {
 /** @type {symbol} */
 Symbol.iterator;
 /** @type {symbol} */
+Symbol.observable;
+/** @type {symbol} */
 Symbol.asyncIterator;
 `);
 }

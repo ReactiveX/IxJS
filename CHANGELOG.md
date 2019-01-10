@@ -1,5 +1,22 @@
-<a name="2.3.5"></a>
-## [2.3.5](https://github.com/ReactiveX/IxJS/compare/v2.3.4...v2.3.5) (2018-02-19)
+# [2.4.0](https://github.com/ReactiveX/IxJS/compare/v2.3.5...v2.4.0) (2019-01-03)
+
+
+### Bug Fixes
+
+* **toObservable:** adds symbol-observable for rxjs interop ([273e697](https://github.com/ReactiveX/IxJS/commit/273e697)), closes [#245](https://github.com/ReactiveX/IxJS/issues/245)
+
+
+### Features
+
+* add support for passing Node WritableStreams to `AsyncIterableX#pipe()` ([#257](https://github.com/ReactiveX/IxJS/issues/257)) ([9a1c5cc](https://github.com/ReactiveX/IxJS/commit/9a1c5cc))
+
+* add `AsyncIterableX#toNodeStream()` ([#257](https://github.com/ReactiveX/IxJS/issues/257)) ([9a1c5cc](https://github.com/ReactiveX/IxJS/commit/9a1c5cc))
+
+* add `AsyncIterableX#batch()` ([#222](https://github.com/ReactiveX/IxJS/issues/222)) ([9c9bd7e](https://github.com/ReactiveX/IxJS/commit/9c9bd7e))
+
+
+
+## [2.3.5](https://github.com/ReactiveX/IxJS/compare/9.2.0...v2.3.5) (2018-02-19)
 
 
 ### Bug Fixes
@@ -13,7 +30,6 @@
 
 
 
-<a name="2.3.4"></a>
 ## [2.3.4](https://github.com/ReactiveX/IxJS/compare/v2.3.3...v2.3.4) (2017-11-29)
 
 
@@ -24,7 +40,6 @@
 
 
 
-<a name="2.3.3"></a>
 ## [2.3.3](https://github.com/ReactiveX/IxJS/compare/v2.3.2...v2.3.3) (2017-11-21)
 
 
@@ -34,7 +49,6 @@
 
 
 
-<a name="2.3.2"></a>
 ## [2.3.2](https://github.com/ReactiveX/IxJS/compare/v2.3.1...v2.3.2) (2017-11-21)
 
 
@@ -52,17 +66,15 @@
 
 
 
-<a name="2.3.1"></a>
 ## [2.3.1](https://github.com/ReactiveX/IxJS/compare/v2.3.0...v2.3.1) (2017-11-08)
 
 
 ### Bug Fixes
 
-* **single:** make iterable prototype single predicate an optional parameter again ([2bea5ab](https://github.com/ReactiveX/IxJS/commit/2bea5ab))
+* **single:** make iterable prototype single predicate an optional parameter again ([2bea5ab](https://github.com/ReactiveX/IxJS/commit/2bea5ab)), closes [/github.com/ReactiveX/IxJS/pull/83#issuecomment-341832266](https://github.com//github.com/ReactiveX/IxJS/pull/83/issues/issuecomment-341832266)
 
 
 
-<a name="2.3.0"></a>
 # [2.3.0](https://github.com/ReactiveX/IxJS/compare/v2.2.0...v2.3.0) (2017-11-03)
 
 
@@ -80,12 +92,14 @@
 * **fromNodeStream:** adds fromNodeStream readable ([#124](https://github.com/ReactiveX/IxJS/issues/124)) ([952509e](https://github.com/ReactiveX/IxJS/commit/952509e))
 * **merge/concat:** add typed overloads for merge/concat ([#84](https://github.com/ReactiveX/IxJS/issues/84)) ([752aa96](https://github.com/ReactiveX/IxJS/commit/752aa96))
 * **operators:** rename __modules.ts to index.ts for tree-shaking ([#120](https://github.com/ReactiveX/IxJS/issues/120)) ([83ab288](https://github.com/ReactiveX/IxJS/commit/83ab288)), closes [#52](https://github.com/ReactiveX/IxJS/issues/52)
-* **pipe:** add piped operators [WIP - DO NOT MERGE] ([#75](https://github.com/ReactiveX/IxJS/issues/75)) ([76a4b4f](https://github.com/ReactiveX/IxJS/commit/76a4b4f)), closes [#119](https://github.com/ReactiveX/IxJS/issues/119)
+* **pipe:** add piped operators [WIP - DO NOT MERGE] ([#75](https://github.com/ReactiveX/IxJS/issues/75)) ([76a4b4f](https://github.com/ReactiveX/IxJS/commit/76a4b4f)), closes [#116](https://github.com/ReactiveX/IxJS/issues/116) [#117](https://github.com/ReactiveX/IxJS/issues/117) [#119](https://github.com/ReactiveX/IxJS/issues/119)
 
 
 
-<a name="2.2.0"></a>
 # [2.2.0](https://github.com/ReactiveX/IxJS/compare/v2.1.4...v2.2.0) (2017-10-15)
+
+
+* Zip `n` sources (#73) ([0c4d513](https://github.com/ReactiveX/IxJS/commit/0c4d513)), closes [#73](https://github.com/ReactiveX/IxJS/issues/73)
 
 
 ### Bug Fixes
@@ -108,9 +122,6 @@
 * **windows:** add windows build support ([59fe0e3](https://github.com/ReactiveX/IxJS/commit/59fe0e3))
 
 
-* Zip `n` sources (#73) ([0c4d513](https://github.com/ReactiveX/IxJS/commit/0c4d513))
-
-
 ### BREAKING CHANGES
 
 * zip selectors now take a single "values" Array argument, instead of varargs
@@ -119,17 +130,14 @@
 
 
 
-<a name="2.1.4"></a>
 ## [2.1.4](https://github.com/ReactiveX/IxJS/compare/v2.1.3...v2.1.4) (2017-10-04)
 
 
 
-<a name="2.1.3"></a>
 ## [2.1.3](https://github.com/ReactiveX/IxJS/compare/v2.1.1...v2.1.3) (2017-10-03)
 
 
 
-<a name="2.1.1"></a>
 ## [2.1.1](https://github.com/ReactiveX/IxJS/compare/v2.1.0...v2.1.1) (2017-10-03)
 
 
@@ -149,8 +157,7 @@
 
 
 
-<a name="2.1.0"></a>
-# 2.1.0 (2017-08-24)
+# [2.1.0](https://github.com/ReactiveX/IxJS/compare/825b3d9...v2.1.0) (2017-08-24)
 
 
 ### Bug Fixes
@@ -167,42 +174,6 @@
 * **docs:** document for/forEach ([495e772](https://github.com/ReactiveX/IxJS/commit/495e772))
 * **from:** Collapse from to include Observable ([b130e9c](https://github.com/ReactiveX/IxJS/commit/b130e9c))
 * **Iterator:** add iterator return to catch operators ([a7898ca](https://github.com/ReactiveX/IxJS/commit/a7898ca))
-* **observable:** add to/from Observable ([825b3d9](https://github.com/ReactiveX/IxJS/commit/825b3d9))
-* **observable:** move subscription to own file ([335f694](https://github.com/ReactiveX/IxJS/commit/335f694))
-* **scheduler:** initial scheduler implementation ([4ad0468](https://github.com/ReactiveX/IxJS/commit/4ad0468))
-* **time:** add time based operators ([1b6732a](https://github.com/ReactiveX/IxJS/commit/1b6732a))
-* **zip:** Make it parallel as possible ([c505389](https://github.com/ReactiveX/IxJS/commit/c505389))
-
-
-
-<a name="2.0.3"></a>
-## 2.0.3 (2017-08-24)
-
-
-### Bug Fixes
-
-* **groupBy:** fixing missing this in groupBy operator prototype signatures ([ff2ee18](https://github.com/ReactiveX/IxJS/commit/ff2ee18)), closes [#33](https://github.com/ReactiveX/IxJS/issues/33)
-* **typings:** Fix IterableX#concatAll typings to accept IterableX<Iterable<T>> ([#25](https://github.com/ReactiveX/IxJS/issues/25)) ([a9343c0](https://github.com/ReactiveX/IxJS/commit/a9343c0))
-
-
-
-
-<a name="2.0.0"></a>
-# 2.0.0 (2017-08-16)
-
-
-### Bug Fixes
-
-* **typings:** Fix IterableX#concatAll typings to accept IterableX<Iterable<T>> (#25) ([a9343c0](https://github.com/ReactiveX/IxJS/commit/a9343c0)), closes [#25](https://github.com/ReactiveX/IxJS/issues/25)
-
-
-### Features
-
-* **docs:** add async iterable docs ([c75fbf0](https://github.com/ReactiveX/IxJS/commit/c75fbf0))
-* **docs:** add why Ix ([fc0be11](https://github.com/ReactiveX/IxJS/commit/fc0be11))
-* **docs:** Adding basic contribution docs ([b4b93e2](https://github.com/ReactiveX/IxJS/commit/b4b93e2))
-* **docs:** document for/forEach ([495e772](https://github.com/ReactiveX/IxJS/commit/495e772))
-* **from:** Collapse from to include Observable ([b130e9c](https://github.com/ReactiveX/IxJS/commit/b130e9c))
 * **observable:** add to/from Observable ([825b3d9](https://github.com/ReactiveX/IxJS/commit/825b3d9))
 * **observable:** move subscription to own file ([335f694](https://github.com/ReactiveX/IxJS/commit/335f694))
 * **scheduler:** initial scheduler implementation ([4ad0468](https://github.com/ReactiveX/IxJS/commit/4ad0468))

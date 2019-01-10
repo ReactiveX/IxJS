@@ -49,7 +49,7 @@ const createMainPackageJson = (target, format) => (orig) => ({
     main: `${mainExport}.node`,
     browser: `${mainExport}.dom`,
     types: `${mainExport}.node.d.ts`,
-    unpkg: `${mainExport}.es5.min.js`,
+    unpkg: `${mainExport}.dom.es5.min.js`,
     [`esm`]: { mode: `all`, sourceMap: true }
 });
   
@@ -70,7 +70,7 @@ const createScopedPackageJSON = (target, format) => (({ name, ...orig }) =>
         packageJSONFields.reduce(
             (xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }),
             {
-                name: `${npmOrgName}/${packageName(target, format)}`,
+                name: `${npmOrgName}/${npmPkgName}-${packageName(target, format)}`,
                 browser: format === 'umd' ? undefined : `${mainExport}.dom`,
                 main: format === 'umd' ? `${mainExport}.dom` : `${mainExport}.node`,
                 types: format === 'umd' ? `${mainExport}.d.ts` : `${mainExport}.node.d.ts`,

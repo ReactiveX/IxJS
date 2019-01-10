@@ -1,6 +1,7 @@
 {
   "name": "ix",
-  "version": "2.3.5",
+  "private": true,
+  "version": "2.4.3",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
@@ -44,9 +45,8 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "@types/node": "10.12.18",
+    "@types/node": "^10.12.18",
     "is-stream": "1.1.0",
-    "symbol-observable": "1.2.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
@@ -58,6 +58,7 @@
     "command-line-args": "4.0.7",
     "commitizen": "3.0.5",
     "conventional-changelog": "3.0.5",
+    "conventional-changelog-cli": "2.0.11",
     "conventional-commits-detector": "1.0.2",
     "conventional-github-releaser": "3.1.2",
     "conventional-recommended-bump": "4.0.4",
@@ -79,6 +80,7 @@
     "jest-codemods": "0.19.1",
     "jest-environment-node-debug": "2.0.0",
     "jest-silent-reporter": "0.1.1",
+    "json": "9.0.6",
     "lerna": "3.8.4",
     "lint-staged": "8.1.0",
     "mkdirp": "0.5.1",

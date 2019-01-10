@@ -1,11 +1,11 @@
 {
   "lerna": "2.2.0",
-  "version": "2.3.5",
+  "version": "2.4.3",
   "packages": [
-    "targets/ix",
-    "targets/ts",
-    "targets/es5/*",
     "targets/es2015/*",
-    "targets/esnext/*"
+    "targets/es5/*",
+    "targets/esnext/*",
+    "targets/ix",
+    "targets/ts"
   ]
 }
