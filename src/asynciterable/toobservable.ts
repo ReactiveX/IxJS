@@ -1,4 +1,5 @@
-import { Observable, Observer, PartialObserver, symbolObservable } from '../observer';
+import { observable as symbolObservable } from '../observer';
+import { Observable, Observer, PartialObserver } from '../observer';
 import { Subscription } from '../subscription';
 
 const noop = (_?: any) => {
@@ -41,7 +42,7 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
     this._source = source;
   }
 
-  [Symbol.observable](): Observable<TSource> {
+  [symbolObservable](): Observable<TSource> {
     return this;
   }
   subscribe(
@@ -80,27 +81,3 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
 export function toObservable<TSource>(source: AsyncIterable<TSource>): Observable<TSource> {
   return new AsyncIterableObservable<TSource>(source);
 }
-
-// Fix up the prototype so we don't have a method at `prototype['undefined']()`
-// Closure minifies this to `Symbol.Xa`, which is probably undefined. If so, delete it.
-!Symbol.observable
-  ? delete (AsyncIterableObservable.prototype as any)[Symbol.observable]
-  : ((AsyncIterableObservable.prototype as any)[Symbol.observable] = function(
-      this: Observable<any>
-    ) {
-      return this;
-    });
-
-// Closure doesn't minify this, but `Symbol.observable` may not be defined at runtime. If so, delete it too.
-!Symbol['observable']
-  ? delete (AsyncIterableObservable.prototype as any)[Symbol['observable']]
-  : ((AsyncIterableObservable.prototype as any)[Symbol['observable']] = function(
-      this: Observable<any>
-    ) {
-      return this;
-    });
-
-// Use the Symbol.observable that's defined by Rx
-(AsyncIterableObservable.prototype as any)[symbolObservable] = function(this: Observable<any>) {
-  return this;
-};
