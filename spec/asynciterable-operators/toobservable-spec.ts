@@ -1,11 +1,11 @@
 import * as Ix from '../Ix';
+const { symbolObservable } = (Ix as any).default;
 import { Observable as RxJSObservable } from 'rxjs';
 import { Observable, PartialObserver } from '../../src/observer';
 import { testOperator } from '../asynciterablehelpers';
 const test = testOperator([Ix.asynciterable.toObservable]);
-const { empty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
-const { _throw } = Ix.asynciterable;
+const { of, from } = Ix.AsyncIterable;
+const { empty, _throw, toArray } = Ix.asynciterable;
 
 test('AsyncIterable#toObservable empty', async ([toObservable]) => {
   const xs = empty<number>();
@@ -69,7 +69,8 @@ test('AsyncIterable#toObservable Symbol.observable should return same instance',
   toObservable
 ]) => {
   const ys = toObservable(of(1, 2, 3));
-  expect(ys).toBe(ys[Symbol.observable]());
+  // @ts-ignore
+  expect(ys).toBe(ys[symbolObservable]());
 });
 
 test('AsyncIterable#toObservable accepts partial observers', async ([toObservable]) => {
@@ -132,6 +133,12 @@ test('AsyncIterable#toObservable interop with rxjs', async ([toObservable]) => {
   const xs: number[] = [];
   const ys = RxJSObservable.from(toObservable(of(1, 2, 3)));
   await endOfObservable(ys, x => xs.push(x));
+  expect(xs).toEqual([1, 2, 3]);
+});
+
+test('AsyncIterable.from interop with rxjs', async ([toObservable]) => {
+  const ys = from(RxJSObservable.from(toObservable(of(1, 2, 3))));
+  const xs = await toArray(ys);
   expect(xs).toEqual([1, 2, 3]);
 });
 

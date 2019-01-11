@@ -1,6 +1,8 @@
 /* tslint:disable */
-
 (<any>global).window = (<any>global).window || global;
+
+// Require rxjs first so we pick up its polyfilled Symbol.observable
+require('rxjs/symbol/observable');
 
 // these are duplicated in the gulpfile :<
 const targets = [`es5`, `es2015`, `esnext`];
