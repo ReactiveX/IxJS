@@ -32,6 +32,9 @@ export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
         i++;
       }
     }
+    if (i === 1 && !this._hasSeed) {
+      yield acc as R;
+    }
   }
 }
 
