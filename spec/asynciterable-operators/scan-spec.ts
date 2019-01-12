@@ -1,6 +1,7 @@
 import * as Ix from '../Ix';
 import { testOperator } from '../asynciterablehelpers';
 const test = testOperator([Ix.asynciterable.scan]);
+const { of } = Ix.AsyncIterable;
 const { range } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
@@ -23,6 +24,14 @@ test('AsyncIterable#scan with seed', async ([scan]) => {
   await hasNext(it, 18);
   await hasNext(it, 14);
   await hasNext(it, 8);
+  await hasNext(it, 0);
+  await noNext(it);
+});
+
+test('AsyncIterable#scan no seed yields the value of single-element sources', async ([scan]) => {
+  const res = scan(of(0), async (n, x, i) => n + x + i);
+
+  const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0);
   await noNext(it);
 });
