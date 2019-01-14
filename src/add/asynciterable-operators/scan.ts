@@ -3,12 +3,12 @@ import { scan } from '../../asynciterable/scan';
 
 export function scanProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
   seed?: never[]
 ): AsyncIterableX<R>;
 export function scanProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
   seed?: R
 ): AsyncIterableX<R>;
 /**
@@ -16,7 +16,7 @@ export function scanProto<T, R = T>(
  */
 export function scanProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
+  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
   ...seed: R[]
 ): AsyncIterableX<R> {
   return scan(this, accumulator, ...seed);
