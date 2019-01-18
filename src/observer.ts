@@ -1,5 +1,26 @@
 import { Subscription } from './subscription';
 
+// Older versions of Rx will polyfill Symbol.observable, which gets
+// compiled into our UMD bundle. At runtime, our UMD bundle defines its
+// version of Symbol.observable, and since it's not getting it from Rx via
+// `require()` anymore, Rx defines and looks for a different Symbol.observable,
+// instance, leading to mismatches.
+// Assigning the global Symbol.observable to the one we bundle in here means
+// that Rx's polyfill will pick it up. Alternatively if there's already a global
+// Symbol.observable (like if Rx was required first), we should use that one inside Ix.
+
+// Symbol.observable addition
+// Note: This will add Symbol.observable globally for all TypeScript users
+declare global {
+  interface SymbolConstructor {
+    readonly observable: symbol;
+  }
+}
+
+// Symbol.observable or a string "@@observable". Used for interop.
+// Referenced via string indexer so closure-compiler doesn't mangle.
+export const observable = (typeof Symbol === 'function' && Symbol.observable) || '@@observable';
+
 export interface NextObserver<T> {
   next: (value: T) => void;
   error?: (err: any) => void;
@@ -51,5 +72,10 @@ export interface Observer<T> {
 }
 
 export interface Observable<T> {
-  subscribe: (observer: Observer<T>) => Subscription;
+  subscribe(observer?: PartialObserver<T>): Subscription;
+  subscribe(
+    next?: (value: T) => void,
+    error?: (error: any) => void,
+    complete?: () => void
+  ): Subscription;
 }

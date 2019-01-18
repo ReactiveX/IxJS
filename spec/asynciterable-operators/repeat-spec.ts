@@ -10,7 +10,7 @@ const { take } = Ix.asynciterable;
 const { tap } = Ix.asynciterable;
 const { toArray } = Ix.asynciterable;
 
-test('AsyncIterable#repeat infinite', async (t, [repeat]) => {
+test('AsyncIterable#repeat infinite', async ([repeat]) => {
   let i = 0;
   const xs = repeat(
     tap(of(1, 2), {
@@ -21,13 +21,12 @@ test('AsyncIterable#repeat infinite', async (t, [repeat]) => {
   );
 
   const res = await toArray(take(xs, 10));
-  t.equal(10, res.length);
-  t.true(every(map(buffer(res, 2), b => sum(b)), x => x === 3));
-  t.equal(10, i);
-  t.end();
+  expect(10).toBe(res.length);
+  expect(every(map(buffer(res, 2), b => sum(b)), x => x === 3)).toBeTruthy();
+  expect(10).toBe(i);
 });
 
-test('AsyncIterable#repeat finite', async (t, [repeat]) => {
+test('AsyncIterable#repeat finite', async ([repeat]) => {
   let i = 0;
   const xs = repeat(
     tap(of(1, 2), {
@@ -39,8 +38,7 @@ test('AsyncIterable#repeat finite', async (t, [repeat]) => {
   );
 
   const res = await toArray(take(xs, 10));
-  t.equal(10, res.length);
-  t.true(every(map(buffer(res, 2), b => sum(b)), x => x === 3));
-  t.equal(10, i);
-  t.end();
+  expect(10).toBe(res.length);
+  expect(every(map(buffer(res, 2), b => sum(b)), x => x === 3)).toBeTruthy();
+  expect(10).toBe(i);
 });

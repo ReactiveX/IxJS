@@ -5,42 +5,38 @@ const { empty } = Ix.iterable;
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#reverse empty', (t, [reverse]) => {
+test('Iterable#reverse empty', ([reverse]) => {
   const xs = empty<number>();
   const ys = reverse(xs);
 
   const it = ys[Symbol.iterator]();
-  noNext(t, it);
-  t.end();
+  noNext(it);
 });
 
-test('Iterable#revrse single element', (t, [reverse]) => {
+test('Iterable#revrse single element', ([reverse]) => {
   const xs = [42];
   const ys = reverse(xs);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 42);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 42);
+  noNext(it);
 });
 
-test('Iterable#reverse multiple elements', (t, [reverse]) => {
+test('Iterable#reverse multiple elements', ([reverse]) => {
   const xs = [1, 2, 3];
   const ys = reverse(xs);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 3);
-  hasNext(t, it, 2);
-  hasNext(t, it, 1);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 3);
+  hasNext(it, 2);
+  hasNext(it, 1);
+  noNext(it);
 });
 
-test('Iterable#reverse throws', (t, [reverse]) => {
+test('Iterable#reverse throws', ([reverse]) => {
   const xs = _throw<number>(new Error());
   const ys = reverse(xs);
 
   const it = ys[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });

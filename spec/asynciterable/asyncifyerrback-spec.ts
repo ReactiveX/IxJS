@@ -1,10 +1,9 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { asyncifyErrback } = Ix.asynciterable;
 const { sequenceEqual } = Ix.iterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#asyncifyErrback single argument', async t => {
+test('AsyncIterable#asyncifyErrback single argument', async () => {
   const callbackFn = (a: number, b: number, cb: Function) => {
     cb(null, a + b);
   };
@@ -13,12 +12,11 @@ test('AsyncIterable#asyncifyErrback single argument', async t => {
   const xs = asyncFn(1, 2);
 
   const it = xs[Symbol.asyncIterator]();
-  await hasNext(t, it, 3);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 3);
+  await noNext(it);
 });
 
-test('AsyncIterable#asyncifyErrback with error', async t => {
+test('AsyncIterable#asyncifyErrback with error', async () => {
   const error = new Error();
   const callbackFn = (a: number, b: number, cb: Function) => {
     cb(error, a + b);
@@ -31,12 +29,11 @@ test('AsyncIterable#asyncifyErrback with error', async t => {
   try {
     await it.next();
   } catch (e) {
-    t.same(error, e);
+    expect(error).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#asyncifyErrback multiple arguments', async t => {
+test('AsyncIterable#asyncifyErrback multiple arguments', async () => {
   const callbackFn = (a: number, b: number, cb: Function) => {
     cb(null, a, b);
   };
@@ -46,8 +43,7 @@ test('AsyncIterable#asyncifyErrback multiple arguments', async t => {
 
   const it = xs[Symbol.asyncIterator]();
   const { value, done } = await it.next();
-  t.true(sequenceEqual(<number[]>value, [1, 2]));
-  t.false(done);
-  await noNext(t, it);
-  t.end();
+  expect(sequenceEqual(value as number[], [1, 2])).toBeTruthy();
+  expect(done).toBeFalsy();
+  await noNext(it);
 });

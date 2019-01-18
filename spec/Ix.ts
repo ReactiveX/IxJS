@@ -1,55 +1,28 @@
 /* tslint:disable */
+(<any>global).window = (<any>global).window || global;
 
-// Dynamically load an Ix target build based on environment vars
-
-const path = require('path');
-const target = process.env.IX_TARGET || ``;
-const format = process.env.IX_MODULE || ``;
-const useSrc = process.env.TEST_TS_SOURCE === `true`;
+// Require rxjs first so we pick up its polyfilled Symbol.observable
+require('rxjs/symbol/observable');
 
 // these are duplicated in the gulpfile :<
 const targets = [`es5`, `es2015`, `esnext`];
 const formats = [`cjs`, `esm`, `cls`, `umd`];
 
-function throwInvalidImportError(name: string, value: string, values: string[]) {
-  throw new Error(
-    'Unrecognized ' +
-      name +
-      " '" +
-      value +
-      "'. Please run tests with '--" +
-      name +
-      ' <any of ' +
-      values.join(', ') +
-      ">'"
-  );
-}
+// Dynamically load an Ix target build based on environment vars
+const path = require('path');
+const target = process.env.TEST_TARGET!;
+const format = process.env.TEST_MODULE!;
+const useSrc =
+  process.env.TEST_TS_SOURCE === `true` || (!~targets.indexOf(target) || !~formats.indexOf(format));
 
 let modulePath = ``;
 
 if (useSrc) modulePath = '../src';
-else if (target === `ts` || target === `ix`) modulePath = target;
-else if (!~targets.indexOf(target)) throwInvalidImportError('target', target, targets);
-else if (!~formats.indexOf(format)) throwInvalidImportError('module', format, formats);
+else if (target === `ts` || target === `apache-arrow`) modulePath = target;
 else modulePath = path.join(target, format);
 
-let Ix: any = require(path.resolve(`./targets`, modulePath, `Ix`));
-let IxInternal: any = require(path.resolve(`./targets`, modulePath, `Ix.internal`));
+modulePath = path.resolve(`./targets`, modulePath);
+const IxPath = path.join(modulePath, `Ix${format === 'umd' ? '.dom' : '.node'}.internal`);
+const IxInternal: typeof import('../src/Ix.node.internal') = require(IxPath);
 
-import { Iterable as Iterable_ } from '../src/Ix';
-import { AsyncSink as AsyncSink_ } from '../src/Ix';
-import { AsyncIterable as AsyncIterable_ } from '../src/Ix';
-import { iterable as iterable_ } from '../src/Ix.internal';
-import { iterablePipe as iterablePipe_ } from '../src/Ix.internal';
-import { asynciterable as asynciterable_ } from '../src/Ix.internal';
-import { asynciterablePipe as asynciterablePipe_ } from '../src/Ix.internal';
-import { fromNodeStream as fromNodeStream_ } from '../src/Ix.internal';
-
-export let Iterable: typeof Iterable_ = Ix.Iterable;
-export let AsyncSink: typeof AsyncSink_ = Ix.AsyncSink;
-export let AsyncIterable: typeof AsyncIterable_ = Ix.AsyncIterable;
-export let iterable: typeof iterable_ = IxInternal.iterable;
-export let iterablePipe: typeof iterablePipe_ = IxInternal.iterablePipe;
-export let asynciterable: typeof asynciterable_ = IxInternal.asynciterable;
-export let asynciterablePipe: typeof asynciterablePipe_ = IxInternal.asynciterablePipe;
-export let fromNodeStream: typeof fromNodeStream_ = IxInternal.fromNodeStream;
+export = IxInternal;

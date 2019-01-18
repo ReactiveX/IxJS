@@ -2,42 +2,35 @@ import * as Ix from '../Ix';
 import { testOperator } from '../iterablehelpers';
 const test = testOperator([Ix.iterable.single]);
 
-test('Iterable#single no predicate empty returns undefined', (t, [single]) => {
+test('Iterable#single no predicate empty returns undefined', ([single]) => {
   const res = single<number>([]);
-  t.equal(res, undefined);
-  t.end();
+  expect(res).toBe(undefined);
 });
 
-test('Iterable#single with predicate empty returns undefined', (t, [single]) => {
+test('Iterable#single with predicate empty returns undefined', ([single]) => {
   const res = single<number>([], () => true);
-  t.equal(res, undefined);
-  t.end();
+  expect(res).toBe(undefined);
 });
 
-test('Iterable#single predicate miss', (t, [single]) => {
+test('Iterable#single predicate miss', ([single]) => {
   const res = single([42], x => x % 2 !== 0);
-  t.equal(res, undefined);
-  t.end();
+  expect(res).toBe(undefined);
 });
 
-test('Iterable#single no predicate hit', (t, [single]) => {
+test('Iterable#single no predicate hit', ([single]) => {
   const res = single([42]);
-  t.equal(res, 42);
-  t.end();
+  expect(res).toBe(42);
 });
 
-test('Iterable#single predicate hit', (t, [single]) => {
+test('Iterable#single predicate hit', ([single]) => {
   const res = single([42], x => x % 2 === 0);
-  t.equal(res, 42);
-  t.end();
+  expect(res).toBe(42);
 });
 
-test('Iterable#single no predicate multiple throws error', (t, [single]) => {
-  t.throws(() => single([42, 45, 90]));
-  t.end();
+test('Iterable#single no predicate multiple throws error', ([single]) => {
+  expect(() => single([42, 45, 90])).toThrow();
 });
 
-test('Iterable#single with predicate multiple throws error', (t, [single]) => {
-  t.throws(() => single([42, 45, 90], x => x % 2 === 0));
-  t.end();
+test('Iterable#single with predicate multiple throws error', ([single]) => {
+  expect(() => single([42, 45, 90], x => x % 2 === 0)).toThrow();
 });

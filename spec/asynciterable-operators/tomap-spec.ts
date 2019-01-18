@@ -3,34 +3,30 @@ import { testOperator } from '../asynciterablehelpers';
 const test = testOperator([Ix.asynciterable.toMap]);
 const { of } = Ix.AsyncIterable;
 
-test('AsyncIterable#toMap stores values', async (t, [toMap]) => {
+test('AsyncIterable#toMap stores values', async ([toMap]) => {
   const xs = of(1, 4);
   const res = await toMap(xs, async x => x % 2);
-  t.equal(res.get(0), 4);
-  t.equal(res.get(1), 1);
-  t.end();
+  expect(res.get(0)).toBe(4);
+  expect(res.get(1)).toBe(1);
 });
 
-test('AsyncIterable#toMap overwrites duplicates', async (t, [toMap]) => {
+test('AsyncIterable#toMap overwrites duplicates', async ([toMap]) => {
   const xs = of(1, 4, 2);
   const res = await toMap(xs, async x => x % 2);
-  t.equal(res.get(0), 2);
-  t.equal(res.get(1), 1);
-  t.end();
+  expect(res.get(0)).toBe(2);
+  expect(res.get(1)).toBe(1);
 });
 
-test('AsyncIterable#toMap with element selector', async (t, [toMap]) => {
+test('AsyncIterable#toMap with element selector', async ([toMap]) => {
   const xs = of(1, 4);
   const res = await toMap(xs, async x => x % 2, async x => x + 1);
-  t.equal(res.get(0), 5);
-  t.equal(res.get(1), 2);
-  t.end();
+  expect(res.get(0)).toBe(5);
+  expect(res.get(1)).toBe(2);
 });
 
-test('AsyncIterable#toMap with element selector overwrites duplicates', async (t, [toMap]) => {
+test('AsyncIterable#toMap with element selector overwrites duplicates', async ([toMap]) => {
   const xs = of(1, 4, 2);
   const res = await toMap(xs, async x => x % 2, async x => x + 1);
-  t.equal(res.get(0), 3);
-  t.equal(res.get(1), 2);
-  t.end();
+  expect(res.get(0)).toBe(3);
+  expect(res.get(1)).toBe(2);
 });

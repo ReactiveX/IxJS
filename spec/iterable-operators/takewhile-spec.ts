@@ -3,55 +3,52 @@ import { testOperator } from '../iterablehelpers';
 const test = testOperator([Ix.iterable.takeWhile]);
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#takeWhile some match', (t, [takeWhile]) => {
+test('Iterable#takeWhile some match', ([takeWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = takeWhile(xs, x => x < 3);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  noNext(it);
 });
 
-test('Iterable#takeWhile no match', (t, [takeWhile]) => {
+test('Iterable#takeWhile no match', ([takeWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = takeWhile(xs, () => false);
 
   const it = ys[Symbol.iterator]();
-  noNext(t, it);
-  t.end();
+  noNext(it);
 });
 
-test('Itearble#takeWhile all match', (t, [takeWhile]) => {
+test('Itearble#takeWhile all match', ([takeWhile]) => {
   const xs = [1, 2, 3, 4];
   const ys = takeWhile(xs, () => true);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  hasNext(t, it, 3);
-  hasNext(t, it, 4);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  hasNext(it, 3);
+  hasNext(it, 4);
+  noNext(it);
 });
 
-test('Iterable#takeWhile uses index', (t, [takeWhile]) => {
+test('Iterable#takeWhile uses index', ([takeWhile]) => {
   const xs = [1, 2, 3, 4];
-  const ys = takeWhile(xs, (x, i) => i < 2);
+  const ys = takeWhile(xs, (_, i) => i < 2);
 
   const it = ys[Symbol.iterator]();
-  hasNext(t, it, 1);
-  hasNext(t, it, 2);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  noNext(it);
 });
 
-test('Iterable#takeWhile predicate throws', (t, [takeWhile]) => {
+test('Iterable#takeWhile predicate throws', ([takeWhile]) => {
   const xs = [1, 2, 3, 4];
-  const ys = takeWhile(xs, () => { throw new Error(); });
+  const ys = takeWhile(xs, () => {
+    throw new Error();
+  });
 
   const it = ys[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });

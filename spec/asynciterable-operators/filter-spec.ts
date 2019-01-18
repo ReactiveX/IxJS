@@ -6,35 +6,33 @@ const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#filter', async (t, [filter]) => {
+test('AsyncIterable#filter', async ([filter]) => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const ys = filter(xs, async x => x % 2 === 0);
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, 8);
-  await hasNext(t, it, 4);
-  await hasNext(t, it, 6);
-  await hasNext(t, it, 2);
-  await hasNext(t, it, 0);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 8);
+  await hasNext(it, 4);
+  await hasNext(it, 6);
+  await hasNext(it, 2);
+  await hasNext(it, 0);
+  await noNext(it);
 });
 
-test('AsyncIterable#filter with index', async (t, [filter]) => {
+test('AsyncIterable#filter with index', async ([filter]) => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
-  const ys = filter(xs, async (x, i) => i % 2 === 0);
+  const ys = filter(xs, async (_, i) => i % 2 === 0);
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, 8);
-  await hasNext(t, it, 7);
-  await hasNext(t, it, 6);
-  await hasNext(t, it, 2);
-  await hasNext(t, it, 0);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 8);
+  await hasNext(it, 7);
+  await hasNext(it, 6);
+  await hasNext(it, 2);
+  await hasNext(it, 0);
+  await noNext(it);
 });
 
-test('AsyncIterable#filter with typeguard', async (t, [filter]) => {
+test('AsyncIterable#filter with typeguard', async ([filter]) => {
   const xs = of<any>(
     new String('8'),
     5,
@@ -49,16 +47,15 @@ test('AsyncIterable#filter with typeguard', async (t, [filter]) => {
   const ys = filter(xs, (x): x is string => x instanceof String);
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, new String('8'));
-  await hasNext(t, it, new String('7'));
-  await hasNext(t, it, new String('6'));
-  await hasNext(t, it, new String('2'));
-  await hasNext(t, it, new String('0'));
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, new String('8'));
+  await hasNext(it, new String('7'));
+  await hasNext(it, new String('6'));
+  await hasNext(it, new String('2'));
+  await hasNext(it, new String('0'));
+  await noNext(it);
 });
 
-test('AsyncIterable#filter throws part way through', async (t, [filter]) => {
+test('AsyncIterable#filter throws part way through', async ([filter]) => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const err = new Error();
   const ys = filter(xs, async x => {
@@ -69,21 +66,20 @@ test('AsyncIterable#filter throws part way through', async (t, [filter]) => {
   });
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, 8);
-  await hasNext(t, it, 5);
-  await hasNext(t, it, 7);
+  await hasNext(it, 8);
+  await hasNext(it, 5);
+  await hasNext(it, 7);
   try {
     await it.next();
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });
 
-test('AsyncIterable#filter with index throws part way through', async (t, [filter]) => {
+test('AsyncIterable#filter with index throws part way through', async ([filter]) => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const err = new Error();
-  const ys = filter(xs, async (x, i) => {
+  const ys = filter(xs, async (_, i) => {
     if (i === 3) {
       throw err;
     }
@@ -91,18 +87,17 @@ test('AsyncIterable#filter with index throws part way through', async (t, [filte
   });
 
   const it = ys[Symbol.asyncIterator]();
-  await hasNext(t, it, 8);
-  await hasNext(t, it, 5);
-  await hasNext(t, it, 7);
+  await hasNext(it, 8);
+  await hasNext(it, 5);
+  await hasNext(it, 7);
   try {
     await it.next();
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });
 
-test('AsyncIterable#filter with error source', async (t, [filter]) => {
+test('AsyncIterable#filter with error source', async ([filter]) => {
   const xs = _throw<number>(new Error());
   const ys = filter(xs, async x => x % 2 === 0);
 
@@ -110,16 +105,14 @@ test('AsyncIterable#filter with error source', async (t, [filter]) => {
   try {
     await it.next();
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });
 
-test('AsyncIterable#filter with empty source', async (t, [filter]) => {
+test('AsyncIterable#filter with empty source', async ([filter]) => {
   const xs = empty<number>();
   const ys = filter(xs, async x => x % 2 === 0);
 
   const it = ys[Symbol.asyncIterator]();
-  await noNext(t, it);
-  t.end();
+  await noNext(it);
 });

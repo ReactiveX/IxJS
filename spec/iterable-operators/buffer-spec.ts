@@ -6,60 +6,55 @@ const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { toArray } = Ix.iterable;
 
-test('Iterable#buffer no skip non-full buffer', (t, [buffer]) => {
+test('Iterable#buffer no skip non-full buffer', ([buffer]) => {
   const rng = range(0, 10);
 
   const res = toArray(buffer(rng, 3));
-  t.equal(4, res.length);
+  expect(4).toBe(res.length);
 
-  t.true(sequenceEqual(res[0], [0, 1, 2]));
-  t.true(sequenceEqual(res[1], [3, 4, 5]));
-  t.true(sequenceEqual(res[2], [6, 7, 8]));
-  t.true(sequenceEqual(res[3], [9]));
-  t.end();
+  expect(sequenceEqual(res[0], [0, 1, 2])).toBeTruthy();
+  expect(sequenceEqual(res[1], [3, 4, 5])).toBeTruthy();
+  expect(sequenceEqual(res[2], [6, 7, 8])).toBeTruthy();
+  expect(sequenceEqual(res[3], [9])).toBeTruthy();
 });
 
-test('Iterable#buffer no skip all full', (t, [buffer]) => {
+test('Iterable#buffer no skip all full', ([buffer]) => {
   const rng = range(0, 10);
 
   const res = toArray(buffer(rng, 5));
-  t.equal(2, res.length);
+  expect(2).toBe(res.length);
 
-  t.true(sequenceEqual(res[0], [0, 1, 2, 3, 4]));
-  t.true(sequenceEqual(res[1], [5, 6, 7, 8, 9]));
-  t.end();
+  expect(sequenceEqual(res[0], [0, 1, 2, 3, 4])).toBeTruthy();
+  expect(sequenceEqual(res[1], [5, 6, 7, 8, 9])).toBeTruthy();
 });
 
-test('Iterable#buffer no skip empty buffer', (t, [buffer]) => {
+test('Iterable#buffer no skip empty buffer', ([buffer]) => {
   const rng = empty<number>();
 
   const res = toArray(buffer(rng, 5));
-  t.equal(0, res.length);
-  t.end();
+  expect(0).toBe(res.length);
 });
 
-test('Iterable#buffer skip non-full buffer', (t, [buffer]) => {
+test('Iterable#buffer skip non-full buffer', ([buffer]) => {
   const rng = range(0, 10);
 
   const res = toArray(buffer(rng, 3, 2));
-  t.equal(5, res.length);
+  expect(5).toBe(res.length);
 
-  t.true(sequenceEqual(res[0], [0, 1, 2]));
-  t.true(sequenceEqual(res[1], [2, 3, 4]));
-  t.true(sequenceEqual(res[2], [4, 5, 6]));
-  t.true(sequenceEqual(res[3], [6, 7, 8]));
-  t.true(sequenceEqual(res[4], [8, 9]));
-  t.end();
+  expect(sequenceEqual(res[0], [0, 1, 2])).toBeTruthy();
+  expect(sequenceEqual(res[1], [2, 3, 4])).toBeTruthy();
+  expect(sequenceEqual(res[2], [4, 5, 6])).toBeTruthy();
+  expect(sequenceEqual(res[3], [6, 7, 8])).toBeTruthy();
+  expect(sequenceEqual(res[4], [8, 9])).toBeTruthy();
 });
 
-test('Iterable#buffer skip full buffer', (t, [buffer]) => {
+test('Iterable#buffer skip full buffer', ([buffer]) => {
   const rng = range(0, 10);
 
   const res = toArray(buffer(rng, 3, 4));
-  t.equal(3, res.length);
+  expect(3).toBe(res.length);
 
-  t.true(sequenceEqual(res[0], [0, 1, 2]));
-  t.true(sequenceEqual(res[1], [4, 5, 6]));
-  t.true(sequenceEqual(res[2], [8, 9]));
-  t.end();
+  expect(sequenceEqual(res[0], [0, 1, 2])).toBeTruthy();
+  expect(sequenceEqual(res[1], [4, 5, 6])).toBeTruthy();
+  expect(sequenceEqual(res[2], [8, 9])).toBeTruthy();
 });

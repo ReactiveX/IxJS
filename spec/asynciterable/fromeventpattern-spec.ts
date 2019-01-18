@@ -1,12 +1,11 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { fromEventPattern } = Ix.asynciterable;
 import { hasNext } from '../asynciterablehelpers';
 import { EventEmitter } from 'events';
 
 const EVENT_TYPE = 'data';
 
-test('AsyncIterable#fromEventPattern writes before emit', async t => {
+test('AsyncIterable#fromEventPattern writes before emit', async () => {
   const e = new EventEmitter();
   const a = fromEventPattern(
     h => e.addListener(EVENT_TYPE, h),
@@ -18,8 +17,7 @@ test('AsyncIterable#fromEventPattern writes before emit', async t => {
   e.emit(EVENT_TYPE, 3);
 
   const it = a[Symbol.asyncIterator]();
-  await hasNext(t, it, 1);
-  await hasNext(t, it, 2);
-  await hasNext(t, it, 3);
-  t.end();
+  await hasNext(it, 1);
+  await hasNext(it, 2);
+  await hasNext(it, 3);
 });

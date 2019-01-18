@@ -7,30 +7,20 @@ const { range } = Ix.iterable;
 const { sequenceEqual } = Ix.iterable;
 const { tap } = Ix.iterable;
 
-testConcatAll('Iterable#concat concatAll behavior', (t, [concatAll]) => {
+testConcatAll('Iterable#concat concatAll behavior', ([concatAll]) => {
   const res = concatAll([[1, 2, 3], [4, 5]]);
-  t.true(sequenceEqual(res, [1, 2, 3, 4, 5]));
-  t.end();
+  expect(sequenceEqual(res, [1, 2, 3, 4, 5])).toBeTruthy();
 });
 
-testConcatAll('Iterable#concat concatAll order of effects', (t, [concatAll]) => {
+testConcatAll('Iterable#concat concatAll order of effects', ([concatAll]) => {
   let i = 0;
   const xss = tap(map(range(0, 3), x => range(0, x + 1)), { next: () => ++i });
   const res = map(concatAll(xss), x => i + ' - ' + x);
 
-  t.true(sequenceEqual(res, [
-    '1 - 0',
-    '2 - 0',
-    '2 - 1',
-    '3 - 0',
-    '3 - 1',
-    '3 - 2'
-  ]));
-  t.end();
+  expect(sequenceEqual(res, ['1 - 0', '2 - 0', '2 - 1', '3 - 0', '3 - 1', '3 - 2'])).toBeTruthy();
 });
 
-testConcat('Iterable#concat behavior', (t, [concat]) => {
+testConcat('Iterable#concat behavior', ([concat]) => {
   const res = concat([1, 2, 3], [4, 5]);
-  t.true(sequenceEqual(res, [1, 2, 3, 4, 5]));
-  t.end();
+  expect(sequenceEqual(res, [1, 2, 3, 4, 5])).toBeTruthy();
 });

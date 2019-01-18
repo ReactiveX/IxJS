@@ -1,31 +1,26 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { generate } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#generate generates normal sequence', async (t: test.Test) => {
-  const xs = generate(
-    0,
-    async x => x < 5,
-    async x => x + 1,
-    async x => x * x
-  );
+test('AsyncIterable#generate generates normal sequence', async () => {
+  const xs = generate(0, async x => x < 5, async x => x + 1, async x => x * x);
 
   const it = xs[Symbol.asyncIterator]();
-  await hasNext(t, it, 0);
-  await hasNext(t, it, 1);
-  await hasNext(t, it, 4);
-  await hasNext(t, it, 9);
-  await hasNext(t, it, 16);
-  await noNext(t, it);
-  t.end();
+  await hasNext(it, 0);
+  await hasNext(it, 1);
+  await hasNext(it, 4);
+  await hasNext(it, 9);
+  await hasNext(it, 16);
+  await noNext(it);
 });
 
-test('AsyncIterable#generate condition throws', async (t: test.Test) => {
+test('AsyncIterable#generate condition throws', async () => {
   const err = new Error();
   const xs = generate(
     0,
-    async x => { throw err; },
+    async _ => {
+      throw err;
+    },
     async x => x + 1,
     async x => x * x
   );
@@ -35,17 +30,18 @@ test('AsyncIterable#generate condition throws', async (t: test.Test) => {
   try {
     await it.next();
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#generate increment throws', async (t: test.Test) => {
+test('AsyncIterable#generate increment throws', async () => {
   const err = new Error();
   const xs = generate(
     0,
     async x => x < 5,
-    async x => { throw err; },
+    async _ => {
+      throw err;
+    },
     async x => x * x
   );
 
@@ -54,18 +50,19 @@ test('AsyncIterable#generate increment throws', async (t: test.Test) => {
   try {
     await it.next();
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#generate result selector throws', async (t: test.Test) => {
+test('AsyncIterable#generate result selector throws', async () => {
   const err = new Error();
   const xs = generate(
     0,
     async x => x < 5,
     async x => x + 1,
-    async x => { throw err; }
+    async _ => {
+      throw err;
+    }
   );
 
   const it = xs[Symbol.asyncIterator]();
@@ -73,7 +70,6 @@ test('AsyncIterable#generate result selector throws', async (t: test.Test) => {
   try {
     await it.next();
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });

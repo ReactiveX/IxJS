@@ -1,21 +1,19 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { ofEntries } = Ix.iterable;
 import { noNext } from '../iterablehelpers';
 
-test('Iterable#ofEntries behavior', t => {
+test('Iterable#ofEntries behavior', () => {
   const xs = { first: 'Bob', last: 'Smith' };
   const ys = ofEntries(xs);
 
   const it = ys[Symbol.iterator]();
   let next = it.next();
-  t.false(next.done);
-  t.equal(next.value[0], 'first');
-  t.equal(next.value[1], 'Bob');
+  expect(next.done).toBeFalsy();
+  expect(next.value[0]).toBe('first');
+  expect(next.value[1]).toBe('Bob');
   next = it.next();
-  t.false(next.done);
-  t.equal(next.value[0], 'last');
-  t.equal(next.value[1], 'Smith');
-  noNext(t, it);
-  t.end();
+  expect(next.done).toBeFalsy();
+  expect(next.value[0]).toBe('last');
+  expect(next.value[1]).toBe('Smith');
+  noNext(it);
 });

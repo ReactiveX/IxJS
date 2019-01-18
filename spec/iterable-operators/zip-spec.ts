@@ -4,85 +4,87 @@ const test = testOperator([Ix.iterable.zip]);
 const { _throw } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#zip equal length', (t, [zip]) => {
+test('Iterable#zip equal length', ([zip]) => {
   const xs = [1, 2, 3];
   const ys = [4, 5, 6];
   const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1 * 4);
-  hasNext(t, it, 2 * 5);
-  hasNext(t, it, 3 * 6);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1 * 4);
+  hasNext(it, 2 * 5);
+  hasNext(it, 3 * 6);
+  noNext(it);
 });
 
-test('Iterable#zip left longer', (t, [zip]) => {
+test('Iterable#zip left longer', ([zip]) => {
   const xs = [1, 2, 3, 4];
   const ys = [4, 5, 6];
   const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1 * 4);
-  hasNext(t, it, 2 * 5);
-  hasNext(t, it, 3 * 6);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1 * 4);
+  hasNext(it, 2 * 5);
+  hasNext(it, 3 * 6);
+  noNext(it);
 });
 
-test('Iterable#zip right longer', (t, [zip]) => {
+test('Iterable#zip right longer', ([zip]) => {
   const xs = [1, 2, 3];
   const ys = [4, 5, 6, 7];
   const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1 * 4);
-  hasNext(t, it, 2 * 5);
-  hasNext(t, it, 3 * 6);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1 * 4);
+  hasNext(it, 2 * 5);
+  hasNext(it, 3 * 6);
+  noNext(it);
 });
 
-test('Iterable#zip multiple sources', (t, [zip]) => {
+test('Iterable#zip multiple sources', ([zip]) => {
   const xs = [1, 2, 3];
   const ys = [4, 5, 6, 7];
   const zs = [8, 9, 10];
   const res = zip(([x, y, z]) => x * y * z, xs, ys, zs);
 
   const it = res[Symbol.iterator]();
-  hasNext(t, it, 1 * 4 * 8);
-  hasNext(t, it, 2 * 5 * 9);
-  hasNext(t, it, 3 * 6 * 10);
-  noNext(t, it);
-  t.end();
+  hasNext(it, 1 * 4 * 8);
+  hasNext(it, 2 * 5 * 9);
+  hasNext(it, 3 * 6 * 10);
+  noNext(it);
 });
 
-test('Iterable#zip left throws', (t, [zip]) => {
+test('Iterable#zip left throws', ([zip]) => {
   const xs = _throw<number>(new Error());
   const ys = [4, 5, 6];
   const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });
 
-test('Iterable#zip right throws', (t, [zip]) => {
+test('Iterable#zip right throws', ([zip]) => {
   const xs = [1, 2, 3];
   const ys = _throw<number>(new Error());
   const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });
 
-test('Iterable#zip selector throws', (t, [zip]) => {
+test('Iterable#zip selector throws', ([zip]) => {
   const xs = [1, 2, 3];
   const ys = [4, 5, 6];
-  const res = zip(([x, y]) => { if (x > 0) { throw new Error(); } return x * y; }, xs, ys);
+  const res = zip(
+    ([x, y]) => {
+      if (x > 0) {
+        throw new Error();
+      }
+      return x * y;
+    },
+    xs,
+    ys
+  );
 
   const it = res[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });

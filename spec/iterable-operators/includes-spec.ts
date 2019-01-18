@@ -2,30 +2,26 @@ import * as Ix from '../Ix';
 import { testOperator } from '../iterablehelpers';
 const test = testOperator([Ix.iterable.includes]);
 
-test('Iterable#includes includes', (t, [includes]) => {
+test('Iterable#includes includes', ([includes]) => {
   const xs = [1, 2, 3, 4, 5];
   const ys = includes(xs, 3);
-  t.true(ys);
-  t.end();
+  expect(ys).toBeTruthy();
 });
 
-test('Iterable#includes does not include', (t, [includes]) => {
+test('Iterable#includes does not include', ([includes]) => {
   const xs = [1, 2, 3, 4, 5];
   const ys = includes(xs, 6);
-  t.false(ys);
-  t.end();
+  expect(ys).toBeFalsy();
 });
 
-test('Iterable#includes fromIndex hits', (t, [includes]) => {
+test('Iterable#includes fromIndex hits', ([includes]) => {
   const xs = [1, 2, 3, 4, 5];
   const ys = includes(xs, 3, 2);
-  t.true(ys);
-  t.end();
+  expect(ys).toBeTruthy();
 });
 
-test('Iterable#includes fromIndex misses', (t, [includes]) => {
+test('Iterable#includes fromIndex misses', ([includes]) => {
   const xs = [1, 2, 3, 4, 5];
   const ys = includes(xs, 1, 2);
-  t.false(ys);
-  t.end();
+  expect(ys).toBeFalsy();
 });

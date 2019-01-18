@@ -6,16 +6,14 @@ const { range } = Ix.asynciterable;
 const { sequenceEqual } = Ix.asynciterable;
 const { take } = Ix.asynciterable;
 
-test('AsyncIterable#skipLast empty', async (t, [skipLast]) => {
+test('AsyncIterable#skipLast empty', async ([skipLast]) => {
   const e = empty<number>();
   const r = skipLast(e, 1);
-  t.true(await sequenceEqual(r, e));
-  t.end();
+  expect(await sequenceEqual(r, e)).toBeTruthy();
 });
 
-test('AsyncIterable#skipLast partial', async (t, [skipLast]) => {
+test('AsyncIterable#skipLast partial', async ([skipLast]) => {
   const e = range(0, 5);
   const r = skipLast(e, 3);
-  t.true(await sequenceEqual(r, take(e, 2)));
-  t.end();
+  expect(await sequenceEqual(r, take(e, 2))).toBeTruthy();
 });

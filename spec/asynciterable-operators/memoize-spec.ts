@@ -22,7 +22,7 @@ async function* tick(t: (x: number) => void | Promise<void>) {
   }
 }
 
-test('AsyncIterable#memoize memoizes effects', async (t, [memoize]) => {
+test('AsyncIterable#memoize memoizes effects', async ([memoize]) => {
   let n = 0;
   const rng = memoize(
     tick(async i => {
@@ -33,141 +33,129 @@ test('AsyncIterable#memoize memoizes effects', async (t, [memoize]) => {
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
 
-  await hasNext(t, it1, 0);
-  t.equal(0, n);
+  await hasNext(it1, 0);
+  expect(0).toBe(n);
 
-  await hasNext(t, it1, 1);
-  t.equal(1, n);
+  await hasNext(it1, 1);
+  expect(1).toBe(n);
 
-  await hasNext(t, it1, 2);
-  t.equal(3, n);
-  await hasNext(t, it2, 0);
-  t.equal(3, n);
+  await hasNext(it1, 2);
+  expect(3).toBe(n);
+  await hasNext(it2, 0);
+  expect(3).toBe(n);
 
-  await hasNext(t, it1, 3);
-  t.equal(6, n);
-  await hasNext(t, it2, 1);
-  t.equal(6, n);
+  await hasNext(it1, 3);
+  expect(6).toBe(n);
+  await hasNext(it2, 1);
+  expect(6).toBe(n);
 
-  await hasNext(t, it2, 2);
-  t.equal(6, n);
-  await hasNext(t, it2, 3);
-  t.equal(6, n);
+  await hasNext(it2, 2);
+  expect(6).toBe(n);
+  await hasNext(it2, 3);
+  expect(6).toBe(n);
 
-  await hasNext(t, it2, 4);
-  t.equal(10, n);
-  await hasNext(t, it1, 4);
-  t.equal(10, n);
-
-  t.end();
+  await hasNext(it2, 4);
+  expect(10).toBe(n);
+  await hasNext(it1, 4);
+  expect(10).toBe(n);
 });
 
-test('AsyncIterable#memoize single', async (t, [memoize]) => {
+test('AsyncIterable#memoize single', async ([memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
 
-  await hasNext(t, it1, 0);
-  await hasNext(t, it1, 1);
-  await hasNext(t, it1, 2);
-  await hasNext(t, it1, 3);
-  await hasNext(t, it1, 4);
-  await noNext(t, it1);
-
-  t.end();
+  await hasNext(it1, 0);
+  await hasNext(it1, 1);
+  await hasNext(it1, 2);
+  await hasNext(it1, 3);
+  await hasNext(it1, 4);
+  await noNext(it1);
 });
 
-test('AsyncIterable#memoize order of operations', async (t, [memoize]) => {
+test('AsyncIterable#memoize order of operations', async ([memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
-  await hasNext(t, it1, 0);
-  await hasNext(t, it1, 1);
-  await hasNext(t, it1, 2);
-  await hasNext(t, it1, 3);
-  await hasNext(t, it1, 4);
-  await noNext(t, it1);
+  await hasNext(it1, 0);
+  await hasNext(it1, 1);
+  await hasNext(it1, 2);
+  await hasNext(it1, 3);
+  await hasNext(it1, 4);
+  await noNext(it1);
 
   const it2 = rng[Symbol.asyncIterator]();
-  await hasNext(t, it2, 0);
-  await hasNext(t, it2, 1);
-  await hasNext(t, it2, 2);
-  await hasNext(t, it2, 3);
-  await hasNext(t, it2, 4);
-  await noNext(t, it2);
-
-  t.end();
+  await hasNext(it2, 0);
+  await hasNext(it2, 1);
+  await hasNext(it2, 2);
+  await hasNext(it2, 3);
+  await hasNext(it2, 4);
+  await noNext(it2);
 });
 
-test('AsyncIterable#memoize second early', async (t, [memoize]) => {
+test('AsyncIterable#memoize second early', async ([memoize]) => {
   const rng = memoize(range(0, 5));
 
   const it1 = rng[Symbol.asyncIterator]();
-  await hasNext(t, it1, 0);
-  await hasNext(t, it1, 1);
-  await hasNext(t, it1, 2);
+  await hasNext(it1, 0);
+  await hasNext(it1, 1);
+  await hasNext(it1, 2);
 
   const it2 = rng[Symbol.asyncIterator]();
-  await hasNext(t, it1, 3);
-  await hasNext(t, it2, 0);
-  await hasNext(t, it2, 1);
-  await hasNext(t, it1, 4);
-  await hasNext(t, it2, 2);
-  await noNext(t, it1);
+  await hasNext(it1, 3);
+  await hasNext(it2, 0);
+  await hasNext(it2, 1);
+  await hasNext(it1, 4);
+  await hasNext(it2, 2);
+  await noNext(it1);
 
-  await hasNext(t, it2, 3);
-  await hasNext(t, it2, 4);
-  await noNext(t, it2);
-
-  t.end();
+  await hasNext(it2, 3);
+  await hasNext(it2, 4);
+  await noNext(it2);
 });
 
-test('AsyncIterable#memoize max two readers', async (t, [memoize]) => {
+test('AsyncIterable#memoize max two readers', async ([memoize]) => {
   const rng = memoize(range(0, 5), 2);
 
   const it1 = rng[Symbol.asyncIterator]();
-  await hasNext(t, it1, 0);
-  await hasNext(t, it1, 1);
-  await hasNext(t, it1, 2);
+  await hasNext(it1, 0);
+  await hasNext(it1, 1);
+  await hasNext(it1, 2);
 
   const it2 = rng[Symbol.asyncIterator]();
-  await hasNext(t, it2, 0);
-  await hasNext(t, it2, 1);
-  await hasNext(t, it2, 2);
+  await hasNext(it2, 0);
+  await hasNext(it2, 1);
+  await hasNext(it2, 2);
 
   const it3 = rng[Symbol.asyncIterator]();
   try {
     await it3.next();
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-
-  t.end();
 });
 
-test('AsyncIterable#memoize concat with error', async (t, [memoize]) => {
+test('AsyncIterable#memoize concat with error', async ([memoize]) => {
   const error = new Error();
   const rng = memoize(concat(range(0, 2), _throw(error)));
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
-  await hasNext(t, it1, 0);
-  await hasNext(t, it1, 1);
+  await hasNext(it1, 0);
+  await hasNext(it1, 1);
   try {
     await it1.next();
   } catch (e) {
-    t.same(error, e);
+    expect(error).toEqual(e);
   }
 
-  await hasNext(t, it2, 0);
-  await hasNext(t, it2, 1);
+  await hasNext(it2, 0);
+  await hasNext(it2, 1);
   try {
     await it2.next();
   } catch (e) {
-    t.same(error, e);
+    expect(error).toEqual(e);
   }
-
-  t.end();
 });
 
 function getRandom() {
@@ -182,13 +170,12 @@ async function* rand() {
   }
 }
 
-test('AsyncIterable#memoize should share effects of random', async (t, [memoize]) => {
+test('AsyncIterable#memoize should share effects of random', async ([memoize]) => {
   const rnd = memoize(take(rand(), 100));
-  t.true(await every(zip(async ([l, r]) => l === r, rnd, rnd), async x => x));
-  t.end();
+  expect(await every(zip(async ([l, r]) => l === r, rnd, rnd), async x => x)).toBeTruthy();
 });
 
-test('AsyncIterable#memoize with selector', async (t, [memoize]) => {
+test('AsyncIterable#memoize with selector', async ([memoize]) => {
   let n = 0;
   const res = await toArray(
     memoize(
@@ -202,12 +189,11 @@ test('AsyncIterable#memoize with selector', async (t, [memoize]) => {
     )
   );
 
-  t.true(await sequenceEqual(from(res), map(range(0, 4), async x => x * 2)));
-  t.equal(4, n);
-  t.end();
+  expect(await sequenceEqual(from(res), map(range(0, 4), async x => x * 2))).toBeTruthy();
+  expect(4).toBe(n);
 });
 
-test('AsyncIterable#memoize limited with selector', async (t, [memoize]) => {
+test('AsyncIterable#memoize limited with selector', async ([memoize]) => {
   let n = 0;
   const res = await toArray(
     memoize(
@@ -221,7 +207,6 @@ test('AsyncIterable#memoize limited with selector', async (t, [memoize]) => {
     )
   );
 
-  t.true(await sequenceEqual(from(res), map(range(0, 4), async x => x * 2)));
-  t.equal(4, n);
-  t.end();
+  expect(await sequenceEqual(from(res), map(range(0, 4), async x => x * 2))).toBeTruthy();
+  expect(4).toBe(n);
 });

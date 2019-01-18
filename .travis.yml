@@ -25,15 +25,16 @@ before_install:
   - export PATH=$HOME/.yarn/bin:$PATH
   - which yarn # for debugging Travis
   - echo $PATH # for debugging Travis
+  - node -v && npm i -g npm@6.5.0 && npm -v
 
 script:
   - |
     if [ "$CI_MATRIX_BUILD" = "true" ]; then
-      npm run build
+      yarn build
     elif [ "$CI_MATRIX_LINT" = "true" ]; then
-      npm run lint
+      yarn lint
     elif [ "$CI_MATRIX_TEST" = "true" ]; then
-      npm run build && npm test
+      yarn start
     else
       echo "This code path is run unexpectedly" 1>&2
       exit 1

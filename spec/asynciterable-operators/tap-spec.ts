@@ -4,7 +4,7 @@ const test = testOperator([Ix.asynciterable.tap]);
 const { range } = Ix.asynciterable;
 const { _throw } = Ix.asynciterable;
 
-test('AsyncItearble#tap next', async (t, [tap]) => {
+test('AsyncItearble#tap next', async ([tap]) => {
   let n = 0;
   let source = tap(range(0, 10), {
     next: async x => {
@@ -13,13 +13,13 @@ test('AsyncItearble#tap next', async (t, [tap]) => {
   });
 
   // tslint:disable-next-line:no-empty
-  for await (let _ of source) { }
+  for await (let _ of source) {
+  }
 
-  t.equal(45, n);
-  t.end();
+  expect(45).toBe(n);
 });
 
-test('AsyncIterable#tap next complete', async (t, [tap]) => {
+test('AsyncIterable#tap next complete', async ([tap]) => {
   let n = 0;
   let source = tap(range(0, 10), {
     next: async x => {
@@ -31,32 +31,32 @@ test('AsyncIterable#tap next complete', async (t, [tap]) => {
   });
 
   // tslint:disable-next-line:no-empty
-  for await (let _ of source) { }
+  for await (let _ of source) {
+  }
 
-  t.equal(90, n);
-  t.end();
+  expect(90).toBe(n);
 });
 
-test('AsyncIterable#tap with error', async (t, [tap]) => {
+test('AsyncIterable#tap with error', async ([tap]) => {
   let err = new Error();
   let ok = false;
 
   try {
     const source = tap(_throw<number>(err), {
       error: async e => {
-        t.same(err, e);
+        expect(err).toEqual(e);
         ok = true;
       }
     });
 
     // tslint:disable-next-line:no-empty
-    for await (let _ of source) { }
+    for await (let _ of source) {
+    }
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
 
-  t.true(ok);
-  t.end();
+  expect(ok).toBeTruthy();
 });
 
 class MyObserver {
@@ -72,14 +72,14 @@ class MyObserver {
   }
 }
 
-test('AsyncItearble#tap with observer class', async (t, [tap]) => {
+test('AsyncItearble#tap with observer class', async ([tap]) => {
   const obs = new MyObserver();
   const source = tap(range(0, 10), obs);
 
   // tslint:disable-next-line:no-empty
-  for await (let _ of source) { }
+  for await (let _ of source) {
+  }
 
-  t.true(obs.done);
-  t.equal(45, obs.sum);
-  t.end();
+  expect(obs.done).toBeTruthy();
+  expect(45).toBe(obs.sum);
 });

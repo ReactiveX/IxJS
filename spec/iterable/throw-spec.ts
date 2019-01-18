@@ -1,11 +1,9 @@
 import * as Ix from '../Ix';
-import * as test from 'tape-async';
 const { _throw } = Ix.iterable;
 
-test('Iterable#throw throws', t => {
+test('Iterable#throw throws', () => {
   const xs = _throw<number>(new Error());
 
   const it = xs[Symbol.iterator]();
-  t.throws(() => it.next());
-  t.end();
+  expect(() => it.next()).toThrow();
 });

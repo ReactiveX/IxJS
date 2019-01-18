@@ -4,40 +4,35 @@ const test = testOperator([Ix.asynciterable.average]);
 const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 
-test('Iterable#average empty', async (t, [average]) => {
+test('Iterable#average empty', async ([average]) => {
   const xs = empty<number>();
   try {
     await average(xs);
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });
 
-test('Iterable#average', async (t, [average]) => {
+test('Iterable#average', async ([average]) => {
   const res = await average(of(1, 2, 3));
-  t.equal(res, 2);
-  t.end();
+  expect(res).toBe(2);
 });
 
-test('Iterable#average with selector empty', async (t, [average]) => {
+test('Iterable#average with selector empty', async ([average]) => {
   const xs = empty<number>();
   try {
     await average(xs, async x => x * 2);
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });
 
-test('Iterable#average with selector', async (t, [average]) => {
+test('Iterable#average with selector', async ([average]) => {
   const res = await average(of(1, 2, 3), x => x * 2);
-  t.equal(res, 4);
-  t.end();
+  expect(res).toBe(4);
 });
 
-test('Iterable#average laws', async (t, [average]) => {
+test('Iterable#average laws', async ([average]) => {
   const xs = of(1, 2, 3);
-  t.equal(await average(xs), await average(xs, x => x));
-  t.end();
+  expect(await average(xs)).toBe(await average(xs, x => x));
 });

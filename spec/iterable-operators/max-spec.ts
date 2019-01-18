@@ -2,30 +2,25 @@ import * as Ix from '../Ix';
 import { testOperator } from '../iterablehelpers';
 const test = testOperator([Ix.iterable.max]);
 
-test('Itearble#max laws', (t, [max]) => {
+test('Itearble#max laws', ([max]) => {
   const xs = [5, 3, 1, 2, 4];
-  t.equal(max(xs), max(xs, x => x));
-  t.end();
+  expect(max(xs)).toBe(max(xs, x => x));
 });
 
-test('Iterable#max empty throws', (t, [max]) => {
-  t.throws(() => max([]));
-  t.end();
+test('Iterable#max empty throws', ([max]) => {
+  expect(() => max([])).toThrow();
 });
 
-test('Iterable#max', (t, [max]) => {
+test('Iterable#max', ([max]) => {
   const xs = [5, 3, 1, 2, 4];
-  t.equal(max(xs), 5);
-  t.end();
+  expect(max(xs)).toBe(5);
 });
 
-test('Iterable#max with selector empty throws', (t, [max]) => {
-  t.throws(() => max([], x => x * 2));
-  t.end();
+test('Iterable#max with selector empty throws', ([max]) => {
+  expect(() => max([], x => x * 2)).toThrow();
 });
 
-test('Iterable#max with selector', (t, [max]) => {
+test('Iterable#max with selector', ([max]) => {
   const xs = [5, 3, 1, 2, 4];
-  t.equal(max(xs, x => x * 2), 10);
-  t.end();
+  expect(max(xs, x => x * 2)).toBe(10);
 });

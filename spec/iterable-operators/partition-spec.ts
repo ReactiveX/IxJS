@@ -9,56 +9,52 @@ function isEven(x: number) {
   return x % 2 === 0;
 }
 
-test('Iterable#partition both empty', (t, [partition]) => {
+test('Iterable#partition both empty', ([partition]) => {
   const xs = empty<number>();
   const [fst, snd] = partition(xs, isEven);
 
   const fstIt = fst[Symbol.iterator]();
-  noNext(t, fstIt);
+  noNext(fstIt);
 
   const sndIt = snd[Symbol.iterator]();
-  noNext(t, sndIt);
-  t.end();
+  noNext(sndIt);
 });
 
-test('Iterable#partition has left', (t, [partition]) => {
+test('Iterable#partition has left', ([partition]) => {
   const xs = of(4);
   const [fst, snd] = partition(xs, isEven);
 
   const fstIt = fst[Symbol.iterator]();
-  hasNext(t, fstIt, 4);
-  noNext(t, fstIt);
+  hasNext(fstIt, 4);
+  noNext(fstIt);
 
   const sndIt = snd[Symbol.iterator]();
-  noNext(t, sndIt);
-  t.end();
+  noNext(sndIt);
 });
 
-test('Iterable#partition has right', (t, [partition]) => {
+test('Iterable#partition has right', ([partition]) => {
   const xs = of(3);
   const [fst, snd] = partition(xs, isEven);
 
   const fstIt = fst[Symbol.iterator]();
-  noNext(t, fstIt);
+  noNext(fstIt);
 
   const sndIt = snd[Symbol.iterator]();
-  hasNext(t, sndIt, 3);
-  noNext(t, sndIt);
-  t.end();
+  hasNext(sndIt, 3);
+  noNext(sndIt);
 });
 
-test('Iterable#partition has both', (t, [partition]) => {
+test('Iterable#partition has both', ([partition]) => {
   const xs = of(1, 2, 3, 4);
   const [fst, snd] = partition(xs, isEven);
 
   const fstIt = fst[Symbol.iterator]();
-  hasNext(t, fstIt, 2);
-  hasNext(t, fstIt, 4);
-  noNext(t, fstIt);
+  hasNext(fstIt, 2);
+  hasNext(fstIt, 4);
+  noNext(fstIt);
 
   const sndIt = snd[Symbol.iterator]();
-  hasNext(t, sndIt, 1);
-  hasNext(t, sndIt, 3);
-  noNext(t, sndIt);
-  t.end();
+  hasNext(sndIt, 1);
+  hasNext(sndIt, 3);
+  noNext(sndIt);
 });

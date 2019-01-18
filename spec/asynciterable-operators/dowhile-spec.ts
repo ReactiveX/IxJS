@@ -7,7 +7,7 @@ const { sequenceEqual } = Ix.iterable;
 const { tap } = Ix.asynciterable;
 const { toArray } = Ix.asynciterable;
 
-test('Iterable#doWhile some', async (t, [doWhile]) => {
+test('Iterable#doWhile some', async ([doWhile]) => {
   let x = 5;
   const res = await toArray(
     doWhile(
@@ -22,11 +22,10 @@ test('Iterable#doWhile some', async (t, [doWhile]) => {
     )
   );
 
-  t.true(sequenceEqual(res, [5, 4, 3, 2, 1]));
-  t.end();
+  expect(sequenceEqual(res, [5, 4, 3, 2, 1])).toBeTruthy();
 });
 
-test('Iterable#doWhile one', async (t, [doWhile]) => {
+test('Iterable#doWhile one', async ([doWhile]) => {
   let x = 0;
   const res = await toArray(
     doWhile(
@@ -41,6 +40,5 @@ test('Iterable#doWhile one', async (t, [doWhile]) => {
     )
   );
 
-  t.true(sequenceEqual(res, [0]));
-  t.end();
+  expect(sequenceEqual(res, [0])).toBeTruthy();
 });

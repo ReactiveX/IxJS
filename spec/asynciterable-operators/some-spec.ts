@@ -4,33 +4,30 @@ const test = testOperator([Ix.asynciterable.some]);
 const { of } = Ix.AsyncIterable;
 const { _throw } = Ix.asynciterable;
 
-test('AsyncIterable#some some true', async (t, [some]) => {
+test('AsyncIterable#some some true', async ([some]) => {
   const xs = of(1, 2, 3, 4);
   const ys = await some(xs, async x => x % 2 === 0);
-  t.true(ys);
-  t.end();
+  expect(ys).toBeTruthy();
 });
 
-test('AsyncIterable#some some false', async (t, [some]) => {
+test('AsyncIterable#some some false', async ([some]) => {
   const xs = of(2, 4, 6, 8);
   const ys = await some(xs, async x => x % 2 !== 0);
-  t.false(ys);
-  t.end();
+  expect(ys).toBeFalsy();
 });
 
-test('AsyncIterable#some throws', async (t, [some]) => {
+test('AsyncIterable#some throws', async ([some]) => {
   const err = new Error();
   const xs = _throw<number>(err);
 
   try {
     await some(xs, async x => x % 2 === 0);
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });
 
-test('AsyncIterable#some predicate throws', async (t, [some]) => {
+test('AsyncIterable#some predicate throws', async ([some]) => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
 
@@ -39,7 +36,6 @@ test('AsyncIterable#some predicate throws', async (t, [some]) => {
       throw err;
     });
   } catch (e) {
-    t.same(err, e);
+    expect(err).toEqual(e);
   }
-  t.end();
 });

@@ -5,15 +5,14 @@ const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 const { sequenceEqual } = Ix.asynciterable;
 
-test('AsyncIterable#map single element', async (t, [map]) => {
+test('AsyncIterable#map single element', async ([map]) => {
   const source = of({ name: 'Frank', custId: 98088 });
   const expected = of('Frank');
 
-  t.true(await sequenceEqual(expected, map(source, x => x.name)));
-  t.end();
+  expect(await sequenceEqual(expected, map(source, x => x.name))).toBeTruthy();
 });
 
-test('AsyncIterable#map maps property', async (t, [map]) => {
+test('AsyncIterable#map maps property', async ([map]) => {
   const source = of<any>(
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
@@ -23,16 +22,16 @@ test('AsyncIterable#map maps property', async (t, [map]) => {
   );
   const expected = of('Frank', 'Bob', 'Chris', null, 'Frank');
 
-  t.true(await sequenceEqual(expected, map(source, x => x.name)));
-  t.end();
+  expect(await sequenceEqual(expected, map(source, x => x.name))).toBeTruthy();
 });
 
-test('AsyncIterable#map empty', async (t, [map]) => {
-  t.true(await sequenceEqual(empty<number>(), map(empty<string>(), (s, i) => s.length + i)));
-  t.end();
+test('AsyncIterable#map empty', async ([map]) => {
+  expect(
+    await sequenceEqual(empty<number>(), map(empty<string>(), (s, i) => s.length + i))
+  ).toBeTruthy();
 });
 
-test('AsyncIterable#map map property using index', async (t, [map]) => {
+test('AsyncIterable#map map property using index', async ([map]) => {
   const source = of(
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
@@ -40,11 +39,12 @@ test('AsyncIterable#map map property using index', async (t, [map]) => {
   );
   const expected = of('Frank', null, null);
 
-  t.true(await sequenceEqual(expected, map(source, (x, i) => (i === 0 ? x.name : null))));
-  t.end();
+  expect(
+    await sequenceEqual(expected, map(source, (x, i) => (i === 0 ? x.name : null)))
+  ).toBeTruthy();
 });
 
-test('AsyncIterable#map map property using index on last', async (t, [map]) => {
+test('AsyncIterable#map map property using index on last', async ([map]) => {
   const source = of(
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
@@ -54,11 +54,12 @@ test('AsyncIterable#map map property using index on last', async (t, [map]) => {
   );
   const expected = of(null, null, null, null, 'Frank');
 
-  t.true(await sequenceEqual(expected, map(source, (x, i) => (i === 4 ? x.name : null))));
-  t.end();
+  expect(
+    await sequenceEqual(expected, map(source, (x, i) => (i === 4 ? x.name : null)))
+  ).toBeTruthy();
 });
 
-test('AsyncIterable#map execution is deferred', async (t, [map]) => {
+test('AsyncIterable#map execution is deferred', async ([map]) => {
   let fnCalled = false;
   const source = of(() => {
     fnCalled = true;
@@ -67,6 +68,5 @@ test('AsyncIterable#map execution is deferred', async (t, [map]) => {
 
   map(source, x => x());
 
-  t.false(fnCalled);
-  t.end();
+  expect(fnCalled).toBeFalsy();
 });

@@ -4,13 +4,14 @@ const test = testOperator([Ix.iterable.chain]);
 const { empty } = Ix.iterable;
 import { noNext } from '../iterablehelpers';
 
-test('Itearble#chain calls function immediately', (t, [chain]) => {
+test('Itearble#chain calls function immediately', ([chain]) => {
   let called = false;
-  const xs = chain(empty<number>(), x => { called = true; return x; });
-  t.true(called);
+  const xs = chain(empty<number>(), x => {
+    called = true;
+    return x;
+  });
+  expect(called).toBeTruthy();
 
   const it = xs[Symbol.iterator]();
-  noNext(t, it);
-
-  t.end();
+  noNext(it);
 });

@@ -1,525 +1,99 @@
-process.stdout.setMaxListeners(Math.pow(10, 6));
-process.on(`beforeExit`, (code) => didAnyTestError && process.exit(code || 1));
-process.on(`unhandledRejection`, (reason, p) => {
-  console.error(`Unhandled Rejection at:`, p, `reason:`, reason);
-  throw reason;
-});
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
-let didAnyTestError = false;
-
-const del = require(`del`);
-const gulp = require(`gulp`);
-const path = require(`path`);
-const pump = require(`pump`);
-const chalk = require(`chalk`);
-const webpack = require(`webpack`);
-const ts = require(`gulp-typescript`);
-const streamMerge = require(`merge2`);
-const tapdiff = require(`tap-difflet`);
-const gulpRename = require(`gulp-rename`);
-const sourcemaps = require(`gulp-sourcemaps`);
-const child_process = require(`child_process`);
-const gulpJsonTransform = require(`gulp-json-transform`);
-const UglifyJSPlugin = require(`uglifyjs-webpack-plugin`);
-const { spawn: spawnRx, spawnDetached } = require(`spawn-rx`);
-const closureCompiler = require(`google-closure-compiler`).gulp();
-const esmRequire = require(`@std/esm`)(module, { cjs: true, esm: `js` });
-const { Observable, Scheduler, Subject, ReplaySubject } = require(`rxjs`);
-
-const releasesRootDir = `targets`;
-const knownTargets = [`es5`, `es2015`, `esnext`];
-const knownModules = [`cjs`, `esm`, `cls`, `umd`];
-const metadataFiles = [`LICENSE`, `readme.md`, `CHANGELOG.md`];
-const packageJSONFields = [
-  `version`, `license`, `description`,
-  `author`, `homepage`, `repository`,
-  `bugs`, `keywords`,  `dependencies`
-];
-
-const argv = require(`command-line-args`)([
-  { name: `all`, alias: `a`, type: Boolean },
-  { name: `target`, type: String, defaultValue: `` },
-  { name: `module`, type: String, defaultValue: `` },
-  { name: `loglvl`, alias: `l`, type: Number, defaultValue: 4 },
-  { name: `targets`, alias: `t`, type: String, multiple: true, defaultValue: [] },
-  { name: `modules`, alias: `m`, type: String, multiple: true, defaultValue: [] }
-]);
-
-// ES7+ keywords Uglify shouldn't mangle
-// Hardcoded here since some are from ES7+, others are
-// only defined in interfaces, so difficult to get by reflection.
-const IxKeywords = [
-  // GroupedIterable/GroupedAsyncIterable
-  `key`,
-  // PropertyDescriptors
-  `configurable`, `enumerable`,
-  // IteratorResult, Symbol.asyncIterator
-  `done`, `value`, `asyncIterator`,
-  // AsyncObserver
-  `values`, `hasError`, `hasCompleted`,`errorValue`, `closed`,
-  // Observable/Subscription/Scheduler
-  `next`, `error`, `complete`, `subscribe`, `unsubscribe`, `isUnsubscribed`,
-  // EventTarget
-  `addListener`, `removeListener`, `addEventListener`, `removeEventListener`,
-];
-
-// see: https://github.com/google/closure-compiler/blob/c1372b799d94582eaf4b507a4a22558ff26c403c/src/com/google/javascript/jscomp/CompilerOptions.java#L2988
-const gCCLanguageNames = {
-     es5: `ECMASCRIPT5`,
-  es2015: `ECMASCRIPT_2015`,
-  es2016: `ECMASCRIPT_2016`,
-  es2017: `ECMASCRIPT_2017`,
-  esnext: `ECMASCRIPT_NEXT`
-};
-
-const UMDSourceTargets = {
-  es5: `es5`,
-  es2015: `es2015`,
-  es2016: `es2015`,
-  es2017: `es2015`,
-  esnext: `es2015`
-};
-
-const uglifyLanguageNames = {
-  es5: 5, es2015: 6,
-  es2016: 7, es2017: 8,
-  esnext: 8 // <--- ?
-};
-
-Observable.prototype.logEverything = function(tag = `Observable`, loglevel = argv.loglvl) {
-  return this.do({
-    next(x) { loglevel <= 1 && console.log(`${tag} next:\n`, x) },
-    error(e) { loglevel <= 3 && console.error(`${tag} error:\n`, e); },
-    complete() { loglevel <= 2 && console.log(`${tag} complete`); }
-  }).finally(() => loglevel <= 2 && console.log(`${tag} disposed`));
-};
-
-function _die(e) {
-  if (e) {
-    process.exit(1);
-  }
-}
-
-Observable.fromStream = function observableFromStreams(...streams) {
-  const pumped = streams.length <= 1 ? streams[0] : pump(...streams, _die);
-  const fromEvent = Observable.fromEvent.bind(null, pumped);
-  const streamObs = fromEvent(`data`)
-             .merge(fromEvent(`error`).flatMap((e) => Observable.throw(e)))
-         .takeUntil(fromEvent(`end`).merge(fromEvent(`close`)))
-         .defaultIfEmpty(`empty stream`)
-         .logEverything(`fromStream`)
-         .multicast(new ReplaySubject()).refCount();
-  streamObs.stream = pumped;
-  streamObs.observable = streamObs;
-  return streamObs;
-};
-
-const memoizeTask = ((cache, taskFn) => ((target, format, ...args) => {
-  // Give the memoized fn a displayName so gulp's output is easier to follow.
-  const fn = () => (
-    cache[_taskHash(target, format)] || (
-    cache[_taskHash(target, format)] = taskFn(target, format, ...args)
-                                               .logEverything(fn.displayName)));
-  fn.displayName = `${taskFn.name || ``}:${_taskHash(target, format, ...args)}:task`;
-  return fn;
-}));
-
-const cleanTask = ((cache) => memoizeTask(cache, function clean(target, format) {
-  return Observable.from(del(`${_dir(target, format)}/**`)).multicast(new ReplaySubject()).refCount();
-}))({});
-
-const buildTask = ((cache) => memoizeTask(cache, function build(target, format, ...args) {
-  return target === `ts`  ? copyTSSources(target, format, ...args)()
-       : target === `ix`  ? copyIxTargets(target, format, ...args)()
-       : format === `umd` ? target === `es5`
-                          ?  compileClosure(target, format, ...args)()
-                          : compileUglifyJS(target, format, ...args)()
-       : format === `cls` && target === `es5`
-                          ?  compileTsickle(target, format, ...args)()
-                          : compileTypescript(target, format, ...args)();
-}))({});
-
-const bundleTask = ((cache) => memoizeTask(cache, function bundle(target, format) {
-  const out = _dir(target, format);
-  const jsonTransform = gulpJsonTransform(target === `ix` ? createIxPackageJson(target, format) :
-                                          target === `ts` ? createTsPackageJson(target, format) :
-                                                            createScopedPackage(target, format) ,
-                                          2);
-  return Observable.forkJoin(
-    Observable.fromStream(gulp.src(metadataFiles), gulp.dest(out)), // copy metadata files
-    Observable.fromStream(gulp.src(`package.json`), jsonTransform, gulp.dest(out)) // write packageJSONs
-  ).publish(new ReplaySubject()).refCount();
-}))({});
-
-const testsTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function tests(target, format, extraArgv = []) {
-  const opts = { ...testOptions };
-  const args = [...execArgv, ...extraArgv];
-  opts.env = { ...opts.env, IX_TARGET: target, IX_MODULE: format };
-  return   spawnRx(`tap-difflet`, [`-p`], {
-    stdin: spawnRx(`ts-node`, [...args, path.join(`.`, `spec`, `index.ts`)], opts)
-  })
-  .filter((x) => x && x.trim())
-  .map((x) => x.replace(`\n`, ``))
-  .materialize().toArray()
-  .flatMap((out) => {
-    let res = Observable.of;
-    let last = out[out.length - 2];
-    let terminator = out[out.length - 1];
-    let message = last && last.value || ``;
-    if (terminator.kind === `E`) {
-      didAnyTestError = true;
-      res = Observable.throw;
-      message = chalk.red(`\n${
-        out.slice(0, -1).map(({ value }) => value).join(`\n`)
-      }\n`);
-    } else if (message) {
-      process.stdout.write(chalk.green(message) + `\n`);
-    }
-    return res({ stack: message });
-  })
-  .multicast(new ReplaySubject()).refCount();
-}))({},
-  [`--disableWarnings`, `--harmony_async_iteration`],
-  {
-    env: {
-      ...process.env,
-      TS_NODE_TYPE_CHECK: false,
-      TS_NODE_CACHE: false, TS_NODE_FAST: true,
-      TS_NODE_PROJECT:  `./spec/tsconfig.json`,
-    }
-  }
-);
-
-const copyTSSources = ((cache) => memoizeTask(cache, function copyTS(target, format) {
-  return Observable.fromStream(gulp.src(`src/**/*.ts`), gulp.dest(_dir(target, format)));
-}))({});
-
-const copyIxTargets = ((cache) => memoizeTask(cache, function copyIx(target, format) {
-  const out = _dir(target), srcGlob = `src/**/*.ts`;
-  const es5UmdGlob = `${_dir(`es5`, `umd`)}/**/*.js`;
-  const es5UmdMaps = `${_dir(`es5`, `umd`)}/**/*.map`;
-  const es2015CjsGlob = `${_dir(`es2015`, `cjs`)}/**/*.js`;
-  const es2015EsmGlob = `${_dir(`es2015`, `esm`)}/**/*.js`;
-  const es2015UmdGlob = `${_dir(`es2015`, `umd`)}/**/*.js`;
-  const es2015UmdMaps = `${_dir(`es2015`, `umd`)}/**/*.map`;
-  const ch_ext = (ext) => gulpRename((p) => { p.extname = ext; });
-  const append = (ap) => gulpRename((p) => { p.basename += ap; });
-  return Observable.forkJoin(
-    Observable.fromStream(gulp.src(srcGlob), gulp.dest(out)), // copy src ts files
-    Observable.fromStream(gulp.src(es2015CjsGlob), gulp.dest(out)), // copy es2015 cjs files
-    Observable.fromStream(gulp.src(es2015EsmGlob), ch_ext(`.mjs`), gulp.dest(out)), // copy es2015 esm files and rename to `.mjs`
-    Observable.fromStream(gulp.src(es5UmdGlob), append(`.es5.min`), gulp.dest(out)), // copy es5 umd files and add `.min`
-    Observable.fromStream(gulp.src(es5UmdMaps),                     gulp.dest(out)), // copy es5 umd sourcemap files, but don't rename
-    Observable.fromStream(gulp.src(es2015UmdGlob), append(`.es2015.min`), gulp.dest(out)), // copy es2015 umd files and add `.es6.min`
-    Observable.fromStream(gulp.src(es2015UmdMaps),                        gulp.dest(out)), // copy es2015 umd sourcemap files, but don't rename
-  ).publish(new ReplaySubject()).refCount();
-}))({});
-
-const compileTsickle = ((cache) => memoizeTask(cache, function tsickle(target, format) {
-  return spawnRx(`tsickle`,
-    [
-      `--typed`, `--externs`, path.join(`.`, _dir(target, format), `Ix.externs.js`),
-      `--`,             `-p`, path.join(`.`, `tsconfig`, _tsconfig(target, format))
-    ],
-    { stdio: [`ignore`, `inherit`, `inherit`] }
-  ).multicast(new ReplaySubject()).refCount();
-}))({});
-
-const compileTypescript = ((cache) => memoizeTask(cache, function typescript(target, format) {
-  const out = _dir(target, format);
-  const tsconfigFile = `tsconfig.${_tsconfig(target, format)}.json`;
-  const tsProject = ts.createProject(path.join(`tsconfig`, tsconfigFile));
-  const { stream: { js, dts } } = Observable.fromStream(
-    tsProject.src(), sourcemaps.init(),
-    tsProject(ts.reporter.defaultReporter())
-  );
-  const writeDTypes = Observable.fromStream(dts, gulp.dest(out));
-  const writeJS = Observable.fromStream(js, sourcemaps.write(), gulp.dest(out));
-  return Observable.forkJoin(writeDTypes, writeJS).publish(new ReplaySubject()).refCount();
-}))({});
-
-const compileUglifyJS = ((cache, commonConfig) => memoizeTask(cache, function uglifyJS(target, format) {
-
-  const sourceTarget = UMDSourceTargets[target];
-  const PublicNames = reservePublicNames(sourceTarget, `cls`);
-  const InternalNames = reserveInternalNames(sourceTarget, `cls`);
-  const out = _dir(target, format), src = _dir(sourceTarget, `cls`);
-
-  const targetConfig = {
-              ...commonConfig,
-    output: { ...commonConfig.output,
-       path: path.resolve(`./${out}`) } };
-
-  const webpackConfigs = [
-    [`Ix`, PublicNames],
-    [`Ix.internal`, InternalNames]
-  ].map(([entry, reserved]) => ({
-    ...targetConfig,
-    name: entry,
-    entry: { [entry]: path.resolve(`${src}/${entry}.js`) },
-    plugins: [
-      ...(targetConfig.plugins || []),
-      new webpack.SourceMapDevToolPlugin({
-        filename: `[name].${target}.min.js.map`,
-        moduleFilenameTemplate: ({ resourcePath }) =>
-          resourcePath
-            .replace(/\s/, `_`)
-            .replace(/\.\/node_modules\//, ``)
-      }),
-      new UglifyJSPlugin({
-        sourceMap: true,
-        uglifyOptions: {
-          ecma: uglifyLanguageNames[target],
-          compress: { unsafe: true, },
-          output: { comments: false, beautify: false },
-          mangle: { eval: true, safari10: true, // <-- Works around a Safari 10 bug: // https://github.com/mishoo/UglifyJS2/issues/1753
-            properties: { reserved, keep_quoted: true }
-          }
-        },
-      })
-    ]
-  }));
-
-  const compilers = webpack(webpackConfigs);
-
-  return Observable
-    .bindNodeCallback(compilers.run.bind(compilers))()
-    .multicast(new ReplaySubject()).refCount();
-
-}))({}, {
-  resolve: { mainFields: [`module`, `main`] },
-  module: { rules: [{ test: /\.js$/, enforce: `pre`, use: [`source-map-loader`] }] },
-  output: { filename: '[name].js', library: `Ix`, libraryTarget: `umd`, umdNamedDefine: true },
-});
-
-const compileClosure = ((cache) => memoizeTask(cache, function closure(target, format) {
-  const src = _dir(target, `cls`), out = _dir(target, format);
-  const closureStreams = [
-             [`Ix`, `Ix.internal`],
-             [`Ix.internal`, `Ix`]
-      ].map(([entry, otherEntryFile]) => [
-    gulp.src([
-  /*   tslib comes first, --> */`scripts/tslib.js`,
- /*   then sources glob, --> */ `${src}/**/*.js`,
-/*  and exclusions last --> */ `!${src}/Ix.externs.js`,
-                               `!${src}/${otherEntryFile}.js`
-    ], { base: `./` }), sourcemaps.init(),
-    closureCompiler(createClosureArgs(target, entry, `${src}/Ix.externs.js`)),
-    // rename the sourcemaps from *.js.map files to *.min.js.map
-    sourcemaps.write(`.`, { mapFile: (mapPath) => mapPath.replace(`.js.map`, `.${target}.min.js.map`) }),
-    gulp.dest(out)
-  ]);
-  return Observable.forkJoin(closureStreams
-    .map((streams) => Observable.fromStream(...streams)))
-    .publish(new ReplaySubject()).refCount();
-}))({});
-
-const createIxPackageJson = (target, format) => (orig) => ({
-  ...createTsPackageJson(target, format)(orig),
-  name: orig.name,
-  main: `Ix`,
-  module: `Ix.mjs`,
-  browser: `Ix.es5.min.js`,
-  [`@std/esm`]: { esm: `mjs` },
-  [`browser:es2015`]: `Ix.es2015.min.js`
-});
-
-const createTsPackageJson = (target, format) => (orig) => ({
-  ...createScopedPackage(target, format)(orig),
-  main: `Ix.ts`, types: `Ix.ts`
-});
-
-const createScopedPackage = (target, format) => (({ name, ...orig }) =>
-  conditionallyAddStandardESMEntry(target, format)(
-    packageJSONFields.reduce(
-      (xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }),
-      { name: `@reactivex/${name}-${_name(target, format)}`,
-        version: undefined, main: `Ix.js`, types: `Ix.d.ts`,
-        browser: undefined, [`browser:es2015`]: undefined,
-        module: undefined, [`@std/esm`]: undefined }
-    )
-  )
-);
-
-const conditionallyAddStandardESMEntry = (target, format) => (packageJSON) => (
-  format !== `esm`
-    ? packageJSON
-    : { ...packageJSON, [`@std/esm`]: { esm: `js` } }
-);
-
-const createClosureArgs = (target, entry, externs) => ({
-    externs,
-    warning_level: `QUIET`,
-    dependency_mode: `LOOSE`,
-    rewrite_polyfills: false,
-    // formatting: `PRETTY_PRINT`,
-    compilation_level: `ADVANCED`,
-    assume_function_wrapper: true,
-    js_output_file: `${entry}.js`,
-    language_in: gCCLanguageNames[target],
-    language_out: gCCLanguageNames[target],
-    entry_point: `targets.${target}.cls.${entry}`,
-    output_wrapper: `(function (global, factory) {
-typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-typeof define === 'function' && define.amd ? define(['exports'], factory) :
-(factory(global.Ix = global.Ix || {}));
-}(this, (function (exports) {%output%}.bind(this))));`
-});
-
-const reservePublicNames = ((IxKeywords) => function reservePublicNames(target, format) {
-  const publicModulePath = `./${_dir(target, format)}/Ix.js`;
-  return [
-    ...IxKeywords,
-    ...reserveExportedNames(esmRequire(publicModulePath))
-  ];
-})(IxKeywords);
-
-const reserveInternalNames = ((IxKeywords) => function reserveInternalNames(target, format) {
-  const internalModulePath = `./${_dir(target, format)}/Ix.internal.js`;
-  return [
-    ...IxKeywords,
-    ...reservePublicNames(target, format),
-    ...reserveExportedNames(esmRequire(internalModulePath))
-  ];
-})(IxKeywords);
-
-// Reflect on the Ix/Ix.internal modules to come up with a list
-// of keys to save from Uglify's mangler. Assume all the non-inherited
-// static and prototype members of the Ix module and its direct exports
-// are public, and should be preserved through minification. This isn't
-// an exhaustive list, since some properties we need are only exported
-// as types/interfaces (see comment at `IxKeywords` declaration above)
-const reserveExportedNames = (entryModule) => (
-  Object
-    .getOwnPropertyNames(entryModule)
-    .filter((name) => (
-      typeof entryModule[name] === `object` ||
-      typeof entryModule[name] === `function`
-    ))
-    .map((name) => [name, entryModule[name]])
-    .reduce((reserved, [name, value]) => {
-      const fn = function() {};
-      const ownKeys = value && Object.getOwnPropertyNames(value) || [];
-      const protoKeys = typeof value === `function` && Object.getOwnPropertyNames(value.prototype) || [];
-      const publicNames = [...ownKeys, ...protoKeys].filter((x) => x !== `default` && x !== `undefined` && !(x in fn));
-      return [...reserved, name, ...publicNames];
-    }, []
-  )
-);
-
-const { targets, modules } = argv;
-
-argv.target && !targets.length && targets.push(argv.target);
-argv.module && !modules.length && modules.push(argv.module);
-(argv.all || !targets.length) && targets.push(`all`);
-(argv.all || !modules.length) && modules.push(`all`);
+const del = require('del');
+const gulp = require('gulp');
+const { Observable } = require('rxjs');
+const cleanTask = require('./gulp/clean-task');
+const { testTask } = require('./gulp/test-task');
+const compileTask = require('./gulp/compile-task');
+const packageTask = require('./gulp/package-task');
+const { targets, modules } = require('./gulp/argv');
+const {
+    taskName, combinations,
+    targetDir, knownTargets,
+    npmPkgName, UMDSourceTargets,
+    tasksToSkipPerTargetOrFormat
+} = require('./gulp/util');
 
 for (const [target, format] of combinations([`all`], [`all`])) {
-  const task = _task(target, format);
-  gulp.task(`clean:${task}`, cleanTask(target, format));
-  gulp.task( `test:${task}`, testsTask(target, format));
-  gulp.task(`debug:${task}`, testsTask(target, format, [`--inspect-brk`]));
-  gulp.task(`build:${task}`, gulp.series(`clean:${task}`,
-                                          buildTask(target, format),
-                                          bundleTask(target, format)));
+    const task = taskName(target, format);
+    gulp.task(`clean:${task}`, cleanTask(target, format));
+    gulp.task( `test:${task}`,  testTask(target, format));
+    gulp.task(`compile:${task}`, compileTask(target, format));
+    gulp.task(`package:${task}`, packageTask(target, format));
+    gulp.task(`build:${task}`, gulp.series(
+        `clean:${task}`, `compile:${task}`, `package:${task}`
+    ));
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
 // then run the TS source through either closure-compiler or
-// uglify, so we special case that here.
-knownTargets.forEach((target) =>
-  gulp.task(`build:${target}:umd`,
-    gulp.series(
-      gulp.parallel(
-        cleanTask(target, `umd`),
-        cleanTask(UMDSourceTargets[target], `cls`),
-      ),
-      buildTask(UMDSourceTargets[target], `cls`),
-      buildTask(target, `umd`), bundleTask(target, `umd`)
-    )
-  )
-);
+// a minifier, so we special case that here.
+knownTargets.forEach((target) => {
+    const umd = taskName(target, `umd`);
+    const cls = taskName(UMDSourceTargets[target], `cls`);
+    gulp.task(`build:${umd}`, gulp.series(
+        `build:${cls}`,
+        `clean:${umd}`, `compile:${umd}`, `package:${umd}`,
+        function remove_closure_tmp_files() {
+            return del(targetDir(target, `cls`))
+        }
+    ));
+});
 
 // The main "ix" module builds the es5/umd, es2015/cjs,
-// es2015/esm, es2015/umd, and ts targets, then copies
-// and renames the compiled output into the ix folder.
-gulp.task(`build:ix`,
-  gulp.series(
-    cleanTask(`ix`),
-    gulp.parallel(
-      `build:${_task(`es5`, `umd`)}`,
-      `build:${_task(`es2015`, `umd`)}`,
-      `build:${_task(`es2015`, `cjs`)}`,
-      `build:${_task(`es2015`, `esm`)}`
-    ),
-    buildTask(`ix`), bundleTask(`ix`)
-  )
+// es2015/esm, and es2015/umd targets, then copies and renames the
+// compiled output into the ix folder
+gulp.task(`build:${npmPkgName}`,
+    gulp.series(
+        gulp.parallel(
+            `build:${taskName(`es5`, `umd`)}`,
+            `build:${taskName(`es2015`, `cjs`)}`,
+            `build:${taskName(`es2015`, `esm`)}`,
+            `build:${taskName(`es2015`, `umd`)}`
+        ),
+        `clean:${npmPkgName}`,
+        `compile:${npmPkgName}`,
+        `package:${npmPkgName}`
+    )
 );
 
-function gulpConcurrent(tasks, concurrency = 'parallel') {
-  return () => Observable.bindCallback((tasks, cb) => gulp[concurrency](tasks)(cb))(tasks);
+// And finally the global composite tasks
+gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
+gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
+gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
+gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
+gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
+gulp.task(`default`,  gulp.series(`clean`, `build`, `test`));
+
+function gulpConcurrent(tasks, numCPUs = require('os').cpus().length) {
+    return () => Observable.from(tasks.map((task) => gulp.series(task)))
+        .flatMap((task) => Observable.bindNodeCallback(task)(), numCPUs || 1);
 }
-
-const buildConcurrent = (tasks) => () =>
-    gulpConcurrent(tasks)()
-      .concat(Observable
-        .defer(() => modules.indexOf(`cls`) > -1 ?
-          Observable.empty() :
-          Observable.merge(...knownTargets.map((target) =>
-            del(`${_dir(target, `cls`)}/**`)))));
-
-const testConcurrency = process.env.IS_APPVEYOR_CI ? 'series' : 'parallel';
-
-gulp.task( `test`, gulpConcurrent(getTasks(`test`), testConcurrency));
-gulp.task(`build`,buildConcurrent(getTasks(`build`)));
-gulp.task(`clean`, gulpConcurrent(getTasks(`clean`)));
-gulp.task(`debug`, gulpConcurrent(getTasks(`debug`)));
-gulp.task(`default`,  gulp.series(`build`, `test`));
 
 function getTasks(name) {
-  const tasks = [];
-  if (targets.indexOf(`ts`) !== -1) tasks.push(`${name}:ts`);
-  if (targets.indexOf(`ix`) !== -1) tasks.push(`${name}:ix`);
-  for (const [target, format] of combinations(targets, modules)) {
-    if (format === `cls` && (name === `test` || modules.indexOf(`cls`) === -1)) {
-      continue;
+    const tasks = [];
+    if (targets.indexOf(`ts`) !== -1) tasks.push(`${name}:ts`);
+    if (targets.indexOf(npmPkgName) !== -1) tasks.push(`${name}:${npmPkgName}`);
+    for (const [target, format] of combinations(targets, modules)) {
+        if (tasksToSkipPerTargetOrFormat[target] && tasksToSkipPerTargetOrFormat[target][name]) continue;
+        if (tasksToSkipPerTargetOrFormat[format] && tasksToSkipPerTargetOrFormat[format][name]) continue;
+        tasks.push(`${name}:${taskName(target, format)}`);
     }
-    tasks.push(`${name}:${_task(target, format)}`);
-  }
-  return tasks.length && tasks || [(done) => done()];
-}
-
-function _name(target, format) { return !format ? target : `${target}-${format}`; }
-function _task(target, format) { return !format ? target : `${target}:${format}`; }
-function _tsconfig(target, format) { return !format ? target : `${target}.${format}`; }
-function _taskHash(...args) { return args.filter((x) => x !== void 0 && x !== ``).join(`:`); }
-function _dir(target, format) { return path.join(releasesRootDir, ...(!format ? [target] : [target, format])); }
-
-function* combinations(_targets, _modules) {
-
-  const targets = known(knownTargets, _targets || (_targets = [`all`]));
-  const modules = known(knownModules, _modules || (_modules = [`all`]));
-
-  if (_targets[0] === `all` && _modules[0] === `all`) {
-    yield [`ts`, ``];
-    yield [`ix`, ``];
-  }
-
-  for (const format of modules) {
-    for (const target of targets) {
-      yield [target, format];
-    }
-  }
-
-  function known(known, values) {
-    return ~values.indexOf(`all`)
-      ? known
-      : Object.keys(
-        values.reduce((map, arg) => ((
-          (known.indexOf(arg) !== -1) &&
-          (map[arg.toLowerCase()] = true)
-          || true) && map
-        ), {})
-      ).sort((a, b) => known.indexOf(a) - known.indexOf(b));
-  }
+    return tasks.length && tasks || [(done) => done()];
 }

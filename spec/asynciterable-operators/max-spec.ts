@@ -4,42 +4,37 @@ const test = testOperator([Ix.asynciterable.max]);
 const { empty } = Ix.asynciterable;
 const { of } = Ix.AsyncIterable;
 
-test('AsyncItearble#max laws', async (t, [max]) => {
+test('AsyncItearble#max laws', async ([max]) => {
   const xs = of(5, 3, 1, 2, 4);
-  t.equal(await max(xs), await max(xs, async x => x));
-  t.end();
+  expect(await max(xs)).toBe(await max(xs, async x => x));
 });
 
-test('AsyncIterable#max empty throws', async (t, [max]) => {
+test('AsyncIterable#max empty throws', async ([max]) => {
   const xs = empty<number>();
   try {
     await max(xs);
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });
 
-test('AsyncIterable#max', async (t, [max]) => {
+test('AsyncIterable#max', async ([max]) => {
   const xs = of(5, 3, 1, 2, 4);
   const res = await max(xs);
-  t.equal(res, 5);
-  t.end();
+  expect(res).toBe(5);
 });
 
-test('AsyncIterable#max with selector empty throws', async (t, [max]) => {
+test('AsyncIterable#max with selector empty throws', async ([max]) => {
   const xs = empty<number>();
   try {
     await max(xs, async x => x * 2);
   } catch (e) {
-    t.assert(e != null);
+    expect(e != null).toBeTruthy();
   }
-  t.end();
 });
 
-test('AsyncIterable#max with selector', async (t, [max]) => {
+test('AsyncIterable#max with selector', async ([max]) => {
   const xs = of(5, 3, 1, 2, 4);
   const res = await max(xs, async x => x * 2);
-  t.equal(res, 10);
-  t.end();
+  expect(res).toBe(10);
 });
