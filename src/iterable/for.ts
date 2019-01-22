@@ -1,6 +1,6 @@
 import { IterableX } from './iterablex';
-import { concatAll } from './concatall';
-import { map } from './map';
+import { concatAll } from './operators/concatall';
+import { map } from './operators/map';
 
 /**
  * Concatenates the iterable sequences obtained by running the result selector for each

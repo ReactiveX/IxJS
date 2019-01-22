@@ -1,21 +1,21 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { IRefCountList, MaxRefCountList, RefCountList } from '../../iterable/operators/_refcountlist';
+import { IterableX } from '../iterablex';
+import { IRefCountList, MaxRefCountList, RefCountList } from './_refcountlist';
 import { create } from '../create';
-import { OperatorAsyncFunction } from '../../interfaces';
+import { OperatorFunction } from '../../interfaces';
 
-export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
-  private _source: AsyncIterator<T>;
+class MemoizeBuffer<T> extends IterableX<T> {
+  private _source: Iterator<T>;
   private _buffer: IRefCountList<T>;
   private _error: any;
   private _stopped: boolean = false;
 
-  constructor(source: AsyncIterator<T>, buffer: IRefCountList<T>) {
+  constructor(source: Iterator<T>, buffer: IRefCountList<T>) {
     super();
     this._source = source;
     this._buffer = buffer;
   }
 
-  async *[Symbol.asyncIterator]() {
+  *[Symbol.iterator]() {
     let i = 0;
     try {
       while (1) {
@@ -24,7 +24,7 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
         if (i >= this._buffer.count) {
           if (!this._stopped) {
             try {
-              let next = await this._source.next();
+              let next = this._source.next();
               hasValue = !next.done;
               if (hasValue) {
                 current = next.value;
@@ -60,31 +60,26 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
   }
 }
 
-export function memoize<TSource>(readerCount?: number): OperatorAsyncFunction<TSource, TSource>;
+export function memoize<TSource>(readerCount?: number): OperatorFunction<TSource, TSource>;
 export function memoize<TSource, TResult>(
   readerCount?: number,
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): OperatorAsyncFunction<TSource, TResult>;
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>
+): OperatorFunction<TSource, TResult>;
 export function memoize<TSource, TResult = TSource>(
   readerCount: number = -1,
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): OperatorAsyncFunction<TSource, TSource | TResult> {
-  return function memoizeOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource | TResult> {
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>
+): OperatorFunction<TSource, TSource | TResult> {
+  return function memoizeOperatorFunction(source: Iterable<TSource>): IterableX<TSource | TResult> {
     if (!selector) {
       return readerCount === -1
-        ? new MemoizeAsyncBuffer<TSource>(
-            source[Symbol.asyncIterator](),
-            new MaxRefCountList<TSource>()
-          )
-        : new MemoizeAsyncBuffer<TSource>(
-            source[Symbol.asyncIterator](),
+        ? new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>())
+        : new MemoizeBuffer<TSource>(
+            source[Symbol.iterator](),
             new RefCountList<TSource>(readerCount)
           );
     }
     return create<TSource | TResult>(() =>
-      selector!((memoize<TSource>(readerCount))(source))[Symbol.asyncIterator]()
+      selector!(memoize<TSource>(readerCount)(source))[Symbol.iterator]()
     );
   };
 }

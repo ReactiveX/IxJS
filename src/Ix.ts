@@ -2,10 +2,10 @@ import { AsyncSink } from './asynciterable/asyncsink';
 import { IterableX } from './iterable/iterablex';
 import { observable } from './observer';
 import { AsyncIterableX } from './asynciterable/asynciterablex';
-import { GroupedIterable } from './iterable/groupby';
+import { GroupedIterable } from './iterable/operators/groupby';
 import { GroupedAsyncIterable } from './asynciterable/operators/groupby';
-export { OrderedIterableX as OrderedIterable } from './iterable/orderby';
-export { OrderedIterableBaseX as OrderedIterableBase } from './iterable/orderby';
+export { OrderedIterableX as OrderedIterable } from './iterable/operators/orderby';
+export { OrderedIterableBaseX as OrderedIterableBase } from './iterable/operators/orderby';
 export { OrderedAsyncIterableX as OrderedAsyncIterable } from './asynciterable/operators/orderby';
 export { OrderedAsyncIterableBaseX as OrderedAsyncIterableBase } from './asynciterable/operators/orderby';
 

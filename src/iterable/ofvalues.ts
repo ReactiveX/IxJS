@@ -1,5 +1,5 @@
 import { IterableX } from './iterablex';
-import { map } from './map';
+import { MapIterable } from './operators/map';
 
 class OfValuesIterable<TSource> extends IterableX<TSource> {
   private _source: { [key: string]: TSource };
@@ -10,7 +10,7 @@ class OfValuesIterable<TSource> extends IterableX<TSource> {
   }
 
   [Symbol.iterator]() {
-    return map(Object.keys(this._source), key => this._source[key])[Symbol.iterator]();
+    return new MapIterable(Object.keys(this._source), key => this._source[key])[Symbol.iterator]();
   }
 }
 

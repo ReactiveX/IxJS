@@ -1,5 +1,5 @@
 import { IterableX } from './iterablex';
-import { map } from './map';
+import { MapIterable } from './operators/map';
 
 function makeTuple<TFirst, TSecond>(x: TFirst, y: TSecond): [TFirst, TSecond] {
   return [x, y];
@@ -14,7 +14,7 @@ class OfEntriesIterable<TSource> extends IterableX<[string, TSource]> {
   }
 
   [Symbol.iterator]() {
-    return map(Object.keys(this._source), key => makeTuple(key, this._source[key]))[
+    return new MapIterable(Object.keys(this._source), key => makeTuple(key, this._source[key]))[
       Symbol.iterator
     ]();
   }

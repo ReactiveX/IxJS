@@ -1,21 +1,21 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { RefCountList } from '../../iterable/operators/_refcountlist';
+import { IterableX } from '../iterablex';
+import { RefCountList } from './_refcountlist';
 import { create } from '../create';
-import { OperatorAsyncFunction } from '../../interfaces';
+import { OperatorFunction } from '../../interfaces';
 
-class PublishedAsyncBuffer<T> extends AsyncIterableX<T> {
+class PublishedBuffer<T> extends IterableX<T> {
   private _buffer: RefCountList<T>;
-  private _source: AsyncIterator<T>;
+  private _source: Iterator<T>;
   private _error: any;
   private _stopped: boolean = false;
 
-  constructor(source: AsyncIterator<T>) {
+  constructor(source: Iterator<T>) {
     super();
     this._source = source;
     this._buffer = new RefCountList<T>(0);
   }
 
-  private async *_getIterable(i: number): AsyncIterable<T> {
+  private *_getIterable(i: number): Iterable<T> {
     try {
       while (1) {
         let hasValue = false,
@@ -23,7 +23,7 @@ class PublishedAsyncBuffer<T> extends AsyncIterableX<T> {
         if (i >= this._buffer.count) {
           if (!this._stopped) {
             try {
-              let next = await this._source.next();
+              let next = this._source.next();
               hasValue = !next.done;
               if (hasValue) {
                 current = next.value;
@@ -62,24 +62,22 @@ class PublishedAsyncBuffer<T> extends AsyncIterableX<T> {
     }
   }
 
-  [Symbol.asyncIterator](): AsyncIterator<T> {
+  [Symbol.iterator](): Iterator<T> {
     this._buffer.readerCount++;
-    return this._getIterable(this._buffer.count)[Symbol.asyncIterator]();
+    return this._getIterable(this._buffer.count)[Symbol.iterator]();
   }
 }
 
-export function publish<TSource>(): OperatorAsyncFunction<TSource, TSource>;
+export function publish<TSource>(): OperatorFunction<TSource, TSource>;
 export function publish<TSource, TResult>(
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): OperatorAsyncFunction<TSource, TResult>;
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>
+): OperatorFunction<TSource, TResult>;
 export function publish<TSource, TResult>(
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): OperatorAsyncFunction<TSource, TSource | TResult> {
-  return function publishOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource | TResult> {
+  selector?: (value: Iterable<TSource>) => Iterable<TResult>
+): OperatorFunction<TSource, TSource | TResult> {
+  return function publishOperatorFunction(source: Iterable<TSource>): IterableX<TSource | TResult> {
     return selector
-      ? create(async () => selector(publish<TSource>()(source))[Symbol.asyncIterator]())
-      : new PublishedAsyncBuffer<TSource>(source[Symbol.asyncIterator]());
+    ? create(() => selector(publish<TSource>()(source))[Symbol.iterator]())
+    : new PublishedBuffer<TSource>(source[Symbol.iterator]());
   };
 }
