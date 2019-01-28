@@ -7,7 +7,11 @@ class SharedIterable<T> extends IterableX<T> {
 
   constructor(it: Iterator<T>) {
     super();
-    this._it = it;
+    this._it = {
+      next(value) {
+        return it.next(value);
+      }
+    };
   }
 
   [Symbol.iterator]() {
@@ -24,7 +28,7 @@ export function share<TSource, TResult = TSource>(
 ): OperatorFunction<TSource, TSource | TResult> {
   return function shareOperatorFunction(source: Iterable<TSource>): IterableX<TSource | TResult> {
     return selector
-    ? create(() => selector(new SharedIterable(source[Symbol.iterator]()))[Symbol.iterator]())
-    : new SharedIterable(source[Symbol.iterator]());
+      ? create(() => selector(new SharedIterable(source[Symbol.iterator]()))[Symbol.iterator]())
+      : new SharedIterable(source[Symbol.iterator]());
   };
 }

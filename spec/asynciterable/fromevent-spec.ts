@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { fromEvent } = Ix.asynciterable;
+import { fromEvent } from 'ix/asynciterable';
 import { hasNext } from '../asynciterablehelpers';
 import { EventEmitter } from 'events';
 

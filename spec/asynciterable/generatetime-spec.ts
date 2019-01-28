@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { generateTime } = Ix.asynciterable;
+import { generateTime } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#generateTime generateTimes normal sequence', async () => {

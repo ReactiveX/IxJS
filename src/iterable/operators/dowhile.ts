@@ -1,10 +1,10 @@
 import { IterableX } from '../iterablex';
-import { concatStatic } from '../concat';
-import { _while } from '../while';
+import { concat } from '../concat';
+import { whileDo } from '../whiledo';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 
 export function doWhile<TSource>(condition: () => boolean): MonoTypeOperatorFunction<TSource> {
   return function doWhileOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
-    return concatStatic(source, _while(condition, source));
+    return concat(source, whileDo(condition, source));
   };
 }

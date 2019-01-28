@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { of } = Ix.AsyncIterable;
+import { of } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#of behavior', async () => {

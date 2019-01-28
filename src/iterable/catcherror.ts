@@ -55,20 +55,8 @@ export class CatchIterable<TSource> extends IterableX<TSource> {
  * @param {Iterable<Iterable<TSource>>} source Source sequences.
  * @return {Iterable<TSource>} Sequence that continues to concatenate source sequences while errors occur.
  */
-export function _catchAll<TSource>(source: Iterable<Iterable<TSource>>): IterableX<TSource> {
+export function catchAll<TSource>(source: Iterable<Iterable<TSource>>): IterableX<TSource> {
   return new CatchIterable<TSource>(source);
-}
-
-/**
- * Creates a sequence by concatenating source sequences until a source sequence completes successfully.
- * @param {Iterable<TSource>} source The first source.
- * @param {...Iterable<TSource>} args The rest of the sequence that continues to concatenate source sequences while errors occur.
- */
-export function _catch<TSource>(
-  source: Iterable<TSource>,
-  ...args: Iterable<TSource>[]
-): IterableX<TSource> {
-  return new CatchIterable<TSource>([source, ...args]);
 }
 
 /**
@@ -76,6 +64,6 @@ export function _catch<TSource>(
  * @param {...Iterable<TSource>} source Sequence that continues to concatenate source sequences while errors occur.
  * @return {Iterable<TSource>} Sequence that continues to concatenate source sequences while errors occur.
  */
-export function _catchStatic<TSource>(...source: Iterable<TSource>[]): IterableX<TSource> {
+export function catchError<TSource>(...source: Iterable<TSource>[]): IterableX<TSource> {
   return new CatchIterable<TSource>(source);
 }

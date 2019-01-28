@@ -1,10 +1,6 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.average]);
-const { empty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
+import { average, empty, of } from 'ix/asynciterable';
 
-test('Iterable#average empty', async ([average]) => {
+test('Iterable#average empty', async () => {
   const xs = empty<number>();
   try {
     await average(xs);
@@ -13,12 +9,12 @@ test('Iterable#average empty', async ([average]) => {
   }
 });
 
-test('Iterable#average', async ([average]) => {
+test('Iterable#average', async () => {
   const res = await average(of(1, 2, 3));
   expect(res).toBe(2);
 });
 
-test('Iterable#average with selector empty', async ([average]) => {
+test('Iterable#average with selector empty', async () => {
   const xs = empty<number>();
   try {
     await average(xs, async x => x * 2);
@@ -27,12 +23,12 @@ test('Iterable#average with selector empty', async ([average]) => {
   }
 });
 
-test('Iterable#average with selector', async ([average]) => {
+test('Iterable#average with selector', async () => {
   const res = await average(of(1, 2, 3), x => x * 2);
   expect(res).toBe(4);
 });
 
-test('Iterable#average laws', async ([average]) => {
+test('Iterable#average laws', async () => {
   const xs = of(1, 2, 3);
   expect(await average(xs)).toBe(await average(xs, x => x));
 });

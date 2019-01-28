@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { empty } = Ix.asynciterable;
+import { empty } from 'ix/asynciterable';
 import { noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#empty empty', async () => {

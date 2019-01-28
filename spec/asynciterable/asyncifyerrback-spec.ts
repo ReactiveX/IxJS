@@ -1,6 +1,5 @@
-import * as Ix from '../Ix';
-const { asyncifyErrback } = Ix.asynciterable;
-const { sequenceEqual } = Ix.iterable;
+import { asyncifyErrback } = 'ix/asynciterable';
+import { sequenceEqual } from 'ix/iterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#asyncifyErrback single argument', async () => {

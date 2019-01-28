@@ -1,8 +1,7 @@
-import * as Ix from '../Ix';
-const { _throw } = Ix.asynciterable;
+import { throwError } from 'ix/asynciterable';
 
 test('AsyncIterable#throw throws', async () => {
-  const xs = _throw<number>(new Error());
+  const xs = throwError<number>(new Error());
 
   const it = xs[Symbol.asyncIterator]();
   try {

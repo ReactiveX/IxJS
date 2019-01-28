@@ -1,8 +1,4 @@
-import * as Ix from '../Ix';
-const { _if } = Ix.asynciterable;
-const { isEmpty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
-const { single } = Ix.asynciterable;
+import { iif, isEmpty, of, single } from 'ix/asynciterable';
 
 test('AsyncIterable#if then and else', async () => {
   let x = 5;

@@ -13,6 +13,6 @@ class ThrowIterable<TSource> extends IterableX<TSource> {
   }
 }
 
-export function _throw<TSource>(error: any): IterableX<TSource> {
+export function throwError<TSource>(error: any): IterableX<TSource> {
   return new ThrowIterable<TSource>(error);
 }

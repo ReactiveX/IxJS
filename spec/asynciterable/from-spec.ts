@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { from } = Ix.AsyncIterable;
+import { from } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 import { setInterval, clearInterval } from 'timers';
 

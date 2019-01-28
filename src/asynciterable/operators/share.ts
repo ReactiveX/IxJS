@@ -7,7 +7,11 @@ class SharedAsyncIterable<T> extends AsyncIterableX<T> {
 
   constructor(it: AsyncIterator<T>) {
     super();
-    this._it = it;
+    this._it = {
+      next(value) {
+        return it.next(value);
+      }
+    };
   }
 
   [Symbol.asyncIterator]() {
@@ -30,10 +34,10 @@ export function share<TSource, TResult = TSource>(
     source: AsyncIterable<TSource>
   ): AsyncIterableX<TSource | TResult> {
     return selector
-    ? create<TResult>(async () => {
-        const it = await selector(new SharedAsyncIterable(source[Symbol.asyncIterator]()));
-        return it[Symbol.asyncIterator]();
-      })
-    : new SharedAsyncIterable<TSource>(source[Symbol.asyncIterator]());
+      ? create<TResult>(async () => {
+          const it = await selector(new SharedAsyncIterable(source[Symbol.asyncIterator]()));
+          return it[Symbol.asyncIterator]();
+        })
+      : new SharedAsyncIterable<TSource>(source[Symbol.asyncIterator]());
   };
 }

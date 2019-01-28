@@ -1,6 +1,6 @@
 import '../asynciterablehelpers';
 import { Readable, ReadableOptions } from 'stream';
-import { fromNodeStream, AsyncIterable } from '../Ix';
+import { fromNodeStream, AsyncIterable } from 'ix/asynciterable';
 
 (() => {
   if (!fromNodeStream || process.env.TEST_NODE_STREAMS !== 'true') {

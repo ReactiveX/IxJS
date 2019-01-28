@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { ofEntries } = Ix.asynciterable;
+import { ofEntries } from 'ix/asynciterable';
 import { noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#ofEntries behavior', async () => {
