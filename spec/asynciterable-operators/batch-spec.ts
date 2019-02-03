@@ -1,11 +1,10 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.batch]);
+import { batch } from 'ix/asynciterable/operators';
+import { AsyncSink } from 'ix/asynciterable';
 
 const delay = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
 
-test('AsyncIterable#batch basic', async ([batch]) => {
-  const sink = new Ix.AsyncSink<number>();
+test('AsyncIterable#batch basic', async () => {
+  const sink = new AsyncSink<number>();
 
   const it = batch(sink)[Symbol.asyncIterator]();
 
@@ -33,8 +32,8 @@ test('AsyncIterable#batch basic', async ([batch]) => {
   });
 });
 
-test('done while waiting', async ([batch]) => {
-  const sink = new Ix.AsyncSink<number>();
+test('done while waiting', async () => {
+  const sink = new AsyncSink<number>();
 
   const it = batch(sink)[Symbol.asyncIterator]();
 
@@ -49,7 +48,7 @@ test('done while waiting', async ([batch]) => {
   expect(await it.next()).toEqual({ done: true });
 });
 
-test('canceled', async ([batch]) => {
+test('canceled', async () => {
   let canceled = false;
 
   async function* generate() {

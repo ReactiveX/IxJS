@@ -1,11 +1,8 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.combineLatest]);
-const { of } = Ix.AsyncIterable;
-const { sequenceEqual } = Ix.iterable;
+import { combineLatest, of } from 'ix/asynciterable';
+import { sequenceEqual } from 'ix/iterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#zip equal length no selector', async ([combineLatest]) => {
+test('AsyncIterable#zip equal length no selector', async () => {
   const xs = of(1, 2, 3);
   const ys = of(4, 5, 6);
   const zs = of(7, 8, 9);
@@ -29,7 +26,7 @@ test('AsyncIterable#zip equal length no selector', async ([combineLatest]) => {
   expect(next.done).toBeTruthy();
 });
 
-test('AsyncIterable#zip equal length with selector', async ([combineLatest]) => {
+test('AsyncIterable#zip equal length with selector', async () => {
   const xs = of(1, 2, 3);
   const ys = of(4, 5, 6);
   const zs = of(7, 8, 9);

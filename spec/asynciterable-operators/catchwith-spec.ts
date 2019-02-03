@@ -1,25 +1,21 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.catchWith]);
-const { of } = Ix.AsyncIterable;
-const { range } = Ix.asynciterable;
-const { sequenceEqual } = Ix.asynciterable;
-const { single } = Ix.asynciterable;
-const { _throw } = Ix.asynciterable;
+import { of, range, sequenceEqual, single, throwError } from 'ix/asynciterable';
+import { catchError } from 'ix/asynciterable/operators';
 
-test('AsyncIterable#catchWith error catches', async ([catchWith]) => {
+test('AsyncIterable#catchError error catches', async () => {
   const err = new Error();
   const res = await single(
-    catchWith(_throw(err), async e => {
-      expect(err).toEqual(e);
-      return of(42);
-    })
+    throwError(err).pipe(
+      catchError(async (e: Error) => {
+        expect(err).toEqual(e);
+        return of(42);
+      })
+    )
   );
   expect(42).toBe(res);
 });
 
-test('AsyncIterable#catchWith no error misses', async ([catchWith]) => {
+test('AsyncIterable#catchError no error misses', async () => {
   const xs = range(0, 10);
-  const res = catchWith(xs, async _ => of(42));
+  const res = xs.pipe(catchError(async (_: Error) => of(42)));
   expect(sequenceEqual(res, xs)).resolves.toBeTruthy();
 });

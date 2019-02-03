@@ -1,5 +1,4 @@
-import * as Ix from './Ix';
-const { AsyncSink } = Ix;
+import { AsyncSink } from 'ix/asynciterable';
 import { hasNext, noNext } from './asynciterablehelpers';
 
 test('AsyncSink writes before next', async () => {

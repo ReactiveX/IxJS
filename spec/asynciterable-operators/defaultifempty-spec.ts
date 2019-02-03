@@ -1,12 +1,8 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.defaultIfEmpty]);
-const { empty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
-const { _throw } = Ix.asynciterable;
+import { empty, of, throwError } from 'ix/asynciterable';
+import { defaultIfEmpty } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#defaultIfEmpty with empty', async ([defaultIfEmpty]) => {
+test('AsyncIterable#defaultIfEmpty with empty', async () => {
   const xs = empty<number>();
   const ys = defaultIfEmpty(xs, 0);
 
@@ -15,18 +11,18 @@ test('AsyncIterable#defaultIfEmpty with empty', async ([defaultIfEmpty]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#defaultIfEmpty with no empty', async ([defaultIfEmpty]) => {
+test('AsyncIterable#defaultIfEmpty with no empty', async () => {
   const xs = of(42);
-  const ys = defaultIfEmpty(xs, 0);
+  const ys = xs.pipe(defaultIfEmpty(0));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 42);
   await noNext(it);
 });
 
-test('AsyncIterable#defaultIfEmpty throws', async ([defaultIfEmpty]) => {
-  const xs = _throw<number>(new Error());
-  const ys = defaultIfEmpty(xs, 0);
+test('AsyncIterable#defaultIfEmpty throws', async () => {
+  const xs = throwError<number>(new Error());
+  const ys = xs.pipe(defaultIfEmpty(0));
 
   const it = ys[Symbol.asyncIterator]();
   try {

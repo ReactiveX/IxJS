@@ -1,5 +1,4 @@
-
-import { as } = 'ix/asynciterable';
+import { as } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#as from non-iterable', async () => {
