@@ -4,7 +4,7 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#defaultIfEmpty with empty', async () => {
   const xs = empty<number>();
-  const ys = defaultIfEmpty(xs, 0);
+  const ys = xs.pipe(defaultIfEmpty(0));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 0);
