@@ -1,12 +1,8 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.flatMap]);
-const { of } = Ix.AsyncIterable;
-const { range } = Ix.asynciterable;
-const { _throw } = Ix.asynciterable;
+import { of, range, throwError } from 'ix/asynciterable';
+import { flatMap } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('Iterable#flatMap with range', async ([flatMap]) => {
+test('Iterable#flatMap with range', async () => {
   const xs = of(1, 2, 3);
   const ys = flatMap(xs, async x => range(0, x));
 
@@ -20,10 +16,10 @@ test('Iterable#flatMap with range', async ([flatMap]) => {
   noNext(it);
 });
 
-test('Iterable#flatMap selector returns throw', async ([flatMap]) => {
+test('Iterable#flatMap selector returns throw', async () => {
   const err = new Error();
   const xs = of(1, 2, 3);
-  const ys = flatMap(xs, async x => (x < 3 ? range(0, x) : _throw(err)));
+  const ys = xs.pipe(flatMap(async x => (x < 3 ? range(0, x) : throwError(err))));
 
   const it = ys[Symbol.asyncIterator]();
   hasNext(it, 0);
@@ -36,10 +32,10 @@ test('Iterable#flatMap selector returns throw', async ([flatMap]) => {
   }
 });
 
-test('Iterable#flatMap with error throws', async ([flatMap]) => {
+test('Iterable#flatMap with error throws', async () => {
   const err = new Error();
-  const xs = _throw<number>(err);
-  const ys = flatMap(xs, x => range(0, x));
+  const xs = throwError<number>(err);
+  const ys = xs.pipe(flatMap(x => range(0, x)));
 
   const it = ys[Symbol.asyncIterator]();
   try {
@@ -49,15 +45,17 @@ test('Iterable#flatMap with error throws', async ([flatMap]) => {
   }
 });
 
-test('Iterable#flatMap selector throws error', async ([flatMap]) => {
+test('Iterable#flatMap selector throws error', async () => {
   const err = new Error();
   const xs = of(1, 2, 3);
-  const ys = flatMap(xs, async x => {
-    if (x < 3) {
-      return range(0, x);
-    }
-    throw err;
-  });
+  const ys = xs.pipe(
+    flatMap(async x => {
+      if (x < 3) {
+        return range(0, x);
+      }
+      throw err;
+    })
+  );
 
   const it = ys[Symbol.asyncIterator]();
   hasNext(it, 0);

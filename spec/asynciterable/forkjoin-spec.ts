@@ -1,10 +1,7 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.forkJoin]);
-const { empty, of } = Ix.AsyncIterable;
-const { sequenceEqual } = Ix.iterable;
+import { empty, forkJoin, of } from 'ix/asynciterable';
+import { sequenceEqual } from 'ix/iterable';
 
-test('AsyncIterable#forkJoin no selector all equal', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin no selector all equal', async () => {
   const xs = of(42, 25, 39);
   const ys = of(25, 39, 42);
   const zs = of(39, 42, 25);
@@ -13,7 +10,7 @@ test('AsyncIterable#forkJoin no selector all equal', async ([forkJoin]) => {
   expect(sequenceEqual(res as number[], [39, 42, 25])).toBeTruthy();
 });
 
-test('AsyncIterable#forkJoin no selector first smaller', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin no selector first smaller', async () => {
   const xs = of(42, 25);
   const ys = of(25, 39, 42);
   const zs = of(39, 42, 25);
@@ -22,7 +19,7 @@ test('AsyncIterable#forkJoin no selector first smaller', async ([forkJoin]) => {
   expect(sequenceEqual(res as number[], [25, 42, 25])).toBeTruthy();
 });
 
-test('AsyncIterable#forkJoin no selector middle smaller', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin no selector middle smaller', async () => {
   const xs = of(42, 25, 39);
   const ys = of(25, 39);
   const zs = of(39, 42, 25);
@@ -31,7 +28,7 @@ test('AsyncIterable#forkJoin no selector middle smaller', async ([forkJoin]) => 
   expect(sequenceEqual(res as number[], [39, 39, 25])).toBeTruthy();
 });
 
-test('AsyncIterable#forkJoin no selector last smaller', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin no selector last smaller', async () => {
   const xs = of(42, 25, 39);
   const ys = of(25, 39, 42);
   const zs = of(39, 42);
@@ -40,7 +37,7 @@ test('AsyncIterable#forkJoin no selector last smaller', async ([forkJoin]) => {
   expect(sequenceEqual(res as number[], [39, 42, 42])).toBeTruthy();
 });
 
-test('AsyncIterable#forkJoin no selector first empty', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin no selector first empty', async () => {
   const xs = empty<number>();
   const ys = of(25, 39, 42);
   const zs = of(39, 42, 25);
@@ -49,7 +46,7 @@ test('AsyncIterable#forkJoin no selector first empty', async ([forkJoin]) => {
   expect(res).toBe(undefined);
 });
 
-test('AsyncIterable#forkJoin no selector middle empty', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin no selector middle empty', async () => {
   const xs = of(42, 25, 39);
   const ys = empty<number>();
   const zs = of(39, 42, 25);
@@ -58,7 +55,7 @@ test('AsyncIterable#forkJoin no selector middle empty', async ([forkJoin]) => {
   expect(res).toBe(undefined);
 });
 
-test('AsyncIterable#forkJoin no selector last empty', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin no selector last empty', async () => {
   const xs = of(42, 25, 39);
   const ys = of(25, 39, 42);
   const zs = empty<number>();
@@ -67,7 +64,7 @@ test('AsyncIterable#forkJoin no selector last empty', async ([forkJoin]) => {
   expect(res).toBe(undefined);
 });
 
-test('AsyncIterable#forkJoin with selector all equal', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin with selector all equal', async () => {
   const xs = of(42, 25, 39);
   const ys = of(25, 39, 42);
   const zs = of(39, 42, 25);
@@ -76,7 +73,7 @@ test('AsyncIterable#forkJoin with selector all equal', async ([forkJoin]) => {
   expect(res).toBe(106);
 });
 
-test('AsyncIterable#forkJoin with selector first smaller', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin with selector first smaller', async () => {
   const xs = of(42, 25);
   const ys = of(25, 39, 42);
   const zs = of(39, 42, 25);
@@ -85,7 +82,7 @@ test('AsyncIterable#forkJoin with selector first smaller', async ([forkJoin]) =>
   expect(res).toBe(92);
 });
 
-test('AsyncIterable#forkJoin with selector middle smaller', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin with selector middle smaller', async () => {
   const xs = of(42, 25, 39);
   const ys = of(25, 39);
   const zs = of(39, 42, 25);
@@ -94,7 +91,7 @@ test('AsyncIterable#forkJoin with selector middle smaller', async ([forkJoin]) =
   expect(res).toBe(103);
 });
 
-test('AsyncIterable#forkJoin with selector last smaller', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin with selector last smaller', async () => {
   const xs = of(42, 25, 39);
   const ys = of(25, 39, 42);
   const zs = of(39, 42);
@@ -103,7 +100,7 @@ test('AsyncIterable#forkJoin with selector last smaller', async ([forkJoin]) => 
   expect(res).toBe(123);
 });
 
-test('AsyncIterable#forkJoin with selector first empty', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin with selector first empty', async () => {
   const xs = empty<number>();
   const ys = of(25, 39, 42);
   const zs = of(39, 42, 25);
@@ -112,7 +109,7 @@ test('AsyncIterable#forkJoin with selector first empty', async ([forkJoin]) => {
   expect(res).toBe(undefined);
 });
 
-test('AsyncIterable#forkJoin with selector middle empty', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin with selector middle empty', async () => {
   const xs = of(42, 25, 39);
   const ys = empty<number>();
   const zs = of(39, 42, 25);
@@ -121,7 +118,7 @@ test('AsyncIterable#forkJoin with selector middle empty', async ([forkJoin]) => 
   expect(res).toBe(undefined);
 });
 
-test('AsyncIterable#forkJoin with selector last empty', async ([forkJoin]) => {
+test('AsyncIterable#forkJoin with selector last empty', async () => {
   const xs = of(42, 25, 39);
   const ys = of(25, 39, 42);
   const zs = empty<number>();

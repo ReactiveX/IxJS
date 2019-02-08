@@ -1,24 +1,21 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.ignoreElements]);
-const { range } = Ix.asynciterable;
-const { take } = Ix.asynciterable;
-const { tap } = Ix.asynciterable;
+import { range } from 'ix/asynciterable';
+import { ignoreElements, take, tap } from 'ix/asynciterable/operators';
 
-test('Iterable#ignoreElements has side effects', async ([ignoreElements]) => {
+test('Iterable#ignoreElements has side effects', async () => {
   let n = 0;
-  await take(
-    ignoreElements(
-      tap(range(0, 10), {
+  await range(0, 10)
+    .pipe(
+      tap({
         next: async () => {
           n++;
         }
-      })
-    ),
-    5
-  ).forEach(async () => {
-    /* tslint:disable-next-line:no-empty */
-  });
+      }),
+      ignoreElements(),
+      take(5)
+    )
+    .forEach(async () => {
+      /* tslint:disable-next-line:no-empty */
+    });
 
   expect(n).toBe(10);
 });

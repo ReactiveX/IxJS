@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { range } = Ix.asynciterable;
+import { range } from 'ix/asynciterable';
 
 test('AsyncIterable#forEach', async () => {
   let n = 0;

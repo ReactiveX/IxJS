@@ -1,8 +1,5 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.groupBy]);
-const { empty } = Ix.asynciterable;
-const { from } = Ix.AsyncIterable;
+import { empty, from } from 'ix/asynciterable';
+import { groupBy } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 interface Employee {
@@ -10,7 +7,7 @@ interface Employee {
   age: number;
 }
 
-test('AsyncIterable#groupBy normal', async ([groupBy]) => {
+test('AsyncIterable#groupBy normal', async () => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -21,7 +18,7 @@ test('AsyncIterable#groupBy normal', async ([groupBy]) => {
     { name: 'Eric', age: 42 }
   ];
   const xss = from<Employee, Employee>(xs);
-  const ys = groupBy(xss, async x => Math.floor(x.age / 10));
+  const ys = xss.pipe(groupBy(async x => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.asyncIterator]();
   let next = await it.next();
@@ -58,7 +55,7 @@ test('AsyncIterable#groupBy normal', async ([groupBy]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#groupBy normal can get results later', async ([groupBy]) => {
+test('AsyncIterable#groupBy normal can get results later', async () => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -69,7 +66,7 @@ test('AsyncIterable#groupBy normal can get results later', async ([groupBy]) => 
     { name: 'Eric', age: 42 }
   ];
   const xss = from<Employee, Employee>(xs);
-  const ys = groupBy(xss, async x => Math.floor(x.age / 10));
+  const ys = xss.pipe(groupBy(async x => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.asyncIterator]();
   const g1 = await it.next();
@@ -110,18 +107,18 @@ test('AsyncIterable#groupBy normal can get results later', async ([groupBy]) => 
   await noNext(g4it);
 });
 
-test('AsyncIterable#groupBy empty', async ([groupBy]) => {
+test('AsyncIterable#groupBy empty', async () => {
   const xs = empty<number>();
-  const ys = groupBy(xs, x => x);
+  const ys = xs.pipe(groupBy(x => x));
 
   const it = ys[Symbol.asyncIterator]();
   await noNext(it);
 });
 
-test('AsyncIterable#groupBy element selector', async ([groupBy]) => {
+test('AsyncIterable#groupBy element selector', async () => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const xss = from<number, number>(xs);
-  const ys = groupBy(xss, async x => x % 3, x => String.fromCharCode(97 + x));
+  const ys = xss.pipe(groupBy(async x => x % 3, x => String.fromCharCode(97 + x)));
 
   const it = ys[Symbol.asyncIterator]();
 
@@ -159,14 +156,11 @@ test('AsyncIterable#groupBy element selector', async ([groupBy]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#groupBy result selector', async ([groupBy]) => {
+test('AsyncIterable#groupBy result selector', async () => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const xss = from<number, number>(xs);
-  const ys = groupBy(
-    xss,
-    async x => x % 3,
-    x => String.fromCharCode(97 + x),
-    (k, v) => ({ k, v: from(v) })
+  const ys = xss.pipe(
+    groupBy(async x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v: from(v) }))
   );
 
   const it = ys[Symbol.asyncIterator]();
