@@ -27,6 +27,7 @@ module.exports = {
         "tsConfig": "spec/tsconfig.json"
       }
     },
+    "rootDir": "../",
     "roots": [
       "<rootDir>/spec/"
     ],
@@ -52,5 +53,8 @@ module.exports = {
     ],
     "testRegex": "(.*(-|\\.)(test|spec)s?)\\.(ts|tsx|js)$",
     "preset": "ts-jest",
-    "testMatch": null
+    "testMatch": null,
+    "moduleNameMapper": {
+        "^ix(.*)": "<rootDir>/src/$1.js"
+    }
 };
