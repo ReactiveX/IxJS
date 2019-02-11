@@ -5,11 +5,6 @@ import {
   ReadableByteStreamOptions
 } from '../asynciterable/todomstream';
 
-// To work around circular-dependency hell, these need to be on
-// the AsyncIterable prototype for tee, pipeTo, and pipeThrough
-import '../add/iterable-operators/publish';
-import '../add/iterable-operators/todomstream';
-
 export function toDOMStream<T>(
   source: Iterable<T>,
   strategy?: QueuingStrategy<T>

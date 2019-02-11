@@ -111,8 +111,8 @@ class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
  * Returns an async iterable sequence of batches that are collected from the source sequence between
  * subsequent `next()` calls.
  */
-export function batch<TSource>(): OperatorAsyncFunction<TSource, TSource[]>  {
+export function batch<TSource>(): OperatorAsyncFunction<TSource, TSource[]> {
   return function batchOperator(source: AsyncIterable<TSource>): AsyncIterableX<TSource[]> {
     return new BatchAsyncIterable(source);
-  }
+  };
 }

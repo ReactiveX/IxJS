@@ -39,6 +39,7 @@
             },
             "args": [
                 // "-i",
+                "-c", "jestconfigs/jest.src.config.js",
                 "spec/iterable/",
                 "spec/asynciterable/",
                 "spec/iterable-operators/",

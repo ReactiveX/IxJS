@@ -30,4 +30,3 @@ export function expand<TSource>(
     return new ExpandIterable<TSource>(source, selector);
   };
 }
-

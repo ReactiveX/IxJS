@@ -6,9 +6,6 @@ export { OrderedAsyncIterable } from './Ix';
 export { OrderedAsyncIterableBase } from './Ix';
 export { AsyncSink, Iterable, AsyncIterable } from './Ix';
 
-import './add/asynciterable/fromdomstream';
-import './add/iterable-operators/todomstream';
-import './add/asynciterable-operators/todomstream';
 export { ReadableBYOBStreamOptions, ReadableByteStreamOptions } from './asynciterable/todomstream';
 
 export {
