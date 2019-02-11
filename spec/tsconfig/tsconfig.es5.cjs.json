@@ -1,0 +1,13 @@
+//Compiler configuaration to build the ES5 CommonJS target
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "paths": {
+      "ix": [
+        "targets/es5/cjs"
+      ]
+    }
+  }
+}
