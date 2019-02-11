@@ -1,4 +1,4 @@
-import { bindCallback } from '../internal/bindcallback';
+import { bindCallback } from '../util/bindcallback';
 
 export async function find<T, S extends T>(
   source: AsyncIterable<T>,

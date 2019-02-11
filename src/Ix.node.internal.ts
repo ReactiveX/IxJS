@@ -1,11 +1,11 @@
 export * from './Ix.node';
 import * as iterableX from './iterable/index';
-import * as iterableXPipe from './iterable/operators/index.node';
 import * as asynciterableX from './asynciterable/index';
-import * as asynciterableXPipe from './asynciterable/pipe/index.node';
+import * as iterableXOperators from './iterable/operators/index.node';
+import * as asynciterableXOperators from './asynciterable/operators/index.node';
 
 export { BufferLike } from './interfaces';
 export { iterableX as iterable };
-export { iterableXPipe as iterablePipe };
 export { asynciterableX as asynciterable };
-export { asynciterableXPipe as asynciterablePipe };
+export { iterableXOperators as iterableOperators };
+export { asynciterableXOperators as asynciterableOperators };

@@ -1,4 +1,4 @@
-import { comparer } from '../internal/comparer';
+import { comparer } from '../util/comparer';
 
 export function includes<T>(source: Iterable<T>, searchElement: T, fromIndex: number = 0): boolean {
   let i = 0;

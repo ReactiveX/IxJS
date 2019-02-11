@@ -1,4 +1,4 @@
-import { comparer as defaultComparer } from '../internal/comparer';
+import { comparer as defaultComparer } from '../util/comparer';
 
 export function sequenceEqual<T>(
   source: Iterable<T>,

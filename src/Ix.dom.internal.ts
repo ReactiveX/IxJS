@@ -1,12 +1,12 @@
 import * as iterableX from './iterable/index';
-import * as iterableXPipe from './iterable/pipe/index';
 import * as asynciterableX from './asynciterable/index';
-import * as asynciterableXPipe from './asynciterable/pipe/index';
+import * as iterableXOperators from './iterable/operators/index';
+import * as asynciterableXOperators from './asynciterable/operators/index';
 
 export { iterableX as iterable };
-export { iterableXPipe as iterablePipe };
 export { asynciterableX as asynciterable };
-export { asynciterableXPipe as asynciterablePipe };
+export { iterableXOperators as iterableOperators };
+export { asynciterableXOperators as asynciterableOperators };
 
 // Manually re-export because closure-compiler doesn't support `export * from X` syntax yet
 export { default } from './Ix.dom';

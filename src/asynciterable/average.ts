@@ -1,4 +1,4 @@
-import { identityAsync } from '../internal/identity';
+import { identityAsync } from '../util/identity';
 
 export async function average(
   source: Iterable<number | PromiseLike<number>> | AsyncIterable<number>,

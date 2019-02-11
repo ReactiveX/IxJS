@@ -1,4 +1,4 @@
-import { comparer } from '../internal/comparer';
+import { comparer } from '../util/comparer';
 
 export async function includes<T>(
   source: AsyncIterable<T>,

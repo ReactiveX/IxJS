@@ -28,4 +28,3 @@ export function defaultIfEmpty<T>(defaultValue: T): MonoTypeOperatorAsyncFunctio
     return new DefaultIfEmptyAsyncIterable<T>(source, defaultValue);
   };
 }
-
