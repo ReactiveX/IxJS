@@ -4,7 +4,7 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#flatMap with range', async () => {
   const xs = of(1, 2, 3);
-  const ys = flatMap(xs, async x => range(0, x));
+  const ys = xs.pipe(flatMap(async x => range(0, x)));
 
   const it = ys[Symbol.asyncIterator]();
   hasNext(it, 0);
