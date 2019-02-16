@@ -1,13 +1,8 @@
-import * as Ix from '../Ix';
-const { symbolObservable } = (Ix as any).default;
+import { empty, from, of, throwError, toArray, toObservable } from 'ix/asynciterable';
 import { Observable as RxJSObservable } from 'rxjs';
 import { Observable, PartialObserver } from '../../src/observer';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.toObservable]);
-const { of, from } = Ix.AsyncIterable;
-const { empty, _throw, toArray } = Ix.asynciterable;
 
-test('AsyncIterable#toObservable empty', async ([toObservable]) => {
+test('AsyncIterable#toObservable empty', async () => {
   const xs = empty<number>();
   const ys = toObservable(xs);
   let fail = false;
@@ -25,7 +20,7 @@ test('AsyncIterable#toObservable empty', async ([toObservable]) => {
   });
 });
 
-test('AsyncIterable#toObservable non-empty', async ([toObservable]) => {
+test('AsyncIterable#toObservable non-empty', async () => {
   const results: number[] = [];
   const xs = of(1, 2, 3);
   const ys = toObservable(xs);
@@ -45,9 +40,9 @@ test('AsyncIterable#toObservable non-empty', async ([toObservable]) => {
   });
 });
 
-test('AsyncIterable#toObservable error', async ([toObservable]) => {
+test('AsyncIterable#toObservable error', async () => {
   const error = new Error();
-  const xs = _throw<number>(error);
+  const xs = throwError<number>(error);
   const ys = toObservable(xs);
   let fail = false;
 
@@ -65,15 +60,13 @@ test('AsyncIterable#toObservable error', async ([toObservable]) => {
   });
 });
 
-test('AsyncIterable#toObservable Symbol.observable should return same instance', async ([
-  toObservable
-]) => {
+test('AsyncIterable#toObservable Symbol.observable should return same instance', async () => {
   const ys = toObservable(of(1, 2, 3));
   // @ts-ignore
   expect(ys).toBe(ys[symbolObservable]());
 });
 
-test('AsyncIterable#toObservable accepts partial observers', async ([toObservable]) => {
+test('AsyncIterable#toObservable accepts partial observers', async () => {
   const expectedValues = [1, 2, 3];
   const expectedError = new Error();
 
@@ -82,7 +75,7 @@ test('AsyncIterable#toObservable accepts partial observers', async ([toObservabl
   let completeCalled = false;
 
   const valueObs = toObservable(of(1, 2, 3));
-  const errorObs = toObservable(_throw<number>(expectedError));
+  const errorObs = toObservable(throwError<number>(expectedError));
 
   const onNext = (val: number) => actualValues.push(val);
   const onError = (error: any) => (actualError = error);
@@ -101,7 +94,7 @@ test('AsyncIterable#toObservable accepts partial observers', async ([toObservabl
   expect(completeCalled).toEqual(true);
 });
 
-test('AsyncIterable#toObservable accepts observer functions', async ([toObservable]) => {
+test('AsyncIterable#toObservable accepts observer functions', async () => {
   const expectedValues = [1, 2, 3];
   const expectedError = new Error();
 
@@ -110,7 +103,7 @@ test('AsyncIterable#toObservable accepts observer functions', async ([toObservab
   let completeCalled = false;
 
   const valueObs = toObservable(of(1, 2, 3));
-  const errorObs = toObservable(_throw<number>(expectedError));
+  const errorObs = toObservable(throwError<number>(expectedError));
 
   const onNext = (val: number) => actualValues.push(val);
   const onError = (error: any) => (actualError = error);
@@ -129,14 +122,14 @@ test('AsyncIterable#toObservable accepts observer functions', async ([toObservab
   expect(completeCalled).toEqual(true);
 });
 
-test('AsyncIterable#toObservable interop with rxjs', async ([toObservable]) => {
+test('AsyncIterable#toObservable interop with rxjs', async () => {
   const xs: number[] = [];
   const ys = RxJSObservable.from(toObservable(of(1, 2, 3)));
   await endOfObservable(ys, x => xs.push(x));
   expect(xs).toEqual([1, 2, 3]);
 });
 
-test('AsyncIterable.from interop with rxjs', async ([toObservable]) => {
+test('AsyncIterable.from interop with rxjs', async () => {
   const ys = from(RxJSObservable.from(toObservable(of(1, 2, 3))));
   const xs = await toArray(ys);
   expect(xs).toEqual([1, 2, 3]);

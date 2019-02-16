@@ -1,21 +1,18 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.take]);
-const { of } = Ix.AsyncIterable;
-const { _throw } = Ix.asynciterable;
+import { of, throwError } from 'ix/asynciterable';
+import { take } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#take zero or less takes nothing', async ([take]) => {
+test('AsyncIterable#take zero or less takes nothing', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = take(xs, -2);
+  const ys = xs.pipe(take(-2));
 
   const it = ys[Symbol.asyncIterator]();
   await noNext(it);
 });
 
-test('AsyncIterable#take less than count', async ([take]) => {
+test('AsyncIterable#take less than count', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = take(xs, 2);
+  const ys = xs.pipe(take(2));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -23,9 +20,9 @@ test('AsyncIterable#take less than count', async ([take]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#take more than count', async ([take]) => {
+test('AsyncIterable#take more than count', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = take(xs, 10);
+  const ys = xs.pipe(take(10));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -35,10 +32,10 @@ test('AsyncIterable#take more than count', async ([take]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#take throws with error', async ([take]) => {
+test('AsyncIterable#take throws with error', async () => {
   const err = new Error();
-  const xs = _throw<number>(err);
-  const ys = take(xs, 2);
+  const xs = throwError<number>(err);
+  const ys = xs.pipe(take(xs, 2));
 
   const it = ys[Symbol.asyncIterator]();
   try {

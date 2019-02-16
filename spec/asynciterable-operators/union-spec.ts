@@ -1,13 +1,11 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.union]);
-const { of } = Ix.AsyncIterable;
+import { of } from 'ix/asynciterable';
+import { union } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#union with default comparer', async ([union]) => {
+test('AsyncIterable#union with default comparer', async () => {
   const xs = of(1, 2, 3);
   const ys = of(3, 5, 1, 4);
-  const res = union(xs, ys);
+  const res = xs.pipe(union(ys));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -18,11 +16,11 @@ test('AsyncIterable#union with default comparer', async ([union]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#union with custom comparer', async ([union]) => {
+test('AsyncIterable#union with custom comparer', async () => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, -3);
   const ys = of(3, 5, -1, 4);
-  const res = union(xs, ys, comparer);
+  const res = xs.pipe(union(ys, comparer));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
