@@ -1,4 +1,5 @@
-import * as Ix from '../Ix';
+import { empty, of, sequenceEqual } from 'ix/asynciterable';
+import { map } from 'ix/asynciterable/operators';
 import { PassThrough } from 'stream';
 
 (() => {
@@ -8,9 +9,6 @@ import { PassThrough } from 'stream';
     });
   }
 
-  const { of } = Ix.AsyncIterable;
-  const { empty, map } = Ix.asynciterable;
-  const { sequenceEqual } = Ix.asynciterable;
   const through = () => {
     return new PassThrough({
       objectMode: true,
@@ -23,7 +21,9 @@ import { PassThrough } from 'stream';
     const source = of({ name: 'Frank', custId: 98088 });
     const expected = of('Frank');
 
-    expect(await sequenceEqual(expected, map(source.pipe(through()), x => x.name))).toBeTruthy();
+    expect(
+      await sequenceEqual(expected, source.pipe(through()).pipe(map(x => x.name)))
+    ).toBeTruthy();
   });
 
   test('AsyncIterable#pipe writable-stream maps property', async () => {
@@ -36,12 +36,14 @@ import { PassThrough } from 'stream';
     );
     const expected = of('Frank', 'Bob', 'Chris', null, 'Frank');
 
-    expect(await sequenceEqual(expected, map(source.pipe(through()), x => x.name))).toBeTruthy();
+    expect(
+      await sequenceEqual(expected, source.pipe(through()).pipe(map(x => x.name)))
+    ).toBeTruthy();
   });
 
   test('AsyncIterable#pipe writable-stream empty', async () => {
     expect(
-      await sequenceEqual(empty<number>(), map(empty<string>(), (s, i) => s.length + i))
+      await sequenceEqual(empty<number>(), empty<string>().pipe(map((s, i) => s.length + i)))
     ).toBeTruthy();
   });
 
@@ -56,7 +58,7 @@ import { PassThrough } from 'stream';
     expect(
       await sequenceEqual(
         expected,
-        map(source.pipe(through()), (x, i) => (i === 0 ? x.name : null))
+        source.pipe(through()).pipe(map((x, i) => (i === 0 ? x.name : null)))
       )
     ).toBeTruthy();
   });
@@ -74,7 +76,7 @@ import { PassThrough } from 'stream';
     expect(
       await sequenceEqual(
         expected,
-        map(source.pipe(through()), (x, i) => (i === 4 ? x.name : null))
+        source.pipe(through()).pipe(map((x, i) => (i === 4 ? x.name : null)))
       )
     ).toBeTruthy();
   });
@@ -86,7 +88,7 @@ import { PassThrough } from 'stream';
       return 1;
     });
 
-    map(source.pipe(through()), x => x());
+    source.pipe(through()).pipe(map(x => x()));
 
     expect(fnCalled).toBeFalsy();
   });

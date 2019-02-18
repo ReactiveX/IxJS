@@ -1,15 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.share]);
-const { range } = Ix.asynciterable;
-const { sequenceEqual } = Ix.iterable;
-const { take } = Ix.asynciterable;
-const { tap } = Ix.asynciterable;
-const { toArray } = Ix.asynciterable;
-const { zip } = Ix.asynciterable;
+import { range, toArray, zip } from 'ix/asynciterable';
+import { share, take, tap } from 'ix/asynciterable/operators';
+import { sequenceEqual } from 'ix/iterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#share single', async ([share]) => {
+test('AsyncIterable#share single', async () => {
   const rng = share(range(0, 5));
 
   const it = rng[Symbol.asyncIterator]();
@@ -21,8 +15,8 @@ test('AsyncIterable#share single', async ([share]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#share shared exhausts in the beginning', async ([share]) => {
-  const rng = share(range(0, 5));
+test('AsyncIterable#share shared exhausts in the beginning', async () => {
+  const rng = range(0, 5).pipe(share());
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
@@ -35,8 +29,8 @@ test('AsyncIterable#share shared exhausts in the beginning', async ([share]) => 
   await noNext(it2);
 });
 
-test('AsyncIterable#share shared exhausts any time', async ([share]) => {
-  const rng = share(range(0, 5));
+test('AsyncIterable#share shared exhausts any time', async () => {
+  const rng = range(0, 5).pipe(share());
 
   const it1 = rng[Symbol.asyncIterator]();
   await hasNext(it1, 0);
@@ -51,16 +45,16 @@ test('AsyncIterable#share shared exhausts any time', async ([share]) => {
   await noNext(it2);
 });
 
-test('AsyncIterable#share with selector', async ([share]) => {
+test('AsyncIterable#share with selector', async () => {
   let n = 0;
-  const res = await toArray(
-    share(
-      tap(range(0, 10), {
+  const res = toArray(
+    range(0, 10).pipe(
+      tap({
         next: async () => {
           n++;
         }
       }),
-      xs => take(zip(([l, r]) => l + r, xs, xs), 4)
+      share(xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4)))
     )
   );
 

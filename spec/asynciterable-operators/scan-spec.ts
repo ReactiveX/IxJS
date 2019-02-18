@@ -1,12 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.scan]);
-const { of } = Ix.AsyncIterable;
-const { range } = Ix.asynciterable;
+import { of, range } from 'ix/asynciterable';
+import { scan } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#scan no seed', async ([scan]) => {
-  const res = scan(range(0, 5), async (n, x, i) => n + x + i);
+test('AsyncIterable#scan no seed', async () => {
+  const res = range(0, 5).pipe(scan(async (n, x, i) => n + x + i));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 2);
@@ -16,8 +13,8 @@ test('AsyncIterable#scan no seed', async ([scan]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#scan with seed', async ([scan]) => {
-  const res = scan(range(0, 5), async (n, x, i) => n - x - i, 20);
+test('AsyncIterable#scan with seed', async () => {
+  const res = range(0, 5).pipe(scan(async (n, x, i) => n - x - i, 20));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 20);
@@ -28,8 +25,8 @@ test('AsyncIterable#scan with seed', async ([scan]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#scan no seed yields the value of single-element sources', async ([scan]) => {
-  const res = scan(of(0), async (n, x, i) => n + x + i);
+test('AsyncIterable#scan no seed yields the value of single-element sources', async () => {
+  const res = of(0).pipe(scan(async (n, x, i) => n + x + i));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0);

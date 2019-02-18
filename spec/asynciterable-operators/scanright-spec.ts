@@ -1,11 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.scanRight]);
-const { range } = Ix.asynciterable;
+import { range } from 'ix/asynciterable';
+import { scanRight } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#scanRight no seed', async ([scanRight]) => {
-  const res = scanRight(range(0, 5), async (n, x, i) => n + x + i);
+test('AsyncIterable#scanRight no seed', async () => {
+  const res = range(0, 5).pipe(scanRight(async (n, x, i) => n + x + i));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 10);
@@ -15,8 +13,8 @@ test('AsyncIterable#scanRight no seed', async ([scanRight]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#scanRight with seed', async ([scanRight]) => {
-  const res = scanRight(range(0, 5), async (n, x, i) => n - x - i, 20);
+test('AsyncIterable#scanRight with seed', async () => {
+  const res = range(0, 5).pipe(scanRight(async (n, x, i) => n - x - i, 20));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 12);

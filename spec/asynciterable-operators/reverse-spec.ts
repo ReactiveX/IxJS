@@ -1,31 +1,27 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.reverse]);
-const { empty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
-const { _throw } = Ix.asynciterable;
+import { empty, of, throwError } from 'ix/asynciterable';
+import { reverse } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('AsyncIterable#reverse empty', async ([reverse]) => {
+test('AsyncIterable#reverse empty', async () => {
   const xs = empty<number>();
-  const ys = reverse(xs);
+  const ys = xs.pipe(reverse());
 
   const it = ys[Symbol.asyncIterator]();
   await noNext(it);
 });
 
-test('AsyncIterable#revrse single element', async ([reverse]) => {
+test('AsyncIterable#revrse single element', async () => {
   const xs = of(42);
-  const ys = reverse(xs);
+  const ys = xs.pipe(reverse());
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 42);
   await noNext(it);
 });
 
-test('AsyncIterable#reverse multiple elements', async ([reverse]) => {
+test('AsyncIterable#reverse multiple elements', async () => {
   const xs = of(1, 2, 3);
-  const ys = reverse(xs);
+  const ys = xs.pipe(reverse());
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 3);
@@ -34,9 +30,9 @@ test('AsyncIterable#reverse multiple elements', async ([reverse]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#reverse throws', async ([reverse]) => {
-  const xs = _throw<number>(new Error());
-  const ys = reverse(xs);
+test('AsyncIterable#reverse throws', async () => {
+  const xs = throwError<number>(new Error());
+  const ys = xs.pipe(reverse());
 
   const it = ys[Symbol.asyncIterator]();
   try {
