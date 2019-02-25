@@ -1,16 +1,5 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.publish]);
-const { concat } = Ix.asynciterable;
-const { from } = Ix.AsyncIterable;
-const { map } = Ix.asynciterable;
-const { range } = Ix.asynciterable;
-const { sequenceEqual } = Ix.asynciterable;
-const { _throw } = Ix.asynciterable;
-const { take } = Ix.asynciterable;
-const { tap } = Ix.asynciterable;
-const { toArray } = Ix.asynciterable;
-const { zip } = Ix.asynciterable;
+import { as, concat, from, range, sequenceEqual, throwError, toArray, zip } from 'ix/asynciterable';
+import { map, publish, take, tap } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
@@ -21,13 +10,13 @@ async function* tick(t: (x: number) => void | Promise<void>) {
   }
 }
 
-test('AsyncIterable#publish starts at beginning', async ([publish]) => {
+test('AsyncIterable#publish starts at beginning', async () => {
   let n = 0;
-  const rng = publish(
+  const rng = as(
     tick(async i => {
       n += i;
     })
-  );
+  ).pipe(publish());
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
@@ -59,8 +48,8 @@ test('AsyncIterable#publish starts at beginning', async ([publish]) => {
   expect(10).toBe(n);
 });
 
-test('AsyncIterable#publish single', async ([publish]) => {
-  const rng = publish(range(0, 5));
+test('AsyncIterable#publish single', async () => {
+  const rng = range(0, 5).pipe(publish());
 
   const it = rng[Symbol.asyncIterator]();
   await hasNext(it, 0);
@@ -71,8 +60,8 @@ test('AsyncIterable#publish single', async ([publish]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#publish two interleaved', async ([publish]) => {
-  const rng = publish(range(0, 5));
+test('AsyncIterable#publish two interleaved', async () => {
+  const rng = range(0, 5).pipe(publish());
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
@@ -91,8 +80,8 @@ test('AsyncIterable#publish two interleaved', async ([publish]) => {
   await noNext(it2);
 });
 
-test('AsyncIterable#publish sequential', async ([publish]) => {
-  const rng = publish(range(0, 5));
+test('AsyncIterable#publish sequential', async () => {
+  const rng = range(0, 5).pipe(publish());
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
@@ -111,8 +100,8 @@ test('AsyncIterable#publish sequential', async ([publish]) => {
   await noNext(it2);
 });
 
-test('AsyncIterable#publish second late', async ([publish]) => {
-  const rng = publish(range(0, 5));
+test('AsyncIterable#publish second late', async () => {
+  const rng = range(0, 5).pipe(publish());
 
   const it1 = rng[Symbol.asyncIterator]();
   await hasNext(it1, 0);
@@ -128,10 +117,9 @@ test('AsyncIterable#publish second late', async ([publish]) => {
   await noNext(it2);
 });
 
-test('AsyncIterbale#publish shared exceptions', async ([publish]) => {
+test('AsyncIterbale#publish shared exceptions', async () => {
   const error = new Error();
-  const rng = publish(concat(range(0, 2), _throw<number>(error)));
-
+  const rng = concat(range(0, 2), throwError<number>(error)).pipe(publish());
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
 
@@ -152,19 +140,20 @@ test('AsyncIterbale#publish shared exceptions', async ([publish]) => {
   }
 });
 
-test('AsyncIterable#publish with selector', async ([publish]) => {
+test('AsyncIterable#publish with selector', async () => {
   let n = 0;
   const res = await toArray(
-    publish(
-      tap(range(0, 10), {
-        next: async () => {
-          n++;
-        }
-      }),
-      xs => take(zip(async ([l, r]) => l + r, xs, xs), 4)
-    )
+    range(0, 10)
+      .pipe(
+        tap({
+          next: async () => {
+            n++;
+          }
+        })
+      )
+      .pipe(publish(xs => zip(async ([l, r]) => l + r, xs, xs).pipe(take(4))))
   );
 
-  expect(await sequenceEqual(from(res), map(range(0, 4), x => x * 2))).toBeTruthy();
+  expect(await sequenceEqual(from(res), range(0, 4).pipe(map(x => x * 2)))).toBeTruthy();
   expect(4).toBe(n);
 });

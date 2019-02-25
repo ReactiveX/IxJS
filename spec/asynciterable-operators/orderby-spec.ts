@@ -1,17 +1,8 @@
-import * as Ix from '../Ix';
-import { hasNext, noNext, testOperator } from '../asynciterablehelpers';
-const { of } = Ix.AsyncIterable;
-const { orderBy, orderByDescending, thenBy, thenByDescending } = Ix.asynciterable;
-const testOrderBy = testOperator([orderBy]);
-const testOrderByDescending = testOperator([orderByDescending]);
-const testOrderByThenBy = testOperator([orderBy, thenBy] as [typeof orderBy, typeof thenBy]);
-//tslint:disable-next-line
-const testOrderByDescendingThenByDescending = testOperator([
-  orderByDescending,
-  thenByDescending
-] as [typeof orderByDescending, typeof thenByDescending]);
+import { of } from 'ix/asynciterable';
+import { orderBy, orderByDescending, thenBy, thenByDescending } from 'ix/asynciterable/operators';
+import { hasNext, noNext } from '../asynciterablehelpers';
 
-testOrderBy('AsyncIterable#orderBy normal ordering', async ([orderBy]) => {
+test('AsyncIterable#orderBy normal ordering', async () => {
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
   const ys = orderBy(xs, x => x);
 
@@ -23,30 +14,15 @@ testOrderBy('AsyncIterable#orderBy normal ordering', async ([orderBy]) => {
   await noNext(it);
 });
 
-testOrderByThenBy(
-  'AsyncIterable#orderBy normal ordering with thenBy throws',
-  async ([orderBy, thenBy]) => {
-    const err = new Error();
-    const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-    const ys = thenBy(orderBy(xs, x => x), () => {
-      throw err;
-    });
-
-    const it = ys[Symbol.asyncIterator]();
-    try {
-      await it.next();
-    } catch (e) {
-      expect(err).toEqual(e);
-    }
-  }
-);
-
-testOrderBy('AsyncIterable#orderBy selector throws', async ([orderBy]) => {
+test('AsyncIterable#orderBy normal ordering with thenBy throws', async () => {
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-  const ys = orderBy(xs, () => {
-    throw err;
-  });
+  const ys = xs.pipe(
+    orderBy(x => x),
+    thenBy(() => {
+      throw err;
+    })
+  );
 
   const it = ys[Symbol.asyncIterator]();
   try {
@@ -56,37 +32,49 @@ testOrderBy('AsyncIterable#orderBy selector throws', async ([orderBy]) => {
   }
 });
 
-//tslint:disable-next-line
-testOrderByDescending(
-  'AsyncIterable#orderByDescending normal ordering',
-  async ([orderByDescending]) => {
-    const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-    const ys = orderByDescending(xs, x => x);
-
-    const it = ys[Symbol.asyncIterator]();
-    for (let i = 9; i >= 0; i--) {
-      await hasNext(it, i);
-    }
-
-    await noNext(it);
-  }
-);
-
-//tslint:disable-next-line
-testOrderByDescendingThenByDescending(
-  'AsyncIterable#orderByDescending normal ordering with thenByDescending throws',
-  async ([orderByDescending, thenByDescending]) => {
-    const err = new Error();
-    const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-    const ys = thenByDescending(orderByDescending(xs, x => x), () => {
+test('AsyncIterable#orderBy selector throws', async () => {
+  const err = new Error();
+  const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
+  const ys = xs.pipe(
+    orderBy(() => {
       throw err;
-    });
+    })
+  );
 
-    const it = ys[Symbol.asyncIterator]();
-    try {
-      await it.next();
-    } catch (e) {
-      expect(err).toEqual(e);
-    }
+  const it = ys[Symbol.asyncIterator]();
+  try {
+    await it.next();
+  } catch (e) {
+    expect(err).toEqual(e);
   }
-);
+});
+
+test('AsyncIterable#orderByDescending normal ordering', async () => {
+  const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
+  const ys = xs.pipe(orderByDescending(x => x));
+
+  const it = ys[Symbol.asyncIterator]();
+  for (let i = 9; i >= 0; i--) {
+    await hasNext(it, i);
+  }
+
+  await noNext(it);
+});
+
+test('AsyncIterable#orderByDescending normal ordering with thenByDescending throws', async () => {
+  const err = new Error();
+  const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
+  const ys = xs.pipe(
+    orderByDescending(x => x),
+    thenByDescending(() => {
+      throw err;
+    })
+  );
+
+  const it = ys[Symbol.asyncIterator]();
+  try {
+    await it.next();
+  } catch (e) {
+    expect(err).toEqual(e);
+  }
+});

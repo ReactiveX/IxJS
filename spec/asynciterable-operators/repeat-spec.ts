@@ -1,44 +1,50 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.repeat]);
-const { buffer } = Ix.iterable;
-const { every } = Ix.iterable;
-const { map } = Ix.iterable;
-const { of } = Ix.AsyncIterable;
-const { sum } = Ix.iterable;
-const { take } = Ix.asynciterable;
-const { tap } = Ix.asynciterable;
-const { toArray } = Ix.asynciterable;
+import { every, of, sum, toArray } from 'ix/asynciterable';
+import { buffer, map, repeat, tap, take } from 'ix/asynciterable/operators';
 
-test('AsyncIterable#repeat infinite', async ([repeat]) => {
+test('AsyncIterable#repeat infinite', async () => {
   let i = 0;
   const xs = repeat(
     tap(of(1, 2), {
       next: async () => {
         ++i;
       }
-    })
+    })``
   );
 
-  const res = await toArray(take(xs, 10));
+  const res = await toArray(xs.pipe(take(10)));
   expect(10).toBe(res.length);
-  expect(every(map(buffer(res, 2), b => sum(b)), x => x === 3)).toBeTruthy();
+  expect(
+    every(
+      res.pipe(
+        buffer(2),
+        map(b => sum(b))
+      ),
+      x => x === 3
+    )
+  ).toBeTruthy();
   expect(10).toBe(i);
 });
 
-test('AsyncIterable#repeat finite', async ([repeat]) => {
+test('AsyncIterable#repeat finite', async () => {
   let i = 0;
-  const xs = repeat(
-    tap(of(1, 2), {
+  const xs = of(1, 2).pipe(
+    tap({
       next: async () => {
         ++i;
       }
     }),
-    5
+    repeat(5)
   );
-
-  const res = await toArray(take(xs, 10));
+  const res = toArray(xs);
   expect(10).toBe(res.length);
-  expect(every(map(buffer(res, 2), b => sum(b)), x => x === 3)).toBeTruthy();
+  expect(
+    every(
+      res.pipe(
+        buffer(2),
+        map(b => sum(b))
+      ),
+      x => x === 3
+    )
+  ).toBeTruthy();
   expect(10).toBe(i);
 });

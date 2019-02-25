@@ -1,15 +1,11 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.partition]);
-const { empty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
+import { empty, of, partition } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 function isEven(x: number) {
   return x % 2 === 0;
 }
 
-test('AsyncIterable#partition both empty', async ([partition]) => {
+test('AsyncIterable#partition both empty', async () => {
   const xs = empty<number>();
   const [fst, snd] = partition(xs, isEven);
 
@@ -20,7 +16,7 @@ test('AsyncIterable#partition both empty', async ([partition]) => {
   await noNext(sndIt);
 });
 
-test('AsyncIterable#partition has left', async ([partition]) => {
+test('AsyncIterable#partition has left', async () => {
   const xs = of(4);
   const [fst, snd] = partition(xs, isEven);
 
@@ -32,7 +28,7 @@ test('AsyncIterable#partition has left', async ([partition]) => {
   await noNext(sndIt);
 });
 
-test('AsyncIterable#partition has right', async ([partition]) => {
+test('AsyncIterable#partition has right', async () => {
   const xs = of(3);
   const [fst, snd] = partition(xs, isEven);
 
@@ -44,7 +40,7 @@ test('AsyncIterable#partition has right', async ([partition]) => {
   await noNext(sndIt);
 });
 
-test('AsyncIterable#partition has both', async ([partition]) => {
+test('AsyncIterable#partition has both', async () => {
   const xs = of(1, 2, 3, 4);
   const [fst, snd] = partition(xs, isEven);
 
