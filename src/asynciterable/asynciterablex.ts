@@ -23,27 +23,27 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     }
   }
 
-  pipe<R>(...operations: OperatorAsyncFunction<T, R>[]): AsyncIterableX<R> {
-    if (operations.length === 0) {
-      return this as any;
+  pipe<R>(...args: OperatorAsyncFunction<any, any>[]): AsyncIterableX<R> {
+    let i = -1;
+    let n = args.length;
+    let acc: any = this;
+    let as = AsyncIterableX.as;
+    while (++i < n) {
+      acc = as(args[i](acc));
     }
-
-    const piped = (input: AsyncIterable<T>): AsyncIterableX<R> => {
-      return operations.reduce(
-        (prev: any, fn: OperatorAsyncFunction<T, R>) => fn(prev),
-        input as any
-      );
-    };
-
-    return piped(this);
+    return acc as AsyncIterableX<R>;
   }
 
   static as(source: string): AsyncIterableX<string>;
+  static as<T extends AsyncIterableX<any>>(source: T): T;
   static as<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
   static as<T>(source: T): AsyncIterableX<T>;
   /** @nocollapse */
   static as(source: any) {
     /* tslint:disable */
+    if (source instanceof AsyncIterableX) {
+      return source;
+    }
     if (typeof source === 'string') {
       return new OfAsyncIterable([source]);
     }
@@ -221,5 +221,74 @@ class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     for (let item of this._args) {
       yield item;
     }
+  }
+}
+
+declare module '../asynciterable/asynciterablex' {
+  interface AsyncIterableX<T> {
+    pipe(): AsyncIterableX<T>;
+    pipe<A>(op1: OperatorAsyncFunction<T, A>): AsyncIterableX<A>;
+    pipe<A extends NodeJS.WritableStream>(op1: A): A;
+    pipe<A, B>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>
+    ): AsyncIterableX<B>;
+    pipe<A, B, C>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>,
+      op3: OperatorAsyncFunction<B, C>
+    ): AsyncIterableX<C>;
+    pipe<A, B, C, D>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>,
+      op3: OperatorAsyncFunction<B, C>,
+      op4: OperatorAsyncFunction<C, D>
+    ): AsyncIterableX<D>;
+    pipe<A, B, C, D, E>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>,
+      op3: OperatorAsyncFunction<B, C>,
+      op4: OperatorAsyncFunction<C, D>,
+      op5: OperatorAsyncFunction<D, E>
+    ): AsyncIterableX<E>;
+    pipe<A, B, C, D, E, F>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>,
+      op3: OperatorAsyncFunction<B, C>,
+      op4: OperatorAsyncFunction<C, D>,
+      op5: OperatorAsyncFunction<D, E>,
+      op6: OperatorAsyncFunction<E, F>
+    ): AsyncIterableX<F>;
+    pipe<A, B, C, D, E, F, G>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>,
+      op3: OperatorAsyncFunction<B, C>,
+      op4: OperatorAsyncFunction<C, D>,
+      op5: OperatorAsyncFunction<D, E>,
+      op6: OperatorAsyncFunction<E, F>,
+      op7: OperatorAsyncFunction<F, G>
+    ): AsyncIterableX<G>;
+    pipe<A, B, C, D, E, F, G, H>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>,
+      op3: OperatorAsyncFunction<B, C>,
+      op4: OperatorAsyncFunction<C, D>,
+      op5: OperatorAsyncFunction<D, E>,
+      op6: OperatorAsyncFunction<E, F>,
+      op7: OperatorAsyncFunction<F, G>,
+      op8: OperatorAsyncFunction<G, H>
+    ): AsyncIterableX<H>;
+    pipe<A, B, C, D, E, F, G, H, I>(
+      op1: OperatorAsyncFunction<T, A>,
+      op2: OperatorAsyncFunction<A, B>,
+      op3: OperatorAsyncFunction<B, C>,
+      op4: OperatorAsyncFunction<C, D>,
+      op5: OperatorAsyncFunction<D, E>,
+      op6: OperatorAsyncFunction<E, F>,
+      op7: OperatorAsyncFunction<F, G>,
+      op8: OperatorAsyncFunction<G, H>,
+      op9: OperatorAsyncFunction<H, I>
+    ): AsyncIterableX<I>;
+    pipe(...operations: OperatorAsyncFunction<any, any>[]): AsyncIterableX<{}>;
   }
 }

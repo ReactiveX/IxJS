@@ -31,12 +31,16 @@ export abstract class IterableX<T> implements Iterable<T> {
   }
 
   static as(source: string): IterableX<string>;
+  static as<T extends IterableX<any>>(source: T): T;
   static as<T>(source: Iterable<T>): IterableX<T>;
   static as<T>(source: ArrayLike<T>): IterableX<T>;
   static as<T>(source: T): IterableX<T>;
   /** @nocollapse */
   static as(source: any) {
     /* tslint:disable */
+    if (source instanceof IterableX) {
+      return source;
+    }
     if (typeof source === 'string') {
       return new OfIterable([source]);
     }
