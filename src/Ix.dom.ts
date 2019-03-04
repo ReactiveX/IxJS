@@ -18,7 +18,7 @@ export { AsyncSink, Iterable, AsyncIterable } from './Ix';
 
 import './add/asynciterable/fromdomstream';
 import './add/asynciterable-operators/todomstream';
-export { toDOMStream } from './asynciterable/todomstream';
+export { ReadableBYOBStreamOptions, ReadableByteStreamOptions } from './asynciterable/todomstream';
 export {
   fromDOMStream,
   AsyncIterableReadableStream,

@@ -1,12 +1,12 @@
 import { AsyncIterableX } from './asynciterablex';
 
+// To work around circular-dependency hell, these need to be on
+// the AsyncIterable prototype for tee, pipeTo, and pipeThrough
+import '../add/asynciterable-operators/publish';
+import '../add/asynciterable-operators/todomstream';
+
 /** @ignore */
 const SharedArrayBuf = typeof SharedArrayBuffer !== 'undefined' ? SharedArrayBuffer : ArrayBuffer;
-/** @ignore */
-const pump = <T extends Iterator<any> | AsyncIterator<any>>(iterator: T) => {
-  iterator.next();
-  return iterator;
-};
 
 export class AsyncIterableReadableStream<T> extends AsyncIterableX<T> {
   constructor(protected _stream: ReadableStream<T>) {
@@ -21,13 +21,17 @@ export class AsyncIterableReadableStream<T> extends AsyncIterableX<T> {
 
 export class AsyncIterableReadableByteStream extends AsyncIterableReadableStream<Uint8Array> {
   [Symbol.asyncIterator]() {
+    let stream = this._stream;
+    let reader: ReadableStreamBYOBReader;
     try {
-      const stream = this._stream;
-      const reader = stream['getReader']({ mode: 'byob' });
-      return pump(_consumeReader(stream, reader, byobReaderToAsyncIterator(reader)));
+      reader = stream['getReader']({ mode: 'byob' });
     } catch (e) {
       return super[Symbol.asyncIterator]() as AsyncIterableIterator<Uint8Array>;
     }
+    const iterator = _consumeReader(stream, reader, byobReaderToAsyncIterator(reader));
+    // "pump" the iterator once so it initializes and is ready to accept a buffer or bytesToRead
+    iterator.next();
+    return iterator;
   }
 }
 
@@ -73,11 +77,11 @@ async function* defaultReaderToAsyncIterator<T = any>(reader: ReadableStreamDefa
 
 /** @ignore */
 async function* byobReaderToAsyncIterator(reader: ReadableStreamBYOBReader) {
-  let bufferOrByteLength: number | ArrayBufferLike;
-  let r: null | IteratorResult<Uint8Array> = null;
-  do {
-    bufferOrByteLength = yield r ? r.value : null!;
-  } while (!(r = await readNext(reader, bufferOrByteLength, 0)).done);
+  let r: IteratorResult<Uint8Array>;
+  let value: number | ArrayBufferLike = yield null!;
+  while (!(r = await readNext(reader, value, 0)).done) {
+    value = yield r.value;
+  }
 }
 
 /** @ignore */

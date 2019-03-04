@@ -83,7 +83,7 @@ class UnderlyingAsyncIterableByteSource<TSource extends ArrayBufferView = Uint8A
         // Did the source write into the BYOB view itself,
         // then yield us the `bytesWritten` value? If so,
         // pass that along
-        if (typeof value === 'number' && value > 0) {
+        if (typeof value === 'number') {
           return controller.byobRequest.respond(value);
         }
         // otherwise if the source is only producing buffers

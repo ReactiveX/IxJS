@@ -3,8 +3,14 @@ import { OperatorAsyncFunction } from '../interfaces';
 import { bindCallback } from '../internal/bindcallback';
 import { identityAsync } from '../internal/identity';
 import { toLength } from '../internal/tolength';
-import { isArrayLike, isIterable, isAsyncIterable } from '../internal/isiterable';
 import { Observable } from '../observer';
+import {
+  isArrayLike,
+  isIterable,
+  isAsyncIterable,
+  isReadableNodeStream,
+  isWritableNodeStream
+} from '../internal/isiterable';
 
 /**
  * This class serves as the base for all operations which support [Symbol.asyncIterator].
@@ -32,6 +38,26 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
       acc = as(args[i](acc));
     }
     return acc as AsyncIterableX<R>;
+  }
+
+  tee(): [ReadableStream<T>, ReadableStream<T>] {
+    return this._getDOMStream().tee();
+  }
+
+  pipeTo(writable: WritableStream<T>, options?: PipeOptions) {
+    return this._getDOMStream().pipeTo(writable, options);
+  }
+
+  pipeThrough<R extends ReadableStream<any>>(
+    duplex: { writable: WritableStream<T>; readable: R },
+    options?: PipeOptions
+  ) {
+    return this._getDOMStream().pipeThrough(duplex, options);
+  }
+
+  private _DOMStream?: ReadableStream<T>;
+  private _getDOMStream(): ReadableStream<T> {
+    return this._DOMStream || (this._DOMStream = this.publish().toDOMStream());
   }
 
   static as(source: string): AsyncIterableX<string>;
@@ -224,11 +250,16 @@ class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+type WritableOrOperatorAsyncFunction<T, R> =
+  | NodeJS.WritableStream
+  | NodeJS.ReadWriteStream
+  | OperatorAsyncFunction<T, R>;
+
 declare module '../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     pipe(): AsyncIterableX<T>;
     pipe<A>(op1: OperatorAsyncFunction<T, A>): AsyncIterableX<A>;
-    pipe<A extends NodeJS.WritableStream>(op1: A): A;
+    pipe<A extends NodeJS.WritableStream>(op1: A, options?: any /* { end?: boolean; } */): A;
     pipe<A, B>(
       op1: OperatorAsyncFunction<T, A>,
       op2: OperatorAsyncFunction<A, B>
@@ -291,4 +322,38 @@ declare module '../asynciterable/asynciterablex' {
     ): AsyncIterableX<I>;
     pipe(...operations: OperatorAsyncFunction<any, any>[]): AsyncIterableX<{}>;
   }
+}
+
+try {
+  (isBrowser => {
+    if (isBrowser) {
+      return;
+    }
+
+    const as = AsyncIterableX.as;
+    AsyncIterableX.prototype.pipe = nodePipe;
+    const readableOpts = (x: any, opts = x._writableState || { objectMode: true }) => opts;
+
+    function nodePipe<T>(this: AsyncIterableX<T>, ...args: any[]) {
+      let i = -1;
+      let end: boolean;
+      let n = args.length;
+      let prev: any = this;
+      let next: WritableOrOperatorAsyncFunction<T, any>;
+      while (++i < n) {
+        next = args[i];
+        if (typeof next === 'function') {
+          prev = as(next(prev));
+        } else if (isWritableNodeStream(next)) {
+          ({ end = true } = args[i + 1] || {});
+          // prettier-ignore
+          return isReadableNodeStream(prev) ? prev.pipe(next, {end}) :
+             prev.toNodeStream(readableOpts(next)).pipe(next, {end});
+        }
+      }
+      return prev;
+    }
+  })(typeof window === 'object' && typeof document === 'object' && document.nodeType === 9);
+} catch (e) {
+  /* */
 }
