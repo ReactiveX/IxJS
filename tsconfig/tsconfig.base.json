@@ -21,7 +21,7 @@
 
     /* The most restrictive settings possible */
     "strict": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "importHelpers": true,
     "noEmitHelpers": true,
     "noImplicitAny": true,

@@ -1,4 +1,5 @@
 import * as Ix from './Ix';
+import { Observer, PartialObserver } from '../src/observer';
 
 export async function hasNext<T>(source: AsyncIterator<T>, expected: T) {
   const { done, value } = await source.next();
@@ -65,6 +66,31 @@ function cast(source: any): any {
   return source instanceof Ix.AsyncIterable ? source : Ix.AsyncIterable.as(source);
 }
 
+const noop = (_?: any) => {
+  /**/
+};
+
+export function toObserver<T>(
+  next?: PartialObserver<T> | ((value: T) => void) | null,
+  error?: ((err: any) => void) | null,
+  complete?: (() => void) | null
+): Observer<T> {
+  if (next && typeof next === 'object') {
+    const observer = <any>next;
+    return {
+      next: (observer.next || noop).bind(observer),
+      error: (observer.error || noop).bind(observer),
+      complete: (observer.complete || noop).bind(observer)
+    };
+  } else {
+    return {
+      next: typeof next === 'function' ? next : noop,
+      error: typeof error === 'function' ? error : noop,
+      complete: typeof complete === 'function' ? complete : noop
+    };
+  }
+}
+
 declare global {
   namespace jest {
     interface Matchers<R> {
@@ -102,7 +128,7 @@ expect.extend({
     const it1 = Ix.AsyncIterable.from(expected)[Symbol.asyncIterator]();
     while (!(next1 = await it1.next()).done) {
       expectedCount++;
-      if (!(next2 = await it2.next()).done) {
+      if (!(next2 = await it2.next(getValueByteLength(next1.value))).done) {
         actualCount++;
         if (!(await comparer(next1.value, next2.value))) {
           results.push(
@@ -123,3 +149,10 @@ expect.extend({
     return { pass: results.length === 0, message: () => results.join('\n') };
   }
 });
+
+function getValueByteLength(value: any) {
+  if (value && value.buffer instanceof ArrayBuffer) {
+    return value.byteLength;
+  }
+  return undefined;
+}

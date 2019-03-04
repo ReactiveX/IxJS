@@ -1,7 +1,8 @@
 import * as Ix from '../Ix';
 const { from } = Ix.AsyncIterable;
-import { hasNext, noNext } from '../asynciterablehelpers';
+import { hasNext, noNext, toObserver } from '../asynciterablehelpers';
 import { setInterval, clearInterval } from 'timers';
+import { PartialObserver } from '../../src/observer';
 
 test('AsyncIterable#from from promise list', async () => {
   const xs: Iterable<Promise<number>> = [
@@ -153,8 +154,12 @@ class TestObservable<T> implements Observable<T> {
     this._subscribe = subscribe;
   }
 
-  subscribe(observer: Observer<T>) {
-    return this._subscribe(observer);
+  subscribe(
+    next?: PartialObserver<T> | ((value: T) => void) | null,
+    error?: ((err: any) => void) | null,
+    complete?: (() => void) | null
+  ) {
+    return this._subscribe(toObserver(next, error, complete));
   }
 }
 
