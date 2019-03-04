@@ -1,5 +1,20 @@
+import '@mattiasbuelens/web-streams-polyfill';
+
+/* tslint:disable */
+// import this before assigning window global since it does a `typeof window` check
+require('web-stream-tools');
+
 /* tslint:disable */
 (<any>global).window = (<any>global).window || global;
+
+// Fix for Jest in node v10.x
+Object.defineProperty(ArrayBuffer, Symbol.hasInstance, {
+  writable: true,
+  configurable: true,
+  value(inst: any) {
+    return inst && inst.constructor && inst.constructor.name === 'ArrayBuffer';
+  }
+});
 
 // Require rxjs first so we pick up its polyfilled Symbol.observable
 require('rxjs/symbol/observable');
