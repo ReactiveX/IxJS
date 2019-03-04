@@ -96,7 +96,7 @@ async function readNext(
   } else if (bufferOrLen instanceof SharedArrayBuf) {
     size = (buffer = bufferOrLen).byteLength;
   } else {
-    buffer = new ArrayBuffer((size = 2 ** 24));
+    return { done: true, value: undefined! };
   }
 
   return await readInto(reader, buffer, offset, size);
