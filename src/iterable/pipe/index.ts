@@ -46,5 +46,6 @@ export { takeWhile } from './takewhile';
 export { tap } from './tap';
 export { thenBy } from './orderby';
 export { thenByDescending } from './orderby';
+export { toDOMStream } from './todomstream';
 export { union } from './union';
 export { zip } from './zip';

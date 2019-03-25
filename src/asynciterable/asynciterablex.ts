@@ -29,7 +29,9 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     }
   }
 
-  pipe<R>(...args: OperatorAsyncFunction<any, any>[]): AsyncIterableX<R> {
+  pipe<R>(...operations: OperatorAsyncFunction<T, R>[]): AsyncIterableX<R>;
+  pipe<R extends NodeJS.WritableStream>(writable: R, options?: { end?: boolean }): R;
+  pipe<R>(...args: any[]) {
     let i = -1;
     let n = args.length;
     let acc: any = this;
@@ -37,7 +39,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     while (++i < n) {
       acc = as(args[i](acc));
     }
-    return acc as AsyncIterableX<R>;
+    return acc;
   }
 
   tee(): [ReadableStream<T>, ReadableStream<T>] {
@@ -259,7 +261,6 @@ declare module '../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     pipe(): AsyncIterableX<T>;
     pipe<A>(op1: OperatorAsyncFunction<T, A>): AsyncIterableX<A>;
-    pipe<A extends NodeJS.WritableStream>(op1: A, options?: any /* { end?: boolean; } */): A;
     pipe<A, B>(
       op1: OperatorAsyncFunction<T, A>,
       op2: OperatorAsyncFunction<A, B>
@@ -321,6 +322,7 @@ declare module '../asynciterable/asynciterablex' {
       op9: OperatorAsyncFunction<H, I>
     ): AsyncIterableX<I>;
     pipe(...operations: OperatorAsyncFunction<any, any>[]): AsyncIterableX<{}>;
+    pipe<A extends NodeJS.WritableStream>(op1: A, options?: { end?: boolean }): A;
   }
 }
 

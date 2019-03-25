@@ -95,7 +95,7 @@ declare global {
   namespace jest {
     interface Matchers<R> {
       toEqualStream<T>(
-        expected: AsyncIterable<T>,
+        expected: Iterable<T> | AsyncIterable<T>,
         comparer?: (first: T, second: T) => boolean | Promise<boolean>
       ): Promise<CustomMatcherResult>;
     }
@@ -115,7 +115,7 @@ const defaultAsyncCompare = <T>(x: T, y: T) => {
 expect.extend({
   async toEqualStream<T>(
     this: jest.MatcherUtils,
-    actual: AsyncIterable<T>,
+    actual: Iterable<T> | AsyncIterable<T>,
     expected: Iterable<T> | AsyncIterable<T>,
     comparer: (first: T, second: T) => boolean | Promise<boolean> = defaultAsyncCompare
   ) {
@@ -124,8 +124,12 @@ expect.extend({
     let next1: IteratorResult<T>;
     let next2: IteratorResult<T>;
     const results: string[] = [];
-    const it2 = actual[Symbol.asyncIterator]();
     const it1 = Ix.AsyncIterable.from(expected)[Symbol.asyncIterator]();
+    const it2 =
+      typeof (<any>actual)[Symbol.asyncIterator] === 'function'
+        ? (<any>actual)[Symbol.asyncIterator]()
+        : (<any>actual)[Symbol.iterator]();
+
     while (!(next1 = await it1.next()).done) {
       expectedCount++;
       if (!(next2 = await it2.next(getValueByteLength(next1.value))).done) {
