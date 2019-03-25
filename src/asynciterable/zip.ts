@@ -19,7 +19,7 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
     const fn = this._fn;
     const sourcesLength = this._sources.length;
     const its = this._sources.map(x => x[Symbol.asyncIterator]());
-    do {
+    while (sourcesLength > 0) {
       const values = new Array(sourcesLength);
       for (let i = -1; ++i < sourcesLength; ) {
         const result = await its[i].next();
@@ -30,7 +30,7 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
         values[i] = result.value;
       }
       yield await fn(values);
-    } while (1);
+    }
   }
 }
 
@@ -112,8 +112,8 @@ export function zip<T, R>(
 ): AsyncIterableX<R>;
 /* tslint:enable:max-line-length */
 export function zip<T, R>(...sources: any[]): AsyncIterableX<R> {
-  let fn = sources.shift() as (values: any[]) => R | Promise<R>;
-  if (typeof fn !== 'function') {
+  let fn = (sources.shift() || identityAsync) as (values: any[]) => R | Promise<R>;
+  if (fn && typeof fn !== 'function') {
     sources.unshift(fn);
     fn = identityAsync;
   }

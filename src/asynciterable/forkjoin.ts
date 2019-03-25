@@ -87,8 +87,8 @@ export function forkJoin<T, R>(
 ): Promise<R | undefined>;
 
 export async function forkJoin<T, R>(...sources: any[]): Promise<R | undefined> {
-  let fn = sources.shift() as (values: any[]) => R | Promise<R>;
-  if (typeof fn !== 'function') {
+  let fn = (sources.shift() || identityAsync) as (values: any[]) => R | Promise<R>;
+  if (fn && typeof fn !== 'function') {
     sources.unshift(fn);
     fn = identityAsync;
   }
@@ -122,7 +122,7 @@ export async function forkJoin<T, R>(...sources: any[]): Promise<R | undefined> 
     }
   }
 
-  if (hasValues.every(identity)) {
+  if (hasValues.length > 0 && hasValues.every(identity)) {
     return await fn(values);
   }
 
