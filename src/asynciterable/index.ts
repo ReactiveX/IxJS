@@ -102,6 +102,7 @@ export { timeout } from './timeout';
 export { timestamp } from './timestamp';
 export { _throw } from './throw';
 export { toArray } from './toarray';
+export { toDOMStream } from './todomstream';
 export { toMap } from './tomap';
 export { toObservable } from './toobservable';
 export { toSet } from './toset';

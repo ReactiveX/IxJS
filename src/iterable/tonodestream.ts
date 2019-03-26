@@ -69,17 +69,3 @@ export function toNodeStream<TSource>(
     ? new IterableReadable<TSource>(source, options)
     : new IterableReadable<TSource extends BufferLike ? TSource : any>(source, options);
 }
-
-/*
-  private _pulling: boolean;
-  private _objectMode: boolean;
-  private _iterator: Iterator<T> | undefined;
-  constructor(source: Iterable<T>, options: ReadableOptions = {}) {
-    const objectMode = !options || !!options.objectMode;
-    super({ ...options, highWaterMark: objectMode ? 1 : options.highWaterMark });
-    this._pulling = false;
-    this._objectMode = objectMode;
-    this._iterator = source[Symbol.iterator]();
-  }
-
-*/

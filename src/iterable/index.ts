@@ -84,6 +84,7 @@ export { takeWhile } from './takewhile';
 export { tap } from './tap';
 export { _throw } from './throw';
 export { toArray } from './toarray';
+export { toDOMStream } from './todomstream';
 export { toMap } from './tomap';
 export { toSet } from './toset';
 export { union } from './union';

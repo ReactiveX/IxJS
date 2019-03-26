@@ -57,5 +57,6 @@ export { throttle } from './throttle';
 export { timeInterval } from './timeinterval';
 export { timeout } from './timeout';
 export { timestamp } from './timestamp';
+export { toDOMStream } from './todomstream';
 export { union } from './union';
 export { zip } from './zip';

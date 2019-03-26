@@ -69,8 +69,8 @@ export function zip<T, R>(
 /* tslint:enable:max-line-length */
 export function zip<T, R>(...sources: any[]): OperatorFunction<T, R> {
   return function zipOperatorFunction(source: Iterable<T>): IterableX<R> {
-    let fn = sources.shift() as (values: any[]) => R;
-    if (typeof fn !== 'function') {
+    let fn = (sources.shift() || identity) as (values: any[]) => R;
+    if (fn && typeof fn !== 'function') {
       sources.unshift(fn);
       fn = identity;
     }

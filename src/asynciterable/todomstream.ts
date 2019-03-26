@@ -18,7 +18,7 @@ function memcpy<TTarget extends ArrayBufferView, TSource extends ArrayBufferView
   const src = new Uint8Array(
     source.buffer,
     source.byteOffset,
-    Math.min(sourceByteLength, targetByteLength)
+    Math.min(sourceByteLength, targetByteLength, source.buffer.byteLength - source.byteOffset)
   );
   dst.set(src, targetByteOffset);
   return src.byteLength;
@@ -148,7 +148,10 @@ const asyncIterableReadableStream = (() => {
   return <T>(source: any, opts?: any) => createAsyncIterableReadableStream<T>(source, opts);
 })();
 
-export function toDOMStream<T>(source: AsyncIterable<T>): ReadableStream<T>;
+export function toDOMStream<T>(
+  source: AsyncIterable<T>,
+  strategy?: QueuingStrategy<T>
+): ReadableStream<T>;
 export function toDOMStream<T>(
   source: AsyncIterable<T>,
   options: ReadableBYOBStreamOptions<Uint8Array>
@@ -159,9 +162,9 @@ export function toDOMStream<T>(
 ): ReadableStream<Uint8Array>;
 export function toDOMStream(
   source: AsyncIterable<any>,
-  options?: ReadableBYOBStreamOptions | ReadableByteStreamOptions
+  options?: QueuingStrategy<any> | ReadableBYOBStreamOptions | ReadableByteStreamOptions
 ) {
-  if (!options || options.type !== 'bytes') {
+  if (!options || !('type' in options) || options['type'] !== 'bytes') {
     return asyncIterableReadableStream(
       new UnderlyingAsyncIterableDefaultSource(source[Symbol.asyncIterator]()),
       options

@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
+import { IterableX } from '../../iterable/iterablex';
+import { toDOMStream } from '../../iterable/todomstream';
 import {
-  toDOMStream,
   ReadableBYOBStreamOptions,
   ReadableByteStreamOptions
 } from '../../asynciterable/todomstream';
@@ -9,28 +9,28 @@ import {
  * @ignore
  */
 export function toDOMStreamProto<T>(
-  this: AsyncIterable<T>,
+  this: Iterable<T>,
   strategy?: QueuingStrategy<T>
 ): ReadableStream<T>;
 export function toDOMStreamProto<T>(
-  this: AsyncIterable<T>,
+  this: Iterable<T>,
   options: ReadableBYOBStreamOptions<Uint8Array>
 ): ReadableStream<Uint8Array>;
 export function toDOMStreamProto<T>(
-  this: AsyncIterable<T>,
+  this: Iterable<T>,
   options: ReadableByteStreamOptions<Uint8Array>
 ): ReadableStream<Uint8Array>;
 export function toDOMStreamProto(
-  this: AsyncIterable<any>,
+  this: Iterable<any>,
   options?: QueuingStrategy<any> | ReadableBYOBStreamOptions | ReadableByteStreamOptions
 ) {
   return !options ? toDOMStream(this) : toDOMStream(this, options);
 }
 
-AsyncIterableX.prototype.toDOMStream = toDOMStreamProto;
+IterableX.prototype.toDOMStream = toDOMStreamProto;
 
-declare module '../../asynciterable/asynciterablex' {
-  interface AsyncIterableX<T> {
+declare module '../../iterable/iterablex' {
+  interface IterableX<T> {
     toDOMStream: typeof toDOMStreamProto;
   }
 }
