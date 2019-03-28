@@ -2,9 +2,37 @@ import * as Ix from '../Ix';
 const { from } = Ix.Iterable;
 import { hasNext, noNext } from '../iterablehelpers';
 
+function* getData() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
 test('Iterable#from from array/iterable', () => {
   const xs = [1, 2, 3];
   const res = from(xs);
+
+  const it = res[Symbol.iterator]();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  hasNext(it, 3);
+  noNext(it);
+});
+
+test('Iterable#from from generator', () => {
+  const xs = getData();
+  const res = from(xs);
+
+  const it = res[Symbol.iterator]();
+  hasNext(it, 1);
+  hasNext(it, 2);
+  hasNext(it, 3);
+  noNext(it);
+});
+
+test('Iterable#from from iterator', () => {
+  const xs = getData();
+  const res = from({ next: () => xs.next() });
 
   const it = res[Symbol.iterator]();
   hasNext(it, 1);

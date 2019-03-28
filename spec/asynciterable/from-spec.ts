@@ -19,7 +19,7 @@ test('AsyncIterable#from from promise list', async () => {
   await noNext(it);
 });
 
-async function* getData(): AsyncIterable<number> {
+async function* getData() {
   yield 1;
   yield 2;
   yield 3;
@@ -28,6 +28,17 @@ async function* getData(): AsyncIterable<number> {
 test('AsyncIterable#from from async generator', async () => {
   const xs = getData();
   const res = from(xs);
+
+  const it = res[Symbol.asyncIterator]();
+  await hasNext(it, 1);
+  await hasNext(it, 2);
+  await hasNext(it, 3);
+  await noNext(it);
+});
+
+test('AsyncIterable#from from async iterator', async () => {
+  const xs = getData();
+  const res = from({ next: () => xs.next() });
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);

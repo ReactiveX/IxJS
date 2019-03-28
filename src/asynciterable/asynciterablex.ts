@@ -7,6 +7,7 @@ import { Observable } from '../observer';
 import {
   isArrayLike,
   isIterable,
+  isIterator,
   isAsyncIterable,
   isReadableNodeStream,
   isWritableNodeStream
@@ -110,6 +111,9 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     }
     if (isArrayLike(source)) {
       return new FromArrayIterable<TSource, TResult>(source, fn);
+    }
+    if (isIterator(source)) {
+      return new FromAsyncIterable<TSource, TResult>({ [Symbol.asyncIterator]: () => source }, fn);
     }
     throw new TypeError('Input type not supported');
     /* tslint:enable */
@@ -224,6 +228,7 @@ class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncItera
 
 export type AsyncIterableInput<TSource> =
   | AsyncIterable<TSource>
+  | AsyncIterator<TSource>
   | Iterable<TSource | PromiseLike<TSource>>
   | ArrayLike<TSource>
   | PromiseLike<TSource>
