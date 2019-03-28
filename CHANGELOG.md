@@ -1,3 +1,60 @@
+## [2.5.2](https://github.com/ReactiveX/IxJS/compare/v2.5.1...v2.5.2) (2019-03-04)
+
+### Bug Fixes
+
+* **asynciterable-pipe**: fix asynciterable pipe typings ([2e00c95](https://github.com/ReactiveX/IxJS/commit/2e00c95))
+
+
+### Features
+
+* **asynciterable-pipe**: add tee, pipeTo, and pipeThrough to AsyncIterable prototype ([873b8fe](https://github.com/ReactiveX/IxJS/commit/873b8fe))
+
+* **asynciterable-toDOMStream**: add AsyncIterable#toDOMStream implementation ([2e00c95](https://github.com/ReactiveX/IxJS/commit/2e00c95))
+
+* **asynciterable-fromDOMStream**: add AsyncIterable.fromDOMStream implementation ([2e00c95](https://github.com/ReactiveX/IxJS/commit/2e00c95))
+
+
+
+
+
+## [2.5.1](https://github.com/ReactiveX/IxJS/compare/v2.5.0...v2.5.1) (2019-01-14)
+
+### Bug Fixes
+
+* **exports**: export all iterable and asynciterable operators ([1f8870f](https://github.com/ReactiveX/IxJS/commit/1f8870f))
+
+* **asynciterable#scanProto**: allow AsyncIterable#scan selector to return R | Promise<R> ([1f8870f](https://github.com/ReactiveX/IxJS/commit/1f8870f))
+
+
+
+
+# [2.5.0](https://github.com/ReactiveX/IxJS/compare/v2.4.3...v2.5.0) (2019-01-12)
+
+### Bug Fixes
+
+* **scan**: fix scan over single-element sources ([7f6a85f](https://github.com/ReactiveX/IxJS/commit/7f6a85f))
+
+
+
+## [2.4.3](https://github.com/ReactiveX/IxJS/compare/v2.4.0...v2.4.3) (2019-01-03)
+
+### Bug Fixes
+
+* **dependencies**: add rxjs to the production dependencies list ([54e5cf7](https://github.com/ReactiveX/IxJS/commit/54e5cf7))
+
+
+### Features
+
+* **batch**: add asynciterable batch() implementation ([9c9bd7e](https://github.com/ReactiveX/IxJS/commit/9c9bd7e))
+
+* **toNodeStream**: add iterable/asynciterable toNodeStream implementations ([9a1c5cc](https://github.com/ReactiveX/IxJS/commit/9a1c5cc))
+
+* **fromNodeStream**: AsyncIterable.fromNodeStream has been optimized for streams and AsyncIterables ([9a1c5cc](https://github.com/ReactiveX/IxJS/commit/9a1c5cc))
+
+* **pipe**: AsyncIterable.prototype.pipe now accepts Node.js WritableStream values in addition to operators ([9a1c5cc](https://github.com/ReactiveX/IxJS/commit/9a1c5cc))
+
+
+
 # [2.4.0](https://github.com/ReactiveX/IxJS/compare/v2.3.5...v2.4.0) (2019-01-03)
 
 
