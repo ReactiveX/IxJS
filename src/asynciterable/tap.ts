@@ -1,3 +1,4 @@
+import { toObserver } from '../internal/toobserver';
 import { AsyncIterableX } from './asynciterablex';
 import { PartialAsyncObserver } from '../observer';
 
@@ -42,6 +43,20 @@ export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 export function tap<TSource>(
   source: AsyncIterable<TSource>,
   observer: PartialAsyncObserver<TSource>
+): AsyncIterableX<TSource>;
+
+export function tap<TSource>(
+  source: AsyncIterable<TSource>,
+  next?: ((value: TSource) => any) | null,
+  error?: ((err: any) => any) | null,
+  complete?: (() => any) | null
+): AsyncIterableX<TSource>;
+
+export function tap<TSource>(
+  source: AsyncIterable<TSource>,
+  observerOrNext?: PartialAsyncObserver<TSource> | ((value: TSource) => any) | null,
+  error?: ((err: any) => any) | null,
+  complete?: (() => any) | null
 ): AsyncIterableX<TSource> {
-  return new TapAsyncIterable<TSource>(source, observer);
+  return new TapAsyncIterable<TSource>(source, toObserver(observerOrNext, error, complete));
 }

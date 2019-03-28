@@ -8,9 +8,7 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 test('AsyncIterable#finally defers behavior', async ([_finally]) => {
   let done = false;
 
-  const xs = _finally(range(0, 2), async () => {
-    done = true;
-  });
+  const xs = _finally(range(0, 2), async () => (done = true));
   expect(done).toBeFalsy();
 
   const it = xs[Symbol.asyncIterator]();
@@ -30,9 +28,7 @@ test('AsyncIterable#finally calls even with error', async ([_finally]) => {
   let done = false;
 
   const err = new Error();
-  const xs = _finally(_throw(err), async () => {
-    done = true;
-  });
+  const xs = _finally(_throw(err), async () => (done = true));
   expect(done).toBeFalsy();
 
   const it = xs[Symbol.asyncIterator]();

@@ -6,7 +6,7 @@ import { _finally as _finallyProto } from '../../asynciterable/finally';
  */
 export function finallyProto<TSource>(
   this: AsyncIterableX<TSource>,
-  action: () => void | Promise<void>
+  action: () => any | Promise<any>
 ) {
   return _finallyProto(this, action);
 }
