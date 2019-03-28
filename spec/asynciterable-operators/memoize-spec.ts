@@ -1,5 +1,5 @@
 import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
+import { testOperator, delayValue } from '../asynciterablehelpers';
 const test = testOperator([Ix.asynciterable.memoize]);
 const { concat } = Ix.asynciterable;
 const { every } = Ix.asynciterable;
@@ -58,6 +58,31 @@ test('AsyncIterable#memoize memoizes effects', async ([memoize]) => {
   expect(10).toBe(n);
   await hasNext(it1, 4);
   expect(10).toBe(n);
+});
+
+test('AsyncIterable#memoize pulls each value from the source only once', async ([memoize]) => {
+  const length = 10;
+  const valuesProduced = [] as number[];
+  const source = memoize(
+    Ix.asynciterable.defer(async function*() {
+      let i = -1;
+      while (++i < length) {
+        valuesProduced.push(i);
+        yield await delayValue(i, 100);
+      }
+    })
+  );
+
+  const valuesExpected = Array.from({ length }, (_, i) => i);
+
+  // create 10 consumers
+  // prettier-ignore
+  await Promise.all(valuesExpected.map(() => source.forEach(() => {
+    // prettier-ignore
+    /* */
+  })));
+
+  expect(valuesProduced).toEqual(valuesExpected);
 });
 
 test('AsyncIterable#memoize single', async ([memoize]) => {

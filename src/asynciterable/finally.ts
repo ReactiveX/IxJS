@@ -2,7 +2,7 @@ import { AsyncIterableX } from './asynciterablex';
 
 export class FinallyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _action: () => void | Promise<void>;
+  private _action: () => any | Promise<any>;
 
   constructor(source: AsyncIterable<TSource>, action: () => void | Promise<void>) {
     super();
@@ -23,7 +23,7 @@ export class FinallyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function _finally<TSource>(
   source: AsyncIterable<TSource>,
-  action: () => void | Promise<void>
+  action: () => any | Promise<any>
 ): AsyncIterableX<TSource> {
   return new FinallyAsyncIterable<TSource>(source, action);
 }

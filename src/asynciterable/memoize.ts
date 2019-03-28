@@ -3,58 +3,63 @@ import { IRefCountList, MaxRefCountList, RefCountList } from '../iterable/_refco
 import { create } from './create';
 
 export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
-  private _source: AsyncIterator<T>;
-  private _buffer: IRefCountList<T>;
-  private _error: any;
-  private _stopped: boolean = false;
+  protected _source: AsyncIterator<T>;
+  protected _buffer: IRefCountList<T>;
+  protected _shared: Promise<IteratorResult<T>> | null;
+  protected _error: any;
+  protected _stopped: boolean;
 
   constructor(source: AsyncIterator<T>, buffer: IRefCountList<T>) {
     super();
+    this._error = null;
+    this._shared = null;
+    this._stopped = false;
     this._source = source;
     this._buffer = buffer;
   }
 
-  async *[Symbol.asyncIterator]() {
-    let i = 0;
+  [Symbol.asyncIterator]() {
+    return this._getIterable(0);
+  }
+
+  protected async *_getIterable(offset = 0) {
+    let i = offset - 1;
+    let done: boolean = false;
+    let buffer = this._buffer;
+
     try {
-      while (1) {
-        let hasValue = false,
-          current = <T>{};
-        if (i >= this._buffer.count) {
-          if (!this._stopped) {
-            try {
-              let next = await this._source.next();
-              hasValue = !next.done;
-              if (hasValue) {
-                current = next.value;
-              }
-            } catch (e) {
-              this._error = e;
-              this._stopped = true;
+      do {
+        if (++i < buffer.count) {
+          yield buffer.get(i);
+          continue;
+        }
+
+        if (this._stopped) {
+          throw this._error;
+        }
+
+        if (this._shared === null) {
+          this._shared = this._source.next().then(r => {
+            this._shared = null;
+            if (!r.done) {
+              buffer.push(r.value);
             }
-          }
-
-          if (this._stopped) {
-            throw this._error;
-          }
-
-          if (hasValue) {
-            this._buffer.push(current);
-          }
-        } else {
-          hasValue = true;
+            return r;
+          });
         }
 
-        if (hasValue) {
-          yield this._buffer.get(i);
-        } else {
-          break;
-        }
+        ({ done } = await this._shared.catch(e => {
+          this._error = e;
+          this._stopped = true;
+          throw e;
+        }));
 
-        i++;
-      }
+        if (!done) {
+          yield buffer.get(i);
+        }
+      } while (!done);
     } finally {
-      this._buffer.done();
+      buffer.done();
     }
   }
 }

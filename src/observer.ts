@@ -22,41 +22,41 @@ declare global {
 export const observable = (typeof Symbol === 'function' && Symbol.observable) || '@@observable';
 
 export interface NextObserver<T> {
-  next: (value: T) => void;
-  error?: (err: any) => void;
-  complete?: () => void;
+  next: (value: T) => any;
+  error?: (err: any) => any;
+  complete?: () => any;
 }
 
 export interface ErrorObserver<T> {
-  next?: (value: T) => void;
-  error: (err: any) => void;
-  complete?: () => void;
+  next?: (value: T) => any;
+  error: (err: any) => any;
+  complete?: () => any;
 }
 
 export interface CompletionObserver<T> {
-  next?: (value: T) => void;
-  error?: (err: any) => void;
-  complete: () => void;
+  next?: (value: T) => any;
+  error?: (err: any) => any;
+  complete: () => any;
 }
 
 export type PartialObserver<T> = NextObserver<T> | ErrorObserver<T> | CompletionObserver<T>;
 
 export interface NextAsyncObserver<T> {
-  next: (value: T) => void | Promise<void>;
-  error?: (err: any) => void | Promise<void>;
-  complete?: () => void | Promise<void>;
+  next: (value: T) => any | Promise<any>;
+  error?: (err: any) => any | Promise<any>;
+  complete?: () => any | Promise<any>;
 }
 
 export interface ErrorAsyncObserver<T> {
-  next?: (value: T) => void | Promise<void>;
-  error: (err: any) => void | Promise<void>;
-  complete?: () => void | Promise<void>;
+  next?: (value: T) => any | Promise<any>;
+  error: (err: any) => any | Promise<any>;
+  complete?: () => any | Promise<any>;
 }
 
 export interface CompletionAsyncObserver<T> {
-  next?: (value: T) => void | Promise<void>;
-  error?: (err: any) => void | Promise<void>;
-  complete: () => void | Promise<void>;
+  next?: (value: T) => any | Promise<any>;
+  error?: (err: any) => any | Promise<any>;
+  complete: () => any | Promise<any>;
 }
 
 export type PartialAsyncObserver<T> =

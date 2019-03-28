@@ -3,7 +3,7 @@ import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { FinallyAsyncIterable } from '../finally';
 
 export function _finally<TSource>(
-  action: () => void | Promise<void>
+  action: () => any | Promise<any>
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function finallyOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
     return new FinallyAsyncIterable<TSource>(source, action);

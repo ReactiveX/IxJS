@@ -59,6 +59,17 @@ test('AsyncIterable#tap with error', async ([tap]) => {
   expect(ok).toBeTruthy();
 });
 
+test('AsyncItearble#tap with next function', async ([tap]) => {
+  let n = 0;
+  let source = tap(range(0, 10), async x => (n += x));
+
+  // tslint:disable-next-line:no-empty
+  for await (let _ of source) {
+  }
+
+  expect(45).toBe(n);
+});
+
 class MyObserver {
   public sum: number = 0;
   public done: boolean = false;

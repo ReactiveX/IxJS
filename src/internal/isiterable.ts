@@ -3,9 +3,9 @@ const isNumber = (x: any) => typeof x === 'number';
 /** @ignore */
 const isBoolean = (x: any) => typeof x === 'boolean';
 /** @ignore */
-const isFunction = (x: any) => typeof x === 'function';
+export const isFunction = (x: any): x is Function => typeof x === 'function';
 /** @ignore */
-const isObject = (x: any): x is Object => x != null && Object(x) === x;
+export const isObject = (x: any): x is Object => x != null && Object(x) === x;
 
 /** @ignore */
 export const isPromise = (x: any): x is PromiseLike<any> => {
@@ -20,6 +20,11 @@ export function isArrayLike(x: any): x is ArrayLike<any> {
 /** @ignore */
 export function isIterable(x: any): x is Iterable<any> {
   return isObject(x) && isFunction(x[Symbol.iterator]);
+}
+
+/** @ignore */
+export function isIterator(x: any): x is Iterable<any> {
+  return isObject(x) && !isFunction(x[Symbol.iterator]) && isFunction(x['next']);
 }
 
 /** @ignore */
@@ -51,13 +56,7 @@ export const isWritableNodeStream = (x: any): x is NodeJS.WritableStream => {
 
 /** @ignore */
 export const isReadableDOMStream = <T = any>(x: any): x is ReadableStream<T> => {
-  return (
-    isObject(x) &&
-    isFunction(x['tee']) &&
-    isFunction(x['cancel']) &&
-    isFunction(x['pipeTo']) &&
-    isFunction(x['getReader'])
-  );
+  return isObject(x) && isFunction(x['cancel']) && isFunction(x['getReader']);
 };
 
 /** @ignore */

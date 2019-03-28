@@ -5,6 +5,7 @@ import { toLength } from '../internal/tolength';
 import {
   isArrayLike,
   isIterable,
+  isIterator,
   isReadableNodeStream,
   isWritableNodeStream
 } from '../internal/isiterable';
@@ -58,8 +59,7 @@ export abstract class IterableX<T> implements Iterable<T> {
 
   static as(source: string): IterableX<string>;
   static as<T extends IterableX<any>>(source: T): T;
-  static as<T>(source: Iterable<T>): IterableX<T>;
-  static as<T>(source: ArrayLike<T>): IterableX<T>;
+  static as<T>(source: Iterable<T> | Iterator<T> | ArrayLike<T>): IterableX<T>;
   static as<T>(source: T): IterableX<T>;
   /** @nocollapse */
   static as(source: any) {
@@ -82,7 +82,7 @@ export abstract class IterableX<T> implements Iterable<T> {
 
   /** @nocollapse */
   static from<TSource, TResult = TSource>(
-    source: Iterable<TSource> | ArrayLike<TSource>,
+    source: Iterable<TSource> | Iterator<TSource> | ArrayLike<TSource>,
     selector: (value: TSource, index: number) => TResult = identity,
     thisArg?: any
   ): IterableX<TResult> {
@@ -93,6 +93,9 @@ export abstract class IterableX<T> implements Iterable<T> {
     }
     if (isArrayLike(source)) {
       return new FromIterable<TSource, TResult>(source, fn);
+    }
+    if (isIterator(source)) {
+      return new FromIterable<TSource, TResult>({ [Symbol.iterator]: () => source }, fn);
     }
     throw new TypeError('Input type not supported');
     /* tslint:enable */
