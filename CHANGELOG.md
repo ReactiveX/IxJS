@@ -1,3 +1,28 @@
+## [2.5.3](https://github.com/ReactiveX/IxJS/compare/v2.5.2...v2.5.3) (2019-03-27)
+
+### Bug Fixes
+
+* **asynciterable#memoize**: ensure memoize and publish source values are only pulled once ([8392c50](https://github.com/ReactiveX/IxJS/commit/8392c50))
+
+* **from**: ensure iterable and asynciterable from methods accept iterators ([8392c50](https://github.com/ReactiveX/IxJS/commit/8392c50))
+
+* **observers**: widen the return type of observer fns ([8392c50](https://github.com/ReactiveX/IxJS/commit/8392c50))
+
+* **asynciterable#tap**: add selector function overload ([8392c50](https://github.com/ReactiveX/IxJS/commit/8392c50))
+
+
+### Features
+
+* **asynciterable-pipe**: add tee, pipeTo, and pipeThrough to AsyncIterable prototype ([873b8fe](https://github.com/ReactiveX/IxJS/commit/873b8fe))
+
+* **asynciterable-toDOMStream**: add AsyncIterable#toDOMStream implementation ([2e00c95](https://github.com/ReactiveX/IxJS/commit/2e00c95))
+
+* **asynciterable-fromDOMStream**: add AsyncIterable.fromDOMStream implementation ([2e00c95](https://github.com/ReactiveX/IxJS/commit/2e00c95))
+
+
+
+
+
 ## [2.5.2](https://github.com/ReactiveX/IxJS/compare/v2.5.1...v2.5.2) (2019-03-04)
 
 ### Bug Fixes
