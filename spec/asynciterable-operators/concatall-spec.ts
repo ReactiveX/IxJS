@@ -6,7 +6,7 @@ test('AsyncIterable#concat concatAll behavior', async () => {
   expect(await sequenceEqual(res, of(1, 2, 3, 4, 5))).toBeTruthy();
 });
 
-test('Iterable#concat concatAll order of effects', async () => {
+test('AsyncIterable#concat concatAll order of effects', async () => {
   let i = 0;
   const xss = range(0, 3).pipe(
     map(x => range(0, x + 1)),

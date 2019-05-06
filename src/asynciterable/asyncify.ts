@@ -24,6 +24,6 @@ export function asyncify<TSource>(func: Function): (...args: any[]) => AsyncIter
       }
     };
 
-    return (memoize()(yielder()));
+    return memoize<TSource>()(yielder());
   };
 }

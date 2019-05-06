@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { empty } = Ix.iterable;
+import { empty } from 'ix/iterable';
 import { noNext } from '../iterablehelpers';
 
 test('Iterable#empty empty', () => {

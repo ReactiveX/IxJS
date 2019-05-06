@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { createGrouping } from './_grouping';
 import { empty } from '../empty';
+import { from } from '../from';
 import { identity } from '../../util/identity';
 import { OperatorAsyncFunction } from '../../interfaces';
 
@@ -36,7 +37,7 @@ export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends Async
       const innerElements = map.has(outerKey)
         ? <Iterable<TInner>>map.get(outerKey)
         : empty<TInner>();
-      yield await this._resultSelector(outerElement, AsyncIterableX.from(innerElements));
+      yield await this._resultSelector(outerElement, from(innerElements));
     }
   }
 }

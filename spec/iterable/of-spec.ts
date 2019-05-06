@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { of } = Ix.Iterable;
+import { of } from 'ix/iterable';
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#of behavior', () => {

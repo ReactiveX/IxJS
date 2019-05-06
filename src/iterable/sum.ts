@@ -1,4 +1,4 @@
-import { identity } from '../internal/identity';
+import { identity } from '../util/identity';
 
 export function sum(source: Iterable<number>, fn?: (x: number) => number): number;
 export function sum<T>(source: Iterable<T>, fn: (x: T) => number): number;

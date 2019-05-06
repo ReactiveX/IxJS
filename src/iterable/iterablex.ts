@@ -1,8 +1,5 @@
 import { OperatorFunction } from '../interfaces';
 import { bindCallback } from '../util/bindcallback';
-import { identity } from '../util/identity';
-import { toLength } from '../util/tolength';
-import { isArrayLike, isIterable } from '../util/isiterable';
 
 /**
  * This clas serves as the base for all operations which support [Symbol.iterator].
@@ -28,93 +25,6 @@ export abstract class IterableX<T> implements Iterable<T> {
     };
 
     return piped(this);
-  }
-
-  static as(source: string): IterableX<string>;
-  static as<T>(source: Iterable<T>): IterableX<T>;
-  static as<T>(source: ArrayLike<T>): IterableX<T>;
-  static as<T>(source: T): IterableX<T>;
-  /** @nocollapse */
-  static as(source: any) {
-    /* tslint:disable */
-    if (typeof source === 'string') {
-      return new OfIterable([source]);
-    }
-    if (isIterable(source)) {
-      return new FromIterable(source, identity);
-    }
-    if (isArrayLike(source)) {
-      return new FromIterable(source, identity);
-    }
-    return new OfIterable([source]);
-    /* tslint:enable */
-  }
-
-  /** @nocollapse */
-  static from<TSource, TResult = TSource>(
-    source: Iterable<TSource> | ArrayLike<TSource>,
-    selector: (value: TSource, index: number) => TResult = identity,
-    thisArg?: any
-  ): IterableX<TResult> {
-    const fn = bindCallback(selector, thisArg, 2);
-    /* tslint:disable */
-    if (isIterable(source)) {
-      return new FromIterable<TSource, TResult>(source, fn);
-    }
-    if (isArrayLike(source)) {
-      return new FromIterable<TSource, TResult>(source, fn);
-    }
-    throw new TypeError('Input type not supported');
-    /* tslint:enable */
-  }
-
-  /** @nocollapse */
-  static of<TSource>(...args: TSource[]): IterableX<TSource> {
-    //tslint:disable-next-line
-    return new OfIterable<TSource>(args);
-  }
-}
-
-class FromIterable<TSource, TResult = TSource> extends IterableX<TResult> {
-  private _source: Iterable<TSource> | ArrayLike<TSource>;
-  private _fn: (value: TSource, index: number) => TResult;
-
-  constructor(
-    source: Iterable<TSource> | ArrayLike<TSource>,
-    fn: (value: TSource, index: number) => TResult
-  ) {
-    super();
-    this._source = source;
-    this._fn = fn;
-  }
-
-  *[Symbol.iterator]() {
-    const iterable = isIterable(this._source);
-    let i = 0;
-    if (iterable) {
-      for (let item of <Iterable<TSource>>this._source) {
-        yield this._fn(item, i++);
-      }
-    } else {
-      let length = toLength((<ArrayLike<TSource>>this._source).length);
-      while (i < length) {
-        let val = (<ArrayLike<TSource>>this._source)[i];
-        yield this._fn(val, i++);
-      }
-    }
-  }
-}
-
-class OfIterable<TSource> extends IterableX<TSource> {
-  private _args: TSource[];
-
-  constructor(args: TSource[]) {
-    super();
-    this._args = args;
-  }
-
-  *[Symbol.iterator]() {
-    yield* this._args;
   }
 }
 

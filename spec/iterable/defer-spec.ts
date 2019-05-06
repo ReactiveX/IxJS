@@ -1,7 +1,4 @@
-import * as Ix from '../Ix';
-const { defer } = Ix.iterable;
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
+import { defer, range, sequenceEqual } from 'ix/iterable';
 
 test('Iterable#defer defers side effects', () => {
   let i = 0;

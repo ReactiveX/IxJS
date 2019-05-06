@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { from } = Ix.Iterable;
+import { from } from 'ix/iterable';
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#from from array/iterable', () => {

@@ -1,15 +1,11 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.min]);
-const { empty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
+import { empty, of, min } from 'ix/asynciterable';
 
-test('AsyncItearble#min laws', async ([min]) => {
+test('AsyncItearble#min laws', async () => {
   const xs = of(5, 3, 1, 2, 4);
   expect(await min(xs)).toBe(await min(xs, x => x));
 });
 
-test('AsyncIterable#min empty throws', async ([min]) => {
+test('AsyncIterable#min empty throws', async () => {
   const xs = empty<number>();
   try {
     await min(xs);
@@ -18,13 +14,13 @@ test('AsyncIterable#min empty throws', async ([min]) => {
   }
 });
 
-test('AsyncIterable#min', async ([min]) => {
+test('AsyncIterable#min', async () => {
   const xs = of(5, 3, 1, 2, 4);
   const res = await min(xs);
   expect(res).toBe(1);
 });
 
-test('AsyncIterable#min with selector empty throws', async ([min]) => {
+test('AsyncIterable#min with selector empty throws', async () => {
   const xs = empty<number>();
   try {
     await min(xs, async x => x * 2);
@@ -33,7 +29,7 @@ test('AsyncIterable#min with selector empty throws', async ([min]) => {
   }
 });
 
-test('AsyncIterable#min with selector', async ([min]) => {
+test('AsyncIterable#min with selector', async () => {
   const xs = of(5, 3, 1, 2, 4);
   const res = await min(xs, async x => x * 2);
   expect(res).toBe(2);

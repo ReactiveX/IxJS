@@ -31,6 +31,6 @@ export function asyncifyErrback<TSource>(
       }
     };
 
-    return (memoize()(yielder()));
+    return memoize<TSource>()(yielder());
   };
 }

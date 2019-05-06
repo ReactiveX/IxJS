@@ -1,17 +1,15 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.memoize]);
-const { concat } = Ix.asynciterable;
-const { every } = Ix.asynciterable;
-const { from } = Ix.AsyncIterable;
-const { map } = Ix.asynciterable;
-const { range } = Ix.asynciterable;
-const { sequenceEqual } = Ix.asynciterable;
-const { take } = Ix.asynciterable;
-const { tap } = Ix.asynciterable;
-const { _throw } = Ix.asynciterable;
-const { toArray } = Ix.asynciterable;
-const { zip } = Ix.asynciterable;
+import {
+  as,
+  concat,
+  every,
+  from,
+  range,
+  sequenceEqual,
+  throwError,
+  toArray,
+  zip
+} from 'ix/asynciterable';
+import { map, memoize, take, tap } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
@@ -22,13 +20,13 @@ async function* tick(t: (x: number) => void | Promise<void>) {
   }
 }
 
-test('AsyncIterable#memoize memoizes effects', async ([memoize]) => {
+test('AsyncIterable#memoize memoizes effects', async () => {
   let n = 0;
-  const rng = memoize(
+  const rng = as(
     tick(async i => {
       n += i;
     })
-  );
+  ).pipe(memoize());
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
@@ -60,8 +58,8 @@ test('AsyncIterable#memoize memoizes effects', async ([memoize]) => {
   expect(10).toBe(n);
 });
 
-test('AsyncIterable#memoize single', async ([memoize]) => {
-  const rng = memoize(range(0, 5));
+test('AsyncIterable#memoize single', async () => {
+  const rng = range(0, 5).pipe(memoize());
 
   const it1 = rng[Symbol.asyncIterator]();
 
@@ -73,8 +71,8 @@ test('AsyncIterable#memoize single', async ([memoize]) => {
   await noNext(it1);
 });
 
-test('AsyncIterable#memoize order of operations', async ([memoize]) => {
-  const rng = memoize(range(0, 5));
+test('AsyncIterable#memoize order of operations', async () => {
+  const rng = range(0, 5).pipe(memoize());
 
   const it1 = rng[Symbol.asyncIterator]();
   await hasNext(it1, 0);
@@ -93,8 +91,8 @@ test('AsyncIterable#memoize order of operations', async ([memoize]) => {
   await noNext(it2);
 });
 
-test('AsyncIterable#memoize second early', async ([memoize]) => {
-  const rng = memoize(range(0, 5));
+test('AsyncIterable#memoize second early', async () => {
+  const rng = range(0, 5).pipe(memoize());
 
   const it1 = rng[Symbol.asyncIterator]();
   await hasNext(it1, 0);
@@ -114,8 +112,8 @@ test('AsyncIterable#memoize second early', async ([memoize]) => {
   await noNext(it2);
 });
 
-test('AsyncIterable#memoize max two readers', async ([memoize]) => {
-  const rng = memoize(range(0, 5), 2);
+test('AsyncIterable#memoize max two readers', async () => {
+  const rng = range(0, 5).pipe(memoize(2));
 
   const it1 = rng[Symbol.asyncIterator]();
   await hasNext(it1, 0);
@@ -135,9 +133,9 @@ test('AsyncIterable#memoize max two readers', async ([memoize]) => {
   }
 });
 
-test('AsyncIterable#memoize concat with error', async ([memoize]) => {
+test('AsyncIterable#memoize concat with error', async () => {
   const error = new Error();
-  const rng = memoize(concat(range(0, 2), _throw(error)));
+  const rng = concat(range(0, 2), throwError(error)).pipe(memoize());
 
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
@@ -170,12 +168,15 @@ async function* rand() {
   }
 }
 
-test('AsyncIterable#memoize should share effects of random', async ([memoize]) => {
-  const rnd = memoize(take(rand(), 100));
+test('AsyncIterable#memoize should share effects of random', async () => {
+  const rnd = as(rand()).pipe(
+    take(100),
+    memoize()
+  );
   expect(await every(zip(async ([l, r]) => l === r, rnd, rnd), async x => x)).toBeTruthy();
 });
 
-test('AsyncIterable#memoize with selector', async ([memoize]) => {
+test('AsyncIterable#memoize with selector', async () => {
   let n = 0;
   const res = await toArray(
     memoize(
@@ -193,7 +194,7 @@ test('AsyncIterable#memoize with selector', async ([memoize]) => {
   expect(4).toBe(n);
 });
 
-test('AsyncIterable#memoize limited with selector', async ([memoize]) => {
+test('AsyncIterable#memoize limited with selector', async () => {
   let n = 0;
   const res = await toArray(
     memoize(

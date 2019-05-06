@@ -19,5 +19,5 @@ export function fromEventPattern<TSource>(
     sink.end();
   };
 
-  return (memoize())(yielder());
+  return memoize<TSource>()(yielder());
 }

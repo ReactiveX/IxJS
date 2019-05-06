@@ -7,7 +7,9 @@ import { GroupedAsyncIterable } from './asynciterable/operators/groupby';
 export { OrderedIterableX as OrderedIterable } from './iterable/operators/orderby';
 export { OrderedIterableBaseX as OrderedIterableBase } from './iterable/operators/orderby';
 export { OrderedAsyncIterableX as OrderedAsyncIterable } from './asynciterable/operators/orderby';
-export { OrderedAsyncIterableBaseX as OrderedAsyncIterableBase } from './asynciterable/operators/orderby';
+export {
+  OrderedAsyncIterableBaseX as OrderedAsyncIterableBase
+} from './asynciterable/operators/orderby';
 
 export { observable as symbolObservable };
 export { AsyncSink, IterableX as Iterable, AsyncIterableX as AsyncIterable };
@@ -23,4 +25,3 @@ export default {
 
 export type GroupedIterable<TKey, TValue> = GroupedIterable<TKey, TValue>;
 export type GroupedAsyncIterable<TKey, TValue> = GroupedAsyncIterable<TKey, TValue>;
-

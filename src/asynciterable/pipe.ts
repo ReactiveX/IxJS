@@ -1,5 +1,6 @@
 import { OperatorAsyncFunction } from '../interfaces';
 import { AsyncIterableX } from './asynciterablex';
+import { from } from './from';
 
 /* tslint:disable:max-line-length */
 export function pipe<T>(source: AsyncIterable<T>): AsyncIterableX<T>;
@@ -82,7 +83,7 @@ export function pipe<TSource, TResult>(
   ...operations: OperatorAsyncFunction<TSource, TResult>[]
 ): AsyncIterableX<TResult> {
   if (operations.length === 0) {
-    return source instanceof AsyncIterableX ? source : AsyncIterableX.from(source);
+    return source instanceof AsyncIterableX ? source : from(source);
   }
 
   const piped = (input: AsyncIterable<TSource>): AsyncIterableX<TResult> => {

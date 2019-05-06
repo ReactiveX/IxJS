@@ -1,4 +1,4 @@
-import { bindCallback } from '../internal/bindcallback';
+import { bindCallback } from '../util/bindcallback';
 
 export async function findIndex<T>(
   source: AsyncIterable<T>,
