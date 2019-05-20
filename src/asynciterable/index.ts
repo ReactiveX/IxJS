@@ -39,6 +39,7 @@ export { single } from './single';
 export { some } from './some';
 export { sum } from './sum';
 export { toArray } from './toarray';
+export { toDOMStream } from './todomstream';
 export { toMap } from './tomap';
 export { toObservable } from './toobservable';
 export { toSet } from './toset';

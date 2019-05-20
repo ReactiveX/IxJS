@@ -15,7 +15,7 @@ export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
     const fn = this._fn;
     const sourcesLength = this._sources.length;
     const its = this._sources.map(x => x[Symbol.iterator]());
-    do {
+    while (sourcesLength > 0) {
       const values = new Array(sourcesLength);
       for (let index = -1; ++index < sourcesLength; ) {
         const result = its[index].next();
@@ -26,7 +26,7 @@ export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
         values[index] = result.value;
       }
       yield fn(values);
-    } while (1);
+    }
   }
 }
 
@@ -99,8 +99,8 @@ export function zip<T>(...sources: Iterable<T>[]): IterableX<T[]>;
 export function zip<T, R>(project: (values: T[]) => R, ...sources: Iterable<T>[]): IterableX<R>;
 /* tslint:enable:max-line-length */
 export function zip<T, R>(...sources: any[]): IterableX<R> {
-  let fn = sources.shift() as (values: any[]) => R;
-  if (typeof fn !== 'function') {
+  let fn = (sources.shift() || identity) as (values: any[]) => R;
+  if (fn && typeof fn !== 'function') {
     sources.unshift(fn);
     fn = identity;
   }

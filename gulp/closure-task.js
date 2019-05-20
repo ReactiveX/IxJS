@@ -98,7 +98,7 @@ const createClosureArgs = (entry_point, output, externs) => ({
     language_out: gCCLanguageNames[`esnext`],
     output_wrapper: `(function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['Ix'], factory) :
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (factory(global.Ix = global.Ix || {}));
 }(this, (function (exports) {%output%}.bind(this))));`
 });

@@ -33,6 +33,7 @@ export { some } from './some';
 export { sum } from './sum';
 export { throwError } from './throwerror';
 export { toArray } from './toarray';
+export { toDOMStream } from './todomstream';
 export { toMap } from './tomap';
 export { toSet } from './toset';
 export { whileDo } from './whiledo';

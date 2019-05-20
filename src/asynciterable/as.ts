@@ -17,6 +17,9 @@ export function as<T>(source: T): AsyncIterableX<T>;
 /** @nocollapse */
 export function as(source: any) {
   /* tslint:disable */
+  if (source instanceof AsyncIterableX) {
+    return source;
+  }
   if (typeof source === 'string') {
     return new OfAsyncIterable([source]);
   }

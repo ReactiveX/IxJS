@@ -63,9 +63,9 @@ gulp.task(`build:${npmPkgName}`,
     gulp.series(
         gulp.parallel(
             `build:${taskName(`es5`, `umd`)}`,
-            `build:${taskName(`es2015`, `cjs`)}`,
-            `build:${taskName(`es2015`, `esm`)}`,
-            `build:${taskName(`es2015`, `umd`)}`
+            `build:${taskName(`esnext`, `cjs`)}`,
+            `build:${taskName(`esnext`, `esm`)}`,
+            `build:${taskName(`esnext`, `umd`)}`
         ),
         `clean:${npmPkgName}`,
         `compile:${npmPkgName}`,
@@ -81,7 +81,7 @@ gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
 gulp.task(`default`,  gulp.series(`clean`, `build`, `test`));
 
-function gulpConcurrent(tasks, numCPUs = require('os').cpus().length) {
+function gulpConcurrent(tasks, numCPUs = Math.max(1, require('os').cpus().length * 0.5) | 0) {
     return () => Observable.from(tasks.map((task) => gulp.series(task)))
         .flatMap((task) => Observable.bindNodeCallback(task)(), numCPUs || 1);
 }

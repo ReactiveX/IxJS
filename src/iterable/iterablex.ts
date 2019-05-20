@@ -1,5 +1,9 @@
+import { as as asIterable } from './as';
+import { publish } from './operators/publish';
+import { toDOMStream } from './operators/todomstream';
 import { OperatorFunction } from '../interfaces';
 import { bindCallback } from '../util/bindcallback';
+import { isReadableNodeStream, isWritableNodeStream } from '../util/isiterable';
 
 /**
  * This clas serves as the base for all operations which support [Symbol.iterator].
@@ -15,18 +19,43 @@ export abstract class IterableX<T> implements Iterable<T> {
     }
   }
 
-  pipe<R>(...operations: OperatorFunction<T, R>[]): IterableX<R> {
-    if (operations.length === 0) {
-      return this as any;
+  pipe<R>(...operations: OperatorFunction<T, R>[]): IterableX<R>;
+  pipe<R extends NodeJS.WritableStream>(writable: R, options?: { end?: boolean }): R;
+  pipe<R>(...args: any[]) {
+    let i = -1;
+    let n = args.length;
+    let acc: any = this;
+    while (++i < n) {
+      acc = asIterable(args[i](acc));
     }
+    return acc;
+  }
 
-    const piped = (input: Iterable<T>): IterableX<R> => {
-      return operations.reduce((prev: any, fn: OperatorFunction<T, R>) => fn(prev), input as any);
-    };
+  tee(): [ReadableStream<T>, ReadableStream<T>] {
+    return this._getDOMStream().tee();
+  }
 
-    return piped(this);
+  pipeTo(writable: WritableStream<T>, options?: PipeOptions) {
+    return this._getDOMStream().pipeTo(writable, options);
+  }
+
+  pipeThrough<R extends ReadableStream<any>>(
+    duplex: { writable: WritableStream<T>; readable: R },
+    options?: PipeOptions
+  ) {
+    return this._getDOMStream().pipeThrough(duplex, options);
+  }
+
+  private _DOMStream?: ReadableStream<T>;
+  private _getDOMStream(): ReadableStream<T> {
+    return this._DOMStream || (this._DOMStream = toDOMStream<T>()(publish<T>()(this)));
   }
 }
+
+type WritableOrOperatorFunction<T, R> =
+  | NodeJS.WritableStream
+  | NodeJS.ReadWriteStream
+  | OperatorFunction<T, R>;
 
 declare module '../iterable/iterablex' {
   interface IterableX<T> extends Iterable<T> {
@@ -90,5 +119,39 @@ declare module '../iterable/iterablex' {
       op9: OperatorFunction<H, I>
     ): IterableX<I>;
     pipe<R>(...operations: OperatorFunction<T, R>[]): IterableX<R>;
+    pipe<A extends NodeJS.WritableStream>(op1: A, options?: { end?: boolean }): A;
   }
+}
+
+try {
+  (isBrowser => {
+    if (isBrowser) {
+      return;
+    }
+
+    IterableX.prototype.pipe = nodePipe;
+    const readableOpts = (x: any, opts = x._writableState || { objectMode: true }) => opts;
+
+    function nodePipe<T>(this: IterableX<T>, ...args: any[]) {
+      let i = -1;
+      let end: boolean;
+      let n = args.length;
+      let prev: any = this;
+      let next: WritableOrOperatorFunction<T, any>;
+      while (++i < n) {
+        next = args[i];
+        if (typeof next === 'function') {
+          prev = asIterable(next(prev));
+        } else if (isWritableNodeStream(next)) {
+          ({ end = true } = args[i + 1] || {});
+          // prettier-ignore
+          return isReadableNodeStream(prev) ? prev.pipe(next, {end}) :
+             prev.toNodeStream(readableOpts(next)).pipe(next, {end});
+        }
+      }
+      return prev;
+    }
+  })(typeof window === 'object' && typeof document === 'object' && document.nodeType === 9);
+} catch (e) {
+  /* */
 }

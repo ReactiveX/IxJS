@@ -137,9 +137,9 @@ test('AsyncIterable.from interop with rxjs', async () => {
 
 function endOfObservable<T>(
   observable: Observable<T> | RxJSObservable<T>,
-  next?: PartialObserver<T> | ((x: T) => void) | null,
-  error?: ((err: any) => void) | null,
-  complete?: (() => void) | null
+  next?: PartialObserver<T> | ((x: T) => any) | null,
+  error?: ((err: any) => any) | null,
+  complete?: (() => any) | null
 ): Promise<void> {
   let reject: (x?: any) => void;
   let resolve: (x?: any) => void;

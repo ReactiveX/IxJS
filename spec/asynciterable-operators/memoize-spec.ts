@@ -1,5 +1,6 @@
 import {
   as,
+  defer,
   concat,
   every,
   from,
@@ -10,7 +11,7 @@ import {
   zip
 } from 'ix/asynciterable';
 import { map, memoize, take, tap } from 'ix/asynciterable';
-import { hasNext, noNext } from '../asynciterablehelpers';
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;
@@ -56,6 +57,31 @@ test('AsyncIterable#memoize memoizes effects', async () => {
   expect(10).toBe(n);
   await hasNext(it1, 4);
   expect(10).toBe(n);
+});
+
+test('AsyncIterable#memoize pulls each value from the source only once', async () => {
+  const length = 10;
+  const valuesProduced = [] as number[];
+  const source = memoize(
+    defer(async function*() {
+      let i = -1;
+      while (++i < length) {
+        valuesProduced.push(i);
+        yield await delayValue(i, 100);
+      }
+    })
+  );
+
+  const valuesExpected = Array.from({ length }, (_, i) => i);
+
+  // create 10 consumers
+  // prettier-ignore
+  await Promise.all(valuesExpected.map(() => source.forEach(() => {
+    // prettier-ignore
+    /* */
+  })));
+
+  expect(valuesProduced).toEqual(valuesExpected);
 });
 
 test('AsyncIterable#memoize single', async () => {

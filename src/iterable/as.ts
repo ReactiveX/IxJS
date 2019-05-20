@@ -11,6 +11,9 @@ export function as<T>(source: T): IterableX<T>;
 /** @nocollapse */
 export function as(source: any) {
   /* tslint:disable */
+  if (source instanceof IterableX) {
+    return source;
+  }
   if (typeof source === 'string') {
     return new OfIterable([source]);
   }
