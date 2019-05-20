@@ -1,9 +1,4 @@
-import * as Ix from '../Ix';
-const { defer } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { tap } = Ix.iterable;
-const { toArray } = Ix.iterable;
-const { _while } = Ix.iterable;
+import { defer, sequenceEqual, tap, toArray, _while } from 'ix/iterable';
 
 test('Iterable#while some', () => {
   let x = 5;

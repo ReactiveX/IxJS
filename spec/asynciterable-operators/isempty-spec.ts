@@ -1,13 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.isEmpty]);
-const { empty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
+import { of, empty, isEmpty } from 'ix/asynciterable';
 
-test('Iterable#isEmpty empty', async ([isEmpty]) => {
+test('Iterable#isEmpty empty', async () => {
   expect(await isEmpty(empty<number>())).toBeTruthy();
 });
 
-test('Iterable#isEmpty not-empty', async ([isEmpty]) => {
+test('Iterable#isEmpty not-empty', async () => {
   expect(await isEmpty(of(1))).toBeFalsy();
 });

@@ -1,5 +1,4 @@
-import * as Ix from '../Ix';
-const { _throw } = Ix.iterable;
+import { _throw } from 'ix/iterable';
 
 test('Iterable#throw throws', () => {
   const xs = _throw<number>(new Error());

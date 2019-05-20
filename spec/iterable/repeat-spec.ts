@@ -1,15 +1,16 @@
-import * as Ix from '../Ix';
-const { count } = Ix.iterable;
-const { elementAt } = Ix.iterable;
-const { every } = Ix.iterable;
-const { first } = Ix.iterable;
-const { isEmpty } = Ix.iterable;
-const { last } = Ix.iterable;
-const { repeatStatic } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { skip } = Ix.iterable;
-const { take } = Ix.iterable;
-const { toArray } = Ix.iterable;
+import {
+  count,
+  elementAt,
+  every,
+  first,
+  isEmpty,
+  last,
+  repeatStatic,
+  sequenceEqual,
+  skip,
+  take,
+  toArray
+} from 'ix/iterable';
 
 test('Iterable#repeat produce correct sequence', () => {
   const repeatSequence = repeatStatic(1, 100);

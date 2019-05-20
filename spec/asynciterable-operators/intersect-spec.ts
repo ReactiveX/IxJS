@@ -1,10 +1,7 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.intersect]);
-const { of } = Ix.AsyncIterable;
+import { of, intersect } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
-test('Iterable#intersect with default comparer', async ([intersect]) => {
+test('Iterable#intersect with default comparer', async () => {
   const xs = of(1, 2, 3);
   const ys = of(3, 5, 1, 4);
   const res = intersect(xs, ys);
@@ -15,7 +12,7 @@ test('Iterable#intersect with default comparer', async ([intersect]) => {
   await noNext(it);
 });
 
-test('Iterable#intersect with custom comparer', async ([intersect]) => {
+test('Iterable#intersect with custom comparer', async () => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, -3);
   const ys = of(3, 5, -1, 4);
