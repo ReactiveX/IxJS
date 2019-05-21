@@ -5,7 +5,7 @@
     "target": "esnext",
     "module": "commonjs",
     "paths": {
-      "ix": [
+      "ix/*": [
         "targets/ix"
       ]
     }

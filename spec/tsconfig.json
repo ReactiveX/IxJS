@@ -18,8 +18,8 @@
     "downlevelIteration": false,
     "baseUrl": "../",
     "paths": {
-      "ix": [
-        "src"
+      "ix/*": [
+        "src/*"
       ]
     }
   }

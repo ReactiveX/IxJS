@@ -5,8 +5,8 @@
     "target": "ES5",
     "module": "commonjs",
     "paths": {
-      "ix": [
-        "targets/es5/cjs"
+      "ix/*": [
+        "targets/es5/cjs/*"
       ]
     }
   }

@@ -5,8 +5,8 @@
     "target": "ESNEXT",
     "module": "es2015",
     "paths": {
-      "ix": [
-        "targets/esnext/esm"
+      "ix/*": [
+        "targets/esnext/esm/*"
       ]
     }
   }

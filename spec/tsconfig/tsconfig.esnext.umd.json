@@ -8,8 +8,8 @@
     "noEmitHelpers": true,
     "importHelpers": true,
     "paths": {
-      "ix": [
-        "targets/esnext/umd"
+      "ix/*": [
+        "targets/esnext/umd/*"
       ]
     }
   }

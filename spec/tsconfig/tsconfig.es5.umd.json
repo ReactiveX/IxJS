@@ -8,8 +8,8 @@
     "noEmitHelpers": true,
     "importHelpers": true,
     "paths": {
-      "ix": [
-        "targets/es5/umd"
+      "ix/*": [
+        "targets/es5/umd/*"
       ]
     }
   }

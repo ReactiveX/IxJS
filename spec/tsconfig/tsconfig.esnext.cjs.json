@@ -5,8 +5,8 @@
     "target": "ESNEXT",
     "module": "commonjs",
     "paths": {
-      "ix": [
-        "targets/esnext/cjs"
+      "ix/*": [
+        "targets/esnext/cjs/*"
       ]
     }
   }
