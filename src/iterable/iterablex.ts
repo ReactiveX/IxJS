@@ -1,7 +1,7 @@
 import { as as asIterable } from './as';
 import { publish } from './operators/publish';
 import { toDOMStream } from './operators/todomstream';
-import { OperatorFunction } from '../interfaces';
+import { UnaryFunction, OperatorFunction } from '../interfaces';
 import { bindCallback } from '../util/bindcallback';
 import { isReadableNodeStream, isWritableNodeStream } from '../util/isiterable';
 
@@ -19,6 +19,7 @@ export abstract class IterableX<T> implements Iterable<T> {
     }
   }
 
+  pipe<R>(...operations: UnaryFunction<Iterable<T>, R>[]): R;
   pipe<R>(...operations: OperatorFunction<T, R>[]): IterableX<R>;
   pipe<R extends NodeJS.WritableStream>(writable: R, options?: { end?: boolean }): R;
   pipe<R>(...args: any[]) {
