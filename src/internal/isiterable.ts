@@ -19,7 +19,7 @@ export function isArrayLike(x: any): x is ArrayLike<any> {
 
 /** @ignore */
 export function isIterable(x: any): x is Iterable<any> {
-  return isObject(x) && isFunction(x[Symbol.iterator]);
+  return x != null && isFunction(x[Symbol.iterator]);
 }
 
 /** @ignore */
