@@ -1,5 +1,6 @@
 import '../asynciterablehelpers';
-import { from, map, toDOMStream } from 'ix/asynciterable';
+import { from } from 'ix/asynciterable';
+import { map, toDOMStream } from 'ix/asynciterable/operators';
 
 (() => {
   if (!toDOMStream || process.env.TEST_DOM_STREAMS !== 'true') {
@@ -57,7 +58,7 @@ import { from, map, toDOMStream } from 'ix/asynciterable';
       });
       test(`yields Buffers`, async () => {
         const expected = from(expectedBuffers);
-        const actual = buffersItr().toDOMStream({ type: 'bytes' });
+        const actual = buffersItr().pipe(toDOMStream({ type: 'bytes' }));
         await expect(actual).toEqualStream(expected, compare);
       });
     });

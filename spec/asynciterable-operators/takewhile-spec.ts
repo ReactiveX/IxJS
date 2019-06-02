@@ -22,7 +22,7 @@ test('AsyncIterable#takeWhile no match', async () => {
 
 test('AsyncItearble#takeWhile all match', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, () => true);
+  const ys = xs.pipe(takeWhile(() => true));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);

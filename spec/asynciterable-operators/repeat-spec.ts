@@ -1,21 +1,22 @@
-import { every, of, sum, toArray } from 'ix/asynciterable';
+import { from, every, of, sum, toArray } from 'ix/asynciterable';
 import { buffer, map, repeat, tap, take } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#repeat infinite', async () => {
   let i = 0;
-  const xs = repeat(
-    tap(of(1, 2), {
-      next: async () => {
+  const xs = of(1, 2)
+    .pipe(
+      tap(async () => {
         ++i;
-      }
-    })``
-  );
+      })
+    )
+    .pipe(repeat());
 
   const res = await toArray(xs.pipe(take(10)));
+
   expect(10).toBe(res.length);
   expect(
     every(
-      res.pipe(
+      from(res).pipe(
         buffer(2),
         map(b => sum(b))
       ),
@@ -28,18 +29,16 @@ test('AsyncIterable#repeat infinite', async () => {
 test('AsyncIterable#repeat finite', async () => {
   let i = 0;
   const xs = of(1, 2).pipe(
-    tap({
-      next: async () => {
-        ++i;
-      }
+    tap(async () => {
+      ++i;
     }),
     repeat(5)
   );
-  const res = toArray(xs);
+  const res = await toArray(xs);
   expect(10).toBe(res.length);
   expect(
     every(
-      res.pipe(
+      from(res).pipe(
         buffer(2),
         map(b => sum(b))
       ),

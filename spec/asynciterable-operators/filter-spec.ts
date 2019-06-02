@@ -4,7 +4,7 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#filter', async () => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
-  const ys = filter(xs, async x => x % 2 === 0);
+  const ys = xs.pipe(filter(async x => x % 2 === 0));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 8);

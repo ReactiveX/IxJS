@@ -1,5 +1,5 @@
 import { of } from 'ix/asynciterable';
-import { except } from 'ix/asynciterable/except';
+import { except } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#except with default comparer', async () => {

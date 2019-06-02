@@ -1,9 +1,10 @@
+import { from } from 'ix/iterable';
 import { takeWhile } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#takeWhile some match', () => {
   const xs = [1, 2, 3, 4];
-  const ys = takeWhile(x => x < 3)(xs);
+  const ys = from(xs).pipe(takeWhile(x => x < 3));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);

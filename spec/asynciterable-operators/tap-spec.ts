@@ -3,11 +3,13 @@ import { tap } from 'ix/asynciterable/operators';
 
 test('AsyncItearble#tap next', async () => {
   let n = 0;
-  let source = tap(range(0, 10), {
-    next: async x => {
-      n += x;
-    }
-  });
+  let source = range(0, 10).pipe(
+    tap({
+      next: async x => {
+        n += x;
+      }
+    })
+  );
 
   // tslint:disable-next-line:no-empty
   for await (let _ of source) {
@@ -60,9 +62,9 @@ test('AsyncIterable#tap with error', async () => {
   expect(ok).toBeTruthy();
 });
 
-test('AsyncItearble#tap with next function', async ([tap]) => {
+test('AsyncItearble#tap with next function', async () => {
   let n = 0;
-  let source = tap(range(0, 10), async x => (n += x));
+  let source = range(0, 10).pipe(tap(async x => (n += x)));
 
   // tslint:disable-next-line:no-empty
   for await (let _ of source) {

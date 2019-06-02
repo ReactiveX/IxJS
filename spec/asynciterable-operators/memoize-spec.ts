@@ -10,7 +10,7 @@ import {
   toArray,
   zip
 } from 'ix/asynciterable';
-import { map, memoize, take, tap } from 'ix/asynciterable';
+import { map, memoize, take, tap } from 'ix/asynciterable/operators';
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
@@ -62,15 +62,13 @@ test('AsyncIterable#memoize memoizes effects', async () => {
 test('AsyncIterable#memoize pulls each value from the source only once', async () => {
   const length = 10;
   const valuesProduced = [] as number[];
-  const source = memoize(
-    defer(async function*() {
-      let i = -1;
-      while (++i < length) {
-        valuesProduced.push(i);
-        yield await delayValue(i, 100);
-      }
-    })
-  );
+  const source = defer(async function*() {
+    let i = -1;
+    while (++i < length) {
+      valuesProduced.push(i);
+      yield await delayValue(i, 100);
+    }
+  }).pipe(memoize());
 
   const valuesExpected = Array.from({ length }, (_, i) => i);
 
@@ -204,36 +202,30 @@ test('AsyncIterable#memoize should share effects of random', async () => {
 
 test('AsyncIterable#memoize with selector', async () => {
   let n = 0;
-  const res = await toArray(
-    memoize(
-      tap(range(0, 4), {
-        next: async () => {
-          n++;
-        }
-      }),
-      undefined,
-      xs => take(zip(async ([l, r]) => l + r, xs, xs), 4)
+  const res = await range(0, 4)
+    .pipe(
+      tap(async () => {
+        n++;
+      })
     )
-  );
+    .pipe(memoize(undefined, xs => zip(async ([l, r]) => l + r, xs, xs).pipe(take(4))))
+    .pipe(toArray);
 
-  expect(await sequenceEqual(from(res), map(range(0, 4), async x => x * 2))).toBeTruthy();
+  expect(await sequenceEqual(from(res), range(0, 4).pipe(map(async x => x * 2)))).toBeTruthy();
   expect(4).toBe(n);
 });
 
 test('AsyncIterable#memoize limited with selector', async () => {
   let n = 0;
-  const res = await toArray(
-    memoize(
-      tap(range(0, 4), {
-        next: async () => {
-          n++;
-        }
-      }),
-      2,
-      xs => take(zip(async ([l, r]) => l + r, xs, xs), 4)
+  const res = await range(0, 4)
+    .pipe(
+      tap(async () => {
+        n++;
+      })
     )
-  );
+    .pipe(memoize(2, xs => zip(async ([l, r]) => l + r, xs, xs).pipe(take(4))))
+    .pipe(toArray);
 
-  expect(await sequenceEqual(from(res), map(range(0, 4), async x => x * 2))).toBeTruthy();
+  expect(await sequenceEqual(from(res), range(0, 4).pipe(map(async x => x * 2)))).toBeTruthy();
   expect(4).toBe(n);
 });

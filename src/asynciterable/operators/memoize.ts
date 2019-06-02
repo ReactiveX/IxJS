@@ -72,11 +72,11 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
 export function memoize<TSource>(readerCount?: number): OperatorAsyncFunction<TSource, TSource>;
 export function memoize<TSource, TResult>(
   readerCount?: number,
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
+  selector?: (value: AsyncIterableX<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TResult>;
 export function memoize<TSource, TResult = TSource>(
   readerCount: number = -1,
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
+  selector?: (value: AsyncIterableX<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
   return function memoizeOperatorFunction(
     source: AsyncIterable<TSource>

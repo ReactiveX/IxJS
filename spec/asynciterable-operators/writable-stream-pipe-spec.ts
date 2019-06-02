@@ -9,12 +9,12 @@ import { PassThrough } from 'stream';
     });
   }
 
-  const through = () => {
+  const through = () => () => {
     return new PassThrough({
       objectMode: true,
       readableObjectMode: true,
       writableObjectMode: true
-    });
+    }) as AsyncIterable<any>;
   };
 
   test('AsyncIterable#pipe writable-stream single element', async () => {
@@ -22,7 +22,13 @@ import { PassThrough } from 'stream';
     const expected = of('Frank');
 
     expect(
-      await sequenceEqual(expected, source.pipe(through()).pipe(map(x => x.name)))
+      await sequenceEqual(
+        expected,
+        source.pipe(
+          through(),
+          map(x => x.name)
+        )
+      )
     ).toBeTruthy();
   });
 
@@ -37,7 +43,13 @@ import { PassThrough } from 'stream';
     const expected = of('Frank', 'Bob', 'Chris', null, 'Frank');
 
     expect(
-      await sequenceEqual(expected, source.pipe(through()).pipe(map(x => x.name)))
+      await sequenceEqual(
+        expected,
+        source.pipe(
+          through(),
+          map(x => x.name)
+        )
+      )
     ).toBeTruthy();
   });
 
@@ -58,7 +70,10 @@ import { PassThrough } from 'stream';
     expect(
       await sequenceEqual(
         expected,
-        source.pipe(through()).pipe(map((x, i) => (i === 0 ? x.name : null)))
+        source.pipe(
+          through(),
+          map((x, i) => (i === 0 ? x.name : null))
+        )
       )
     ).toBeTruthy();
   });
@@ -76,7 +91,10 @@ import { PassThrough } from 'stream';
     expect(
       await sequenceEqual(
         expected,
-        source.pipe(through()).pipe(map((x, i) => (i === 4 ? x.name : null)))
+        source.pipe(
+          through(),
+          map((x, i) => (i === 4 ? x.name : null))
+        )
       )
     ).toBeTruthy();
   });
@@ -88,7 +106,10 @@ import { PassThrough } from 'stream';
       return 1;
     });
 
-    source.pipe(through()).pipe(map(x => x()));
+    source.pipe(
+      through(),
+      map(x => x())
+    );
 
     expect(fnCalled).toBeFalsy();
   });

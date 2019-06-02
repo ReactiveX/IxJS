@@ -1,10 +1,11 @@
 import { hasNext, noNext } from '../asynciterablehelpers';
-import { of, _throw, innerJoin } from 'ix/asynciterable';
+import { of, throwError } from 'ix/asynciterable';
+import { innerJoin } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#innerJoin normal', async () => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
-  const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
+  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0 + 3);
@@ -16,7 +17,7 @@ test('AsyncIterable#innerJoin normal', async () => {
 test('AsyncIterable#innerJoin reversed', async () => {
   const xs = of(3, 6, 4);
   const ys = of(0, 1, 2);
-  const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
+  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 3 + 0);
@@ -28,7 +29,7 @@ test('AsyncIterable#innerJoin reversed', async () => {
 test('AsyncIterable#innerJoin only one group matches', async () => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6);
-  const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
+  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0 + 3);
@@ -39,7 +40,7 @@ test('AsyncIterable#innerJoin only one group matches', async () => {
 test('AsyncIterable#innerJoin only one group matches reversed', async () => {
   const xs = of(3, 6);
   const ys = of(0, 1, 2);
-  const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
+  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 3 + 0);
@@ -48,9 +49,9 @@ test('AsyncIterable#innerJoin only one group matches reversed', async () => {
 });
 
 test('AsyncIterable#innerJoin left throws', async () => {
-  const xs = _throw<number>(new Error());
+  const xs = throwError<number>(new Error());
   const ys = of(3, 6, 4);
-  const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
+  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -62,8 +63,8 @@ test('AsyncIterable#innerJoin left throws', async () => {
 
 test('AsyncIterable#innerJoin right throws', async () => {
   const xs = of(0, 1, 2);
-  const ys = _throw<number>(new Error());
-  const res = innerJoin(xs, ys, async x => x % 3, async y => y % 3, async (x, y) => x + y);
+  const ys = throwError<number>(new Error());
+  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -76,14 +77,15 @@ test('AsyncIterable#innerJoin right throws', async () => {
 test('AsyncIterable#innerJoin left selector throws', async () => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
-  const res = innerJoin(
-    xs,
-    ys,
-    async _ => {
-      throw new Error();
-    },
-    async y => y % 3,
-    async (x, y) => x + y
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async _ => {
+        throw new Error();
+      },
+      async y => y % 3,
+      async (x, y) => x + y
+    )
   );
 
   const it = res[Symbol.asyncIterator]();
@@ -97,14 +99,15 @@ test('AsyncIterable#innerJoin left selector throws', async () => {
 test('AsyncIterable#innerJoin right selector throws', async () => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
-  const res = innerJoin(
-    xs,
-    ys,
-    async x => x % 3,
-    async _ => {
-      throw new Error();
-    },
-    async (x, y) => x + y
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async x => x % 3,
+      async _ => {
+        throw new Error();
+      },
+      async (x, y) => x + y
+    )
   );
 
   const it = res[Symbol.asyncIterator]();
@@ -118,14 +121,15 @@ test('AsyncIterable#innerJoin right selector throws', async () => {
 test('AsyncIterable#innerJoin result selector throws', async () => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
-  const res = innerJoin(
-    xs,
-    ys,
-    async x => x % 3,
-    async y => y % 3,
-    async (_x, _y) => {
-      throw new Error();
-    }
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async x => x % 3,
+      async y => y % 3,
+      async (_x, _y) => {
+        throw new Error();
+      }
+    )
   );
 
   const it = res[Symbol.asyncIterator]();

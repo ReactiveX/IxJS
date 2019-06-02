@@ -20,10 +20,10 @@ class PublishedAsyncBuffer<T> extends MemoizeAsyncBuffer<T> {
 
 export function publish<TSource>(): OperatorAsyncFunction<TSource, TSource>;
 export function publish<TSource, TResult>(
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
+  selector?: (value: AsyncIterableX<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TResult>;
 export function publish<TSource, TResult>(
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
+  selector?: (value: AsyncIterableX<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
   return function publishOperatorFunction(
     source: AsyncIterable<TSource>
