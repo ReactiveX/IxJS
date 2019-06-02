@@ -1,12 +1,12 @@
 import { IterableX } from './iterablex';
 import { identity } from '../util/identity';
 import { bindCallback } from '../util/bindcallback';
-import { isIterable, isArrayLike } from '../util/isiterable';
+import { isIterable, isArrayLike, isIterator } from '../util/isiterable';
 import { toLength } from '../util/tolength';
 
 /** @nocollapse */
 export function from<TSource, TResult = TSource>(
-  source: Iterable<TSource> | ArrayLike<TSource>,
+  source: Iterable<TSource> | Iterator<TSource> | ArrayLike<TSource>,
   selector: (value: TSource, index: number) => TResult = identity,
   thisArg?: any
 ): IterableX<TResult> {
@@ -17,6 +17,9 @@ export function from<TSource, TResult = TSource>(
   }
   if (isArrayLike(source)) {
     return new FromIterable<TSource, TResult>(source, fn);
+  }
+  if (isIterator(source)) {
+    return new FromIterable<TSource, TResult>({ [Symbol.iterator]: () => source }, fn);
   }
   throw new TypeError('Input type not supported');
   /* tslint:enable */

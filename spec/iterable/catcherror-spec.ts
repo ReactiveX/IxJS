@@ -1,4 +1,5 @@
-import { catchError, of, range, sequenceEqual, single, throwError } from 'ix/iterable';
+import { catchError } from 'ix/iterable/operators';
+import { of, range, sequenceEqual, single, throwError } from 'ix/iterable';
 
 test('Iterable#catchWith error catches', () => {
   const err = new Error();

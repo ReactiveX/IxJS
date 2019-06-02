@@ -1,7 +1,7 @@
-import { _throw } from 'ix/iterable';
+import { throwError } from 'ix/iterable';
 
 test('Iterable#throw throws', () => {
-  const xs = _throw<number>(new Error());
+  const xs = throwError<number>(new Error());
 
   const it = xs[Symbol.iterator]();
   expect(() => it.next()).toThrow();

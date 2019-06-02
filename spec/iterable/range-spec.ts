@@ -56,7 +56,7 @@ test('Iterable#range take excessive', () => {
 });
 
 test('Iterable#range skip', () => {
-  expect(sequenceEqual(range(10, 10), skip(range(0, 20), 10))).toBeTruthy();
+  expect(sequenceEqual(range(10, 10), range(0, 20).pipe(skip(10)))).toBeTruthy();
 });
 
 test('Iterable#range skip excessive', () => {

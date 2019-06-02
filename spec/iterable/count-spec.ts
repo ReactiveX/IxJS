@@ -1,4 +1,4 @@
-import { count } from 'ix/iterable/operators';
+import { count } from 'ix/iterable';
 
 test('Iterable#count no predicate empty', () => {
   expect(count<number>([])).toBe(0);
