@@ -1,30 +1,40 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.repeat]);
-const { buffer } = Ix.iterable;
-const { every } = Ix.iterable;
-const { map } = Ix.iterable;
-const { sum } = Ix.iterable;
-const { take } = Ix.iterable;
-const { tap } = Ix.iterable;
-const { toArray } = Ix.iterable;
+import { from, every, sum, toArray } from 'ix/iterable';
+import { buffer, map, take, tap, repeat } from 'ix/iterable/operators';
 
-test('Iterable#repeat infinite', ([repeat]) => {
+test('Iterable#repeat infinite', () => {
   let i = 0;
-  const xs = repeat(tap([1, 2], { next: () => ++i }));
+  const xs = from([1, 2])
+    .pipe(tap({ next: () => ++i }))
+    .pipe(repeat());
 
-  const res = toArray(take(xs, 10));
+  const res = xs.pipe(take(10)).pipe(toArray);
   expect(10).toBe(res.length);
-  expect(every(map(buffer(res, 2), b => sum(b)), x => x === 3)).toBeTruthy();
+  expect(
+    every(
+      from(res)
+        .pipe(buffer(2))
+        .pipe(map(b => sum(b))),
+      x => x === 3
+    )
+  ).toBeTruthy();
   expect(10).toBe(i);
 });
 
-test('Iterable#repeat finite', ([repeat]) => {
+test('Iterable#repeat finite', () => {
   let i = 0;
-  const xs = repeat(tap([1, 2], { next: () => ++i }), 5);
+  const xs = from([1, 2])
+    .pipe(tap({ next: () => ++i }))
+    .pipe(repeat(5));
 
-  const res = toArray(take(xs, 10));
+  const res = xs.pipe(take(10)).pipe(toArray);
   expect(10).toBe(res.length);
-  expect(every(map(buffer(res, 2), b => sum(b)), x => x === 3)).toBeTruthy();
+  expect(
+    every(
+      from(res)
+        .pipe(buffer(2))
+        .pipe(map(b => sum(b))),
+      x => x === 3
+    )
+  ).toBeTruthy();
   expect(10).toBe(i);
 });

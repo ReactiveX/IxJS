@@ -1,28 +1,24 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.takeLast]);
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { skip } = Ix.iterable;
+import { range, sequenceEqual } from 'ix/iterable';
+import { skip, takeLast } from 'ix/iterable/operators';
 
-test('Iterable#takeLast none', ([takeLast]) => {
-  const res = takeLast(range(1, 5), 0);
+test('Iterable#takeLast none', () => {
+  const res = range(1, 5).pipe(takeLast(0));
   expect(sequenceEqual(res, [])).toBeTruthy();
 });
 
-test('Iterable#takeLast empty', ([takeLast]) => {
-  const res = takeLast([], 1);
+test('Iterable#takeLast empty', () => {
+  const res = takeLast(1)([]);
   expect(sequenceEqual(res, [])).toBeTruthy();
 });
 
-test('Iterable#takeLast has all', ([takeLast]) => {
+test('Iterable#takeLast has all', () => {
   const e = range(0, 5);
-  const r = takeLast(e, 5);
+  const r = e.pipe(takeLast(5));
   expect(sequenceEqual(r, e)).toBeTruthy();
 });
 
-test('Iterable#takeLast has part', ([takeLast]) => {
+test('Iterable#takeLast has part', () => {
   const e = range(0, 5);
-  const r = takeLast(e, 3);
-  expect(sequenceEqual(r, skip(e, 2))).toBeTruthy();
+  const r = e.pipe(takeLast(3));
+  expect(sequenceEqual(r, e.pipe(skip(2)))).toBeTruthy();
 });

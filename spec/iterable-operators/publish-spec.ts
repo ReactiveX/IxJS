@@ -1,15 +1,5 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.publish]);
-const { concat } = Ix.iterable;
-const { map } = Ix.iterable;
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { _throw } = Ix.iterable;
-const { take } = Ix.iterable;
-const { tap } = Ix.iterable;
-const { toArray } = Ix.iterable;
-const { zip } = Ix.iterable;
+import { concat, range, sequenceEqual, throwError, toArray, zip } from 'ix/iterable';
+import { map, take, tap, publish } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
 function* tick(t: (x: number) => void) {
@@ -20,9 +10,9 @@ function* tick(t: (x: number) => void) {
   }
 }
 
-test('Iterable#publish starts at beginning', ([publish]) => {
+test('Iterable#publish starts at beginning', () => {
   let n = 0;
-  const rng = publish(tick(i => (n += i)));
+  const rng = publish()(tick(i => (n += i)));
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -54,8 +44,8 @@ test('Iterable#publish starts at beginning', ([publish]) => {
   expect(10).toBe(n);
 });
 
-test('Iterable#publish single', ([publish]) => {
-  const rng = publish(range(0, 5));
+test('Iterable#publish single', () => {
+  const rng = publish()(range(0, 5));
 
   const it = rng[Symbol.iterator]();
   hasNext(it, 0);
@@ -66,8 +56,8 @@ test('Iterable#publish single', ([publish]) => {
   noNext(it);
 });
 
-test('Iterable#publish two interleaved', ([publish]) => {
-  const rng = publish(range(0, 5));
+test('Iterable#publish two interleaved', () => {
+  const rng = publish()(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -86,8 +76,8 @@ test('Iterable#publish two interleaved', ([publish]) => {
   noNext(it2);
 });
 
-test('Iterable#publish sequential', ([publish]) => {
-  const rng = publish(range(0, 5));
+test('Iterable#publish sequential', () => {
+  const rng = publish()(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -106,8 +96,8 @@ test('Iterable#publish sequential', ([publish]) => {
   noNext(it2);
 });
 
-test('Iterable#publish second late', ([publish]) => {
-  const rng = publish(range(0, 5));
+test('Iterable#publish second late', () => {
+  const rng = publish()(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
   hasNext(it1, 0);
@@ -123,9 +113,9 @@ test('Iterable#publish second late', ([publish]) => {
   noNext(it2);
 });
 
-test('Iterbale#publish shared exceptions', ([publish]) => {
+test('Iterbale#publish shared exceptions', () => {
   const error = new Error();
-  const rng = publish(concat(range(0, 2), _throw<number>(error)));
+  const rng = publish()(concat(range(0, 2), throwError<number>(error)));
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -139,12 +129,13 @@ test('Iterbale#publish shared exceptions', ([publish]) => {
   expect(() => it2.next()).toThrow();
 });
 
-test('Iterable#publish with selector', ([publish]) => {
+test('Iterable#publish with selector', () => {
   let n = 0;
-  const res = toArray(
-    publish(tap(range(0, 10), { next: () => n++ }), xs => take(zip(([l, r]) => l + r, xs, xs), 4))
-  );
+  const res = range(0, 10)
+    .pipe(tap({ next: () => n++ }))
+    .pipe(publish(xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4))))
+    .pipe(toArray);
 
-  expect(sequenceEqual(res, map(range(0, 4), x => x * 2))).toBeTruthy();
+  expect(sequenceEqual(res, range(0, 4).pipe(map(x => x * 2)))).toBeTruthy();
   expect(4).toBe(n);
 });

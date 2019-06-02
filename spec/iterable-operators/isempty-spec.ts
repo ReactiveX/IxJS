@@ -1,12 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.isEmpty]);
-const { empty } = Ix.iterable;
+import { empty, isEmpty } from 'ix/iterable';
 
-test('Iterable#isEmpty empty', ([isEmpty]) => {
+test('Iterable#isEmpty empty', () => {
   expect(isEmpty(empty<number>())).toBeTruthy();
 });
 
-test('Iterable#isEmpty not-empty', ([isEmpty]) => {
+test('Iterable#isEmpty not-empty', () => {
   expect(isEmpty([1])).toBeFalsy();
 });

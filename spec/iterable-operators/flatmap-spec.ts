@@ -1,13 +1,10 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.flatMap]);
-const { range } = Ix.iterable;
-const { _throw } = Ix.iterable;
+import { flatMap } from 'ix/iterable/operators';
+import { as, range, throwError } from 'ix/iterable';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#flatMap with range', ([flatMap]) => {
-  const xs = [1, 2, 3];
-  const ys = flatMap(xs, x => range(0, x));
+test('Iterable#flatMap with range', () => {
+  const xs = as([1, 2, 3]);
+  const ys = xs.pipe(flatMap(x => range(0, x)));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 0);
@@ -19,10 +16,10 @@ test('Iterable#flatMap with range', ([flatMap]) => {
   noNext(it);
 });
 
-test('Iterable#flatMap selector returns throw', ([flatMap]) => {
+test('Iterable#flatMap selector returns throw', () => {
   const err = new Error();
-  const xs = [1, 2, 3];
-  const ys = flatMap(xs, x => (x < 3 ? range(0, x) : _throw(err)));
+  const xs = as([1, 2, 3]);
+  const ys = xs.pipe(flatMap(x => (x < 3 ? range(0, x) : throwError(err))));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 0);
@@ -31,24 +28,26 @@ test('Iterable#flatMap selector returns throw', ([flatMap]) => {
   expect(() => it.next()).toThrow();
 });
 
-test('Iterable#flatMap with error throws', ([flatMap]) => {
+test('Iterable#flatMap with error throws', () => {
   const err = new Error();
-  const xs = _throw<number>(err);
-  const ys = flatMap(xs, x => range(0, x));
+  const xs = throwError<number>(err);
+  const ys = xs.pipe(flatMap(x => range(0, x)));
 
   const it = ys[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
-test('Iterable#flatMap selector throws error', ([flatMap]) => {
+test('Iterable#flatMap selector throws error', () => {
   const err = new Error();
-  const xs = [1, 2, 3];
-  const ys = flatMap(xs, x => {
-    if (x < 3) {
-      return range(0, x);
-    }
-    throw err;
-  });
+  const xs = as([1, 2, 3]);
+  const ys = xs.pipe(
+    flatMap(x => {
+      if (x < 3) {
+        return range(0, x);
+      }
+      throw err;
+    })
+  );
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 0);

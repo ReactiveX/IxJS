@@ -1,15 +1,16 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.ignoreElements]);
-const { range } = Ix.iterable;
-const { take } = Ix.iterable;
-const { tap } = Ix.iterable;
+import { range } from 'ix/iterable';
+import { ignoreElements, take, tap } from 'ix/iterable/operators';
 
-test('Iterable#ignoreElements has side effects', ([ignoreElements]) => {
+test('Iterable#ignoreElements has side effects', () => {
   let n = 0;
-  take(ignoreElements(tap(range(0, 10), { next: () => n++ })), 5).forEach(() => {
-    /* tslint:disable-next-line:no-empty */
-  });
+
+  range(0, 10)
+    .pipe(tap({ next: () => n++ }))
+    .pipe(ignoreElements())
+    .pipe(take(5))
+    .forEach(() => {
+      /* tslint:disable-next-line:no-empty */
+    });
 
   expect(10).toBe(n);
 });

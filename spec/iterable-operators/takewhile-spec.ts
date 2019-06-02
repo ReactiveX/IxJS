@@ -1,11 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.takeWhile]);
+import { takeWhile } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#takeWhile some match', ([takeWhile]) => {
+test('Iterable#takeWhile some match', () => {
   const xs = [1, 2, 3, 4];
-  const ys = takeWhile(xs, x => x < 3);
+  const ys = takeWhile(x => x < 3)(xs);
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
@@ -13,17 +11,17 @@ test('Iterable#takeWhile some match', ([takeWhile]) => {
   noNext(it);
 });
 
-test('Iterable#takeWhile no match', ([takeWhile]) => {
+test('Iterable#takeWhile no match', () => {
   const xs = [1, 2, 3, 4];
-  const ys = takeWhile(xs, () => false);
+  const ys = takeWhile(() => false)(xs);
 
   const it = ys[Symbol.iterator]();
   noNext(it);
 });
 
-test('Itearble#takeWhile all match', ([takeWhile]) => {
+test('Itearble#takeWhile all match', () => {
   const xs = [1, 2, 3, 4];
-  const ys = takeWhile(xs, () => true);
+  const ys = takeWhile(() => true)(xs);
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
@@ -33,9 +31,9 @@ test('Itearble#takeWhile all match', ([takeWhile]) => {
   noNext(it);
 });
 
-test('Iterable#takeWhile uses index', ([takeWhile]) => {
+test('Iterable#takeWhile uses index', () => {
   const xs = [1, 2, 3, 4];
-  const ys = takeWhile(xs, (_, i) => i < 2);
+  const ys = takeWhile((_, i) => i < 2)(xs);
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
@@ -43,11 +41,11 @@ test('Iterable#takeWhile uses index', ([takeWhile]) => {
   noNext(it);
 });
 
-test('Iterable#takeWhile predicate throws', ([takeWhile]) => {
+test('Iterable#takeWhile predicate throws', () => {
   const xs = [1, 2, 3, 4];
-  const ys = takeWhile(xs, () => {
+  const ys = takeWhile(() => {
     throw new Error();
-  });
+  })(xs);
 
   const it = ys[Symbol.iterator]();
   expect(() => it.next()).toThrow();

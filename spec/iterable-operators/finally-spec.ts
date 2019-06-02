@@ -1,14 +1,11 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable._finally]);
-const { range } = Ix.iterable;
-const { _throw } = Ix.iterable;
+import { finalize } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
+import { range, throwError } from 'ix/iterable';
 
-test('Iterable#finally defers behavior', ([_finally]) => {
+test('Iterable#finally defers behavior', () => {
   let done = false;
 
-  const xs = _finally(range(0, 2), () => (done = true));
+  const xs = finalize(() => (done = true))(range(0, 2));
   expect(done).toBeFalsy();
 
   const it = xs[Symbol.iterator]();
@@ -24,11 +21,11 @@ test('Iterable#finally defers behavior', ([_finally]) => {
   expect(done).toBeTruthy();
 });
 
-test('Iterable#finally calls even with error', ([_finally]) => {
+test('Iterable#finally calls even with error', () => {
   let done = false;
 
   const err = new Error();
-  const xs = _finally(_throw(err), () => (done = true));
+  const xs = finalize(() => (done = true))(throwError(err));
   expect(done).toBeFalsy();
 
   const it = xs[Symbol.iterator]();

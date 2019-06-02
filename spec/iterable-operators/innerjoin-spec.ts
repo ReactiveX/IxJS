@@ -1,13 +1,11 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.innerJoin]);
-const { _throw } = Ix.iterable;
+import { from, throwError } from 'ix/iterable';
+import { innerJoin } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#innerJoin normal', ([innerJoin]) => {
+test('Iterable#innerJoin normal', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = innerJoin(xs, ys, x => x % 3, y => y % 3, (x, y) => x + y);
+  const res = from(xs).pipe(innerJoin(ys, x => x % 3, y => y % 3, (x, y) => x + y));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 0 + 3);
@@ -16,10 +14,10 @@ test('Iterable#innerJoin normal', ([innerJoin]) => {
   noNext(it);
 });
 
-test('Iterable#innerJoin reversed', ([innerJoin]) => {
+test('Iterable#innerJoin reversed', () => {
   const xs = [3, 6, 4];
   const ys = [0, 1, 2];
-  const res = innerJoin(xs, ys, x => x % 3, y => y % 3, (x, y) => x + y);
+  const res = from(xs).pipe(innerJoin(ys, x => x % 3, y => y % 3, (x, y) => x + y));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 3 + 0);
@@ -28,10 +26,10 @@ test('Iterable#innerJoin reversed', ([innerJoin]) => {
   noNext(it);
 });
 
-test('Iterable#innerJoin only one group matches', ([innerJoin]) => {
+test('Iterable#innerJoin only one group matches', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6];
-  const res = innerJoin(xs, ys, x => x % 3, y => y % 3, (x, y) => x + y);
+  const res = from(xs).pipe(innerJoin(ys, x => x % 3, y => y % 3, (x, y) => x + y));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 0 + 3);
@@ -39,10 +37,10 @@ test('Iterable#innerJoin only one group matches', ([innerJoin]) => {
   noNext(it);
 });
 
-test('Iterable#innerJoin only one group matches reversed', ([innerJoin]) => {
+test('Iterable#innerJoin only one group matches reversed', () => {
   const xs = [3, 6];
   const ys = [0, 1, 2];
-  const res = innerJoin(xs, ys, x => x % 3, y => y % 3, (x, y) => x + y);
+  const res = from(xs).pipe(innerJoin(ys, x => x % 3, y => y % 3, (x, y) => x + y));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 3 + 0);
@@ -50,69 +48,72 @@ test('Iterable#innerJoin only one group matches reversed', ([innerJoin]) => {
   noNext(it);
 });
 
-test('Iterable#innerJoin left throws', ([innerJoin]) => {
-  const xs = _throw<number>(new Error());
+test('Iterable#innerJoin left throws', () => {
+  const xs = throwError<number>(new Error());
   const ys = [3, 6, 4];
-  const res = innerJoin(xs, ys, x => x % 3, y => y % 3, (x, y) => x + y);
+  const res = from(xs).pipe(innerJoin(ys, x => x % 3, y => y % 3, (x, y) => x + y));
 
   const it = res[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
-test('Iterable#innerJoin right throws', ([innerJoin]) => {
+test('Iterable#innerJoin right throws', () => {
   const xs = [0, 1, 2];
-  const ys = _throw<number>(new Error());
-  const res = innerJoin(xs, ys, x => x % 3, y => y % 3, (x, y) => x + y);
+  const ys = throwError<number>(new Error());
+  const res = from(xs).pipe(innerJoin(ys, x => x % 3, y => y % 3, (x, y) => x + y));
 
   const it = res[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
-test('Iterable#innerJoin left selector throws', ([innerJoin]) => {
+test('Iterable#innerJoin left selector throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = innerJoin(
-    xs,
-    ys,
-    _ => {
-      throw new Error();
-    },
-    y => y % 3,
-    (x, y) => x + y
+  const res = from(xs).pipe(
+    innerJoin(
+      ys,
+      _ => {
+        throw new Error();
+      },
+      y => y % 3,
+      (x, y) => x + y
+    )
   );
 
   const it = res[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
-test('Iterable#join right selector throws', ([innerJoin]) => {
+test('Iterable#join right selector throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = innerJoin(
-    xs,
-    ys,
-    x => x % 3,
-    _ => {
-      throw new Error();
-    },
-    (x, y) => x + y
+  const res = from(xs).pipe(
+    innerJoin(
+      ys,
+      x => x % 3,
+      _ => {
+        throw new Error();
+      },
+      (x, y) => x + y
+    )
   );
 
   const it = res[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
-test('Iterable#innerJoin result selector throws', ([innerJoin]) => {
+test('Iterable#innerJoin result selector throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = innerJoin(
-    xs,
-    ys,
-    x => x % 3,
-    y => y % 3,
-    (_x, _y) => {
-      throw new Error();
-    }
+  const res = from(xs).pipe(
+    innerJoin(
+      ys,
+      x => x % 3,
+      y => y % 3,
+      (_x, _y) => {
+        throw new Error();
+      }
+    )
   );
 
   const it = res[Symbol.iterator]();

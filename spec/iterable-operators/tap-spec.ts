@@ -1,16 +1,15 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.tap]);
-const { range } = Ix.iterable;
-const { _throw } = Ix.iterable;
+import { range, throwError } from 'ix/iterable';
+import { tap } from 'ix/iterable/operators';
 
-test('Itearble#tap next', ([tap]) => {
+test('Itearble#tap next', () => {
   let n = 0;
-  let source = tap(range(0, 10), {
-    next: function(x) {
-      n += x;
-    }
-  });
+  let source = range(0, 10).pipe(
+    tap({
+      next: function(x) {
+        n += x;
+      }
+    })
+  );
 
   // tslint:disable-next-line:no-empty
   for (let _ of source) {
@@ -19,16 +18,18 @@ test('Itearble#tap next', ([tap]) => {
   expect(45).toBe(n);
 });
 
-test('Iterable#tap next complete', ([tap]) => {
+test('Iterable#tap next complete', () => {
   let n = 0;
-  let source = tap(range(0, 10), {
-    next: function(x) {
-      n += x;
-    },
-    complete: function() {
-      n *= 2;
-    }
-  });
+  let source = range(0, 10).pipe(
+    tap({
+      next: function(x) {
+        n += x;
+      },
+      complete: function() {
+        n *= 2;
+      }
+    })
+  );
 
   // tslint:disable-next-line:no-empty
   for (let _ of source) {
@@ -37,17 +38,19 @@ test('Iterable#tap next complete', ([tap]) => {
   expect(90).toBe(n);
 });
 
-test('Iterable#tap with error', ([tap]) => {
+test('Iterable#tap with error', () => {
   let err = new Error();
   let ok = false;
 
   expect(() => {
-    const source = tap(_throw<number>(err), {
-      error: function(e) {
-        expect(err).toBe(e);
-        ok = true;
-      }
-    });
+    const source = throwError<number>(err).pipe(
+      tap({
+        error: function(e) {
+          expect(err).toBe(e);
+          ok = true;
+        }
+      })
+    );
 
     // tslint:disable-next-line:no-empty
     for (let _ of source) {
@@ -70,9 +73,9 @@ class MyObserver {
   }
 }
 
-test('Itearble#tap with observer class', ([tap]) => {
+test('Itearble#tap with observer class', () => {
   const obs = new MyObserver();
-  const source = tap(range(0, 10), obs);
+  const source = range(0, 10).pipe(tap(obs));
 
   // tslint:disable-next-line:no-empty
   for (let _ of source) {

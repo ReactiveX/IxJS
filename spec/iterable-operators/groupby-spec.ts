@@ -1,10 +1,8 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.groupBy]);
-const { empty } = Ix.iterable;
+import { from, empty } from 'ix/iterable';
+import { groupBy } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#groupBy normal', ([groupBy]) => {
+test('Iterable#groupBy normal', () => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -14,7 +12,7 @@ test('Iterable#groupBy normal', ([groupBy]) => {
     { name: 'Lisa', age: 23 },
     { name: 'Eric', age: 42 }
   ];
-  const ys = groupBy(xs, x => Math.floor(x.age / 10));
+  const ys = from(xs).pipe(groupBy(x => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.iterator]();
   let next = it.next();
@@ -51,7 +49,7 @@ test('Iterable#groupBy normal', ([groupBy]) => {
   noNext(it);
 });
 
-test('Iterable#groupBy normal can get results later', ([groupBy]) => {
+test('Iterable#groupBy normal can get results later', () => {
   const xs = [
     { name: 'Bart', age: 27 },
     { name: 'John', age: 62 },
@@ -61,7 +59,7 @@ test('Iterable#groupBy normal can get results later', ([groupBy]) => {
     { name: 'Lisa', age: 23 },
     { name: 'Eric', age: 42 }
   ];
-  const ys = groupBy(xs, x => Math.floor(x.age / 10));
+  const ys = from(xs).pipe(groupBy(x => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.iterator]();
   const g1 = it.next();
@@ -102,17 +100,17 @@ test('Iterable#groupBy normal can get results later', ([groupBy]) => {
   noNext(g4it);
 });
 
-test('Iterable#groupBy empty', ([groupBy]) => {
+test('Iterable#groupBy empty', () => {
   const xs = empty<number>();
-  const ys = groupBy(xs, x => x);
+  const ys = xs.pipe(groupBy(x => x));
 
   const it = ys[Symbol.iterator]();
   noNext(it);
 });
 
-test('Iterable#groupBy element selector', ([groupBy]) => {
+test('Iterable#groupBy element selector', () => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const ys = groupBy(xs, x => x % 3, x => String.fromCharCode(97 + x));
+  const ys = from(xs).pipe(groupBy(x => x % 3, x => String.fromCharCode(97 + x)));
 
   const it = ys[Symbol.iterator]();
 
@@ -150,9 +148,11 @@ test('Iterable#groupBy element selector', ([groupBy]) => {
   noNext(it);
 });
 
-test('Iterable#groupBy result selector', ([groupBy]) => {
+test('Iterable#groupBy result selector', () => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const ys = groupBy(xs, x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v }));
+  const ys = from(xs).pipe(
+    groupBy(x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v }))
+  );
 
   const it = ys[Symbol.iterator]();
 

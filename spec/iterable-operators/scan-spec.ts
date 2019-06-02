@@ -1,12 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.scan]);
-const { of } = Ix.Iterable;
-const { range } = Ix.iterable;
+import { of, range } from 'ix/iterable';
+import { scan } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#scan no seed', ([scan]) => {
-  const res = scan(range(0, 5), (n, x, i) => n + x + i);
+test('Iterable#scan no seed', () => {
+  const res = range(0, 5).pipe(scan((n, x, i) => n + x + i));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 2);
@@ -16,8 +13,8 @@ test('Iterable#scan no seed', ([scan]) => {
   noNext(it);
 });
 
-test('Iterable#scan with seed', ([scan]) => {
-  const res = scan(range(0, 5), (n, x, i) => n - x - i, 20);
+test('Iterable#scan with seed', () => {
+  const res = range(0, 5).pipe(scan((n, x, i) => n - x - i, 20));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 20);
@@ -28,8 +25,8 @@ test('Iterable#scan with seed', ([scan]) => {
   noNext(it);
 });
 
-test('AsyncIterable#scan no seed yields the value of single-element sources', ([scan]) => {
-  const res = scan(of(0), (n, x, i) => n + x + i);
+test('AsyncIterable#scan no seed yields the value of single-element sources', () => {
+  const res = of(0).pipe(scan((n, x, i) => n + x + i));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 0);

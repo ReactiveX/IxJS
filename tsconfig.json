@@ -9,9 +9,8 @@
     "module": "commonjs",
     "baseUrl": "./",
     "paths": {
-      "ix/*": [
-        "src/*"
-      ]
+      "ix": ["src/Ix.node"],
+      "ix/*": ["src/*"]
     }
   }
 }

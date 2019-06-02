@@ -1,30 +1,28 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.slice]);
-const { from } = Ix.Iterable;
+import { from } from 'ix/iterable';
+import { slice } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#slice slices at zero with one item', ([slice]) => {
+test('Iterable#slice slices at zero with one item', () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 0, 1);
+  const ys = from(xs).pipe(slice(0, 1));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
   noNext(it);
 });
 
-test('Iterable#slice slices at one with one item', ([slice]) => {
+test('Iterable#slice slices at one with one item', () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 1, 1);
+  const ys = from(xs).pipe(slice(1, 1));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 2);
   noNext(it);
 });
 
-test('Iterable#slice slices at one with multiple items', ([slice]) => {
+test('Iterable#slice slices at one with multiple items', () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 1, 2);
+  const ys = from(xs).pipe(slice(1, 2));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 2);
@@ -32,9 +30,9 @@ test('Iterable#slice slices at one with multiple items', ([slice]) => {
   noNext(it);
 });
 
-test('Iterable#slice slices at one with no end', ([slice]) => {
+test('Iterable#slice slices at one with no end', () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 1);
+  const ys = from(xs).pipe(slice(1));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 2);
@@ -43,9 +41,9 @@ test('Iterable#slice slices at one with no end', ([slice]) => {
   noNext(it);
 });
 
-test('Iterable#slice slices at zero with no end', ([slice]) => {
+test('Iterable#slice slices at zero with no end', () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 0);
+  const ys = from(xs).pipe(slice(0));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);

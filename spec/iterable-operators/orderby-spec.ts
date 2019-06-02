@@ -1,18 +1,10 @@
-import * as Ix from '../Ix';
-import { hasNext, noNext, testOperator } from '../iterablehelpers';
-const { orderBy, orderByDescending, thenBy, thenByDescending } = Ix.iterable;
-const testOrderBy = testOperator([orderBy]);
-const testOrderByDescending = testOperator([orderByDescending]);
-const testOrderByThenBy = testOperator([orderBy, thenBy] as [typeof orderBy, typeof thenBy]);
-//tslint:disable-next-line
-const testOrderByDescendingThenByDescending = testOperator([
-  orderByDescending,
-  thenByDescending
-] as [typeof orderByDescending, typeof thenByDescending]);
+import { from } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers';
+import { orderBy, orderByDescending, thenBy, thenByDescending } from 'ix/iterable/operators';
 
-testOrderBy('Iterable#orderBy normal ordering', ([orderBy]) => {
+test('Iterable#orderBy normal ordering', () => {
   const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];
-  const ys = orderBy(xs, x => x);
+  const ys = from(xs).pipe(orderBy(x => x));
 
   const it = ys[Symbol.iterator]();
   for (let i = 0; i < 10; i++) {
@@ -22,30 +14,36 @@ testOrderBy('Iterable#orderBy normal ordering', ([orderBy]) => {
   noNext(it);
 });
 
-testOrderByThenBy('Iterable#orderBy normal ordering with thenBy throws', ([orderBy, thenBy]) => {
+test('Iterable#orderBy normal ordering with thenBy throws', () => {
   const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];
-  const ys = thenBy(orderBy(xs, x => x), () => {
-    throw new Error();
-  });
+  const ys = from(xs)
+    .pipe(orderBy(x => x))
+    .pipe(
+      thenBy(() => {
+        throw new Error();
+      })
+    );
 
   const it = ys[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
-testOrderBy('Iterable#orderBy selector throws', ([orderBy]) => {
+test('Iterable#orderBy selector throws', () => {
   const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];
-  const ys = orderBy(xs, () => {
-    throw new Error();
-  });
+  const ys = from(xs).pipe(
+    orderBy(() => {
+      throw new Error();
+    })
+  );
 
   const it = ys[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
 //tslint:disable-next-line
-testOrderByDescending('Iterable#orderByDescending normal ordering', ([orderByDescending]) => {
+test('Iterable#orderByDescending normal ordering', () => {
   const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];
-  const ys = orderByDescending(xs, x => x);
+  const ys = from(xs).pipe(orderByDescending(x => x));
 
   const it = ys[Symbol.iterator]();
   for (let i = 9; i >= 0; i--) {
@@ -56,15 +54,16 @@ testOrderByDescending('Iterable#orderByDescending normal ordering', ([orderByDes
 });
 
 //tslint:disable-next-line
-testOrderByDescendingThenByDescending(
-  'Iterable#orderByDescending normal ordering with thenByDescending throws',
-  ([orderByDescending, thenByDescending]) => {
-    const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];
-    const ys = thenByDescending(orderByDescending(xs, x => x), () => {
-      throw new Error();
-    });
+test('Iterable#orderByDescending normal ordering with thenByDescending throws', () => {
+  const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];
+  const ys = from(xs)
+    .pipe(orderByDescending(x => x))
+    .pipe(
+      thenByDescending(() => {
+        throw new Error();
+      })
+    );
 
-    const it = ys[Symbol.iterator]();
-    expect(() => it.next()).toThrow();
-  }
-);
+  const it = ys[Symbol.iterator]();
+  expect(() => it.next()).toThrow();
+});

@@ -1,5 +1,6 @@
 import '../asynciterablehelpers';
-import { map, from, toDOMStream } from 'ix/iterable';
+import { from } from 'ix/iterable';
+import { map, toDOMStream } from 'ix/iterable/operators';
 
 (() => {
   if (!toDOMStream || process.env.TEST_DOM_STREAMS !== 'true') {

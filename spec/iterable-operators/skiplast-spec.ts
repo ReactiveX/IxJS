@@ -1,19 +1,14 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.skipLast]);
-const { empty } = Ix.iterable;
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { take } = Ix.iterable;
+import { empty, range, sequenceEqual } from 'ix/iterable';
+import { take, skipLast } from 'ix/iterable/operators';
 
-test('Iterable#skipLast empty', ([skipLast]) => {
+test('Iterable#skipLast empty', () => {
   const e = empty<number>();
-  const r = skipLast(e, 1);
+  const r = e.pipe(skipLast(1));
   expect(sequenceEqual(r, e)).toBeTruthy();
 });
 
-test('Iterable#skipLast partial', ([skipLast]) => {
+test('Iterable#skipLast partial', () => {
   const e = range(0, 5);
-  const r = skipLast(e, 3);
-  expect(sequenceEqual(r, take(e, 2))).toBeTruthy();
+  const r = e.pipe(skipLast(3));
+  expect(sequenceEqual(r, e.pipe(take(2)))).toBeTruthy();
 });

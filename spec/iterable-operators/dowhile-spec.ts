@@ -1,21 +1,18 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.doWhile]);
-const { defer } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { tap } = Ix.iterable;
-const { toArray } = Ix.iterable;
+import { tap, doWhile } from 'ix/iterable/operators';
+import { defer, sequenceEqual, toArray } from 'ix/iterable';
 
-test('Iterable#doWhile some', ([doWhile]) => {
+test('Iterable#doWhile some', () => {
   let x = 5;
-  const res = toArray(doWhile(defer(() => tap([x], { next: () => x-- })), () => x > 0));
+  const src = defer(() => tap({ next: () => x-- })([x]));
+  const res = src.pipe(doWhile(() => x > 0)).pipe(toArray);
 
   expect(sequenceEqual(res, [5, 4, 3, 2, 1])).toBeTruthy();
 });
 
-test('Iterable#doWhile one', ([doWhile]) => {
+test('Iterable#doWhile one', () => {
   let x = 0;
-  const res = toArray(doWhile(defer(() => tap([x], { next: () => x-- })), () => x > 0));
+  const src = defer(() => tap({ next: () => x-- })([x]));
+  const res = src.pipe(doWhile(() => x > 0)).pipe(toArray);
 
   expect(sequenceEqual(res, [0])).toBeTruthy();
 });

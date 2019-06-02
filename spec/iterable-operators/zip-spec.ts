@@ -1,10 +1,7 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.zip]);
-const { _throw } = Ix.iterable;
+import { throwError, zip } from 'ix/iterable';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#zip equal length', ([zip]) => {
+test('Iterable#zip equal length', () => {
   const xs = [1, 2, 3];
   const ys = [4, 5, 6];
   const res = zip(([x, y]) => x * y, xs, ys);
@@ -16,7 +13,7 @@ test('Iterable#zip equal length', ([zip]) => {
   noNext(it);
 });
 
-test('Iterable#zip left longer', ([zip]) => {
+test('Iterable#zip left longer', () => {
   const xs = [1, 2, 3, 4];
   const ys = [4, 5, 6];
   const res = zip(([x, y]) => x * y, xs, ys);
@@ -28,7 +25,7 @@ test('Iterable#zip left longer', ([zip]) => {
   noNext(it);
 });
 
-test('Iterable#zip right longer', ([zip]) => {
+test('Iterable#zip right longer', () => {
   const xs = [1, 2, 3];
   const ys = [4, 5, 6, 7];
   const res = zip(([x, y]) => x * y, xs, ys);
@@ -40,7 +37,7 @@ test('Iterable#zip right longer', ([zip]) => {
   noNext(it);
 });
 
-test('Iterable#zip multiple sources', ([zip]) => {
+test('Iterable#zip multiple sources', () => {
   const xs = [1, 2, 3];
   const ys = [4, 5, 6, 7];
   const zs = [8, 9, 10];
@@ -53,8 +50,8 @@ test('Iterable#zip multiple sources', ([zip]) => {
   noNext(it);
 });
 
-test('Iterable#zip left throws', ([zip]) => {
-  const xs = _throw<number>(new Error());
+test('Iterable#zip left throws', () => {
+  const xs = throwError<number>(new Error());
   const ys = [4, 5, 6];
   const res = zip(([x, y]) => x * y, xs, ys);
 
@@ -62,16 +59,16 @@ test('Iterable#zip left throws', ([zip]) => {
   expect(() => it.next()).toThrow();
 });
 
-test('Iterable#zip right throws', ([zip]) => {
+test('Iterable#zip right throws', () => {
   const xs = [1, 2, 3];
-  const ys = _throw<number>(new Error());
+  const ys = throwError<number>(new Error());
   const res = zip(([x, y]) => x * y, xs, ys);
 
   const it = res[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
-test('Iterable#zip selector throws', ([zip]) => {
+test('Iterable#zip selector throws', () => {
   const xs = [1, 2, 3];
   const ys = [4, 5, 6];
   const res = zip(

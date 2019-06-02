@@ -37,7 +37,7 @@ export class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSour
   }
 }
 
-export function distinctUntilChanged<TSource, TKey>(
+export function distinctUntilChanged<TSource, TKey = TSource>(
   keySelector: (value: TSource) => TKey = identity,
   comparer: (first: TKey, second: TKey) => boolean = defaultComparer
 ): MonoTypeOperatorFunction<TSource> {

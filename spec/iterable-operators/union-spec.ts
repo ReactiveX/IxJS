@@ -1,12 +1,10 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.union]);
+import { union } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#union with default comparer', ([union]) => {
+test('Iterable#union with default comparer', () => {
   const xs = [1, 2, 3];
   const ys = [3, 5, 1, 4];
-  const res = union(xs, ys);
+  const res = union(ys)(xs);
 
   const it = res[Symbol.iterator]();
   hasNext(it, 1);
@@ -17,11 +15,11 @@ test('Iterable#union with default comparer', ([union]) => {
   noNext(it);
 });
 
-test('Iterable#union with custom comparer', ([union]) => {
+test('Iterable#union with custom comparer', () => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = [1, 2, -3];
   const ys = [3, 5, -1, 4];
-  const res = union(xs, ys, comparer);
+  const res = union(ys, comparer)(xs);
 
   const it = res[Symbol.iterator]();
   hasNext(it, 1);

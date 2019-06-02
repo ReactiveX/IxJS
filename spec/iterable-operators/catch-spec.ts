@@ -4,12 +4,14 @@ import { concat, range, sequenceEqual, throwError } from 'ix/iterable';
 import { catchError } from 'ix/iterable/operators';
 
 test('Iterable#catch with no errors', () => {
-  const res = range(0, 5).pipe(catchError(() => range(5, 5)));
+  const src = range(0, 5);
+  const res = src.pipe(catchError(() => range(5, 5)));
   expect(sequenceEqual(res, range(0, 5))).toBeTruthy();
 });
 
 test('Iterable#catch with concat error', () => {
-  const res = concat(range(0, 5), throwError(new Error())).pipe(catchError(() => range(5, 5)));
+  const src = concat(range(0, 5), throwError(new Error()));
+  const res = src.pipe(catchError(() => range(5, 5)));
 
   expect(sequenceEqual(res, range(0, 10))).toBeTruthy();
 });

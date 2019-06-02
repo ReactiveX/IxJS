@@ -1,20 +1,18 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.take]);
-const { _throw } = Ix.iterable;
+import { throwError } from 'ix/iterable';
+import { take } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
 
-test('Iterable#take zero or less takes nothing', ([take]) => {
+test('Iterable#take zero or less takes nothing', () => {
   const xs = [1, 2, 3, 4];
-  const ys = take(xs, -2);
+  const ys = take(-2)(xs);
 
   const it = ys[Symbol.iterator]();
   noNext(it);
 });
 
-test('Iterable#take less than count', ([take]) => {
+test('Iterable#take less than count', () => {
   const xs = [1, 2, 3, 4];
-  const ys = take(xs, 2);
+  const ys = take(2)(xs);
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
@@ -22,9 +20,9 @@ test('Iterable#take less than count', ([take]) => {
   noNext(it);
 });
 
-test('Iterable#take more than count', ([take]) => {
+test('Iterable#take more than count', () => {
   const xs = [1, 2, 3, 4];
-  const ys = take(xs, 10);
+  const ys = take(10)(xs);
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
@@ -34,9 +32,9 @@ test('Iterable#take more than count', ([take]) => {
   noNext(it);
 });
 
-test('Iterable#take throws with error', ([take]) => {
-  const xs = _throw<number>(new Error());
-  const ys = take(xs, 2);
+test('Iterable#take throws with error', () => {
+  const xs = throwError<number>(new Error());
+  const ys = take(2)(xs);
 
   const it = ys[Symbol.iterator]();
   expect(() => it.next()).toThrow();
