@@ -1,5 +1,5 @@
 import { from } from 'ix/asynciterable';
-import { hasNext, noNext } from '../asynciterablehelpers';
+import { hasNext, noNext, toObserver } from '../asynciterablehelpers';
 import { setInterval, clearInterval } from 'timers';
 import { PartialObserver } from '../../src/observer';
 

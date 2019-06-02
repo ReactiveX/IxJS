@@ -38,6 +38,7 @@ export * from './race';
 export * from './range';
 export * from './reduceright';
 export * from './reduce';
+export * from './repeatvalue';
 export * from './sequenceequal';
 export * from './single';
 export * from './some';

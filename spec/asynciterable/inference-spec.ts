@@ -1,7 +1,7 @@
-import * as Ix from '../Ix';
 import '../asynciterablehelpers';
+import { of } from 'ix/asynciterable';
 import { PassThrough } from 'stream';
-import { of, map } from 'ix/asynciterable';
+import { map } from 'ix/asynciterable/operators';
 
 const TEST_DOM_STREAMS = process.env.TEST_DOM_STREAMS === 'true';
 const TEST_NODE_STREAMS = process.env.TEST_NODE_STREAMS === 'true';

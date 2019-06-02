@@ -15,7 +15,6 @@ export * from './flat';
 export * from './groupby';
 export * from './groupjoin';
 export * from './ignoreelements';
-export * from './index.node';
 export * from './index';
 export * from './innerjoin';
 export * from './intersect';

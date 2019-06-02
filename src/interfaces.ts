@@ -1,5 +1,5 @@
-import { IterableX } from './iterable/iterablex';
-import { AsyncIterableX } from './asynciterable/asynciterablex';
+import { IterableX } from './iterable';
+import { AsyncIterableX } from './asynciterable';
 
 export type UnaryFunction<T, R> = (source: T) => R;
 

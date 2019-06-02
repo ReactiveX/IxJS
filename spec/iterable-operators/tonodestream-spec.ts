@@ -1,7 +1,7 @@
 import '../asynciterablehelpers';
 import { from as fromIterable } from 'ix/iterable';
 import { from as fromAsyncIterable } from 'ix/asynciterable';
-import { map, toNodeStream } from 'ix/iterable/operators';
+import { map, toNodeStream } from 'ix/iterable/operators/index.node';
 import { IterableReadable } from 'ix/Ix.node';
 
 (() => {

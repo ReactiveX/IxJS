@@ -1,7 +1,7 @@
 import { as as asAsyncIterable } from './as';
 import { publish } from './operators/publish';
 import { toDOMStream } from './operators/todomstream';
-import { OperatorAsyncFunction } from '../interfaces';
+import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
 import { bindCallback } from '../util/bindcallback';
 import { Observable } from '../observer';
 import { isReadableNodeStream, isWritableNodeStream } from '../util/isiterable';
@@ -23,6 +23,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     }
   }
 
+  pipe<R>(...operations: UnaryFunction<AsyncIterable<T>, R>[]): R;
   pipe<R>(...operations: OperatorAsyncFunction<T, R>[]): AsyncIterableX<R>;
   pipe<R extends NodeJS.WritableStream>(writable: R, options?: { end?: boolean }): R;
   pipe<R>(...args: any[]) {

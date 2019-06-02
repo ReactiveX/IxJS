@@ -1,11 +1,6 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.count]);
-const { empty } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
-const { _throw } = Ix.asynciterable;
+import { count, empty, of, throwError } from 'ix/asynciterable';
 
-test('AsyncItearble#count some', async ([count]) => {
+test('AsyncItearble#count some', async () => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await count(xs);
@@ -13,7 +8,7 @@ test('AsyncItearble#count some', async ([count]) => {
   expect(ys).toBe(4);
 });
 
-test('AsyncIterable#count empty', async ([count]) => {
+test('AsyncIterable#count empty', async () => {
   const xs = empty<number>();
 
   const ys = await count(xs);
@@ -21,9 +16,9 @@ test('AsyncIterable#count empty', async ([count]) => {
   expect(ys).toBe(0);
 });
 
-test('AsyncIterable#count throws', async ([count]) => {
+test('AsyncIterable#count throws', async () => {
   const err = new Error();
-  const xs = _throw<number>(err);
+  const xs = throwError<number>(err);
 
   try {
     await count(xs);
@@ -32,7 +27,7 @@ test('AsyncIterable#count throws', async ([count]) => {
   }
 });
 
-test('AsyncIterable#count predicate some match', async ([count]) => {
+test('AsyncIterable#count predicate some match', async () => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await count(xs, async x => x > 3);
@@ -40,7 +35,7 @@ test('AsyncIterable#count predicate some match', async ([count]) => {
   expect(ys).toBe(1);
 });
 
-test('AsyncIterable#count predicate all match', async ([count]) => {
+test('AsyncIterable#count predicate all match', async () => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await count(xs, async x => x > 0);
@@ -48,7 +43,7 @@ test('AsyncIterable#count predicate all match', async ([count]) => {
   expect(ys).toBe(4);
 });
 
-test('AsyncIterable#count predicate none match', async ([count]) => {
+test('AsyncIterable#count predicate none match', async () => {
   const xs = of(1, 2, 3, 4);
 
   const ys = await count(xs, async x => x > 4);
@@ -56,7 +51,7 @@ test('AsyncIterable#count predicate none match', async ([count]) => {
   expect(ys).toBe(0);
 });
 
-test('AsyncIterable#count predicate throws', async ([count]) => {
+test('AsyncIterable#count predicate throws', async () => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
 
