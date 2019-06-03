@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { throwError } from 'ix/iterable';
 
 test('Iterable#throw throws', () => {

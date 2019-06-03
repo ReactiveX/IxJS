@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { of, throwError, some } from 'ix/asynciterable';
 
 test('AsyncIterable#some some true', async () => {

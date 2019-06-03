@@ -1,15 +1,18 @@
 import { AsyncIterableInput, AsyncIterableX } from './asynciterablex';
-import { isIterable, isAsyncIterable, isArrayLike } from '../util/isiterable';
+import {
+  isIterable,
+  isAsyncIterable,
+  isArrayLike,
+  isObservable,
+  isPromise
+} from '../util/isiterable';
 import { identityAsync } from '../util/identity';
 import {
-  isObservable,
-  isPromise,
   FromObservableAsyncIterable,
   FromPromiseIterable,
   FromAsyncIterable,
   FromArrayIterable
 } from './from';
-import { OfAsyncIterable } from './of';
 
 export function as(source: string): AsyncIterableX<string>;
 export function as<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
@@ -21,7 +24,7 @@ export function as(source: any) {
     return source;
   }
   if (typeof source === 'string') {
-    return new OfAsyncIterable([source]);
+    return new FromArrayIterable([source], identityAsync);
   }
   if (isIterable(source) || isAsyncIterable(source)) {
     return new FromAsyncIterable(source, identityAsync);
@@ -35,6 +38,6 @@ export function as(source: any) {
   if (isArrayLike(source)) {
     return new FromArrayIterable(source, identityAsync);
   }
-  return new OfAsyncIterable([source]);
+  return new FromArrayIterable([source], identityAsync);
   /* tslint:enable */
 }

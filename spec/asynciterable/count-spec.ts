@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { count, empty, of, throwError } from 'ix/asynciterable';
 
 test('AsyncItearble#count some', async () => {

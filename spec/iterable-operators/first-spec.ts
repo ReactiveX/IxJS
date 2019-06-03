@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { first } from 'ix/iterable';
 
 test('Iterable#first empty returns undefined', () => {

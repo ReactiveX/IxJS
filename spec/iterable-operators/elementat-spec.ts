@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { elementAt } from 'ix/iterable';
 
 test('Iterable#elementAt empty returns undefined', () => {

@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { range, throwError } from 'ix/asynciterable';
 import { finalize } from 'ix/asynciterable/operators';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#finally defers behavior', async () => {
   let done = false;

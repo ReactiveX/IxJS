@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { asyncifyErrback } from 'ix/asynciterable';
 import { sequenceEqual } from 'ix/iterable';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#asyncifyErrback single argument', async () => {
   const callbackFn = (a: number, b: number, cb: Function) => {

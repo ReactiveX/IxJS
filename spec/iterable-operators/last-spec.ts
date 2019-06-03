@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { last } from 'ix/iterable';
 
 test('Iterable#last empty returns undefined', () => {

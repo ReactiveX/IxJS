@@ -1,5 +1,6 @@
-import { from, sequenceEqual } from 'ix/iterable';
+import '../iterablehelpers';
 import { minBy } from 'ix/iterable/operators';
+import { from, sequenceEqual } from 'ix/iterable';
 
 test('Iterable#minBy', () => {
   const source = [2, 5, 0, 7, 4, 3, 6, 2, 1];

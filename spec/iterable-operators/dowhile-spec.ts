@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { tap, doWhile } from 'ix/iterable/operators';
 import { defer, sequenceEqual, toArray } from 'ix/iterable';
 

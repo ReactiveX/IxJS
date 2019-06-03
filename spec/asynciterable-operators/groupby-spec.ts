@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { empty, from } from 'ix/asynciterable';
 import { groupBy } from 'ix/asynciterable/operators';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 interface Employee {
   name: string;

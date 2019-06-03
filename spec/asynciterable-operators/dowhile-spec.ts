@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { defer, of, toArray } from 'ix/asynciterable';
 import { doWhile, tap } from 'ix/asynciterable/operators';
 import { sequenceEqual } from 'ix/iterable';

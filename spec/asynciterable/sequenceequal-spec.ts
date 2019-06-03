@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { empty, of, sequenceEqual, throwError } from 'ix/asynciterable';
 
 test('AsyncIterable#sequenceEqual sequence equals itself', async () => {

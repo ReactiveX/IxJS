@@ -1,5 +1,5 @@
-import { catchError, concat, range, sequenceEqual, throwError } from 'ix/asynciterable';
 import { hasNext } from '../asynciterablehelpers';
+import { catchError, concat, range, sequenceEqual, throwError } from 'ix/asynciterable';
 
 test('AsyncIterable#catch with no errors', async () => {
   const res = catchError(range(5, 5))(range(0, 5));

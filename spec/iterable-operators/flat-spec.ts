@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { toArray } from 'ix/iterable';
 import { flat } from 'ix/iterable/operators';
 

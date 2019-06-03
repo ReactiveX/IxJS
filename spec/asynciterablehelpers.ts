@@ -1,3 +1,4 @@
+import './Ix';
 import { from } from 'ix/asynciterable';
 import { Observer, PartialObserver } from '../src/observer';
 

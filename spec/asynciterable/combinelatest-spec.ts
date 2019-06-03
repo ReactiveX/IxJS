@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { combineLatest, of } from 'ix/asynciterable';
 import { sequenceEqual } from 'ix/iterable';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#zip equal length no selector', async () => {
   const xs = of(1, 2, 3);

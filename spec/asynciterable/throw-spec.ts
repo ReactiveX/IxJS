@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { throwError } from 'ix/asynciterable';
 
 test('AsyncIterable#throw throws', async () => {

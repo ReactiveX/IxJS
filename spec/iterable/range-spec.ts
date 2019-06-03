@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { elementAt, first, isEmpty, last, range, sequenceEqual, toArray } from 'ix/iterable';
 import { skip, take } from 'ix/iterable/operators';
 

@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { max } from 'ix/iterable';
 
 test('Itearble#max laws', () => {

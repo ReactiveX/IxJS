@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { defer, range, sequenceEqual } from 'ix/iterable';
 
 test('Iterable#defer defers side effects', () => {

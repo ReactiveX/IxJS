@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { take, tap, startWith } from 'ix/iterable/operators';
 import { range, sequenceEqual, toArray } from 'ix/iterable';
 

@@ -1,6 +1,6 @@
-import { from, empty, of } from 'ix/iterable';
-import { pairwise } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
+import { pairwise } from 'ix/iterable/operators';
+import { from, empty, of } from 'ix/iterable';
 
 test('Iterable#pairwise empty return empty', () => {
   const xs = empty<number>();

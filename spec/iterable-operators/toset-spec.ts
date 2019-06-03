@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { sequenceEqual, toSet } from 'ix/iterable';
 
 test('Iterable#toSet non-empty', () => {

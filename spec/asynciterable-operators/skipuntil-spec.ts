@@ -1,6 +1,6 @@
-import { as } from 'ix/asynciterable';
-import { skipUntil } from 'ix/asynciterable/operators';
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
+import { skipUntil } from 'ix/asynciterable/operators';
+import { as } from 'ix/asynciterable';
 
 test('AsyncIterable#skipUntil hits', async () => {
   const xs = async function*() {

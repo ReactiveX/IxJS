@@ -1,6 +1,5 @@
 import { as as asAsyncIterable } from './as';
-import { publish } from './operators/publish';
-import { toDOMStream } from './operators/todomstream';
+import { _initialize as _initializeFrom } from './from';
 import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
 import { bindCallback } from '../util/bindcallback';
 import { Observable } from '../observer';
@@ -35,27 +34,9 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     }
     return acc;
   }
-
-  tee(): [ReadableStream<T>, ReadableStream<T>] {
-    return this._getDOMStream().tee();
-  }
-
-  pipeTo(writable: WritableStream<T>, options?: PipeOptions) {
-    return this._getDOMStream().pipeTo(writable, options);
-  }
-
-  pipeThrough<R extends ReadableStream<any>>(
-    duplex: { writable: WritableStream<T>; readable: R },
-    options?: PipeOptions
-  ) {
-    return this._getDOMStream().pipeThrough(duplex, options);
-  }
-
-  private _DOMStream?: ReadableStream<T>;
-  private _getDOMStream(): ReadableStream<T> {
-    return this._DOMStream || (this._DOMStream = toDOMStream<T>()(publish<T>()(this)));
-  }
 }
+
+_initializeFrom(AsyncIterableX);
 
 export type AsyncIterableInput<TSource> =
   | AsyncIterable<TSource>

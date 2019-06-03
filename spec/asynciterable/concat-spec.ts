@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { concat, of, sequenceEqual } from 'ix/asynciterable';
 
 test('AsyncIterable#concat behavior', async () => {

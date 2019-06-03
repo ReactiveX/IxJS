@@ -1,6 +1,6 @@
 import { hasNext, noNext } from '../iterablehelpers';
-import { empty, throwError } from 'ix/iterable';
 import { defaultIfEmpty } from 'ix/iterable/operators';
+import { empty, throwError } from 'ix/iterable';
 
 test('Iterable#defaultIfEmpty with empty', () => {
   const xs = empty<number>();

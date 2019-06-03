@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { range } from 'ix/iterable';
 
 test('Iterable#forEach', () => {

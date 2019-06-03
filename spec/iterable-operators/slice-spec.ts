@@ -1,6 +1,6 @@
-import { from } from 'ix/iterable';
-import { slice } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
+import { slice } from 'ix/iterable/operators';
+import { from } from 'ix/iterable';
 
 test('Iterable#slice slices at zero with one item', () => {
   const xs = from([1, 2, 3, 4]);

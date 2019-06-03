@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { empty, isEmpty } from 'ix/iterable';
 
 test('Iterable#isEmpty empty', () => {

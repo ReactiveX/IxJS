@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { average } from 'ix/iterable';
 
 test('Iterable#average empty', () => {

@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { single } from 'ix/iterable';
 
 test('Iterable#single no predicate empty returns undefined', () => {

@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../iterablehelpers';
 import { from } from 'ix/iterable';
 import { intersect } from 'ix/iterable/operators';
-import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#union with default comparer', () => {
   const xs = [1, 2, 3];

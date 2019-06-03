@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { of, empty, sum } from 'ix/asynciterable';
 
 test('AsyncIterable#sum laws', async () => {

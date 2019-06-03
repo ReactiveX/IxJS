@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { of, empty, last } from 'ix/asynciterable';
 
 test('AsyncIterable#last empty returns undefined', async () => {

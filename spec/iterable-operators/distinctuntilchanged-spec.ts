@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { sequenceEqual } from 'ix/iterable';
 import { distinctUntilChanged } from 'ix/iterable/operators';
 

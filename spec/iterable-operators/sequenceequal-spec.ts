@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { empty, throwError, sequenceEqual } from 'ix/iterable';
 
 test('Iterable#sequenceEqual sequence equals itself', () => {

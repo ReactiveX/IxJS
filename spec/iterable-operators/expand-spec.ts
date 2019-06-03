@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { expand, take } from 'ix/iterable/operators';
 import { range, sequenceEqual } from 'ix/iterable';
 

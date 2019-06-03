@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { of, empty, max } from 'ix/asynciterable';
 
 test('AsyncItearble#max laws', async () => {

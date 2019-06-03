@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { sequenceEqual, toArray } from 'ix/iterable';
 
 test('Iterable#toArray some', () => {

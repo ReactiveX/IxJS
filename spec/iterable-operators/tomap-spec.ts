@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { toMap } from 'ix/iterable';
 
 test('Iterable#toMap stores values', () => {

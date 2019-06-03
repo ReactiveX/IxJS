@@ -1,9 +1,12 @@
 import { from } from '../asynciterable/from';
+import { publish } from './operators/publish';
 import {
   toDOMStream as asyncIterableToDOMStream,
   ReadableBYOBStreamOptions,
   ReadableByteStreamOptions
 } from '../asynciterable/todomstream';
+import { IterableX } from '../iterable/iterablex';
+import { AsyncIterableX } from '../asynciterable/asynciterablex';
 
 export function toDOMStream<T>(
   source: Iterable<T>,
@@ -26,3 +29,28 @@ export function toDOMStream(
   }
   return asyncIterableToDOMStream(from(source), options);
 }
+
+declare module '../iterable/iterablex' {
+  interface IterableX<T> {
+    toDOMStream(): ReadableStream<T>;
+    tee(): [ReadableStream<T>, ReadableStream<T>];
+    pipeTo(writable: WritableStream<T>, options?: PipeOptions): Promise<void>;
+    pipeThrough<R extends ReadableStream<any>>(
+      duplex: { writable: WritableStream<T>; readable: R },
+      options?: PipeOptions
+    ): ReadableStream<T>;
+  }
+}
+
+IterableX.prototype.tee = AsyncIterableX.prototype.tee;
+IterableX.prototype.pipeTo = AsyncIterableX.prototype.pipeTo;
+IterableX.prototype.pipeThrough = AsyncIterableX.prototype.pipeThrough;
+IterableX.prototype.toDOMStream = function<T>(this: any) {
+  return (
+    this._DOMStream ||
+    (this._DOMStream = this.pipe(
+      toDOMStream,
+      publish<T>()
+    ))
+  );
+};

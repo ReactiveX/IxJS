@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { of, empty, reduce } from 'ix/iterable';
 
 test('Iterable#reduce no seed', () => {

@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { concat, sequenceEqual, throwError, onErrorResumeNext } from 'ix/iterable';
 
 test('Iterable#onErrorResumeNext continues without error', () => {

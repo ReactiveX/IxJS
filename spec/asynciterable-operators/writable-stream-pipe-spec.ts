@@ -1,6 +1,7 @@
-import { empty, of, sequenceEqual } from 'ix/asynciterable';
-import { map } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers';
 import { PassThrough } from 'stream';
+import { map } from 'ix/asynciterable/operators';
+import { empty, of, sequenceEqual } from 'ix/asynciterable';
 
 (() => {
   if (process.env.TEST_NODE_STREAMS !== 'true') {

@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { from, every, sum, toArray } from 'ix/iterable';
 import { buffer, map, take, tap, repeat } from 'ix/iterable/operators';
 

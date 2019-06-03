@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { empty, of } from 'ix/asynciterable';
 import { pairwise } from 'ix/asynciterable/operators';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#pairwise empty return empty', async () => {
   const xs = empty<number>();

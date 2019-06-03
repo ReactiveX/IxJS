@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { empty, of, throwError } from 'ix/asynciterable';
 import { filter } from 'ix/asynciterable/operators';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#filter', async () => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);

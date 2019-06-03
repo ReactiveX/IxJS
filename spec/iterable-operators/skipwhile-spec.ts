@@ -1,6 +1,6 @@
-import { from } from 'ix/iterable';
-import { skipWhile } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
+import { skipWhile } from 'ix/iterable/operators';
+import { from } from 'ix/iterable';
 
 test('Iterable#skipWhile skips some', () => {
   const xs = [1, 2, 3, 4];

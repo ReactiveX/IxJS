@@ -1,5 +1,5 @@
-import { from } from 'ix/iterable';
 import { hasNext, noNext } from '../iterablehelpers';
+import { from } from 'ix/iterable';
 import { orderBy, orderByDescending, thenBy, thenByDescending } from 'ix/iterable/operators';
 
 test('Iterable#orderBy normal ordering', () => {

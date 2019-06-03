@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { range, sequenceEqual } from 'ix/iterable';
 import { skip, takeLast } from 'ix/iterable/operators';
 

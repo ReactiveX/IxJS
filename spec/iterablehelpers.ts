@@ -1,3 +1,5 @@
+import './Ix';
+
 export function hasNext<T>(source: Iterator<T>, expected: T) {
   const { done, value } = source.next();
   expect(done).toBeFalsy();

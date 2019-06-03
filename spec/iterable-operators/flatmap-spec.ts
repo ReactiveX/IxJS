@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../iterablehelpers';
 import { flatMap } from 'ix/iterable/operators';
 import { as, range, throwError } from 'ix/iterable';
-import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#flatMap with range', () => {
   const xs = as([1, 2, 3]);

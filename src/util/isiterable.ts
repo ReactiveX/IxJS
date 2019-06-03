@@ -1,3 +1,5 @@
+import { Observable } from '../observer';
+
 /** @ignore */
 const isNumber = (x: any) => typeof x === 'number';
 /** @ignore */
@@ -30,6 +32,11 @@ export function isIterator(x: any): x is Iterable<any> {
 /** @ignore */
 export function isAsyncIterable(x: any): x is AsyncIterable<any> {
   return isObject(x) && isFunction(x[Symbol.asyncIterator]);
+}
+
+/** @ignore */
+export function isObservable(x: any): x is Observable<any> {
+  return x != null && Object(x) === x && typeof x['subscribe'] === 'function';
 }
 
 /** @ignore */

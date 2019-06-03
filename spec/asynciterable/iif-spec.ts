@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { iif, isEmpty, of, single } from 'ix/asynciterable';
 
 test('AsyncIterable#if then and else', async () => {

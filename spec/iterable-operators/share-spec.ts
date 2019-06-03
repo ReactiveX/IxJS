@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../iterablehelpers';
 import { share, take, tap } from 'ix/iterable/operators';
 import { range, sequenceEqual, toArray, zip } from 'ix/iterable';
-import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#share single', () => {
   const rng = range(0, 5).pipe(share());

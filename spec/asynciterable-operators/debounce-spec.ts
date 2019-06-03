@@ -1,6 +1,6 @@
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 import { as } from 'ix/asynciterable';
 import { debounce } from 'ix/asynciterable/operators';
-import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
 test(
   'AsyncIterable#debounce none drop',

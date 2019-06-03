@@ -1,3 +1,5 @@
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
+import { map, memoize, take, tap } from 'ix/asynciterable/operators';
 import {
   as,
   defer,
@@ -10,8 +12,6 @@ import {
   toArray,
   zip
 } from 'ix/asynciterable';
-import { map, memoize, take, tap } from 'ix/asynciterable/operators';
-import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;

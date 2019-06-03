@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../iterablehelpers';
 import { from, throwError } from 'ix/iterable';
 import { innerJoin } from 'ix/iterable/operators';
-import { hasNext, noNext } from '../iterablehelpers';
 
 test('Iterable#innerJoin normal', () => {
   const xs = [0, 1, 2];

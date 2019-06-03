@@ -1,7 +1,6 @@
 import { hasNext } from '../iterablehelpers';
-import { concat, range, sequenceEqual, throwError } from 'ix/iterable';
-
 import { catchError } from 'ix/iterable/operators';
+import { concat, range, sequenceEqual, throwError } from 'ix/iterable';
 
 test('Iterable#catch with no errors', () => {
   const src = range(0, 5);

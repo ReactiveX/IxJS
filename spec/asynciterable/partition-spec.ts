@@ -1,5 +1,5 @@
-import { empty, of, partition } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { empty, of, partition } from 'ix/asynciterable';
 
 function isEven(x: number) {
   return x % 2 === 0;

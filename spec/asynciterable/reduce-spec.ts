@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { empty, of, reduce } from 'ix/asynciterable';
 
 test('Iterable#reduce no seed', async () => {

@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { sum } from 'ix/iterable';
 
 test('Iterable#sum laws', () => {

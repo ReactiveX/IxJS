@@ -1,4 +1,6 @@
+import { publish } from './operators/publish';
 import { fromDOMStream } from './fromdomstream';
+import { AsyncIterableX } from './asynciterablex';
 
 export type ReadableBYOBStreamOptions<T = any> = QueuingStrategy<T> & { type: 'bytes' };
 export type ReadableByteStreamOptions<T = any> = QueuingStrategy<T> & {
@@ -175,3 +177,45 @@ export function toDOMStream(
     options
   );
 }
+
+declare module '../asynciterable/asynciterablex' {
+  interface AsyncIterableX<T> {
+    toDOMStream(): ReadableStream<T>;
+    tee(): [ReadableStream<T>, ReadableStream<T>];
+    pipeTo(writable: WritableStream<T>, options?: PipeOptions): Promise<void>;
+    pipeThrough<R extends ReadableStream<any>>(
+      duplex: { writable: WritableStream<T>; readable: R },
+      options?: PipeOptions
+    ): ReadableStream<T>;
+  }
+}
+
+AsyncIterableX.prototype.tee = function<T>(this: AsyncIterableX<T>) {
+  return this.toDOMStream().tee();
+};
+
+AsyncIterableX.prototype.pipeTo = function<T>(
+  this: AsyncIterableX<T>,
+  writable: WritableStream<T>,
+  options?: PipeOptions
+) {
+  return this.toDOMStream().pipeTo(writable, options);
+};
+
+AsyncIterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>>(
+  this: AsyncIterableX<T>,
+  duplex: { writable: WritableStream<T>; readable: R },
+  options?: PipeOptions
+) {
+  return this.toDOMStream().pipeThrough(duplex, options);
+};
+
+AsyncIterableX.prototype.toDOMStream = function<T>(this: any) {
+  return (
+    this._DOMStream ||
+    (this._DOMStream = this.pipe(
+      toDOMStream,
+      publish<T>()
+    ))
+  );
+};

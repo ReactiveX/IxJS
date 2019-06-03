@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { from, sequenceEqual } from 'ix/iterable';
 import { maxBy } from 'ix/iterable/operators';
 

@@ -1,6 +1,6 @@
-import { from, of } from 'ix/iterable';
-import { pluck } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
+import { pluck } from 'ix/iterable/operators';
+import { from, of } from 'ix/iterable';
 
 test('Iterable#pluck simple prop', () => {
   const xs = of({ prop: 1 }, { prop: 2 }, { prop: 3 }, { prop: 4 }, { prop: 5 });

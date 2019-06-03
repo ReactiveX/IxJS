@@ -1,4 +1,4 @@
-import '../asynciterablehelpers';
+import '../iterablehelpers';
 import { PassThrough } from 'stream';
 import { of } from 'ix/iterable';
 import { map } from 'ix/iterable/operators';

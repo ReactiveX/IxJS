@@ -1,5 +1,5 @@
-import { filter } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
+import { filter } from 'ix/iterable/operators';
 import { empty, throwError } from 'ix/iterable';
 
 test('Iterable#filter', () => {

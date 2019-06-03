@@ -1,6 +1,5 @@
 import { IterableX } from './iterablex';
 import { FromIterable } from './from';
-import { OfIterable } from './of';
 import { isIterable, isArrayLike } from '../util/isiterable';
 import { identity } from '../util/identity';
 
@@ -15,7 +14,7 @@ export function as(source: any) {
     return source;
   }
   if (typeof source === 'string') {
-    return new OfIterable([source]);
+    return new FromIterable([source], identity);
   }
   if (isIterable(source)) {
     return new FromIterable(source, identity);
@@ -23,6 +22,6 @@ export function as(source: any) {
   if (isArrayLike(source)) {
     return new FromIterable(source, identity);
   }
-  return new OfIterable([source]);
+  return new FromIterable([source], identity);
   /* tslint:enable */
 }

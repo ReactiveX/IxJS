@@ -1,5 +1,5 @@
-import { finalize } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
+import { finalize } from 'ix/iterable/operators';
 import { range, throwError } from 'ix/iterable';
 
 test('Iterable#finally defers behavior', () => {

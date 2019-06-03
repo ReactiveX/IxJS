@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { iif, single, isEmpty } from 'ix/iterable';
 
 test('Iterable#if then and else', () => {

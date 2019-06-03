@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { of, includes } from 'ix/asynciterable';
 
 test('AsyncIterable#includes includes', async () => {

@@ -1,5 +1,5 @@
-import { throwError, zip } from 'ix/iterable';
 import { hasNext, noNext } from '../iterablehelpers';
+import { throwError, zip } from 'ix/iterable';
 
 test('Iterable#zip equal length', () => {
   const xs = [1, 2, 3];

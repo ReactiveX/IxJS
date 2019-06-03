@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { every } from 'ix/iterable';
 
 test('Iterable#every some true', () => {

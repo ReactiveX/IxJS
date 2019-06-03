@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { empty, of, throwError } from 'ix/asynciterable';
 import { defaultIfEmpty } from 'ix/asynciterable/operators';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#defaultIfEmpty with empty', async () => {
   const xs = empty<number>();

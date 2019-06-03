@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import '../asynciterablehelpers';
 import { from } from 'ix/iterable';
 import { map, toDOMStream } from 'ix/iterable/operators';

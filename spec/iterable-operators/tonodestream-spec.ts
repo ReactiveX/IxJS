@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import '../asynciterablehelpers';
 import { from as fromIterable } from 'ix/iterable';
 import { from as fromAsyncIterable } from 'ix/asynciterable';

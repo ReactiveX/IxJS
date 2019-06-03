@@ -1,5 +1,5 @@
-import { generateTime } from 'ix/asynciterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { generateTime } from 'ix/asynciterable';
 
 test('AsyncIterable#generateTime generateTimes normal sequence', async () => {
   const xs = generateTime(

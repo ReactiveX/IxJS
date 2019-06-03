@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { count } from 'ix/iterable';
 
 test('Iterable#count no predicate empty', () => {

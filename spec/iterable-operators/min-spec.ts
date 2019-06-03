@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { min } from 'ix/iterable';
 
 test('Itearble#min laws', () => {

@@ -1,6 +1,6 @@
-import { from, concat, every, range, sequenceEqual, throwError, toArray, zip } from 'ix/iterable';
-import { map, take, tap, memoize } from 'ix/iterable/operators';
 import { hasNext, noNext } from '../iterablehelpers';
+import { map, take, tap, memoize } from 'ix/iterable/operators';
+import { from, concat, every, range, sequenceEqual, throwError, toArray, zip } from 'ix/iterable';
 
 function* tick(t: (x: number) => void) {
   let i = 0;

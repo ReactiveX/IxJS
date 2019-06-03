@@ -1,6 +1,6 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { of, range, throwError } from 'ix/asynciterable';
 import { flatMap } from 'ix/asynciterable/operators';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('Iterable#flatMap with range', async () => {
   const xs = of(1, 2, 3);

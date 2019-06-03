@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { includes } from 'ix/iterable';
 
 test('Iterable#includes includes', () => {

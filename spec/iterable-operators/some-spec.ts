@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { some } from 'ix/iterable';
 
 test('Iterable#some some true', () => {

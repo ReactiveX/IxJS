@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { concat, of, sequenceEqual } from 'ix/iterable';
 
 test('Iterable#concat behavior', () => {
