@@ -47,7 +47,6 @@ export * from './throwerrror';
 export * from './toarray';
 export * from './todomstream';
 export * from './tomap';
-export * from './tonodestream';
 export * from './toobservable';
 export * from './toset';
 export * from './whiledo';

@@ -4,6 +4,7 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "commonjs",
+    "downlevelIteration": true,
     "paths": {
       "ix/*": [
         "targets/es5/cjs/*"

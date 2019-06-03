@@ -22,6 +22,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     }
   }
 
+  /** @nocollapse */
   pipe<R>(...operations: UnaryFunction<AsyncIterable<T>, R>[]): R;
   pipe<R>(...operations: OperatorAsyncFunction<T, R>[]): AsyncIterableX<R>;
   pipe<R extends NodeJS.WritableStream>(writable: R, options?: { end?: boolean }): R;
@@ -30,7 +31,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     let n = args.length;
     let acc: any = this;
     while (++i < n) {
-      acc = asAsyncIterable(args[i](acc));
+      acc = args[i](asAsyncIterable(acc));
     }
     return acc;
   }
@@ -126,7 +127,7 @@ try {
       return;
     }
 
-    AsyncIterableX.prototype.pipe = nodePipe;
+    AsyncIterableX.prototype['pipe'] = nodePipe;
     const readableOpts = (x: any, opts = x._writableState || { objectMode: true }) => opts;
 
     function nodePipe<T>(this: AsyncIterableX<T>, ...args: any[]) {
@@ -138,12 +139,12 @@ try {
       while (++i < n) {
         next = args[i];
         if (typeof next === 'function') {
-          prev = asAsyncIterable(next(prev));
+          prev = next(asAsyncIterable(prev));
         } else if (isWritableNodeStream(next)) {
           ({ end = true } = args[i + 1] || {});
           // prettier-ignore
           return isReadableNodeStream(prev) ? prev.pipe(next, {end}) :
-             prev.toNodeStream(readableOpts(next)).pipe(next, {end});
+             asAsyncIterable(prev).toNodeStream(readableOpts(next)).pipe(next, {end});
         }
       }
       return prev;

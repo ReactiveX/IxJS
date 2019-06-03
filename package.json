@@ -45,12 +45,12 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "@types/node": "^11.11.6",
+    "@types/node": "^12.0.4",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@types/glob": "7.1.1",
-    "@types/jest": "23.3.11",
+    "@types/jest": "24.0.13",
     "async-done": "1.3.1",
     "benchmark": "2.1.4",
     "command-line-args": "4.0.7",
@@ -65,9 +65,9 @@
     "del": "3.0.0",
     "esdoc": "1.1.0",
     "esdoc-standard-plugin": "1.0.0",
-    "esm": "3.2.20",
+    "esm": "3.2.25",
     "glob": "7.1.3",
-    "google-closure-compiler": "20190301.0.0",
+    "google-closure-compiler": "20190528.0.0",
     "gulp": "4.0.0",
     "gulp-json-transform": "0.4.6",
     "gulp-rename": "1.4.0",
@@ -92,13 +92,13 @@
     "terser": "3.16.1",
     "terser-webpack-plugin": "1.2.3",
     "ts-jest": "24.0.2",
-    "ts-node": "8.0.3",
+    "ts-node": "8.2.0",
     "tslint": "5.14.0",
     "typedoc": "0.14.2",
     "typescript": "3.5.1",
     "validate-commit-msg": "2.14.0",
     "web-stream-tools": "0.0.1",
-    "web-streams-polyfill": "2.0.2",
+    "web-streams-polyfill": "2.0.3",
     "webpack": "4.29.6"
   },
   "config": {

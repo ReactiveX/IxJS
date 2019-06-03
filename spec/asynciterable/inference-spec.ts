@@ -1,10 +1,10 @@
 import '../asynciterablehelpers';
 import { of } from 'ix/asynciterable';
 import { PassThrough } from 'stream';
-import { map } from 'ix/asynciterable/operators';
+import { map, toDOMStream, toNodeStream } from 'ix/asynciterable/operators/index.node';
 
-const TEST_DOM_STREAMS = process.env.TEST_DOM_STREAMS === 'true';
-const TEST_NODE_STREAMS = process.env.TEST_NODE_STREAMS === 'true';
+const TEST_DOM_STREAMS = toDOMStream && process.env.TEST_DOM_STREAMS === 'true';
+const TEST_NODE_STREAMS = toNodeStream && process.env.TEST_NODE_STREAMS === 'true';
 
 describe(`AsyncIterable type inference`, () => {
   test(`#pipe type inference is correct with one operator`, () => {

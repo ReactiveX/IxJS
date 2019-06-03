@@ -1,6 +1,6 @@
 import '../asynciterablehelpers';
 import { PassThrough } from 'stream';
-import { map } from 'ix/asynciterable/operators';
+import { map } from 'ix/asynciterable/operators/index.node';
 import { empty, of, sequenceEqual } from 'ix/asynciterable';
 
 (() => {
@@ -10,12 +10,12 @@ import { empty, of, sequenceEqual } from 'ix/asynciterable';
     });
   }
 
-  const through = () => () => {
+  const through = () => {
     return new PassThrough({
       objectMode: true,
       readableObjectMode: true,
       writableObjectMode: true
-    }) as AsyncIterable<any>;
+    });
   };
 
   test('AsyncIterable#pipe writable-stream single element', async () => {
@@ -23,13 +23,7 @@ import { empty, of, sequenceEqual } from 'ix/asynciterable';
     const expected = of('Frank');
 
     expect(
-      await sequenceEqual(
-        expected,
-        source.pipe(
-          through(),
-          map(x => x.name)
-        )
-      )
+      await sequenceEqual(expected, map((x: any) => x.name)(source.pipe(through())))
     ).toBeTruthy();
   });
 
@@ -44,19 +38,13 @@ import { empty, of, sequenceEqual } from 'ix/asynciterable';
     const expected = of('Frank', 'Bob', 'Chris', null, 'Frank');
 
     expect(
-      await sequenceEqual(
-        expected,
-        source.pipe(
-          through(),
-          map(x => x.name)
-        )
-      )
+      await sequenceEqual(expected, map((x: any) => x.name)(source.pipe(through())))
     ).toBeTruthy();
   });
 
   test('AsyncIterable#pipe writable-stream empty', async () => {
     expect(
-      await sequenceEqual(empty<number>(), empty<string>().pipe(map((s, i) => s.length + i)))
+      await sequenceEqual(empty<number>(), map((s: string, i) => s.length + i)(empty<string>()))
     ).toBeTruthy();
   });
 
@@ -71,10 +59,7 @@ import { empty, of, sequenceEqual } from 'ix/asynciterable';
     expect(
       await sequenceEqual(
         expected,
-        source.pipe(
-          through(),
-          map((x, i) => (i === 0 ? x.name : null))
-        )
+        map((x: any, i) => (i === 0 ? x.name : null))(source.pipe(through()))
       )
     ).toBeTruthy();
   });
@@ -92,10 +77,7 @@ import { empty, of, sequenceEqual } from 'ix/asynciterable';
     expect(
       await sequenceEqual(
         expected,
-        source.pipe(
-          through(),
-          map((x, i) => (i === 4 ? x.name : null))
-        )
+        map((x: any, i) => (i === 4 ? x.name : null))(source.pipe(through()))
       )
     ).toBeTruthy();
   });
@@ -107,10 +89,7 @@ import { empty, of, sequenceEqual } from 'ix/asynciterable';
       return 1;
     });
 
-    source.pipe(
-      through(),
-      map(x => x())
-    );
+    map((x: any) => x())(source.pipe(through()));
 
     expect(fnCalled).toBeFalsy();
   });

@@ -15,9 +15,7 @@ export async function noNext<T>(source: AsyncIterator<T>) {
 
 export function delayValue<T>(item: T, delay: number): Promise<T> {
   return new Promise<T>(res => {
-    let id: any = setInterval(() => {
-      clearInterval(id);
-      id = undefined;
+    setTimeout(() => {
       res(item);
     }, delay);
   });

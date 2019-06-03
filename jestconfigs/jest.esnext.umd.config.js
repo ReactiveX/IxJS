@@ -7,6 +7,10 @@ module.exports = {
         }
     },
     "moduleNameMapper": {
-        "^ix(.*)": "<rootDir>/targets/esnext/umd$1"
-    }  
+        "^ix/asynciterable/operators(.*)": "<rootDir>/targets/esnext/umd/Ix.dom.asynciterable.operators.js",
+        "^ix/asynciterable(.*)": "<rootDir>/targets/esnext/umd/Ix.dom.asynciterable.js",
+        "^ix/iterable/operators(.*)": "<rootDir>/targets/esnext/umd/Ix.dom.iterable.operators.js",
+        "^ix/iterable(.*)": "<rootDir>/targets/esnext/umd/Ix.dom.iterable.js",
+        "^ix(.*)": "<rootDir>/targets/esnext/umd/Ix.dom.js"
+    }
 };
