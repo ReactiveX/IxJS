@@ -1,10 +1,10 @@
+import { hasNext, noNext } from '../asynciterablehelpers';
 import { of } from 'ix/asynciterable';
 import { orderBy, orderByDescending, thenBy, thenByDescending } from 'ix/asynciterable/operators';
-import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#orderBy normal ordering', async () => {
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-  const ys = orderBy(xs, x => x);
+  const ys = xs.pipe(orderBy(x => x));
 
   const it = ys[Symbol.asyncIterator]();
   for (let i = 0; i < 10; i++) {

@@ -48,14 +48,16 @@ const createMainPackageJson = (target, format) => (orig) => ({
     name: npmPkgName,
     main: `${mainExport}.node`,
     browser: `${mainExport}.dom`,
+    module: `${mainExport}.dom.mjs`,
     types: `${mainExport}.node.d.ts`,
     unpkg: `${mainExport}.dom.es5.min.js`,
-    [`esm`]: { mode: `all`, sourceMap: true }
+    esm: { mode: `all`, sourceMap: true }
 });
   
 const createTypeScriptPackageJson = (target, format) => (orig) => ({
     ...createScopedPackageJSON(target, format)(orig),
     bin: undefined,
+    module: undefined,
     main: `${mainExport}.node.ts`,
     types: `${mainExport}.node.ts`,
     browser: `${mainExport}.dom.ts`,
@@ -66,22 +68,47 @@ const createTypeScriptPackageJson = (target, format) => (orig) => ({
 });
   
 const createScopedPackageJSON = (target, format) => (({ name, ...orig }) =>
-    conditionallyAddStandardESMEntry(target, format)(
-        packageJSONFields.reduce(
-            (xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }),
-            {
-                name: `${npmOrgName}/${npmPkgName}-${packageName(target, format)}`,
-                browser: format === 'umd' ? undefined : `${mainExport}.dom`,
-                main: format === 'umd' ? `${mainExport}.dom` : `${mainExport}.node`,
-                types: format === 'umd' ? `${mainExport}.d.ts` : `${mainExport}.node.d.ts`,
-                version: undefined, unpkg: undefined, module: undefined, [`esm`]: undefined,
-            }
-        )
+    packageJSONFields.reduce(
+        (xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }),
+        {
+            // un-set version, since it's automatically applied during the release process
+            version: undefined,
+            // set the scoped package name (e.g. "@apache-arrow/esnext-esm")
+            name: `${npmOrgName}/${npmPkgName}-${packageName(target, format)}`,
+            // set "unpkg"/"jsdeliver" if building scoped UMD target
+            unpkg:    format === 'umd' ? `${mainExport}.dom.js` : undefined,
+            jsdelivr: format === 'umd' ? `${mainExport}.dom.js` : undefined,
+            // set "browser" if building scoped UMD target, otherwise "Arrow.dom"
+            browser:  format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.dom.js`,
+            // set "main" to "Arrow" if building scoped UMD target, otherwise "Arrow.node"
+            main:     format === 'umd' ? `${mainExport}.dom` : `${mainExport}.node`,
+            // set "module" (for https://www.npmjs.com/package/@pika/pack) if building scoped ESM target
+            module:   format === 'esm' ? `${mainExport}.dom.js` : undefined,
+            // include "esm" settings for https://www.npmjs.com/package/esm if building scoped ESM target
+            esm:      format === `esm` ? { mode: `auto`, sourceMap: true } : undefined,
+            // set "types" (for TypeScript/VSCode)
+            types:    format === 'umd' ? undefined : `${mainExport}.node.d.ts`,
+        }
     )
 );
+
+// const createScopedPackageJSON = (target, format) => (({ name, ...orig }) =>
+//     conditionallyAddStandardESMEntry(target, format)(
+//         packageJSONFields.reduce(
+//             (xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }),
+//             {
+//                 name: `${npmOrgName}/${npmPkgName}-${packageName(target, format)}`,
+//                 browser: format === 'umd' ? undefined : `${mainExport}.dom`,
+//                 main: format === 'umd' ? `${mainExport}.dom` : `${mainExport}.node`,
+//                 types: format === 'umd' ? `${mainExport}.d.ts` : `${mainExport}.node.d.ts`,
+//                 version: undefined, unpkg: undefined, module: undefined, [`esm`]: undefined,
+//             }
+//         )
+//     )
+// );
   
-const conditionallyAddStandardESMEntry = (target, format) => (packageJSON) => (
-    format !== `esm` && format !== `cls`
-        ?      packageJSON
-        : { ...packageJSON, [`esm`]: { mode: `auto`, sourceMap: true } }
-);
+// const conditionallyAddStandardESMEntry = (target, format) => (packageJSON) => (
+//     format !== `esm` && format !== `cls`
+//         ?      packageJSON
+//         : { ...packageJSON, [`esm`]: { mode: `auto`, sourceMap: true } }
+// );

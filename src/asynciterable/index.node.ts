@@ -1,3 +1,4 @@
 export * from './index';
 
-export { toNodeStream } from './tonodestream';
+export * from './tonodestream';
+export * from './fromnodestream';

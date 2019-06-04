@@ -11,4 +11,5 @@ export type MonoTypeOperatorFunction<T> = OperatorFunction<T, T>;
 
 export type MonoTypeOperatorAsyncFunction<T> = OperatorAsyncFunction<T, T>;
 
+/** @ignore */
 export type BufferLike = string | Buffer | Uint8Array;

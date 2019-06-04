@@ -1,31 +1,26 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.retry]);
-const { concat } = Ix.iterable;
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { _throw } = Ix.iterable;
 import { hasNext } from '../iterablehelpers';
+import { retry } from 'ix/iterable/operators';
+import { concat, range, throwError, sequenceEqual } from 'ix/iterable';
 
-test('Iterable#retry infinite no errors does not retry', ([retry]) => {
+test('Iterable#retry infinite no errors does not retry', () => {
   const xs = range(0, 10);
 
-  const res = retry(xs);
+  const res = retry()(xs);
   expect(sequenceEqual(res, xs)).toBeTruthy();
 });
 
-test('Iterable#retry finite no errors does not retry', ([retry]) => {
+test('Iterable#retry finite no errors does not retry', () => {
   const xs = range(0, 10);
 
-  const res = retry(xs, 2);
+  const res = retry(2)(xs);
   expect(sequenceEqual(res, xs)).toBeTruthy();
 });
 
-test('Iterable#retry finite eventually gives up', ([retry]) => {
+test('Iterable#retry finite eventually gives up', () => {
   const err = new Error();
-  const xs = concat(range(0, 2), _throw(err));
+  const xs = concat(range(0, 2), throwError(err));
 
-  const res = retry(xs, 2);
+  const res = retry(2)(xs);
   const it = res[Symbol.iterator]();
   hasNext(it, 0);
   hasNext(it, 1);

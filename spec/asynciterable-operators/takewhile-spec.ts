@@ -1,6 +1,6 @@
-import { of } from 'ix/asynciterable';
-import { takeWhile } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { takeWhile } from 'ix/asynciterable/operators';
+import { of } from 'ix/asynciterable';
 
 test('AsyncIterable#takeWhile some match', async () => {
   const xs = of(1, 2, 3, 4);
@@ -22,7 +22,7 @@ test('AsyncIterable#takeWhile no match', async () => {
 
 test('AsyncItearble#takeWhile all match', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, () => true);
+  const ys = xs.pipe(takeWhile(() => true));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);

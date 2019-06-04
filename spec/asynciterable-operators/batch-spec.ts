@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { batch } from 'ix/asynciterable/operators';
 import { AsyncSink } from 'ix/asynciterable';
 
@@ -6,7 +7,7 @@ const delay = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
 test('AsyncIterable#batch basic', async () => {
   const sink = new AsyncSink<number>();
 
-  const it = batch(sink)[Symbol.asyncIterator]();
+  const it = batch()(sink)[Symbol.asyncIterator]();
 
   sink.write(1);
   sink.write(2);
@@ -35,7 +36,7 @@ test('AsyncIterable#batch basic', async () => {
 test('done while waiting', async () => {
   const sink = new AsyncSink<number>();
 
-  const it = batch(sink)[Symbol.asyncIterator]();
+  const it = batch()(sink)[Symbol.asyncIterator]();
 
   sink.write(1);
   sink.write(2);
@@ -62,7 +63,7 @@ test('canceled', async () => {
     }
   }
 
-  const it = batch(generate())[Symbol.asyncIterator]();
+  const it = batch()(generate())[Symbol.asyncIterator]();
 
   await delay(150);
   expect(await it.next()).toEqual({ done: false, value: [0] });

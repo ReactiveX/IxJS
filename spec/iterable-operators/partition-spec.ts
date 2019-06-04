@@ -1,15 +1,12 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.partition]);
-const { empty } = Ix.iterable;
-const { of } = Ix.Iterable;
+import '../iterablehelpers';
+import { empty, of, partition } from 'ix/iterable';
 import { hasNext, noNext } from '../iterablehelpers';
 
 function isEven(x: number) {
   return x % 2 === 0;
 }
 
-test('Iterable#partition both empty', ([partition]) => {
+test('Iterable#partition both empty', () => {
   const xs = empty<number>();
   const [fst, snd] = partition(xs, isEven);
 
@@ -20,7 +17,7 @@ test('Iterable#partition both empty', ([partition]) => {
   noNext(sndIt);
 });
 
-test('Iterable#partition has left', ([partition]) => {
+test('Iterable#partition has left', () => {
   const xs = of(4);
   const [fst, snd] = partition(xs, isEven);
 
@@ -32,7 +29,7 @@ test('Iterable#partition has left', ([partition]) => {
   noNext(sndIt);
 });
 
-test('Iterable#partition has right', ([partition]) => {
+test('Iterable#partition has right', () => {
   const xs = of(3);
   const [fst, snd] = partition(xs, isEven);
 
@@ -44,7 +41,7 @@ test('Iterable#partition has right', ([partition]) => {
   noNext(sndIt);
 });
 
-test('Iterable#partition has both', ([partition]) => {
+test('Iterable#partition has both', () => {
   const xs = of(1, 2, 3, 4);
   const [fst, snd] = partition(xs, isEven);
 

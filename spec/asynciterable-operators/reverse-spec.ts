@@ -1,6 +1,6 @@
-import { empty, of, throwError } from 'ix/asynciterable';
-import { reverse } from 'ix/asynciterable/operators';
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { reverse } from 'ix/asynciterable/operators';
+import { empty, of, throwError } from 'ix/asynciterable';
 
 test('AsyncIterable#reverse empty', async () => {
   const xs = empty<number>();

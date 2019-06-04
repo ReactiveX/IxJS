@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { empty, of, single } from 'ix/asynciterable';
 
 test('AsyncIterable#single no predicate empty returns undefined', async () => {

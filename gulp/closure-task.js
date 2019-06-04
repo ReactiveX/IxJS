@@ -46,7 +46,10 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
 
     await Promise.all([
         `${mainExport}.dom`,
-        `${mainExport}.dom.internal`
+        `${mainExport}.dom.iterable`,
+        `${mainExport}.dom.asynciterable`,
+        `${mainExport}.dom.iterable.operators`,
+        `${mainExport}.dom.asynciterable.operators`
     ].map(closureCompile));
     
     async function closureCompile(entry) {
@@ -90,7 +93,6 @@ const createClosureArgs = (entry_point, output, externs) => ({
     // debug: true,
     compilation_level: `ADVANCED`,
     process_common_js_modules: true,
-    allow_method_call_decomposing: true,
     package_json_entry_names: `module,jsnext:main,main`,
     assume_function_wrapper: true,
     js_output_file: `${output}.js`,
@@ -98,7 +100,7 @@ const createClosureArgs = (entry_point, output, externs) => ({
     language_out: gCCLanguageNames[`esnext`],
     output_wrapper: `(function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['Ix'], factory) :
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (factory(global.Ix = global.Ix || {}));
 }(this, (function (exports) {%output%}.bind(this))));`
 });

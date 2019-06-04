@@ -1,8 +1,8 @@
-import { as } from 'ix/asynciterable';
-import { debounce } from 'ix/asynciterable/operators';
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
+import { debounce } from 'ix/asynciterable/operators';
+import { as } from 'ix/asynciterable';
 
-test(
+test.skip(
   'AsyncIterable#debounce none drop',
   async () => {
     const xs = async function*() {

@@ -1,10 +1,10 @@
-import { range, toArray, zip } from 'ix/asynciterable';
-import { share, take, tap } from 'ix/asynciterable/operators';
-import { sequenceEqual } from 'ix/iterable';
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { share, take, tap } from 'ix/asynciterable/operators';
+import { range, toArray, zip } from 'ix/asynciterable';
+import { sequenceEqual } from 'ix/iterable';
 
 test('AsyncIterable#share single', async () => {
-  const rng = share(range(0, 5));
+  const rng = share()(range(0, 5));
 
   const it = rng[Symbol.asyncIterator]();
   await hasNext(it, 0);
@@ -47,7 +47,7 @@ test('AsyncIterable#share shared exhausts any time', async () => {
 
 test('AsyncIterable#share with selector', async () => {
   let n = 0;
-  const res = toArray(
+  const res = await toArray(
     range(0, 10).pipe(
       tap({
         next: async () => {

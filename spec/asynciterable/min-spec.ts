@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { empty, of, min } from 'ix/asynciterable';
 
 test('AsyncItearble#min laws', async () => {

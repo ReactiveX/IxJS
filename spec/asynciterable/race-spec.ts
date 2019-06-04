@@ -1,5 +1,5 @@
-import { of, race } from 'ix/asynciterable';
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
+import { of, race } from 'ix/asynciterable';
 
 async function* delayedValues<T>(time: number, value: T, ...values: T[]): AsyncIterable<T> {
   yield await delayValue<T>(value, time);

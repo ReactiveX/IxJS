@@ -1,3 +1,5 @@
+import '../asynciterablehelpers';
+import Ix from 'ix/Ix';
 import { empty, from, of, throwError, toArray, toObservable } from 'ix/asynciterable';
 import { Observable as RxJSObservable } from 'rxjs';
 import { Observable, PartialObserver } from '../../src/observer';
@@ -63,7 +65,7 @@ test('AsyncIterable#toObservable error', async () => {
 test('AsyncIterable#toObservable Symbol.observable should return same instance', async () => {
   const ys = toObservable(of(1, 2, 3));
   // @ts-ignore
-  expect(ys).toBe(ys[symbolObservable]());
+  expect(ys).toBe(ys[Ix.symbolObservable]());
 });
 
 test('AsyncIterable#toObservable accepts partial observers', async () => {
@@ -137,9 +139,9 @@ test('AsyncIterable.from interop with rxjs', async () => {
 
 function endOfObservable<T>(
   observable: Observable<T> | RxJSObservable<T>,
-  next?: PartialObserver<T> | ((x: T) => void) | null,
-  error?: ((err: any) => void) | null,
-  complete?: (() => void) | null
+  next?: PartialObserver<T> | ((x: T) => any) | null,
+  error?: ((err: any) => any) | null,
+  complete?: (() => any) | null
 ): Promise<void> {
   let reject: (x?: any) => void;
   let resolve: (x?: any) => void;

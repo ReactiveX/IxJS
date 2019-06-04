@@ -1,11 +1,7 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.onErrorResumeNext]);
-const { concat } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { _throw } = Ix.iterable;
+import '../iterablehelpers';
+import { concat, sequenceEqual, throwError, onErrorResumeNext } from 'ix/iterable';
 
-test('Iterable#onErrorResumeNext continues without error', ([onErrorResumeNext]) => {
+test('Iterable#onErrorResumeNext continues without error', () => {
   const xs = [1, 2];
   const ys = [3, 4];
 
@@ -13,8 +9,8 @@ test('Iterable#onErrorResumeNext continues without error', ([onErrorResumeNext])
   expect(sequenceEqual(res, [1, 2, 3, 4])).toBeTruthy();
 });
 
-test('Iterable#onErrorResumeNext continues after error', ([onErrorResumeNext]) => {
-  const xs = concat([1, 2], _throw(new Error()));
+test('Iterable#onErrorResumeNext continues after error', () => {
+  const xs = concat([1, 2], throwError(new Error()));
   const ys = [3, 4];
 
   const res = onErrorResumeNext(xs, ys);

@@ -1,34 +1,33 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable._catch]);
-const { concat } = Ix.iterable;
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { _throw } = Ix.iterable;
 import { hasNext } from '../iterablehelpers';
+import { catchError } from 'ix/iterable/operators';
+import { concat, range, sequenceEqual, throwError } from 'ix/iterable';
 
-test('Iterable#catch with no errors', ([_catch]) => {
-  const res = _catch(range(0, 5), range(5, 5));
+test('Iterable#catch with no errors', () => {
+  const src = range(0, 5);
+  const res = src.pipe(catchError(() => range(5, 5)));
   expect(sequenceEqual(res, range(0, 5))).toBeTruthy();
 });
 
-test('Iterable#catch with concat error', ([_catch]) => {
-  const res = _catch(concat(range(0, 5), _throw(new Error())), range(5, 5));
+test('Iterable#catch with concat error', () => {
+  const src = concat(range(0, 5), throwError(new Error()));
+  const res = src.pipe(catchError(() => range(5, 5)));
 
   expect(sequenceEqual(res, range(0, 10))).toBeTruthy();
 });
 
-test('Iterable#catch still throws', ([_catch]) => {
+test('Iterable#catch still throws', () => {
   const e1 = new Error();
-  const er1 = _throw(e1);
+  const er1 = throwError(e1);
 
   const e2 = new Error();
-  const er2 = _throw(e2);
+  const er2 = throwError(e2);
 
   const e3 = new Error();
-  const er3 = _throw(e3);
+  const er3 = throwError(e3);
 
-  const res = _catch(concat(range(0, 2), er1), concat(range(2, 2), er2), er3);
+  const res = concat(range(0, 2), er1)
+    .pipe(catchError(() => concat(range(2, 2), er2)))
+    .pipe(catchError(() => er3));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 0);

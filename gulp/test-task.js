@@ -23,9 +23,6 @@ const asyncDone = require('util').promisify(require('async-done'));
 
 const jestArgv = [];
 argv.verbose && jestArgv.push(`--verbose`);
-argv.coverage
-    ? jestArgv.push(`-c`, `jest.coverage.config.js`, `--coverage`)
-    : jestArgv.push(`-c`, `jest.config.js`, `-i`)
 
 const jest = path.join(path.parse(require.resolve(`jest`)).dir, `../bin/jest.js`);
 const testOptions = {
@@ -43,8 +40,11 @@ const testOptions = {
 const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function test(target, format) {
     const args = [...execArgv];
     const opts = { ...testOptions };
-    if (!argv.coverage) {
-        args.push(`spec/*`);
+    if (argv.coverage) {
+        args.push(`-c`, `jest.coverage.config.js`, `--coverage`);
+    } else {
+        const cfgname = [target, format].filter(Boolean).join('.');
+        args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, `-i`, `spec/*`);
     }
     opts.env = { ...opts.env,
         TEST_TARGET: target,

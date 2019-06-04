@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { empty, range, sequenceEqual } from 'ix/asynciterable';
 import { skipLast, take } from 'ix/asynciterable/operators';
 
@@ -10,5 +11,5 @@ test('AsyncIterable#skipLast empty', async () => {
 test('AsyncIterable#skipLast partial', async () => {
   const e = range(0, 5);
   const r = e.pipe(skipLast(3));
-  expect(await sequenceEqual(r, take(e, 2))).toBeTruthy();
+  expect(await sequenceEqual(r, e.pipe(take(2)))).toBeTruthy();
 });

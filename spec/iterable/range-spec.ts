@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { elementAt, first, isEmpty, last, range, sequenceEqual, toArray } from 'ix/iterable';
 import { skip, take } from 'ix/iterable/operators';
 
@@ -56,7 +57,7 @@ test('Iterable#range take excessive', () => {
 });
 
 test('Iterable#range skip', () => {
-  expect(sequenceEqual(range(10, 10), skip(range(0, 20), 10))).toBeTruthy();
+  expect(sequenceEqual(range(10, 10), range(0, 20).pipe(skip(10)))).toBeTruthy();
 });
 
 test('Iterable#range skip excessive', () => {

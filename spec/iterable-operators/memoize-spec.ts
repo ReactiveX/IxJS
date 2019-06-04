@@ -1,17 +1,6 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.memoize]);
-const { concat } = Ix.iterable;
-const { every } = Ix.iterable;
-const { map } = Ix.iterable;
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { take } = Ix.iterable;
-const { tap } = Ix.iterable;
-const { _throw } = Ix.iterable;
-const { toArray } = Ix.iterable;
-const { zip } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
+import { map, take, tap, memoize } from 'ix/iterable/operators';
+import { from, concat, every, range, sequenceEqual, throwError, toArray, zip } from 'ix/iterable';
 
 function* tick(t: (x: number) => void) {
   let i = 0;
@@ -21,9 +10,9 @@ function* tick(t: (x: number) => void) {
   }
 }
 
-test('Iterable#memoize memoizes effects', ([memoize]) => {
+test('Iterable#memoize memoizes effects', () => {
   let n = 0;
-  const rng = memoize(tick(i => (n += i)));
+  const rng = memoize()(tick(i => (n += i)));
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -55,8 +44,8 @@ test('Iterable#memoize memoizes effects', ([memoize]) => {
   expect(10).toBe(n);
 });
 
-test('Iterable#memoize single', ([memoize]) => {
-  const rng = memoize(range(0, 5));
+test('Iterable#memoize single', () => {
+  const rng = memoize()(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
 
@@ -68,8 +57,8 @@ test('Iterable#memoize single', ([memoize]) => {
   noNext(it1);
 });
 
-test('Iterable#memoize order of operations', ([memoize]) => {
-  const rng = memoize(range(0, 5));
+test('Iterable#memoize order of operations', () => {
+  const rng = memoize()(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
   hasNext(it1, 0);
@@ -88,8 +77,8 @@ test('Iterable#memoize order of operations', ([memoize]) => {
   noNext(it2);
 });
 
-test('Iterable#memoize second early', ([memoize]) => {
-  const rng = memoize(range(0, 5));
+test('Iterable#memoize second early', () => {
+  const rng = memoize()(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
   hasNext(it1, 0);
@@ -109,8 +98,8 @@ test('Iterable#memoize second early', ([memoize]) => {
   noNext(it2);
 });
 
-test('Iterable#memoize max two readers', ([memoize]) => {
-  const rng = memoize(range(0, 5), 2);
+test('Iterable#memoize max two readers', () => {
+  const rng = memoize(2)(range(0, 5));
 
   const it1 = rng[Symbol.iterator]();
   hasNext(it1, 0);
@@ -126,9 +115,9 @@ test('Iterable#memoize max two readers', ([memoize]) => {
   expect(() => it3.next()).toThrow();
 });
 
-test('Iterable#memoize concat with error', ([memoize]) => {
+test('Iterable#memoize concat with error', () => {
   const error = new Error();
-  const rng = memoize(concat(range(0, 2), _throw(error)));
+  const rng = concat(range(0, 2), throwError(error)).pipe(memoize());
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -153,29 +142,31 @@ function* rand() {
   }
 }
 
-test('Iterable#memoize should share effects of random', ([memoize]) => {
-  const rnd = memoize(take(rand(), 100));
+test('Iterable#memoize should share effects of random', () => {
+  const rnd = from(rand())
+    .pipe(take(100))
+    .pipe(memoize());
   expect(every(zip(([l, r]) => l === r, rnd, rnd), x => x)).toBeTruthy();
 });
 
-test('Iterable#memoize with selector', ([memoize]) => {
+test('Iterable#memoize with selector', () => {
   let n = 0;
-  const res = toArray(
-    memoize(tap(range(0, 4), { next: () => n++ }), undefined, xs =>
-      take(zip(([l, r]) => l + r, xs, xs), 4)
-    )
-  );
+  const res = range(0, 4)
+    .pipe(tap({ next: () => n++ }))
+    .pipe(memoize(undefined, xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4))))
+    .pipe(toArray);
 
-  expect(sequenceEqual(res, map(range(0, 4), x => x * 2))).toBeTruthy();
+  expect(sequenceEqual(res, range(0, 4).pipe(map(x => x * 2)))).toBeTruthy();
   expect(4).toBe(n);
 });
 
-test('Iterable#memoize limited with selector', ([memoize]) => {
+test('Iterable#memoize limited with selector', () => {
   let n = 0;
-  const res = toArray(
-    memoize(tap(range(0, 4), { next: () => n++ }), 2, xs => take(zip(([l, r]) => l + r, xs, xs), 4))
-  );
+  const res = range(0, 4)
+    .pipe(tap({ next: () => n++ }))
+    .pipe(memoize(2, xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4))))
+    .pipe(toArray);
 
-  expect(sequenceEqual(res, map(range(0, 4), x => x * 2))).toBeTruthy();
+  expect(sequenceEqual(res, range(0, 4).pipe(map(x => x * 2)))).toBeTruthy();
   expect(4).toBe(n);
 });

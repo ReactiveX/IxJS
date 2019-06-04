@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { of, toMap } from 'ix/asynciterable';
 
 test('AsyncIterable#toMap stores values', async () => {

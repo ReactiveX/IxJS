@@ -1,4 +1,5 @@
 import { BufferLike } from '../interfaces';
+import { AsyncIterableX } from './asynciterablex';
 import { Readable, ReadableOptions } from 'stream';
 
 const done = async (_: any) => null as any;
@@ -69,16 +70,33 @@ export function toNodeStream<TSource>(
     : new AsyncIterableReadable<TSource extends BufferLike ? TSource : any>(source, options);
 }
 
-/*
-  private _pulling: boolean;
-  private _objectMode: boolean;
-  private _iterator: AsyncIterator<T> | undefined;
-  constructor(source: AsyncIterable<T>, options: ReadableOptions = {}) {
-    const objectMode = !options || !!options.objectMode;
-    super({ ...options, highWaterMark: objectMode ? 1 : options.highWaterMark });
-    this._pulling = false;
-    this._objectMode = objectMode;
-    this._iterator = source[Symbol.asyncIterator]();
-  }
+/**
+ * @ignore
+ */
+export function toNodeStreamProto<TSource>(
+  this: AsyncIterable<TSource>
+): AsyncIterableReadable<TSource>;
+export function toNodeStreamProto<TSource>(
+  this: AsyncIterable<TSource>,
+  options: ReadableOptions & { objectMode: true }
+): AsyncIterableReadable<TSource>;
+export function toNodeStreamProto<TSource extends BufferLike>(
+  this: AsyncIterable<TSource>,
+  options: ReadableOptions & { objectMode: false }
+): AsyncIterableReadable<TSource>;
+export function toNodeStreamProto<TSource>(
+  this: AsyncIterable<any>,
+  options?: ReadableOptions
+): AsyncIterableReadable<TSource> {
+  return !options || options.objectMode === true
+    ? new AsyncIterableReadable<TSource>(this, options)
+    : new AsyncIterableReadable<TSource extends BufferLike ? TSource : any>(this, options);
+}
 
-*/
+AsyncIterableX.prototype.toNodeStream = toNodeStreamProto;
+
+declare module '../asynciterable/asynciterablex' {
+  interface AsyncIterableX<T> {
+    toNodeStream: typeof toNodeStreamProto;
+  }
+}

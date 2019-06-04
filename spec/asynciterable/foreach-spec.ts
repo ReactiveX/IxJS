@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { range } from 'ix/asynciterable';
 
 test('AsyncIterable#forEach', async () => {

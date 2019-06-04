@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { elementAt, empty, of } from 'ix/asynciterable';
 
 test('AsyncIterable#elementAt empty returns undefined', async () => {

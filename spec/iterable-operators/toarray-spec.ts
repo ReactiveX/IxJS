@@ -1,15 +1,13 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.toArray]);
-const { sequenceEqual } = Ix.iterable;
+import '../iterablehelpers';
+import { sequenceEqual, toArray } from 'ix/iterable';
 
-test('Iterable#toArray some', ([toArray]) => {
+test('Iterable#toArray some', () => {
   const xs = [42, 25, 39];
   const res = toArray(xs);
   expect(sequenceEqual(res, xs)).toBeTruthy();
 });
 
-test('Iterable#toArray empty', ([toArray]) => {
+test('Iterable#toArray empty', () => {
   const res = toArray<number>([]);
   expect(res.length).toBe(0);
 });

@@ -1,6 +1,7 @@
-import { of, throwError } from 'ix/asynciterable';
-import { take } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers';
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { take } from 'ix/asynciterable/operators';
+import { of, throwError } from 'ix/asynciterable';
 
 test('AsyncIterable#take zero or less takes nothing', async () => {
   const xs = of(1, 2, 3, 4);
@@ -35,7 +36,7 @@ test('AsyncIterable#take more than count', async () => {
 test('AsyncIterable#take throws with error', async () => {
   const err = new Error();
   const xs = throwError<number>(err);
-  const ys = xs.pipe(take(xs, 2));
+  const ys = xs.pipe(take(2));
 
   const it = ys[Symbol.asyncIterator]();
   try {

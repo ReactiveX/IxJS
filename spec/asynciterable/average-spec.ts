@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { average, empty, of } from 'ix/asynciterable';
 
 test('Iterable#average empty', async () => {

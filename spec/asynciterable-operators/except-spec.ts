@@ -1,6 +1,6 @@
-import { of } from 'ix/asynciterable';
-import { except } from 'ix/asynciterable/except';
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { of } from 'ix/asynciterable';
+import { except } from 'ix/asynciterable/operators';
 
 test('Iterable#except with default comparer', async () => {
   const xs = of(1, 2, 3);

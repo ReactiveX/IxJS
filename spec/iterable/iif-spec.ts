@@ -1,5 +1,5 @@
-import { iif, single } from 'ix/iterable';
-import { isEmpty } from 'ix/asynciterable/operators';
+import '../iterablehelpers';
+import { iif, single, isEmpty } from 'ix/iterable';
 
 test('Iterable#if then and else', () => {
   let x = 5;
@@ -18,5 +18,5 @@ test('Iterable#if then default else', () => {
   expect(+1).toBe(single(res));
 
   x = -x;
-  expect(res.pipe(isEmpty())).toBeTruthy();
+  expect(res.pipe(isEmpty)).toBeTruthy();
 });

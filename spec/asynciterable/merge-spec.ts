@@ -1,3 +1,4 @@
+import '../asynciterablehelpers';
 import { of, merge, sequenceEqual } from 'ix/asynciterable';
 
 test('AsyncIterable#merge behavior', async () => {

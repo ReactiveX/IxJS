@@ -1,5 +1,5 @@
 import { ReadableOptions } from 'stream';
-import { AsyncIterableReadable } from '../../asynciterable/tonodestream';
+import { AsyncIterableReadable } from '../tonodestream';
 import { BufferLike, UnaryFunction } from '../../interfaces';
 
 export function toNodeStream<TSource>(): UnaryFunction<
