@@ -1,11 +1,8 @@
-import { IterableX } from './iterable';
-import { AsyncIterableX } from './asynciterable';
-
 export type UnaryFunction<T, R> = (source: T) => R;
 
-export type OperatorFunction<T, R> = UnaryFunction<Iterable<T>, IterableX<R>>;
+export type OperatorFunction<T, R> = UnaryFunction<Iterable<T>, Iterable<R>>;
 
-export type OperatorAsyncFunction<T, R> = UnaryFunction<AsyncIterable<T>, AsyncIterableX<R>>;
+export type OperatorAsyncFunction<T, R> = UnaryFunction<AsyncIterable<T>, AsyncIterable<R>>;
 
 export type MonoTypeOperatorFunction<T> = OperatorFunction<T, T>;
 

@@ -40,6 +40,11 @@ type WritableOrOperatorFunction<T, R> =
   | NodeJS.ReadWriteStream
   | OperatorFunction<T, R>;
 
+type WritableOrOperatorFunction<T, R> =
+  | NodeJS.WritableStream
+  | NodeJS.ReadWriteStream
+  | OperatorFunction<T, R>;
+
 declare module '../iterable/iterablex' {
   interface IterableX<T> extends Iterable<T> {
     pipe(): IterableX<T>;
