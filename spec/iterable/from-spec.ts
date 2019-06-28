@@ -7,12 +7,6 @@ function* getData() {
   yield 3;
 }
 
-function* getData() {
-  yield 1;
-  yield 2;
-  yield 3;
-}
-
 test('Iterable#from from array/iterable', () => {
   const xs = [1, 2, 3];
   const res = from(xs);
