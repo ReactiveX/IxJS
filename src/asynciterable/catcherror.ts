@@ -1,5 +1,4 @@
 import { AsyncIterableX } from './asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../interfaces';
 import { returnAsyncIterator } from '../util/returniterator';
 
 export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
@@ -51,8 +50,15 @@ export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function catchError<T>(...args: AsyncIterable<T>[]): MonoTypeOperatorAsyncFunction<T> {
-  return function catchOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
-    return new CatchAllAsyncIterable<T>([source, ...args]);
-  };
+/**
+ * Creates a sequence by concatenating source sequences until a source sequence completes successfully.
+ * @param {AsyncIterable<AsyncIterable<T>>} source Source sequences.
+ * @return {AsyncIterable<T>} Sequence that continues to concatenate source sequences while errors occur.
+ */
+export function catchAll<T>(source: Iterable<AsyncIterable<T>>): AsyncIterableX<T> {
+  return new CatchAllAsyncIterable<T>(source);
+}
+
+export function catchError<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
+  return new CatchAllAsyncIterable<T>(args);
 }

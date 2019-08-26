@@ -26,7 +26,6 @@ export * from './maxby';
 export * from './memoize';
 export * from './mergeall';
 export * from './minby';
-export * from './onerrorresumenext';
 export * from './orderby';
 export * from './pairwise';
 export * from './pluck';

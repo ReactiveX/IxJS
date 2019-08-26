@@ -32,6 +32,7 @@ export * from './max';
 export * from './merge';
 export * from './min';
 export * from './of';
+export * from './onerrorresumenext';
 export * from './partition';
 export * from './pipe';
 export * from './race';

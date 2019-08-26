@@ -2,12 +2,12 @@ import { hasNext } from '../asynciterablehelpers';
 import { catchError, concat, range, sequenceEqual, throwError } from 'ix/asynciterable';
 
 test('AsyncIterable#catch with no errors', async () => {
-  const res = catchError(range(5, 5))(range(0, 5));
+  const res = catchError(range(0, 5), range(5, 5));
   expect(await sequenceEqual(res, range(0, 5))).toBeTruthy();
 });
 
 test('AsyncIterable#catch with concat error', async () => {
-  const res = catchError(range(5, 5))(concat(range(0, 5), throwError(new Error())));
+  const res = catchError(concat(range(0, 5), throwError(new Error())), range(5, 5));
 
   expect(await sequenceEqual(res, range(0, 10))).toBeTruthy();
 });
@@ -22,7 +22,7 @@ test('AsyncIterable#catch still throws', async () => {
   const e3 = new Error();
   const er3 = throwError(e3);
 
-  const res = catchError(concat(range(2, 2), er2), er3)(concat(range(0, 2), er1));
+  const res = catchError(concat(range(0, 2), er1), concat(range(2, 2), er2), er3);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0);

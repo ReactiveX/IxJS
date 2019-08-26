@@ -1,6 +1,6 @@
 import { IterableX } from '../iterablex';
 import { sorter as defaultSorter } from '../../util/sorter';
-import { MonoTypeOperatorFunction } from '../../interfaces';
+import { UnaryFunction } from '../../interfaces';
 
 export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
   _source: Iterable<TSource>;
@@ -90,7 +90,7 @@ export class OrderedIterableX<TKey, TSource> extends OrderedIterableBaseX<TSourc
 export function orderBy<TKey, TSource>(
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
-): MonoTypeOperatorFunction<TSource> {
+): UnaryFunction<Iterable<TSource>, OrderedIterableX<TKey, TSource>> {
   return function orderByOperatorFunction(source: Iterable<TSource>) {
     return new OrderedIterableX<TKey, TSource>(source, keySelector, comparer, false);
   };
@@ -99,7 +99,7 @@ export function orderBy<TKey, TSource>(
 export function orderByDescending<TKey, TSource>(
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
-): MonoTypeOperatorFunction<TSource> {
+): UnaryFunction<Iterable<TSource>, OrderedIterableX<TKey, TSource>> {
   return function orderByDescendingOperatorFunction(source: Iterable<TSource>) {
     return new OrderedIterableX<TKey, TSource>(source, keySelector, comparer, true);
   };
@@ -108,7 +108,7 @@ export function orderByDescending<TKey, TSource>(
 export function thenBy<TKey, TSource>(
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
-): MonoTypeOperatorFunction<TSource> {
+): UnaryFunction<Iterable<TSource>, OrderedIterableX<TKey, TSource>> {
   return function thenByOperatorFunction(source: Iterable<TSource>) {
     const orderSource = <OrderedIterableBaseX<TSource>>source;
     return new OrderedIterableX<TKey, TSource>(
@@ -124,7 +124,7 @@ export function thenBy<TKey, TSource>(
 export function thenByDescending<TKey, TSource>(
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
-): MonoTypeOperatorFunction<TSource> {
+): UnaryFunction<Iterable<TSource>, OrderedIterableX<TKey, TSource>> {
   return function thenByDescendingOperatorFunction(source: Iterable<TSource>) {
     const orderSource = <OrderedIterableBaseX<TSource>>source;
     return new OrderedIterableX<TKey, TSource>(
