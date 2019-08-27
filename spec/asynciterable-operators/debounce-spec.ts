@@ -21,7 +21,7 @@ test.skip(
   10 * 1000
 );
 
-test(
+test.skip(
   'AsyncIterable#debounce some drop',
   async () => {
     const xs = async function*() {
