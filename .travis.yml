@@ -34,7 +34,10 @@ script:
     elif [ "$CI_MATRIX_LINT" = "true" ]; then
       yarn lint
     elif [ "$CI_MATRIX_TEST" = "true" ]; then
-      yarn start
+      npm run build -- -t es5 -t es2015 -t esnext -m umd
+      npm run test -- -t es5 -m umd
+      npm run test -- -t es2015 -m umd
+      npm run test -- -t esnext -m umd
     else
       echo "This code path is run unexpectedly" 1>&2
       exit 1
