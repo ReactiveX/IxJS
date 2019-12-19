@@ -2,8 +2,8 @@ import { AsyncSink } from './asyncsink';
 import { IterableX } from './iterable/iterablex';
 import { observable } from './observer';
 import { AsyncIterableX } from './asynciterable/asynciterablex';
-import { GroupedIterable } from './iterable/groupby';
-import { GroupedAsyncIterable } from './asynciterable/groupby';
+import { GroupedIterable as ImportedGroupedIterable} from './iterable/groupby';
+import { GroupedAsyncIterable as ImportedGroupedAsyncIterable} from './asynciterable/groupby';
 export { OrderedIterableX as OrderedIterable } from './iterable/orderby';
 export { OrderedIterableBaseX as OrderedIterableBase } from './iterable/orderby';
 export { OrderedAsyncIterableX as OrderedAsyncIterable } from './asynciterable/orderby';
@@ -21,8 +21,8 @@ export default {
   'symbolObservable': observable
 };
 
-export type GroupedIterable<TKey, TValue> = GroupedIterable<TKey, TValue>;
-export type GroupedAsyncIterable<TKey, TValue> = GroupedAsyncIterable<TKey, TValue>;
+export type GroupedIterable<TKey, TValue> = ImportedGroupedIterable<TKey, TValue>;
+export type GroupedAsyncIterable<TKey, TValue> = ImportedGroupedAsyncIterable<TKey, TValue>;
 
 // iterable statics
 /* tslint:disable:no-use-before-declare */
