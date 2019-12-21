@@ -45,6 +45,16 @@ test('AsyncIterable#share shared exhausts any time', async () => {
   await noNext(it2);
 });
 
+test('AsyncIterable#share shared does not interrupt', async () => {
+  const rng = range(0, 5).pipe(share());
+
+  const res1 = await rng.pipe(take(3)).pipe(toArray);
+  expect(sequenceEqual(res1, [0, 1, 2])).toBe(true);
+
+  const res2 = await toArray(rng);
+  expect(sequenceEqual(res2, [3, 4])).toBe(true);
+});
+
 test('AsyncIterable#share with selector', async () => {
   let n = 0;
   const res = await toArray(
