@@ -1,4 +1,4 @@
-import { identity } from '../internal/identity';
+import { identity } from '../util/identity';
 
 export function average(source: Iterable<number>, selector?: (x: number) => number): number;
 export function average<T>(source: Iterable<T>, selector?: (x: T) => number): number;

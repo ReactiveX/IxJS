@@ -1,5 +1,7 @@
-import * as Ix from '../Ix';
+import '../asynciterablehelpers';
 import { PassThrough } from 'stream';
+import { map } from 'ix/asynciterable/operators/index.node';
+import { empty, of, sequenceEqual } from 'ix/asynciterable';
 
 (() => {
   if (process.env.TEST_NODE_STREAMS !== 'true') {
@@ -8,9 +10,6 @@ import { PassThrough } from 'stream';
     });
   }
 
-  const { of } = Ix.AsyncIterable;
-  const { empty, map } = Ix.asynciterable;
-  const { sequenceEqual } = Ix.asynciterable;
   const through = () => {
     return new PassThrough({
       objectMode: true,
@@ -23,7 +22,9 @@ import { PassThrough } from 'stream';
     const source = of({ name: 'Frank', custId: 98088 });
     const expected = of('Frank');
 
-    expect(await sequenceEqual(expected, map(source.pipe(through()), x => x.name))).toBeTruthy();
+    expect(
+      await sequenceEqual(expected, map((x: any) => x.name)(source.pipe(through())))
+    ).toBeTruthy();
   });
 
   test('AsyncIterable#pipe writable-stream maps property', async () => {
@@ -36,12 +37,14 @@ import { PassThrough } from 'stream';
     );
     const expected = of('Frank', 'Bob', 'Chris', null, 'Frank');
 
-    expect(await sequenceEqual(expected, map(source.pipe(through()), x => x.name))).toBeTruthy();
+    expect(
+      await sequenceEqual(expected, map((x: any) => x.name)(source.pipe(through())))
+    ).toBeTruthy();
   });
 
   test('AsyncIterable#pipe writable-stream empty', async () => {
     expect(
-      await sequenceEqual(empty<number>(), map(empty<string>(), (s, i) => s.length + i))
+      await sequenceEqual(empty<number>(), map((s: string, i) => s.length + i)(empty<string>()))
     ).toBeTruthy();
   });
 
@@ -56,7 +59,7 @@ import { PassThrough } from 'stream';
     expect(
       await sequenceEqual(
         expected,
-        map(source.pipe(through()), (x, i) => (i === 0 ? x.name : null))
+        map((x: any, i) => (i === 0 ? x.name : null))(source.pipe(through()))
       )
     ).toBeTruthy();
   });
@@ -74,7 +77,7 @@ import { PassThrough } from 'stream';
     expect(
       await sequenceEqual(
         expected,
-        map(source.pipe(through()), (x, i) => (i === 4 ? x.name : null))
+        map((x: any, i) => (i === 4 ? x.name : null))(source.pipe(through()))
       )
     ).toBeTruthy();
   });
@@ -86,7 +89,7 @@ import { PassThrough } from 'stream';
       return 1;
     });
 
-    map(source.pipe(through()), x => x());
+    map((x: any) => x())(source.pipe(through()));
 
     expect(fnCalled).toBeFalsy();
   });

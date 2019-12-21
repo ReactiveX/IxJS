@@ -1,13 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { repeatStatic as _repeatStatic } from '../../asynciterable/repeat';
+import { repeatValue as _repeatValue } from '../../asynciterable/repeatvalue';
 
 /** @nocollapse */
-AsyncIterableX.repeat = _repeatStatic;
+AsyncIterableX.repeatValue = _repeatValue;
 
 export declare namespace asynciterable {
-  let repeatStatic: typeof _repeatStatic;
+  let repeatValue: typeof _repeatValue;
 }
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export let repeat: typeof _repeatStatic; }
+  namespace AsyncIterableX {
+    export let repeatValue: typeof _repeatValue;
+  }
 }

@@ -1,20 +1,17 @@
-import * as Ix from '../Ix';
-const { defer } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { tap } = Ix.iterable;
-const { toArray } = Ix.iterable;
-const { _while } = Ix.iterable;
+import '../iterablehelpers';
+import { tap } from 'ix/iterable/operators';
+import { defer, sequenceEqual, toArray, whileDo } from 'ix/iterable';
 
 test('Iterable#while some', () => {
   let x = 5;
-  const res = toArray(_while(() => x > 0, defer(() => tap([x], { next: () => x-- }))));
+  const res = toArray(whileDo(() => x > 0, defer(() => tap({ next: () => x-- })([x]))));
 
   expect(sequenceEqual(res, [5, 4, 3, 2, 1])).toBeTruthy();
 });
 
 test('Iterable#while none', () => {
   let x = 0;
-  const res = toArray(_while(() => x > 0, defer(() => tap([x], { next: () => x-- }))));
+  const res = toArray(whileDo(() => x > 0, defer(() => tap({ next: () => x-- })([x]))));
 
   expect(sequenceEqual(res, [])).toBeTruthy();
 });

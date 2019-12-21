@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { scan } from '../../iterable/scan';
+import { scan } from '../../iterable/operators/scan';
 
 export function scanProto<T, R = T>(
   this: IterableX<T>,
@@ -19,7 +19,7 @@ export function scanProto<T, R = T>(
   accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
   ...seed: R[]
 ): IterableX<R> {
-  return scan(this, accumulator, ...seed);
+  return scan(accumulator, ...seed)(this);
 }
 
 IterableX.prototype.scan = scanProto;

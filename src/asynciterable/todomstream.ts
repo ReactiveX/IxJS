@@ -1,10 +1,18 @@
+import { publish } from './operators/publish';
 import { fromDOMStream } from './fromdomstream';
+import { AsyncIterableX } from './asynciterablex';
 
 export type ReadableBYOBStreamOptions<T = any> = QueuingStrategy<T> & { type: 'bytes' };
 export type ReadableByteStreamOptions<T = any> = QueuingStrategy<T> & {
   type: 'bytes';
   autoAllocateChunkSize?: number;
 };
+
+type AsyncSourceIterator<TSource> = AsyncIterator<
+  TSource,
+  any,
+  number | ArrayBufferView | undefined | null
+>;
 
 /** @ignore */
 function memcpy<TTarget extends ArrayBufferView, TSource extends ArrayBufferView>(
@@ -25,7 +33,7 @@ function memcpy<TTarget extends ArrayBufferView, TSource extends ArrayBufferView
 }
 
 abstract class AbstractUnderlyingSource<TSource> {
-  constructor(protected _source: AsyncIterator<TSource> | null) {}
+  constructor(protected _source: AsyncSourceIterator<TSource> | null) {}
   async cancel() {
     const source = this._source;
     if (source && source.return) {
@@ -37,7 +45,7 @@ abstract class AbstractUnderlyingSource<TSource> {
 
 class UnderlyingAsyncIterableDefaultSource<TSource = any> extends AbstractUnderlyingSource<TSource>
   implements UnderlyingSource<TSource> {
-  constructor(source: AsyncIterator<TSource> | null) {
+  constructor(source: AsyncSourceIterator<TSource> | null) {
     super(source);
   }
   async pull(controller: ReadableStreamDefaultController<TSource>) {
@@ -64,7 +72,7 @@ class UnderlyingAsyncIterableByteSource<TSource extends ArrayBufferView = Uint8A
   private fallbackDefaultSource: UnderlyingAsyncIterableDefaultSource<TSource>;
 
   constructor(
-    reader: AsyncIterator<TSource> | null,
+    reader: AsyncSourceIterator<TSource> | null,
     opts: { autoAllocateChunkSize?: number } = {}
   ) {
     super(reader);
@@ -174,4 +182,70 @@ export function toDOMStream(
     new UnderlyingAsyncIterableByteSource(source[Symbol.asyncIterator]()),
     options
   );
+}
+
+AsyncIterableX.prototype.tee = function<T>(this: AsyncIterableX<T>) {
+  return _getDOMStream(this).tee();
+};
+
+AsyncIterableX.prototype.pipeTo = function<T>(
+  this: AsyncIterableX<T>,
+  writable: WritableStream<T>,
+  options?: PipeOptions
+) {
+  return _getDOMStream(this).pipeTo(writable, options);
+};
+
+AsyncIterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>>(
+  this: AsyncIterableX<T>,
+  duplex: { writable: WritableStream<T>; readable: R },
+  options?: PipeOptions
+) {
+  return _getDOMStream(this).pipeThrough(duplex, options);
+};
+
+function _getDOMStream<T>(self: any) {
+  return (
+    self._DOMStream ||
+    (self._DOMStream = self.pipe(
+      publish<T>(),
+      toDOMStream
+    ))
+  );
+}
+
+/**
+ * @ignore
+ */
+export function toDOMStreamProto<T>(
+  this: AsyncIterable<T>,
+  strategy?: QueuingStrategy<T>
+): ReadableStream<T>;
+export function toDOMStreamProto<T>(
+  this: AsyncIterable<T>,
+  options: ReadableBYOBStreamOptions<Uint8Array>
+): ReadableStream<Uint8Array>;
+export function toDOMStreamProto<T>(
+  this: AsyncIterable<T>,
+  options: ReadableByteStreamOptions<Uint8Array>
+): ReadableStream<Uint8Array>;
+export function toDOMStreamProto(
+  this: AsyncIterable<any>,
+  options?: QueuingStrategy<any> | ReadableBYOBStreamOptions | ReadableByteStreamOptions
+) {
+  return !options ? toDOMStream(this) : toDOMStream(this, options);
+}
+
+AsyncIterableX.prototype.toDOMStream = toDOMStreamProto;
+
+declare module '../asynciterable/asynciterablex' {
+  interface AsyncIterableX<T> {
+    toDOMStream: typeof toDOMStreamProto;
+    tee(): [ReadableStream<T>, ReadableStream<T>];
+    pipeTo(writable: WritableStream<T>, options?: PipeOptions): Promise<void>;
+    pipeThrough<R extends ReadableStream<any>>(
+      duplex: { writable: WritableStream<T>; readable: R },
+      options?: PipeOptions
+    ): ReadableStream<T>;
+  }
 }

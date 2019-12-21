@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { flatMap } from '../../iterable/flatmap';
+import { flatMap } from '../../iterable/operators/flatmap';
 
 /**
  * @ignore
@@ -9,7 +9,7 @@ export function flatMapProto<TSource, TResult>(
   fn: (value: TSource) => Iterable<TResult>,
   thisArg?: any
 ): IterableX<TResult> {
-  return flatMap<TSource, TResult>(this, fn, thisArg);
+  return flatMap<TSource, TResult>(fn, thisArg)(this);
 }
 
 IterableX.prototype.flatMap = flatMapProto;

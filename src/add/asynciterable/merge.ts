@@ -9,5 +9,7 @@ export declare namespace asynciterable {
 }
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export let merge: typeof mergeStatic_; }
+  namespace AsyncIterableX {
+    export let merge: typeof mergeStatic_;
+  }
 }

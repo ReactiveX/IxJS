@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { intersect } from '../../iterable/intersect';
+import { intersect } from '../../iterable/operators/intersect';
 
 /**
  * @ignore
@@ -9,7 +9,7 @@ export function intersectProto<T>(
   second: IterableX<T>,
   comparer?: (x: T, y: T) => boolean
 ) {
-  return intersect(this, second, comparer);
+  return intersect(second, comparer)(this);
 }
 
 IterableX.prototype.intersect = intersectProto;

@@ -1,30 +1,28 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.slice]);
-const { from } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { slice } from 'ix/asynciterable/operators';
+import { from } from 'ix/asynciterable';
 
-test('AsyncIterable#slice slices at zero with one item', async ([slice]) => {
+test('AsyncIterable#slice slices at zero with one item', async () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 0, 1);
+  const ys = xs.pipe(slice(0, 1));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
   await noNext(it);
 });
 
-test('AsyncIterable#slice slices at one with one item', async ([slice]) => {
+test('AsyncIterable#slice slices at one with one item', async () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 1, 1);
+  const ys = xs.pipe(slice(1, 1));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 2);
   await noNext(it);
 });
 
-test('AsyncIterable#slice slices at one with multiple items', async ([slice]) => {
+test('AsyncIterable#slice slices at one with multiple items', async () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 1, 2);
+  const ys = xs.pipe(slice(1, 2));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 2);
@@ -32,9 +30,9 @@ test('AsyncIterable#slice slices at one with multiple items', async ([slice]) =>
   await noNext(it);
 });
 
-test('AsyncIterable#slice slices at one with no end', async ([slice]) => {
+test('AsyncIterable#slice slices at one with no end', async () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 1);
+  const ys = xs.pipe(slice(1));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 2);
@@ -43,9 +41,9 @@ test('AsyncIterable#slice slices at one with no end', async ([slice]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#slice slices at zero with no end', async ([slice]) => {
+test('AsyncIterable#slice slices at zero with no end', async () => {
   const xs = from([1, 2, 3, 4]);
-  const ys = slice(xs, 0);
+  const ys = xs.pipe(slice(0));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);

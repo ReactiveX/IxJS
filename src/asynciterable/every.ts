@@ -12,7 +12,7 @@ export async function every<T>(
 ): Promise<boolean> {
   let i = 0;
   for await (let item of source) {
-    if (!await predicate(item, i++)) {
+    if (!(await predicate(item, i++))) {
       return false;
     }
   }

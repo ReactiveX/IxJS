@@ -1,5 +1,5 @@
 'use strict';
-import { identity } from '../internal/identity';
+import { identity } from '../util/identity';
 
 export function min(source: Iterable<number>, fn?: (x: number) => number): number;
 export function min<T>(source: Iterable<T>, fn: (x: T) => number): number;

@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { mergeAll } from '../../asynciterable/mergeall';
+import { mergeAll } from '../../asynciterable/operators/mergeall';
 
 /**
  * @ignore
  */
 export function mergeAllProto<T>(this: AsyncIterableX<AsyncIterable<T>>): AsyncIterableX<T> {
-  return mergeAll(this);
+  return mergeAll<T>()(this);
 }
 
 AsyncIterableX.prototype.mergeAll = mergeAllProto;

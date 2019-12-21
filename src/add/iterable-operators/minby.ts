@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { minBy } from '../../iterable/minby';
+import { minBy } from '../../iterable/operators/minby';
 
 /**
  * @ignore
@@ -9,7 +9,7 @@ export function minByProto<TSource, TKey>(
   keyFn: (x: TSource) => TKey,
   cmp?: (x: TKey, y: TKey) => number
 ): IterableX<TSource> {
-  return minBy(this, keyFn, cmp);
+  return minBy(keyFn, cmp)(this);
 }
 
 IterableX.prototype.minBy = minByProto;

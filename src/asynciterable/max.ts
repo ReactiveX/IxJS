@@ -1,4 +1,4 @@
-import { identityAsync } from '../internal/identity';
+import { identityAsync } from '../util/identity';
 
 export async function max(
   source: AsyncIterable<number>,

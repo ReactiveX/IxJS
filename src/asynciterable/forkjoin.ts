@@ -1,4 +1,4 @@
-import { identity, identityAsync } from '../internal/identity';
+import { identity, identityAsync } from '../util/identity';
 
 // tslint:disable-next-line:no-empty
 const NEVER_PROMISE = new Promise(() => {});

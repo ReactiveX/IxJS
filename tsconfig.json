@@ -6,6 +6,11 @@
   },
   "compilerOptions": {
     "target": "ESNEXT",
-    "module": "commonjs"
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {
+      "ix": ["src/Ix.node"],
+      "ix/*": ["src/*"]
+    }
   }
 }

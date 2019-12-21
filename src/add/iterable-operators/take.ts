@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { take } from '../../iterable/take';
+import { take } from '../../iterable/operators/take';
 
 /**
  * @ignore
  */
 export function takeProto<T>(this: IterableX<T>, count: number): IterableX<T> {
-  return take(this, count);
+  return take<T>(count)(this);
 }
 
 IterableX.prototype.take = takeProto;

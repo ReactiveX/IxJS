@@ -1,5 +1,5 @@
 'use strict';
-import { identityAsync } from '../internal/identity';
+import { identityAsync } from '../util/identity';
 
 export async function min(
   source: AsyncIterable<number>,

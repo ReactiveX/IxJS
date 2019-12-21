@@ -60,6 +60,7 @@ export function concatProto<T>(
   this: AsyncIterableX<T>,
   ...args: AsyncIterable<T>[]
 ): AsyncIterableX<T> {
+  // @ts-ignore
   return concat(this, ...args);
 }
 

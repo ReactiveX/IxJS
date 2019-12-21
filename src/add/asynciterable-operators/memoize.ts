@@ -1,24 +1,21 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { memoize } from '../../asynciterable/memoize';
+import { memoize } from '../../asynciterable/operators/memoize';
 
-export function memoizeProto<TSource>(
-  this: AsyncIterableX<TSource>,
-  readerCount?: number
-): AsyncIterableX<TSource>;
-export function memoizeProto<TSource, TResult>(
-  this: AsyncIterableX<TSource>,
+export function memoizeProto<T>(this: AsyncIterableX<T>, readerCount?: number): AsyncIterableX<T>;
+export function memoizeProto<T, R>(
+  this: AsyncIterableX<T>,
   readerCount?: number,
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): AsyncIterableX<TResult>;
+  selector?: (value: AsyncIterable<T>) => AsyncIterable<R>
+): AsyncIterableX<R>;
 /**
  * @ignore
  */
-export function memoizeProto<TSource, TResult = TSource>(
-  this: AsyncIterableX<TSource>,
+export function memoizeProto<T, R = T>(
+  this: AsyncIterableX<T>,
   readerCount: number = -1,
-  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
-): AsyncIterableX<TSource | TResult> {
-  return memoize(this, readerCount, selector);
+  selector?: (value: AsyncIterable<T>) => AsyncIterable<R>
+): AsyncIterableX<T | R> {
+  return memoize(readerCount, selector)(this);
 }
 
 AsyncIterableX.prototype.memoize = memoizeProto;

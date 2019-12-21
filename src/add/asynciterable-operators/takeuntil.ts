@@ -1,14 +1,14 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { takeUntil } from '../../asynciterable/takeuntil';
+import { takeUntil } from '../../asynciterable/operators/takeuntil';
 
 /**
  * @ignore
  */
-export function takeUntilProto<TSource>(
-  this: AsyncIterableX<TSource>,
+export function takeUntilProto<T>(
+  this: AsyncIterableX<T>,
   other: () => Promise<any>
-): AsyncIterableX<TSource> {
-  return takeUntil(this, other);
+): AsyncIterableX<T> {
+  return takeUntil<T>(other)(this);
 }
 
 AsyncIterableX.prototype.takeUntil = takeUntilProto;

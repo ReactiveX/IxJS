@@ -1,20 +1,19 @@
-import * as Ix from '../Ix';
-const { defer } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
-const { tap } = Ix.asynciterable;
-const { _while } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { defer, of, whileDo } from 'ix/asynciterable';
+import { tap } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#while some', async () => {
   let x = 5;
-  const res = _while(
+  const res = whileDo(
     async () => x > 0,
     defer(async () =>
-      tap(of(x), {
-        next: async () => {
-          x--;
-        }
-      })
+      of(x).pipe(
+        tap({
+          next: async () => {
+            x--;
+          }
+        })
+      )
     )
   );
 
@@ -29,14 +28,16 @@ test('AsyncIterable#while some', async () => {
 
 test('AsyncIterable#while none', async () => {
   let x = 0;
-  const res = _while(
+  const res = whileDo(
     async () => x > 0,
     defer(async () =>
-      tap(of(x), {
-        next: async () => {
-          x--;
-        }
-      })
+      of(x).pipe(
+        tap({
+          next: async () => {
+            x--;
+          }
+        })
+      )
     )
   );
 

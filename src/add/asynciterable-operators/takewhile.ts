@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { takeWhile } from '../../asynciterable/takewhile';
+import { takeWhile } from '../../asynciterable/operators/takewhile';
 
 /**
  * @ignore
@@ -17,7 +17,7 @@ export function takeWhileProto<T>(
   this: AsyncIterableX<T>,
   predicate: (value: T, index: number) => boolean | Promise<boolean>
 ): AsyncIterableX<T> {
-  return takeWhile(this, predicate);
+  return takeWhile<T>(predicate)(this);
 }
 
 AsyncIterableX.prototype.takeWhile = takeWhileProto;

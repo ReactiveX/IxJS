@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { innerJoin } from '../../iterable/innerjoin';
+import { innerJoin } from '../../iterable/operators/innerjoin';
 
 /**
  * @ignore
@@ -11,7 +11,7 @@ export function innerJoinProto<TOuter, TInner, TKey, TResult>(
   innerSelector: (value: TInner) => TKey,
   resultSelector: (outer: TOuter, inner: TInner) => TResult
 ): IterableX<TResult> {
-  return innerJoin(this, inner, outerSelector, innerSelector, resultSelector);
+  return innerJoin(inner, outerSelector, innerSelector, resultSelector)(this);
 }
 
 IterableX.prototype.innerJoin = innerJoinProto;

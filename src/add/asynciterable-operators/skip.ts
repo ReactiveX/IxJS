@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { skip } from '../../asynciterable/skip';
+import { skip } from '../../asynciterable/operators/skip';
 
 /**
  * @ignore
  */
 export function skipProto<T>(this: AsyncIterableX<T>, count: number): AsyncIterableX<T> {
-  return skip(this, count);
+  return skip<T>(count)(this);
 }
 
 AsyncIterableX.prototype.skip = skipProto;

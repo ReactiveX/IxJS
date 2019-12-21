@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { min } from '../../asynciterable/min';
-import { identityAsync } from '../../internal/identity';
+import { identityAsync } from '../../util/identity';
 
 export function minProto(
   this: AsyncIterableX<number>,

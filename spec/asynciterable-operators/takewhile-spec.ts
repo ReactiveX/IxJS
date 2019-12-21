@@ -1,12 +1,10 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.takeWhile]);
-const { of } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { takeWhile } from 'ix/asynciterable/operators';
+import { of } from 'ix/asynciterable';
 
-test('AsyncIterable#takeWhile some match', async ([takeWhile]) => {
+test('AsyncIterable#takeWhile some match', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, x => x < 3);
+  const ys = xs.pipe(takeWhile(x => x < 3));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -14,17 +12,17 @@ test('AsyncIterable#takeWhile some match', async ([takeWhile]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#takeWhile no match', async ([takeWhile]) => {
+test('AsyncIterable#takeWhile no match', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, () => false);
+  const ys = xs.pipe(takeWhile(() => false));
 
   const it = ys[Symbol.asyncIterator]();
   await noNext(it);
 });
 
-test('AsyncItearble#takeWhile all match', async ([takeWhile]) => {
+test('AsyncItearble#takeWhile all match', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, () => true);
+  const ys = xs.pipe(takeWhile(() => true));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -34,9 +32,9 @@ test('AsyncItearble#takeWhile all match', async ([takeWhile]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#takeWhile uses index', async ([takeWhile]) => {
+test('AsyncIterable#takeWhile uses index', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, (_, i) => i < 2);
+  const ys = xs.pipe(takeWhile((_, i) => i < 2));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -44,12 +42,14 @@ test('AsyncIterable#takeWhile uses index', async ([takeWhile]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#takeWhile predicate throws', async ([takeWhile]) => {
+test('AsyncIterable#takeWhile predicate throws', async () => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
-  const ys = takeWhile(xs, () => {
-    throw err;
-  });
+  const ys = xs.pipe(
+    takeWhile(() => {
+      throw err;
+    })
+  );
 
   const it = ys[Symbol.asyncIterator]();
   try {

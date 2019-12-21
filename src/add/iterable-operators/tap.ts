@@ -1,12 +1,12 @@
 import { IterableX } from '../../iterable/iterablex';
-import { tap } from '../../iterable/tap';
+import { tap } from '../../iterable/operators/tap';
 import { PartialObserver } from '../../observer';
 
 /**
  * @ignore
  */
 export function tapProto<T>(this: IterableX<T>, observer: PartialObserver<T>): IterableX<T> {
-  return tap(this, observer);
+  return tap<T>(observer)(this);
 }
 
 IterableX.prototype.tap = tapProto;

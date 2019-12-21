@@ -1,13 +1,10 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.skip]);
-const { of } = Ix.AsyncIterable;
-const { _throw } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { of, throwError } from 'ix/asynciterable';
+import { skip } from 'ix/asynciterable/operators';
 
-test('AsyncIterable#skip skips some', async ([skip]) => {
+test('AsyncIterable#skip skips some', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = skip(xs, 2);
+  const ys = xs.pipe(skip(2));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 3);
@@ -15,17 +12,17 @@ test('AsyncIterable#skip skips some', async ([skip]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#skip skips more than count', async ([skip]) => {
+test('AsyncIterable#skip skips more than count', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = skip(xs, 10);
+  const ys = xs.pipe(skip(10));
 
   const it = ys[Symbol.asyncIterator]();
   await noNext(it);
 });
 
-test('AsyncIterable#skip none', async ([skip]) => {
+test('AsyncIterable#skip none', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = skip(xs, 0);
+  const ys = xs.pipe(skip(0));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -35,10 +32,10 @@ test('AsyncIterable#skip none', async ([skip]) => {
   await noNext(it);
 });
 
-test('AsyncIterable#skip throws', async ([skip]) => {
+test('AsyncIterable#skip throws', async () => {
   const err = new Error();
-  const xs = _throw<number>(err);
-  const ys = skip(xs, 2);
+  const xs = throwError<number>(err);
+  const ys = xs.pipe(skip(2));
 
   const it = ys[Symbol.asyncIterator]();
   try {

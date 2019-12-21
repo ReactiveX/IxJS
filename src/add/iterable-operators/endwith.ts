@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { endWith } from '../../iterable/endwith';
+import { endWith } from '../../iterable/operators/endwith';
 
 /**
  * @ignore
  */
 export function endWithProto<T>(this: IterableX<T>, ...args: T[]) {
-  return endWith(this, ...args);
+  return endWith<T>(...args)(this);
 }
 
 IterableX.prototype.endWith = endWithProto;

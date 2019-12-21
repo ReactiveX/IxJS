@@ -1,6 +1,6 @@
 import { IterableX } from '../../iterable/iterablex';
-import { groupBy, GroupedIterable, groupByResultIdentity } from '../../iterable/groupby';
-import { identity } from '../../internal/identity';
+import { groupBy, GroupedIterable, groupByResultIdentity } from '../../iterable/operators/groupby';
+import { identity } from '../../util/identity';
 
 export function groupByProto<TSource, TKey>(
   this: IterableX<TSource>,
@@ -26,11 +26,8 @@ export function groupByProto<TSource, TKey, TValue, TResult>(
   elementSelector: (value: TSource) => TValue = identity,
   resultSelector: (key: TKey, values: Iterable<TValue>) => TResult = groupByResultIdentity
 ): IterableX<TResult> {
-  return groupBy<TSource, TKey, TValue, TResult>(
-    this,
-    keySelector,
-    elementSelector,
-    resultSelector
+  return groupBy<TSource, TKey, TValue, TResult>(keySelector, elementSelector, resultSelector)(
+    this
   );
 }
 

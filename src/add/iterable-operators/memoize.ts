@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { memoize } from '../../iterable/memoize';
+import { memoize } from '../../iterable/operators/memoize';
 
 export function memoizeProto<TSource>(
   this: IterableX<TSource>,
@@ -18,7 +18,7 @@ export function memoizeProto<TSource, TResult = TSource>(
   readerCount: number = -1,
   selector?: (value: Iterable<TSource>) => Iterable<TResult>
 ): IterableX<TSource | TResult> {
-  return memoize(this, readerCount, selector);
+  return memoize(readerCount, selector)(this);
 }
 
 IterableX.prototype.memoize = memoizeProto;

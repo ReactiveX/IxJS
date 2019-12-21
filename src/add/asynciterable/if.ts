@@ -1,13 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { _if as ifStatic } from '../../asynciterable/if';
+import { iif as ifStatic } from '../../asynciterable/iif';
 
 /** @nocollapse */
-AsyncIterableX.if = ifStatic;
+AsyncIterableX.iif = ifStatic;
 
 export declare namespace asynciterable {
-  let _if: typeof ifStatic;
+  let iif: typeof ifStatic;
 }
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export { ifStatic as if }; }
+  namespace AsyncIterableX {
+    export { ifStatic as iif };
+  }
 }

@@ -1,6 +1,5 @@
-import * as Ix from '../Ix';
-const { from } = Ix.Iterable;
 import { hasNext, noNext } from '../iterablehelpers';
+import { from } from 'ix/iterable';
 
 function* getData() {
   yield 1;

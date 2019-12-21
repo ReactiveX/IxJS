@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { publish } from '../../asynciterable/publish';
+import { publish } from '../../asynciterable/operators/publish';
 
 export function publishProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource>;
 export function publishProto<TSource, TResult>(
@@ -13,7 +13,7 @@ export function publishProto<TSource, TResult>(
   this: AsyncIterableX<TSource>,
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): AsyncIterableX<TSource | TResult> {
-  return publish(this, selector);
+  return publish(selector)(this);
 }
 
 AsyncIterableX.prototype.publish = publishProto;

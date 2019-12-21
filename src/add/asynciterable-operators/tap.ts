@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { tap } from '../../asynciterable/tap';
+import { tap } from '../../asynciterable/operators/tap';
 import { PartialAsyncObserver } from '../../observer';
 
 /** @ignore */
@@ -17,7 +17,7 @@ export function tapProto<T>(
   error?: ((err: any) => any) | null,
   complete?: (() => any) | null
 ): AsyncIterableX<T> {
-  return tap(this, observerOrNext as any, error, complete);
+  return tap<T>(observerOrNext as any, error, complete)(this);
 }
 
 AsyncIterableX.prototype.tap = tapProto;

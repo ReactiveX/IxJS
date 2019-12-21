@@ -1,10 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
 
-// To work around circular-dependency hell, these need to be on
-// the AsyncIterable prototype for tee, pipeTo, and pipeThrough
-import '../add/asynciterable-operators/publish';
-import '../add/asynciterable-operators/todomstream';
-
 /** @ignore */
 const SharedArrayBuf = typeof SharedArrayBuffer !== 'undefined' ? SharedArrayBuffer : ArrayBuffer;
 
@@ -26,7 +21,7 @@ export class AsyncIterableReadableByteStream extends AsyncIterableReadableStream
     try {
       reader = stream['getReader']({ mode: 'byob' });
     } catch (e) {
-      return super[Symbol.asyncIterator]() as AsyncIterableIterator<Uint8Array>;
+      return super[Symbol.asyncIterator]();
     }
     const iterator = _consumeReader(stream, reader, byobReaderToAsyncIterator(reader));
     // "pump" the iterator once so it initializes and is ready to accept a buffer or bytesToRead
@@ -38,7 +33,7 @@ export class AsyncIterableReadableByteStream extends AsyncIterableReadableStream
 async function* _consumeReader<T>(
   stream: ReadableStream<T>,
   reader: ReadableStreamBYOBReader | ReadableStreamDefaultReader,
-  iterator: AsyncIterableIterator<T>
+  iterator: AsyncGenerator<T>
 ) {
   let threw = false;
   try {

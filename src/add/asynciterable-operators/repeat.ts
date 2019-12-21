@@ -1,14 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { repeat } from '../../asynciterable/repeat';
+import { repeat } from '../../asynciterable/operators/repeat';
 
 /**
  * @ignore
  */
-export function repeatProto<TSource>(
-  this: AsyncIterableX<TSource>,
-  count: number = -1
-): AsyncIterableX<TSource> {
-  return repeat(this, count);
+export function repeatProto<T>(this: AsyncIterableX<T>, count: number = -1): AsyncIterableX<T> {
+  return repeat<T>(count)(this);
 }
 
 AsyncIterableX.prototype.repeat = repeatProto;

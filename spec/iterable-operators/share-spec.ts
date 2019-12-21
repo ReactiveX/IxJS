@@ -1,16 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.share]);
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { take } = Ix.iterable;
-const { tap } = Ix.iterable;
-const { toArray } = Ix.iterable;
-const { zip } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
+import { share, take, tap } from 'ix/iterable/operators';
+import { range, sequenceEqual, toArray, zip } from 'ix/iterable';
 
-test('Iterable#share single', ([share]) => {
-  const rng = share(range(0, 5));
+test('Iterable#share single', () => {
+  const rng = range(0, 5).pipe(share());
 
   const it = rng[Symbol.iterator]();
   hasNext(it, 0);
@@ -21,8 +14,8 @@ test('Iterable#share single', ([share]) => {
   noNext(it);
 });
 
-test('Iterable#share shared exhausts in the beginning', ([share]) => {
-  const rng = share(range(0, 5));
+test('Iterable#share shared exhausts in the beginning', () => {
+  const rng = range(0, 5).pipe(share());
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -35,8 +28,8 @@ test('Iterable#share shared exhausts in the beginning', ([share]) => {
   noNext(it2);
 });
 
-test('Iterable#share shared exhausts any time', ([share]) => {
-  const rng = share(range(0, 5));
+test('Iterable#share shared exhausts any time', () => {
+  const rng = range(0, 5).pipe(share());
 
   const it1 = rng[Symbol.iterator]();
   hasNext(it1, 0);
@@ -51,11 +44,12 @@ test('Iterable#share shared exhausts any time', ([share]) => {
   noNext(it2);
 });
 
-test('Iterable#share with selector', ([share]) => {
+test('Iterable#share with selector', () => {
   let n = 0;
-  const res = toArray(
-    share(tap(range(0, 10), { next: () => n++ }), xs => take(zip(([l, r]) => l + r, xs, xs), 4))
-  );
+  const res = range(0, 10)
+    .pipe(tap({ next: () => n++ }))
+    .pipe(share(xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4))))
+    .pipe(toArray);
 
   expect(sequenceEqual(res, [0 + 1, 2 + 3, 4 + 5, 6 + 7])).toBeTruthy();
   expect(8).toBe(n);

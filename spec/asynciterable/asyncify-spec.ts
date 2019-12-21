@@ -1,7 +1,6 @@
-import * as Ix from '../Ix';
-const { asyncify } = Ix.asynciterable;
-const { sequenceEqual } = Ix.iterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { asyncify } from 'ix/asynciterable';
+import { sequenceEqual } from 'ix/iterable';
 
 test('AsyncIterable#asyncify single argument', async () => {
   const callbackFn = (a: number, b: number, cb: Function) => {

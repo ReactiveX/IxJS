@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { concatAll } from '../../iterable/concatall';
+import { concatAll } from '../../iterable/operators/concatall';
 
 /**
  * @ignore
  */
 export function concatAllProto<T>(this: IterableX<Iterable<T>>): IterableX<T> {
-  return concatAll(this);
+  return concatAll<T>()(this);
 }
 
 IterableX.prototype.concatAll = concatAllProto;

@@ -5,5 +5,7 @@ import { generateTime as generateTimeStatic } from '../../asynciterable/generate
 AsyncIterableX.generateTime = generateTimeStatic;
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export let generateTime: typeof generateTimeStatic; }
+  namespace AsyncIterableX {
+    export let generateTime: typeof generateTimeStatic;
+  }
 }

@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { ignoreElements } from '../../asynciterable/ignoreelements';
+import { ignoreElements } from '../../asynciterable/operators/ignoreelements';
 
 /**
  * @ignore
  */
 export function ignoreElementsProto<T>(this: AsyncIterableX<T>): AsyncIterableX<T> {
-  return ignoreElements(this);
+  return ignoreElements<T>()(this);
 }
 
 AsyncIterableX.prototype.ignoreElements = ignoreElementsProto;

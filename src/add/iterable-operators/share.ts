@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { share } from '../../iterable/share';
+import { share } from '../../iterable/operators/share';
 
 export function shareProto<TSource>(this: IterableX<TSource>): IterableX<TSource>;
 export function shareProto<TSource, TResult>(
@@ -9,11 +9,11 @@ export function shareProto<TSource, TResult>(
 /**
  * @ignore
  */
-export function shareProto<TSource, TResult>(
-  this: IterableX<TSource>,
-  fn?: (value: Iterable<TSource>) => Iterable<TResult>
-): IterableX<TSource | TResult> {
-  return share(this, fn);
+export function shareProto<T, R>(
+  this: IterableX<T>,
+  fn?: (value: Iterable<T>) => Iterable<R>
+): IterableX<T | R> {
+  return share(fn)(this);
 }
 
 IterableX.prototype.share = shareProto;

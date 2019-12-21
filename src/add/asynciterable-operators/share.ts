@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { share } from '../../asynciterable/share';
+import { share } from '../../asynciterable/operators/share';
 
 export function shareProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource>;
 export function shareProto<TSource, TResult>(
@@ -17,7 +17,7 @@ export function shareProto<TSource, TResult = TSource>(
     value: AsyncIterable<TSource>
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
 ): AsyncIterableX<TSource | TResult> {
-  return share(this, selector);
+  return share(selector)(this);
 }
 
 AsyncIterableX.prototype.share = shareProto;

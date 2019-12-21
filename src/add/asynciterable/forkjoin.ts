@@ -9,5 +9,7 @@ export declare namespace asynciterable {
 }
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export let forkJoin: typeof forkJoinStatic; }
+  namespace AsyncIterableX {
+    export let forkJoin: typeof forkJoinStatic;
+  }
 }

@@ -1,14 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { retry } from '../../asynciterable/retry';
+import { retry } from '../../asynciterable/operators/retry';
 
 /**
  * @ignore
  */
-export function retryProto<TSource>(
-  this: AsyncIterableX<TSource>,
-  count: number = -1
-): AsyncIterableX<TSource> {
-  return retry(this, count);
+export function retryProto<T>(this: AsyncIterableX<T>, count: number = -1): AsyncIterableX<T> {
+  return retry<T>(count)(this);
 }
 
 AsyncIterableX.prototype.retry = retryProto;

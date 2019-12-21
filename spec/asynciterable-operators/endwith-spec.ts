@@ -1,11 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.endWith]);
-const { range } = Ix.asynciterable;
-const { sequenceEqual } = Ix.asynciterable;
+import '../asynciterablehelpers';
+import { range, sequenceEqual } from 'ix/asynciterable';
+import { endWith } from 'ix/asynciterable/operators';
 
-test('AsyncIterable#endWith adds to end', async ([endWith]) => {
+test('AsyncIterable#endWith adds to end', async () => {
   const e = range(0, 5);
-  const r = endWith(e, 5, 6);
+  const r = e.pipe(endWith(5, 6));
   expect(await sequenceEqual(r, range(0, 7))).toBeTruthy();
 });

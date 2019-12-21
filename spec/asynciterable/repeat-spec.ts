@@ -1,9 +1,8 @@
-import * as Ix from '../Ix';
-const { repeatStatic } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { repeatValue } from 'ix/asynciterable';
 
 test('AsyncIterable#repeat repeats value finitely', async () => {
-  const xs = repeatStatic(2, 5);
+  const xs = repeatValue(2, 5);
 
   const it = xs[Symbol.asyncIterator]();
   await hasNext(it, 2);
@@ -15,14 +14,14 @@ test('AsyncIterable#repeat repeats value finitely', async () => {
 });
 
 test('AsyncIterable#repeat repeat zero times', async () => {
-  const xs = repeatStatic(2, 0);
+  const xs = repeatValue(2, 0);
 
   const it = xs[Symbol.asyncIterator]();
   await noNext(it);
 });
 
 test('AsyncIterable#repeat repeats value infinitely', async () => {
-  const xs = repeatStatic(2);
+  const xs = repeatValue(2);
 
   const it = xs[Symbol.asyncIterator]();
   await hasNext(it, 2);

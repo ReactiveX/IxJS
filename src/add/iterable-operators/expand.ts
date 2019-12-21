@@ -1,14 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { expand } from '../../iterable/expand';
+import { expand } from '../../iterable/operators/expand';
 
 /**
  * @ignore
  */
-export function expandProto<TSource>(
-  this: IterableX<TSource>,
-  fn: (value: TSource) => Iterable<TSource>
-) {
-  return expand(this, fn);
+export function expandProto<T>(this: IterableX<T>, fn: (value: T) => Iterable<T>) {
+  return expand(fn)(this);
 }
 
 IterableX.prototype.expand = expandProto;

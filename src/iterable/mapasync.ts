@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../asynciterable';
-import { bindCallback } from '../internal/bindcallback';
+import { bindCallback } from '../util/bindcallback';
 
 class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: Iterable<TSource | Promise<TSource>> | AsyncIterable<TSource>;

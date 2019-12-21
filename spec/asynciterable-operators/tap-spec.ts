@@ -1,16 +1,16 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.tap]);
-const { range } = Ix.asynciterable;
-const { _throw } = Ix.asynciterable;
+import '../asynciterablehelpers';
+import { range, throwError } from 'ix/asynciterable';
+import { tap } from 'ix/asynciterable/operators';
 
-test('AsyncItearble#tap next', async ([tap]) => {
+test('AsyncItearble#tap next', async () => {
   let n = 0;
-  let source = tap(range(0, 10), {
-    next: async x => {
-      n += x;
-    }
-  });
+  let source = range(0, 10).pipe(
+    tap({
+      next: async x => {
+        n += x;
+      }
+    })
+  );
 
   // tslint:disable-next-line:no-empty
   for await (let _ of source) {
@@ -19,16 +19,18 @@ test('AsyncItearble#tap next', async ([tap]) => {
   expect(45).toBe(n);
 });
 
-test('AsyncIterable#tap next complete', async ([tap]) => {
+test('AsyncIterable#tap next complete', async () => {
   let n = 0;
-  let source = tap(range(0, 10), {
-    next: async x => {
-      n += x;
-    },
-    complete: async () => {
-      n *= 2;
-    }
-  });
+  let source = range(0, 10).pipe(
+    tap({
+      next: async x => {
+        n += x;
+      },
+      complete: async () => {
+        n *= 2;
+      }
+    })
+  );
 
   // tslint:disable-next-line:no-empty
   for await (let _ of source) {
@@ -37,17 +39,19 @@ test('AsyncIterable#tap next complete', async ([tap]) => {
   expect(90).toBe(n);
 });
 
-test('AsyncIterable#tap with error', async ([tap]) => {
+test('AsyncIterable#tap with error', async () => {
   let err = new Error();
   let ok = false;
 
   try {
-    const source = tap(_throw<number>(err), {
-      error: async e => {
-        expect(err).toEqual(e);
-        ok = true;
-      }
-    });
+    const source = throwError<number>(err).pipe(
+      tap({
+        error: async e => {
+          expect(err).toEqual(e);
+          ok = true;
+        }
+      })
+    );
 
     // tslint:disable-next-line:no-empty
     for await (let _ of source) {
@@ -59,9 +63,9 @@ test('AsyncIterable#tap with error', async ([tap]) => {
   expect(ok).toBeTruthy();
 });
 
-test('AsyncItearble#tap with next function', async ([tap]) => {
+test('AsyncItearble#tap with next function', async () => {
   let n = 0;
-  let source = tap(range(0, 10), async x => (n += x));
+  let source = range(0, 10).pipe(tap(async x => (n += x)));
 
   // tslint:disable-next-line:no-empty
   for await (let _ of source) {
@@ -83,9 +87,9 @@ class MyObserver {
   }
 }
 
-test('AsyncItearble#tap with observer class', async ([tap]) => {
+test('AsyncItearble#tap with observer class', async () => {
   const obs = new MyObserver();
-  const source = tap(range(0, 10), obs);
+  const source = range(0, 10).pipe(tap(obs));
 
   // tslint:disable-next-line:no-empty
   for await (let _ of source) {

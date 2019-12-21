@@ -1,6 +1,5 @@
-import * as Ix from '../Ix';
-const { of } = Ix.Iterable;
 import { hasNext, noNext } from '../iterablehelpers';
+import { of } from 'ix/iterable';
 
 test('Iterable#of behavior', () => {
   const res = of(1, 2, 3);

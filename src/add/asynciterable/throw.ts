@@ -1,13 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { _throw as throwStatic } from '../../asynciterable/throw';
+import { throwError as _throwError } from '../../asynciterable/throwerrror';
 
 /** @nocollapse */
-AsyncIterableX.throw = throwStatic;
+AsyncIterableX.throwError = _throwError;
 
 export declare namespace asynciterable {
-  let _throw: typeof throwStatic;
+  let throwError: typeof _throwError;
 }
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export { throwStatic as throw }; }
+  namespace AsyncIterableX {
+    export { _throwError as throwError };
+  }
 }

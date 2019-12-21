@@ -1,6 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
-import { identityAsync } from '../internal/identity';
-import { returnAsyncIterator } from '../internal/returniterator';
+import { identityAsync } from '../util/identity';
+import { returnAsyncIterator } from '../util/returniterator';
 
 export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _sources: AsyncIterable<TSource>[];
@@ -65,30 +65,27 @@ export function zip<T, T2, T3, T4, T5, T6>(
   source6: AsyncIterable<T6>
 ): AsyncIterableX<[T, T2, T3, T4, T5, T6]>;
 
-export function zip<T, R>(
-  project: (values: [T]) => R | Promise<R>,
-  source: AsyncIterable<T>
-): AsyncIterableX<R>;
+export function zip<T, R>(project: (values: [T]) => R, source: AsyncIterable<T>): AsyncIterableX<R>;
 export function zip<T, T2, R>(
-  project: (values: [T, T2]) => R | Promise<R>,
+  project: (values: [T, T2]) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>
 ): AsyncIterableX<R>;
 export function zip<T, T2, T3, R>(
-  project: (values: [T, T2, T3]) => R | Promise<R>,
+  project: (values: [T, T2, T3]) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>
 ): AsyncIterableX<R>;
 export function zip<T, T2, T3, T4, R>(
-  project: (values: [T, T2, T3, T4]) => R | Promise<R>,
+  project: (values: [T, T2, T3, T4]) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>
 ): AsyncIterableX<R>;
 export function zip<T, T2, T3, T4, T5, R>(
-  project: (values: [T, T2, T3, T4, T5]) => R | Promise<R>,
+  project: (values: [T, T2, T3, T4, T5]) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
@@ -96,7 +93,7 @@ export function zip<T, T2, T3, T4, T5, R>(
   source5: AsyncIterable<T5>
 ): AsyncIterableX<R>;
 export function zip<T, T2, T3, T4, T5, T6, R>(
-  project: (values: [T, T2, T3, T4, T5, T6]) => R | Promise<R>,
+  project: (values: [T, T2, T3, T4, T5, T6]) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,

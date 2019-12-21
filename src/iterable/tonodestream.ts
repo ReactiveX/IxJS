@@ -1,12 +1,15 @@
 import { BufferLike } from '../interfaces';
+import { IterableX } from '../iterable/iterablex';
 import { Readable, ReadableOptions } from 'stream';
 
 const done = (_: any) => null as any;
 
+type SourceIterator<TSource> = Iterator<TSource, any, number | ArrayBufferView | undefined | null>;
+
 export class IterableReadable<T> extends Readable {
   private _pulling: boolean = false;
   private _objectMode: boolean = true;
-  private _iterator: Iterator<T> | undefined;
+  private _iterator: SourceIterator<T> | undefined;
   constructor(source: Iterable<T>, options?: ReadableOptions) {
     super(options);
     this._iterator = source[Symbol.iterator]();
@@ -27,7 +30,7 @@ export class IterableReadable<T> extends Readable {
       cb(null);
     }
   }
-  _pull(it: Iterator<T>, size: number) {
+  _pull(it: SourceIterator<T>, size: number) {
     const objectMode = this._objectMode;
     let r: IteratorResult<BufferLike | T> | undefined;
     while (this.readable && !(r = it.next(size)).done) {
@@ -68,4 +71,33 @@ export function toNodeStream<TSource>(
   return !options || options.objectMode === true
     ? new IterableReadable<TSource>(source, options)
     : new IterableReadable<TSource extends BufferLike ? TSource : any>(source, options);
+}
+
+/**
+ * @ignore
+ */
+export function toNodeStreamProto<TSource>(this: Iterable<TSource>): IterableReadable<TSource>;
+export function toNodeStreamProto<TSource>(
+  this: Iterable<TSource>,
+  options: ReadableOptions | { objectMode: true }
+): IterableReadable<TSource>;
+export function toNodeStreamProto<TSource extends BufferLike>(
+  this: Iterable<TSource>,
+  options: ReadableOptions | { objectMode: false }
+): IterableReadable<TSource>;
+export function toNodeStreamProto<TSource>(
+  this: Iterable<any>,
+  options?: ReadableOptions
+): IterableReadable<TSource> {
+  return !options || options.objectMode === true
+    ? new IterableReadable<TSource>(this, options)
+    : new IterableReadable<TSource extends BufferLike ? TSource : any>(this, options);
+}
+
+IterableX.prototype.toNodeStream = toNodeStreamProto;
+
+declare module '../iterable/iterablex' {
+  interface IterableX<T> {
+    toNodeStream: typeof toNodeStreamProto;
+  }
 }

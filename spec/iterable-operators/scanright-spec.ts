@@ -1,11 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.scanRight]);
-const { range } = Ix.iterable;
 import { hasNext, noNext } from '../iterablehelpers';
+import { scanRight } from 'ix/iterable/operators';
+import { range } from 'ix/iterable';
 
-test('Iterable#scanRight no seed', ([scanRight]) => {
-  const res = scanRight(range(0, 5), (n, x, i) => n + x + i);
+test('Iterable#scanRight no seed', () => {
+  const res = range(0, 5).pipe(scanRight((n, x, i) => n + x + i));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 10);
@@ -15,8 +13,8 @@ test('Iterable#scanRight no seed', ([scanRight]) => {
   noNext(it);
 });
 
-test('Iterable#scanRight with seed', ([scanRight]) => {
-  const res = scanRight(range(0, 5), (n, x, i) => n - x - i, 20);
+test('Iterable#scanRight with seed', () => {
+  const res = range(0, 5).pipe(scanRight((n, x, i) => n - x - i, 20));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 12);

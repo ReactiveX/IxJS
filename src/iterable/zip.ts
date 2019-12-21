@@ -1,6 +1,6 @@
 import { IterableX } from './iterablex';
-import { identity } from '../internal/identity';
-import { returnIterator } from '../internal/returniterator';
+import { identity } from '../util/identity';
+import { returnIterator } from '../util/returniterator';
 
 export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
   private _sources: Iterable<TSource>[];

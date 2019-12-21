@@ -5,5 +5,7 @@ import { fromNodeStream as fromNodeStreamStatic } from '../../asynciterable/from
 AsyncIterableX.fromNodeStream = fromNodeStreamStatic;
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export let fromNodeStream: typeof fromNodeStreamStatic; }
+  namespace AsyncIterableX {
+    export let fromNodeStream: typeof fromNodeStreamStatic;
+  }
 }

@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { pairwise } from '../../asynciterable/pairwise';
+import { pairwise } from '../../asynciterable/operators/pairwise';
 
 /**
  * @ignore
  */
-export function pairwiseProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource[]> {
-  return pairwise(this);
+export function pairwiseProto<T>(this: AsyncIterableX<T>): AsyncIterableX<T[]> {
+  return pairwise<T>()(this);
 }
 
 AsyncIterableX.prototype.pairwise = pairwiseProto;

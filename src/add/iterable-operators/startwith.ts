@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { startWith } from '../../iterable/startwith';
+import { startWith } from '../../iterable/operators/startwith';
 
 /**
  * @ignore
  */
 export function startWithProto<T>(this: IterableX<T>, ...args: T[]) {
-  return startWith(this, ...args);
+  return startWith<T>(...args)(this);
 }
 
 IterableX.prototype.startWith = startWithProto;

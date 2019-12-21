@@ -1,13 +1,15 @@
 import { IterableX } from '../../iterable/iterablex';
-import { repeatStatic as _repeatStatic } from '../../iterable/repeat';
+import { repeatValue as _repeatValue } from '../../iterable/repeatvalue';
 
 /** @nocollapse */
-IterableX.repeat = _repeatStatic;
+IterableX.repeatValue = _repeatValue;
 
 export declare namespace iterable {
-  let repeatStatic: typeof _repeatStatic;
+  let repeatStatic: typeof _repeatValue;
 }
 
 declare module '../../iterable/iterablex' {
-  namespace IterableX { export let repeat: typeof _repeatStatic; }
+  namespace IterableX {
+    export let repeatValue: typeof _repeatValue;
+  }
 }

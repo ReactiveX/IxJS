@@ -1,29 +1,26 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.pairwise]);
-const { empty } = Ix.iterable;
-const { of } = Ix.Iterable;
 import { hasNext, noNext } from '../iterablehelpers';
+import { pairwise } from 'ix/iterable/operators';
+import { from, empty, of } from 'ix/iterable';
 
-test('Iterable#pairwise empty return empty', ([pairwise]) => {
+test('Iterable#pairwise empty return empty', () => {
   const xs = empty<number>();
-  const ys = pairwise(xs);
+  const ys = from(xs).pipe(pairwise());
 
   const it = ys[Symbol.iterator]();
   noNext(it);
 });
 
-test('Iterable#pairwise single returns empty', ([pairwise]) => {
+test('Iterable#pairwise single returns empty', () => {
   const xs = of(5);
-  const ys = pairwise(xs);
+  const ys = from(xs).pipe(pairwise());
 
   const it = ys[Symbol.iterator]();
   noNext(it);
 });
 
-test('Iterable#pairwise behavior', ([pairwise]) => {
+test('Iterable#pairwise behavior', () => {
   const xs = of(5, 4, 3, 2, 1);
-  const ys = pairwise(xs);
+  const ys = from(xs).pipe(pairwise());
 
   const it = ys[Symbol.iterator]();
   hasNext(it, [5, 4]);

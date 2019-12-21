@@ -1,19 +1,19 @@
 import { IterableX } from '../../iterable/iterablex';
-import { publish } from '../../iterable/publish';
+import { publish } from '../../iterable/operators/publish';
 
-export function publishProto<TSource>(this: IterableX<TSource>): IterableX<TSource>;
-export function publishProto<TSource, TResult>(
-  this: IterableX<TSource>,
-  selector?: (value: Iterable<TSource>) => Iterable<TResult>
-): IterableX<TResult>;
+export function publishProto<T>(this: IterableX<T>): IterableX<T>;
+export function publishProto<T, R>(
+  this: IterableX<T>,
+  selector?: (value: Iterable<T>) => Iterable<R>
+): IterableX<R>;
 /**
  * @ignore
  */
-export function publishProto<TSource, TResult>(
-  this: IterableX<TSource>,
-  selector?: (value: Iterable<TSource>) => Iterable<TResult>
-): IterableX<TSource | TResult> {
-  return publish(this, selector);
+export function publishProto<T, R>(
+  this: IterableX<T>,
+  selector?: (value: Iterable<T>) => Iterable<R>
+): IterableX<T | R> {
+  return publish(selector)(this);
 }
 
 IterableX.prototype.publish = publishProto;

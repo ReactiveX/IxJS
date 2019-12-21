@@ -1,14 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { retry } from '../../iterable/retry';
+import { retry } from '../../iterable/operators/retry';
 
 /**
  * @ignore
  */
-export function retryProto<TSource>(
-  this: IterableX<TSource>,
-  count: number = -1
-): IterableX<TSource> {
-  return retry(this, count);
+export function retryProto<T>(this: IterableX<T>, count: number = -1): IterableX<T> {
+  return retry<T>(count)(this);
 }
 
 IterableX.prototype.retry = retryProto;

@@ -14,6 +14,8 @@ build_script:
   - npm run build
 
 test_script:
-  - npm test
+  - npm run test -- -t es5 -m umd
+  - npm run test -- -t es2015 -m umd
+  - npm run test -- -t esnext -m umd
 
 version: "{build}"

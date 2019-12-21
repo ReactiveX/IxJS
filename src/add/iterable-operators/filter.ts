@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { filter } from '../../iterable/filter';
+import { filter } from '../../iterable/operators/filter';
 
 /**
  * @ignore
@@ -19,7 +19,7 @@ export function filterProto<T>(
   predicate: (value: T, index: number) => boolean,
   thisArg?: any
 ): IterableX<T> {
-  return filter(this, predicate, thisArg);
+  return filter(predicate, thisArg)(this);
 }
 
 IterableX.prototype.filter = filterProto;

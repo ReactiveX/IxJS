@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { debounce } from '../../asynciterable/debounce';
+import { debounce } from '../../asynciterable/operators/debounce';
 
 /**
  * @ignore
  */
 export function debounceProto<T>(this: AsyncIterableX<T>, time: number): AsyncIterableX<T> {
-  return debounce(this, time);
+  return debounce<T>(time)(this);
 }
 
 AsyncIterableX.prototype.debounce = debounceProto;

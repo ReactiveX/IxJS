@@ -1,6 +1,5 @@
-import * as Ix from '../Ix';
-const { range } = Ix.asynciterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { range } from 'ix/asynciterable';
 
 test('AsyncIterable#range produces values', async () => {
   const xs = range(2, 5);

@@ -1,13 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { concatStatic as concatStatic_ } from '../../asynciterable/concat';
+import { concat as concatStatic } from '../../asynciterable/concat';
 
 /** @nocollapse */
-AsyncIterableX.concat = concatStatic_;
+AsyncIterableX.concat = concatStatic;
 
 export declare namespace asynciterable {
-  let concatStatic: typeof concatStatic_;
+  let concat: typeof concatStatic;
 }
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export let concat: typeof concatStatic_; }
+  namespace AsyncIterableX {
+    export let concat: typeof concatStatic;
+  }
 }

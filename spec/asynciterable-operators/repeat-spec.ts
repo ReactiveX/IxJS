@@ -1,44 +1,50 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.repeat]);
-const { buffer } = Ix.iterable;
-const { every } = Ix.iterable;
-const { map } = Ix.iterable;
-const { of } = Ix.AsyncIterable;
-const { sum } = Ix.iterable;
-const { take } = Ix.asynciterable;
-const { tap } = Ix.asynciterable;
-const { toArray } = Ix.asynciterable;
+import '../asynciterablehelpers';
+import { from, every, of, sum, toArray } from 'ix/asynciterable';
+import { buffer, map, repeat, tap, take } from 'ix/asynciterable/operators';
 
-test('AsyncIterable#repeat infinite', async ([repeat]) => {
+test('AsyncIterable#repeat infinite', async () => {
   let i = 0;
-  const xs = repeat(
-    tap(of(1, 2), {
-      next: async () => {
+  const xs = of(1, 2)
+    .pipe(
+      tap(async () => {
         ++i;
-      }
-    })
-  );
+      })
+    )
+    .pipe(repeat());
 
-  const res = await toArray(take(xs, 10));
+  const res = await toArray(xs.pipe(take(10)));
+
   expect(10).toBe(res.length);
-  expect(every(map(buffer(res, 2), b => sum(b)), x => x === 3)).toBeTruthy();
+  expect(
+    every(
+      from(res).pipe(
+        buffer(2),
+        map(b => sum(b))
+      ),
+      x => x === 3
+    )
+  ).toBeTruthy();
   expect(10).toBe(i);
 });
 
-test('AsyncIterable#repeat finite', async ([repeat]) => {
+test('AsyncIterable#repeat finite', async () => {
   let i = 0;
-  const xs = repeat(
-    tap(of(1, 2), {
-      next: async () => {
-        ++i;
-      }
+  const xs = of(1, 2).pipe(
+    tap(async () => {
+      ++i;
     }),
-    5
+    repeat(5)
   );
-
-  const res = await toArray(take(xs, 10));
+  const res = await toArray(xs);
   expect(10).toBe(res.length);
-  expect(every(map(buffer(res, 2), b => sum(b)), x => x === 3)).toBeTruthy();
+  expect(
+    every(
+      from(res).pipe(
+        buffer(2),
+        map(b => sum(b))
+      ),
+      x => x === 3
+    )
+  ).toBeTruthy();
   expect(10).toBe(i);
 });

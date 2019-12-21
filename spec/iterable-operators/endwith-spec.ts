@@ -1,11 +1,9 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.endWith]);
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
+import '../iterablehelpers';
+import { endWith } from 'ix/iterable/operators';
+import { range, sequenceEqual } from 'ix/iterable';
 
-test('Iterable#endWith adds to end', ([endWith]) => {
+test('Iterable#endWith adds to end', () => {
   const e = range(0, 5);
-  const r = endWith(e, 5, 6);
+  const r = endWith(5, 6)(e);
   expect(sequenceEqual(r, range(0, 7))).toBeTruthy();
 });

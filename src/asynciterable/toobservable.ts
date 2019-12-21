@@ -1,4 +1,4 @@
-import { toObserver } from '../internal/toobserver';
+import { toObserver } from '../util/toobserver';
 import { observable as symbolObservable } from '../observer';
 import { Observable, PartialObserver } from '../observer';
 import { Subscription } from '../subscription';

@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { max } from '../../asynciterable/max';
-import { identityAsync } from '../../internal/identity';
+import { identityAsync } from '../../util/identity';
 
 export function maxProto(
   this: AsyncIterableX<number>,

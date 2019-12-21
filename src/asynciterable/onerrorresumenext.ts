@@ -28,13 +28,6 @@ export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSou
   }
 }
 
-export function onErrorResumeNext<T>(
-  source: AsyncIterable<T>,
-  ...args: AsyncIterable<T>[]
-): AsyncIterableX<T> {
-  return new OnErrorResumeNextAsyncIterable<T>([source, ...args]);
-}
-
-export function onErrorResumeNextStatic<T>(...source: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return new OnErrorResumeNextAsyncIterable<T>(source);
+export function onErrorResumeNext<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
+  return new OnErrorResumeNextAsyncIterable<T>(args);
 }

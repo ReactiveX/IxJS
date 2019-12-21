@@ -1,6 +1,9 @@
 {
   "extends": "../tsconfig.json",
-  "include": ["./**/*.ts"],
+  "include": [
+    "../src/**/*.ts",
+    "../spec/**/*.ts"
+  ],
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
@@ -9,10 +12,15 @@
     "importHelpers": false,
     "noEmitHelpers": false,
     "noEmitOnError": false,
-
     "sourceMap": false,
     "inlineSources": false,
     "inlineSourceMap": false,
-    "downlevelIteration": false
+    "downlevelIteration": false,
+    "baseUrl": "../",
+    "paths": {
+      "ix/*": [
+        "src/*"
+      ]
+    }
   }
 }

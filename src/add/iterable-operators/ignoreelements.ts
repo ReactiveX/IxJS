@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { ignoreElements } from '../../iterable/ignoreelements';
+import { ignoreElements } from '../../iterable/operators/ignoreelements';
 
 /**
  * @ignore
  */
 export function ignoreElementsProto<T>(this: IterableX<T>): IterableX<T> {
-  return ignoreElements(this);
+  return ignoreElements<T>()(this);
 }
 
 IterableX.prototype.ignoreElements = ignoreElementsProto;

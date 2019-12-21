@@ -1,5 +1,5 @@
-import * as Ix from '../Ix';
-const { range } = Ix.iterable;
+import '../iterablehelpers';
+import { range } from 'ix/iterable';
 
 test('Iterable#forEach', () => {
   let n = 0;

@@ -1,42 +1,27 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.doWhile]);
-const { defer } = Ix.asynciterable;
-const { of } = Ix.AsyncIterable;
-const { sequenceEqual } = Ix.iterable;
-const { tap } = Ix.asynciterable;
-const { toArray } = Ix.asynciterable;
+import '../asynciterablehelpers';
+import { defer, of, toArray } from 'ix/asynciterable';
+import { doWhile, tap } from 'ix/asynciterable/operators';
+import { sequenceEqual } from 'ix/iterable';
 
-test('Iterable#doWhile some', async ([doWhile]) => {
+test('Iterable#doWhile some', async () => {
   let x = 5;
+
   const res = await toArray(
-    doWhile(
-      defer(() =>
-        tap(of(x), {
-          next: async () => {
-            x--;
-          }
-        })
-      ),
-      async () => x > 0
+    defer(() => of(x)).pipe(
+      tap({ next: async () => x-- }),
+      doWhile(() => x > 0)
     )
   );
 
   expect(sequenceEqual(res, [5, 4, 3, 2, 1])).toBeTruthy();
 });
 
-test('Iterable#doWhile one', async ([doWhile]) => {
+test('Iterable#doWhile one', async () => {
   let x = 0;
   const res = await toArray(
-    doWhile(
-      defer(() =>
-        tap(of(x), {
-          next: async () => {
-            x--;
-          }
-        })
-      ),
-      async () => x > 0
+    defer(() => of(x)).pipe(
+      tap({ next: async () => x-- }),
+      doWhile(() => x > 0)
     )
   );
 

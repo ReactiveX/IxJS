@@ -1,25 +1,27 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.startWith]);
-const { range } = Ix.asynciterable;
-const { sequenceEqual } = Ix.asynciterable;
-const { take } = Ix.asynciterable;
-const { tap } = Ix.asynciterable;
-const { toArray } = Ix.asynciterable;
+import '../asynciterablehelpers';
+import { range, sequenceEqual, toArray } from 'ix/asynciterable';
+import { startWith, take, tap } from 'ix/asynciterable/operators';
 
-test('AsyncIterable#startWith adds to beginning', async ([startWith]) => {
+test('AsyncIterable#startWith adds to beginning', async () => {
   const e = range(1, 5);
-  const r = startWith(e, 0);
+  const r = e.pipe(startWith(0));
   expect(await sequenceEqual(r, range(0, 6))).toBeTruthy();
 });
 
-test('AsyncIterable#startWith adds without causing effects', async ([startWith]) => {
+test('AsyncIterable#startWith adds without causing effects', async () => {
   let oops = false;
-  const e = tap(range(1, 5), {
-    next: async () => {
-      oops = true;
-    }
-  });
-  await toArray(take(startWith(e, 0), 1));
+  const e = range(1, 5).pipe(
+    tap({
+      next: async () => {
+        oops = true;
+      }
+    })
+  );
+  await toArray(
+    e.pipe(
+      startWith(0),
+      take(1)
+    )
+  );
   expect(oops).toBeFalsy();
 });

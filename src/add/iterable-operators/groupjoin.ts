@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { groupJoin } from '../../iterable/groupjoin';
+import { groupJoin } from '../../iterable/operators/groupjoin';
 
 /**
  * @ignore
@@ -11,7 +11,7 @@ export function groupJoinProto<TOuter, TInner, TKey, TResult>(
   innerSelector: (value: TInner) => TKey,
   resultSelector: (outer: TOuter, inner: Iterable<TInner>) => TResult
 ): IterableX<TResult> {
-  return groupJoin(this, inner, outerSelector, innerSelector, resultSelector);
+  return groupJoin(inner, outerSelector, innerSelector, resultSelector)(this);
 }
 
 IterableX.prototype.groupJoin = groupJoinProto;

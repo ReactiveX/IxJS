@@ -1,17 +1,11 @@
-import { OperatorFunction } from '../interfaces';
-import { bindCallback } from '../internal/bindcallback';
-import { identity } from '../internal/identity';
-import { toLength } from '../internal/tolength';
-import {
-  isArrayLike,
-  isIterable,
-  isIterator,
-  isReadableNodeStream,
-  isWritableNodeStream
-} from '../internal/isiterable';
+import { as as asIterable } from './as';
+import { _initialize as _initializeFrom } from './from';
+import { UnaryFunction, OperatorFunction } from '../interfaces';
+import { bindCallback } from '../util/bindcallback';
+import { isReadableNodeStream, isWritableNodeStream } from '../util/isiterable';
 
 /**
- * This clas serves as the base for all operations which support [Symbol.iterator].
+ * This class serves as the base for all operations which support [Symbol.iterator].
  */
 export abstract class IterableX<T> implements Iterable<T> {
   abstract [Symbol.iterator](): Iterator<T>;
@@ -24,132 +18,22 @@ export abstract class IterableX<T> implements Iterable<T> {
     }
   }
 
+  /** @nocollapse */
+  pipe<R>(...operations: UnaryFunction<Iterable<T>, R>[]): R;
   pipe<R>(...operations: OperatorFunction<T, R>[]): IterableX<R>;
   pipe<R extends NodeJS.WritableStream>(writable: R, options?: { end?: boolean }): R;
   pipe<R>(...args: any[]) {
     let i = -1;
     let n = args.length;
     let acc: any = this;
-    let as = IterableX.as;
     while (++i < n) {
-      acc = as(args[i](acc));
+      acc = args[i](asIterable(acc));
     }
     return acc;
   }
-
-  tee(): [ReadableStream<T>, ReadableStream<T>] {
-    return this._getDOMStream().tee();
-  }
-
-  pipeTo(writable: WritableStream<T>, options?: PipeOptions) {
-    return this._getDOMStream().pipeTo(writable, options);
-  }
-
-  pipeThrough<R extends ReadableStream<any>>(
-    duplex: { writable: WritableStream<T>; readable: R },
-    options?: PipeOptions
-  ) {
-    return this._getDOMStream().pipeThrough(duplex, options);
-  }
-
-  private _DOMStream?: ReadableStream<T>;
-  private _getDOMStream(): ReadableStream<T> {
-    return this._DOMStream || (this._DOMStream = this.publish().toDOMStream());
-  }
-
-  static as(source: string): IterableX<string>;
-  static as<T extends IterableX<any>>(source: T): T;
-  static as<T>(source: Iterable<T> | Iterator<T> | ArrayLike<T>): IterableX<T>;
-  static as<T>(source: T): IterableX<T>;
-  /** @nocollapse */
-  static as(source: any) {
-    /* tslint:disable */
-    if (source instanceof IterableX) {
-      return source;
-    }
-    if (typeof source === 'string') {
-      return new OfIterable([source]);
-    }
-    if (isIterable(source)) {
-      return new FromIterable(source, identity);
-    }
-    if (isArrayLike(source)) {
-      return new FromIterable(source, identity);
-    }
-    return new OfIterable([source]);
-    /* tslint:enable */
-  }
-
-  /** @nocollapse */
-  static from<TSource, TResult = TSource>(
-    source: Iterable<TSource> | Iterator<TSource> | ArrayLike<TSource>,
-    selector: (value: TSource, index: number) => TResult = identity,
-    thisArg?: any
-  ): IterableX<TResult> {
-    const fn = bindCallback(selector, thisArg, 2);
-    /* tslint:disable */
-    if (isIterable(source)) {
-      return new FromIterable<TSource, TResult>(source, fn);
-    }
-    if (isArrayLike(source)) {
-      return new FromIterable<TSource, TResult>(source, fn);
-    }
-    if (isIterator(source)) {
-      return new FromIterable<TSource, TResult>({ [Symbol.iterator]: () => source }, fn);
-    }
-    throw new TypeError('Input type not supported');
-    /* tslint:enable */
-  }
-
-  /** @nocollapse */
-  static of<TSource>(...args: TSource[]): IterableX<TSource> {
-    //tslint:disable-next-line
-    return new OfIterable<TSource>(args);
-  }
 }
 
-class FromIterable<TSource, TResult = TSource> extends IterableX<TResult> {
-  private _source: Iterable<TSource> | ArrayLike<TSource>;
-  private _fn: (value: TSource, index: number) => TResult;
-
-  constructor(
-    source: Iterable<TSource> | ArrayLike<TSource>,
-    fn: (value: TSource, index: number) => TResult
-  ) {
-    super();
-    this._source = source;
-    this._fn = fn;
-  }
-
-  *[Symbol.iterator]() {
-    const iterable = isIterable(this._source);
-    let i = 0;
-    if (iterable) {
-      for (let item of <Iterable<TSource>>this._source) {
-        yield this._fn(item, i++);
-      }
-    } else {
-      let length = toLength((<ArrayLike<TSource>>this._source).length);
-      while (i < length) {
-        let val = (<ArrayLike<TSource>>this._source)[i];
-        yield this._fn(val, i++);
-      }
-    }
-  }
-}
-
-class OfIterable<TSource> extends IterableX<TSource> {
-  private _args: TSource[];
-
-  constructor(args: TSource[]) {
-    super();
-    this._args = args;
-  }
-
-  *[Symbol.iterator]() {
-    yield* this._args;
-  }
-}
+_initializeFrom(IterableX);
 
 type WritableOrOperatorFunction<T, R> =
   | NodeJS.WritableStream
@@ -228,8 +112,7 @@ try {
       return;
     }
 
-    const as = IterableX.as;
-    IterableX.prototype.pipe = nodePipe;
+    IterableX.prototype['pipe'] = nodePipe;
     const readableOpts = (x: any, opts = x._writableState || { objectMode: true }) => opts;
 
     function nodePipe<T>(this: IterableX<T>, ...args: any[]) {
@@ -241,12 +124,12 @@ try {
       while (++i < n) {
         next = args[i];
         if (typeof next === 'function') {
-          prev = as(next(prev));
+          prev = next(asIterable(prev));
         } else if (isWritableNodeStream(next)) {
           ({ end = true } = args[i + 1] || {});
           // prettier-ignore
           return isReadableNodeStream(prev) ? prev.pipe(next, {end}) :
-             prev.toNodeStream(readableOpts(next)).pipe(next, {end});
+             asIterable(prev).toNodeStream(readableOpts(next)).pipe(next, {end});
         }
       }
       return prev;

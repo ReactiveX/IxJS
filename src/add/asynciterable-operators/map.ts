@@ -1,15 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { map } from '../../asynciterable/map';
+import { map } from '../../asynciterable/operators/map';
 
 /**
  * @ignore
  */
-export function mapProto<TSource, TResult>(
-  this: AsyncIterableX<TSource>,
-  selector: (value: TSource, index: number) => Promise<TResult> | TResult,
+export function mapProto<T, R>(
+  this: AsyncIterableX<T>,
+  selector: (value: T, index: number) => Promise<R> | R,
   thisArg?: any
-): AsyncIterableX<TResult> {
-  return map<TSource, TResult>(this, selector, thisArg);
+): AsyncIterableX<R> {
+  return map<T, R>(selector, thisArg)(this);
 }
 
 AsyncIterableX.prototype.map = mapProto;

@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { distinctUntilChanged } from '../../iterable/distinctuntilchanged';
+import { distinctUntilChanged } from '../../iterable/operators/distinctuntilchanged';
 
 /**
  * @ignore
@@ -9,7 +9,7 @@ export function distinctUntilChangedProto<TSource, TKey>(
   keySelector?: (value: TSource) => TKey,
   cmp?: (x: TKey, y: TKey) => boolean
 ): IterableX<TSource> {
-  return distinctUntilChanged(this, keySelector, cmp);
+  return distinctUntilChanged(keySelector, cmp)(this);
 }
 
 IterableX.prototype.distinctUntilChanged = distinctUntilChangedProto;

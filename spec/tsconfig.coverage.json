@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "es2015"
+    "target": "es2015",
+    "baseUrl": "../",
+    "paths": {
+      "ix": ["src"]
+    }
   }
 }

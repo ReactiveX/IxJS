@@ -1,5 +1,6 @@
 import { IterableX } from './iterablex';
-import { filter } from './filter';
+import { FilterIterable } from './operators/filter';
+import { bindCallback } from '../util/bindcallback';
 
 export function partition<T, S extends T>(
   source: Iterable<T>,
@@ -16,5 +17,7 @@ export function partition<T>(
   predicate: (value: T, index: number) => boolean,
   thisArg?: any
 ): IterableX<T>[] {
-  return [filter(source, predicate, thisArg), filter(source, (x, i) => !predicate(x, i), thisArg)];
+  const cb = bindCallback(predicate, thisArg, 2);
+  const notCb = bindCallback((value: T, index: number) => !predicate(value, index), thisArg, 2);
+  return [new FilterIterable(source, cb), new FilterIterable(source, notCb)];
 }

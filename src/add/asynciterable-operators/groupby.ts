@@ -3,8 +3,8 @@ import {
   groupBy,
   groupByResultIdentityAsync,
   GroupedAsyncIterable
-} from '../../asynciterable/groupby';
-import { identityAsync } from '../../internal/identity';
+} from '../../asynciterable/operators/groupby';
+import { identityAsync } from '../../util/identity';
 
 export function groupByProto<TSource, TKey>(
   this: AsyncIterableX<TSource>,
@@ -33,11 +33,8 @@ export function groupByProto<TSource, TKey, TValue, TResult>(
     values: Iterable<TValue>
   ) => TResult | Promise<TResult> = groupByResultIdentityAsync
 ): AsyncIterableX<TResult> {
-  return groupBy<TSource, TKey, TValue, TResult>(
-    this,
-    keySelector,
-    elementSelector,
-    resultSelector
+  return groupBy<TSource, TKey, TValue, TResult>(keySelector, elementSelector, resultSelector)(
+    this
   );
 }
 

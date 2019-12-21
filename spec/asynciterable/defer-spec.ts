@@ -1,7 +1,5 @@
-import * as Ix from '../Ix';
-const { defer } = Ix.asynciterable;
-const { range } = Ix.asynciterable;
-const { sequenceEqual } = Ix.asynciterable;
+import '../asynciterablehelpers';
+import { sequenceEqual, defer, range } from 'ix/asynciterable';
 
 test('AsyncIterable#defer defers side effects', async () => {
   let i = 0;

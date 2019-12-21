@@ -1,6 +1,5 @@
-import * as Ix from '../Ix';
-const { fromEventPattern } = Ix.asynciterable;
 import { hasNext } from '../asynciterablehelpers';
+import { fromEventPattern } from 'ix/asynciterable';
 import { EventEmitter } from 'events';
 
 const EVENT_TYPE = 'data';

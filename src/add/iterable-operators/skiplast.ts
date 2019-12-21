@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { skipLast } from '../../iterable/skiplast';
+import { skipLast } from '../../iterable/operators/skiplast';
 
 /**
  * @ignore
  */
 export function skipLastProto<T>(this: IterableX<T>, count: number): IterableX<T> {
-  return skipLast(this, count);
+  return skipLast<T>(count)(this);
 }
 
 IterableX.prototype.skipLast = skipLastProto;

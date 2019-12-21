@@ -1,13 +1,6 @@
-import * as Ix from '../Ix';
-const { elementAt } = Ix.iterable;
-const { first } = Ix.iterable;
-const { isEmpty } = Ix.iterable;
-const { last } = Ix.iterable;
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { skip } = Ix.iterable;
-const { take } = Ix.iterable;
-const { toArray } = Ix.iterable;
+import '../iterablehelpers';
+import { elementAt, first, isEmpty, last, range, sequenceEqual, toArray } from 'ix/iterable';
+import { skip, take } from 'ix/iterable/operators';
 
 test('Iterable#range produces correct sequence', () => {
   const rangeSequence = range(1, 100);
@@ -56,26 +49,50 @@ test('Iterable#range arbitrary start', () => {
 });
 
 test('Iterable#range take', () => {
-  expect(sequenceEqual(range(0, 10), take(range(0, 10), 10))).toBeTruthy();
+  expect(sequenceEqual(range(0, 10), range(0, 10).pipe(take(10)))).toBeTruthy();
 });
 
 test('Iterable#range take excessive', () => {
-  expect(sequenceEqual(range(0, 10), take(range(0, 10), Infinity))).toBeTruthy();
+  expect(sequenceEqual(range(0, 10), range(0, 10).pipe(take(Infinity)))).toBeTruthy();
 });
 
 test('Iterable#range skip', () => {
-  expect(sequenceEqual(range(10, 10), skip(range(0, 20), 10))).toBeTruthy();
+  expect(sequenceEqual(range(10, 10), range(0, 20).pipe(skip(10)))).toBeTruthy();
 });
 
 test('Iterable#range skip excessive', () => {
-  expect(isEmpty(skip(range(0, 10), 20))).toBeTruthy();
+  expect(isEmpty(range(0, 10).pipe(skip(20)))).toBeTruthy();
 });
 
 test('Iterable#range skip take can be only one', () => {
-  expect(sequenceEqual([1], take(range(1, 10), 1))).toBeTruthy();
-  expect(sequenceEqual([2], take(skip(range(1, 10), 1), 1))).toBeTruthy();
-  expect(sequenceEqual([3], skip(take(range(1, 10), 3), 2))).toBeTruthy();
-  expect(sequenceEqual([1], take(take(range(1, 10), 3), 1))).toBeTruthy();
+  expect(sequenceEqual([1], range(1, 10).pipe(take(1)))).toBeTruthy();
+  expect(
+    sequenceEqual(
+      [2],
+      range(1, 10).pipe(
+        skip(1),
+        take(1)
+      )
+    )
+  ).toBeTruthy();
+  expect(
+    sequenceEqual(
+      [3],
+      range(1, 10).pipe(
+        take(3),
+        skip(2)
+      )
+    )
+  ).toBeTruthy();
+  expect(
+    sequenceEqual(
+      [1],
+      range(1, 10).pipe(
+        take(3),
+        take(1)
+      )
+    )
+  ).toBeTruthy();
 });
 
 test('Iterable#range elementAt', () => {

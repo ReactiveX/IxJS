@@ -1,5 +1,6 @@
 import { OperatorFunction } from '../interfaces';
 import { IterableX } from './iterablex';
+import { from } from './from';
 
 /* tslint:disable:max-line-length */
 export function pipe<T>(source: Iterable<T>): IterableX<T>;
@@ -79,7 +80,7 @@ export function pipe<TSource, TResult>(
   ...operations: OperatorFunction<TSource, TResult>[]
 ): IterableX<TResult> {
   if (operations.length === 0) {
-    return source instanceof IterableX ? source : IterableX.from(source);
+    return source instanceof IterableX ? source : from(source);
   }
 
   const piped = (input: Iterable<TSource>): IterableX<TResult> => {

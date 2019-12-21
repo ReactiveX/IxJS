@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { distinct } from '../../asynciterable/distinct';
+import { distinct } from '../../asynciterable/operators/distinct';
 
 /**
  * @ignore
@@ -9,7 +9,7 @@ export function distinctProto<TSource, TKey>(
   keySelector?: (value: TSource) => TKey | Promise<TKey>,
   comparer?: (x: TKey, y: TKey) => boolean | Promise<boolean>
 ): AsyncIterableX<TSource> {
-  return distinct(this, keySelector, comparer);
+  return distinct(keySelector, comparer)(this);
 }
 
 AsyncIterableX.prototype.distinct = distinctProto;

@@ -1,8 +1,7 @@
-import * as Ix from '../Ix';
-const { from } = Ix.AsyncIterable;
 import { hasNext, noNext, toObserver } from '../asynciterablehelpers';
 import { setInterval, clearInterval } from 'timers';
 import { PartialObserver } from '../../src/observer';
+import { from } from 'ix/asynciterable';
 
 test('AsyncIterable#from from promise list', async () => {
   const xs: Iterable<Promise<number>> = [

@@ -1,14 +1,14 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { doWhile } from '../../asynciterable/dowhile';
+import { doWhile } from '../../asynciterable/operators/dowhile';
 
 /**
  * @ignore
  */
-export function doWhileProto<TSource>(
-  this: AsyncIterableX<TSource>,
+export function doWhileProto<T>(
+  this: AsyncIterableX<T>,
   condition: () => boolean | Promise<boolean>
-): AsyncIterableX<TSource> {
-  return doWhile(this, condition);
+): AsyncIterableX<T> {
+  return doWhile<T>(condition)(this);
 }
 
 AsyncIterableX.prototype.doWhile = doWhileProto;

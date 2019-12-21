@@ -1,13 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { _while as whileStatic } from '../../asynciterable/while';
+import { whileDo as _whileDo } from '../../asynciterable/whiledo';
 
 /** @nocollapse */
-AsyncIterableX.while = whileStatic;
+AsyncIterableX.whileDo = _whileDo;
 
 export declare namespace asynciterable {
-  let _while: typeof whileStatic;
+  let whileDo: typeof _whileDo;
 }
 
 declare module '../../asynciterable/asynciterablex' {
-  namespace AsyncIterableX { export { whileStatic as while }; }
+  namespace AsyncIterableX {
+    export { _whileDo as whileDo };
+  }
 }

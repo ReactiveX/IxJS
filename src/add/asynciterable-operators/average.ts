@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { identityAsync } from '../../internal/identity';
+import { identityAsync } from '../../util/identity';
 import { average } from '../../asynciterable/average';
 
 export function averageProto(

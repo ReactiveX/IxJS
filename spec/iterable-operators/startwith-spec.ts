@@ -1,21 +1,18 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../iterablehelpers';
-const test = testOperator([Ix.iterable.startWith]);
-const { range } = Ix.iterable;
-const { sequenceEqual } = Ix.iterable;
-const { take } = Ix.iterable;
-const { tap } = Ix.iterable;
-const { toArray } = Ix.iterable;
+import '../iterablehelpers';
+import { take, tap, startWith } from 'ix/iterable/operators';
+import { range, sequenceEqual, toArray } from 'ix/iterable';
 
-test('Iterable#startWith adds to beginning', ([startWith]) => {
+test('Iterable#startWith adds to beginning', () => {
   const e = range(1, 5);
-  const r = startWith(e, 0);
+  const r = e.pipe(startWith(0));
   expect(sequenceEqual(r, range(0, 6))).toBeTruthy();
 });
 
-test('Iterable#startWith adds without causing effects', ([startWith]) => {
+test('Iterable#startWith adds without causing effects', () => {
   let oops = false;
-  const e = tap(range(1, 5), { next: () => (oops = true) });
-  toArray(take(startWith(e, 0), 1));
+  const e = range(1, 5).pipe(tap({ next: () => (oops = true) }));
+  e.pipe(startWith(0))
+    .pipe(take(1))
+    .pipe(toArray);
   expect(oops).toBeFalsy();
 });

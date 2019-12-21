@@ -1,15 +1,15 @@
 import { IterableX } from '../../iterable/iterablex';
-import { except } from '../../iterable/except';
+import { except } from '../../iterable/operators/except';
 
 /**
  * @ignore
  */
-export function exceptProto<TSource>(
-  this: IterableX<TSource>,
-  second: Iterable<TSource>,
-  comparer?: (x: TSource, y: TSource) => boolean
-): IterableX<TSource> {
-  return except(this, second, comparer);
+export function exceptProto<T>(
+  this: IterableX<T>,
+  second: Iterable<T>,
+  comparer?: (x: T, y: T) => boolean
+): IterableX<T> {
+  return except(second, comparer)(this);
 }
 
 IterableX.prototype.except = exceptProto;

@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { sum } from '../../asynciterable/sum';
-import { identityAsync } from '../../internal/identity';
+import { identityAsync } from '../../util/identity';
 
 export function sumProto(
   this: AsyncIterableX<number>,

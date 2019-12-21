@@ -1,14 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { repeat } from '../../iterable/repeat';
+import { repeat } from '../../iterable/operators/repeat';
 
 /**
  * @ignore
  */
-export function repeatProto<TSource>(
-  this: IterableX<TSource>,
-  count: number = -1
-): IterableX<TSource> {
-  return repeat(this, count);
+export function repeatProto<T>(this: IterableX<T>, count: number = -1): IterableX<T> {
+  return repeat<T>(count)(this);
 }
 
 IterableX.prototype.repeat = repeatProto;

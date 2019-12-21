@@ -1,4 +1,4 @@
-import { bindCallback } from '../internal/bindcallback';
+import { bindCallback } from '../util/bindcallback';
 
 /**
  * Returns the value of the first element in the sequence that satisfies the provided testing function.

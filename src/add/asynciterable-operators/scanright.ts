@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { scanRight } from '../../asynciterable/scanright';
+import { scanRight } from '../../asynciterable/operators/scanright';
 
 export function scanRightProto<T, R = T>(
   this: AsyncIterableX<T>,
@@ -19,7 +19,7 @@ export function scanRightProto<T, R = T>(
   accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
   ...seed: R[]
 ): AsyncIterableX<R> {
-  return scanRight(this, accumulator, ...seed);
+  return scanRight(accumulator, ...seed)(this);
 }
 
 AsyncIterableX.prototype.scanRight = scanRightProto;

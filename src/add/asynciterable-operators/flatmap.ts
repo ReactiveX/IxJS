@@ -1,15 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { flatMap } from '../../asynciterable/flatmap';
+import { flatMap } from '../../asynciterable/operators/flatmap';
 
 /**
  * @ignore
  */
-export function flatMapProto<TSource, TResult>(
-  this: AsyncIterableX<TSource>,
-  selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
+export function flatMapProto<T, R>(
+  this: AsyncIterableX<T>,
+  selector: (value: T) => AsyncIterable<R> | Promise<AsyncIterable<R>>,
   thisArg?: any
-): AsyncIterableX<TResult> {
-  return flatMap<TSource, TResult>(this, selector, thisArg);
+): AsyncIterableX<R> {
+  return flatMap<T, R>(selector, thisArg)(this);
 }
 
 AsyncIterableX.prototype.flatMap = flatMapProto;

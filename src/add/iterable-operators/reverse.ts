@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { reverse } from '../../iterable/reverse';
+import { reverse } from '../../iterable/operators/reverse';
 
 /**
  * @ignore
  */
-export function reverseProto<TSource>(this: IterableX<TSource>): IterableX<TSource> {
-  return reverse(this);
+export function reverseProto<T>(this: IterableX<T>): IterableX<T> {
+  return reverse<T>()(this);
 }
 
 IterableX.prototype.reverse = reverseProto;

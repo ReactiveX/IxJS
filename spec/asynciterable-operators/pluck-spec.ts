@@ -1,12 +1,10 @@
-import * as Ix from '../Ix';
-import { testOperator } from '../asynciterablehelpers';
-const test = testOperator([Ix.asynciterable.pluck]);
-const { of } = Ix.AsyncIterable;
 import { hasNext, noNext } from '../asynciterablehelpers';
+import { of } from 'ix/asynciterable';
+import { pluck } from 'ix/asynciterable/operators';
 
-test('Iterable#pluck simple prop', async ([pluck]) => {
+test('Iterable#pluck simple prop', async () => {
   const xs = of({ prop: 1 }, { prop: 2 }, { prop: 3 }, { prop: 4 }, { prop: 5 });
-  const ys = pluck(xs, 'prop');
+  const ys = xs.pipe(pluck('prop'));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -17,7 +15,7 @@ test('Iterable#pluck simple prop', async ([pluck]) => {
   await noNext(it);
 });
 
-test('Iterable#pluck nested prop', async ([pluck]) => {
+test('Iterable#pluck nested prop', async () => {
   const xs = of(
     { a: { b: { c: 1 } } },
     { a: { b: { c: 2 } } },
@@ -25,7 +23,7 @@ test('Iterable#pluck nested prop', async ([pluck]) => {
     { a: { b: { c: 4 } } },
     { a: { b: { c: 5 } } }
   );
-  const ys = pluck(xs, 'a', 'b', 'c');
+  const ys = xs.pipe(pluck('a', 'b', 'c'));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -36,7 +34,7 @@ test('Iterable#pluck nested prop', async ([pluck]) => {
   await noNext(it);
 });
 
-test('Iterable#pluck edge cases', async ([pluck]) => {
+test('Iterable#pluck edge cases', async () => {
   const xs = of<any>(
     { a: { b: { c: 1 } } },
     { a: { b: 2 } },
@@ -44,7 +42,7 @@ test('Iterable#pluck edge cases', async ([pluck]) => {
     {},
     { a: { b: { c: 5 } } }
   );
-  const ys = pluck(xs, 'a', 'b', 'c');
+  const ys = xs.pipe(pluck('a', 'b', 'c'));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);

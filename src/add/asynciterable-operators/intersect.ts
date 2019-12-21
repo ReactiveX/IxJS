@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { intersect } from '../../asynciterable/intersect';
+import { intersect } from '../../asynciterable/operators/intersect';
 
 /**
  * @ignore
@@ -9,7 +9,7 @@ export function intersectProto<T>(
   second: AsyncIterable<T>,
   comparer?: (x: T, y: T) => boolean | Promise<boolean>
 ) {
-  return intersect(this, second, comparer);
+  return intersect(second, comparer)(this);
 }
 
 AsyncIterableX.prototype.intersect = intersectProto;

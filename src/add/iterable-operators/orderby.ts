@@ -1,6 +1,9 @@
 import { IterableX } from '../../iterable/iterablex';
-import { orderBy, orderByDescending, OrderedIterableX } from '../../iterable/orderby';
-import { thenBy as _thenBy, thenByDescending as _thenByDescending } from '../../iterable/orderby';
+import { orderBy, orderByDescending, OrderedIterableX } from '../../iterable/operators/orderby';
+import {
+  thenBy as _thenBy,
+  thenByDescending as _thenByDescending
+} from '../../iterable/operators/orderby';
 
 /**
  * @ignore
@@ -10,7 +13,7 @@ export function orderByProto<TKey, TSource>(
   keySelector: (item: TSource) => TKey,
   comparer?: (fst: TKey, snd: TKey) => number
 ): OrderedIterableX<TKey, TSource> {
-  return orderBy<TKey, TSource>(this, keySelector, comparer);
+  return orderBy<TKey, TSource>(keySelector, comparer)(this);
 }
 
 /**
@@ -21,7 +24,7 @@ export function orderByDescendingProto<TKey, TSource>(
   keySelector: (item: TSource) => TKey,
   comparer?: (fst: TKey, snd: TKey) => number
 ): OrderedIterableX<TKey, TSource> {
-  return orderByDescending<TKey, TSource>(this, keySelector, comparer);
+  return orderByDescending<TKey, TSource>(keySelector, comparer)(this);
 }
 
 IterableX.prototype.orderBy = orderByProto;

@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { scanRight } from '../../iterable/scanright';
+import { scanRight } from '../../iterable/operators/scanright';
 
 export function scanRightProto<T, R = T>(
   this: IterableX<T>,
@@ -19,7 +19,7 @@ export function scanRightProto<T, R = T>(
   accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
   ...seed: R[]
 ): IterableX<R> {
-  return scanRight(this, accumulator, ...seed);
+  return scanRight(accumulator, ...seed)(this);
 }
 
 IterableX.prototype.scanRight = scanRightProto;

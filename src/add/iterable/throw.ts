@@ -1,13 +1,15 @@
 import { IterableX } from '../../iterable/iterablex';
-import { _throw as throwStatic } from '../../iterable/throw';
+import { throwError as throwErrorStatic } from '../../iterable/throwerror';
 
 /** @nocollapse */
-IterableX.throw = throwStatic;
+IterableX.throwError = throwErrorStatic;
 
 export declare namespace iterable {
-  let _throw: typeof throwStatic;
+  let throwError: typeof throwErrorStatic;
 }
 
 declare module '../../iterable/iterablex' {
-  namespace IterableX { export { throwStatic as throw }; }
+  namespace IterableX {
+    export { throwErrorStatic as throwError };
+  }
 }

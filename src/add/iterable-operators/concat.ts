@@ -51,7 +51,8 @@ export function concatProto<T, T2, T3, T4, T5, T6>(
  * @ignore
  */
 export function concatProto<T>(this: IterableX<T>, ...args: Iterable<T>[]): IterableX<T> {
-  return concat(this, ...args);
+  // @ts-ignore
+  return concat<T>(this, ...args);
 }
 
 IterableX.prototype.concat = concatProto;

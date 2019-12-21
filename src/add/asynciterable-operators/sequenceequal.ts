@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { sequenceEqual } from '../../asynciterable/sequenceequal';
-import { comparerAsync } from '../../internal/comparer';
+import { comparerAsync } from '../../util/comparer';
 
 /**
  * @ignore

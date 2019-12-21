@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { identity } from '../../internal/identity';
+import { identity } from '../../util/identity';
 import { average } from '../../iterable/average';
 
 export function averageProto(this: IterableX<number>, selector?: (x: number) => number): number;
