@@ -8,7 +8,11 @@ export type ReadableByteStreamOptions<T = any> = QueuingStrategy<T> & {
   autoAllocateChunkSize?: number;
 };
 
-type AsyncSourceIterator<TSource> = AsyncIterator<TSource, any, number | ArrayBufferView | undefined | null>;
+type AsyncSourceIterator<TSource> = AsyncIterator<
+  TSource,
+  any,
+  number | ArrayBufferView | undefined | null
+>;
 
 /** @ignore */
 function memcpy<TTarget extends ArrayBufferView, TSource extends ArrayBufferView>(

@@ -22,8 +22,7 @@ test('AsyncIterable#catchError no error misses', async () => {
 });
 
 test('AsyncIterable#catchError source and handler types are composed', async () => {
-    const xs = range(0, 10);
-    const res = xs.pipe(catchError(async (_: Error) => of('foo')));
-    expect(sequenceEqual(res, xs)).resolves.toBeTruthy();
-  });
-  
+  const xs = range(0, 10);
+  const res = xs.pipe(catchError(async (_: Error) => of('foo')));
+  expect(sequenceEqual(res, xs)).resolves.toBeTruthy();
+});

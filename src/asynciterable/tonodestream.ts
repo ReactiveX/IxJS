@@ -4,7 +4,11 @@ import { Readable, ReadableOptions } from 'stream';
 
 const done = async (_: any) => null as any;
 
-type AsyncSourceIterator<TSource> = AsyncIterator<TSource, any, number | ArrayBufferView | undefined | null>;
+type AsyncSourceIterator<TSource> = AsyncIterator<
+  TSource,
+  any,
+  number | ArrayBufferView | undefined | null
+>;
 
 export class AsyncIterableReadable<T> extends Readable {
   private _pulling: boolean = false;

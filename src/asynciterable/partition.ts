@@ -16,5 +16,8 @@ export function partition<T>(
   predicate: (value: T, index: number) => boolean | Promise<boolean>,
   thisArg?: any
 ): AsyncIterableX<T>[] {
-  return [new FilterAsyncIterable(source, predicate, thisArg), new FilterAsyncIterable(source, (x, i) => !predicate(x, i), thisArg)];
+  return [
+    new FilterAsyncIterable(source, predicate, thisArg),
+    new FilterAsyncIterable(source, (x, i) => !predicate(x, i), thisArg)
+  ];
 }
