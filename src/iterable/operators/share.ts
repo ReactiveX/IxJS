@@ -8,7 +8,7 @@ class SharedIterable<T> extends IterableX<T> {
   constructor(it: Iterator<T>) {
     super();
     this._it = {
-      next(value: T) {
+      next(value: any) {
         return it.next(value);
       }
     };

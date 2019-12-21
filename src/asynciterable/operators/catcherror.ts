@@ -1,14 +1,14 @@
 import { AsyncIterableX } from '../asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { OperatorAsyncFunction } from '../../interfaces';
 import { returnAsyncIterator } from '../../util/returniterator';
 
-export class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSource | TResult> {
   private _source: AsyncIterable<TSource>;
-  private _handler: (error: any) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
+  private _handler: (error: any) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
   constructor(
     source: AsyncIterable<TSource>,
-    handler: (error: any) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+    handler: (error: any) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
   ) {
     super();
     this._source = source;
@@ -16,7 +16,7 @@ export class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let err: AsyncIterable<TSource> | undefined,
+    let err: AsyncIterable<TResult> | undefined,
       hasError = false,
       it = this._source[Symbol.asyncIterator]();
     while (1) {
@@ -46,12 +46,12 @@ export class CatchWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function catchError<TSource>(
-  handler: (error: any) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
-): MonoTypeOperatorAsyncFunction<TSource> {
+export function catchError<TSource, TResult>(
+  handler: (error: any) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
+): OperatorAsyncFunction<TSource, TSource | TResult> {
   return function catchWithOperatorFunction(
     source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new CatchWithAsyncIterable<TSource>(source, handler);
+  ): AsyncIterableX<TSource | TResult> {
+    return new CatchWithAsyncIterable<TSource, TResult>(source, handler);
   };
 }

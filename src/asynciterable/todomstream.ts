@@ -8,6 +8,8 @@ export type ReadableByteStreamOptions<T = any> = QueuingStrategy<T> & {
   autoAllocateChunkSize?: number;
 };
 
+type AsyncSourceIterator<TSource> = AsyncIterator<TSource, any, number | ArrayBufferView | undefined | null>;
+
 /** @ignore */
 function memcpy<TTarget extends ArrayBufferView, TSource extends ArrayBufferView>(
   target: TTarget,
@@ -27,7 +29,7 @@ function memcpy<TTarget extends ArrayBufferView, TSource extends ArrayBufferView
 }
 
 abstract class AbstractUnderlyingSource<TSource> {
-  constructor(protected _source: AsyncIterator<TSource> | null) {}
+  constructor(protected _source: AsyncSourceIterator<TSource> | null) {}
   async cancel() {
     const source = this._source;
     if (source && source.return) {
@@ -39,7 +41,7 @@ abstract class AbstractUnderlyingSource<TSource> {
 
 class UnderlyingAsyncIterableDefaultSource<TSource = any> extends AbstractUnderlyingSource<TSource>
   implements UnderlyingSource<TSource> {
-  constructor(source: AsyncIterator<TSource> | null) {
+  constructor(source: AsyncSourceIterator<TSource> | null) {
     super(source);
   }
   async pull(controller: ReadableStreamDefaultController<TSource>) {
@@ -66,7 +68,7 @@ class UnderlyingAsyncIterableByteSource<TSource extends ArrayBufferView = Uint8A
   private fallbackDefaultSource: UnderlyingAsyncIterableDefaultSource<TSource>;
 
   constructor(
-    reader: AsyncIterator<TSource> | null,
+    reader: AsyncSourceIterator<TSource> | null,
     opts: { autoAllocateChunkSize?: number } = {}
   ) {
     super(reader);

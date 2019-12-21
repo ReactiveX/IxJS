@@ -14,5 +14,5 @@ export function sequenceEqual<T>(
     }
   }
 
-  return it2.next().done;
+  return !!it2.next().done;
 }
