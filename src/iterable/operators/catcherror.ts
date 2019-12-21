@@ -1,19 +1,19 @@
 import { IterableX } from '../iterablex';
 import { returnIterator } from '../../util/returniterator';
-import { MonoTypeOperatorFunction } from '../../interfaces';
+import { OperatorFunction } from '../../interfaces';
 
-export class CatchWithIterable<TSource> extends IterableX<TSource> {
+export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TResult> {
   private _source: Iterable<TSource>;
-  private _handler: (error: any) => Iterable<TSource>;
+  private _handler: (error: any) => Iterable<TResult>;
 
-  constructor(source: Iterable<TSource>, handler: (error: any) => Iterable<TSource>) {
+  constructor(source: Iterable<TSource>, handler: (error: any) => Iterable<TResult>) {
     super();
     this._source = source;
     this._handler = handler;
   }
 
   *[Symbol.iterator]() {
-    let err: Iterable<TSource> | undefined,
+    let err: Iterable<TResult> | undefined,
       hasError = false,
       it = this._source[Symbol.iterator]();
     while (1) {
@@ -43,10 +43,10 @@ export class CatchWithIterable<TSource> extends IterableX<TSource> {
   }
 }
 
-export function catchError<TSource>(
-  handler: (error: any) => Iterable<TSource>
-): MonoTypeOperatorFunction<TSource> {
-  return function catchWithOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
-    return new CatchWithIterable<TSource>(source, handler);
+export function catchError<TSource, TResult>(
+  handler: (error: any) => Iterable<TResult>
+): OperatorFunction<TSource, TSource | TResult> {
+  return function catchWithOperatorFunction(source: Iterable<TSource>): IterableX<TSource | TResult> {
+    return new CatchWithIterable<TSource, TResult>(source, handler);
   };
 }

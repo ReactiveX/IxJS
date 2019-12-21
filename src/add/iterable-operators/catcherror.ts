@@ -4,11 +4,11 @@ import { catchError } from '../../iterable/operators/catcherror';
 /**
  * @ignore
  */
-export function catchErrorProto<T>(
+export function catchErrorProto<T, R>(
   this: IterableX<T>,
-  fn: (error: any) => Iterable<T>
-): IterableX<T> {
-  return catchError<T>(fn)(this);
+  fn: (error: any) => Iterable<R>
+): IterableX<T | R> {
+  return catchError<T, R>(fn)(this);
 }
 
 IterableX.prototype.catchError = catchErrorProto;
