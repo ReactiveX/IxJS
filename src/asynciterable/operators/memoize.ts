@@ -29,7 +29,7 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
 
   protected async *_getIterable(offset = 0) {
     let i = offset - 1;
-    let done: boolean = false;
+    let done: boolean | undefined = false;
     let buffer = this._buffer;
 
     try {

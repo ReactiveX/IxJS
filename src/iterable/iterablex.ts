@@ -5,7 +5,7 @@ import { bindCallback } from '../util/bindcallback';
 import { isReadableNodeStream, isWritableNodeStream } from '../util/isiterable';
 
 /**
- * This clas serves as the base for all operations which support [Symbol.iterator].
+ * This class serves as the base for all operations which support [Symbol.iterator].
  */
 export abstract class IterableX<T> implements Iterable<T> {
   abstract [Symbol.iterator](): Iterator<T>;

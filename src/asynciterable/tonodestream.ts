@@ -4,10 +4,12 @@ import { Readable, ReadableOptions } from 'stream';
 
 const done = async (_: any) => null as any;
 
+type AsyncSourceIterator<TSource> = AsyncIterator<TSource, any, number | ArrayBufferView | undefined | null>;
+
 export class AsyncIterableReadable<T> extends Readable {
   private _pulling: boolean = false;
   private _objectMode: boolean = true;
-  private _iterator: AsyncIterator<T> | undefined;
+  private _iterator: AsyncSourceIterator<T> | undefined;
   constructor(source: AsyncIterable<T>, options?: ReadableOptions) {
     super(options);
     this._iterator = source[Symbol.asyncIterator]();
@@ -25,7 +27,7 @@ export class AsyncIterableReadable<T> extends Readable {
     const fn = (it && (err ? it.throw : it.return)) || done;
     fn.call(it, err).then(() => cb && cb(null));
   }
-  async _pull(it: AsyncIterator<T>, size: number) {
+  async _pull(it: AsyncSourceIterator<T>, size: number) {
     const objectMode = this._objectMode;
     let r: IteratorResult<BufferLike | T> | undefined;
     while (this.readable && !(r = await it.next(size)).done) {

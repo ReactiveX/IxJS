@@ -14,5 +14,5 @@ export async function sequenceEqual<T>(
     }
   }
 
-  return (await it2.next()).done;
+  return !!(await it2.next()).done;
 }
