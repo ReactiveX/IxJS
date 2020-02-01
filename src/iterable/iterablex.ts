@@ -1,5 +1,4 @@
 import { as as asIterable } from './as';
-import { _initialize as _initializeFrom } from './from';
 import { UnaryFunction, OperatorFunction } from '../interfaces';
 import { bindCallback } from '../util/bindcallback';
 import { isReadableNodeStream, isWritableNodeStream } from '../util/isiterable';
@@ -32,8 +31,6 @@ export abstract class IterableX<T> implements Iterable<T> {
     return acc;
   }
 }
-
-_initializeFrom(IterableX);
 
 type WritableOrOperatorFunction<T, R> =
   | NodeJS.WritableStream
