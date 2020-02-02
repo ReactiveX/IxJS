@@ -1,4 +1,5 @@
 import { as as asAsyncIterable } from './as';
+import { _initialize as _initializeFrom } from './from';
 import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
 import { bindCallback } from '../util/bindcallback';
 import { Observable } from '../observer';
@@ -35,6 +36,8 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     return acc;
   }
 }
+
+_initializeFrom(AsyncIterableX);
 
 export type AsyncIterableInput<TSource> =
   | AsyncIterable<TSource>
