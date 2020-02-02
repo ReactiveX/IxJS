@@ -1,6 +1,5 @@
 # The Interactive Extensions for JavaScript (IxJS)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ReactiveX/IxJS.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/ReactiveX/IxJS.svg?branch=master)](https://travis-ci.org/ReactiveX/IxJS)
 [![Build status](https://ci.appveyor.com/api/projects/status/dfuqvf29l477m54k/branch/master?svg=true)](https://ci.appveyor.com/project/mattpodwysocki/ixjs/branch/master)
 [![npm version](https://badge.fury.io/js/ix.svg)](https://badge.fury.io/js/ix)
@@ -22,108 +21,83 @@ npm install ix
 
 ## `Iterable`
 
-The `Iterable` class a way to create and compose synchronous collections much like Arrays, Maps and Sets in JavaScript using the Array#extras style using the familiar methods you are used to like `map`, `filter`, `reduce` and more.
+The `Iterable` class a way to create and compose synchronous collections much like Arrays, Maps and Sets in JavaScript using the Array#extras style using the familiar methods you are used to like `map`, `filter`, `reduce` and more.  We can use the [`for ... of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) statements to iterate our collections.
 
 ```js
 // ES
-import * as Ix from 'ix';
+import { from } from 'ix/iterable';
+import { filter, map } from 'ix/iterable/operators';
 
 // CommonJS
-const Ix = require('ix');
+const from = require('ix/asynciterable').from;
+const { filter, map } = require('ix/asynciterable/operators');
 
-Ix.Iterable.from([1,2,3,4])
-  .filter(x => x % 2 === 0)
-  .map(x => x * 2)
-  .forEach(x => console.log(`Next ${x}`));
+const source = function* () {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+};
 
-// => Next 4
-// => Next 8
-```
-
-Alternatively, we can use the [`for ... of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) statements to iterate our collections.
-
-```js
-// ES
-import * as Ix from 'ix';
-
-// CommonJS
-const Ix = require('ix');
-
-const results = Ix.Iterable.from([1,2,3,4])
-  .filter(x => x % 2 === 0)
-  .map(x => x * 2);
-
-for (let item of results) {
-  console.log(`Next ${item}`);
-}
-
-// => Next 4
-// => Next 8
-```
-
-Instead of bringing in the entire library for `Iterable`, we can pick and choose which operators we want, for bundling concerns.
-
-```js
-// ES
-import { IterableX as Iterable } from 'ix/iterable';
-import 'ix/add/iterable-operators/map';
-
-// CommonJS
-const Iterable = require('ix/iterable').IterableX;
-require('ix/add/iterable-operators/map');
-
-const results = Iterable.of(1,2,3)
-  .map(x => x + '!!');
-```
-
-We can also bring in only the operators that we want to using just the operators themselves.  Many of these operators take a simple `Iterable` source such as an `Array`, `Map`, `Set` or generator function such as our `map` and `filter` functions.
-
-```js
-// ES
-import { map } from 'ix/iterable/map';
-import { filter } from 'ix/iterable/filter';
-
-// CommonJS
-const map = require('ix/iterable/map').map;
-const filter = require('ix/iterable/filter').filter;
-
-const source = [1,2,3];
-const results = map(
-  filter(
-    source,
-    x => x % 2 === 0
-  ),
-  x => x * x
-);
-
-for (let item of results) {
-  console.log(`Next: ${item}`);
-}
-
-// Next 4
-```
-
-Just like RxJS, IxJS supports "lettable" operators which allow you to chain together operators, keeping the surface area to a minimum on the `Iterable` object.
-
-```js
-// ES
-import { IterableX as Iterable } from 'ix/iterable';
-import { map, filter } from 'ix/iterable/pipe/index';
-
-// CommonJS
-const Iterable = require('ix/iterable').IterableX;
-const { map, filter } = require('ix/iterable/pipe/index');
-
-const results = Iterable.of(1, 2, 3).pipe(
+const results = from(source()).pipe(
   filter(x => x % 2 === 0),
   map(x => x * x)
 );
 
-for (let item of results) {
+for await (let item of results) {
   console.log(`Next: ${item}`);
 }
 
 // Next 4
+// Next 8
+```
+
+In addition, we also supply a `forEach` so it's your choice for which to use.
+
+```js
+// ES
+import { from } from 'ix/iterable';
+import { filter, map } from 'ix/iterable/operators';
+
+// CommonJS
+const from = require('ix/asynciterable').from;
+const { filter, map } = require('ix/asynciterable/operators');
+
+const source = function* () {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+};
+
+const results = from(source()).pipe(
+  filter(x => x % 2 === 0),
+  map(x => x * x)
+);
+
+results
+  .forEach(item => {
+    console.log(`Next: ${item}`);
+  });
+// Next 4
+// Next 8
+```
+
+Instead of bringing in the entire library for `Iterable`, we can pick and choose which operators we want, for bundling concerns and add them directly to the `Iterable` prototype.
+
+```js
+// ES
+import { IterableX as Iterable } from 'ix/iterable';
+import 'ix/add/iterable/of';
+import 'ix/add/iterable-operators/map';
+
+// CommonJS
+const Iterable = require('ix/iterable').IterableX;
+require('ix/add/iterable/of');
+require('ix/add/iterable-operators/map');
+
+const results = Iterable.of(1,2,3)
+  .map(x => x + '!!');
 ```
 
 The `Iterable` object implements the iterator pattern in JavaScript by exposing the `[Symbol.iterator]` method which in turn exposes the `Iterator` class.  The iterator yields values by calling the `next()` method which returns the `IteratorResult` class.
@@ -147,117 +121,16 @@ interface IteratorResult<T> {
 
 ## `AsyncIterable`
 
-The `AsyncIterable` object is based off the ECMAScript Proposal for [Asynchronous Iterators](https://github.com/tc39/proposal-async-iteration).  This would allow us to create asynchronous collections of Promises and be able to use such methods as the `map`, `filter`, `reduce` and other Array#extras methods that you are used to using.
-
-```js
-import * as Ix from 'ix';
-
-// CommonJS
-const Ix = require('ix');
-
-async function* gen() {
-  yield 1;
-  yield 2;
-  yield 3;
-  yield 4;
-}
-
-Ix.AsyncIterable.from(gen())
-  .filter(x => x % 2 === 0)
-  .map(x => x * 2)
-  .forEach(x => console.log(`Next ${x}`))
-  .catch(err => console.log(`Error ${err}`));
-
-// => Next 4
-// => Next 8
-```
-
-Much like with the `Iterable` object where we can iterate through our collections, we can use `for await ... of` instead which allows us to iterate over the asynchronous collection.
-
-```js
-import * as Ix from 'ix';
-
-// CommonJS
-const Ix = require('ix');
-
-async function* gen() {
-  yield 1;
-  yield 2;
-  yield 3;
-  yield 4;
-}
-
-const results = Ix.AsyncIterable.from(gen())
-  .filter(x => x % 2 === 0)
-  .map(x => x * 2);
-
-for await (let item of results) {
-  console.log(`Next ${x}`);
-}
-
-// => Next 4
-// => Next 8
-```
-
-Instead of bringing in the entire library for `AsyncIterable`, we can pick and choose which operators we want, for bundling concerns.
+The `AsyncIterable` object is based off the ECMAScript Proposal for [Asynchronous Iterators](https://github.com/tc39/proposal-async-iteration).  This would allow us to create asynchronous collections of Promises and be able to use such methods as the `map`, `filter`, `reduce` and other operators we can import.  Much like with the `Iterable` object where we can iterate through our collections, we can use `for await ... of` instead which allows us to iterate over the asynchronous collection.
 
 ```js
 // ES
-import { AsyncIterableX as AsyncIterable } from 'ix/asynciterable';
-import 'ix/add/asynciterable-operators/map';
+import { from } from 'ix/asynciterable';
+import { filter, map } from 'ix/asynciterable/operators';
 
 // CommonJS
-const AsyncIterable = require('ix/asynciterable').AsyncIterableX;
-require('ix/add/asynciterable-operators/map');
-
-const results = AsyncIterable.of(1,2,3)
-  .map(x => x + '!!');
-```
-
-We can also bring in only the operators that we want to using just the operators themselves.  Many of these operators take a simple `AsyncIterable` source from `async function*` functions such as the `map` and `filter` functions.
-
-```js
-// ES
-import { map } from 'ix/asynciterable/map';
-import { filter } from 'ix/asynciterable/filter';
-
-// CommonJS
-const map = require('ix/asynciterable/map').map;
-const filter = require('ix/asynciterable/filter').filter;
-
-const source = async function* () {
-  yield 1;
-  yield 2;
-  yield 3;
-  yield 4;
-};
-
-const results = map(
-  filter(
-    source(),
-    x => x % 2 === 0
-  ),
-  x => x * x
-);
-
-for await (let item of results) {
-  console.log(`Next: ${item}`);
-}
-
-// Next 4
-// Next 8
-```
-
-Just like RxJS, IxJS supports "lettable" operators which allow you to chain together operators, keeping the surface area to a minimum on the `AsyncIterable` object.
-
-```js
-// ES
-import { AsyncIterableX as AsyncIterable } from 'ix/asynciterable';
-import { filter, map } from 'ix/asynciterable/pipe';
-
-// CommonJS
-const AsyncIterable = require('ix/asynciterable').AsyncIterableX;
-const { filter, map } = require('ix/asynciterable/pipe');
+const from = require('ix/asynciterable').from;
+const { filter, map } = require('ix/asynciterable/operators');
 
 const source = async function* () {
   yield 1;
@@ -277,6 +150,61 @@ for await (let item of results) {
 
 // Next 4
 // Next 8
+```
+
+Alternatively, we can use the built-in `forEach` and `catch` should there be any errors:
+
+```js
+// ES
+import { from } from 'ix/asynciterable';
+import { filter, map } from 'ix/asynciterable/operators';
+
+// CommonJS
+const from = require('ix/asynciterable').from;
+const { filter, map } = require('ix/asynciterable/operators');
+
+const source = async function* () {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+};
+
+const results = from(source()).pipe(
+  filter(async x => x % 2 === 0),
+  map(async x => x * x)
+);
+
+results
+  .forEach(item => {
+    console.log(`Next: ${item}`);
+  })
+  .catch(err => {
+    console.log(`Error ${err}`);
+  });
+
+for await (let item of results) {
+  console.log(`Next: ${item}`);
+}
+
+// Next 4
+// Next 8
+```
+
+Instead of bringing in the entire library for `AsyncIterable`, we can pick and choose which operators we want, for bundling concerns directly to the `AsyncIterable` prototype.
+
+```js
+// ES
+import { AsyncIterableX as AsyncIterable } from 'ix/asynciterable';
+import 'ix/add/async-iterable/of';
+import 'ix/add/asynciterable-operators/map';
+
+// CommonJS
+const AsyncIterable = require('ix/asynciterable').AsyncIterableX;
+require('ix/add/asynciterable-operators/map');
+
+const results = AsyncIterable.of(1,2,3)
+  .map(x => x + '!!');
 ```
 
 The `AsyncIterable` class implements the async iterator pattern in JavaScript by exposing the `[Symbol.asyncIterator]` method which in turn exposes the `AsyncIterator` class.  The iterator yields values by calling the `next()` method which returns a Promise which resolves a `IteratorResult` class.
@@ -305,12 +233,12 @@ Using IxJS, you can easily go from an `Iterable` to an `AsyncIterable` using a n
 
 ```js
 import { from } from 'ix/asynciterable/from';
-import { map } from 'ix/asynciterable/map';
+import { map } from 'ix/asynciterable/operators';
 
 const xs = [1, 2, 3, 4];
-const asyncIterable = from(xs);
-
-const mapped = map(asyncIterable, async (item, index) => item * index);
+const results = from(xs).pipe(
+  map(async (item, index) => item * index)
+);
 
 for await (let item of mapped) {
   console.log(`Next: ${item}`);

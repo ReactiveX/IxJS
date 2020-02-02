@@ -51,7 +51,7 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
         `${mainExport}.dom.iterable.operators`,
         `${mainExport}.dom.asynciterable.operators`
     ].map(closureCompile));
-    
+
     async function closureCompile(entry) {
 
         const entry_point = path.join(src, `${entry}.dom.cls.js`);
@@ -86,7 +86,7 @@ const createClosureArgs = (entry_point, output, externs) => ({
     entry_point,
     third_party: true,
     warning_level: `QUIET`,
-    dependency_mode: `STRICT`,
+    dependency_mode: `PRUNE`,
     rewrite_polyfills: false,
     module_resolution: `NODE`,
     // formatting: `PRETTY_PRINT`,

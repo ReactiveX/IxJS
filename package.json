@@ -1,7 +1,7 @@
 {
   "name": "ix",
   "private": true,
-  "version": "2.5.3",
+  "version": "3.0.0",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
@@ -67,8 +67,8 @@
     "esdoc-standard-plugin": "1.0.0",
     "esm": "3.2.25",
     "glob": "7.1.3",
-    "google-closure-compiler": "20190528.0.0",
-    "gulp": "4.0.0",
+    "google-closure-compiler": "20200112.0.0",
+    "gulp": "4.0.2",
     "gulp-json-transform": "0.4.6",
     "gulp-rename": "1.4.0",
     "gulp-sourcemaps": "2.6.5",
