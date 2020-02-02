@@ -1,6 +1,5 @@
 # The Interactive Extensions for JavaScript (IxJS)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ReactiveX/IxJS.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/ReactiveX/IxJS.svg?branch=master)](https://travis-ci.org/ReactiveX/IxJS)
 [![Build status](https://ci.appveyor.com/api/projects/status/dfuqvf29l477m54k/branch/master?svg=true)](https://ci.appveyor.com/project/mattpodwysocki/ixjs/branch/master)
 [![npm version](https://badge.fury.io/js/ix.svg)](https://badge.fury.io/js/ix)
@@ -84,7 +83,7 @@ results
 // Next 8
 ```
 
-Instead of bringing in the entire library for `Iterable`, we can pick and choose which operators we want, for bundling concerns.
+Instead of bringing in the entire library for `Iterable`, we can pick and choose which operators we want, for bundling concerns and add them directly to the `Iterable` prototype.
 
 ```js
 // ES
@@ -100,8 +99,6 @@ require('ix/add/iterable-operators/map');
 const results = Iterable.of(1,2,3)
   .map(x => x + '!!');
 ```
-
-Just like RxJS, IxJS supports "lettable" operators which allow you to chain together operators, keeping the surface area to a minimum on the `Iterable` object.
 
 The `Iterable` object implements the iterator pattern in JavaScript by exposing the `[Symbol.iterator]` method which in turn exposes the `Iterator` class.  The iterator yields values by calling the `next()` method which returns the `IteratorResult` class.
 
@@ -194,7 +191,7 @@ for await (let item of results) {
 // Next 8
 ```
 
-Instead of bringing in the entire library for `AsyncIterable`, we can pick and choose which operators we want, for bundling concerns.
+Instead of bringing in the entire library for `AsyncIterable`, we can pick and choose which operators we want, for bundling concerns directly to the `AsyncIterable` prototype.
 
 ```js
 // ES
@@ -236,12 +233,12 @@ Using IxJS, you can easily go from an `Iterable` to an `AsyncIterable` using a n
 
 ```js
 import { from } from 'ix/asynciterable/from';
-import { map } from 'ix/asynciterable/operatorsmap';
+import { map } from 'ix/asynciterable/operators';
 
 const xs = [1, 2, 3, 4];
-const asyncIterable = from(xs);
-
-const mapped = map(asyncIterable, async (item, index) => item * index);
+const results = from(xs).pipe(
+  map(async (item, index) => item * index)
+);
 
 for await (let item of mapped) {
   console.log(`Next: ${item}`);
