@@ -292,7 +292,7 @@ npm install @reactivex/ix-es5-umd # ES5 UMD target
 npm install @reactivex/ix-es2015-cjs # ES2015 CommonJS target
 npm install @reactivex/ix-es2015-esm # ES2015 ESModules target
 npm install @reactivex/ix-es2015-umd # ES2015 UMD target
-npm install @reactivex/ix-esnext-esm # ESNext CommonJS target
+npm install @reactivex/ix-esnext-cjs # ESNext CommonJS target
 npm install @reactivex/ix-esnext-esm # ESNext ESModules target
 npm install @reactivex/ix-esnext-umd # ESNext UMD target
 ```
