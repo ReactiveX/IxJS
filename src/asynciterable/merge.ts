@@ -1,6 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 
-// tslint:disable-next-line:no-empty
+// eslint-disable-next-line @typescript-eslint/no-empty-function, no-empty
 const NEVER_PROMISE = new Promise(() => {});
 
 type MergeResult<T> = { value: T; index: number };

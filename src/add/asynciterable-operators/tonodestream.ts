@@ -1,11 +1,8 @@
+import { AsyncIterableReadable } from '../../asynciterable/tonodestream';
 import { ReadableOptions } from 'stream';
 import { BufferLike } from '../../interfaces';
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { AsyncIterableReadable } from '../../asynciterable/tonodestream';
 
-/**
- * @ignore
- */
 export function toNodeStreamProto<TSource>(
   this: AsyncIterable<TSource>
 ): AsyncIterableReadable<TSource>;

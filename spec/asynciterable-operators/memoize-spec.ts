@@ -181,8 +181,8 @@ test('AsyncIterable#memoize concat with error', async () => {
 });
 
 function getRandom() {
-  let min = 0,
-    max = Math.pow(2, 53) - 1;
+  const min = 0;
+  const max = Math.pow(2, 53) - 1;
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
@@ -193,11 +193,13 @@ async function* rand() {
 }
 
 test('AsyncIterable#memoize should share effects of random', async () => {
-  const rnd = as(rand()).pipe(
-    take(100),
-    memoize()
-  );
-  expect(await every(zip(async ([l, r]) => l === r, rnd, rnd), async x => x)).toBeTruthy();
+  const rnd = as(rand()).pipe(take(100), memoize());
+  expect(
+    await every(
+      zip(async ([l, r]) => l === r, rnd, rnd),
+      async x => x
+    )
+  ).toBeTruthy();
 });
 
 test('AsyncIterable#memoize with selector', async () => {

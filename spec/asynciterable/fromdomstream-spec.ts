@@ -2,6 +2,7 @@ import '../asynciterablehelpers';
 import { Readable, ReadableOptions } from 'stream';
 import { from, fromDOMStream } from 'ix/asynciterable';
 
+// eslint-disable-next-line consistent-return
 (() => {
   if (!fromDOMStream || process.env.TEST_DOM_STREAMS !== 'true') {
     return test('not testing node streams because process.env.TEST_DOM_STREAMS !== "true"', () => {
@@ -9,7 +10,7 @@ import { from, fromDOMStream } from 'ix/asynciterable';
     });
   }
 
-  /* tslint:disable */
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { toStream } = require('web-stream-tools').default;
 
   class Counter extends Readable {
@@ -28,8 +29,8 @@ import { from, fromDOMStream } from 'ix/asynciterable';
   }
 
   const compare = <T>(a: T, b: T) => {
-    let aVal = ArrayBuffer.isView(a) ? `${Buffer.from(a.buffer, a.byteOffset, a.byteLength)}` : a;
-    let bVal = ArrayBuffer.isView(b) ? `${Buffer.from(b.buffer, b.byteOffset, b.byteLength)}` : b;
+    const aVal = ArrayBuffer.isView(a) ? `${Buffer.from(a.buffer, a.byteOffset, a.byteLength)}` : a;
+    const bVal = ArrayBuffer.isView(b) ? `${Buffer.from(b.buffer, b.byteOffset, b.byteLength)}` : b;
     // poor man's deep-equals
     try {
       expect(aVal).toEqual(bVal);
@@ -39,7 +40,7 @@ import { from, fromDOMStream } from 'ix/asynciterable';
     return true;
   };
 
-  describe(`AsyncIterable#fromDOMStream`, () => {
+  describe('AsyncIterable#fromDOMStream', () => {
     test('objectMode: true', async () => {
       const c = toStream(new Counter({ objectMode: true }));
       const xs = fromDOMStream(c) as AsyncIterable<string>;

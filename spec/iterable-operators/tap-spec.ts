@@ -4,7 +4,7 @@ import { tap } from 'ix/iterable/operators';
 
 test('Itearble#tap next', () => {
   let n = 0;
-  let source = range(0, 10).pipe(
+  const source = range(0, 10).pipe(
     tap({
       next: function(x) {
         n += x;
@@ -12,8 +12,8 @@ test('Itearble#tap next', () => {
     })
   );
 
-  // tslint:disable-next-line:no-empty
-  for (let _ of source) {
+  // eslint-disable-next-line no-empty
+  for (const _ of source) {
   }
 
   expect(45).toBe(n);
@@ -21,7 +21,7 @@ test('Itearble#tap next', () => {
 
 test('Iterable#tap next complete', () => {
   let n = 0;
-  let source = range(0, 10).pipe(
+  const source = range(0, 10).pipe(
     tap({
       next: function(x) {
         n += x;
@@ -32,15 +32,15 @@ test('Iterable#tap next complete', () => {
     })
   );
 
-  // tslint:disable-next-line:no-empty
-  for (let _ of source) {
+  // eslint-disable-next-line no-empty
+  for (const _ of source) {
   }
 
   expect(90).toBe(n);
 });
 
 test('Iterable#tap with error', () => {
-  let err = new Error();
+  const err = new Error();
   let ok = false;
 
   expect(() => {
@@ -53,8 +53,8 @@ test('Iterable#tap with error', () => {
       })
     );
 
-    // tslint:disable-next-line:no-empty
-    for (let _ of source) {
+    // eslint-disable-next-line no-empty
+    for (const _ of source) {
     }
   }).toThrow();
 
@@ -78,8 +78,8 @@ test('Itearble#tap with observer class', () => {
   const obs = new MyObserver();
   const source = range(0, 10).pipe(tap(obs));
 
-  // tslint:disable-next-line:no-empty
-  for (let _ of source) {
+  // eslint-disable-next-line no-empty
+  for (const _ of source) {
   }
 
   expect(obs.done).toBeTruthy();

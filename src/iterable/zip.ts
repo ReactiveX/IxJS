@@ -27,6 +27,8 @@ export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
       }
       yield fn(values);
     }
+
+    return undefined;
   }
 }
 

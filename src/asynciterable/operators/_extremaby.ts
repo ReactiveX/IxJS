@@ -4,6 +4,7 @@ import { AsyncIterableX } from '../asynciterablex';
  * @ignore
  */
 export async function defaultCompareAsync<T>(key: T, minValue: T): Promise<number> {
+  // eslint-disable-next-line no-nested-ternary
   return key > minValue ? 1 : key < minValue ? -1 : 0;
 }
 
@@ -27,21 +28,21 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let result: TSource[] = [],
-      done,
-      next;
+    let result: TSource[] = [];
+    let done;
+    let next;
     const it = this._source[Symbol.asyncIterator]();
     done = (next = await it.next()).done;
     if (done) {
       throw new Error('Sequence contains no elements');
     }
 
-    let current = next.value;
+    const current = next.value;
     let resKey = await this._keyFn(current);
     done = (next = await it.next()).done;
     while (!done) {
-      let curr = next.value;
-      let key = await this._keyFn(curr);
+      const curr = next.value;
+      const key = await this._keyFn(curr);
       const c = await this._cmp(key, resKey);
       if (c === 0) {
         result.push(curr);

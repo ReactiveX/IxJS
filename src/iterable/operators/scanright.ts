@@ -17,8 +17,8 @@ export class ScanRightIterable<T, R> extends IterableX<R> {
   }
 
   *[Symbol.iterator]() {
-    let hasValue = false,
-      acc = this._seed;
+    let hasValue = false;
+    let acc = this._seed;
     const source = toArray(this._source);
     for (let offset = source.length - 1; offset >= 0; offset--) {
       const item = source[offset];

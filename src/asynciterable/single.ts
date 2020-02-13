@@ -13,7 +13,7 @@ export async function single<T>(
   let result: T | undefined;
   let hasResult = false;
   let i = 0;
-  for await (let item of source) {
+  for await (const item of source) {
     if (hasResult && (await predicate(item, i++))) {
       throw new Error('More than one element was found');
     }

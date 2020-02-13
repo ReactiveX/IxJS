@@ -88,5 +88,6 @@ test('Iterable#from from with non-iterable throws', done => {
   } catch (e) {
     error = true;
   }
+  // eslint-disable-next-line no-unused-expressions
   error ? done() : done.fail('expected from to throw');
 });

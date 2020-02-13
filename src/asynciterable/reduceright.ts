@@ -16,8 +16,8 @@ export async function reduceRight<T, R = T>(
 ): Promise<R> {
   const array = await toArray(source);
   const hasSeed = seed.length === 1;
-  let hasValue = false,
-    acc = seed[0] as T | R;
+  let hasValue = false;
+  let acc = seed[0] as T | R;
   for (let offset = array.length - 1; offset >= 0; offset--) {
     const item = array[offset];
     if (hasValue || (hasValue = hasSeed)) {

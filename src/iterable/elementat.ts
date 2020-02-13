@@ -5,12 +5,13 @@
  * @return {T} undefined if the index is outside the bounds of the source sequence; otherwise, the element at the
  * specified position in the source sequence.
  */
-export function elementAt<T>(source: Iterable<T>, index: number) {
-  for (let item of source) {
-    if (index === 0) {
+export function elementAt<T>(source: Iterable<T>, index: number): T | undefined {
+  let currentIndex = index;
+  for (const item of source) {
+    if (currentIndex === 0) {
       return item;
     }
-    index--;
+    currentIndex--;
   }
   return undefined;
 }

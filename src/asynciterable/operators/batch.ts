@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 interface AsyncResolver<T> {
   resolve: (value?: T | PromiseLike<T> | undefined) => void;
@@ -26,14 +27,17 @@ function assertNever(value: never): never {
 
 class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _source: AsyncIterable<TSource>;
+  private _signal?: AbortSignal;
 
-  constructor(source: AsyncIterable<TSource>) {
+  constructor(source: AsyncIterable<TSource>, signal?: AbortSignal) {
     super();
     this._source = source;
+    this._signal = signal;
   }
 
   [Symbol.asyncIterator]() {
-    const it = this._source[Symbol.asyncIterator]();
+    const wrappedSource = wrapWithAbort(this._source, this._signal);
+    const it = wrappedSource[Symbol.asyncIterator]();
 
     let state: State<TSource> = { type: BATCHING_TYPE, values: [] };
     let ended: null | Promise<IteratorResult<TSource[]>> = null;
@@ -111,8 +115,8 @@ class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
  * Returns an async iterable sequence of batches that are collected from the source sequence between
  * subsequent `next()` calls.
  */
-export function batch<TSource>(): OperatorAsyncFunction<TSource, TSource[]> {
+export function batch<TSource>(signal?: AbortSignal): OperatorAsyncFunction<TSource, TSource[]> {
   return function batchOperator(source: AsyncIterable<TSource>): AsyncIterableX<TSource[]> {
-    return new BatchAsyncIterable(source);
+    return new BatchAsyncIterable(source, signal);
   };
 }

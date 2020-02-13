@@ -32,8 +32,8 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     const it = this._source[Symbol.asyncIterator]();
     while (1) {
       const { type, value } = await Promise.race<TimeoutOperation<TSource>>([
-        it.next().then(value => {
-          return { type: VALUE_TYPE, value };
+        it.next().then(innerValue => {
+          return { type: VALUE_TYPE, innerValue };
         }),
         sleep(this._dueTime).then(() => {
           return { type: ERROR_TYPE };

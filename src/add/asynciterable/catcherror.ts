@@ -9,6 +9,7 @@ export declare namespace asynciterable {
 }
 
 declare module '../../asynciterable/asynciterablex' {
+  /* eslint no-shadow: "off" */
   namespace AsyncIterableX {
     export { catchErrorStatic as catchError };
   }

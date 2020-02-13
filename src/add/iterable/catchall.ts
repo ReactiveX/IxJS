@@ -9,6 +9,7 @@ export declare namespace iterable {
 }
 
 declare module '../../iterable/iterablex' {
+  /* eslint no-shadow: "off" */
   namespace IterableX {
     export { _catchAll as catchAll };
   }

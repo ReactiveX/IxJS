@@ -1,11 +1,22 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { AbortError } from 'ix/util/aborterror';
+import { delay } from '../_delay';
 
 async function forEach<T>(
   source: AsyncIterable<T>,
-  fn: (item: T) => void | Promise<void>
+  fn: (item: T) => void | Promise<void>,
+  signal?: AbortSignal
 ): Promise<void> {
+  if (signal?.aborted) {
+    throw new AbortError();
+  }
+
   for await (const item of source) {
+    if (signal?.aborted) {
+      throw new AbortError();
+    }
+
     await fn(item);
   }
 }
@@ -13,11 +24,13 @@ async function forEach<T>(
 export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _time: number;
+  private _signal?: AbortSignal;
 
-  constructor(source: AsyncIterable<TSource>, time: number) {
+  constructor(source: AsyncIterable<TSource>, time: number, signal?: AbortSignal) {
     super();
     this._source = source;
     this._time = time;
+    this._signal = signal;
   }
 
   async *[Symbol.asyncIterator]() {
@@ -44,18 +57,24 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       const item = lastItem;
       const res = resolver;
       reset(false);
-      setTimeout(run, this._time);
+      delay(run, this._time, this._signal);
       res(item);
     };
 
     reset(true);
-    forEach(this._source, item => {
-      lastItem = item;
-      if (noValue) {
-        run();
-      }
-    })
-      .then(() => (done = true))
+    forEach(
+      this._source,
+      item => {
+        lastItem = item;
+        if (noValue) {
+          run();
+        }
+      },
+      this._signal
+    )
+      .then(() => {
+        done = true;
+      })
       .catch(err => {
         hasError = true;
         error = err;
@@ -73,7 +92,10 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
-export function debounce<TSource>(time: number): MonoTypeOperatorAsyncFunction<TSource> {
+export function debounce<TSource>(
+  time: number,
+  signal?: AbortSignal
+): MonoTypeOperatorAsyncFunction<TSource> {
   return function debounceOperatorFunction(
     source: AsyncIterable<TSource>
   ): AsyncIterableX<TSource> {

@@ -10,8 +10,8 @@ export class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let results = [] as TSource[];
-    for await (let item of this._source) {
+    const results = [] as TSource[];
+    for await (const item of this._source) {
       results.unshift(item);
     }
     yield* results;

@@ -5,6 +5,7 @@ import { empty as emptyStatic } from '../../asynciterable/empty';
 AsyncIterableX.empty = emptyStatic;
 
 declare module '../../asynciterable/asynciterablex' {
+  /* eslint no-shadow: "off" */
   namespace AsyncIterableX {
     export let empty: typeof emptyStatic;
   }

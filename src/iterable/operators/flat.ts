@@ -14,20 +14,21 @@ export class FlattenIterable<TSource> extends IterableX<TSource> {
 
   private *_flatten(source: Iterable<TSource>, depth: number): Iterable<TSource> {
     if (depth === 0) {
-      for (let item of source) {
+      for (const item of source) {
         yield item;
       }
       return undefined;
     }
-    for (let item of source) {
+    for (const item of source) {
       if (isIterable(item)) {
-        for (let innerItem of this._flatten(item, depth - 1)) {
+        for (const innerItem of this._flatten(item, depth - 1)) {
           yield innerItem;
         }
       } else {
         yield item;
       }
     }
+    return undefined;
   }
 
   [Symbol.iterator]() {

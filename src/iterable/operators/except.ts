@@ -20,12 +20,12 @@ export class ExceptIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let map = [] as TSource[];
-    for (let secondItem of this._second) {
+    const map = [] as TSource[];
+    for (const secondItem of this._second) {
       map.push(secondItem);
     }
 
-    for (let firstItem of this._first) {
+    for (const firstItem of this._first) {
       if (arrayIndexOf(map, firstItem, this._comparer) === -1) {
         map.push(firstItem);
         yield firstItem;

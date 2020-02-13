@@ -2,31 +2,39 @@ import { AsyncIterableX } from '../asynciterablex';
 import { arrayIndexOfAsync } from '../../util/arrayindexof';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
+import { AbortError } from 'ix/util/aborterror';
 
 export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _first: AsyncIterable<TSource>;
   private _second: AsyncIterable<TSource>;
   private _comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>;
+  private _signal?: AbortSignal;
 
   constructor(
     first: AsyncIterable<TSource>,
     second: AsyncIterable<TSource>,
-    comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>
+    comparer: (x: TSource, y: TSource) => boolean | Promise<boolean>,
+    signal?: AbortSignal
   ) {
     super();
     this._first = first;
     this._second = second;
     this._comparer = comparer;
+    this._signal = signal;
   }
 
   async *[Symbol.asyncIterator]() {
-    let map = [] as TSource[];
-    for await (let secondItem of this._second) {
+    const map = [] as TSource[];
+    for await (const secondItem of wrapWithAbort(this._second, this._signal)) {
       map.push(secondItem);
     }
 
-    for await (let firstItem of this._first) {
+    for await (const firstItem of wrapWithAbort(this._first, this._signal)) {
       if ((await arrayIndexOfAsync(map, firstItem, this._comparer)) === -1) {
+        if (this._signal?.aborted) {
+          throw new AbortError();
+        }
         map.push(firstItem);
         yield firstItem;
       }
@@ -36,9 +44,10 @@ export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 export function except<TSource>(
   second: AsyncIterable<TSource>,
-  comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync
+  comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync,
+  signal?: AbortSignal
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function exceptOperatorFunction(first: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new ExceptAsyncIterable<TSource>(first, second, comparer);
+    return new ExceptAsyncIterable<TSource>(first, second, comparer, signal);
   };
 }

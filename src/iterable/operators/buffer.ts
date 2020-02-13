@@ -14,15 +14,15 @@ export class BufferIterable<TSource> extends IterableX<TSource[]> {
   }
 
   *[Symbol.iterator]() {
-    let buffers: TSource[][] = [],
-      i = 0;
-    for (let item of this._source) {
+    const buffers: TSource[][] = [];
+    let i = 0;
+    for (const item of this._source) {
       if (i % this._skip === 0) {
         buffers.push([]);
       }
 
-      for (let buffer of buffers) {
-        buffer.push(item);
+      for (const innerBuffer of buffers) {
+        innerBuffer.push(item);
       }
 
       if (buffers.length > 0 && buffers[0].length === this._count) {
@@ -71,10 +71,11 @@ export function buffer<TSource>(
   count: number,
   skip?: number
 ): OperatorFunction<TSource, TSource[]> {
-  if (skip == null) {
-    skip = count;
+  let innerSkip = skip;
+  if (innerSkip == null) {
+    innerSkip = count;
   }
   return function bufferOperatorFunction(source: Iterable<TSource>): IterableX<TSource[]> {
-    return new BufferIterable(source, count, skip!);
+    return new BufferIterable(source, count, innerSkip!);
   };
 }

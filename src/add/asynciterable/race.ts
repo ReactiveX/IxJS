@@ -5,6 +5,7 @@ import { race as raceStatic } from '../../asynciterable/race';
 AsyncIterableX.race = raceStatic;
 
 declare module '../../asynciterable/asynciterablex' {
+  /* eslint no-shadow: "off" */
   namespace AsyncIterableX {
     export let race: typeof raceStatic;
   }

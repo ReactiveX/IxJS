@@ -14,7 +14,7 @@ export class TakeIterable<TSource> extends IterableX<TSource> {
   *[Symbol.iterator]() {
     let i = this._count;
     if (i > 0) {
-      for (let item of this._source) {
+      for (const item of this._source) {
         yield item;
         if (--i === 0) {
           break;

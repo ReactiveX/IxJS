@@ -13,8 +13,8 @@ export class TakeLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     if (this._count > 0) {
-      let q = [] as TSource[];
-      for await (let item of this._source) {
+      const q = [] as TSource[];
+      for await (const item of this._source) {
         if (q.length >= this._count) {
           q.shift();
         }

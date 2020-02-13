@@ -15,10 +15,10 @@ export class SkipWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let yielding = false,
-      i = 0;
-    for await (let element of this._source) {
-      if (!yielding && !await this._predicate(element, i++)) {
+    let yielding = false;
+    let i = 0;
+    for await (const element of this._source) {
+      if (!yielding && !(await this._predicate(element, i++))) {
         yielding = true;
       }
       if (yielding) {

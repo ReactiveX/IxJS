@@ -9,8 +9,8 @@ export class ConcatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    for (let outer of this._source) {
-      for await (let item of outer) {
+    for (const outer of this._source) {
+      for await (const item of outer) {
         yield item;
       }
     }

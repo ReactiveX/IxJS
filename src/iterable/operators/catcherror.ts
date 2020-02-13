@@ -13,9 +13,9 @@ export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TRe
   }
 
   *[Symbol.iterator]() {
-    let err: Iterable<TResult> | undefined,
-      hasError = false,
-      it = this._source[Symbol.iterator]();
+    let err: Iterable<TResult> | undefined;
+    let hasError = false;
+    const it = this._source[Symbol.iterator]();
     while (1) {
       let c = <IteratorResult<TSource>>{};
 
@@ -36,7 +36,7 @@ export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TRe
     }
 
     if (hasError) {
-      for (let item of err!) {
+      for (const item of err!) {
         yield item;
       }
     }
@@ -46,7 +46,9 @@ export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TRe
 export function catchError<TSource, TResult>(
   handler: (error: any) => Iterable<TResult>
 ): OperatorFunction<TSource, TSource | TResult> {
-  return function catchWithOperatorFunction(source: Iterable<TSource>): IterableX<TSource | TResult> {
+  return function catchWithOperatorFunction(
+    source: Iterable<TSource>
+  ): IterableX<TSource | TResult> {
     return new CatchWithIterable<TSource, TResult>(source, handler);
   };
 }

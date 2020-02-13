@@ -14,10 +14,10 @@ export async function toMap<TSource, TKey, TElement = TSource>(
   keySelector: (item: TSource) => TKey | Promise<TKey>,
   elementSelector: (item: TSource) => TElement | Promise<TElement> = identityAsync
 ): Promise<Map<TKey, TElement | TSource>> {
-  let map = new Map<TKey, TElement | TSource>();
-  for await (let item of source) {
-    let value = await elementSelector(item);
-    let key = await keySelector(item);
+  const map = new Map<TKey, TElement | TSource>();
+  for await (const item of source) {
+    const value = await elementSelector(item);
+    const key = await keySelector(item);
     map.set(key, value);
   }
   return map;

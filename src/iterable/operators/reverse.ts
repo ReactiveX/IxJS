@@ -10,8 +10,8 @@ export class ReverseIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let results = [] as TSource[];
-    for (let item of this._source) {
+    const results = [] as TSource[];
+    for (const item of this._source) {
       results.unshift(item);
     }
     yield* results;

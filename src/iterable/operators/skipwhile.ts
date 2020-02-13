@@ -12,9 +12,9 @@ export class SkipWhileIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let yielding = false,
-      i = 0;
-    for (let element of this._source) {
+    let yielding = false;
+    let i = 0;
+    for (const element of this._source) {
       if (!yielding && !this._predicate(element, i++)) {
         yielding = true;
       }

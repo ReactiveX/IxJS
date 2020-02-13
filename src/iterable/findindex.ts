@@ -21,7 +21,7 @@ export function findIndex<T>(
   const f = bindCallback(predicate, thisArg, 2);
   let i = 0;
 
-  for (let item of source) {
+  for (const item of source) {
     if (f(item, i++)) {
       return i;
     }

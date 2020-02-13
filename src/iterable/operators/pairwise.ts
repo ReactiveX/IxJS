@@ -10,8 +10,8 @@ export class PairwiseIterable<TSource> extends IterableX<TSource[]> {
   }
 
   *[Symbol.iterator]() {
-    let value: TSource | undefined,
-      hasValue = false;
+    let value: TSource | undefined;
+    let hasValue = false;
     for (const item of this._source) {
       if (!hasValue) {
         hasValue = true;

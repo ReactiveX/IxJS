@@ -10,7 +10,7 @@ export function count<T>(
 ): number {
   let i = 0;
 
-  for (let item of source) {
+  for (const item of source) {
     if (predicate(item)) {
       i++;
     }

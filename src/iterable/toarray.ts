@@ -1,6 +1,6 @@
 export function toArray<TSource>(source: Iterable<TSource>): TSource[] {
-  let results = [] as TSource[];
-  for (let item of source) {
+  const results = [] as TSource[];
+  for (const item of source) {
     results.push(item);
   }
   return results;

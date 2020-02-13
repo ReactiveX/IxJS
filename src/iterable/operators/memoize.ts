@@ -15,17 +15,19 @@ class MemoizeBuffer<T> extends IterableX<T> {
     this._buffer = buffer;
   }
 
+  // eslint-disable-next-line complexity
   *[Symbol.iterator]() {
     let i = 0;
     try {
       while (1) {
-        let hasValue = false,
-          current = <T>{};
+        let hasValue = false;
+        let current = <T>{};
         if (i >= this._buffer.count) {
           if (!this._stopped) {
             try {
-              let next = this._source.next();
+              const next = this._source.next();
               hasValue = !next.done;
+              // eslint-disable-next-line max-depth
               if (hasValue) {
                 current = next.value;
               }

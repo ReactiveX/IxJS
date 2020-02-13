@@ -22,9 +22,10 @@ export function bindCallback(func: any, thisArg: any, argCount: number) {
       return function(value: any, index: number, collection: any[]) {
         return func.call(thisArg, value, index, collection);
       };
-  }
 
-  return function() {
-    return func.apply(thisArg, arguments);
-  };
+    default:
+      return function() {
+        return func.apply(thisArg, arguments);
+      };
+  }
 }

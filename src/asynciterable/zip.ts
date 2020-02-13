@@ -31,6 +31,8 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
       }
       yield await fn(values);
     }
+
+    return undefined;
   }
 }
 

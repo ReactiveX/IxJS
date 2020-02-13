@@ -5,6 +5,7 @@ import { fromDOMStream as fromDOMStreamStatic } from '../../asynciterable/fromdo
 AsyncIterableX.fromDOMStream = fromDOMStreamStatic;
 
 declare module '../../asynciterable/asynciterablex' {
+  /* eslint no-shadow: "off" */
   namespace AsyncIterableX {
     export let fromDOMStream: typeof fromDOMStreamStatic;
   }

@@ -12,8 +12,8 @@ export class SkipLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let q = [] as TSource[];
-    for await (let item of this._source) {
+    const q = [] as TSource[];
+    for await (const item of this._source) {
       q.push(item);
       if (q.length > this._count) {
         yield q.shift()!;

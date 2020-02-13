@@ -15,16 +15,18 @@ class PublishedBuffer<T> extends IterableX<T> {
     this._buffer = new RefCountList<T>(0);
   }
 
+  // eslint-disable-next-line complexity
   private *_getIterable(i: number): Iterable<T> {
     try {
       while (1) {
-        let hasValue = false,
-          current = <T>{};
+        let hasValue = false;
+        let current = <T>{};
         if (i >= this._buffer.count) {
           if (!this._stopped) {
             try {
-              let next = this._source.next();
+              const next = this._source.next();
               hasValue = !next.done;
+              // eslint-disable-next-line max-depth
               if (hasValue) {
                 current = next.value;
               }
@@ -55,6 +57,7 @@ class PublishedBuffer<T> extends IterableX<T> {
           break;
         }
 
+        // eslint-disable-next-line no-param-reassign
         i++;
       }
     } finally {
@@ -77,7 +80,7 @@ export function publish<TSource, TResult>(
 ): OperatorFunction<TSource, TSource | TResult> {
   return function publishOperatorFunction(source: Iterable<TSource>): IterableX<TSource | TResult> {
     return selector
-    ? create(() => selector(publish<TSource>()(source))[Symbol.iterator]())
-    : new PublishedBuffer<TSource>(source[Symbol.iterator]());
+      ? create(() => selector(publish<TSource>()(source))[Symbol.iterator]())
+      : new PublishedBuffer<TSource>(source[Symbol.iterator]());
   };
 }

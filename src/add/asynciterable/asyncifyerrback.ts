@@ -5,6 +5,7 @@ import { asyncifyErrback as asyncifyErrbackStatic } from '../../asynciterable/as
 AsyncIterableX.asyncifyErrback = asyncifyErrbackStatic;
 
 declare module '../../asynciterable/asynciterablex' {
+  /* eslint no-shadow: "off" */
   namespace AsyncIterableX {
     export let asyncifyErrback: typeof asyncifyErrbackStatic;
   }

@@ -2,11 +2,12 @@ import { comparer } from '../util/comparer';
 
 export function includes<T>(source: Iterable<T>, searchElement: T, fromIndex: number = 0): boolean {
   let i = 0;
-  if (Math.abs(fromIndex)) {
-    fromIndex = 0;
+  let innerFromIndex = fromIndex;
+  if (Math.abs(innerFromIndex)) {
+    innerFromIndex = 0;
   }
-  for (let item of source) {
-    if (i++ > fromIndex && comparer(item, searchElement)) {
+  for (const item of source) {
+    if (i++ > innerFromIndex && comparer(item, searchElement)) {
       return true;
     }
   }

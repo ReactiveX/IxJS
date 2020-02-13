@@ -9,8 +9,8 @@ export class OnErrorResumeNextIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    for (let item of this._source) {
-      let it = item[Symbol.iterator]();
+    for (const item of this._source) {
+      const it = item[Symbol.iterator]();
       while (1) {
         let next;
         try {

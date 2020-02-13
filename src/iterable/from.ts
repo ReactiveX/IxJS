@@ -25,7 +25,6 @@ export function _initialize(Ctor: typeof IterableX) {
     thisArg?: any
   ): IterableX<TResult> {
     const fn = bindCallback(selector, thisArg, 2);
-    /* tslint:disable */
     if (isIterable(source)) {
       return new FromIterable<TSource, TResult>(source, fn);
     }
@@ -36,9 +35,9 @@ export function _initialize(Ctor: typeof IterableX) {
       return new FromIterable<TSource, TResult>({ [Symbol.iterator]: () => source }, fn);
     }
     throw new TypeError('Input type not supported');
-    /* tslint:enable */
   };
 
+  // eslint-disable-next-line no-shadow
   FromIterable = class FromIterable<TSource, TResult = TSource> extends Ctor<TResult> {
     private _source: Iterable<TSource> | ArrayLike<TSource>;
     private _fn: (value: TSource, index: number) => TResult;
@@ -56,13 +55,13 @@ export function _initialize(Ctor: typeof IterableX) {
       const iterable = isIterable(this._source);
       let i = 0;
       if (iterable) {
-        for (let item of <Iterable<TSource>>this._source) {
+        for (const item of <Iterable<TSource>>this._source) {
           yield this._fn(item, i++);
         }
       } else {
-        let length = toLength((<ArrayLike<TSource>>this._source).length);
+        const length = toLength((<ArrayLike<TSource>>this._source).length);
         while (i < length) {
-          let val = (<ArrayLike<TSource>>this._source)[i];
+          const val = (<ArrayLike<TSource>>this._source)[i];
           yield this._fn(val, i++);
         }
       }

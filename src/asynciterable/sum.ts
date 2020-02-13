@@ -12,10 +12,10 @@ export async function sum(
   source: AsyncIterable<any> | Iterable<any>,
   selector: (x: any) => number | Promise<number> = identityAsync
 ): Promise<number> {
-  let sum = 0;
-  for await (let item of source) {
-    sum += await selector(item);
+  let value = 0;
+  for await (const item of source) {
+    value += await selector(item);
   }
 
-  return sum;
+  return value;
 }

@@ -2,11 +2,12 @@ export async function elementAt<T>(
   source: AsyncIterable<T>,
   index: number
 ): Promise<T | undefined> {
-  for await (let item of source) {
-    if (index === 0) {
+  let idx = index;
+  for await (const item of source) {
+    if (idx === 0) {
       return item;
     }
-    index--;
+    idx--;
   }
   return undefined;
 }

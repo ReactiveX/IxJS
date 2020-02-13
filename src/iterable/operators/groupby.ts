@@ -39,7 +39,7 @@ export class GroupByIterable<TSource, TKey, TValue, TResult> extends IterableX<T
 
   *[Symbol.iterator]() {
     const map = createGrouping(this._source, this._keySelector, this._elementSelector);
-    for (let [key, values] of map) {
+    for (const [key, values] of map) {
       yield this._resultSelector(key, values);
     }
   }

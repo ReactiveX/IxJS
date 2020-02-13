@@ -4,7 +4,7 @@ import { comparer as defaultComparer } from '../../util/comparer';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 
 function arrayRemove<T>(array: T[], item: T, comparer: (x: T, y: T) => boolean): boolean {
-  let idx = arrayIndexOf(array, item, comparer);
+  const idx = arrayIndexOf(array, item, comparer);
   if (idx === -1) {
     return false;
   }
@@ -29,12 +29,12 @@ export class IntersectIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let map = [] as TSource[];
-    for (let secondItem of this._second) {
+    const map = [] as TSource[];
+    for (const secondItem of this._second) {
       map.push(secondItem);
     }
 
-    for (let firstItem of this._first) {
+    for (const firstItem of this._first) {
       if (arrayRemove(map, firstItem, this._comparer)) {
         yield firstItem;
       }

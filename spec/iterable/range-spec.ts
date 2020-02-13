@@ -6,7 +6,7 @@ test('Iterable#range produces correct sequence', () => {
   const rangeSequence = range(1, 100);
   let expected = 0;
 
-  for (let item of rangeSequence) {
+  for (const item of rangeSequence) {
     expected++;
     expect(expected).toBe(item);
   }
@@ -66,33 +66,9 @@ test('Iterable#range skip excessive', () => {
 
 test('Iterable#range skip take can be only one', () => {
   expect(sequenceEqual([1], range(1, 10).pipe(take(1)))).toBeTruthy();
-  expect(
-    sequenceEqual(
-      [2],
-      range(1, 10).pipe(
-        skip(1),
-        take(1)
-      )
-    )
-  ).toBeTruthy();
-  expect(
-    sequenceEqual(
-      [3],
-      range(1, 10).pipe(
-        take(3),
-        skip(2)
-      )
-    )
-  ).toBeTruthy();
-  expect(
-    sequenceEqual(
-      [1],
-      range(1, 10).pipe(
-        take(3),
-        take(1)
-      )
-    )
-  ).toBeTruthy();
+  expect(sequenceEqual([2], range(1, 10).pipe(skip(1), take(1)))).toBeTruthy();
+  expect(sequenceEqual([3], range(1, 10).pipe(take(3), skip(2)))).toBeTruthy();
+  expect(sequenceEqual([1], range(1, 10).pipe(take(3), take(1)))).toBeTruthy();
 });
 
 test('Iterable#range elementAt', () => {

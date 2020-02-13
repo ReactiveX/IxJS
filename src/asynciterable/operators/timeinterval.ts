@@ -16,7 +16,7 @@ export class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInter
 
   async *[Symbol.asyncIterator]() {
     let last = Date.now();
-    for await (let item of this._source) {
+    for await (const item of this._source) {
       const now = Date.now();
       const span = now - last;
       last = now;

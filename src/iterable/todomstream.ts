@@ -50,13 +50,7 @@ IterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>>(
 };
 
 function _getDOMStream<T>(self: any) {
-  return (
-    self._DOMStream ||
-    (self._DOMStream = self.pipe(
-      publish<T>(),
-      toDOMStream
-    ))
-  );
+  return self._DOMStream || (self._DOMStream = self.pipe(publish<T>(), toDOMStream));
 }
 
 /**
