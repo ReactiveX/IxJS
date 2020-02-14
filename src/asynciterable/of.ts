@@ -17,6 +17,5 @@ export class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 /** @nocollapse */
 export function of<TSource>(...args: TSource[]): AsyncIterableX<TSource> {
-  //tslint:disable-next-line
   return new OfAsyncIterable<TSource>(args);
 }

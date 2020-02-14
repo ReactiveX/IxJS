@@ -2,30 +2,28 @@ import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { AbortError } from 'ix/util/aborterror';
+import { bindCallback } from 'ix/util/bindcallback';
 
 export class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _predicate: (value: TSource, index: number) => boolean | Promise<boolean>;
-  private _thisArg: any;
   private _signal?: AbortSignal;
 
   constructor(
     source: AsyncIterable<TSource>,
     predicate: (value: TSource, index: number) => boolean | Promise<boolean>,
-    thisArg?: any,
     signal?: AbortSignal
   ) {
     super();
     this._source = source;
     this._predicate = predicate;
-    this._thisArg = thisArg;
     this._signal = signal;
   }
 
   async *[Symbol.asyncIterator]() {
     let i = 0;
     for await (const item of wrapWithAbort(this._source, this._signal)) {
-      if (await this._predicate.call(this._thisArg, item, i++)) {
+      if (await this._predicate(item, i++)) {
         if (this._signal?.aborted) {
           throw new AbortError();
         }
@@ -52,6 +50,6 @@ export function filter<TSource>(
   signal?: AbortSignal
 ): OperatorAsyncFunction<TSource, TSource> {
   return function filterOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new FilterAsyncIterable<TSource>(source, predicate, thisArg, signal);
+    return new FilterAsyncIterable<TSource>(source, bindCallback(predicate, thisArg, 2), signal);
   };
 }

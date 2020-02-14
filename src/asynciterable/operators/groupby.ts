@@ -2,11 +2,11 @@ import { AsyncIterableX } from '../asynciterablex';
 import { identityAsync } from '../../util/identity';
 import { createGrouping } from './_grouping';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { AbortError } from 'ix/util/aborterror';
 
 export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
   public readonly key: TKey;
   private _source: Iterable<TValue>;
-
   constructor(key: TKey, source: Iterable<TValue>) {
     super();
     this.key = key;
@@ -25,24 +25,37 @@ export class GroupByAsyncIterable<TSource, TKey, TValue, TResult> extends AsyncI
   private _keySelector: (value: TSource) => TKey | Promise<TKey>;
   private _elementSelector: (value: TSource) => TValue | Promise<TValue>;
   private _resultSelector: (key: TKey, values: Iterable<TValue>) => TResult | Promise<TResult>;
+  private _signal?: AbortSignal;
 
   constructor(
     source: AsyncIterable<TSource>,
     keySelector: (value: TSource) => TKey | Promise<TKey>,
     elementSelector: (value: TSource) => TValue | Promise<TValue>,
-    resultSelector: (key: TKey, values: Iterable<TValue>) => TResult | Promise<TResult>
+    resultSelector: (key: TKey, values: Iterable<TValue>) => TResult | Promise<TResult>,
+    signal?: AbortSignal
   ) {
     super();
     this._source = source;
     this._keySelector = keySelector;
     this._elementSelector = elementSelector;
     this._resultSelector = resultSelector;
+    this._signal = signal;
   }
 
   async *[Symbol.asyncIterator]() {
-    const map = await createGrouping(this._source, this._keySelector, this._elementSelector);
+    const map = await createGrouping(
+      this._source,
+      this._keySelector,
+      this._elementSelector,
+      this._signal
+    );
     for (const [key, values] of map) {
-      yield await this._resultSelector(key, values);
+      const result = await this._resultSelector(key, values);
+      if (this._signal?.aborted) {
+        throw new AbortError();
+      }
+
+      yield result;
     }
   }
 }
@@ -77,8 +90,9 @@ export function groupBy<TSource, TKey, TValue, TResult>(
     return new GroupByAsyncIterable<TSource, TKey, TValue, TResult>(
       source,
       options.keySelector,
-      options?.elementSelector || identityAsync,
-      options?.resultSelector || groupByResultIdentityAsync
+      options.elementSelector || identityAsync,
+      options.resultSelector || groupByResultIdentityAsync,
+      options.signal
     );
   };
 }
