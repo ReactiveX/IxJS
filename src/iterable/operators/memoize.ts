@@ -76,9 +76,9 @@ export function memoize<TSource, TResult = TSource>(
       return readerCount === -1
         ? new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>())
         : new MemoizeBuffer<TSource>(
-            source[Symbol.iterator](),
-            new RefCountList<TSource>(readerCount)
-          );
+          source[Symbol.iterator](),
+          new RefCountList<TSource>(readerCount)
+        );
     }
     return create<TSource | TResult>(() =>
       selector!(memoize<TSource>(readerCount)(source))[Symbol.iterator]()

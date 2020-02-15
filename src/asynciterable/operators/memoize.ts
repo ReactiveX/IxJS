@@ -84,13 +84,13 @@ export function memoize<TSource, TResult = TSource>(
     if (!selector) {
       return readerCount === -1
         ? new MemoizeAsyncBuffer<TSource>(
-            source[Symbol.asyncIterator](),
-            new MaxRefCountList<TSource>()
-          )
+          source[Symbol.asyncIterator](),
+          new MaxRefCountList<TSource>()
+        )
         : new MemoizeAsyncBuffer<TSource>(
-            source[Symbol.asyncIterator](),
-            new RefCountList<TSource>(readerCount)
-          );
+          source[Symbol.asyncIterator](),
+          new RefCountList<TSource>(readerCount)
+        );
     }
     return create<TSource | TResult>(() =>
       selector!(memoize<TSource>(readerCount)(source))[Symbol.asyncIterator]()

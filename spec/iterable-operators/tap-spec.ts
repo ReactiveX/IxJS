@@ -6,7 +6,7 @@ test('Itearble#tap next', () => {
   let n = 0;
   const source = range(0, 10).pipe(
     tap({
-      next: function(x) {
+      next: function (x) {
         n += x;
       }
     })
@@ -23,10 +23,10 @@ test('Iterable#tap next complete', () => {
   let n = 0;
   const source = range(0, 10).pipe(
     tap({
-      next: function(x) {
+      next: function (x) {
         n += x;
       },
-      complete: function() {
+      complete: function () {
         n *= 2;
       }
     })
@@ -46,7 +46,7 @@ test('Iterable#tap with error', () => {
   expect(() => {
     const source = throwError<number>(err).pipe(
       tap({
-        error: function(e) {
+        error: function (e) {
           expect(err).toBe(e);
           ok = true;
         }

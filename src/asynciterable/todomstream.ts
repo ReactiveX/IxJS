@@ -7,9 +7,9 @@ export type ReadableByteStreamOptions<T = any> = QueuingStrategy<T> & {
 };
 
 type AsyncSourceIterator<TSource> = AsyncIterator<
-  TSource,
-  any,
-  number | ArrayBufferView | undefined | null
+TSource,
+any,
+number | ArrayBufferView | undefined | null
 >;
 
 /** @ignore */

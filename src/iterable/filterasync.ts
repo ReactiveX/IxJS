@@ -16,7 +16,7 @@ class FilterIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     let i = 0;
-    for await (const item of <AsyncIterable<TSource>>this._source) {
+    for await (const item of <AsyncIterable<TSource>> this._source) {
       if (await this._predicate(item, i++)) {
         yield item;
       }

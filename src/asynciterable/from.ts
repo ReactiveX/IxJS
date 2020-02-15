@@ -42,7 +42,7 @@ export let FromObservableAsyncIterable: new <TSource, TResult = TSource>(
 
 export function _initialize(Ctor: typeof AsyncIterableX) {
   /** @nocollapse */
-  from = function<TSource, TResult = TSource>(
+  from = function<TSource, TResult = TSource> (
     source: AsyncIterableInput<TSource>,
     selector: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
     thisArg?: any
@@ -82,7 +82,7 @@ export function _initialize(Ctor: typeof AsyncIterableX) {
 
     async *[Symbol.asyncIterator]() {
       let i = 0;
-      const length = toLength((<ArrayLike<TSource>>this._source).length);
+      const length = toLength((<ArrayLike<TSource>> this._source).length);
       while (i < length) {
         yield await this._selector(this._source[i], i++);
       }
@@ -104,14 +104,14 @@ export function _initialize(Ctor: typeof AsyncIterableX) {
 
     async *[Symbol.asyncIterator]() {
       let i = 0;
-      for await (const item of <AsyncIterable<TSource>>this._source) {
+      for await (const item of <AsyncIterable<TSource>> this._source) {
         yield await this._selector(item, i++);
       }
     }
   };
 
   FromPromiseIterable = class FromPromiseIterable<TSource, TResult = TSource> extends Ctor<
-    TResult
+  TResult
   > {
     private _source: PromiseLike<TSource>;
     private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;

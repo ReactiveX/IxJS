@@ -8,10 +8,10 @@ export interface NodeEventEmitter {
 
 export type EventListenerOptions =
   | {
-      capture?: boolean;
-      passive?: boolean;
-      once?: boolean;
-    }
+    capture?: boolean;
+    passive?: boolean;
+    once?: boolean;
+  }
   | boolean;
 
 export type EventedTarget = EventTarget | NodeEventEmitter;

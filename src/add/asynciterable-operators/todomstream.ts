@@ -6,11 +6,11 @@ import {
   ReadableByteStreamOptions
 } from '../../asynciterable/todomstream';
 
-AsyncIterableX.prototype.tee = function<T>(this: AsyncIterableX<T>) {
+AsyncIterableX.prototype.tee = function<T> (this: AsyncIterableX<T>) {
   return _getDOMStream(this).tee();
 };
 
-AsyncIterableX.prototype.pipeTo = function<T>(
+AsyncIterableX.prototype.pipeTo = function<T> (
   this: AsyncIterableX<T>,
   writable: WritableStream<T>,
   options?: PipeOptions
@@ -18,7 +18,7 @@ AsyncIterableX.prototype.pipeTo = function<T>(
   return _getDOMStream(this).pipeTo(writable, options);
 };
 
-AsyncIterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>>(
+AsyncIterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>> (
   this: AsyncIterableX<T>,
   duplex: { writable: WritableStream<T>; readable: R },
   options?: PipeOptions
