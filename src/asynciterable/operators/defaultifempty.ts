@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
-import { AbortError } from 'ix/util/aborterror';
+import { throwIfAborted } from '../../util/aborterror';
 
 export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -22,10 +22,7 @@ export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource
       yield item;
     }
     if (state === 1) {
-      if (this._signal?.aborted) {
-        throw new AbortError();
-      }
-
+      throwIfAborted(this._signal);
       yield this._defaultValue;
     }
   }

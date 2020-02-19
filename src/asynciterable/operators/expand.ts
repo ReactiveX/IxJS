@@ -1,7 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
-import { AbortError } from 'ix/util/aborterror';
+import { throwIfAborted } from '../../util/aborterror';
 
 export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -25,9 +25,7 @@ export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       const src = q.shift();
       for await (const item of wrapWithAbort(src!, this._signal)) {
         const items = await this._selector(item);
-        if (this._signal?.aborted) {
-          throw new AbortError();
-        }
+        throwIfAborted(this._signal);
         q.push(items);
         yield item;
       }

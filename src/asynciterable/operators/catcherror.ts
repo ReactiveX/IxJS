@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { returnAsyncIterator } from '../../util/returniterator';
 import { wrapWithAbort } from './withabort';
-import { AbortError } from 'ix/util/aborterror';
+import { AbortError, throwIfAborted } from '../../util/aborterror';
 
 export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSource | TResult> {
   private _source: AsyncIterable<TSource>;
@@ -30,6 +30,7 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
 
       try {
         c = await it.next();
+        throwIfAborted(this._signal);
         if (c.done) {
           await returnAsyncIterator(it);
           break;
@@ -40,6 +41,7 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
         }
 
         err = await this._handler(e);
+        throwIfAborted(this._signal);
         hasError = true;
         await returnAsyncIterator(it);
         break;
@@ -49,7 +51,7 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
     }
 
     if (hasError) {
-      for await (const item of err!) {
+      for await (const item of wrapWithAbort(err!, this._signal)) {
         yield item;
       }
     }

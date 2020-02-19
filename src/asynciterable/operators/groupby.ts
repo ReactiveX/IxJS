@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { identityAsync } from '../../util/identity';
 import { createGrouping } from './_grouping';
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AbortError } from 'ix/util/aborterror';
+import { throwIfAborted } from '../../util/aborterror';
 
 export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
   public readonly key: TKey;
@@ -51,10 +51,7 @@ export class GroupByAsyncIterable<TSource, TKey, TValue, TResult> extends AsyncI
     );
     for (const [key, values] of map) {
       const result = await this._resultSelector(key, values);
-      if (this._signal?.aborted) {
-        throw new AbortError();
-      }
-
+      throwIfAborted(this._signal);
       yield result;
     }
   }

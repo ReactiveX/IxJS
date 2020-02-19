@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { bindCallback } from '../../util/bindcallback';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../util/aborterror';
 
 export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: AsyncIterable<TSource>;
@@ -22,7 +23,8 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
   async *[Symbol.asyncIterator]() {
     for await (const outer of wrapWithAbort(this._source, this._signal)) {
       const inners = await this._selector(outer);
-      for await (const inner of inners) {
+      throwIfAborted(this._signal);
+      for await (const inner of wrapWithAbort(inners, this._signal)) {
         yield inner;
       }
     }

@@ -1,10 +1,10 @@
 import { AsyncIterableX } from './../asynciterablex';
 import { identityAsync } from '../../util/identity';
-import { arrayIndexOfAsync } from '../../util/arrayindexof';
+import { arrayIndexOfAsync } from '../../util/arrayindexofasync';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
-import { AbortError } from 'ix/util/aborterror';
+import { throwIfAborted } from '../../util/aborterror';
 
 export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -30,14 +30,10 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
 
     for await (const item of wrapWithAbort(this._source, this._signal)) {
       const key = await this._keySelector(item);
-      if (this._signal?.aborted) {
-        throw new AbortError();
-      }
+      throwIfAborted(this._signal);
 
       if ((await arrayIndexOfAsync(set, key, this._comparer)) === -1) {
-        if (this._signal?.aborted) {
-          throw new AbortError();
-        }
+        throwIfAborted(this._signal);
 
         set.push(key);
         yield item;

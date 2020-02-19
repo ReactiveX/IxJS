@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { createGrouping } from './_grouping';
 import { identity } from '../../util/identity';
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AbortError } from 'ix/util/aborterror';
+import { throwIfAborted } from '../../util/aborterror';
 import { wrapWithAbort } from './withabort';
 
 export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TResult> {
@@ -19,7 +19,7 @@ export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncItera
     outerSelector: (value: TOuter) => TKey | Promise<TKey>,
     innerSelector: (value: TInner) => TKey | Promise<TKey>,
     resultSelector: (outer: TOuter, inner: TInner) => TResult | Promise<TResult>,
-    signal?: AbortError
+    signal?: AbortSignal
   ) {
     super();
     this._outer = outer;
@@ -32,22 +32,16 @@ export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncItera
 
   async *[Symbol.asyncIterator]() {
     const map = await createGrouping(this._inner, this._innerSelector, identity, this._signal);
-    if (this._signal?.aborted) {
-      throw new AbortError();
-    }
+    throwIfAborted(this._signal);
 
     for await (const outerElement of wrapWithAbort(this._outer, this._signal)) {
       const outerKey = await this._outerSelector(outerElement);
-      if (this._signal?.aborted) {
-        throw new AbortError();
-      }
+      throwIfAborted(this._signal);
 
       if (map.has(outerKey)) {
         for (const innerElement of map.get(outerKey)!) {
           const result = this._resultSelector(outerElement, innerElement);
-          if (this._signal?.aborted) {
-            throw new AbortError();
-          }
+          throwIfAborted(this._signal);
 
           yield result;
         }

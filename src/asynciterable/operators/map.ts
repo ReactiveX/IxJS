@@ -2,7 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { bindCallback } from 'ix/util/bindcallback';
 import { wrapWithAbort } from './withabort';
-import { AbortError } from '../../util/aborterror';
+import { throwIfAborted } from '../../util/aborterror';
 
 export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: AsyncIterable<TSource>;
@@ -24,9 +24,7 @@ export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
     let i = 0;
     for await (const item of wrapWithAbort(this._source, this._signal)) {
       const result = await this._selector(item, i++);
-      if (this._signal?.aborted) {
-        throw new AbortError();
-      }
+      throwIfAborted(this._signal);
       yield result;
     }
   }

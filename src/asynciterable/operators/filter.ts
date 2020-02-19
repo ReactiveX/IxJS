@@ -1,8 +1,8 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
-import { AbortError } from 'ix/util/aborterror';
-import { bindCallback } from 'ix/util/bindcallback';
+import { throwIfAborted } from '../../util/aborterror';
+import { bindCallback } from '../../util/bindcallback';
 
 export class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -24,10 +24,7 @@ export class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     let i = 0;
     for await (const item of wrapWithAbort(this._source, this._signal)) {
       if (await this._predicate(item, i++)) {
-        if (this._signal?.aborted) {
-          throw new AbortError();
-        }
-
+        throwIfAborted(this._signal);
         yield item;
       }
     }

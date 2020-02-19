@@ -1,7 +1,8 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AbortError } from 'ix/util/aborterror';
+import { AbortError } from '../../util/aborterror';
 import { delay } from '../_delay';
+import { wrapWithAbort } from './withabort';
 
 async function forEach<T>(
   source: AsyncIterable<T>,
@@ -12,11 +13,7 @@ async function forEach<T>(
     throw new AbortError();
   }
 
-  for await (const item of source) {
-    if (signal?.aborted) {
-      throw new AbortError();
-    }
-
+  for await (const item of wrapWithAbort(source, signal)) {
     await fn(item);
   }
 }
@@ -99,6 +96,6 @@ export function debounce<TSource>(
   return function debounceOperatorFunction(
     source: AsyncIterable<TSource>
   ): AsyncIterableX<TSource> {
-    return new DebounceAsyncIterable<TSource>(source, time);
+    return new DebounceAsyncIterable<TSource>(source, time, signal);
   };
 }

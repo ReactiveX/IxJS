@@ -4,3 +4,9 @@ export class AbortError extends Error {
     Object.setPrototypeOf(this, AbortError.prototype);
   }
 }
+
+export function throwIfAborted(signal?: AbortSignal) {
+  if (signal?.aborted) {
+    throw new AbortError();
+  }
+}

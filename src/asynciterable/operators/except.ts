@@ -1,9 +1,9 @@
 import { AsyncIterableX } from '../asynciterablex';
-import { arrayIndexOfAsync } from '../../util/arrayindexof';
+import { arrayIndexOfAsync } from '../../util/arrayindexofasync';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
-import { AbortError } from 'ix/util/aborterror';
+import { throwIfAborted } from '../../util/aborterror';
 
 export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _first: AsyncIterable<TSource>;
@@ -32,9 +32,7 @@ export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
     for await (const firstItem of wrapWithAbort(this._first, this._signal)) {
       if ((await arrayIndexOfAsync(map, firstItem, this._comparer)) === -1) {
-        if (this._signal?.aborted) {
-          throw new AbortError();
-        }
+        throwIfAborted(this._signal);
         map.push(firstItem);
         yield firstItem;
       }
