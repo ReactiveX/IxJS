@@ -12,10 +12,10 @@ export class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    for (let x of this._args) {
+    for (const x of this._args) {
       yield x;
     }
-    for await (let item of this._source) {
+    for await (const item of this._source) {
       yield item;
     }
   }

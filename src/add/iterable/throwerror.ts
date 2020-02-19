@@ -9,6 +9,7 @@ export declare namespace iterable {
 }
 
 declare module '../../iterable/iterablex' {
+  // eslint-disable-next-line no-shadow
   namespace IterableX {
     export { throwErrorStatic as throwError };
   }

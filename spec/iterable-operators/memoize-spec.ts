@@ -131,8 +131,8 @@ test('Iterable#memoize concat with error', () => {
 });
 
 function getRandom() {
-  let min = 0,
-    max = Math.pow(2, 53) - 1;
+  const min = 0;
+  const max = Math.pow(2, 53) - 1;
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
@@ -146,7 +146,12 @@ test('Iterable#memoize should share effects of random', () => {
   const rnd = from(rand())
     .pipe(take(100))
     .pipe(memoize());
-  expect(every(zip(([l, r]) => l === r, rnd, rnd), x => x)).toBeTruthy();
+  expect(
+    every(
+      zip(([l, r]) => l === r, rnd, rnd),
+      x => x
+    )
+  ).toBeTruthy();
 });
 
 test('Iterable#memoize with selector', () => {

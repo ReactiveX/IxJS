@@ -29,11 +29,11 @@ export function toDOMStream(
   return asyncIterableToDOMStream(from(source), options);
 }
 
-IterableX.prototype.tee = function<T>(this: IterableX<T>) {
+IterableX.prototype.tee = function<T> (this: IterableX<T>) {
   return _getDOMStream(this).tee();
 };
 
-IterableX.prototype.pipeTo = function<T>(
+IterableX.prototype.pipeTo = function<T> (
   this: IterableX<T>,
   writable: WritableStream<T>,
   options?: PipeOptions
@@ -41,7 +41,7 @@ IterableX.prototype.pipeTo = function<T>(
   return _getDOMStream(this).pipeTo(writable, options);
 };
 
-IterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>>(
+IterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>> (
   this: IterableX<T>,
   duplex: { writable: WritableStream<T>; readable: R },
   options?: PipeOptions
@@ -50,13 +50,7 @@ IterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>>(
 };
 
 function _getDOMStream<T>(self: any) {
-  return (
-    self._DOMStream ||
-    (self._DOMStream = self.pipe(
-      publish<T>(),
-      toDOMStream
-    ))
-  );
+  return self._DOMStream || (self._DOMStream = self.pipe(publish<T>(), toDOMStream));
 }
 
 /**

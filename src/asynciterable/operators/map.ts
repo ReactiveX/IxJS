@@ -19,8 +19,8 @@ export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
 
   async *[Symbol.asyncIterator]() {
     let i = 0;
-    for await (let item of <AsyncIterable<TSource>>this._source) {
-      let result = await this._selector.call(this._thisArg, item, i++);
+    for await (const item of <AsyncIterable<TSource>> this._source) {
+      const result = await this._selector.call(this._thisArg, item, i++);
       yield result;
     }
   }

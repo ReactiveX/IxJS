@@ -14,9 +14,9 @@ export class SliceIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let it = this._source[Symbol.iterator](),
-      begin = this._begin,
-      next;
+    const it = this._source[Symbol.iterator]();
+    let begin = this._begin;
+    let next;
     while (begin > 0 && !(next = it.next()).done) {
       begin--;
     }

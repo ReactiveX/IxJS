@@ -3,7 +3,7 @@ import { of, race } from 'ix/asynciterable';
 
 async function* delayedValues<T>(time: number, value: T, ...values: T[]): AsyncIterable<T> {
   yield await delayValue<T>(value, time);
-  for (let item of values) {
+  for (const item of values) {
     yield item;
   }
 }

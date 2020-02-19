@@ -10,8 +10,8 @@ export class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource
   }
 
   async *[Symbol.asyncIterator](): AsyncIterator<TSource> {
-    // tslint:disable-next-line:no-empty
-    for await (let _ of this._source) {
+    // eslint-disable-next-line no-empty
+    for await (const _ of this._source) {
     }
   }
 }

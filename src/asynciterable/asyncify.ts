@@ -3,10 +3,10 @@ import { AsyncSink } from './asyncsink';
 import { memoize } from './operators/memoize';
 
 export function asyncify<TSource>(func: Function): (...args: any[]) => AsyncIterableX<TSource> {
-  return function(...args: any[]) {
+  return function (...args: any[]) {
     const sink = new AsyncSink<TSource>();
 
-    const handler = function(...innerArgs: any[]) {
+    const handler = function (...innerArgs: any[]) {
       sink.write(innerArgs.length === 1 ? innerArgs[0] : innerArgs);
       sink.end();
     };

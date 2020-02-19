@@ -15,7 +15,7 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
     const array = await toArray(this._source);
     const len = array.length;
     const indices = new Array<number>(len);
-    for (let i = 0, len = array.length; i < len; i++) {
+    for (let i = 0; i < len; i++) {
       indices[i] = i;
     }
 
@@ -29,7 +29,6 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
     keySelector: (item: TSource) => TKey,
     comparer: (fst: TKey, snd: TKey) => number = defaultSorter
   ): OrderedAsyncIterableBaseX<TSource> {
-    /* tslint:disable-next-line: no-use-before-declare */
     return new OrderedAsyncIterableX<TKey, TSource>(
       this._source,
       keySelector,
@@ -43,7 +42,6 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
     keySelector: (item: TSource) => TKey,
     comparer: (fst: TKey, snd: TKey) => number = defaultSorter
   ): OrderedAsyncIterableBaseX<TSource> {
-    /* tslint:disable-next-line: no-use-before-declare */
     return new OrderedAsyncIterableX<TKey, TSource>(
       this._source,
       keySelector,

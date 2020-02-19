@@ -4,7 +4,7 @@ import { tap } from 'ix/asynciterable/operators';
 
 test('AsyncItearble#tap next', async () => {
   let n = 0;
-  let source = range(0, 10).pipe(
+  const source = range(0, 10).pipe(
     tap({
       next: async x => {
         n += x;
@@ -12,8 +12,8 @@ test('AsyncItearble#tap next', async () => {
     })
   );
 
-  // tslint:disable-next-line:no-empty
-  for await (let _ of source) {
+  // eslint-disable-next-line no-empty
+  for await (const _ of source) {
   }
 
   expect(45).toBe(n);
@@ -21,7 +21,7 @@ test('AsyncItearble#tap next', async () => {
 
 test('AsyncIterable#tap next complete', async () => {
   let n = 0;
-  let source = range(0, 10).pipe(
+  const source = range(0, 10).pipe(
     tap({
       next: async x => {
         n += x;
@@ -32,15 +32,15 @@ test('AsyncIterable#tap next complete', async () => {
     })
   );
 
-  // tslint:disable-next-line:no-empty
-  for await (let _ of source) {
+  // eslint-disable-next-line no-empty
+  for await (const _ of source) {
   }
 
   expect(90).toBe(n);
 });
 
 test('AsyncIterable#tap with error', async () => {
-  let err = new Error();
+  const err = new Error();
   let ok = false;
 
   try {
@@ -53,8 +53,8 @@ test('AsyncIterable#tap with error', async () => {
       })
     );
 
-    // tslint:disable-next-line:no-empty
-    for await (let _ of source) {
+    // eslint-disable-next-line no-empty
+    for await (const _ of source) {
     }
   } catch (e) {
     expect(err).toEqual(e);
@@ -65,10 +65,10 @@ test('AsyncIterable#tap with error', async () => {
 
 test('AsyncItearble#tap with next function', async () => {
   let n = 0;
-  let source = range(0, 10).pipe(tap(async x => (n += x)));
+  const source = range(0, 10).pipe(tap(async x => (n += x)));
 
-  // tslint:disable-next-line:no-empty
-  for await (let _ of source) {
+  // eslint-disable-next-line no-empty
+  for await (const _ of source) {
   }
 
   expect(45).toBe(n);
@@ -91,8 +91,8 @@ test('AsyncItearble#tap with observer class', async () => {
   const obs = new MyObserver();
   const source = range(0, 10).pipe(tap(obs));
 
-  // tslint:disable-next-line:no-empty
-  for await (let _ of source) {
+  // eslint-disable-next-line no-empty
+  for await (const _ of source) {
   }
 
   expect(obs.done).toBeTruthy();

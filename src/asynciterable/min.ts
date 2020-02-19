@@ -1,4 +1,3 @@
-'use strict';
 import { identityAsync } from '../util/identity';
 
 export async function min(
@@ -15,11 +14,11 @@ export async function min(
 ): Promise<number> {
   let atleastOnce = false;
   let value = Infinity;
-  for await (let item of source) {
+  for await (const item of source) {
     if (!atleastOnce) {
       atleastOnce = true;
     }
-    let x = await selector(item);
+    const x = await selector(item);
     if (x < value) {
       value = x;
     }

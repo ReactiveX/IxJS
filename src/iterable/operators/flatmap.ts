@@ -13,8 +13,8 @@ export class FlatMapIterable<TSource, TResult> extends IterableX<TResult> {
   }
 
   *[Symbol.iterator]() {
-    for (let outerItem of this._source) {
-      for (let innerItem of this._fn(outerItem)) {
+    for (const outerItem of this._source) {
+      for (const innerItem of this._fn(outerItem)) {
         yield innerItem;
       }
     }

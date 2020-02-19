@@ -4,6 +4,7 @@ import { IterableX } from '../iterablex';
  * @ignore
  */
 export function defaultCompare<T>(key: T, minValue: T): number {
+  // eslint-disable-next-line no-nested-ternary
   return key > minValue ? 1 : key < minValue ? -1 : 0;
 }
 
@@ -27,19 +28,19 @@ class ExtremaByIterable<TSource, TKey> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let result: TSource[] = [],
-      next;
+    let result: TSource[] = [];
+    let next;
     const it = this._source[Symbol.iterator]();
     if ((next = it.next()).done) {
       throw new Error('Sequence contains no elements');
     }
 
-    let current = next.value,
-      resKey = this._keyFn(current);
+    const current = next.value;
+    let resKey = this._keyFn(current);
     result.push(current);
     while (!(next = it.next()).done) {
-      let curr = next.value,
-        key = this._keyFn(curr);
+      const curr = next.value;
+      const key = this._keyFn(curr);
       const c = this._cmp(key, resKey);
       if (c === 0) {
         result.push(curr);

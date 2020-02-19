@@ -16,7 +16,7 @@ export class AsyncIterableReadableStream<T> extends AsyncIterableX<T> {
 
 export class AsyncIterableReadableByteStream extends AsyncIterableReadableStream<Uint8Array> {
   [Symbol.asyncIterator]() {
-    let stream = this._stream;
+    const stream = this._stream;
     let reader: ReadableStreamBYOBReader;
     try {
       reader = stream['getReader']({ mode: 'byob' });
@@ -108,14 +108,17 @@ async function readInto(
   offset: number,
   size: number
 ): Promise<ReadableStreamReadResult<Uint8Array>> {
-  if (offset >= size) {
+  let innerOffset = offset;
+  if (innerOffset >= size) {
     return { done: false, value: new Uint8Array(buffer, 0, size) };
   }
-  const { done, value } = await reader.read(new Uint8Array(buffer, offset, size - offset));
-  if ((offset += value.byteLength) < size && !done) {
-    return await readInto(reader, value.buffer, offset, size);
+  const { done, value } = await reader.read(
+    new Uint8Array(buffer, innerOffset, size - innerOffset)
+  );
+  if ((innerOffset += value!.byteLength) < size && !done) {
+    return await readInto(reader, value!.buffer, innerOffset, size);
   }
-  return { done, value: new Uint8Array(value.buffer, 0, offset) };
+  return { done, value: new Uint8Array(value!.buffer, 0, innerOffset) };
 }
 
 export function fromDOMStream<TSource>(stream: ReadableStream<TSource>): AsyncIterableX<TSource>;

@@ -7,6 +7,6 @@ export function mergeAll<TSource>(): OperatorAsyncFunction<AsyncIterable<TSource
   return function mergeAllOperatorFunction(
     source: AsyncIterable<AsyncIterable<TSource>>
   ): AsyncIterableX<TSource> {
-    return as(source).pipe(flatMap<AsyncIterable<TSource>, TSource>(source => source));
+    return as(source).pipe(flatMap<AsyncIterable<TSource>, TSource>(s => s));
   };
 }

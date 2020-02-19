@@ -36,7 +36,7 @@ export class MaxRefCountList<T> implements IRefCountList<T> {
     this._list.push(value);
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   done() {}
 }
 

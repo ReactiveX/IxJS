@@ -13,7 +13,7 @@ export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource
 
   async *[Symbol.asyncIterator]() {
     let state = 1;
-    for await (let item of this._source) {
+    for await (const item of this._source) {
       state = 2;
       yield item;
     }

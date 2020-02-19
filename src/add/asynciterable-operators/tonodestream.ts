@@ -1,7 +1,7 @@
 import { ReadableOptions } from 'stream';
+import { AsyncIterableReadable } from '../../asynciterable/tonodestream';
 import { BufferLike } from '../../interfaces';
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { AsyncIterableReadable } from '../../asynciterable/tonodestream';
 
 /**
  * @ignore

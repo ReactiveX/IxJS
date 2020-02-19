@@ -9,7 +9,6 @@ export function as<T>(source: ArrayLike<T>): IterableX<T>;
 export function as<T>(source: T): IterableX<T>;
 /** @nocollapse */
 export function as(source: any) {
-  /* tslint:disable */
   if (source instanceof IterableX) {
     return source;
   }
@@ -23,5 +22,4 @@ export function as(source: any) {
     return new FromIterable(source, identity);
   }
   return new FromIterable([source], identity);
-  /* tslint:enable */
 }

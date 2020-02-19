@@ -15,6 +15,7 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
     this._fn = fn;
   }
 
+  // eslint-disable-next-line consistent-return
   async *[Symbol.asyncIterator](): AsyncIterableIterator<TResult> {
     const fn = this._fn;
     const sourcesLength = this._sources.length;
@@ -107,7 +108,6 @@ export function zip<T, R>(
   project: (values: T[]) => R | Promise<R>,
   ...sources: AsyncIterable<T>[]
 ): AsyncIterableX<R>;
-/* tslint:enable:max-line-length */
 export function zip<T, R>(...sources: any[]): AsyncIterableX<R> {
   let fn = (sources.shift() || identityAsync) as (values: any[]) => R | Promise<R>;
   if (fn && typeof fn !== 'function') {

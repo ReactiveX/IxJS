@@ -20,12 +20,12 @@ export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let map = [] as TSource[];
-    for await (let secondItem of this._second) {
+    const map = [] as TSource[];
+    for await (const secondItem of this._second) {
       map.push(secondItem);
     }
 
-    for await (let firstItem of this._first) {
+    for await (const firstItem of this._first) {
       if ((await arrayIndexOfAsync(map, firstItem, this._comparer)) === -1) {
         map.push(firstItem);
         yield firstItem;

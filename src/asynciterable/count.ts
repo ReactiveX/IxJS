@@ -4,7 +4,7 @@ export async function count<T>(
 ): Promise<number> {
   let i = 0;
 
-  for await (let item of source) {
+  for await (const item of source) {
     if (await fn(item)) {
       i++;
     }

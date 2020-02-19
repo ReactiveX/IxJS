@@ -27,10 +27,10 @@ export class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResu
 
   *[Symbol.iterator]() {
     const map = createGrouping(this._inner, this._innerSelector, identity);
-    for (let outerElement of this._outer) {
+    for (const outerElement of this._outer) {
       const outerKey = this._outerSelector(outerElement);
       if (map.has(outerKey)) {
-        for (let innerElement of map.get(outerKey)!) {
+        for (const innerElement of map.get(outerKey)!) {
           yield this._resultSelector(outerElement, innerElement);
         }
       }

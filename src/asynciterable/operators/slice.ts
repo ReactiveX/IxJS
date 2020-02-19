@@ -14,9 +14,9 @@ export class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let it = this._source[Symbol.asyncIterator](),
-      begin = this._begin,
-      next;
+    const it = this._source[Symbol.asyncIterator]();
+    let begin = this._begin;
+    let next;
     while (begin > 0 && !(next = await it.next()).done) {
       begin--;
     }

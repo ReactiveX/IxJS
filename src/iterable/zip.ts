@@ -11,6 +11,7 @@ export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
     this._sources = sources;
     this._fn = fn;
   }
+  // eslint-disable-next-line consistent-return
   *[Symbol.iterator](): IterableIterator<TResult> {
     const fn = this._fn;
     const sourcesLength = this._sources.length;
@@ -97,7 +98,6 @@ export function zip<T, T2, T3, T4, T5, T6, R>(
 
 export function zip<T>(...sources: Iterable<T>[]): IterableX<T[]>;
 export function zip<T, R>(project: (values: T[]) => R, ...sources: Iterable<T>[]): IterableX<R>;
-/* tslint:enable:max-line-length */
 export function zip<T, R>(...sources: any[]): IterableX<R> {
   let fn = (sources.shift() || identity) as (values: any[]) => R;
   if (fn && typeof fn !== 'function') {

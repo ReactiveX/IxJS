@@ -12,7 +12,8 @@ export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let currentTime, previousTime;
+    let currentTime;
+    let previousTime;
     for await (const item of this._source) {
       currentTime = Date.now();
       if (!previousTime || currentTime - previousTime > this._time) {

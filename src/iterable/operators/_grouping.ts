@@ -6,9 +6,9 @@ export function createGrouping<TSource, TKey, TValue>(
   keySelector: (value: TSource) => TKey,
   elementSelector: (value: TSource) => TValue
 ): Map<TKey, TValue[]> {
-  let map = new Map<TKey, TValue[]>();
-  for (let item of source) {
-    let key = keySelector(item);
+  const map = new Map<TKey, TValue[]>();
+  for (const item of source) {
+    const key = keySelector(item);
     let grouping = map.get(key);
     if (!map.has(key)) {
       grouping = [];

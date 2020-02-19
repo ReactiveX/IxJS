@@ -20,10 +20,10 @@ export class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSour
   }
 
   *[Symbol.iterator]() {
-    let currentKey = <TKey>{},
-      hasCurrentKey = false;
-    for (let item of this._source) {
-      let key = this._keySelector(item);
+    let currentKey = <TKey>{};
+    let hasCurrentKey = false;
+    for (const item of this._source) {
+      const key = this._keySelector(item);
       let comparerEquals = false;
       if (hasCurrentKey) {
         comparerEquals = this._comparer(currentKey, key);

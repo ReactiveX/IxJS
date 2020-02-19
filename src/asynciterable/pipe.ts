@@ -2,7 +2,6 @@ import { OperatorAsyncFunction } from '../interfaces';
 import { AsyncIterableX } from './asynciterablex';
 import { from } from './from';
 
-/* tslint:disable:max-line-length */
 export function pipe<T>(source: AsyncIterable<T>): AsyncIterableX<T>;
 export function pipe<T, A>(
   source: AsyncIterable<T>,
@@ -76,7 +75,6 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(
   op8: OperatorAsyncFunction<G, H>,
   op9: OperatorAsyncFunction<H, I>
 ): AsyncIterableX<I>;
-/* tslint:enable:max-line-length */
 
 export function pipe<TSource, TResult>(
   source: AsyncIterable<TSource>,

@@ -13,7 +13,7 @@ export class TakeWhileIterable<TSource> extends IterableX<TSource> {
 
   *[Symbol.iterator]() {
     let i = 0;
-    for (let item of this._source) {
+    for (const item of this._source) {
       if (!this._predicate(item, i++)) {
         break;
       }

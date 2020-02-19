@@ -18,7 +18,7 @@ export function every<T>(
   predicate: (value: T, index: number) => boolean
 ): boolean {
   let i = 0;
-  for (let item of source) {
+  for (const item of source) {
     if (!predicate(item, i++)) {
       return false;
     }

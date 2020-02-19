@@ -5,10 +5,10 @@ import { memoize } from './operators/memoize';
 export function asyncifyErrback<TSource>(
   func: Function
 ): (...args: any[]) => AsyncIterableX<TSource> {
-  return function(...args: any[]) {
+  return function (...args: any[]) {
     const sink = new AsyncSink<TSource>();
 
-    const handler = function(err: any, ...innerArgs: any[]) {
+    const handler = function (err: any, ...innerArgs: any[]) {
       if (err) {
         sink.error(err);
         sink.end();

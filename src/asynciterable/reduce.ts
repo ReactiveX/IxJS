@@ -14,10 +14,10 @@ export async function reduce<T, R = T>(
   ...seed: R[]
 ): Promise<R> {
   const hasSeed = seed.length === 1;
-  let i = 0,
-    hasValue = false,
-    acc = seed[0] as T | R;
-  for await (let item of source) {
+  let i = 0;
+  let hasValue = false;
+  let acc = seed[0] as T | R;
+  for await (const item of source) {
     if (hasValue || (hasValue = hasSeed)) {
       acc = await accumulator(<R>acc, item, i++);
     } else {

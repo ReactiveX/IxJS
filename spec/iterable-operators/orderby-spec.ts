@@ -40,7 +40,6 @@ test('Iterable#orderBy selector throws', () => {
   expect(() => it.next()).toThrow();
 });
 
-//tslint:disable-next-line
 test('Iterable#orderByDescending normal ordering', () => {
   const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];
   const ys = from(xs).pipe(orderByDescending(x => x));
@@ -53,7 +52,6 @@ test('Iterable#orderByDescending normal ordering', () => {
   noNext(it);
 });
 
-//tslint:disable-next-line
 test('Iterable#orderByDescending normal ordering with thenByDescending throws', () => {
   const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];
   const ys = from(xs)

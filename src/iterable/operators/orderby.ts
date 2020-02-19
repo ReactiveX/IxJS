@@ -14,7 +14,7 @@ export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
     const array = Array.from<TSource>(this._source);
     const len = array.length;
     const indices = new Array<number>(len);
-    for (let i = 0, len = array.length; i < len; i++) {
+    for (let i = 0; i < len; i++) {
       indices[i] = i;
     }
 
@@ -28,7 +28,6 @@ export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
     keySelector: (item: TSource) => TKey,
     comparer: (fst: TKey, snd: TKey) => number = defaultSorter
   ): OrderedIterableBaseX<TSource> {
-    /* tslint:disable-next-line: no-use-before-declare */
     return new OrderedIterableX<TKey, TSource>(this._source, keySelector, comparer, false, this);
   }
 
@@ -36,7 +35,6 @@ export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
     keySelector: (item: TSource) => TKey,
     comparer: (fst: TKey, snd: TKey) => number = defaultSorter
   ): OrderedIterableBaseX<TSource> {
-    /* tslint:disable-next-line: no-use-before-declare */
     return new OrderedIterableX<TKey, TSource>(this._source, keySelector, comparer, true, this);
   }
 

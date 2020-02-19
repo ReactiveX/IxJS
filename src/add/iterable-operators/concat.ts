@@ -1,7 +1,6 @@
 import { IterableX } from '../../iterable/iterablex';
 import { concat } from '../../iterable/concat';
 
-/* tslint:disable:max-line-length */
 /**
  * @ignore
  */
@@ -45,7 +44,6 @@ export function concatProto<T, T2, T3, T4, T5, T6>(
   v5: Iterable<T5>,
   v6: Iterable<T6>
 ): Iterable<T | T2 | T3 | T4 | T5 | T6>;
-/* tslint:enable:max-line-length */
 
 /**
  * @ignore

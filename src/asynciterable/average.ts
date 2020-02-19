@@ -14,7 +14,7 @@ export async function average(
 ): Promise<number> {
   let sum = 0;
   let count = 0;
-  for await (let item of source) {
+  for await (const item of source) {
     sum += await selector(item);
     count++;
   }

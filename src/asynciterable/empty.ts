@@ -2,7 +2,7 @@ import { AsyncIterableX } from './asynciterablex';
 
 class EmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   async *[Symbol.asyncIterator](): AsyncIterator<TSource> {
-    // tslint:disable-next-line:no-empty
+    // eslint-disable-next-line no-empty
   }
 }
 

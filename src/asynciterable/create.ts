@@ -9,8 +9,8 @@ class AnonymousAsyncIterable<T> extends AsyncIterableX<T> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let it = await this._fn(),
-      next: IteratorResult<T> | undefined;
+    const it = await this._fn();
+    let next: IteratorResult<T> | undefined;
     while (!(next = await it.next()).done) {
       yield next.value;
     }

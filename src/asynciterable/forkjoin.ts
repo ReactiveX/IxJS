@@ -1,6 +1,6 @@
 import { identity, identityAsync } from '../util/identity';
 
-// tslint:disable-next-line:no-empty
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
 
 type MergeResult<T> = { value: T; index: number };
@@ -86,6 +86,7 @@ export function forkJoin<T, R>(
   ...sources: AsyncIterable<T>[]
 ): Promise<R | undefined>;
 
+// eslint-disable-next-line complexity
 export async function forkJoin<T, R>(...sources: any[]): Promise<R | undefined> {
   let fn = (sources.shift() || identityAsync) as (values: any[]) => R | Promise<R>;
   if (fn && typeof fn !== 'function') {

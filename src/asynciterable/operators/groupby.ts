@@ -14,7 +14,7 @@ export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
   }
 
   async *[Symbol.asyncIterator]() {
-    for (let item of this._source) {
+    for (const item of this._source) {
       yield item;
     }
   }
@@ -41,7 +41,7 @@ export class GroupByAsyncIterable<TSource, TKey, TValue, TResult> extends AsyncI
 
   async *[Symbol.asyncIterator]() {
     const map = await createGrouping(this._source, this._keySelector, this._elementSelector);
-    for (let [key, values] of map) {
+    for (const [key, values] of map) {
       yield await this._resultSelector(key, values);
     }
   }

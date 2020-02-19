@@ -12,16 +12,17 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._depth = depth;
   }
 
+  // eslint-disable-next-line consistent-return
   private async *_flatten(source: AsyncIterable<TSource>, depth: number): AsyncIterable<TSource> {
     if (depth === 0) {
-      for await (let item of source) {
+      for await (const item of source) {
         yield item;
       }
       return undefined;
     }
-    for await (let item of source) {
+    for await (const item of source) {
       if (isAsyncIterable(item)) {
-        for await (let innerItem of this._flatten(item, depth - 1)) {
+        for await (const innerItem of this._flatten(item, depth - 1)) {
           yield innerItem;
         }
       } else {

@@ -76,8 +76,8 @@ test('Iterable#map source returns expected values', () => {
 
   const query = map(fn)(source);
   let index = 0;
-  for (let item of query) {
-    let expected = fn(source[index]);
+  for (const item of query) {
+    const expected = fn(source[index]);
     expect(expected).toBe(item);
     index++;
   }

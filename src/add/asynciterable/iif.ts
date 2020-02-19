@@ -9,6 +9,7 @@ export declare namespace asynciterable {
 }
 
 declare module '../../asynciterable/asynciterablex' {
+  // eslint-disable-next-line no-shadow
   namespace AsyncIterableX {
     export { ifStatic as iif };
   }

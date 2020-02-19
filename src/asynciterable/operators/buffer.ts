@@ -14,15 +14,15 @@ export class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let buffers: TSource[][] = [],
-      i = 0;
-    for await (let item of this._source) {
+    const buffers: TSource[][] = [];
+    let i = 0;
+    for await (const item of this._source) {
       if (i % this._skip === 0) {
         buffers.push([]);
       }
 
-      for (let buffer of buffers) {
-        buffer.push(item);
+      for (const buff of buffers) {
+        buff.push(item);
       }
 
       if (buffers.length > 0 && buffers[0].length === this._count) {
@@ -42,12 +42,13 @@ export function buffer<TSource>(
   count: number,
   skip?: number
 ): OperatorAsyncFunction<TSource, TSource[]> {
-  if (skip == null) {
-    skip = count;
+  let s = skip;
+  if (s == null) {
+    s = count;
   }
   return function bufferOperatorFunction(
     source: AsyncIterable<TSource>
   ): AsyncIterableX<TSource[]> {
-    return new BufferAsyncIterable<TSource>(source, count, skip!);
+    return new BufferAsyncIterable<TSource>(source, count, s!);
   };
 }

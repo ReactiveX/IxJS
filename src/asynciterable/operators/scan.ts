@@ -20,10 +20,10 @@ export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let i = 0,
-      hasValue = false,
-      acc = this._seed;
-    for await (let item of this._source) {
+    let i = 0;
+    let hasValue = false;
+    let acc = this._seed;
+    for await (const item of this._source) {
       if (hasValue || (hasValue = this._hasSeed)) {
         acc = await this._fn(<R>acc, item, i++);
         yield acc;

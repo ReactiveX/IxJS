@@ -20,15 +20,15 @@ export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let map = [] as TSource[];
-    for await (let lItem of this._left) {
+    const map = [] as TSource[];
+    for await (const lItem of this._left) {
       if ((await arrayIndexOfAsync(map, lItem, this._comparer)) === -1) {
         map.push(lItem);
         yield lItem;
       }
     }
 
-    for await (let rItem of this._right) {
+    for await (const rItem of this._right) {
       if ((await arrayIndexOfAsync(map, rItem, this._comparer)) === -1) {
         map.push(rItem);
         yield rItem;

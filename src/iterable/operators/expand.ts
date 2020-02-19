@@ -12,10 +12,10 @@ export class ExpandIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let q = [this._source];
+    const q = [this._source];
     while (q.length > 0) {
-      let src = q.shift();
-      for (let item of src!) {
+      const src = q.shift();
+      for (const item of src!) {
         q.push(this._fn(item));
         yield item;
       }

@@ -12,9 +12,9 @@ export class SkipIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let it = this._source[Symbol.iterator](),
-      count = this._count,
-      next;
+    const it = this._source[Symbol.iterator]();
+    let count = this._count;
+    let next;
     while (count > 0 && !(next = it.next()).done) {
       count--;
     }
