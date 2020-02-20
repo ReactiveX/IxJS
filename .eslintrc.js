@@ -11,8 +11,7 @@ module.exports = {
       "sourceType": "module"
   },
   "plugins": [
-      "@typescript-eslint",
-      "@typescript-eslint/tslint"
+      "@typescript-eslint"
   ],
   "rules": {
       "indent": [
@@ -326,27 +325,7 @@ module.exports = {
       "@typescript-eslint/type-annotation-spacing": "error",
       "eol-last": "off",
       "no-unused-expressions": "error",
-      "no-var": "error",
-      "@typescript-eslint/tslint/config": [
-          "error",
-          {
-              "rules": {
-                  "one-line": [
-                      true,
-                      "check-else",
-                      "check-whitespace",
-                      "check-open-brace"
-                  ],
-                  "whitespace": [
-                      true,
-                      "check-branch",
-                      "check-decl",
-                      "check-operator",
-                      "check-type"
-                  ]
-              }
-          }
-      ]
+      "no-var": "error"
   },
   "settings": {}
 };
