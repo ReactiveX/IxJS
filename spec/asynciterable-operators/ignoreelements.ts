@@ -14,9 +14,8 @@ test('Iterable#ignoreElements has side effects', async () => {
       ignoreElements(),
       take(5)
     )
-    .forEach(async () => {
-      /* tslint:disable-next-line:no-empty */
-    });
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    .forEach(async () => {});
 
   expect(n).toBe(10);
 });

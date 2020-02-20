@@ -16,8 +16,8 @@ export class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     let i = 0;
-    for await (let item of this._source) {
-      if (!await this._predicate(item, i++)) {
+    for await (const item of this._source) {
+      if (!(await this._predicate(item, i++))) {
         break;
       }
       yield item;

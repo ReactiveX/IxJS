@@ -141,7 +141,6 @@ function externBody({ exportName, staticNames, instanceNames }) {
 function externsHeader() {
     return (`
 // @ts-nocheck
-/* tslint:disable */
 /**
  * @fileoverview Closure Compiler externs for Ix
  * @externs

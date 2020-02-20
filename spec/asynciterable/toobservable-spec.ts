@@ -72,7 +72,7 @@ test('AsyncIterable#toObservable accepts partial observers', async () => {
   const expectedValues = [1, 2, 3];
   const expectedError = new Error();
 
-  let actualValues: number[] = [];
+  const actualValues: number[] = [];
   let actualError: any = null;
   let completeCalled = false;
 
@@ -100,7 +100,7 @@ test('AsyncIterable#toObservable accepts observer functions', async () => {
   const expectedValues = [1, 2, 3];
   const expectedError = new Error();
 
-  let actualValues: number[] = [];
+  const actualValues: number[] = [];
   let actualError: any = null;
   let completeCalled = false;
 
@@ -160,8 +160,10 @@ function endOfObservable<T>(
     next.complete = wrap(() => resolve(), (next.complete || (() => { /**/ })).bind(next));
   } else {
     // prettier-ignore
+    // eslint-disable-next-line no-param-reassign
     error = wrap(e => reject(e),error || (() => { /**/ }));
     // prettier-ignore
+    // eslint-disable-next-line no-param-reassign
     complete = wrap(() => resolve(),complete || (() => { /**/ }));
   }
 

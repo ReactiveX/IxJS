@@ -20,7 +20,7 @@ export function first<T>(
   predicate: (value: T, index: number) => boolean = () => true
 ): T | undefined {
   let i = 0;
-  for (let item of source) {
+  for (const item of source) {
     if (predicate(item, i++)) {
       return item;
     }

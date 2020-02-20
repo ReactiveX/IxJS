@@ -5,6 +5,7 @@ import { fromNodeStream as fromNodeStreamStatic } from '../../asynciterable/from
 AsyncIterableX.fromNodeStream = fromNodeStreamStatic;
 
 declare module '../../asynciterable/asynciterablex' {
+  // eslint-disable-next-line no-shadow
   namespace AsyncIterableX {
     export let fromNodeStream: typeof fromNodeStreamStatic;
   }

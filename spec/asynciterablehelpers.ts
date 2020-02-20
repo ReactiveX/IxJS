@@ -25,6 +25,7 @@ const noop = (_?: any) => {
   /**/
 };
 
+// eslint-disable-next-line complexity
 export function toObserver<T>(
   next?: PartialObserver<T> | ((value: T) => void) | null,
   error?: ((err: any) => void) | null,
@@ -68,6 +69,7 @@ const defaultAsyncCompare = <T>(x: T, y: T) => {
 };
 
 expect.extend({
+  // eslint-disable-next-line complexity
   async toEqualStream<T>(
     this: jest.MatcherUtils,
     actual: Iterable<T> | AsyncIterable<T>,

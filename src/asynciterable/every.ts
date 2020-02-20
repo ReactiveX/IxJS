@@ -11,7 +11,7 @@ export async function every<T>(
   predicate: (value: T, index: number) => boolean | Promise<boolean>
 ): Promise<boolean> {
   let i = 0;
-  for await (let item of source) {
+  for await (const item of source) {
     if (!(await predicate(item, i++))) {
       return false;
     }

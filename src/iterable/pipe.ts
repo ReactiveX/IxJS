@@ -2,7 +2,6 @@ import { OperatorFunction } from '../interfaces';
 import { IterableX } from './iterablex';
 import { from } from './from';
 
-/* tslint:disable:max-line-length */
 export function pipe<T>(source: Iterable<T>): IterableX<T>;
 export function pipe<T, A>(source: Iterable<T>, op1: OperatorFunction<T, A>): IterableX<A>;
 export function pipe<T, A, B>(
@@ -73,7 +72,6 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(
   op8: OperatorFunction<G, H>,
   op9: OperatorFunction<H, I>
 ): IterableX<I>;
-/* tslint:enable:max-line-length */
 
 export function pipe<TSource, TResult>(
   source: Iterable<TSource>,

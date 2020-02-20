@@ -14,7 +14,7 @@ export class TakeAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   async *[Symbol.asyncIterator]() {
     let i = this._count;
     if (i > 0) {
-      for await (let item of this._source) {
+      for await (const item of this._source) {
         yield item;
         if (--i === 0) {
           break;

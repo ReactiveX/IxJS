@@ -6,11 +6,12 @@
  * specified position in the source sequence.
  */
 export function elementAt<T>(source: Iterable<T>, index: number) {
-  for (let item of source) {
-    if (index === 0) {
+  let i = index;
+  for (const item of source) {
+    if (i === 0) {
       return item;
     }
-    index--;
+    i--;
   }
   return undefined;
 }

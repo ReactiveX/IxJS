@@ -1,6 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 
-// tslint:disable-next-line:no-empty
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
 
 type MergeResult<T> = { value: T; index: number };
@@ -43,7 +43,6 @@ export class MergeAsyncIterable<T> extends AsyncIterableX<T> {
   }
 }
 
-/* tslint:disable:max-line-length */
 export function merge<T>(source: AsyncIterable<T>): AsyncIterableX<T>;
 export function merge<T, T2>(
   source: AsyncIterable<T>,
@@ -76,13 +75,11 @@ export function merge<T, T2, T3, T4, T5, T6>(
   v6: AsyncIterable<T6>
 ): AsyncIterable<T | T2 | T3 | T4 | T5 | T6>;
 export function merge<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T>;
-/* tslint:enable:max-line-length */
 
 export function merge<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
   return new MergeAsyncIterable<T>([source, ...args]);
 }
 
-/* tslint:disable:max-line-length */
 export function mergeStatic<T>(v1: AsyncIterable<T>): AsyncIterableX<T>;
 export function mergeStatic<T, T2>(
   v1: AsyncIterable<T>,
@@ -114,7 +111,6 @@ export function mergeStatic<T, T2, T3, T4, T5, T6>(
   v5: AsyncIterable<T5>,
   v6: AsyncIterable<T6>
 ): AsyncIterable<T | T2 | T3 | T4 | T5 | T6>;
-/* tslint:enable:max-line-length */
 
 export function mergeStatic<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
   return new MergeAsyncIterable<T>(args);

@@ -5,11 +5,11 @@ export function max<T>(source: Iterable<T>, fn: (x: T) => number): number;
 export function max(source: Iterable<any>, fn: (x: any) => number = identity): number {
   let atleastOnce = false;
   let value = -Infinity;
-  for (let item of source) {
+  for (const item of source) {
     if (!atleastOnce) {
       atleastOnce = true;
     }
-    let x = fn(item);
+    const x = fn(item);
     if (x > value) {
       value = x;
     }

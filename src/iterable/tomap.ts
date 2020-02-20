@@ -12,9 +12,9 @@ export function toMap<TSource, TKey, TElement = TSource>(
   keySelector: (item: TSource) => TKey,
   elementSelector?: (item: TSource) => TElement
 ): Map<TKey, TElement | TSource> {
-  let map = new Map<TKey, TElement | TSource>();
-  for (let item of source) {
-    let value = elementSelector ? elementSelector(item) : item;
+  const map = new Map<TKey, TElement | TSource>();
+  for (const item of source) {
+    const value = elementSelector ? elementSelector(item) : item;
     map.set(keySelector(item), value);
   }
   return map;

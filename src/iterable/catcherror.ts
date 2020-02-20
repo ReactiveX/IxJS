@@ -10,10 +10,10 @@ export class CatchIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let error = null,
-      hasError = false;
+    let error = null;
+    let hasError = false;
 
-    for (let source of this._source) {
+    for (const source of this._source) {
       const it = source[Symbol.iterator]();
 
       error = null;

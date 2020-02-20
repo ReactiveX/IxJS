@@ -30,18 +30,20 @@ export class IterableReadable<T> extends Readable {
       cb(null);
     }
   }
+  // eslint-disable-next-line complexity
   _pull(it: SourceIterator<T>, size: number) {
+    let innerSize = size;
     const objectMode = this._objectMode;
     let r: IteratorResult<BufferLike | T> | undefined;
-    while (this.readable && !(r = it.next(size)).done) {
-      if (size != null) {
+    while (this.readable && !(r = it.next(innerSize)).done) {
+      if (innerSize != null) {
         if (objectMode) {
-          size -= 1;
+          innerSize -= 1;
         } else {
-          size -= Buffer.byteLength(<BufferLike>r.value || '');
+          innerSize -= Buffer.byteLength(<BufferLike>r.value || '');
         }
       }
-      if (!this.push(r.value) || size <= 0) {
+      if (!this.push(r.value) || innerSize <= 0) {
         break;
       }
     }

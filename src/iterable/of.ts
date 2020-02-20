@@ -2,7 +2,6 @@ import { IterableX } from './iterablex';
 
 /** @nocollapse */
 export function of<TSource>(...args: TSource[]): IterableX<TSource> {
-  //tslint:disable-next-line
   return new OfIterable<TSource>(args);
 }
 

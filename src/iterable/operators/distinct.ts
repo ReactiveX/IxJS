@@ -21,10 +21,10 @@ export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    let set = [] as TKey[];
+    const set = [] as TKey[];
 
-    for (let item of this._source) {
-      let key = this._keySelector(item);
+    for (const item of this._source) {
+      const key = this._keySelector(item);
       if (arrayIndexOf(set, key, this._cmp) === -1) {
         set.push(key);
         yield item;

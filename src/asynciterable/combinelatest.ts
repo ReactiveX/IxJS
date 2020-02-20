@@ -1,7 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { identity, identityAsync } from '../util/identity';
 
-// tslint:disable-next-line:no-empty
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
 
 type MergeResult<T> = { value: T; index: number };
@@ -138,7 +138,6 @@ export function combineLatest<T, R>(
   project: (values: T[]) => R | Promise<R>,
   ...sources: AsyncIterable<T>[]
 ): AsyncIterableX<R>;
-/* tslint:enable:max-line-length */
 export function combineLatest<T, R>(...sources: any[]): AsyncIterableX<R> {
   let fn = (sources.shift() || identityAsync) as (values: any[]) => R | Promise<R>;
   if (fn && typeof fn !== 'function') {

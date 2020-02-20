@@ -14,14 +14,14 @@ import {
 
 test('Iterable#repeatValue produce correct sequence', () => {
   const repeatSequence = repeatValue(1, 100);
-  let count = 0;
+  let items = 0;
 
-  for (let item of repeatSequence) {
-    count++;
+  for (const item of repeatSequence) {
+    items++;
     expect(1).toBe(item);
   }
 
-  expect(100).toBe(count);
+  expect(100).toBe(items);
 });
 
 test('Iterable#repeatValue toArray produce correct result', () => {

@@ -9,8 +9,8 @@ export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSou
   }
 
   async *[Symbol.asyncIterator]() {
-    for (let item of this._source) {
-      let it = item[Symbol.asyncIterator]();
+    for (const item of this._source) {
+      const it = item[Symbol.asyncIterator]();
       while (1) {
         let next;
         try {

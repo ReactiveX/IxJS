@@ -9,9 +9,8 @@ test('Iterable#ignoreElements has side effects', () => {
     .pipe(tap({ next: () => n++ }))
     .pipe(ignoreElements())
     .pipe(take(5))
-    .forEach(() => {
-      /* tslint:disable-next-line:no-empty */
-    });
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    .forEach(() => {});
 
   expect(10).toBe(n);
 });

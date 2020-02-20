@@ -14,10 +14,10 @@ export function reduce<T, R = T>(
   ...seed: R[]
 ): R {
   const hasSeed = seed.length === 1;
-  let i = 0,
-    hasValue = false,
-    acc = seed[0] as T | R;
-  for (let item of source) {
+  let i = 0;
+  let hasValue = false;
+  let acc = seed[0] as T | R;
+  for (const item of source) {
     if (hasValue || (hasValue = hasSeed)) {
       acc = accumulator(<R>acc, item, i++);
     } else {

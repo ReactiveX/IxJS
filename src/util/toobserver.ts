@@ -5,6 +5,7 @@ const noop = (_?: any) => {
   /**/
 };
 
+// eslint-disable-next-line complexity
 export function toObserver<T>(
   next?: PartialObserver<T> | ((value: T) => void) | null,
   error?: ((err: any) => void) | null,

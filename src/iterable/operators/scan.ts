@@ -16,10 +16,10 @@ export class ScanIterable<T, R> extends IterableX<R> {
   }
 
   *[Symbol.iterator]() {
-    let i = 0,
-      hasValue = false,
-      acc = this._seed;
-    for (let item of this._source) {
+    let i = 0;
+    let hasValue = false;
+    let acc = this._seed;
+    for (const item of this._source) {
       if (hasValue || (hasValue = this._hasSeed)) {
         acc = this._fn(<R>acc, item, i++);
         yield acc;

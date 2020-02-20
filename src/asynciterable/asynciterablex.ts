@@ -17,7 +17,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
   ): Promise<void> {
     const fn = bindCallback(projection, thisArg, 2);
     let i = 0;
-    for await (let item of this) {
+    for await (const item of this) {
       await fn(item, i++);
     }
   }
@@ -28,7 +28,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
   pipe<R extends NodeJS.WritableStream>(writable: R, options?: { end?: boolean }): R;
   pipe<R>(...args: any[]) {
     let i = -1;
-    let n = args.length;
+    const n = args.length;
     let acc: any = this;
     while (++i < n) {
       acc = args[i](asAsyncIterable(acc));
@@ -133,7 +133,7 @@ try {
     function nodePipe<T>(this: AsyncIterableX<T>, ...args: any[]) {
       let i = -1;
       let end: boolean;
-      let n = args.length;
+      const n = args.length;
       let prev: any = this;
       let next: WritableOrOperatorAsyncFunction<T, any>;
       while (++i < n) {
@@ -144,7 +144,7 @@ try {
           ({ end = true } = args[i + 1] || {});
           // prettier-ignore
           return isReadableNodeStream(prev) ? prev.pipe(next, {end}) :
-             asAsyncIterable(prev).toNodeStream(readableOpts(next)).pipe(next, {end});
+            asAsyncIterable(prev).toNodeStream(readableOpts(next)).pipe(next, {end});
         }
       }
       return prev;

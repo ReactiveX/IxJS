@@ -21,8 +21,8 @@ export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let hasValue = false,
-      acc = this._seed;
+    let hasValue = false;
+    let acc = this._seed;
     const source = await toArray(this._source);
     for (let offset = source.length - 1; offset >= 0; offset--) {
       const item = source[offset];

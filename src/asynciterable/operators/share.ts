@@ -35,9 +35,9 @@ export function share<TSource, TResult = TSource>(
   ): AsyncIterableX<TSource | TResult> {
     return selector
       ? create<TResult>(async () => {
-          const it = await selector(new SharedAsyncIterable(source[Symbol.asyncIterator]()));
-          return it[Symbol.asyncIterator]();
-        })
+        const it = await selector(new SharedAsyncIterable(source[Symbol.asyncIterator]()));
+        return it[Symbol.asyncIterator]();
+      })
       : new SharedAsyncIterable<TSource>(source[Symbol.asyncIterator]());
   };
 }

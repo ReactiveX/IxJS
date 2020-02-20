@@ -11,7 +11,7 @@ export function some<T>(
   comparer: (value: T, index: number) => boolean
 ): boolean {
   let i = 0;
-  for (let item of source) {
+  for (const item of source) {
     if (comparer(item, i++)) {
       return true;
     }

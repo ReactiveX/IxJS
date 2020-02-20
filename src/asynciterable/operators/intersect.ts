@@ -8,7 +8,7 @@ async function arrayRemove<T>(
   item: T,
   comparer: (x: T, y: T) => boolean | Promise<boolean>
 ): Promise<boolean> {
-  let idx = await arrayIndexOfAsync(array, item, comparer);
+  const idx = await arrayIndexOfAsync(array, item, comparer);
   if (idx === -1) {
     return false;
   }
@@ -33,12 +33,12 @@ export class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let map = [] as TSource[];
-    for await (let secondItem of this._second) {
+    const map = [] as TSource[];
+    for await (const secondItem of this._second) {
       map.push(secondItem);
     }
 
-    for await (let firstItem of this._first) {
+    for await (const firstItem of this._first) {
       if (await arrayRemove(map, firstItem, this._comparer)) {
         yield firstItem;
       }

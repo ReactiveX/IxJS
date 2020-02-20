@@ -5,9 +5,9 @@ import { Readable, ReadableOptions } from 'stream';
 const done = async (_: any) => null as any;
 
 type AsyncSourceIterator<TSource> = AsyncIterator<
-  TSource,
-  any,
-  number | ArrayBufferView | undefined | null
+TSource,
+any,
+number | ArrayBufferView | undefined | null
 >;
 
 export class AsyncIterableReadable<T> extends Readable {
@@ -31,18 +31,20 @@ export class AsyncIterableReadable<T> extends Readable {
     const fn = (it && (err ? it.throw : it.return)) || done;
     fn.call(it, err).then(() => cb && cb(null));
   }
+  // eslint-disable-next-line complexity
   async _pull(it: AsyncSourceIterator<T>, size: number) {
+    let innerSize = size;
     const objectMode = this._objectMode;
     let r: IteratorResult<BufferLike | T> | undefined;
-    while (this.readable && !(r = await it.next(size)).done) {
-      if (size != null) {
+    while (this.readable && !(r = await it.next(innerSize)).done) {
+      if (innerSize != null) {
         if (objectMode) {
-          size -= 1;
+          innerSize -= 1;
         } else {
-          size -= Buffer.byteLength(<BufferLike>r.value || '');
+          innerSize -= Buffer.byteLength(<BufferLike>r.value || '');
         }
       }
-      if (!this.push(r.value) || size <= 0) {
+      if (!this.push(r.value) || innerSize <= 0) {
         break;
       }
     }

@@ -20,10 +20,10 @@ export class DistinctUntilChangedAsyncIterable<TSource, TKey> extends AsyncItera
   }
 
   async *[Symbol.asyncIterator]() {
-    let currentKey: TKey | undefined,
-      hasCurrentKey = false;
-    for await (let item of this._source) {
-      let key = await this._keySelector(item);
+    let currentKey: TKey | undefined;
+    let hasCurrentKey = false;
+    for await (const item of this._source) {
+      const key = await this._keySelector(item);
       let comparerEquals = false;
       if (hasCurrentKey) {
         comparerEquals = await this._comparer(currentKey!, key);

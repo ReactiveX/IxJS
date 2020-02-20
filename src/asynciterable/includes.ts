@@ -5,12 +5,13 @@ export async function includes<T>(
   searchElement: T,
   fromIndex: number = 0
 ): Promise<boolean> {
+  let fromIdx = fromIndex;
   let i = 0;
-  if (Math.abs(fromIndex)) {
-    fromIndex = 0;
+  if (Math.abs(fromIdx)) {
+    fromIdx = 0;
   }
-  for await (let item of source) {
-    if (i++ > fromIndex && comparer(item, searchElement)) {
+  for await (const item of source) {
+    if (i++ > fromIdx && comparer(item, searchElement)) {
       return true;
     }
   }

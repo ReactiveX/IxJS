@@ -15,11 +15,11 @@ export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator]() {
-    let q = [this._source];
+    const q = [this._source];
     while (q.length > 0) {
-      let src = q.shift();
-      for await (let item of src!) {
-        let items = await this._selector(item);
+      const src = q.shift();
+      for await (const item of src!) {
+        const items = await this._selector(item);
         q.push(items);
         yield item;
       }

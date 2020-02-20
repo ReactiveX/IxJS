@@ -14,7 +14,7 @@ export class MapIterable<TSource, TResult> extends IterableX<TResult> {
 
   *[Symbol.iterator]() {
     let i = 0;
-    for (let item of this._source) {
+    for (const item of this._source) {
       yield this._selector(item, i++);
     }
   }

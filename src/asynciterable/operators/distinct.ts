@@ -21,10 +21,10 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
   }
 
   async *[Symbol.asyncIterator]() {
-    let set = [] as TKey[];
+    const set = [] as TKey[];
 
-    for await (let item of <AsyncIterable<TSource>>this._source) {
-      let key = await this._keySelector(item);
+    for await (const item of <AsyncIterable<TSource>> this._source) {
+      const key = await this._keySelector(item);
       if ((await arrayIndexOfAsync(set, key, this._comparer)) === -1) {
         set.push(key);
         yield item;

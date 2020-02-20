@@ -13,8 +13,8 @@ export class TakeLastIterable<TSource> extends IterableX<TSource> {
 
   *[Symbol.iterator]() {
     if (this._count > 0) {
-      let q = [] as TSource[];
-      for (let item of this._source) {
+      const q = [] as TSource[];
+      for (const item of this._source) {
         if (q.length >= this._count) {
           q.shift();
         }

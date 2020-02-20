@@ -10,9 +10,9 @@ export function last<T>(
   source: Iterable<T>,
   predicate: (value: T, index: number) => boolean = () => true
 ): T | undefined {
-  let i = 0,
-    result: T | undefined;
-  for (let item of source) {
+  let i = 0;
+  let result: T | undefined;
+  for (const item of source) {
     if (predicate(item, i++)) {
       result = item;
     }

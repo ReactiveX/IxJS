@@ -3,8 +3,8 @@ import { IterableReadable } from '../../iterable/tonodestream';
 import { BufferLike, UnaryFunction } from '../../interfaces';
 
 export function toNodeStream<TSource>(): UnaryFunction<
-  Iterable<TSource>,
-  IterableReadable<TSource>
+Iterable<TSource>,
+IterableReadable<TSource>
 >;
 export function toNodeStream<TSource>(
   options: ReadableOptions & { objectMode: true }

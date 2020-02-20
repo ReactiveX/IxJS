@@ -12,10 +12,10 @@ export class EndWithIterable<TSource> extends IterableX<TSource> {
   }
 
   *[Symbol.iterator]() {
-    for (let item of this._source) {
+    for (const item of this._source) {
       yield item;
     }
-    for (let x of this._args) {
+    for (const x of this._args) {
       yield x;
     }
   }

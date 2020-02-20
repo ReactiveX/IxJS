@@ -11,7 +11,7 @@ export async function first<T>(
   predicate: (value: T, index: number) => boolean | Promise<boolean> = async () => true
 ): Promise<T | undefined> {
   let i = 0;
-  for await (let item of source) {
+  for await (const item of source) {
     if (await predicate(item, i++)) {
       return item;
     }

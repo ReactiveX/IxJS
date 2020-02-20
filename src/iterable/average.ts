@@ -18,7 +18,7 @@ export function average<T>(source: Iterable<T>, selector?: (x: T) => number): nu
 export function average(source: Iterable<any>, selector: (x: any) => number = identity): number {
   let sum = 0;
   let count = 0;
-  for (let item of source) {
+  for (const item of source) {
     sum += selector(item);
     count++;
   }

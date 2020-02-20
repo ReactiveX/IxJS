@@ -15,17 +15,19 @@ class MemoizeBuffer<T> extends IterableX<T> {
     this._buffer = buffer;
   }
 
+  // eslint-disable-next-line complexity
   *[Symbol.iterator]() {
     let i = 0;
     try {
       while (1) {
-        let hasValue = false,
-          current = <T>{};
+        let hasValue = false;
+        let current = <T>{};
         if (i >= this._buffer.count) {
           if (!this._stopped) {
             try {
-              let next = this._source.next();
+              const next = this._source.next();
               hasValue = !next.done;
+              // eslint-disable-next-line max-depth
               if (hasValue) {
                 current = next.value;
               }
@@ -74,9 +76,9 @@ export function memoize<TSource, TResult = TSource>(
       return readerCount === -1
         ? new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>())
         : new MemoizeBuffer<TSource>(
-            source[Symbol.iterator](),
-            new RefCountList<TSource>(readerCount)
-          );
+          source[Symbol.iterator](),
+          new RefCountList<TSource>(readerCount)
+        );
     }
     return create<TSource | TResult>(() =>
       selector!(memoize<TSource>(readerCount)(source))[Symbol.iterator]()

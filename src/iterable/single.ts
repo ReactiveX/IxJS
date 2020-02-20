@@ -13,7 +13,7 @@ export function single<T>(
   let result: T | undefined;
   let hasResult = false;
   let i = 0;
-  for (let item of source) {
+  for (const item of source) {
     if (hasResult && predicate(item, i++)) {
       throw new Error('More than one element was found');
     }

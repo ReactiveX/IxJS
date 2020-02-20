@@ -16,9 +16,9 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
   }
 
   async *[Symbol.asyncIterator]() {
-    let err: AsyncIterable<TResult> | undefined,
-      hasError = false,
-      it = this._source[Symbol.asyncIterator]();
+    let err: AsyncIterable<TResult> | undefined;
+    let hasError = false;
+    const it = this._source[Symbol.asyncIterator]();
     while (1) {
       let c = <IteratorResult<TSource>>{};
 
@@ -39,7 +39,7 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
     }
 
     if (hasError) {
-      for await (let item of err!) {
+      for await (const item of err!) {
         yield item;
       }
     }

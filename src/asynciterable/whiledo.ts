@@ -12,7 +12,7 @@ class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     while (await this._condition()) {
-      for await (let item of this._source) {
+      for await (const item of this._source) {
         yield item;
       }
     }

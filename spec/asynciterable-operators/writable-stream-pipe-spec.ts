@@ -3,6 +3,7 @@ import { PassThrough } from 'stream';
 import { map } from 'ix/asynciterable/operators/index.node';
 import { empty, of, sequenceEqual } from 'ix/asynciterable';
 
+// eslint-disable-next-line consistent-return
 (() => {
   if (process.env.TEST_NODE_STREAMS !== 'true') {
     return test('not testing node streams because process.env.TEST_NODE_STREAMS !== "true"', () => {

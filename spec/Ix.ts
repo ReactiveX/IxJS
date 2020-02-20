@@ -1,10 +1,9 @@
 import 'web-streams-polyfill';
 
-/* tslint:disable */
 // import this before assigning window global since it does a `typeof window` check
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require('web-stream-tools');
 
-/* tslint:disable */
 (<any>global).window = (<any>global).window || global;
 
 // Fix for Jest in node v10.x
@@ -17,6 +16,7 @@ Object.defineProperty(ArrayBuffer, Symbol.hasInstance, {
 });
 
 // Require rxjs first so we pick up its polyfilled Symbol.observable
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require('rxjs/symbol/observable');
 
 // // these are duplicated in the gulpfile :<

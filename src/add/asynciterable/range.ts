@@ -5,6 +5,7 @@ import { range as rangeStatic } from '../../asynciterable/range';
 AsyncIterableX.range = rangeStatic;
 
 declare module '../../asynciterable/asynciterablex' {
+  // eslint-disable-next-line no-shadow
   namespace AsyncIterableX {
     export let range: typeof rangeStatic;
   }

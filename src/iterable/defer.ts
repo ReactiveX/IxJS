@@ -9,7 +9,7 @@ class DeferIterable<T> extends IterableX<T> {
   }
 
   *[Symbol.iterator]() {
-    for (let item of this._fn()) {
+    for (const item of this._fn()) {
       yield item;
     }
   }

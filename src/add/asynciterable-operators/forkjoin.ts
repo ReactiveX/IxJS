@@ -85,7 +85,6 @@ export function forkJoinProto<T, R>(
   project: (values: T[]) => R,
   ...sources: AsyncIterable<T>[]
 ): Promise<R | undefined>;
-/* tslint:enable:max-line-length */
 export function forkJoinProto<T, R>(
   this: AsyncIterableX<T>,
   ...args: any[]

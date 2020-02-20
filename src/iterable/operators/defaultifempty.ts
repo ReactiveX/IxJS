@@ -13,7 +13,7 @@ export class DefaultIfEmptyIterable<TSource> extends IterableX<TSource> {
 
   *[Symbol.iterator]() {
     let state = 1;
-    for (let item of this._source) {
+    for (const item of this._source) {
       state = 2;
       yield item;
     }

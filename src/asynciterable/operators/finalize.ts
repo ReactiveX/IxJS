@@ -13,7 +13,7 @@ export class FinallyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator]() {
     try {
-      for await (let item of this._source) {
+      for await (const item of this._source) {
         yield item;
       }
     } finally {
