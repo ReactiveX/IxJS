@@ -38,6 +38,7 @@ class ExtremaByIterable<TSource, TKey> extends IterableX<TSource> {
     const current = next.value;
     let resKey = this._keyFn(current);
     result.push(current);
+
     while (!(next = it.next()).done) {
       const curr = next.value;
       const key = this._keyFn(curr);
