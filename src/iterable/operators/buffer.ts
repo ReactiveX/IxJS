@@ -76,6 +76,6 @@ export function buffer<TSource>(
     s = count;
   }
   return function bufferOperatorFunction(source: Iterable<TSource>): IterableX<TSource[]> {
-    return new BufferIterable(source, count, skip!);
+    return new BufferIterable(source, count, s!);
   };
 }
