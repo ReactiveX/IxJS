@@ -1,3 +1,7 @@
+## [3.0.1](https://github.com/ReactiveX/IxJS/compare/v3.0.0...v3.0.1) (2020-02-21)
+
+
+
 ## [2.5.3](https://github.com/ReactiveX/IxJS/compare/v2.5.2...v2.5.3) (2019-03-27)
 
 ### Bug Fixes
