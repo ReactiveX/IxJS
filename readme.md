@@ -44,7 +44,7 @@ const results = from(source()).pipe(
   map(x => x * x)
 );
 
-for await (let item of results) {
+for (let item of results) {
   console.log(`Next: ${item}`);
 }
 
