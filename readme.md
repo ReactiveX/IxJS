@@ -29,8 +29,8 @@ import { from } from 'ix/iterable';
 import { filter, map } from 'ix/iterable/operators';
 
 // CommonJS
-const from = require('ix/asynciterable').from;
-const { filter, map } = require('ix/asynciterable/operators');
+const from = require('ix/iterable').from;
+const { filter, map } = require('ix/iterable/operators');
 
 const source = function* () {
   yield 1;
