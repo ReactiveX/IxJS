@@ -18,7 +18,7 @@
 module.exports = {
     "verbose": false,
     "reporters": [
-      "jest-silent-reporter"
+      ["jest-silent-reporter", { "useDots": true, "showWarnings": true }]
     ],
     "testEnvironment": "node",
     "globals": {
