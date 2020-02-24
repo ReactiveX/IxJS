@@ -13,7 +13,7 @@
     "debug": "gulp debug",
     "lint": "run-p lint:*",
     "release": "./npm-release.sh",
-    "doc": "shx rm -rf ./doc && esdoc",
+    "doc": "shx rm -rf ./doc && typedoc --options typedoc.js",
     "commitmsg": "validate-commit-msg",
     "test:coverage": "gulp test -t src --coverage",
     "lint:src": "eslint --ext .ts --fix \"src/**/*.ts\"",
@@ -63,8 +63,6 @@
     "coveralls": "3.0.9",
     "cz-conventional-changelog": "3.1.0",
     "del": "5.1.0",
-    "esdoc": "1.1.0",
-    "esdoc-standard-plugin": "1.0.0",
     "eslint": "6.8.0",
     "esm": "3.2.25",
     "glob": "7.1.6",
@@ -93,7 +91,7 @@
     "terser-webpack-plugin": "2.3.5",
     "ts-jest": "24.0.2",
     "ts-node": "8.2.0",
-    "typedoc": "0.14.2",
+    "typedoc": "0.16.10",
     "typescript": "3.7.4",
     "validate-commit-msg": "2.14.0",
     "web-stream-tools": "0.0.1",
@@ -121,17 +119,6 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "esdoc": {
-    "source": "./targets/es2015/esm",
-    "destination": "./doc",
-    "test": {
-      "type": "tape",
-      "source": "./spec"
-    },
-    "experimentalProposal": {
-      "asyncGenerators": true
-    }
   },
   "greenkeeper": {
     "ignore": [
