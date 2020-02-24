@@ -97,7 +97,7 @@
     "typescript": "3.7.4",
     "validate-commit-msg": "2.14.0",
     "web-stream-tools": "0.0.1",
-    "web-streams-polyfill": "2.0.3",
+    "web-streams-polyfill": "2.1.0",
     "webpack": "4.29.6"
   },
   "config": {
