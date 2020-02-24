@@ -89,8 +89,8 @@
     "rxjs": "5.5.11",
     "shx": "0.3.2",
     "source-map-loader": "0.2.4",
-    "terser": "3.16.1",
-    "terser-webpack-plugin": "1.2.3",
+    "terser": "4.6.4",
+    "terser-webpack-plugin": "2.3.5",
     "ts-jest": "24.0.2",
     "ts-node": "8.2.0",
     "typedoc": "0.14.2",
@@ -98,7 +98,7 @@
     "validate-commit-msg": "2.14.0",
     "web-stream-tools": "0.0.1",
     "web-streams-polyfill": "2.1.0",
-    "webpack": "4.29.6"
+    "webpack": "4.41.6"
   },
   "config": {
     "commitizen": {
