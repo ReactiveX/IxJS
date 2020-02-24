@@ -70,7 +70,7 @@
     "glob": "7.1.6",
     "google-closure-compiler": "20200112.0.0",
     "gulp": "4.0.2",
-    "gulp-json-transform": "0.4.6",
+    "gulp-json-transform": "0.4.7",
     "gulp-rename": "1.4.0",
     "gulp-sourcemaps": "2.6.5",
     "gulp-typescript": "5.0.1",
