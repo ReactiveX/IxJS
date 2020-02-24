@@ -28,9 +28,9 @@ const {
 const fs = require('fs');
 const gulp = require('gulp');
 const path = require('path');
+const mkdirp = require('mkdirp');
 const sourcemaps = require('gulp-sourcemaps');
 const { memoizeTask } = require('./memoize-task');
-const mkdirp = require('util').promisify(require('mkdirp'));
 const closureCompiler = require('google-closure-compiler').gulp();
 
 const closureTask = ((cache) => memoizeTask(cache, async function closure(target, format) {
