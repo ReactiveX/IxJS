@@ -78,7 +78,7 @@
     "jest-silent-reporter": "0.2.1",
     "json": "9.0.6",
     "lerna": "3.20.2",
-    "lint-staged": "8.1.5",
+    "lint-staged": "10.0.7",
     "mkdirp": "1.0.3",
     "npm-run-all": "4.1.5",
     "pre-git": "3.17.1",
@@ -116,8 +116,7 @@
   "lint-staged": {
     "*.@(ts)": [
       "prettier --config .prettierrc --write",
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
   },
   "greenkeeper": {
