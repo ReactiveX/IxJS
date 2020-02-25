@@ -1,0 +1,13 @@
+diff --git a/node_modules/conventional-changelog-angular/writer-opts.js b/node_modules/conventional-changelog-angular/writer-opts.js
+index d5de1a3..06b0c7b 100644
+--- a/node_modules/conventional-changelog-angular/writer-opts.js
++++ b/node_modules/conventional-changelog-angular/writer-opts.js
+@@ -25,7 +25,7 @@ module.exports = Q.all([
+ function getWriterOpts () {
+   return {
+     transform: (commit, context) => {
+-      let discard = true
++      let discard = false
+       const issues = []
+ 
+       commit.notes.forEach(note => {
