@@ -1,6 +1,19 @@
 ## [3.0.1](https://github.com/ReactiveX/IxJS/compare/v3.0.0...v3.0.1) (2020-02-21)
 
 
+### chore
+
+* **ESLint:** move from TSLint to ESLint ([#295](https://github.com/ReactiveX/IxJS/issues/295)) ([b0c90cb](https://github.com/ReactiveX/IxJS/commit/b0c90cb0798639b2fc878d4e9b5521bfb2bb63d8)), closes [#284](https://github.com/ReactiveX/IxJS/issues/284)
+* **lint:** Exorcise tslint from the project ([#296](https://github.com/ReactiveX/IxJS/issues/296)) ([#297](https://github.com/ReactiveX/IxJS/issues/297)) ([86e887d](https://github.com/ReactiveX/IxJS/commit/86e887dd3c2870461e2eb60c80e1403c5d879cf1))
+* **release:** 3.0.1 ([544eb4a](https://github.com/ReactiveX/IxJS/commit/544eb4a7dedfb246527fc999dbcec806cb0e2939))
+
+
+### Documentation
+
+* **CHANGELOG:** 3.0.1 ([0ded8c9](https://github.com/ReactiveX/IxJS/commit/0ded8c9d8655a003f00ebc30755702a216cb11cf))
+* **readme:** Fix package name in readme ([#291](https://github.com/ReactiveX/IxJS/issues/291)) ([85ad6f3](https://github.com/ReactiveX/IxJS/commit/85ad6f3eecc06a9dc8fbcf0b592af9179974d5c9))
+
+
 
 ## [2.5.3](https://github.com/ReactiveX/IxJS/compare/v2.5.2...v2.5.3) (2019-03-27)
 
