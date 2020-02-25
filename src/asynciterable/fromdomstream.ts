@@ -3,7 +3,7 @@ import { AsyncIterableX } from './asynciterablex';
 /** @ignore */
 const SharedArrayBuf = typeof SharedArrayBuffer !== 'undefined' ? SharedArrayBuffer : ArrayBuffer;
 
-export class AsyncIterableReadableStream<T> extends AsyncIterableX<T> {
+export class AsyncIterableReadableStream<T> extends AsyncIterableX<T | undefined> {
   constructor(protected _stream: ReadableStream<T>) {
     super();
   }
@@ -34,7 +34,7 @@ async function* _consumeReader<T>(
   stream: ReadableStream<T>,
   reader: ReadableStreamBYOBReader | ReadableStreamDefaultReader,
   iterator: AsyncGenerator<T>
-) {
+): AsyncIterator<T, any, undefined> {
   let threw = false;
   try {
     yield* iterator;
@@ -72,7 +72,7 @@ async function* defaultReaderToAsyncIterator<T = any>(reader: ReadableStreamDefa
 
 /** @ignore */
 async function* byobReaderToAsyncIterator(reader: ReadableStreamBYOBReader) {
-  let r: IteratorResult<Uint8Array>;
+  let r: ReadableStreamReadResult<Uint8Array>;
   let value: number | ArrayBufferLike = yield null!;
   while (!(r = await readNext(reader, value, 0)).done) {
     value = yield r.value;
