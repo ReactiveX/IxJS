@@ -1,7 +1,7 @@
 import '../asynciterablehelpers';
 import Ix from 'ix/Ix';
 import { empty, from, of, throwError, toArray, toObservable } from 'ix/asynciterable';
-import { Observable as RxJSObservable } from 'rxjs';
+import { Observable as RxJSObservable, from as RxJSObservableFrom } from 'rxjs';
 import { Observable, PartialObserver } from '../../src/observer';
 
 test('AsyncIterable#toObservable empty', async () => {
@@ -126,13 +126,13 @@ test('AsyncIterable#toObservable accepts observer functions', async () => {
 
 test('AsyncIterable#toObservable interop with rxjs', async () => {
   const xs: number[] = [];
-  const ys = RxJSObservable.from(toObservable(of(1, 2, 3)));
+  const ys = RxJSObservableFrom(toObservable(of(1, 2, 3)));
   await endOfObservable(ys, x => xs.push(x));
   expect(xs).toEqual([1, 2, 3]);
 });
 
 test('AsyncIterable.from interop with rxjs', async () => {
-  const ys = from(RxJSObservable.from(toObservable(of(1, 2, 3))));
+  const ys = from(RxJSObservableFrom(toObservable(of(1, 2, 3))));
   const xs = await toArray(ys);
   expect(xs).toEqual([1, 2, 3]);
 });

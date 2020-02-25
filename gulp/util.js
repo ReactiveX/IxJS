@@ -20,7 +20,21 @@ const path = require(`path`);
 const pump = require(`stream`).pipeline;
 const child_process = require(`child_process`);
 const { targets, modules } = require('./argv');
-const { Observable, ReplaySubject } = require('rxjs');
+const {
+    ReplaySubject,
+    empty: ObservableEmpty,
+    throwError: ObservableThrow,
+    fromEvent: ObservableFromEvent
+} = require('rxjs');
+const {
+    merge,
+    flatMap,
+    takeUntil,
+    defaultIfEmpty,
+    multicast,
+    refCount,
+} = require('rxjs/operators');
+
 const asyncDone = require('util').promisify(require('async-done'));
 
 const mainExport = `Ix`;
@@ -133,14 +147,15 @@ function spawnGulpCommandInChildProcess(command, target, format) {
 
 const logAndDie = (e) => { if (e) { process.exit(1) } };
 function observableFromStreams(...streams) {
-    if (streams.length <= 0) { return Observable.empty(); }
+    if (streams.length <= 0) { return ObservableEmpty(); }
     const pumped = streams.length <= 1 ? streams[0] : pump(...streams, logAndDie);
-    const fromEvent = Observable.fromEvent.bind(null, pumped);
-    const streamObs = fromEvent(`data`)
-               .merge(fromEvent(`error`).flatMap((e) => Observable.throw(e)))
-           .takeUntil(fromEvent(`end`).merge(fromEvent(`close`)))
-           .defaultIfEmpty(`empty stream`)
-           .multicast(new ReplaySubject()).refCount();
+    const fromEvent = ObservableFromEvent.bind(null, pumped);
+    const streamObs = fromEvent(`data`).pipe(
+               merge(fromEvent(`error`).pipe(flatMap((e) => ObservableThrow(e)))),
+           takeUntil(fromEvent(`end`).pipe(merge(fromEvent(`close`)))),
+           defaultIfEmpty(`empty stream`),
+           multicast(new ReplaySubject()),
+           refCount());
     streamObs.stream = pumped;
     streamObs.observable = streamObs;
     return streamObs;

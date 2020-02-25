@@ -69,7 +69,7 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
                 `node_modules/tslib/tslib.es6.js`,
                 `node_modules/rxjs/package.json`,
                 `node_modules/rxjs/util/root.js`,
-                `node_modules/rxjs/symbol/observable.js`,
+                `node_modules/rxjs/internal/symbol/observable.js`,
                 `${src}/**/*.js` /* <-- then sources globs  */
             ], { base: `./` }),
             sourcemaps.init(),

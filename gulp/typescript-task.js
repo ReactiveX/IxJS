@@ -28,7 +28,12 @@ const path = require('path');
 const ts = require(`gulp-typescript`);
 const sourcemaps = require('gulp-sourcemaps');
 const { memoizeTask } = require('./memoize-task');
-const { Observable, ReplaySubject } = require('rxjs');
+const {
+    ReplaySubject,
+    forkJoin: ObservableForkJoin,
+} = require('rxjs');
+
+const { takeLast, publish, refCount } = require('rxjs/operators');
 
 const typescriptTask = ((cache) => memoizeTask(cache, function typescript(target, format) {
 
@@ -39,8 +44,7 @@ const typescriptTask = ((cache) => memoizeTask(cache, function typescript(target
     const out = targetDir(target, format);
     const tsconfigPath = path.join(`tsconfig`, `tsconfig.${tsconfigName(target, format)}.json`);
     return compileTypescript(out, tsconfigPath)
-        .takeLast(1)
-        .publish(new ReplaySubject()).refCount();
+        .pipe(takeLast(1), publish(new ReplaySubject()), refCount())
 }))({});
 
 function compileTypescript(out, tsconfigPath, tsconfigOverrides) {
@@ -52,7 +56,7 @@ function compileTypescript(out, tsconfigPath, tsconfigOverrides) {
     const writeDTypes = observableFromStreams(dts, gulp.dest(out));
     const mapFile = tsProject.options.module === 5 ? esmMapFile : cjsMapFile;
     const writeJS = observableFromStreams(js, sourcemaps.write('./', { mapFile }), gulp.dest(out));
-    return Observable.forkJoin(writeDTypes, writeJS);
+    return ObservableForkJoin(writeDTypes, writeJS);
 }
 
 function cjsMapFile(mapFilePath) { return mapFilePath; }

@@ -23,20 +23,26 @@ const {
 
 const gulp = require('gulp');
 const { memoizeTask } = require('./memoize-task');
-const { Observable, ReplaySubject } = require('rxjs');
 const gulpJsonTransform = require('gulp-json-transform');
+const {
+    ReplaySubject,
+    empty: ObservableEmpty,
+    forkJoin: ObservableForkJoin,
+} = require('rxjs');
+
+const { publish, refCount } = require('rxjs/operators');
 
 const packageTask = ((cache) => memoizeTask(cache, function bundle(target, format) {
-    if (target === `src`) return Observable.empty();
+    if (target === `src`) return ObservableEmpty();
     const out = targetDir(target, format);
     const jsonTransform = gulpJsonTransform(target === npmPkgName ? createMainPackageJson(target, format) :
                                             target === `ts`       ? createTypeScriptPackageJson(target, format)
                                                                   : createScopedPackageJSON(target, format),
                                             2);
-    return Observable.forkJoin(
+    return ObservableForkJoin(
       observableFromStreams(gulp.src(metadataFiles), gulp.dest(out)), // copy metadata files
       observableFromStreams(gulp.src(`package.json`), jsonTransform, gulp.dest(out)) // write packageJSONs
-    ).publish(new ReplaySubject()).refCount();
+    ).pipe(publish(new ReplaySubject()), refCount());
 }))({});
 
 module.exports = packageTask;

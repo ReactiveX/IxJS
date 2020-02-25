@@ -74,8 +74,8 @@ export interface Observer<T> {
 export interface Observable<T> {
   subscribe(observer?: PartialObserver<T>): Subscription;
   subscribe(
-    next?: (value: T) => void,
-    error?: (error: any) => void,
-    complete?: () => void
+    next?: null | ((value: T) => void),
+    error?: null | ((error: any) => void),
+    complete?: null | (() => void)
   ): Subscription;
 }

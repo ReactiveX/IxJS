@@ -27,8 +27,13 @@ const {
 const path = require('path');
 const webpack = require(`webpack`);
 const { memoizeTask } = require('./memoize-task');
-const { Observable, ReplaySubject } = require('rxjs');
 const TerserPlugin = require(`terser-webpack-plugin`);
+const {
+    ReplaySubject,
+    bindNodeCallback: ObservableBindNodeCallback,
+} = require('rxjs');
+
+const { takeLast, multicast, refCount } = require('rxjs/operators');
 
 const minifyTask = ((cache, commonConfig) => memoizeTask(cache, function minifyJS(target, format) {
 
@@ -81,10 +86,8 @@ const minifyTask = ((cache, commonConfig) => memoizeTask(cache, function minifyJ
     }));
 
     const compilers = webpack(webpackConfigs);
-    return Observable
-            .bindNodeCallback(compilers.run.bind(compilers))()
-            .takeLast(1)
-            .multicast(new ReplaySubject()).refCount();
+    return ObservableBindNodeCallback(compilers.run.bind(compilers))()
+        .pipe(takeLast(1), multicast(new ReplaySubject()), refCount())
 }))({}, {
     resolve: { mainFields: [`module`, `main`] },
     module: { rules: [{ test: /\.js$/, enforce: `pre`, use: [`source-map-loader`] }] },

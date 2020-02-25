@@ -17,7 +17,7 @@ Object.defineProperty(ArrayBuffer, Symbol.hasInstance, {
 
 // Require rxjs first so we pick up its polyfilled Symbol.observable
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-require('rxjs/symbol/observable');
+require('rxjs/internal/symbol/observable');
 
 // // these are duplicated in the gulpfile :<
 // const targets = [`es5`, `es2015`, `esnext`];
