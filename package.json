@@ -84,7 +84,7 @@
     "pre-git": "3.17.1",
     "prettier": "1.19.1",
     "rimraf": "3.0.2",
-    "rxjs": "5.5.11",
+    "rxjs": "6.5.4",
     "shx": "0.3.2",
     "source-map-loader": "0.2.4",
     "terser": "4.6.4",
