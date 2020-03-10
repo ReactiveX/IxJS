@@ -12,7 +12,11 @@ export async function first<T>(
 ): Promise<T | undefined>;
 export async function first<T>(
   source: AsyncIterable<T>,
-  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean> = async () => true,
+  predicate: (
+    value: T,
+    index: number,
+    signal?: AbortSignal
+  ) => boolean | Promise<boolean> = async () => true,
   signal?: AbortSignal
 ): Promise<T | undefined> {
   let i = 0;

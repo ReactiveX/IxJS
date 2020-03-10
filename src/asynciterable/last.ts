@@ -14,7 +14,11 @@ export async function last<T>(
 ): Promise<T | undefined>;
 export async function last<T>(
   source: AsyncIterable<T>,
-  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean> = async () => true,
+  predicate: (
+    value: T,
+    index: number,
+    signal?: AbortSignal
+  ) => boolean | Promise<boolean> = async () => true,
   thisArg?: any,
   signal?: AbortSignal
 ): Promise<T | undefined> {

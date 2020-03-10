@@ -5,7 +5,10 @@ import { wrapWithAbort } from './withabort';
 
 export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: AsyncIterable<TSource>;
-  private _selector: (value: TSource, signal?: AbortSignal) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
+  private _selector: (
+    value: TSource,
+    signal?: AbortSignal
+  ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
   constructor(
     source: AsyncIterable<TSource>,
@@ -27,7 +30,10 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
 }
 
 export function flatMap<TSource, TResult>(
-  selector: (value: TSource, signal?: AbortSignal) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
+  selector: (
+    value: TSource,
+    signal?: AbortSignal
+  ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
   thisArg?: any
 ): OperatorAsyncFunction<TSource, TResult> {
   return function flatMapOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TResult> {

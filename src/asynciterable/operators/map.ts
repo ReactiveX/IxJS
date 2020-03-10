@@ -4,7 +4,11 @@ import { wrapWithAbort } from './withabort';
 
 export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: AsyncIterable<TSource>;
-  private _selector: (value: TSource, index: number, signal?: AbortSignal) => Promise<TResult> | TResult;
+  private _selector: (
+    value: TSource,
+    index: number,
+    signal?: AbortSignal
+  ) => Promise<TResult> | TResult;
   private _thisArg: any;
 
   constructor(

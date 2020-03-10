@@ -14,7 +14,8 @@ export async function single<T>(
 ): Promise<T | undefined>;
 export async function single<T>(
   source: AsyncIterable<T>,
-  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean> = () => true,
+  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean> = () =>
+    true,
   thisArg?: any,
   signal?: AbortSignal
 ): Promise<T | undefined> {
