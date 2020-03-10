@@ -1,13 +1,14 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
-  private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>;
+  private _source: AsyncIterable<TSource>;
   private _predicate: (value: TSource, index: number) => boolean | Promise<boolean>;
   private _thisArg: any;
 
   constructor(
-    source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
+    source: AsyncIterable<TSource>,
     predicate: (value: TSource, index: number) => boolean | Promise<boolean>,
     thisArg?: any
   ) {
@@ -17,9 +18,9 @@ export class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._thisArg = thisArg;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let i = 0;
-    for await (const item of <AsyncIterable<TSource>> this._source) {
+    for await (const item of wrapWithAbort(this._source, signal)) {
       if (await this._predicate.call(this._thisArg, item, i++)) {
         yield item;
       }

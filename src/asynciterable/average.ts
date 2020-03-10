@@ -1,21 +1,28 @@
 import { identityAsync } from '../util/identity';
+import { wrapWithAbort } from './operators/withabort';
 
 export async function average(
-  source: Iterable<number | PromiseLike<number>> | AsyncIterable<number>,
-  selector?: (x: number) => number | Promise<number>
+  source: AsyncIterable<number>,
+  selector?: (x: number, signal?: AbortSignal) => number | Promise<number>,
+  thisArg?: any,
+  signal?: AbortSignal
 ): Promise<number>;
 export async function average<TSource>(
-  source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
-  selector?: (x: TSource) => number | Promise<number>
+  source: AsyncIterable<TSource>,
+  selector?: (x: TSource, signal?: AbortSignal) => number | Promise<number>,
+  thisArg?: any,
+  signal?: AbortSignal
 ): Promise<number>;
 export async function average(
-  source: Iterable<number | PromiseLike<number>> | AsyncIterable<any>,
-  selector: (x: any) => number | Promise<number> = identityAsync
+  source: AsyncIterable<any>,
+  selector: (x: any, signal?: AbortSignal) => number | Promise<number> = identityAsync,
+  thisArg?: any,
+  signal?: AbortSignal
 ): Promise<number> {
   let sum = 0;
   let count = 0;
-  for await (const item of source) {
-    sum += await selector(item);
+  for await (const item of wrapWithAbort(source, signal)) {
+    sum += await selector.call(thisArg, item, signal);
     count++;
   }
 

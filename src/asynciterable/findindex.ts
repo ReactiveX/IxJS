@@ -1,15 +1,15 @@
-import { bindCallback } from '../util/bindcallback';
+import { wrapWithAbort } from './operators/withabort';
 
 export async function findIndex<T>(
   source: AsyncIterable<T>,
-  predicate: (value: T, index: number) => boolean | Promise<boolean>,
-  thisArg?: any
+  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>,
+  thisArg?: any,
+  signal?: AbortSignal
 ): Promise<number> {
-  const fn = bindCallback(predicate, thisArg, 2);
   let i = 0;
 
-  for await (const item of source) {
-    if (await fn(item, i++)) {
+  for await (const item of wrapWithAbort(source, signal)) {
+    if (await predicate.call(thisArg, item, i++, signal)) {
       return i;
     }
   }

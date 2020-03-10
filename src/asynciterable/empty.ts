@@ -1,8 +1,9 @@
 import { AsyncIterableX } from './asynciterablex';
+import { throwIfAborted } from '../aborterror';
 
 class EmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
-  async *[Symbol.asyncIterator](): AsyncIterator<TSource> {
-    // eslint-disable-next-line no-empty
+  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<TSource> {
+    throwIfAborted(signal);
   }
 }
 

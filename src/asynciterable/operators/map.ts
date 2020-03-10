@@ -1,14 +1,15 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: AsyncIterable<TSource>;
-  private _selector: (value: TSource, index: number) => Promise<TResult> | TResult;
+  private _selector: (value: TSource, index: number, signal?: AbortSignal) => Promise<TResult> | TResult;
   private _thisArg: any;
 
   constructor(
     source: AsyncIterable<TSource>,
-    selector: (value: TSource, index: number) => Promise<TResult> | TResult,
+    selector: (value: TSource, index: number, signal?: AbortSignal) => Promise<TResult> | TResult,
     thisArg?: any
   ) {
     super();
@@ -17,10 +18,10 @@ export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
     this._thisArg = thisArg;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let i = 0;
-    for await (const item of <AsyncIterable<TSource>> this._source) {
-      const result = await this._selector.call(this._thisArg, item, i++);
+    for await (const item of wrapWithAbort(this._source, signal)) {
+      const result = await this._selector.call(this._thisArg, item, i++, signal);
       yield result;
     }
   }

@@ -1,24 +1,40 @@
 import { as as asAsyncIterable } from './as';
 import { _initialize as _initializeFrom } from './from';
 import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
-import { bindCallback } from '../util/bindcallback';
 import { Observable } from '../observer';
 import { isReadableNodeStream, isWritableNodeStream } from '../util/isiterable';
+
+class WithAbortAsyncIterable<TSource> implements AsyncIterable<TSource> {
+  private _source: AsyncIterable<TSource>;
+  private _signal: AbortSignal;
+
+  constructor(source: AsyncIterable<TSource>, signal: AbortSignal) {
+    this._source = source;
+    this._signal = signal;
+  }
+
+  [Symbol.asyncIterator](): AsyncIterator<TSource> {
+    // @ts-ignore
+    return this._source[Symbol.asyncIterator](this._signal);
+  }
+}
 
 /**
  * This class serves as the base for all operations which support [Symbol.asyncIterator].
  */
 export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
-  abstract [Symbol.asyncIterator](): AsyncIterator<T>;
+  abstract [Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<T>;
 
   async forEach(
-    projection: (value: T, index: number) => void | Promise<void>,
-    thisArg?: any
+    projection: (value: T, index: number, signal?: AbortSignal) => void | Promise<void>,
+    thisArg?: any,
+    signal?: AbortSignal
   ): Promise<void> {
-    const fn = bindCallback(projection, thisArg, 2);
+    const source = signal ? new WithAbortAsyncIterable(this, signal) : this;
+
     let i = 0;
-    for await (const item of this) {
-      await fn(item, i++);
+    for await (const item of source) {
+      await projection.call(thisArg, item, i++, signal);
     }
   }
 
