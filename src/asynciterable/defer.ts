@@ -17,7 +17,7 @@ class DeferAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function defer<TSource>(
-  factory: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>,
+  factory: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
 ): AsyncIterableX<TSource> {
   return new DeferAsyncIterable<TSource>(factory);
 }

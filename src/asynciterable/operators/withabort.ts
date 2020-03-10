@@ -15,24 +15,20 @@ export class WithAbortAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     return new WithAbortAsyncIterable<TSource>(this._source, signal);
   }
 
-
   [Symbol.asyncIterator](): AsyncIterator<TSource> {
     // @ts-ignore
     return this._source[Symbol.asyncIterator](this._signal);
   }
 }
 
-export function withAbort<TSource>(
-  signal: AbortSignal,
-): MonoTypeOperatorAsyncFunction<TSource> {
-  return function withAbortOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+export function withAbort<TSource>(signal: AbortSignal): MonoTypeOperatorAsyncFunction<TSource> {
+  return function withAbortOperatorFunction(
+    source: AsyncIterable<TSource>
+  ): AsyncIterableX<TSource> {
     return new WithAbortAsyncIterable(source, signal);
   };
 }
 
-export function wrapWithAbort<TSource>(
-  source: AsyncIterable<TSource>,
-  signal?: AbortSignal
-) {
+export function wrapWithAbort<TSource>(source: AsyncIterable<TSource>, signal?: AbortSignal) {
   return signal ? new WithAbortAsyncIterable(source, signal) : source;
 }
