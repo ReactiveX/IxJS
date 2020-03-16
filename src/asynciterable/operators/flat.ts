@@ -14,7 +14,11 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   // eslint-disable-next-line consistent-return
-  private async *_flatten(source: AsyncIterable<TSource>, depth: number, signal?: AbortSignal): AsyncIterable<TSource> {
+  private async *_flatten(
+    source: AsyncIterable<TSource>,
+    depth: number,
+    signal?: AbortSignal
+  ): AsyncIterable<TSource> {
     if (depth === 0) {
       for await (const item of wrapWithAbort(source, signal)) {
         yield item;

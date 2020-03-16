@@ -9,14 +9,22 @@ export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncItera
   private _inner: AsyncIterable<TInner>;
   private _outerSelector: (value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>;
   private _innerSelector: (value: TInner, signal?: AbortSignal) => TKey | Promise<TKey>;
-  private _resultSelector: (outer: TOuter, inner: TInner, signal?: AbortSignal) => TResult | Promise<TResult>;
+  private _resultSelector: (
+    outer: TOuter,
+    inner: TInner,
+    signal?: AbortSignal
+  ) => TResult | Promise<TResult>;
 
   constructor(
     outer: AsyncIterable<TOuter>,
     inner: AsyncIterable<TInner>,
     outerSelector: (value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>,
     innerSelector: (value: TInner, signal?: AbortSignal) => TKey | Promise<TKey>,
-    resultSelector: (outer: TOuter, inner: TInner, signal?: AbortSignal) => TResult | Promise<TResult>
+    resultSelector: (
+      outer: TOuter,
+      inner: TInner,
+      signal?: AbortSignal
+    ) => TResult | Promise<TResult>
   ) {
     super();
     this._outer = outer;

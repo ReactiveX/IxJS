@@ -11,7 +11,9 @@ export class TimeoutError extends Error {
     this.name = 'TimeoutError';
   }
 
-  get [Symbol.toStringTag]() { return 'TimeoutError'; }
+  get [Symbol.toStringTag]() {
+    return 'TimeoutError';
+  }
 }
 
 const VALUE_TYPE = 'value';

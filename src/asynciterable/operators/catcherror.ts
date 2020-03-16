@@ -5,11 +5,17 @@ import { wrapWithAbort } from './withabort';
 
 export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSource | TResult> {
   private _source: AsyncIterable<TSource>;
-  private _handler: (error: any, signal?: AbortSignal) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
+  private _handler: (
+    error: any,
+    signal?: AbortSignal
+  ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
   constructor(
     source: AsyncIterable<TSource>,
-    handler: (error: any, signal?: AbortSignal) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
+    handler: (
+      error: any,
+      signal?: AbortSignal
+    ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
   ) {
     super();
     this._source = source;
@@ -49,7 +55,10 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
 }
 
 export function catchError<TSource, TResult>(
-  handler: (error: any, signal?: AbortSignal) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
+  handler: (
+    error: any,
+    signal?: AbortSignal
+  ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
   return function catchWithOperatorFunction(
     source: AsyncIterable<TSource>

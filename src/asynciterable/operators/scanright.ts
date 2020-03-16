@@ -38,15 +38,30 @@ export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
 }
 
 export function scanRight<T, R = T>(
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number, signal?: AbortSignal) => R | Promise<R>,
+  accumulator: (
+    previousValue: R,
+    currentValue: T,
+    currentIndex: number,
+    signal?: AbortSignal
+  ) => R | Promise<R>,
   seed?: never[]
 ): OperatorAsyncFunction<T, R>;
 export function scanRight<T, R = T>(
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number, signal?: AbortSignal) => R | Promise<R>,
+  accumulator: (
+    previousValue: R,
+    currentValue: T,
+    currentIndex: number,
+    signal?: AbortSignal
+  ) => R | Promise<R>,
   seed?: R
 ): OperatorAsyncFunction<T, R>;
 export function scanRight<T, R = T>(
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number, signal?: AbortSignal) => R | Promise<R>,
+  accumulator: (
+    previousValue: R,
+    currentValue: T,
+    currentIndex: number,
+    signal?: AbortSignal
+  ) => R | Promise<R>,
   ...seed: R[]
 ): OperatorAsyncFunction<T, R> {
   return function scanRightOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<R> {
