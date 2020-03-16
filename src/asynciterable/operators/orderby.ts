@@ -11,8 +11,8 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
     this._source = source;
   }
 
-  async *[Symbol.asyncIterator]() {
-    const array = await toArray(this._source);
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    const array = await toArray(this._source, signal);
     const len = array.length;
     const indices = new Array<number>(len);
     for (let i = 0; i < len; i++) {

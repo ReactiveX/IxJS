@@ -1,24 +1,26 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { returnAsyncIterator } from '../../util/returniterator';
+import { wrapWithAbort } from './withabort';
 
 export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSource | TResult> {
   private _source: AsyncIterable<TSource>;
-  private _handler: (error: any) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
+  private _handler: (error: any, signal?: AbortSignal) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
   constructor(
     source: AsyncIterable<TSource>,
-    handler: (error: any) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
+    handler: (error: any, signal?: AbortSignal) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
   ) {
     super();
     this._source = source;
     this._handler = handler;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let err: AsyncIterable<TResult> | undefined;
     let hasError = false;
-    const it = this._source[Symbol.asyncIterator]();
+    const source = wrapWithAbort(this._source, signal);
+    const it = source[Symbol.asyncIterator]();
     while (1) {
       let c = <IteratorResult<TSource>>{};
 
@@ -29,7 +31,7 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
           break;
         }
       } catch (e) {
-        err = await this._handler(e);
+        err = await this._handler(e, signal);
         hasError = true;
         await returnAsyncIterator(it);
         break;
@@ -39,7 +41,7 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
     }
 
     if (hasError) {
-      for await (const item of err!) {
+      for await (const item of wrapWithAbort(err!, signal)) {
         yield item;
       }
     }
@@ -47,7 +49,7 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
 }
 
 export function catchError<TSource, TResult>(
-  handler: (error: any) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
+  handler: (error: any, signal?: AbortSignal) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
   return function catchWithOperatorFunction(
     source: AsyncIterable<TSource>

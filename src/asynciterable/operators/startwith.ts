@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -11,11 +12,11 @@ export class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._args = args;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     for (const x of this._args) {
       yield x;
     }
-    for await (const item of this._source) {
+    for await (const item of wrapWithAbort(this._source, signal)) {
       yield item;
     }
   }

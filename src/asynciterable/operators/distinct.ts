@@ -7,12 +7,12 @@ import { wrapWithAbort } from './withabort';
 
 export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _keySelector: (value: TSource) => TKey | Promise<TKey>;
+  private _keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>;
   private _comparer: (x: TKey, y: TKey) => boolean | Promise<boolean>;
 
   constructor(
     source: AsyncIterable<TSource>,
-    keySelector: (value: TSource) => TKey | Promise<TKey>,
+    keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
     comparer: (x: TKey, y: TKey) => boolean | Promise<boolean>
   ) {
     super();
@@ -25,7 +25,7 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
     const set = [] as TKey[];
 
     for await (const item of wrapWithAbort(this._source, signal)) {
-      const key = await this._keySelector(item);
+      const key = await this._keySelector(item, signal);
       if ((await arrayIndexOfAsync(set, key, this._comparer)) === -1) {
         set.push(key);
         yield item;
@@ -35,7 +35,7 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
 }
 
 export function distinct<TSource, TKey>(
-  keySelector: (value: TSource) => TKey | Promise<TKey> = identityAsync,
+  keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey> = identityAsync,
   comparer: (x: TKey, y: TKey) => boolean | Promise<boolean> = comparerAsync
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function distinctOperatorFunction(

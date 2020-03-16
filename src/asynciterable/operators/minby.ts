@@ -3,7 +3,7 @@ import { extremaBy, defaultCompareAsync } from './_extremaby';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 
 export function minBy<TSource, TKey>(
-  keySelector: (x: TSource) => TKey | Promise<TKey>,
+  keySelector: (x: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
   comparer: (x: TKey, y: TKey) => number | Promise<number> = defaultCompareAsync
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function minByOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {

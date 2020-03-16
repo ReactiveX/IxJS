@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -9,9 +10,9 @@ export class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource
     this._source = source;
   }
 
-  async *[Symbol.asyncIterator](): AsyncIterator<TSource> {
+  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<TSource> {
     // eslint-disable-next-line no-empty
-    for await (const _ of this._source) {
+    for await (const _ of wrapWithAbort(this._source, signal)) {
     }
   }
 }

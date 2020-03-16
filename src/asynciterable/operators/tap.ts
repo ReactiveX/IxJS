@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { PartialAsyncObserver } from '../../observer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { toObserver } from '../../util/toobserver';
+import { wrapWithAbort } from './withabort';
 
 export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -13,8 +14,9 @@ export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._observer = observer;
   }
 
-  async *[Symbol.asyncIterator]() {
-    const it = this._source[Symbol.asyncIterator]();
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    const source = wrapWithAbort(this._source, signal);
+    const it = source[Symbol.asyncIterator]();
     while (1) {
       let next;
       try {

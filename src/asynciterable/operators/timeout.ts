@@ -1,13 +1,17 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { sleep } from '../_sleep';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class TimeoutError extends Error {
-  constructor() {
-    super();
+  constructor(message: string = 'Timeout has occurred') {
+    super(message);
     Object.setPrototypeOf(this, TimeoutError.prototype);
-    this.message = 'Timeout has occurred';
+    Error.captureStackTrace(this, this.constructor);
+    this.name = 'TimeoutError';
   }
+
+  get [Symbol.toStringTag]() { return 'TimeoutError'; }
 }
 
 const VALUE_TYPE = 'value';
@@ -28,14 +32,14 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._dueTime = dueTime;
   }
 
-  async *[Symbol.asyncIterator]() {
-    const it = this._source[Symbol.asyncIterator]();
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
     while (1) {
       const { type, value } = await Promise.race<TimeoutOperation<TSource>>([
         it.next().then(val => {
           return { type: VALUE_TYPE, val };
         }),
-        sleep(this._dueTime).then(() => {
+        sleep(this._dueTime, signal).then(() => {
           return { type: ERROR_TYPE };
         })
       ]);

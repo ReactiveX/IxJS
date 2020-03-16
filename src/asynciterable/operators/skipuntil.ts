@@ -1,20 +1,21 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _other: () => Promise<any>;
+  private _other: (signal?: AbortSignal) => Promise<any>;
 
-  constructor(source: AsyncIterable<TSource>, other: () => Promise<any>) {
+  constructor(source: AsyncIterable<TSource>, other: (signal?: AbortSignal) => Promise<any>) {
     super();
     this._source = source;
     this._other = other;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let otherDone = false;
-    this._other().then(() => (otherDone = true));
-    for await (const item of this._source) {
+    this._other(signal).then(() => (otherDone = true));
+    for await (const item of wrapWithAbort(this._source, signal)) {
       if (otherDone) {
         yield item;
       }
@@ -23,7 +24,7 @@ export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function skipUntil<TSource>(
-  other: () => Promise<any>
+  other: (signal?: AbortSignal) => Promise<any>
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function skipUntilOperatorFunction(
     source: AsyncIterable<TSource>

@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _source: AsyncIterable<TSource>;
@@ -13,10 +14,10 @@ export class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
     this._skip = skip;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     const buffers: TSource[][] = [];
     let i = 0;
-    for await (const item of this._source) {
+    for await (const item of wrapWithAbort(this._source, signal)) {
       if (i % this._skip === 0) {
         buffers.push([]);
       }

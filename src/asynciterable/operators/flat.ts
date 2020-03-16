@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { isAsyncIterable } from '../../util/isiterable';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -13,16 +14,16 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   // eslint-disable-next-line consistent-return
-  private async *_flatten(source: AsyncIterable<TSource>, depth: number): AsyncIterable<TSource> {
+  private async *_flatten(source: AsyncIterable<TSource>, depth: number, signal?: AbortSignal): AsyncIterable<TSource> {
     if (depth === 0) {
-      for await (const item of source) {
+      for await (const item of wrapWithAbort(source, signal)) {
         yield item;
       }
       return undefined;
     }
-    for await (const item of source) {
+    for await (const item of wrapWithAbort(source, signal)) {
       if (isAsyncIterable(item)) {
-        for await (const innerItem of this._flatten(item, depth - 1)) {
+        for await (const innerItem of this._flatten(item, depth - 1, signal)) {
           yield innerItem;
         }
       } else {
@@ -31,8 +32,8 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     }
   }
 
-  [Symbol.asyncIterator]() {
-    return this._flatten(this._source, this._depth)[Symbol.asyncIterator]();
+  [Symbol.asyncIterator](signal?: AbortSignal) {
+    return this._flatten(this._source, this._depth, signal)[Symbol.asyncIterator]();
   }
 }
 
