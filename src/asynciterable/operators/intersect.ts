@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { arrayIndexOfAsync } from '../../util/arrayindexof';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 async function arrayRemove<T>(
   array: T[],
@@ -32,13 +33,13 @@ export class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._comparer = comparer;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     const map = [] as TSource[];
-    for await (const secondItem of this._second) {
+    for await (const secondItem of wrapWithAbort(this._second, signal)) {
       map.push(secondItem);
     }
 
-    for await (const firstItem of this._first) {
+    for await (const firstItem of wrapWithAbort(this._first, signal)) {
       if (await arrayRemove(map, firstItem, this._comparer)) {
         yield firstItem;
       }

@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { wrapWithAbort } from './operators/withabort';
 
 class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _left: AsyncIterable<TSource>;
@@ -10,9 +11,11 @@ class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._right = right;
   }
 
-  async *[Symbol.asyncIterator]() {
-    const leftIt = this._left[Symbol.asyncIterator]();
-    const rightIt = this._right[Symbol.asyncIterator]();
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    const left = wrapWithAbort(this._left, signal);
+    const right = wrapWithAbort(this._right, signal);
+    const leftIt = left[Symbol.asyncIterator]();
+    const rightIt = right[Symbol.asyncIterator]();
     let otherIterator: AsyncIterator<TSource>;
     let resultIterator: AsyncIterator<TSource>;
     const { value, done } = await Promise.race([

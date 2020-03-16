@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { throwIfAborted } from '../aborterror';
 
 class ThrowAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _error: any;
@@ -8,7 +9,8 @@ class ThrowAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._error = error;
   }
 
-  async *[Symbol.asyncIterator](): AsyncIterator<TSource> {
+  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<TSource> {
+    throwIfAborted(signal);
     throw this._error;
   }
 }

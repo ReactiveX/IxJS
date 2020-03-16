@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export interface TimeInterval<T> {
   value: T;
@@ -14,9 +15,9 @@ export class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInter
     this._source = source;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let last = Date.now();
-    for await (const item of this._source) {
+    for await (const item of wrapWithAbort(this._source, signal)) {
       const now = Date.now();
       const span = now - last;
       last = now;

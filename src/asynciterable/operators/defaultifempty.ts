@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -11,9 +12,9 @@ export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource
     this._defaultValue = defaultValue;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let state = 1;
-    for await (const item of this._source) {
+    for await (const item of wrapWithAbort(this._source, signal)) {
       state = 2;
       yield item;
     }

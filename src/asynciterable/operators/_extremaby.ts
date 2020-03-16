@@ -1,4 +1,5 @@
 import { AsyncIterableX } from '../asynciterablex';
+import { wrapWithAbort } from './withabort';
 
 /**
  * @ignore
@@ -13,12 +14,12 @@ export async function defaultCompareAsync<T>(key: T, minValue: T): Promise<numbe
  */
 class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _keyFn: (x: TSource) => TKey | Promise<TKey>;
+  private _keyFn: (x: TSource, signal?: AbortSignal) => TKey | Promise<TKey>;
   private _cmp: (x: TKey, y: TKey) => number | Promise<number>;
 
   constructor(
     source: AsyncIterable<TSource>,
-    keyFn: (x: TSource) => TKey | Promise<TKey>,
+    keyFn: (x: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
     cmp: (x: TKey, y: TKey) => number | Promise<number>
   ) {
     super();
@@ -27,16 +28,16 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
     this._cmp = cmp;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let result: TSource[] = [];
     let next;
-    const it = this._source[Symbol.asyncIterator]();
+    const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
     if ((next = await it.next()).done) {
       throw new Error('Sequence contains no elements');
     }
 
     const current = next.value;
-    let resKey = await this._keyFn(current);
+    let resKey = await this._keyFn(current, signal);
     result.push(current);
 
     while (!(next = await it.next()).done) {
@@ -60,7 +61,7 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
  */
 export function extremaBy<TSource, TKey>(
   source: AsyncIterable<TSource>,
-  keyFn: (x: TSource) => TKey | Promise<TKey>,
+  keyFn: (x: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
   cmp: (x: TKey, y: TKey) => number | Promise<number>
 ): AsyncIterableX<TSource> {
   return new ExtremaByAsyncIterator<TSource, TKey>(source, keyFn, cmp);

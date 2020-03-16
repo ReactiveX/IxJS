@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -11,10 +12,10 @@ export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._time = time;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let currentTime;
     let previousTime;
-    for await (const item of this._source) {
+    for await (const item of wrapWithAbort(this._source, signal)) {
       currentTime = Date.now();
       if (!previousTime || currentTime - previousTime > this._time) {
         previousTime = currentTime;

@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 interface AsyncResolver<T> {
   resolve: (value?: T | PromiseLike<T> | undefined) => void;
@@ -32,8 +33,8 @@ class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
     this._source = source;
   }
 
-  [Symbol.asyncIterator]() {
-    const it = this._source[Symbol.asyncIterator]();
+  [Symbol.asyncIterator](signal?: AbortSignal) {
+    const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
 
     let state: State<TSource> = { type: BATCHING_TYPE, values: [] };
     let ended: null | Promise<IteratorResult<TSource[]>> = null;

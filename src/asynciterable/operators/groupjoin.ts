@@ -4,23 +4,25 @@ import { empty } from '../empty';
 import { from } from '../from';
 import { identity } from '../../util/identity';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
 
 export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TResult> {
   private _outer: AsyncIterable<TOuter>;
   private _inner: AsyncIterable<TInner>;
-  private _outerSelector: (value: TOuter) => TKey | Promise<TKey>;
-  private _innerSelector: (value: TInner) => TKey | Promise<TKey>;
+  private _outerSelector: (value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>;
+  private _innerSelector: (value: TInner, signal?: AbortSignal) => TKey | Promise<TKey>;
   private _resultSelector: (
     outer: TOuter,
-    inner: AsyncIterable<TInner>
+    inner: AsyncIterable<TInner>,
+    signal?: AbortSignal
   ) => TResult | Promise<TResult>;
 
   constructor(
     outer: AsyncIterable<TOuter>,
     inner: AsyncIterable<TInner>,
-    outerSelector: (value: TOuter) => TKey | Promise<TKey>,
-    innerSelector: (value: TInner) => TKey | Promise<TKey>,
-    resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => TResult | Promise<TResult>
+    outerSelector: (value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>,
+    innerSelector: (value: TInner, signal?: AbortSignal) => TKey | Promise<TKey>,
+    resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>, signal?: AbortSignal) => TResult | Promise<TResult>
   ) {
     super();
     this._outer = outer;
@@ -30,23 +32,23 @@ export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends Async
     this._resultSelector = resultSelector;
   }
 
-  async *[Symbol.asyncIterator]() {
-    const map = await createGrouping(this._inner, this._innerSelector, identity);
-    for await (const outerElement of this._outer) {
-      const outerKey = await this._outerSelector(outerElement);
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    const map = await createGrouping(this._inner, this._innerSelector, identity, signal);
+    for await (const outerElement of wrapWithAbort(this._outer, signal)) {
+      const outerKey = await this._outerSelector(outerElement, signal);
       const innerElements = map.has(outerKey)
         ? <Iterable<TInner>>map.get(outerKey)
         : empty<TInner>();
-      yield await this._resultSelector(outerElement, from(innerElements));
+      yield await this._resultSelector(outerElement, from(innerElements), signal);
     }
   }
 }
 
 export function groupJoin<TOuter, TInner, TKey, TResult>(
   inner: AsyncIterable<TInner>,
-  outerSelector: (value: TOuter) => TKey | Promise<TKey>,
-  innerSelector: (value: TInner) => TKey | Promise<TKey>,
-  resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>) => TResult | Promise<TResult>
+  outerSelector: (value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>,
+  innerSelector: (value: TInner, signal?: AbortSignal) => TKey | Promise<TKey>,
+  resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>, signal?: AbortSignal) => TResult | Promise<TResult>
 ): OperatorAsyncFunction<TOuter, TResult> {
   return function groupJoinOperatorFunction(outer: AsyncIterable<TOuter>): AsyncIterableX<TResult> {
     return new GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult>(
