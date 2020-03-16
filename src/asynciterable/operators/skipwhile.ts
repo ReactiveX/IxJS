@@ -4,7 +4,11 @@ import { wrapWithAbort } from './withabort';
 
 export class SkipWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _predicate: (value: TSource, index: number, signal?: AbortSignal) => boolean | Promise<boolean>;
+  private _predicate: (
+    value: TSource,
+    index: number,
+    signal?: AbortSignal
+  ) => boolean | Promise<boolean>;
 
   constructor(
     source: AsyncIterable<TSource>,

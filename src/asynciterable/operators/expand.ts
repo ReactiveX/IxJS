@@ -4,11 +4,17 @@ import { wrapWithAbort } from './withabort';
 
 export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _selector: (value: TSource, signal?: AbortSignal) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
+  private _selector: (
+    value: TSource,
+    signal?: AbortSignal
+  ) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
 
   constructor(
     source: AsyncIterable<TSource>,
-    selector: (value: TSource, signal?: AbortSignal) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+    selector: (
+      value: TSource,
+      signal?: AbortSignal
+    ) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
   ) {
     super();
     this._source = source;
@@ -29,7 +35,10 @@ export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 export function expand<TSource>(
-  selector: (value: TSource, signal?: AbortSignal) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+  selector: (
+    value: TSource,
+    signal?: AbortSignal
+  ) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function expandOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
     return new ExpandAsyncIterable<TSource>(source, selector);

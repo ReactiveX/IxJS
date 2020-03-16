@@ -58,7 +58,9 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
         if (noValue) {
           run();
         }
-      }, signal)
+      },
+      signal
+    )
       .then(() => (done = true))
       .catch(err => {
         hasError = true;

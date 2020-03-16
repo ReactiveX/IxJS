@@ -22,7 +22,11 @@ export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends Async
     inner: AsyncIterable<TInner>,
     outerSelector: (value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>,
     innerSelector: (value: TInner, signal?: AbortSignal) => TKey | Promise<TKey>,
-    resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>, signal?: AbortSignal) => TResult | Promise<TResult>
+    resultSelector: (
+      outer: TOuter,
+      inner: AsyncIterable<TInner>,
+      signal?: AbortSignal
+    ) => TResult | Promise<TResult>
   ) {
     super();
     this._outer = outer;
@@ -48,7 +52,11 @@ export function groupJoin<TOuter, TInner, TKey, TResult>(
   inner: AsyncIterable<TInner>,
   outerSelector: (value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>,
   innerSelector: (value: TInner, signal?: AbortSignal) => TKey | Promise<TKey>,
-  resultSelector: (outer: TOuter, inner: AsyncIterable<TInner>, signal?: AbortSignal) => TResult | Promise<TResult>
+  resultSelector: (
+    outer: TOuter,
+    inner: AsyncIterable<TInner>,
+    signal?: AbortSignal
+  ) => TResult | Promise<TResult>
 ): OperatorAsyncFunction<TOuter, TResult> {
   return function groupJoinOperatorFunction(outer: AsyncIterable<TOuter>): AsyncIterableX<TResult> {
     return new GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult>(

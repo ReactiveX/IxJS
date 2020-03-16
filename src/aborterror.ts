@@ -6,7 +6,9 @@ export class AbortError extends Error {
     this.name = 'AbortError';
   }
 
-  get [Symbol.toStringTag]() { return 'AbortError'; }
+  get [Symbol.toStringTag]() {
+    return 'AbortError';
+  }
 }
 
 export function throwIfAborted(signal?: AbortSignal) {

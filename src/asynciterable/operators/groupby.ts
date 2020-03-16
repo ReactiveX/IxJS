@@ -24,13 +24,21 @@ export class GroupByAsyncIterable<TSource, TKey, TValue, TResult> extends AsyncI
   private _source: AsyncIterable<TSource>;
   private _keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>;
   private _elementSelector: (value: TSource, signal?: AbortSignal) => TValue | Promise<TValue>;
-  private _resultSelector: (key: TKey, values: Iterable<TValue>, signal?: AbortSignal) => TResult | Promise<TResult>;
+  private _resultSelector: (
+    key: TKey,
+    values: Iterable<TValue>,
+    signal?: AbortSignal
+  ) => TResult | Promise<TResult>;
 
   constructor(
     source: AsyncIterable<TSource>,
     keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
     elementSelector: (value: TSource, signal?: AbortSignal) => TValue | Promise<TValue>,
-    resultSelector: (key: TKey, values: Iterable<TValue>, signal?: AbortSignal) => TResult | Promise<TResult>
+    resultSelector: (
+      key: TKey,
+      values: Iterable<TValue>,
+      signal?: AbortSignal
+    ) => TResult | Promise<TResult>
   ) {
     super();
     this._source = source;
@@ -40,7 +48,12 @@ export class GroupByAsyncIterable<TSource, TKey, TValue, TResult> extends AsyncI
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
-    const map = await createGrouping(this._source, this._keySelector, this._elementSelector, signal);
+    const map = await createGrouping(
+      this._source,
+      this._keySelector,
+      this._elementSelector,
+      signal
+    );
     for (const [key, values] of map) {
       yield await this._resultSelector(key, values, signal);
     }
