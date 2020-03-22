@@ -1,23 +1,27 @@
+import { AbortSignal } from '../abortsignal';
 import { AsyncIterableX } from './asynciterablex';
+import { wrapWithAbort } from './operators/withabort';
 
 class DeferAsyncIterable<TSource> extends AsyncIterableX<TSource> {
-  private _fn: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
+  private _fn: (signal?: AbortSignal) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>;
 
-  constructor(fn: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>) {
+  constructor(
+    fn: (signal?: AbortSignal) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+  ) {
     super();
     this._fn = fn;
   }
 
-  async *[Symbol.asyncIterator]() {
-    const items = await this._fn();
-    for await (const item of items) {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    const items = await this._fn(signal);
+    for await (const item of wrapWithAbort(items, signal)) {
       yield item;
     }
   }
 }
 
 export function defer<TSource>(
-  factory: () => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
+  factory: (signal?: AbortSignal) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
 ): AsyncIterableX<TSource> {
   return new DeferAsyncIterable<TSource>(factory);
 }

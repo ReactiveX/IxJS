@@ -1,3 +1,5 @@
+import { AbortSignal } from './abortsignal';
+
 export class AbortError extends Error {
   constructor(message: string = 'The operation has been aborted') {
     super(message);
@@ -12,7 +14,7 @@ export class AbortError extends Error {
 }
 
 export function throwIfAborted(signal?: AbortSignal) {
-  if (signal?.aborted) {
+  if (signal && signal.aborted) {
     throw new AbortError();
   }
 }

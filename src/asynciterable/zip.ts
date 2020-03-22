@@ -1,14 +1,16 @@
+import { AbortSignal } from '../abortsignal';
+import { wrapWithAbort } from './operators/withabort';
 import { AsyncIterableX } from './asynciterablex';
 import { identityAsync } from '../util/identity';
 import { returnAsyncIterator } from '../util/returniterator';
 
 export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _sources: AsyncIterable<TSource>[];
-  private _fn: (values: any[]) => TResult | Promise<TResult>;
+  private _fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>;
 
   constructor(
     sources: AsyncIterable<TSource>[],
-    fn: (values: any[]) => TResult | Promise<TResult>
+    fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>
   ) {
     super();
     this._sources = sources;
@@ -16,10 +18,10 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
   }
 
   // eslint-disable-next-line consistent-return
-  async *[Symbol.asyncIterator](): AsyncIterableIterator<TResult> {
+  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterableIterator<TResult> {
     const fn = this._fn;
     const sourcesLength = this._sources.length;
-    const its = this._sources.map(x => x[Symbol.asyncIterator]());
+    const its = this._sources.map(x => wrapWithAbort(x, signal)[Symbol.asyncIterator]());
     while (sourcesLength > 0) {
       const values = new Array(sourcesLength);
       for (let i = -1; ++i < sourcesLength; ) {
@@ -30,7 +32,7 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
         }
         values[i] = result.value;
       }
-      yield await fn(values);
+      yield await fn(values, signal);
     }
   }
 }
@@ -66,27 +68,30 @@ export function zip<T, T2, T3, T4, T5, T6>(
   source6: AsyncIterable<T6>
 ): AsyncIterableX<[T, T2, T3, T4, T5, T6]>;
 
-export function zip<T, R>(project: (values: [T]) => R, source: AsyncIterable<T>): AsyncIterableX<R>;
+export function zip<T, R>(
+  project: (values: [T], signal?: AbortSignal) => R,
+  source: AsyncIterable<T>
+): AsyncIterableX<R>;
 export function zip<T, T2, R>(
-  project: (values: [T, T2]) => R,
+  project: (values: [T, T2], signal?: AbortSignal) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>
 ): AsyncIterableX<R>;
 export function zip<T, T2, T3, R>(
-  project: (values: [T, T2, T3]) => R,
+  project: (values: [T, T2, T3], signal?: AbortSignal) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>
 ): AsyncIterableX<R>;
 export function zip<T, T2, T3, T4, R>(
-  project: (values: [T, T2, T3, T4]) => R,
+  project: (values: [T, T2, T3, T4], signal?: AbortSignal) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>
 ): AsyncIterableX<R>;
 export function zip<T, T2, T3, T4, T5, R>(
-  project: (values: [T, T2, T3, T4, T5]) => R,
+  project: (values: [T, T2, T3, T4, T5], signal?: AbortSignal) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
@@ -94,7 +99,7 @@ export function zip<T, T2, T3, T4, T5, R>(
   source5: AsyncIterable<T5>
 ): AsyncIterableX<R>;
 export function zip<T, T2, T3, T4, T5, T6, R>(
-  project: (values: [T, T2, T3, T4, T5, T6]) => R,
+  project: (values: [T, T2, T3, T4, T5, T6], signal?: AbortSignal) => R,
   source: AsyncIterable<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,

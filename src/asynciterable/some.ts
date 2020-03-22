@@ -1,3 +1,4 @@
+import { AbortSignal } from '../abortsignal';
 import { wrapWithAbort } from './operators/withabort';
 
 export async function some<T, S extends T>(

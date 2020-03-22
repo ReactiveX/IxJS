@@ -1,3 +1,4 @@
+import { AbortSignal } from '../abortsignal';
 import { wrapWithAbort } from './operators/withabort';
 
 export async function every<T, S extends T>(

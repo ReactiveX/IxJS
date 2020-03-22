@@ -25,7 +25,6 @@ export * from './max';
 export * from './min';
 export * from './of';
 export * from './onerrorresumenext';
-export * from './partition';
 export * from './pipe';
 export * from './range';
 export * from './reduceright';

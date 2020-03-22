@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { AbortSignal } from '../../abortsignal';
 import { wrapWithAbort } from './withabort';
 
 export class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {

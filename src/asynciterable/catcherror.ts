@@ -1,5 +1,7 @@
+import { AbortSignal } from '../abortsignal';
 import { AsyncIterableX } from './asynciterablex';
 import { returnAsyncIterator } from '../util/returniterator';
+import { wrapWithAbort } from './operators/withabort';
 
 export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<AsyncIterable<TSource>>;
@@ -9,12 +11,12 @@ export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._source = source;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let error = null;
     let hasError = false;
 
     for (const source of this._source) {
-      const it = source[Symbol.asyncIterator]();
+      const it = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
 
       error = null;
       hasError = false;

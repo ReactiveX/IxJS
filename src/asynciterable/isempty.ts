@@ -1,3 +1,4 @@
+import { AbortSignal } from '../abortsignal';
 import { wrapWithAbort } from './operators/withabort';
 
 export async function isEmpty<T>(source: AsyncIterable<T>, signal?: AbortSignal): Promise<boolean> {

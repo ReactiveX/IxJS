@@ -1,3 +1,4 @@
+import { AbortSignal } from '../abortsignal';
 import { as as asAsyncIterable } from './as';
 import { _initialize as _initializeFrom } from './from';
 import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';

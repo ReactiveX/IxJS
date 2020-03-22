@@ -6,7 +6,7 @@
   },
   "compilerOptions": {
     "target": "ESNEXT",
-    "module": "commonjs",
+    "module": "CommonJS",
     "baseUrl": "./",
     "paths": {
       "ix": ["src/Ix.node"],

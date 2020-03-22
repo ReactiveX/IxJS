@@ -1,3 +1,4 @@
+import { AbortSignal } from '../abortsignal';
 import { identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
 

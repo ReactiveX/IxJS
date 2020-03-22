@@ -1,4 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
+import { AbortSignal } from '../abortsignal';
+import { wrapWithAbort } from './operators/withabort';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
@@ -17,13 +19,13 @@ export class MergeAsyncIterable<T> extends AsyncIterableX<T> {
     this._source = source;
   }
 
-  async *[Symbol.asyncIterator](): AsyncIterator<T> {
+  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<T> {
     const length = this._source.length;
     const iterators = new Array<AsyncIterator<T>>(length);
     const nexts = new Array<Promise<MergeResult<IteratorResult<T>>>>(length);
     let active = length;
     for (let i = 0; i < length; i++) {
-      const iterator = this._source[i][Symbol.asyncIterator]();
+      const iterator = wrapWithAbort(this._source[i], signal)[Symbol.asyncIterator]();
       iterators[i] = iterator;
       nexts[i] = wrapPromiseWithIndex(iterator.next(), i);
     }
