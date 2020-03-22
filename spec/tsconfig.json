@@ -5,8 +5,8 @@
     "../spec/**/*.ts"
   ],
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
+    "target": "ESNEXT",
+    "module": "CommonJS",
     "allowJs": true,
     "declaration": false,
     "importHelpers": false,

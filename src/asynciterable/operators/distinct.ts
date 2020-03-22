@@ -1,3 +1,4 @@
+import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from './../asynciterablex';
 import { identityAsync } from '../../util/identity';
 import { arrayIndexOfAsync } from '../../util/arrayindexof';

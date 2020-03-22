@@ -1,3 +1,4 @@
+import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { returnAsyncIterator } from '../../util/returniterator';

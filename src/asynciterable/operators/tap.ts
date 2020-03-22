@@ -1,3 +1,4 @@
+import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { PartialAsyncObserver } from '../../observer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';

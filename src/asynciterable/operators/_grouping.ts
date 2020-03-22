@@ -1,3 +1,4 @@
+import { AbortSignal } from '../../abortsignal';
 import { wrapWithAbort } from './withabort';
 
 /**

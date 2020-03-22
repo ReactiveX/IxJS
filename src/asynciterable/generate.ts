@@ -1,16 +1,17 @@
 import { AsyncIterableX } from './asynciterablex';
+import { AbortSignal } from '../abortsignal';
 
 class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
   private _initialState: TState;
-  private _condition: (value: TState) => boolean | Promise<boolean>;
-  private _iterate: (value: TState) => TState | Promise<TState>;
-  private _resultSelector: (value: TState) => TResult | Promise<TResult>;
+  private _condition: (value: TState, signal?: AbortSignal) => boolean | Promise<boolean>;
+  private _iterate: (value: TState, signal?: AbortSignal) => TState | Promise<TState>;
+  private _resultSelector: (value: TState, signal?: AbortSignal) => TResult | Promise<TResult>;
 
   constructor(
     initialState: TState,
-    condition: (value: TState) => boolean | Promise<boolean>,
-    iterate: (value: TState) => TState | Promise<TState>,
-    resultSelector: (value: TState) => TResult | Promise<TResult>
+    condition: (value: TState, signal?: AbortSignal) => boolean | Promise<boolean>,
+    iterate: (value: TState, signal?: AbortSignal) => TState | Promise<TState>,
+    resultSelector: (value: TState, signal?: AbortSignal) => TResult | Promise<TResult>
   ) {
     super();
     this._initialState = initialState;
@@ -19,18 +20,22 @@ class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
     this._resultSelector = resultSelector;
   }
 
-  async *[Symbol.asyncIterator]() {
-    for (let i = this._initialState; await this._condition(i); i = await this._iterate(i)) {
-      yield await this._resultSelector(i);
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    for (
+      let i = this._initialState;
+      await this._condition(i, signal);
+      i = await this._iterate(i, signal)
+    ) {
+      yield await this._resultSelector(i, signal);
     }
   }
 }
 
 export function generate<TState, TResult>(
   initialState: TState,
-  condition: (value: TState) => boolean | Promise<boolean>,
-  iterate: (value: TState) => TState | Promise<TState>,
-  resultSelector: (value: TState) => TResult | Promise<TResult>
+  condition: (value: TState, signal?: AbortSignal) => boolean | Promise<boolean>,
+  iterate: (value: TState, signal?: AbortSignal) => TState | Promise<TState>,
+  resultSelector: (value: TState, signal?: AbortSignal) => TResult | Promise<TResult>
 ): AsyncIterableX<TResult> {
   return new GenerateAsyncIterable<TState, TResult>(
     initialState,

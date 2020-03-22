@@ -1,3 +1,4 @@
+import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
@@ -8,7 +9,7 @@ async function forEach<T>(
   signal?: AbortSignal
 ): Promise<void> {
   for await (const item of wrapWithAbort(source, signal)) {
-    await fn(item);
+    await fn(item, signal);
   }
 }
 

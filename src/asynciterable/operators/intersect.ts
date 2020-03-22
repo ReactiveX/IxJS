@@ -1,3 +1,4 @@
+import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { arrayIndexOfAsync } from '../../util/arrayindexof';
 import { comparerAsync } from '../../util/comparer';
