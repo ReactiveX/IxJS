@@ -1,25 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { scanRight } from '../../asynciterable/operators/scanright';
+import { ScanRightAsyncIterable } from '../../asynciterable/operators/scanright';
+import { ScanOptions } from 'ix/asynciterable/operators/scanoptions';
 
-export function scanRightProto<T, R = T>(
-  this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  seed?: never[]
-): AsyncIterableX<R>;
-export function scanRightProto<T, R = T>(
-  this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  seed?: R
-): AsyncIterableX<R>;
 /**
  * @ignore
  */
 export function scanRightProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  ...seed: R[]
+  options: ScanOptions<T, R>
 ): AsyncIterableX<R> {
-  return scanRight(accumulator, ...seed)(this);
+  return new ScanRightAsyncIterable(this, options);
 }
 
 AsyncIterableX.prototype.scanRight = scanRightProto;

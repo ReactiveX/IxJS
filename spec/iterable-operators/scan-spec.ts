@@ -3,7 +3,7 @@ import { scan } from 'ix/iterable/operators';
 import { of, range } from 'ix/iterable';
 
 test('Iterable#scan no seed', () => {
-  const res = range(0, 5).pipe(scan((n, x, i) => n + x + i));
+  const res = range(0, 5).pipe(scan({ callback: (n, x, i) => n + x + i }));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 2);
@@ -14,7 +14,7 @@ test('Iterable#scan no seed', () => {
 });
 
 test('Iterable#scan with seed', () => {
-  const res = range(0, 5).pipe(scan((n, x, i) => n - x - i, 20));
+  const res = range(0, 5).pipe(scan({ callback: (n, x, i) => n - x - i, seed: 20 }));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 20);
@@ -26,7 +26,7 @@ test('Iterable#scan with seed', () => {
 });
 
 test('AsyncIterable#scan no seed yields the value of single-element sources', () => {
-  const res = of(0).pipe(scan((n, x, i) => n + x + i));
+  const res = of(0).pipe(scan({ callback: (n, x, i) => n + x + i }));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 0);

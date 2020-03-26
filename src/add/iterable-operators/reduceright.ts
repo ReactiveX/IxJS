@@ -1,25 +1,12 @@
 import { IterableX } from '../../iterable/iterablex';
 import { reduceRight } from '../../iterable/reduceright';
+import { ReduceOptions } from '../../iterable/reduceoptions';
 
-export function reduceRightProto<T, R = T>(
-  this: IterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  seed?: never[]
-): R;
-export function reduceRightProto<T, R = T>(
-  this: IterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  seed?: R
-): R;
 /**
  * @ignore
  */
-export function reduceRightProto<T, R = T>(
-  this: IterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  ...seed: R[]
-): R {
-  return reduceRight(this, accumulator, ...seed);
+export function reduceRightProto<T, R = T>(this: IterableX<T>, options: ReduceOptions<T, R>): R {
+  return reduceRight(this, options);
 }
 
 IterableX.prototype.reduceRight = reduceRightProto;

@@ -86,7 +86,7 @@
     "patch-package": "6.2.0",
     "postinstall-postinstall": "2.0.0",
     "pre-git": "3.17.1",
-    "prettier": "1.19.1",
+    "prettier": "2.0.1",
     "rimraf": "3.0.2",
     "rxjs": "6.5.4",
     "shx": "0.3.2",
