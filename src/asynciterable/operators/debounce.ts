@@ -2,6 +2,7 @@ import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { AbortError } from '../../aborterror';
 
 async function forEach<T>(
   source: AsyncIterable<T>,
@@ -31,11 +32,20 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     let done: boolean = false;
     let hasError: boolean = false;
     let error: any;
+    let handle: any;
+
+    if (signal) {
+      signal.onabort = () => {
+        clearTimeout(handle);
+        hasError = true;
+        error = new AbortError();
+      };
+    }
 
     const reset = (hasNoValue: boolean) => {
       noValue = hasNoValue;
       lastItem = undefined;
-      deferred = new Promise<TSource>(r => (resolver = r));
+      deferred = new Promise<TSource>((r) => (resolver = r));
     };
 
     const run = () => {
@@ -47,14 +57,14 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       const item = lastItem;
       const res = resolver;
       reset(false);
-      setTimeout(run, this._time);
+      handle = setTimeout(run, this._time);
       res(item);
     };
 
     reset(true);
     forEach(
       this._source,
-      item => {
+      (item) => {
         lastItem = item;
         if (noValue) {
           run();
@@ -63,7 +73,7 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       signal
     )
       .then(() => (done = true))
-      .catch(err => {
+      .catch((err) => {
         hasError = true;
         error = err;
       });
