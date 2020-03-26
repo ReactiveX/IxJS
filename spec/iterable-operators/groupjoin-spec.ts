@@ -6,7 +6,12 @@ test('Iterable#groupJoin all groups have values', () => {
   const xs = [0, 1, 2];
   const ys = [4, 7, 6, 2, 3, 4, 8, 9];
   const res = from(xs).pipe(
-    groupJoin(ys, x => x % 3, y => y % 3, (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''))
+    groupJoin(
+      ys,
+      (x) => x % 3,
+      (y) => y % 3,
+      (x, i) => x + ' - ' + reduce(i, { callback: (s, j) => s + j, seed: '' })
+    )
   );
 
   const it = res[Symbol.iterator]();
@@ -20,7 +25,12 @@ test('Iterable#groupJoin some groups have values', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
   const res = from(xs).pipe(
-    groupJoin(ys, x => x % 3, y => y % 3, (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''))
+    groupJoin(
+      ys,
+      (x) => x % 3,
+      (y) => y % 3,
+      (x, i) => x + ' - ' + reduce(i, { callback: (s, j) => s + j, seed: '' })
+    )
   );
 
   const it = res[Symbol.iterator]();
@@ -34,7 +44,12 @@ test('Iterable#groupJoin left throws', () => {
   const xs = throwError<number>(new Error());
   const ys = [3, 6, 4];
   const res = from(xs).pipe(
-    groupJoin(ys, x => x % 3, y => y % 3, (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''))
+    groupJoin(
+      ys,
+      (x) => x % 3,
+      (y) => y % 3,
+      (x, i) => x + ' - ' + reduce(i, { callback: (s, j) => s + j, seed: '' })
+    )
   );
 
   const it = res[Symbol.iterator]();
@@ -45,7 +60,12 @@ test('Iterable#groupJoin right throws', () => {
   const xs = [0, 1, 2];
   const ys = throwError<number>(new Error());
   const res = from(xs).pipe(
-    groupJoin(ys, x => x % 3, y => y % 3, (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, ''))
+    groupJoin(
+      ys,
+      (x) => x % 3,
+      (y) => y % 3,
+      (x, i) => x + ' - ' + reduce(i, { callback: (s, j) => s + j, seed: '' })
+    )
   );
 
   const it = res[Symbol.iterator]();
@@ -58,11 +78,11 @@ test('Iterable#groupJoin left selector throws', () => {
   const res = from(xs).pipe(
     groupJoin(
       ys,
-      _ => {
+      (_) => {
         throw new Error();
       },
-      y => y % 3,
-      (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, '')
+      (y) => y % 3,
+      (x, i) => x + ' - ' + reduce(i, { callback: (s, j) => s + j, seed: '' })
     )
   );
 
@@ -76,11 +96,11 @@ test('Iterable#groupJoin right selector throws', () => {
   const res = from(xs).pipe(
     groupJoin(
       ys,
-      x => x % 3,
-      _ => {
+      (x) => x % 3,
+      (_) => {
         throw new Error();
       },
-      (x, i) => x + ' - ' + reduce(i, (s, j) => s + j, '')
+      (x, i) => x + ' - ' + reduce(i, { callback: (s, j) => s + j, seed: '' })
     )
   );
 
@@ -94,13 +114,13 @@ test('Iterable#groupJoin result selector eventually throws', () => {
   const res = from(xs).pipe(
     groupJoin(
       ys,
-      x => x % 3,
-      y => y % 3,
+      (x) => x % 3,
+      (y) => y % 3,
       (x, i) => {
         if (x === 1) {
           throw new Error();
         }
-        return x + ' - ' + reduce(i, (s, j) => s + j, '');
+        return x + ' - ' + reduce(i, { callback: (s, j) => s + j, seed: '' });
       }
     )
   );

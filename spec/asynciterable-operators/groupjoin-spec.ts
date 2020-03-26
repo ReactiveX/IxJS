@@ -8,9 +8,9 @@ test('AsyncIterable#groupJoin all groups have values', async () => {
   const res = xs.pipe(
     groupJoin(
       ys,
-      async x => x % 3,
-      async y => y % 3,
-      async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, i) => x + ' - ' + (await reduce(i, { callback: async (s, j) => s + j, seed: '' }))
     )
   );
 
@@ -27,9 +27,9 @@ test('AsyncIterable#groupJoin some groups have values', async () => {
   const res = xs.pipe(
     groupJoin(
       ys,
-      async x => x % 3,
-      async y => y % 3,
-      async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, i) => x + ' - ' + (await reduce(i, { callback: async (s, j) => s + j, seed: '' }))
     )
   );
 
@@ -47,9 +47,9 @@ test('AsyncIterable#groupJoin left throws', async () => {
   const res = xs.pipe(
     groupJoin(
       ys,
-      async x => x % 3,
-      async y => y % 3,
-      async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, i) => x + ' - ' + (await reduce(i, { callback: async (s, j) => s + j, seed: '' }))
     )
   );
 
@@ -68,9 +68,9 @@ test('AsyncIterable#groupJoin right throws', async () => {
   const res = xs.pipe(
     groupJoin(
       ys,
-      async x => x % 3,
-      async y => y % 3,
-      async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, i) => x + ' - ' + (await reduce(i, { callback: async (s, j) => s + j, seed: '' }))
     )
   );
 
@@ -89,11 +89,11 @@ test('AsyncIterable#groupJoin left selector throws', async () => {
   const res = xs.pipe(
     groupJoin(
       ys,
-      async _ => {
+      async (_) => {
         throw err;
       },
-      async y => y % 3,
-      async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+      async (y) => y % 3,
+      async (x, i) => x + ' - ' + (await reduce(i, { callback: async (s, j) => s + j, seed: '' }))
     )
   );
 
@@ -112,11 +112,11 @@ test('AsyncIterable#groupJoin right selector throws', async () => {
   const res = xs.pipe(
     groupJoin(
       ys,
-      async x => x % 3,
-      async _ => {
+      async (x) => x % 3,
+      async (_) => {
         throw err;
       },
-      async (x, i) => x + ' - ' + (await reduce(i, async (s, j) => s + j, ''))
+      async (x, i) => x + ' - ' + (await reduce(i, { callback: async (s, j) => s + j, seed: '' }))
     )
   );
 
@@ -135,13 +135,13 @@ test('AsyncIterable#groupJoin result selector eventually throws', async () => {
   const res = xs.pipe(
     groupJoin(
       ys,
-      async x => x % 3,
-      async y => y % 3,
+      async (x) => x % 3,
+      async (y) => y % 3,
       async (x, i) => {
         if (x === 1) {
           throw err;
         }
-        return x + ' - ' + (await reduce(i, async (s, j) => s + j, ''));
+        return x + ' - ' + (await reduce(i, { callback: async (s, j) => s + j, seed: '' }));
       }
     )
   );

@@ -3,7 +3,7 @@ import { scanRight } from 'ix/asynciterable/operators';
 import { range } from 'ix/asynciterable';
 
 test('AsyncIterable#scanRight no seed', async () => {
-  const res = range(0, 5).pipe(scanRight(async (n, x, i) => n + x + i));
+  const res = range(0, 5).pipe(scanRight({ callback: async (n, x, i) => n + x + i }));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 10);
@@ -14,7 +14,7 @@ test('AsyncIterable#scanRight no seed', async () => {
 });
 
 test('AsyncIterable#scanRight with seed', async () => {
-  const res = range(0, 5).pipe(scanRight(async (n, x, i) => n - x - i, 20));
+  const res = range(0, 5).pipe(scanRight({ callback: async (n, x, i) => n - x - i, seed: 20 }));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 12);

@@ -1,25 +1,12 @@
 import { IterableX } from '../../iterable/iterablex';
 import { reduce } from '../../iterable/reduce';
+import { ReduceOptions } from '../../iterable/reduceoptions';
 
-export function reduceProto<T, R = T>(
-  this: IterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  seed?: never[]
-): R;
-export function reduceProto<T, R = T>(
-  this: IterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  seed?: R
-): R;
 /**
  * @ignore
  */
-export function reduceProto<T, R = T>(
-  this: IterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  ...seed: R[]
-): R {
-  return reduce(this, accumulator, ...seed);
+export function reduceProto<T, R = T>(this: IterableX<T>, options: ReduceOptions<T, R>): R {
+  return reduce(this, options);
 }
 
 IterableX.prototype.reduce = reduceProto;

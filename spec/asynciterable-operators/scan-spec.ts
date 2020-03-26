@@ -3,7 +3,7 @@ import { scan } from 'ix/asynciterable/operators';
 import { of, range } from 'ix/asynciterable';
 
 test('AsyncIterable#scan no seed', async () => {
-  const res = range(0, 5).pipe(scan(async (n, x, i) => n + x + i));
+  const res = range(0, 5).pipe(scan({ callback: async (n, x, i) => n + x + i }));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 2);
@@ -14,7 +14,7 @@ test('AsyncIterable#scan no seed', async () => {
 });
 
 test('AsyncIterable#scan with seed', async () => {
-  const res = range(0, 5).pipe(scan(async (n, x, i) => n - x - i, 20));
+  const res = range(0, 5).pipe(scan({ callback: async (n, x, i) => n - x - i, seed: 20 }));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 20);
@@ -26,7 +26,7 @@ test('AsyncIterable#scan with seed', async () => {
 });
 
 test('AsyncIterable#scan no seed yields the value of single-element sources', async () => {
-  const res = of(0).pipe(scan(async (n, x, i) => n + x + i));
+  const res = of(0).pipe(scan({ callback: async (n, x, i) => n + x + i }));
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0);

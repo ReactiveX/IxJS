@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { pairwise } from '../../iterable/operators/pairwise';
+import { PairwiseIterable } from '../../iterable/operators/pairwise';
 
 /**
  * @ignore
  */
 export function pairwiseProto<T>(this: IterableX<T>): IterableX<T[]> {
-  return pairwise<T>()(this);
+  return new PairwiseIterable<T>(this);
 }
 
 IterableX.prototype.pairwise = pairwiseProto;

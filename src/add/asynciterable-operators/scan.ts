@@ -1,25 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { scan } from '../../asynciterable/operators/scan';
+import { ScanAsyncIterable } from '../../asynciterable/operators/scan';
+import { ScanOptions } from '../../asynciterable/operators/scanoptions';
 
-export function scanProto<T, R = T>(
-  this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
-  seed?: never[]
-): AsyncIterableX<R>;
-export function scanProto<T, R = T>(
-  this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
-  seed?: R
-): AsyncIterableX<R>;
 /**
  * @ignore
  */
 export function scanProto<T, R = T>(
   this: AsyncIterableX<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R | Promise<R>,
-  ...seed: R[]
+  options: ScanOptions<T, R>
 ): AsyncIterableX<R> {
-  return scan(accumulator, ...seed)(this);
+  return new ScanAsyncIterable(this, options);
 }
 
 AsyncIterableX.prototype.scan = scanProto;

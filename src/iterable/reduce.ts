@@ -1,25 +1,14 @@
-export function reduce<T, R = T>(
-  source: Iterable<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  seed?: never[]
-): R;
-export function reduce<T, R = T>(
-  source: Iterable<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  seed?: R
-): R;
-export function reduce<T, R = T>(
-  source: Iterable<T>,
-  accumulator: (previousValue: R, currentValue: T, currentIndex: number) => R,
-  ...seed: R[]
-): R {
-  const hasSeed = seed.length === 1;
+import { ReduceOptions } from './reduceoptions';
+
+export function reduce<T, R = T>(source: Iterable<T>, options: ReduceOptions<T, R>): R {
+  const { ['seed']: seed, ['callback']: callback } = options;
+  const hasSeed = options.hasOwnProperty('seed');
   let i = 0;
   let hasValue = false;
-  let acc = seed[0] as T | R;
+  let acc = seed as T | R;
   for (const item of source) {
     if (hasValue || (hasValue = hasSeed)) {
-      acc = accumulator(<R>acc, item, i++);
+      acc = callback(<R>acc, item, i++);
     } else {
       acc = item;
       hasValue = true;

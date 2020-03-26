@@ -3,7 +3,7 @@ import { scanRight } from 'ix/iterable/operators';
 import { range } from 'ix/iterable';
 
 test('Iterable#scanRight no seed', () => {
-  const res = range(0, 5).pipe(scanRight((n, x, i) => n + x + i));
+  const res = range(0, 5).pipe(scanRight({ callback: (n, x, i) => n + x + i }));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 10);
@@ -14,7 +14,7 @@ test('Iterable#scanRight no seed', () => {
 });
 
 test('Iterable#scanRight with seed', () => {
-  const res = range(0, 5).pipe(scanRight((n, x, i) => n - x - i, 20));
+  const res = range(0, 5).pipe(scanRight({ callback: (n, x, i) => n - x - i, seed: 20 }));
 
   const it = res[Symbol.iterator]();
   hasNext(it, 12);
