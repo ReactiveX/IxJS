@@ -1,5 +1,4 @@
 import { AsyncIterableX } from './asynciterablex';
-import { AbortSignal } from '../abortsignal';
 
 class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
   private _initialState: TState;

@@ -1,4 +1,3 @@
-import { AbortSignal } from '../abortsignal';
 import { AsyncIterableX } from './asynciterablex';
 import { returnAsyncIterator } from '../util/returniterator';
 import { wrapWithAbort } from './operators/withabort';

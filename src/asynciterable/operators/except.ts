@@ -2,7 +2,6 @@ import { AsyncIterableX } from '../asynciterablex';
 import { arrayIndexOfAsync } from '../../util/arrayindexof';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AbortSignal } from '../../abortsignal';
 import { wrapWithAbort } from './withabort';
 
 export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {

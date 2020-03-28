@@ -1,5 +1,4 @@
 import { AsyncIterableX } from '../asynciterablex';
-import { AbortSignal } from '../../abortsignal';
 import { isAsyncIterable } from '../../util/isiterable';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';

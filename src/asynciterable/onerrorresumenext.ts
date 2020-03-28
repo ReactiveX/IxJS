@@ -1,5 +1,4 @@
 import { AsyncIterableX } from './asynciterablex';
-import { AbortSignal } from '../abortsignal';
 import { wrapWithAbort } from './operators/withabort';
 
 export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSource> {

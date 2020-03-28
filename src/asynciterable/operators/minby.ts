@@ -1,4 +1,3 @@
-import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { extremaBy, defaultCompareAsync } from './_extremaby';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
