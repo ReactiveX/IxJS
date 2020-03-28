@@ -16,10 +16,14 @@ export function sleep(dueTime: number, signal?: AbortSignal) {
     }, dueTime);
 
     if (signal) {
-      signal.onabort = () => {
-        clearTimeout(id);
-        reject(new AbortError());
-      };
+      signal.addEventListener(
+        'abort',
+        () => {
+          clearTimeout(id);
+          reject(new AbortError());
+        },
+        { once: true }
+      );
     }
   });
 }
