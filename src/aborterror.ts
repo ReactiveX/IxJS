@@ -1,5 +1,3 @@
-import { AbortSignal } from './abortsignal';
-
 export class AbortError extends Error {
   constructor(message: string = 'The operation has been aborted') {
     super(message);

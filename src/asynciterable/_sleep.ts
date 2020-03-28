@@ -1,4 +1,3 @@
-import { AbortSignal } from '../abortsignal';
 import { AbortError } from '../aborterror';
 
 export function sleep(dueTime: number, signal?: AbortSignal) {

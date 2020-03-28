@@ -50,7 +50,6 @@ test(
     };
     const ys = as(xs()).pipe(debounce(300));
     const controller = new AbortController();
-    // @ts-ignore
     const it = ys[Symbol.asyncIterator](controller.signal);
     try {
       await hasNext(it, 1);

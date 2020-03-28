@@ -1,4 +1,3 @@
-import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
@@ -42,7 +41,7 @@ class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 
     function consumeNext() {
       it.next().then(
-        res => {
+        (res) => {
           if (res.done) {
             ended = Promise.resolve({ done: true } as IteratorResult<TSource[]>);
 
@@ -63,7 +62,7 @@ class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
             consumeNext();
           }
         },
-        err => {
+        (err) => {
           ended = Promise.reject(err);
 
           if (state.type === WAITING_TYPE) {
@@ -95,7 +94,7 @@ class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
         return new Promise<IteratorResult<TSource[]>>((resolve, reject) => {
           state = {
             type: WAITING_TYPE,
-            resolver: { resolve, reject }
+            resolver: { resolve, reject },
           };
         });
       },
@@ -104,7 +103,7 @@ class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
         return it.return
           ? it.return(value).then(() => ({ done: true } as IteratorResult<TSource[]>))
           : Promise.resolve({ done: true } as IteratorResult<TSource[]>);
-      }
+      },
     };
   }
 }

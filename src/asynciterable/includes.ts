@@ -1,4 +1,3 @@
-import { AbortSignal } from '../abortsignal';
 import { comparer } from '../util/comparer';
 import { wrapWithAbort } from './operators/withabort';
 

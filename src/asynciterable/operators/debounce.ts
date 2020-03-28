@@ -1,4 +1,3 @@
-import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { AbortError } from '../../aborterror';

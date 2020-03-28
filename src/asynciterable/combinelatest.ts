@@ -1,4 +1,3 @@
-import { AbortSignal } from '../abortsignal';
 import { AsyncIterableX } from './asynciterablex';
 import { identity, identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
@@ -9,7 +8,7 @@ const NEVER_PROMISE = new Promise(() => {});
 type MergeResult<T> = { value: T; index: number };
 
 function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
-  return promise.then(value => ({ value, index })) as Promise<MergeResult<T>>;
+  return promise.then((value) => ({ value, index })) as Promise<MergeResult<T>>;
 }
 
 export class CombineLatestAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {

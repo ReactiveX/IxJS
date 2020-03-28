@@ -1,4 +1,3 @@
-import { AbortSignal } from '../abortsignal';
 import { wrapWithAbort } from './operators/withabort';
 import { AsyncIterableX } from './asynciterablex';
 import { identityAsync } from '../util/identity';
@@ -21,7 +20,7 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
   async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterableIterator<TResult> {
     const fn = this._fn;
     const sourcesLength = this._sources.length;
-    const its = this._sources.map(x => wrapWithAbort(x, signal)[Symbol.asyncIterator]());
+    const its = this._sources.map((x) => wrapWithAbort(x, signal)[Symbol.asyncIterator]());
     while (sourcesLength > 0) {
       const values = new Array(sourcesLength);
       for (let i = -1; ++i < sourcesLength; ) {

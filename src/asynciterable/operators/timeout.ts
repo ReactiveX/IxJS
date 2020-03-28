@@ -1,4 +1,3 @@
-import { AbortSignal } from '../../abortsignal';
 import { AsyncIterableX } from '../asynciterablex';
 import { sleep } from '../_sleep';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
@@ -39,12 +38,12 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
     while (1) {
       const { type, value } = await Promise.race<TimeoutOperation<TSource>>([
-        it.next().then(val => {
+        it.next().then((val) => {
           return { type: VALUE_TYPE, val };
         }),
         sleep(this._dueTime, signal).then(() => {
           return { type: ERROR_TYPE };
-        })
+        }),
       ]);
 
       if (type === ERROR_TYPE) {
