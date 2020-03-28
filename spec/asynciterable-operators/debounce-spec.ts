@@ -1,7 +1,7 @@
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 import { debounce } from 'ix/asynciterable/operators';
 import { as } from 'ix/asynciterable';
-import { AbortError } from 'ix/aborterror';
+import { AbortError } from 'ix/Ix';
 
 test(
   'AsyncIterable#debounce none drop',

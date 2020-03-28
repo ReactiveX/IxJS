@@ -1,3 +1,5 @@
+import { isObject } from './util/isiterable';
+
 export class AbortError extends Error {
   constructor(message: string = 'The operation has been aborted') {
     super(message);
@@ -16,3 +18,13 @@ export function throwIfAborted(signal?: AbortSignal) {
     throw new AbortError();
   }
 }
+
+Object.defineProperty(AbortError, Symbol.hasInstance, {
+  writable: true,
+  configurable: true,
+  value(x: any) {
+    return (
+      isObject(x) && (x.constructor.name === 'AbortError' || x[Symbol.toStringTag] === 'AbortError')
+    );
+  },
+});

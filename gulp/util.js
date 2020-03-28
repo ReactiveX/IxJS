@@ -106,7 +106,9 @@ const ESKeywords = [
     // Observable/Subscription/Scheduler
     `next`, `error`, `complete`, `subscribe`, `unsubscribe`, `isUnsubscribed`,
     // EventTarget
-    `addListener`, `removeListener`, `addEventListener`, `removeEventListener`
+    `addListener`, `removeListener`, `addEventListener`, `removeEventListener`,
+    // AbortController
+    `AbortController`, `AbortSignal`, `AbortError`
 ];
 
 function taskName(target, format) {
