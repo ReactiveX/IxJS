@@ -1,4 +1,5 @@
 import 'web-streams-polyfill';
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 
 // import this before assigning window global since it does a `typeof window` check
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -12,7 +13,7 @@ Object.defineProperty(ArrayBuffer, Symbol.hasInstance, {
   configurable: true,
   value(inst: any) {
     return inst && inst.constructor && inst.constructor.name === 'ArrayBuffer';
-  }
+  },
 });
 
 // Require rxjs first so we pick up its polyfilled Symbol.observable

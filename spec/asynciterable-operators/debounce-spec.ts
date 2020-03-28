@@ -1,11 +1,12 @@
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 import { debounce } from 'ix/asynciterable/operators';
 import { as } from 'ix/asynciterable';
+import { AbortError } from 'ix/aborterror';
 
-test.skip(
+test(
   'AsyncIterable#debounce none drop',
   async () => {
-    const xs = async function*() {
+    const xs = async function* () {
       yield await delayValue(1, 100);
       yield await delayValue(2, 100);
       yield await delayValue(3, 100);
@@ -21,19 +22,43 @@ test.skip(
   10 * 1000
 );
 
-test.skip(
+test(
   'AsyncIterable#debounce some drop',
   async () => {
-    const xs = async function*() {
+    const xs = async function* () {
       yield await delayValue(1, 200);
-      yield await delayValue(2, 200);
+      yield await delayValue(2, 400);
       yield await delayValue(3, 200);
     };
-    const ys = as(xs()).pipe(debounce(500));
+    const ys = as(xs()).pipe(debounce(300));
 
     const it = ys[Symbol.asyncIterator]();
     await hasNext(it, 1);
     await hasNext(it, 3);
+    await noNext(it);
+  },
+  10 * 1000
+);
+
+test(
+  'AsyncIterable#debounce cancels on abort',
+  async () => {
+    const xs = async function* () {
+      yield await delayValue(1, 200);
+      yield await delayValue(2, 400);
+      yield await delayValue(3, 200);
+    };
+    const ys = as(xs()).pipe(debounce(300));
+    const controller = new AbortController();
+    // @ts-ignore
+    const it = ys[Symbol.asyncIterator](controller.signal);
+    try {
+      await hasNext(it, 1);
+      controller.abort();
+      await hasNext(it, 3);
+    } catch (e) {
+      expect(e).toBeInstanceOf(AbortError);
+    }
     await noNext(it);
   },
   10 * 1000

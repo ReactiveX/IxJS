@@ -4,9 +4,9 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 
 export class WithAbortAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
-  private _signal?: AbortSignal;
+  private _signal: AbortSignal;
 
-  constructor(source: AsyncIterable<TSource>, signal?: AbortSignal) {
+  constructor(source: AsyncIterable<TSource>, signal: AbortSignal) {
     super();
     this._source = source;
     this._signal = signal;
