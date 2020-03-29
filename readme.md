@@ -49,7 +49,7 @@ for (let item of results) {
 }
 
 // Next 4
-// Next 8
+// Next 16
 ```
 
 In addition, we also supply a `forEach` so it's your choice for which to use.
@@ -80,7 +80,7 @@ results
     console.log(`Next: ${item}`);
   });
 // Next 4
-// Next 8
+// Next 16
 ```
 
 Instead of bringing in the entire library for `Iterable`, we can pick and choose which operators we want, for bundling concerns and add them directly to the `Iterable` prototype.
@@ -149,7 +149,7 @@ for await (let item of results) {
 }
 
 // Next 4
-// Next 8
+// Next 16
 ```
 
 Alternatively, we can use the built-in `forEach` and `catch` should there be any errors:
@@ -188,7 +188,7 @@ for await (let item of results) {
 }
 
 // Next 4
-// Next 8
+// Next 16
 ```
 
 Instead of bringing in the entire library for `AsyncIterable`, we can pick and choose which operators we want, for bundling concerns directly to the `AsyncIterable` prototype.
@@ -236,7 +236,7 @@ import { from } from 'ix/asynciterable/from';
 import { map } from 'ix/asynciterable/operators';
 
 const xs = [1, 2, 3, 4];
-const results = from(xs).pipe(
+const mapped = from(xs).pipe(
   map(async (item, index) => item * index)
 );
 
