@@ -4,6 +4,7 @@ import { arrayIndexOfAsync } from '../../util/arrayindexof';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -22,6 +23,7 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     const set = [] as TKey[];
 
     for await (const item of wrapWithAbort(this._source, signal)) {

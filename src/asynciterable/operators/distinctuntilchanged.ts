@@ -3,6 +3,7 @@ import { identityAsync } from '../../util/identity';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export class DistinctUntilChangedAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -21,6 +22,7 @@ export class DistinctUntilChangedAsyncIterable<TSource, TKey> extends AsyncItera
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     let currentKey: TKey | undefined;
     let hasCurrentKey = false;
     for await (const item of wrapWithAbort(this._source, signal)) {

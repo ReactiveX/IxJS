@@ -2,10 +2,11 @@ import { AsyncIterableX } from '../asynciterablex';
 import {
   IRefCountList,
   MaxRefCountList,
-  RefCountList
+  RefCountList,
 } from '../../iterable/operators/_refcountlist';
 import { create } from '../create';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { throwIfAborted } from '../../aborterror';
 
 export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
   protected _source: AsyncIterator<T>;
@@ -23,7 +24,8 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
     this._buffer = buffer;
   }
 
-  [Symbol.asyncIterator]() {
+  [Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     return this._getIterable(0);
   }
 
@@ -44,7 +46,7 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
         }
 
         if (this._shared === null) {
-          this._shared = this._source.next().then(r => {
+          this._shared = this._source.next().then((r) => {
             this._shared = null;
             if (!r.done) {
               buffer.push(r.value);
@@ -53,7 +55,7 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
           });
         }
 
-        ({ done } = await this._shared.catch(e => {
+        ({ done } = await this._shared.catch((e) => {
           this._error = e;
           this._stopped = true;
           throw e;

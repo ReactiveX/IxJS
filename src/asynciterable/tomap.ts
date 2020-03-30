@@ -1,5 +1,6 @@
 import { identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 /**
  * Converts the given async-iterable to a Map.
@@ -34,6 +35,7 @@ export async function toMap<TSource, TKey, TElement = TSource>(
   elementSelector: (item: TSource) => TElement | Promise<TElement> = identityAsync,
   signal?: AbortSignal
 ): Promise<Map<TKey, TElement | TSource>> {
+  throwIfAborted(signal);
   const map = new Map<TKey, TElement | TSource>();
   for await (const item of wrapWithAbort(source, signal)) {
     const value = await elementSelector(item);

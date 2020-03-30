@@ -3,6 +3,7 @@ import { arrayIndexOfAsync } from '../../util/arrayindexof';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _left: AsyncIterable<TSource>;
@@ -21,6 +22,7 @@ export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     const map = [] as TSource[];
     for await (const lItem of wrapWithAbort(this._left, signal)) {
       if ((await arrayIndexOfAsync(map, lItem, this._comparer)) === -1) {

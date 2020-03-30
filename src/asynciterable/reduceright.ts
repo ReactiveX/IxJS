@@ -1,5 +1,6 @@
 import { toArray } from './toarray';
 import { ReduceOptions } from './reduceoptions';
+import { throwIfAborted } from '../aborterror';
 
 export async function reduceRight<T, R = T>(
   source: AsyncIterable<T>,
@@ -7,6 +8,7 @@ export async function reduceRight<T, R = T>(
 ): Promise<R> {
   const { ['seed']: seed, ['signal']: signal, ['callback']: callback } = options;
   const hasSeed = options.hasOwnProperty('seed');
+  throwIfAborted(signal);
   const array = await toArray(source, signal);
   let hasValue = false;
   let acc = seed as T | R;

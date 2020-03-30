@@ -1,4 +1,5 @@
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 /**
  * Converts the existing async-iterable into a Set.
@@ -9,6 +10,7 @@ export async function toSet<TSource>(
   source: AsyncIterable<TSource>,
   signal?: AbortSignal
 ): Promise<Set<TSource>> {
+  throwIfAborted(signal);
   const set = new Set<TSource>();
   for await (const item of wrapWithAbort(source, signal)) {
     set.add(item);

@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { isAsyncIterable } from '../../util/isiterable';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -37,6 +38,7 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   [Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     return this._flatten(this._source, this._depth, signal)[Symbol.asyncIterator]();
   }
 }

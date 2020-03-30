@@ -1,4 +1,5 @@
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 export async function findIndex<T>(
   source: AsyncIterable<T>,
@@ -6,6 +7,7 @@ export async function findIndex<T>(
   thisArg?: any,
   signal?: AbortSignal
 ): Promise<number> {
+  throwIfAborted(signal);
   let i = 0;
 
   for await (const item of wrapWithAbort(source, signal)) {

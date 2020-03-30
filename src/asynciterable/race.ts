@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _left: AsyncIterable<TSource>;
@@ -12,6 +13,7 @@ class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     const left = wrapWithAbort(this._left, signal);
     const right = wrapWithAbort(this._right, signal);
     const leftIt = left[Symbol.asyncIterator]();

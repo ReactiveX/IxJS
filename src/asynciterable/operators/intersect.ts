@@ -3,12 +3,15 @@ import { arrayIndexOfAsync } from '../../util/arrayindexof';
 import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 async function arrayRemove<T>(
   array: T[],
   item: T,
-  comparer: (x: T, y: T) => boolean | Promise<boolean>
+  comparer: (x: T, y: T) => boolean | Promise<boolean>,
+  signal?: AbortSignal
 ): Promise<boolean> {
+  throwIfAborted(signal);
   const idx = await arrayIndexOfAsync(array, item, comparer);
   if (idx === -1) {
     return false;
@@ -40,7 +43,7 @@ export class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     }
 
     for await (const firstItem of wrapWithAbort(this._first, signal)) {
-      if (await arrayRemove(map, firstItem, this._comparer)) {
+      if (await arrayRemove(map, firstItem, this._comparer, signal)) {
         yield firstItem;
       }
     }

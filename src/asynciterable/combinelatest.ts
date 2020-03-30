@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { identity, identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
@@ -25,6 +26,8 @@ export class CombineLatestAsyncIterable<TSource, TResult> extends AsyncIterableX
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
+
     const fn = this._fn;
     const length = this._sources.length;
     const iterators = new Array<AsyncIterator<TSource>>(length);

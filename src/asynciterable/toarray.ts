@@ -1,4 +1,5 @@
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 /**
  * Converts an existing async-iterable to an array.
@@ -9,6 +10,7 @@ export async function toArray<TSource>(
   source: AsyncIterable<TSource>,
   signal?: AbortSignal
 ): Promise<TSource[]> {
+  throwIfAborted(signal);
   const results = [] as TSource[];
   for await (const item of wrapWithAbort(source, signal)) {
     results.push(item);

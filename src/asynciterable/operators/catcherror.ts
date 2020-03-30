@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { returnAsyncIterator } from '../../util/returniterator';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSource | TResult> {
   private _source: AsyncIterable<TSource>;
@@ -23,6 +24,7 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     let err: AsyncIterable<TResult> | undefined;
     let hasError = false;
     const source = wrapWithAbort(this._source, signal);

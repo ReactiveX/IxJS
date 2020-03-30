@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 interface AsyncResolver<T> {
   resolve: (value?: T | PromiseLike<T> | undefined) => void;
@@ -34,6 +35,7 @@ class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   }
 
   [Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
 
     let state: State<TSource> = { type: BATCHING_TYPE, values: [] };

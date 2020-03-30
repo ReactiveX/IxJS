@@ -1,5 +1,6 @@
 import { comparer } from '../util/comparer';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 export async function includes<T>(
   source: AsyncIterable<T>,
@@ -7,6 +8,7 @@ export async function includes<T>(
   fromIndex: number = 0,
   signal?: AbortSignal
 ): Promise<boolean> {
+  throwIfAborted(signal);
   let fromIdx = fromIndex;
   let i = 0;
   if (Math.abs(fromIdx)) {

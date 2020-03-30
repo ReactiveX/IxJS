@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { sleep } from './_sleep';
+import { throwIfAborted } from '../aborterror';
 
 class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
   private _initialState: TState;
@@ -24,6 +25,7 @@ class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult>
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     for (
       let i = this._initialState;
       await this._condition(i, signal);

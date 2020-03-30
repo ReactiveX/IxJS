@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { toArray } from '../toarray';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { ScanOptions } from './scanoptions';
+import { throwIfAborted } from '../../aborterror';
 
 export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
   private _source: AsyncIterable<T>;
@@ -18,6 +19,7 @@ export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     let hasValue = false;
     let acc = this._seed;
     const source = await toArray(this._source, signal);

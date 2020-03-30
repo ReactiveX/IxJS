@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { toArray } from '../toarray';
 import { sorter as defaultSorter } from '../../util/sorter';
 import { UnaryFunction } from '../../interfaces';
+import { throwIfAborted } from '../../aborterror';
 
 export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<TSource> {
   _source: AsyncIterable<TSource>;
@@ -12,6 +13,7 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     const array = await toArray(this._source, signal);
     const len = array.length;
     const indices = new Array<number>(len);

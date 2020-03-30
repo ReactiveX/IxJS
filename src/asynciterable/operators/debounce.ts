@@ -1,6 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AbortError } from '../../aborterror';
+import { AbortError, throwIfAborted } from '../../aborterror';
 
 export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -13,6 +13,7 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     let done = false;
     let reject: (reason?: any) => void = () => {
       /**/

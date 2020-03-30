@@ -2,6 +2,7 @@ import { wrapWithAbort } from './operators/withabort';
 import { AsyncIterableX } from './asynciterablex';
 import { identityAsync } from '../util/identity';
 import { returnAsyncIterator } from '../util/returniterator';
+import { throwIfAborted } from '../aborterror';
 
 export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _sources: AsyncIterable<TSource>[];
@@ -18,6 +19,7 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
 
   // eslint-disable-next-line consistent-return
   async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterableIterator<TResult> {
+    throwIfAborted(signal);
     const fn = this._fn;
     const sourcesLength = this._sources.length;
     const its = this._sources.map((x) => wrapWithAbort(x, signal)[Symbol.asyncIterator]());

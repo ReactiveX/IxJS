@@ -1,5 +1,6 @@
 import { identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 export async function max(
   source: AsyncIterable<number>,
@@ -16,6 +17,7 @@ export async function max(
   selector: (x: any, signal?: AbortSignal) => number | Promise<number> = identityAsync,
   signal?: AbortSignal
 ): Promise<number> {
+  throwIfAborted(signal);
   let atleastOnce = false;
   let value = -Infinity;
   for await (const item of wrapWithAbort(source, signal)) {

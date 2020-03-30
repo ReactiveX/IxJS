@@ -1,4 +1,5 @@
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 /**
  * Returns a promise that represents how many elements in the specified async-iterable sequence satisfy a condition.
@@ -11,6 +12,7 @@ export async function count<T>(
   fn: (value: T, signal?: AbortSignal) => boolean | Promise<boolean> = async () => true,
   signal?: AbortSignal
 ): Promise<number> {
+  throwIfAborted(signal);
   let i = 0;
 
   for await (const item of wrapWithAbort(source, signal)) {

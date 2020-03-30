@@ -1,5 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 /**
  * @ignore
@@ -29,6 +30,7 @@ class ExtremaByAsyncIterator<TSource, TKey> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     let result: TSource[] = [];
     let next;
     const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
