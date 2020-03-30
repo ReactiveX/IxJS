@@ -1,5 +1,6 @@
 import { ReduceOptions } from './reduceoptions';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 export async function reduce<T, R = T>(
   source: AsyncIterable<T>,
@@ -7,6 +8,7 @@ export async function reduce<T, R = T>(
 ): Promise<R> {
   const { ['seed']: seed, ['signal']: signal, ['callback']: callback } = options;
   const hasSeed = options.hasOwnProperty('seed');
+  throwIfAborted(signal);
   let i = 0;
   let hasValue = false;
   let acc = seed as T | R;

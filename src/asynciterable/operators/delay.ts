@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { sleep } from '../_sleep';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -14,6 +15,7 @@ export class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     await sleep(this._dueTime, signal);
     for await (const item of wrapWithAbort(this._source, signal)) {
       yield item;

@@ -1,5 +1,6 @@
 import { identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 export async function sum(
   source: AsyncIterable<number>,
@@ -16,6 +17,7 @@ export async function sum(
   selector: (x: any, signal?: AbortSignal) => number | Promise<number> = identityAsync,
   signal?: AbortSignal
 ): Promise<number> {
+  throwIfAborted(signal);
   let value = 0;
   for await (const item of wrapWithAbort(source, signal)) {
     value += await selector(item, signal);

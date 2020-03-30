@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export class FinallyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -13,6 +14,7 @@ export class FinallyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     try {
       for await (const item of wrapWithAbort(this._source, signal)) {
         yield item;

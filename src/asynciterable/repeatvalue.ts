@@ -1,5 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
-import { throwIfAborted } from 'ix/aborterror';
+import { throwIfAborted } from '../aborterror';
 
 export class RepeatValueAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _value: TSource;
@@ -26,6 +26,11 @@ export class RepeatValueAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Repeats a given value for the specified number of times as an async-iterable.
+ * @param value The value to repeat as an async-iterable.
+ * @param count The number of times to repeat the value, infinite if not specified.
+ */
 export function repeatValue<TSource>(value: TSource, count: number = -1): AsyncIterableX<TSource> {
   return new RepeatValueAsyncIterable<TSource>(value, count);
 }

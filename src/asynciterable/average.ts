@@ -1,5 +1,6 @@
 import { identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 /**
  * Computes the average of the async-iterable sequence.
@@ -26,6 +27,7 @@ export async function average(
   thisArg?: any,
   signal?: AbortSignal
 ): Promise<number> {
+  throwIfAborted(signal);
   let sum = 0;
   let count = 0;
   for await (const item of wrapWithAbort(source, signal)) {

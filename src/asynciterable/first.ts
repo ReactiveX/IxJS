@@ -1,4 +1,5 @@
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 export async function first<T, S extends T>(
   source: AsyncIterable<T>,
@@ -19,6 +20,7 @@ export async function first<T>(
   ) => boolean | Promise<boolean> = async () => true,
   signal?: AbortSignal
 ): Promise<T | undefined> {
+  throwIfAborted(signal);
   let i = 0;
   for await (const item of wrapWithAbort(source, signal)) {
     if (await predicate(item, i++, signal)) {

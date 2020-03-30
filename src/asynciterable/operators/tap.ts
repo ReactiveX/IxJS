@@ -3,7 +3,7 @@ import { PartialAsyncObserver } from '../../observer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { toObserver } from '../../util/toobserver';
 import { wrapWithAbort } from './withabort';
-import { AbortError } from '../../aborterror';
+import { AbortError, throwIfAborted } from '../../aborterror';
 
 export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -16,6 +16,7 @@ export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     const source = wrapWithAbort(this._source, signal);
     const it = source[Symbol.asyncIterator]();
     while (1) {

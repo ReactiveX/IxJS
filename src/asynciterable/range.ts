@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { throwIfAborted } from '../aborterror';
 
 class RangeAsyncIterable extends AsyncIterableX<number> {
   private _start: number;
@@ -10,7 +11,8 @@ class RangeAsyncIterable extends AsyncIterableX<number> {
     this._count = count;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     for (let current = this._start, end = this._start + this._count; current < end; current++) {
       yield current;
     }

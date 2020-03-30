@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { identityAsync } from '../../util/identity';
 import { createGrouping } from './_grouping';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { throwIfAborted } from '../../aborterror';
 
 export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
   public readonly key: TKey;
@@ -13,7 +14,8 @@ export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
     this._source = source;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     for (const item of this._source) {
       yield item;
     }
@@ -48,6 +50,7 @@ export class GroupByAsyncIterable<TSource, TKey, TValue, TResult> extends AsyncI
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     const map = await createGrouping(
       this._source,
       this._keySelector,
@@ -65,23 +68,31 @@ export function groupByResultIdentityAsync<TKey, TValue>(key: TKey, values: Iter
 }
 
 export function groupBy<TSource, TKey>(
-  keySelector: (value: TSource) => TKey | Promise<TKey>
+  keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>
 ): OperatorAsyncFunction<TSource, GroupedAsyncIterable<TKey, TSource>>;
 export function groupBy<TSource, TKey, TValue>(
-  keySelector: (value: TSource) => TKey | Promise<TKey>,
-  elementSelector?: (value: TSource) => TValue | Promise<TValue>
+  keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
+  elementSelector?: (value: TSource, signal?: AbortSignal) => TValue | Promise<TValue>
 ): OperatorAsyncFunction<TSource, GroupedAsyncIterable<TKey, TValue>>;
 export function groupBy<TSource, TKey, TValue, TResult>(
-  keySelector: (value: TSource) => TKey | Promise<TKey>,
-  elementSelector?: (value: TSource) => TValue | Promise<TValue>,
-  resultSelector?: (key: TKey, values: Iterable<TValue>) => TResult | Promise<TResult>
+  keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
+  elementSelector?: (value: TSource, signal?: AbortSignal) => TValue | Promise<TValue>,
+  resultSelector?: (
+    key: TKey,
+    values: Iterable<TValue>,
+    signal?: AbortSignal
+  ) => TResult | Promise<TResult>
 ): OperatorAsyncFunction<TSource, TResult>;
 export function groupBy<TSource, TKey, TValue, TResult>(
-  keySelector: (value: TSource) => TKey | Promise<TKey>,
-  elementSelector: (value: TSource) => TValue | Promise<TValue> = identityAsync,
+  keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
+  elementSelector: (
+    value: TSource,
+    signal?: AbortSignal
+  ) => TValue | Promise<TValue> = identityAsync,
   resultSelector: (
     key: TKey,
-    values: Iterable<TValue>
+    values: Iterable<TValue>,
+    signal?: AbortSignal
   ) => TResult | Promise<TResult> = groupByResultIdentityAsync
 ): OperatorAsyncFunction<TSource, TResult> {
   return function groupByOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TResult> {

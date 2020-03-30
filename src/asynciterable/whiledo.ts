@@ -1,5 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _condition: (signal?: AbortSignal) => boolean | Promise<boolean>;
@@ -15,6 +16,7 @@ class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     while (await this._condition(signal)) {
       for await (const item of wrapWithAbort(this._source, signal)) {
         yield item;

@@ -1,4 +1,5 @@
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 export async function last<T, S extends T>(
   source: AsyncIterable<T>,
@@ -22,6 +23,7 @@ export async function last<T>(
   thisArg?: any,
   signal?: AbortSignal
 ): Promise<T | undefined> {
+  throwIfAborted(signal);
   let i = 0;
   let result: T | undefined;
   for await (const item of wrapWithAbort(source, signal)) {

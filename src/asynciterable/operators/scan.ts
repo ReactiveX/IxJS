@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { ScanOptions } from './scanoptions';
+import { throwIfAborted } from '../../aborterror';
 
 export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
   private _source: AsyncIterable<T>;
@@ -18,6 +19,7 @@ export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     let i = 0;
     let hasValue = false;
     let acc = this._seed;

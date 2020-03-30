@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -13,6 +14,7 @@ export class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     const source = wrapWithAbort(this._source, signal);
     const it = source[Symbol.asyncIterator]();
     let count = this._count;

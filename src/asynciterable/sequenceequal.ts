@@ -1,12 +1,21 @@
 import { comparerAsync } from '../util/comparer';
 import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
+/**
+ * Determines whether the two async-iterable sequences are equal.
+ * @param source The first sequence to check for equality.
+ * @param other The other sequence to check for equality.
+ * @param comparer An optional comparer to compare the two sequences.
+ * @param signal An optional abort signal to cancel the operation.
+ */
 export async function sequenceEqual<T>(
   source: AsyncIterable<T>,
   other: AsyncIterable<T>,
   comparer: (first: T, second: T) => boolean | Promise<boolean> = comparerAsync,
   signal?: AbortSignal
 ): Promise<boolean> {
+  throwIfAborted(signal);
   const it1 = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
   const it2 = wrapWithAbort(other, signal)[Symbol.asyncIterator]();
   let next1: IteratorResult<T>;

@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
 
 export interface Timestamp<TSource> {
   time: number;
@@ -16,6 +17,7 @@ export class TimestampAsyncIterable<TSource> extends AsyncIterableX<Timestamp<TS
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     for await (const item of wrapWithAbort(this._source, signal)) {
       yield { time: Date.now(), value: item };
     }
