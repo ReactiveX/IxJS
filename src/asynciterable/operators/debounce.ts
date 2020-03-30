@@ -76,6 +76,11 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Emits a notification from the source async-iterable only after a particular time span
+ * has passed without another source emission.
+ * @param time The timeout duration in milliseconds
+ */
 export function debounce<TSource>(time: number): MonoTypeOperatorAsyncFunction<TSource> {
   return function debounceOperatorFunction(
     source: AsyncIterable<TSource>

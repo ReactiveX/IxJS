@@ -22,7 +22,7 @@ export class AsyncIterableReadable<T> extends Readable {
   public _read(size: number) {
     const it = this._iterator;
     if (it && !this._pulling && (this._pulling = true)) {
-      Promise.resolve(this._pull(it, size)).then(p => (this._pulling = p));
+      Promise.resolve(this._pull(it, size)).then((p) => (this._pulling = p));
     }
   }
   public _destroy(err: Error | null, cb: (err: Error | null) => void) {
@@ -58,6 +58,11 @@ export class AsyncIterableReadable<T> extends Readable {
   }
 }
 
+/**
+ * Converts an existing async-iterable to a Node.js stream.
+ * @param source The async-iterable to convert to a Node.js stream.
+ * @param options The optional Readable options for the Node.js stream.
+ */
 export function toNodeStream<TSource>(
   source: AsyncIterable<TSource>
 ): AsyncIterableReadable<TSource>;

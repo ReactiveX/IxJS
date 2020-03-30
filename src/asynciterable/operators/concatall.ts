@@ -19,6 +19,10 @@ export class ConcatAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Concatenates all inner async-iterable sequences, as long as the previous
+ * async-iterable sequence terminated successfully.
+ */
 export function concatAll<T>(): OperatorAsyncFunction<AsyncIterable<T>, T> {
   return function concatAllOperatorFunction(
     source: AsyncIterable<AsyncIterable<T>>

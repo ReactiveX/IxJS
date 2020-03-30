@@ -42,7 +42,7 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (!subscription.isUnsubscribed) {
             observer.error(err);
           }
@@ -54,6 +54,10 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
   }
 }
 
+/**
+ * Converts the given async-iterable to an Observable.
+ * @param source The async-iterable to convert to an Observable.
+ */
 export function toObservable<TSource>(source: AsyncIterable<TSource>): Observable<TSource> {
   return new AsyncIterableObservable<TSource>(source);
 }

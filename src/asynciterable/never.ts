@@ -1,8 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
-import { throwIfAborted } from '../aborterror';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const NEVER_PROMISE = new Promise<never>(() => {});
+import { throwIfAborted, AbortError } from '../aborterror';
 
 export class NeverAsyncIterable extends AsyncIterableX<never> {
   constructor() {
@@ -11,7 +8,11 @@ export class NeverAsyncIterable extends AsyncIterableX<never> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    await NEVER_PROMISE;
+    await new Promise<never>((_, reject) => {
+      if (signal) {
+        signal.addEventListener('abort', () => reject(new AbortError()), { once: true });
+      }
+    });
   }
 }
 
