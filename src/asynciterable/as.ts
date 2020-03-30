@@ -4,16 +4,20 @@ import {
   isAsyncIterable,
   isArrayLike,
   isObservable,
-  isPromise
+  isPromise,
 } from '../util/isiterable';
 import { identityAsync } from '../util/identity';
 import {
   FromObservableAsyncIterable,
   FromPromiseIterable,
   FromAsyncIterable,
-  FromArrayIterable
+  FromArrayIterable,
 } from './from';
 
+/**
+ * Wraps the existing source as an async-iterable.
+ * @param source The source to wrap as an async-iterable.
+ */
 export function as(source: string): AsyncIterableX<string>;
 export function as<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
 export function as<T>(source: T): AsyncIterableX<T>;

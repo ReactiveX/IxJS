@@ -54,6 +54,11 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
   }
 }
 
+/**
+ * Continues an async-iterable sequence that is terminated by an exception with the
+ * async-iterable sequence produced by the handler.
+ * @param handler Error handler function, producing another async-iterable sequence.
+ */
 export function catchError<TSource, TResult>(
   handler: (
     error: any,

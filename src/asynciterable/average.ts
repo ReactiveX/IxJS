@@ -1,6 +1,13 @@
 import { identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
 
+/**
+ * Computes the average of the async-iterable sequence.
+ * @param source The source async-iterable sequence to compute the average.
+ * @param selector The selector used to get the value to average.
+ * @param thisArg An optional thisArg for the selector.
+ * @param signal An optional abort signal to cancel the operation at any time.
+ */
 export async function average(
   source: AsyncIterable<number>,
   selector?: (x: number, signal?: AbortSignal) => number | Promise<number>,

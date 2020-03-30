@@ -24,6 +24,11 @@ export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource
   }
 }
 
+/**
+ * Returns the elements of the specified sequence or the default value in a singleton sequence
+ * if the sequence is empty.
+ * @param defaultValue The value to return if the sequence is empty.
+ */
 export function defaultIfEmpty<T>(defaultValue: T): MonoTypeOperatorAsyncFunction<T> {
   return function defaultIfEmptyOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
     return new DefaultIfEmptyAsyncIterable<T>(source, defaultValue);

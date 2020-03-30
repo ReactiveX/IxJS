@@ -160,18 +160,38 @@ const asyncIterableReadableStream = (() => {
   return <T>(source: any, opts?: any) => createAsyncIterableReadableStream<T>(source, opts);
 })();
 
+/**
+ * Converts an async-iterable instance to a DOM stream.
+ * @param source The source async-iterable to convert to a DOM stream.
+ * @param strategy The queueing strategy to apply to the DOM stream.
+ */
 export function toDOMStream<T>(
   source: AsyncIterable<T>,
   strategy?: QueuingStrategy<T>
 ): ReadableStream<T>;
+/**
+ * Converts an async-iterable stream to a DOM stream.
+ * @param source The async-iterable stream to convert to a DOM stream.
+ * @param options The ReadableBYOBStreamOptions to apply to the DOM stream.
+ */
 export function toDOMStream<T>(
   source: AsyncIterable<T>,
   options: ReadableBYOBStreamOptions<Uint8Array>
 ): ReadableStream<Uint8Array>;
+/**
+ * Converts an async-iterable stream to a DOM stream.
+ * @param source The async-iterable stream to convert to a DOM stream.
+ * @param options The ReadableByteStreamOptions to apply to the DOM stream.
+ */
 export function toDOMStream<T>(
   source: AsyncIterable<T>,
   options: ReadableByteStreamOptions<Uint8Array>
 ): ReadableStream<Uint8Array>;
+/**
+ * Converts an async-iterable stream to a DOM stream.
+ * @param source The async-iterable stream to convert to a DOM stream.
+ * @param options The options to apply to the DOM stream.
+ */
 export function toDOMStream(
   source: AsyncIterable<any>,
   options?: QueuingStrategy<any> | ReadableBYOBStreamOptions | ReadableByteStreamOptions
@@ -188,11 +208,11 @@ export function toDOMStream(
   );
 }
 
-AsyncIterableX.prototype.tee = function<T> (this: AsyncIterableX<T>) {
+AsyncIterableX.prototype.tee = function <T> (this: AsyncIterableX<T>) {
   return _getDOMStream(this).tee();
 };
 
-AsyncIterableX.prototype.pipeTo = function<T> (
+AsyncIterableX.prototype.pipeTo = function <T> (
   this: AsyncIterableX<T>,
   writable: WritableStream<T>,
   options?: PipeOptions
@@ -200,7 +220,7 @@ AsyncIterableX.prototype.pipeTo = function<T> (
   return _getDOMStream(this).pipeTo(writable, options);
 };
 
-AsyncIterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>> (
+AsyncIterableX.prototype.pipeThrough = function <T, R extends ReadableStream<any>> (
   this: AsyncIterableX<T>,
   duplex: { writable: WritableStream<T>; readable: R },
   options?: PipeOptions

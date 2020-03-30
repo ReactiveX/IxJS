@@ -21,6 +21,10 @@ export class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Delays the emitting of the first item in the async-iterable by the given due time.
+ * @param dueTime The delay duration in milliseconds
+ */
 export function delay<TSource>(dueTime: number): MonoTypeOperatorAsyncFunction<TSource> {
   return function delayOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
     return new DelayAsyncIterable<TSource>(source, dueTime);

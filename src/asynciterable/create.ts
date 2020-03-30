@@ -19,6 +19,10 @@ class AnonymousAsyncIterable<T> extends AsyncIterableX<T> {
   }
 }
 
+/**
+ * Creates a new enumerable using the specified function implementing the members of AsyncIterable
+ * @param fn The function that creates the [Symbol.asyncIterator]() method
+ */
 export function create<T>(
   fn: (signal?: AbortSignal) => AsyncIterator<T> | Promise<AsyncIterator<T>>
 ): AsyncIterableX<T> {

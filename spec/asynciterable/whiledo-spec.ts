@@ -2,19 +2,19 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 import { defer, of, whileDo } from 'ix/asynciterable';
 import { tap } from 'ix/asynciterable/operators';
 
-test('AsyncIterable#while some', async () => {
+test('AsyncIterable#whileDo some', async () => {
   let x = 5;
   const res = whileDo(
-    async () => x > 0,
     defer(async () =>
       of(x).pipe(
         tap({
           next: async () => {
             x--;
-          }
+          },
         })
       )
-    )
+    ),
+    async () => x > 0
   );
 
   const it = res[Symbol.asyncIterator]();
@@ -26,19 +26,19 @@ test('AsyncIterable#while some', async () => {
   await noNext(it);
 });
 
-test('AsyncIterable#while none', async () => {
+test('AsyncIterable#whileDo none', async () => {
   let x = 0;
   const res = whileDo(
-    async () => x > 0,
     defer(async () =>
       of(x).pipe(
         tap({
           next: async () => {
             x--;
-          }
+          },
         })
       )
-    )
+    ),
+    async () => x > 0
   );
 
   const it = res[Symbol.asyncIterator]();

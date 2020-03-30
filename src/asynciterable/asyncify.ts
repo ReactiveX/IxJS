@@ -2,6 +2,10 @@ import { AsyncIterableX } from './asynciterablex';
 import { AsyncSink } from './asyncsink';
 import { memoize } from './operators/memoize';
 
+/**
+ * Create an async-iterable from a callback function.
+ * @param func The callback function to wrap as an async-iterable
+ */
 export function asyncify<TSource>(func: Function): (...args: any[]) => AsyncIterableX<TSource> {
   return function (...args: any[]) {
     const sink = new AsyncSink<TSource>();
@@ -18,7 +22,7 @@ export function asyncify<TSource>(func: Function): (...args: any[]) => AsyncIter
       sink.end();
     }
 
-    const yielder = async function*() {
+    const yielder = async function* () {
       for (let next; !(next = await sink.next()).done; ) {
         yield next.value;
       }
