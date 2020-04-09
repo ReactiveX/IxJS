@@ -2,6 +2,7 @@ import { AsyncIterableX } from './asynciterablex';
 import { identity, identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
+import { CombineOptions } from './combineoptions';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
@@ -15,20 +16,23 @@ function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
 export class CombineLatestAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _sources: AsyncIterable<TSource>[];
   private _fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>;
+  private _thisArg?: any;
 
   constructor(
     sources: AsyncIterable<TSource>[],
-    fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>
+    fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>,
+    thisArg?: any
   ) {
     super();
     this._sources = sources;
     this._fn = fn;
+    this._thisArg = thisArg;
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
 
-    const fn = this._fn;
+    const { _fn: fn, _thisArg: thisArg } = this;
     const length = this._sources.length;
     const iterators = new Array<AsyncIterator<TSource>>(length);
     const nexts = new Array<Promise<MergeResult<IteratorResult<TSource>>>>(length);
@@ -47,106 +51,44 @@ export class CombineLatestAsyncIterable<TSource, TResult> extends AsyncIterableX
 
     while (active > 0) {
       const next = Promise.race(nexts);
-      const { value: next$, index } = await next;
-      if (next$.done) {
+      const {
+        value: { value: value$, done: done$ },
+        index,
+      } = await next;
+      if (done$) {
         nexts[index] = <Promise<MergeResult<IteratorResult<TSource>>>>NEVER_PROMISE;
         active--;
       } else {
-        values[index] = next$.value;
+        values[index] = value$;
         hasValues[index] = true;
 
         const iterator$ = iterators[index];
         nexts[index] = wrapPromiseWithIndex(iterator$.next(), index);
 
         if (hasValueAll || (hasValueAll = hasValues.every(identity))) {
-          yield await fn(values, signal);
+          yield await fn.call(thisArg, values, signal);
         }
       }
     }
   }
 }
 
-export function combineLatest<T, T2>(
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>
-): AsyncIterableX<[T, T2]>;
-export function combineLatest<T, T2, T3>(
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>
-): AsyncIterableX<[T, T2, T3]>;
-export function combineLatest<T, T2, T3, T4>(
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>
-): AsyncIterableX<[T, T2, T3, T4]>;
-export function combineLatest<T, T2, T3, T4, T5>(
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>,
-  source5: AsyncIterable<T5>
-): AsyncIterableX<[T, T2, T3, T4, T5]>;
-export function combineLatest<T, T2, T3, T4, T5, T6>(
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>,
-  source5: AsyncIterable<T5>,
-  source6: AsyncIterable<T6>
-): AsyncIterableX<[T, T2, T3, T4, T5, T6]>;
-
+/**
+ * Merges the specified async-iterable sequences into one async-iterable sequence by using the
+ * selector function whenever any of the observable sequences produces an element.
+ *
+ * @export
+ * @template T The type of the elements in the source sequences.
+ * @template R The type of the elements in the result sequence, returned by the selector function.
+ * @param {...any[]} sources The input sequences.
+ * @returns {AsyncIterableX<R>} An async-iterable sequence containing the result of combining elements of the sources using
+ * the specified result selector function.
+ */
 export function combineLatest<T, R>(
-  project: (values: [T], signal?: AbortSignal) => R | Promise<R>,
-  source: AsyncIterable<T>
-): AsyncIterableX<R>;
-export function combineLatest<T, T2, R>(
-  project: (values: [T, T2], signal?: AbortSignal) => R | Promise<R>,
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>
-): AsyncIterableX<R>;
-export function combineLatest<T, T2, T3, R>(
-  project: (values: [T, T2, T3], signal?: AbortSignal) => R | Promise<R>,
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>
-): AsyncIterableX<R>;
-export function combineLatest<T, T2, T3, T4, R>(
-  project: (values: [T, T2, T3, T4], signal?: AbortSignal) => R | Promise<R>,
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>
-): AsyncIterableX<R>;
-export function combineLatest<T, T2, T3, T4, T5, R>(
-  project: (values: [T, T2, T3, T4, T5], signal?: AbortSignal) => R | Promise<R>,
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>,
-  source5: AsyncIterable<T5>
-): AsyncIterableX<R>;
-export function combineLatest<T, T2, T3, T4, T5, T6, R>(
-  project: (values: [T, T2, T3, T4, T5, T6], signal?: AbortSignal) => R | Promise<R>,
-  source: AsyncIterable<T>,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>,
-  source5: AsyncIterable<T5>,
-  source6: AsyncIterable<T6>
-): AsyncIterableX<R>;
-
-export function combineLatest<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]>;
-export function combineLatest<T, R>(
-  project: (values: T[]) => R | Promise<R>,
-  ...sources: AsyncIterable<T>[]
-): AsyncIterableX<R>;
-export function combineLatest<T, R>(...sources: any[]): AsyncIterableX<R> {
-  let fn = (sources.shift() || identityAsync) as (values: any[]) => R | Promise<R>;
-  if (fn && typeof fn !== 'function') {
-    sources.unshift(fn);
-    fn = identityAsync;
-  }
-  return new CombineLatestAsyncIterable<T, R>(sources as AsyncIterable<T>[], fn);
+  sources: AsyncIterable<T>[],
+  options?: CombineOptions<T, R>
+): AsyncIterableX<R> {
+  const opts = options || ({ ['selector']: identityAsync } as CombineOptions<T, R>);
+  const { ['selector']: selector, ['thisArg']: thisArg } = opts;
+  return new CombineLatestAsyncIterable<T, R>(sources, selector!, thisArg);
 }

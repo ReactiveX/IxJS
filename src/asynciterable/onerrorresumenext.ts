@@ -31,6 +31,14 @@ export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSou
   }
 }
 
+/**
+ * Concatenates all of the specified async-iterable sequences, even if the previous async-iterable sequence terminated exceptionally.
+ *
+ * @export
+ * @template T The type of the elements in the source sequences.
+ * @param {...AsyncIterable<T>[]} args Async-iterable sequences to concatenate.
+ * @returns {AsyncIterableX<T>} An async-iterable sequence that concatenates the source sequences, even if a sequence terminates exceptionally.
+ */
 export function onErrorResumeNext<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
   return new OnErrorResumeNextAsyncIterable<T>(args);
 }

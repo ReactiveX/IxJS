@@ -1,5 +1,4 @@
 import { AsyncIterableX } from '../asynciterablex';
-import { bindCallback } from '../../util/bindcallback';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
@@ -10,20 +9,24 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
     value: TSource,
     signal?: AbortSignal
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
+  private _thisArg?: any;
 
   constructor(
     source: AsyncIterable<TSource>,
-    selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
+    selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
+    thisArg?: any
   ) {
     super();
     this._source = source;
     this._selector = selector;
+    this._thisArg = thisArg;
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    for await (const outer of wrapWithAbort(this._source, signal)) {
-      const inners = await this._selector(outer, signal);
+    const { _source: source, _selector: selector, _thisArg: thisArg } = this;
+    for await (const outer of wrapWithAbort(source, signal)) {
+      const inners = await selector.call(thisArg, outer, signal);
       for await (const inner of wrapWithAbort(inners, signal)) {
         yield inner;
       }
@@ -31,6 +34,21 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
   }
 }
 
+/**
+ * Projects each element of an async-iterable sequence to an async-iterable sequence and merges
+ * the resulting async-iterable sequences into one async-iterable sequence.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @template TResult The type of the elements in the projected inner sequences and the elements in the merged result sequence.
+ * @param {((
+ *     value: TSource,
+ *     signal?: AbortSignal
+ *   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>)} selector A transform function to apply to each element.
+ * @param {*} [thisArg] Option this for binding to the selector.
+ * @returns {OperatorAsyncFunction<TSource, TResult>} An operator that creates an async-iterable sequence whose
+ * elements are the result of invoking the one-to-many transform function on each element of the input sequence.
+ */
 export function flatMap<TSource, TResult>(
   selector: (
     value: TSource,
@@ -39,6 +57,6 @@ export function flatMap<TSource, TResult>(
   thisArg?: any
 ): OperatorAsyncFunction<TSource, TResult> {
   return function flatMapOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TResult> {
-    return new FlatMapAsyncIterable<TSource, TResult>(source, bindCallback(selector, thisArg, 1));
+    return new FlatMapAsyncIterable<TSource, TResult>(source, selector, thisArg);
   };
 }

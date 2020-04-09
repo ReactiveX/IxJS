@@ -2,9 +2,13 @@ import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
 
 /**
- * Converts an existing async-iterable to an array.
- * @param source The async-iterable to convert to an array.
- * @param signal An optional abort signal to cancel the operation at any time.
+ * Converts an existing async-iterable to a promise containing the array of values.
+ *
+ * @export
+ * @template TSource The type of elements in the source sequence.
+ * @param {AsyncIterable<TSource>} source The source sequence to convert to an array.
+ * @param {AbortSignal} [signal] An optional abort signal to cancel the operation at any time.
+ * @returns {Promise<TSource[]>} A promise containing all the items from the source sequence as an array.
  */
 export async function toArray<TSource>(
   source: AsyncIterable<TSource>,

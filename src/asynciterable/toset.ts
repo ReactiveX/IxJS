@@ -2,9 +2,13 @@ import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
 
 /**
- * Converts the existing async-iterable into a Set.
- * @param source The async-iterable to convert into a Set.
- * @param signal An optional abort signal to cancel the operation at any time.
+ * Converts the existing async-iterable into a promise which resolves a Set.
+ *
+ * @export
+ * @template TSource The type of elements in the source sequence.
+ * @param {AsyncIterable<TSource>} source The async-iterable to convert into a set.
+ * @param {AbortSignal} [signal] An optional abort signal to cancel the operation at any time.
+ * @returns {Promise<Set<TSource>>} A promise which contains a Set with all the elements from the async-iterable.
  */
 export async function toSet<TSource>(
   source: AsyncIterable<TSource>,

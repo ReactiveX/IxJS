@@ -5,6 +5,7 @@ import { comparerAsync } from '../../util/comparer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
+import { DistinctOptions } from './distinctoptions';
 
 export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -36,13 +37,28 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
   }
 }
 
+/**
+ * Returns an async-iterable sequence that contains only distinct elements according to the keySelector and comparer.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @template TKey The type of the discriminator key computed for each element in the source sequence.
+ * @param {DistinctOptions<TSource, TKey>} [options] The optional arguments for a key selector and comparer function.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator that returns distinct elements according to the keySelector and options.
+ */
 export function distinct<TSource, TKey>(
-  keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey> = identityAsync,
-  comparer: (x: TKey, y: TKey) => boolean | Promise<boolean> = comparerAsync
+  options?: DistinctOptions<TSource, TKey>
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function distinctOperatorFunction(
     source: AsyncIterable<TSource>
   ): AsyncIterableX<TSource> {
-    return new DistinctAsyncIterable<TSource, TKey>(source, keySelector, comparer);
+    const opts =
+      options ||
+      ({
+        ['keySelector']: identityAsync,
+        ['comparer']: comparerAsync,
+      } as DistinctOptions<TSource, TKey>);
+    const { ['keySelector']: keySelector, ['comparer']: comparer } = opts;
+    return new DistinctAsyncIterable<TSource, TKey>(source, keySelector!, comparer!);
   };
 }

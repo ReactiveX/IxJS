@@ -19,6 +19,14 @@ export class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource
   }
 }
 
+/**
+ * Ignores all elements in an async-iterable sequence leaving only the termination messages.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator that returns an empty async-iterable sequence
+ * that signals termination, successful or exceptional, of the source sequence.
+ */
 export function ignoreElements<TSource>(): MonoTypeOperatorAsyncFunction<TSource> {
   return function ignoreElementsOperatorFunction(
     source: AsyncIterable<TSource>

@@ -18,6 +18,9 @@ export class NeverAsyncIterable extends AsyncIterableX<never> {
 
 /**
  * An async-iterable sequence that never returns a value.
+ *
+ * @export
+ * @returns {AsyncIterableX<never>} An async-iterable sequence that never returns a value.
  */
 export function never(): AsyncIterableX<never> {
   return new NeverAsyncIterable();

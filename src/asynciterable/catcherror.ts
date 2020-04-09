@@ -55,14 +55,27 @@ export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 }
 
 /**
- * Creates a sequence by concatenating source sequences until a source sequence completes successfully.
- * @param {AsyncIterable<AsyncIterable<T>>} source Source sequences.
- * @return {AsyncIterable<T>} Sequence that continues to concatenate source sequences while errors occur.
+ * Continues an async-iterable sequence that is terminated by an exception with the next async-iterable sequence.
+ *
+ * @export
+ * @template T The type of the elements in the source and handler sequences.
+ * @param {Iterable<AsyncIterable<T>>} source async-iterable sequences to catch exceptions for.
+ * @returns {AsyncIterableX<T>} An async-iterable sequence containing elements from consecutive source
+ * sequences until a source sequence terminates successfully.
  */
 export function catchAll<T>(source: Iterable<AsyncIterable<T>>): AsyncIterableX<T> {
   return new CatchAllAsyncIterable<T>(source);
 }
 
+/**
+ * Continues an async-iterable sequence that is terminated by an exception with the next async-iterable sequence.
+ *
+ * @export
+ * @template T The type of the elements in the source and handler sequences.
+ * @param {...AsyncIterable<T>[]} args async-iterable sequences to catch exceptions for.
+ * @returns {AsyncIterableX<T>} An async-iterable sequence containing elements from consecutive source
+ * sequences until a source sequence terminates successfully.
+ */
 export function catchError<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
   return new CatchAllAsyncIterable<T>(args);
 }

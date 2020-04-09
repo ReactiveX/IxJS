@@ -25,7 +25,11 @@ export class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 /**
  * Delays the emitting of each items in the async-iterable by the given due time.
- * @param dueTime The delay duration in milliseconds
+ *
+ * @export
+ * @template TSource The type of elements in the source sequence.
+ * @param {number} dueTime The delay duration in milliseconds
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator which takes an async-iterable and delays each item in the sequence by the given time.
  */
 export function delayEach<TSource>(dueTime: number): MonoTypeOperatorAsyncFunction<TSource> {
   return function delayEachOperatorFunction(

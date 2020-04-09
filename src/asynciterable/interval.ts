@@ -22,7 +22,10 @@ class IntervalAsyncIterable extends AsyncIterableX<number> {
 
 /**
  * Produces a new item in an async-iterable at the given interval cycle time.
- * @param dueTime The interval time in milliseconds.
+ *
+ * @export
+ * @param {number} dueTime The due time in milliseconds to spawn a new item.
+ * @returns {AsyncIterableX<number>} An async-iterable producing values at the specified interval.
  */
 export function interval(dueTime: number): AsyncIterableX<number> {
   return new IntervalAsyncIterable(dueTime);
