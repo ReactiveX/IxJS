@@ -50,6 +50,28 @@ export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends Async
   }
 }
 
+/**
+ * Correlates the elements of two async-iterable sequences based on equality of keys and groups the results.
+ *
+ * @export
+ * @template TOuter The type of the elements of the first async-iterable sequence.
+ * @template TInner The type of the elements of the second async-iterable sequence.
+ * @template TKey The type of the keys returned by the key selector functions.
+ * @template TResult The type of the result elements.
+ * @param {AsyncIterable<TInner>} inner The async-enumerable sequence to join to the first sequence.
+ * @param {((value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>)} outerSelector A function to extract the join key from each
+ * element of the first sequence.
+ * @param {((value: TInner, signal?: AbortSignal) => TKey | Promise<TKey>)} innerSelector A function to extract the join key from each
+ * element of the second sequence.
+ * @param {((
+ *     outer: TOuter,
+ *     inner: AsyncIterable<TInner>,
+ *     signal?: AbortSignal
+ *   ) => TResult | Promise<TResult>)} resultSelector A function to create a result element from an element from the first sequence and a
+ * collection of matching elements from the second sequence.
+ * @returns {OperatorAsyncFunction<TOuter, TResult>} An operator that returns an async-iterable sequence that contains the result elements
+ * that are obtained by performing a grouped join on two sequences.
+ */
 export function groupJoin<TOuter, TInner, TKey, TResult>(
   inner: AsyncIterable<TInner>,
   outerSelector: (value: TOuter, signal?: AbortSignal) => TKey | Promise<TKey>,

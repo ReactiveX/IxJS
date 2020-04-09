@@ -38,6 +38,17 @@ export function filter<T>(
   predicate: (value: T, index: number) => boolean | Promise<boolean>,
   thisArg?: any
 ): OperatorAsyncFunction<T, T>;
+
+/**
+ * Filters the elements of an async-iterable sequence based on a predicate.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {((value: TSource, index: number) => boolean | Promise<boolean>)} predicate A function to test each source element for a condition.
+ * @param {*} [thisArg] Optional this for binding.
+ * @returns {OperatorAsyncFunction<TSource, TSource>} An operator which returns an async-iterable
+ * sequence that contains elements from the input sequence that satisfy the condition.
+ */
 export function filter<TSource>(
   predicate: (value: TSource, index: number) => boolean | Promise<boolean>,
   thisArg?: any

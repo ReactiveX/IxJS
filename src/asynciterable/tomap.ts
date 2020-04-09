@@ -3,43 +3,40 @@ import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
 
 /**
- * Converts the given async-iterable to a Map.
- * @param source The async-iterable to convert to a Map.
- * @param keySelector The selector used to get the key for the Map.
+ * The options for the toMap method which include an optional element selector and abort signal for cancellation.
+ *
+ * @interface ToMapOptions
+ * @template TSource
+ * @template TElement
  */
-export async function toMap<TSource, TKey>(
-  source: AsyncIterable<TSource>,
-  keySelector: (item: TSource) => TKey | Promise<TKey>
-): Promise<Map<TKey, TSource>>;
-/**
- * Converts the given async-iterable to a Map.
- * @param source The async-iterable to convert to a Map.
- * @param keySelector The selector used to get the key for the Map.
- * @param elementSelector The selector used to get the element for the Map.
- */
+export interface ToMapOptions<TSource, TElement> {
+  /**
+   * The selector used to get the key for the Map.
+   *
+   * @memberof ToMapOptions
+   */
+  elementSelector?: (item: TSource, signal?: AbortSignal) => TElement | Promise<TElement>;
+  /**
+   * An optional abort signal to cancel the operation at any time.
+   *
+   * @type {AbortSignal}
+   * @memberof ToMapOptions
+   */
+  signal?: AbortSignal;
+}
+
 export async function toMap<TSource, TKey, TElement = TSource>(
   source: AsyncIterable<TSource>,
-  keySelector: (item: TSource) => TKey | Promise<TKey>,
-  elementSelector?: (item: TSource) => TElement | Promise<TElement>
-): Promise<Map<TKey, TElement>>;
-/**
- * Converts the given async-iterable to a Map.
- * @param source The async-iterable to convert to a Map.
- * @param keySelector The selector used to get the key for the Map.
- * @param elementSelector The selector used to get the element for the Map.
- * @param signal An optional abort signal to cancel the operation at any time.
- */
-export async function toMap<TSource, TKey, TElement = TSource>(
-  source: AsyncIterable<TSource>,
-  keySelector: (item: TSource) => TKey | Promise<TKey>,
-  elementSelector: (item: TSource) => TElement | Promise<TElement> = identityAsync,
-  signal?: AbortSignal
+  keySelector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
+  options?: ToMapOptions<TSource, TElement>
 ): Promise<Map<TKey, TElement | TSource>> {
+  const opts = options || ({ keySelector: identityAsync } as ToMapOptions<TSource, TElement>);
+  const { ['signal']: signal, ['elementSelector']: elementSelector } = opts;
   throwIfAborted(signal);
   const map = new Map<TKey, TElement | TSource>();
   for await (const item of wrapWithAbort(source, signal)) {
-    const value = await elementSelector(item);
-    const key = await keySelector(item);
+    const value = await elementSelector!(item, signal);
+    const key = await keySelector(item, signal);
     map.set(key, value);
   }
   return map;

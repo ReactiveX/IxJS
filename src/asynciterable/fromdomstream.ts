@@ -121,12 +121,37 @@ async function readInto(
   return { done, value: new Uint8Array(value!.buffer, 0, innerOffset) };
 }
 
+/**
+ * Creates an async-iterable from an existing DOM stream.
+ *
+ * @export
+ * @template TSource The type of elements in the source DOM stream.
+ * @param {ReadableStream<TSource>} stream The DOM Readable stream to convert to an async-iterable.
+ * @returns {AsyncIterableX<TSource>} An async-iterable containing the elements from the ReadableStream.
+ */
 export function fromDOMStream<TSource>(stream: ReadableStream<TSource>): AsyncIterableX<TSource>;
+/**
+ * Creates an async-iterable from an existing DOM stream and options.
+ *
+ * @export
+ * @template TSource  * @template TSource The type of elements in the source DOM stream.
+ * @param {ReadableStream<TSource>} stream The readable stream to convert to an async-iterable.
+ * @param {{ mode: 'byob' }} options The options to set the mode for the DOM stream.
+ * @returns {AsyncIterableX<TSource>} An async-iterable created from the incoming async-iterable.
+ */
 export function fromDOMStream<TSource extends ArrayBufferView>(
   stream: ReadableStream<TSource>,
   options: { mode: 'byob' }
 ): AsyncIterableX<TSource>;
 
+/**
+ * Creates an async-iterable from an existing DOM stream and optional options.
+ *
+ * @export
+ * @param {ReadableStream} stream The readable stream to convert to an async-iterable.
+ * @param {{ mode: 'byob' }} [options] The optional options to set the mode for the DOM stream.
+ * @returns {AsyncIterableX<any>} An async-iterable created from the incoming async-iterable.
+ */
 export function fromDOMStream(stream: ReadableStream, options?: { mode: 'byob' }) {
   return !options || options.mode !== 'byob'
     ? new AsyncIterableReadableStream(stream)

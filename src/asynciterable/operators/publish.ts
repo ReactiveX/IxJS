@@ -3,6 +3,7 @@ import { RefCountList } from '../../iterable/operators/_refcountlist';
 import { create } from '../create';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { MemoizeAsyncBuffer } from './memoize';
+import { throwIfAborted } from 'ix/aborterror';
 
 class PublishedAsyncBuffer<T> extends MemoizeAsyncBuffer<T> {
   // @ts-ignore
@@ -12,7 +13,8 @@ class PublishedAsyncBuffer<T> extends MemoizeAsyncBuffer<T> {
     super(source, new RefCountList<T>(0));
   }
 
-  [Symbol.asyncIterator]() {
+  [Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     this._buffer.readerCount++;
     return this._getIterable(this._buffer.count)[Symbol.asyncIterator]();
   }

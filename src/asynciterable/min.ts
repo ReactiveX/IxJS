@@ -1,22 +1,44 @@
 import { identityAsync } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
+import { MathOptions } from './mathoptions';
 
+/**
+ * Returns the minimum element with the optional selector.
+ *
+ * @export
+ * @param {AsyncIterable<number>} source An async-iterable sequence to determine the minimum element of.
+ * @param {MathOptions<number>} [options] Optional options which include a selector for projecting,
+ * a thisArg for binding to the selector, and an abort signal for cancellation.
+ * @returns {Promise<number>} A promise containing the minimum element.
+ */
 export async function min(
   source: AsyncIterable<number>,
-  selector?: (x: number, signal?: AbortSignal) => number | Promise<number>,
-  signal?: AbortSignal
+  options?: MathOptions<number>
 ): Promise<number>;
-export async function min<T>(
-  source: AsyncIterable<T>,
-  selector: (x: T, signal?: AbortSignal) => number | Promise<number>,
-  signal?: AbortSignal
-): Promise<number>;
-export async function min(
-  source: AsyncIterable<any>,
-  selector: (x: any, signal?: AbortSignal) => number | Promise<number> = identityAsync,
-  signal?: AbortSignal
-): Promise<number> {
+/**
+ * Returns the minimum element with the optional selector.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @param {AsyncIterable<T>} source An async-iterable sequence to determine the minimum element of.
+ * @param {MathOptions<T>} [options] Optional options which include a selector for projecting,
+ * a thisArg for binding to the selector, and an abort signal for cancellation.
+ * @returns {Promise<number>} A promise containing the minimum element.
+ */
+export async function min<T>(source: AsyncIterable<T>, options?: MathOptions<T>): Promise<number>;
+/**
+ * Returns the minimum element with the optional selector.
+ *
+ * @export
+ * @param {AsyncIterable<any>} source An async-iterable sequence to determine the minimum element of.
+ * @param {MathOptions<any>} [options] Optional options which include a selector for projecting,
+ * a thisArg for binding to the selector, and an abort signal for cancellation.
+ * @returns {Promise<number>} A promise containing the minimum element.
+ */
+export async function min(source: AsyncIterable<any>, options?: MathOptions<any>): Promise<number> {
+  const opts = options || ({ ['selector']: identityAsync } as MathOptions<any>);
+  const { ['selector']: selector, ['signal']: signal, ['thisArg']: thisArg } = opts;
   throwIfAborted(signal);
   let atleastOnce = false;
   let value = Infinity;
@@ -24,7 +46,7 @@ export async function min(
     if (!atleastOnce) {
       atleastOnce = true;
     }
-    const x = await selector(item, signal);
+    const x = await selector!.call(thisArg, item, signal);
     if (x < value) {
       value = x;
     }

@@ -55,8 +55,12 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
 }
 
 /**
- * Converts the given async-iterable to an Observable.
- * @param source The async-iterable to convert to an Observable.
+ * Converts the async-iterable sequence to an observable.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {AsyncIterable<TSource>} source The async-iterable to convert to an observable.
+ * @returns {Observable<TSource>} The observable containing the elements from the async-iterable.
  */
 export function toObservable<TSource>(source: AsyncIterable<TSource>): Observable<TSource> {
   return new AsyncIterableObservable<TSource>(source);

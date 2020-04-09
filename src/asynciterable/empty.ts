@@ -7,6 +7,13 @@ class EmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Returns an empty async-iterable sequence.
+ *
+ * @export
+ * @template TSource The type used for the async-iterable type parameter of the resulting sequence.
+ * @returns {AsyncIterableX<TSource>} An async-iterable sequence with no elements.
+ */
 export function empty<TSource>(): AsyncIterableX<TSource> {
   return new EmptyAsyncIterable<TSource>();
 }

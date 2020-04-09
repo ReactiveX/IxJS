@@ -44,8 +44,13 @@ export class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 /**
  * Projects each element of an async-iterable sequence into consecutive non-overlapping
  * buffers which are produced based on element count information.
- * @param count Length of each buffer.
- * @param skip Number of elements to skip between creation of consecutive buffers.
+ *
+ * @export
+ * @template TSource The type of elements in the source sequence.
+ * @param {number} count The length of each buffer.
+ * @param {number} [skip] An optional number of elements to skip between creation of consecutive buffers.
+ * @returns {OperatorAsyncFunction<TSource, TSource[]>} An operator which returns anm async-iterable sequence with
+ * consecutive non-overlapping buffers based upon element count information.
  */
 export function buffer<TSource>(
   count: number,
@@ -61,3 +66,10 @@ export function buffer<TSource>(
     return new BufferAsyncIterable<TSource>(source, count, s!);
   };
 }
+
+/**
+ * Projects each element of an async-iterable sequence into consecutive non-overlapping
+ * buffers which are produced based on element count information.
+ * @param count Length of each buffer.
+ * @param skip Number of elements to skip between creation of consecutive buffers.
+ */

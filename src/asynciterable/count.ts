@@ -1,22 +1,29 @@
 import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
+import { OptionalFindOptions } from './findoptions';
 
 /**
- * Returns a promise that represents how many elements in the specified async-iterable sequence satisfy a condition.
- * @param source An async-enumerable sequence that contains elements to be counted.
- * @param fn A function to test each element for a condition.
- * @param signal The optional abort signal to be used for cancelling the sequence at any time.
+ * Returns a promise that represents how many elements in the specified async-iterable sequence satisfy a condition
+ * otherwise, the number of items in the sequence.
+ *
+ * @export
+ * @template T
+ * @param {AsyncIterable<T>} source An async-enumerable sequence that contains elements to be counted.
+ * @param {OptionalFindOptions<T>} [options] The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
+ * @returns {Promise<number>} The number of matching elements for the given condition if provided, otherwise
+ * the number of elements in the sequence.
  */
 export async function count<T>(
   source: AsyncIterable<T>,
-  fn: (value: T, signal?: AbortSignal) => boolean | Promise<boolean> = async () => true,
-  signal?: AbortSignal
+  options?: OptionalFindOptions<T>
 ): Promise<number> {
+  const opts = options || ({ ['predicate']: async () => true } as OptionalFindOptions<T>);
+  const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = opts;
   throwIfAborted(signal);
   let i = 0;
 
   for await (const item of wrapWithAbort(source, signal)) {
-    if (await fn(item, signal)) {
+    if (await predicate!.call(thisArg, item, i, signal)) {
       i++;
     }
   }

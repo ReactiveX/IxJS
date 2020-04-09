@@ -1,7 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { throwIfAborted } from '../aborterror';
 
-class ThrowAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+class ThrowAsyncIterable extends AsyncIterableX<never> {
   private _error: any;
 
   constructor(error: any) {
@@ -9,7 +9,7 @@ class ThrowAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     this._error = error;
   }
 
-  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<TSource> {
+  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<never> {
     throwIfAborted(signal);
     throw this._error;
   }
@@ -17,8 +17,11 @@ class ThrowAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
 /**
  * Creates an async-iterable that throws the specified error upon iterating.
- * @param error The error to throw upon iterating the async-iterable.
+ *
+ * @export
+ * @param {*} error The error to throw upon iterating the async-iterable.
+ * @returns {AsyncIterableX<never>} An async-iterable that throws when iterated.
  */
-export function throwError<TSource>(error: any): AsyncIterableX<TSource> {
-  return new ThrowAsyncIterable<TSource>(error);
+export function throwError(error: any): AsyncIterableX<never> {
+  return new ThrowAsyncIterable(error);
 }

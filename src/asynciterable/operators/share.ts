@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { create } from '../create';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { throwIfAborted } from '../../aborterror';
 
 class SharedAsyncIterable<T> extends AsyncIterableX<T> {
   private _it: AsyncIterator<T>;
@@ -14,7 +15,8 @@ class SharedAsyncIterable<T> extends AsyncIterableX<T> {
     };
   }
 
-  [Symbol.asyncIterator]() {
+  [Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
     return this._it;
   }
 }
@@ -41,7 +43,7 @@ export function share<TSource, TResult = TSource>(
           new SharedAsyncIterable(source[Symbol.asyncIterator](signal)),
           signal
         );
-        return it[Symbol.asyncIterator]();
+        return it[Symbol.asyncIterator](signal);
       })
       : new SharedAsyncIterable<TSource>(source[Symbol.asyncIterator]());
   };
