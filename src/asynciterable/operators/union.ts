@@ -40,6 +40,16 @@ export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Produces the set union of two sequences by using the given equality comparer.
+ *
+ * @export
+ * @template TSource The type of the elements of the input sequences.
+ * @param {AsyncIterable<TSource>} right An async-iterable sequence whose distinct elements form the second set for the union.
+ * @param {((x: TSource, y: TSource) => boolean | Promise<boolean>)} [comparer=comparerAsync] The equality comparer to compare values.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable sequence that contains the elements from both input sequences,
+ * excluding duplicates.
+ */
 export function union<TSource>(
   right: AsyncIterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync

@@ -72,6 +72,15 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Applies a timeout policy for each element in the async-iterable sequence.
+ * If the next element isn't received within the specified timeout duration starting from its predecessor, a TimeoutError is thrown.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {number} dueTime Maximum duration in milliseconds between values before a timeout occurs.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} The source sequence with a TimeoutError in case of a timeout.
+ */
 export function timeout<TSource>(dueTime: number): MonoTypeOperatorAsyncFunction<TSource> {
   return function timeoutOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
     return new TimeoutAsyncIterable<TSource>(source, dueTime);

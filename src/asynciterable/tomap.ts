@@ -11,7 +11,7 @@ import { throwIfAborted } from '../aborterror';
  */
 export interface ToMapOptions<TSource, TElement> {
   /**
-   * The selector used to get the key for the Map.
+   * The selector used to get the element for the Map.
    *
    * @memberof ToMapOptions
    */
@@ -25,6 +25,18 @@ export interface ToMapOptions<TSource, TElement> {
   signal?: AbortSignal;
 }
 
+/**
+ * Converts an async-iterable to a map with a key selector and options for an element selector and cancellation.
+ *
+ * @export
+ * @template TSource The type of elements in the source collection.
+ * @template TKey The type of key used for the map.
+ * @template TElement The type of element to use for the map.
+ * @param {AsyncIterable<TSource>} source The source collection to turn into a map.
+ * @param {((item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>)} keySelector
+ * @param {ToMapOptions<TSource, TElement>} [options]
+ * @returns {(Promise<Map<TKey, TElement | TSource>>)}
+ */
 export async function toMap<TSource, TKey, TElement = TSource>(
   source: AsyncIterable<TSource>,
   keySelector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,

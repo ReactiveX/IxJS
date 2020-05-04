@@ -37,6 +37,15 @@ export class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Returns the elements from the source observable sequence only after the function that returns a promise produces an element.
+ *
+ * @export
+ * @template TSource
+ * @param {number} begin
+ * @param {number} [end=Infinity]
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>}
+ */
 export function slice<TSource>(
   begin: number,
   end: number = Infinity

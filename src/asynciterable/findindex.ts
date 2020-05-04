@@ -16,7 +16,7 @@ export async function findIndex<T>(
   source: AsyncIterable<T>,
   options: FindOptions<T>
 ): Promise<number> {
-  const { signal, thisArg, predicate } = options;
+  const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = options;
   throwIfAborted(signal);
   let i = 0;
 

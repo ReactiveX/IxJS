@@ -11,8 +11,7 @@ import { throwIfAborted } from '../aborterror';
  * @template T The type of the elements in the source sequence.
  * @template R The type of the result of the aggregation.
  * @param {AsyncIterable<T>} source An async-iterable sequence to aggregate over.
- * @param {ReduceOptions<T, R>} options The options which contains a callback, with optional thisArg for
- * binding and an optional abort signal for cancellation.
+ * @param {ReduceOptions<T, R>} options The options which contains a callback, with optional seedn and an optional abort signal for cancellation.
  * @returns {Promise<R>} A promise with the final accumulator value.
  */
 export async function reduce<T, R = T>(

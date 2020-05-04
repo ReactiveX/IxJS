@@ -1,59 +1,27 @@
-import { identityAsync } from '../util/identity';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { MathOptions } from './mathoptions';
+import { equalityComparerAsync } from '../util/comparer';
+import { reduce } from './reduce';
 
 /**
- * Returns the minimum element with the optional selector.
+ *  * Returns the minimum element with the optional selector.
  *
  * @export
- * @param {AsyncIterable<number>} source An async-iterable sequence to determine the minimum element of.
- * @param {MathOptions<number>} [options] Optional options which include a selector for projecting,
- * a thisArg for binding to the selector, and an abort signal for cancellation.
- * @returns {Promise<number>} A promise containing the minimum element.
+ * @template TSource The type of the elements in the source sequence.
+ * @param {AsyncIterable<TSource>} source An async-iterable sequence to determine the minimum element of.
+ * @param {(left: TSource, right: TSource) => Promise<number>} [comparer=equalityComparerAsync] Comparer used to compare elements.
+ * @param {AbortSignal} [signal] An optional abort signal to cancel the operation at any time.
+ * @returns {Promise<TSource>} A promise containing the minimum element.
  */
-export async function min(
-  source: AsyncIterable<number>,
-  options?: MathOptions<number>
-): Promise<number>;
-/**
- * Returns the minimum element with the optional selector.
- *
- * @export
- * @template T The type of the elements in the source sequence.
- * @param {AsyncIterable<T>} source An async-iterable sequence to determine the minimum element of.
- * @param {MathOptions<T>} [options] Optional options which include a selector for projecting,
- * a thisArg for binding to the selector, and an abort signal for cancellation.
- * @returns {Promise<number>} A promise containing the minimum element.
- */
-export async function min<T>(source: AsyncIterable<T>, options?: MathOptions<T>): Promise<number>;
-/**
- * Returns the minimum element with the optional selector.
- *
- * @export
- * @param {AsyncIterable<any>} source An async-iterable sequence to determine the minimum element of.
- * @param {MathOptions<any>} [options] Optional options which include a selector for projecting,
- * a thisArg for binding to the selector, and an abort signal for cancellation.
- * @returns {Promise<number>} A promise containing the minimum element.
- */
-export async function min(source: AsyncIterable<any>, options?: MathOptions<any>): Promise<number> {
-  const opts = options || ({ ['selector']: identityAsync } as MathOptions<any>);
-  const { ['selector']: selector, ['signal']: signal, ['thisArg']: thisArg } = opts;
-  throwIfAborted(signal);
-  let atleastOnce = false;
-  let value = Infinity;
-  for await (const item of wrapWithAbort(source, signal)) {
-    if (!atleastOnce) {
-      atleastOnce = true;
-    }
-    const x = await selector!.call(thisArg, item, signal);
-    if (x < value) {
-      value = x;
-    }
-  }
-  if (!atleastOnce) {
-    throw new Error('Sequence contains no elements');
-  }
-
-  return value;
+export async function min<TSource>(
+  source: AsyncIterable<TSource>,
+  comparer: (left: TSource, right: TSource) => Promise<number> = equalityComparerAsync,
+  signal?: AbortSignal
+): Promise<TSource> {
+  const minBy: (x: TSource, y: TSource) => Promise<TSource> | TSource =
+    typeof comparer === 'function'
+      ? async (x, y) => ((await comparer(x, y)) < 0 ? x : y)
+      : async (x, y) => (x < y ? x : y);
+  return reduce(source, {
+    callback: minBy,
+    signal: signal,
+  });
 }

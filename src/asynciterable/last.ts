@@ -33,7 +33,10 @@ export async function last<T>(
   source: AsyncIterable<T>,
   options?: OptionalFindOptions<T>
 ): Promise<T | undefined> {
-  const opts = options || ({ ['predicate']: async () => true } as OptionalFindOptions<T>);
+  const opts = options || ({} as OptionalFindOptions<T>);
+  if (!opts.predicate) {
+    opts.predicate = async () => true;
+  }
   const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = opts;
   throwIfAborted(signal);
   let i = 0;

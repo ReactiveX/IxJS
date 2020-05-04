@@ -1,25 +1,45 @@
 import { identity } from '../util/identity';
-
-export function average(source: Iterable<number>, selector?: (x: number) => number): number;
-export function average<T>(source: Iterable<T>, selector?: (x: T) => number): number;
+import { MathOptions } from './mathoptions';
 
 /**
- * Computes the average of a sequence of values from the sequence either from the sequence itself
- * or from the selector function.
- * @example
- * // Using non chained version
- * const result = average([1, 2, 3]);
- * const result = Ix.Iterable.of(1, 2, 3).average();
- * console.log(result);
- * @param {Iterable<any>} source A sequence of values to calculate the average of.
- * @param {function(x: any): number} [selector] A transform function to apply to each element.
- * @returns {number} The average of the sequence of values.
+ * Computes the average of the iterable sequence.
+ *
+ * @export
+ * @param {Iterable<number>} source The source iterable sequence to compute the average.
+ * @param {MathOptions<number>} [options] The options for calculating the average.
+ * @returns {number} The computed average for the iterable sequence.
  */
-export function average(source: Iterable<any>, selector: (x: any) => number = identity): number {
+export function average(source: Iterable<number>, options?: MathOptions<number>): number;
+
+/**
+ * Computes the average of the iterable sequence.
+ *
+ * @export
+ * @template T The type of elements in the source sequence.
+ * @param {Iterable<T>} source The source iterable sequence to compute the average.
+ * @param {MathOptions<T>} [options] The options for calculating the average.
+ * @returns {number} The computed average for the iterable sequence.
+ */
+export function average<T>(source: Iterable<T>, options?: MathOptions<T>): number;
+
+/**
+ * Computes the average of the iterable sequence.
+ *
+ * @export
+ * @param {Iterable<any>} source The source iterable sequence to compute the average.
+ * @param {MathOptions<any>} [options] The options for calculating the average.
+ * @returns {number} The computed average for the iterable sequence.
+ */
+export function average(source: Iterable<any>, options?: MathOptions<any>): number {
+  const opts = options || ({} as MathOptions<any>);
+  if (!opts.selector) {
+    opts.selector = identity;
+  }
+  const { ['selector']: selector, ['thisArg']: thisArg } = opts;
   let sum = 0;
   let count = 0;
   for (const item of source) {
-    sum += selector(item);
+    sum += selector.call(thisArg, item);
     count++;
   }
 

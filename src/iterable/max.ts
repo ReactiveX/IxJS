@@ -1,22 +1,25 @@
-import { identity } from '../util/identity';
+import { equalityComparer } from '../util/comparer';
+import { reduce } from './reduce';
 
-export function max(source: Iterable<number>, fn?: (x: number) => number): number;
-export function max<T>(source: Iterable<T>, fn: (x: T) => number): number;
-export function max(source: Iterable<any>, fn: (x: any) => number = identity): number {
-  let atleastOnce = false;
-  let value = -Infinity;
-  for (const item of source) {
-    if (!atleastOnce) {
-      atleastOnce = true;
-    }
-    const x = fn(item);
-    if (x > value) {
-      value = x;
-    }
-  }
-  if (!atleastOnce) {
-    throw new Error('Sequence contains no elements');
-  }
+/**
+ * Returns the maximum element with the optional selector.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {Iterable<TSource>} source An async-iterable sequence to determine the maximum element of.
+ * @param {(left: TSource, right: TSource) => number} [comparer=equalityComparer] Comparer used to compare elements.
+ * @returns {TSource} The maximum element.
+ */
+export async function max<TSource>(
+  source: Iterable<TSource>,
+  comparer: (left: TSource, right: TSource) => number = equalityComparer
+): Promise<TSource> {
+  const maxBy: (x: TSource, y: TSource) => TSource =
+    typeof comparer === 'function'
+      ? (x, y) => (comparer(x, y) > 0 ? x : y)
+      : (x, y) => (x > y ? x : y);
 
-  return value;
+  return reduce(source, {
+    callback: maxBy,
+  });
 }

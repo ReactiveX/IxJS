@@ -7,8 +7,8 @@ import { OptionalFindOptions } from './findoptions';
  * otherwise, the number of items in the sequence.
  *
  * @export
- * @template T
- * @param {AsyncIterable<T>} source An async-enumerable sequence that contains elements to be counted.
+ * @template T The type of elements in the source collection.
+ * @param {AsyncIterable<T>} source An async-iterable sequence that contains elements to be counted.
  * @param {OptionalFindOptions<T>} [options] The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
  * @returns {Promise<number>} The number of matching elements for the given condition if provided, otherwise
  * the number of elements in the sequence.
@@ -17,7 +17,10 @@ export async function count<T>(
   source: AsyncIterable<T>,
   options?: OptionalFindOptions<T>
 ): Promise<number> {
-  const opts = options || ({ ['predicate']: async () => true } as OptionalFindOptions<T>);
+  const opts = options || ({} as OptionalFindOptions<any>);
+  if (!opts.predicate) {
+    opts.predicate = () => true;
+  }
   const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = opts;
   throwIfAborted(signal);
   let i = 0;

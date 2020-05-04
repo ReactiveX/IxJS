@@ -25,6 +25,16 @@ export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Returns the elements from the source observable sequence only after the function that returns a promise produces an element.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {(signal?: AbortSignal) => Promise<any>} other A function which returns a promise that triggers propagation
+ * of elements of the source sequence.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable sequence containing the elements of the source sequence
+ * starting from the point the function that returns a promise triggered propagation.
+ */
 export function skipUntil<TSource>(
   other: (signal?: AbortSignal) => Promise<any>
 ): MonoTypeOperatorAsyncFunction<TSource> {

@@ -30,6 +30,15 @@ export class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Bypasses a specified number of elements in an async-iterable sequence and then returns the remaining elements.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {number} count The number of elements to skip before returning the remaining elements.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-enumerable sequence that contains the elements that
+ * occur after the specified index in the input sequence.
+ */
 export function skip<TSource>(count: number): MonoTypeOperatorAsyncFunction<TSource> {
   return function skipOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
     return new SkipAsyncIterable<TSource>(source, count);
