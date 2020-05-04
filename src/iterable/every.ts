@@ -1,25 +1,33 @@
+import { FindSubclassedOptions, FindOptions } from './findoptions';
+
 /**
- * Determines whether every element of a sequence satisfy a condition.
- * @param {Iterable<T>} source Source sequence.
- * @param {function(value: T, index: number): boolean} predicate A function to test each element for a condition.
- * @return {boolean} true if every element of the source sequence passes the test in the specified predicate, or
- * if the sequence is empty; otherwise, false.
+ * Determines whether all elements of an iterable sequence satisfy a condition.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @template S The return type from the predicate which is falsy or truthy.
+ * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
+ * @param {FindSubclassedOptions<T>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
+ * @returns {boolean} A boolean determining whether all elements in the source sequence pass the test in the specified predicate.
  */
 export function every<T, S extends T>(
   source: Iterable<T>,
-  predicate: (value: T, index: number) => value is S
+  options: FindSubclassedOptions<T, S>
 ): boolean;
-export function every<T>(
-  source: Iterable<T>,
-  predicate: (value: T, index: number) => boolean
-): boolean;
-export function every<T>(
-  source: Iterable<T>,
-  predicate: (value: T, index: number) => boolean
-): boolean {
+/**
+ * Determines whether all elements of an iterable sequence satisfy a condition.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
+ * @param {FindOptions<T>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
+ * @returns {boolean} A boolean determining whether all elements in the source sequence pass the test in the specified predicate.
+ */
+export function every<T>(source: Iterable<T>, options: FindOptions<T>): boolean {
+  const { ['thisArg']: thisArg, ['predicate']: predicate } = options;
   let i = 0;
   for (const item of source) {
-    if (!predicate(item, i++)) {
+    if (!predicate.call(thisArg, item, i++)) {
       return false;
     }
   }

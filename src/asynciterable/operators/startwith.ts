@@ -24,6 +24,14 @@ export class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Prepend a value to an async-iterable sequence.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {...TSource[]} args Elements to prepend to the specified sequence.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} The source sequence prepended with the specified values.
+ */
 export function startWith<TSource>(...args: TSource[]): MonoTypeOperatorAsyncFunction<TSource> {
   return function startWithOperatorFunction(
     source: AsyncIterable<TSource>

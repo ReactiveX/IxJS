@@ -1,8 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
-import { identity, identityAsync } from '../util/identity';
+import { identity } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
-import { CombineOptions } from './combineoptions';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
@@ -13,26 +12,17 @@ function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
   return promise.then((value) => ({ value, index })) as Promise<MergeResult<T>>;
 }
 
-export class CombineLatestAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
+export class CombineLatestAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _sources: AsyncIterable<TSource>[];
-  private _fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>;
-  private _thisArg?: any;
 
-  constructor(
-    sources: AsyncIterable<TSource>[],
-    fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>,
-    thisArg?: any
-  ) {
+  constructor(sources: AsyncIterable<TSource>[]) {
     super();
     this._sources = sources;
-    this._fn = fn;
-    this._thisArg = thisArg;
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
 
-    const { _fn: fn, _thisArg: thisArg } = this;
     const length = this._sources.length;
     const iterators = new Array<AsyncIterator<TSource>>(length);
     const nexts = new Array<Promise<MergeResult<IteratorResult<TSource>>>>(length);
@@ -66,7 +56,7 @@ export class CombineLatestAsyncIterable<TSource, TResult> extends AsyncIterableX
         nexts[index] = wrapPromiseWithIndex(iterator$.next(), index);
 
         if (hasValueAll || (hasValueAll = hasValues.every(identity))) {
-          yield await fn.call(thisArg, values, signal);
+          yield values;
         }
       }
     }
@@ -74,21 +64,120 @@ export class CombineLatestAsyncIterable<TSource, TResult> extends AsyncIterableX
 }
 
 /**
- * Merges the specified async-iterable sequences into one async-iterable sequence by using the
- * selector function whenever any of the observable sequences produces an element.
+ * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
+ * one of the async-iterable sequences produces an element.
  *
  * @export
- * @template T The type of the elements in the source sequences.
- * @template R The type of the elements in the result sequence, returned by the selector function.
- * @param {...any[]} sources The input sequences.
- * @returns {AsyncIterableX<R>} An async-iterable sequence containing the result of combining elements of the sources using
- * the specified result selector function.
+ * @template T The type of the elements in the first source sequence.
+ * @template T2 The type of the elements in the second source sequence.
+ * @param {AsyncIterable<T>} source First async-iterable source.
+ * @param {AsyncIterable<T2>} source2 Second async-iterable source.
+ * @returns {AsyncIterableX<[T, T2]>} An async-iterable sequence containing an array of all sources.
  */
-export function combineLatest<T, R>(
-  sources: AsyncIterable<T>[],
-  options?: CombineOptions<T, R>
-): AsyncIterableX<R> {
-  const opts = options || ({ ['selector']: identityAsync } as CombineOptions<T, R>);
-  const { ['selector']: selector, ['thisArg']: thisArg } = opts;
-  return new CombineLatestAsyncIterable<T, R>(sources, selector!, thisArg);
+export function combineLatest<T, T2>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>
+): AsyncIterableX<[T, T2]>;
+/**
+ * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
+ * one of the async-iterable sequences produces an element.
+ *
+ * @export
+ * @template T The type of the elements in the first source sequence.
+ * @template T2 The type of the elements in the second source sequence.
+ * @template T3 The type of the elements in the third source sequence.
+ * @param {AsyncIterable<T>} source First async-iterable source.
+ * @param {AsyncIterable<T2>} source2 Second async-iterable source.
+ * @param {AsyncIterable<T3>} source3 Third async-iterable source.
+ * @returns {AsyncIterableX<[T, T2, T3]>} An async-iterable sequence containing an array of all sources.
+ */
+export function combineLatest<T, T2, T3>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>,
+  source3: AsyncIterable<T3>
+): AsyncIterableX<[T, T2, T3]>;
+/**
+ * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
+ * one of the async-iterable sequences produces an element.
+ *
+ * @export
+ * @template T The type of the elements in the first source sequence.
+ * @template T2 The type of the elements in the second source sequence.
+ * @template T3 The type of the elements in the third source sequence.
+ * @template T4 The type of the elements in the fourth source sequence.
+ * @param {AsyncIterable<T>} source First async-iterable source.
+ * @param {AsyncIterable<T2>} source2 Second async-iterable source.
+ * @param {AsyncIterable<T3>} source3 Third async-iterable source.
+ * @param {AsyncIterable<T4>} source4 Fourth async-iterable source.
+ * @returns {AsyncIterableX<[T, T2, T3, T4]>} An async-iterable sequence containing an array of all sources.
+ */
+export function combineLatest<T, T2, T3, T4>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>,
+  source3: AsyncIterable<T3>,
+  source4: AsyncIterable<T4>
+): AsyncIterableX<[T, T2, T3, T4]>;
+/**
+ * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
+ * one of the async-iterable sequences produces an element.
+ *
+ * @export
+ * @template T The type of the elements in the first source sequence.
+ * @template T2 The type of the elements in the second source sequence.
+ * @template T3 The type of the elements in the third source sequence.
+ * @template T4 The type of the elements in the fourth source sequence.
+ * @template T5 The type of the elements in the fifth source sequence.
+ * @param {AsyncIterable<T>} source First async-iterable source.
+ * @param {AsyncIterable<T2>} source2 Second async-iterable source.
+ * @param {AsyncIterable<T3>} source3 Third async-iterable source.
+ * @param {AsyncIterable<T4>} source4 Fourth async-iterable source.
+ * @param {AsyncIterable<T5>} source5 Fifth async-iterable source.
+ * @returns {AsyncIterableX<[T, T2, T3, T4, T5]>} An async-iterable sequence containing an array of all sources.
+ */
+export function combineLatest<T, T2, T3, T4, T5>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>,
+  source3: AsyncIterable<T3>,
+  source4: AsyncIterable<T4>,
+  source5: AsyncIterable<T5>
+): AsyncIterableX<[T, T2, T3, T4, T5]>;
+/**
+ * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
+ * one of the async-iterable sequences produces an element.
+ *
+ * @export
+ * @template T The type of the elements in the first source sequence.
+ * @template T2 The type of the elements in the second source sequence.
+ * @template T3 The type of the elements in the third source sequence.
+ * @template T4 The type of the elements in the fourth source sequence.
+ * @template T5 The type of the elements in the fifth source sequence.
+ * @template T6 The type of the elements in the sixth source sequence.
+ * @param {AsyncIterable<T>} source First async-iterable source.
+ * @param {AsyncIterable<T2>} source2 Second async-iterable source.
+ * @param {AsyncIterable<T3>} source3 Third async-iterable source.
+ * @param {AsyncIterable<T4>} source4 Fourth async-iterable source.
+ * @param {AsyncIterable<T5>} source5 Fifth async-iterable source.
+ * @param {AsyncIterable<T6>} source6 Sixth async-iterable source.
+ * @returns {AsyncIterableX<[T, T2, T3, T4, T5, T6]>} An async-iterable sequence containing an array of all sources.
+ */
+export function combineLatest<T, T2, T3, T4, T5, T6>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>,
+  source3: AsyncIterable<T3>,
+  source4: AsyncIterable<T4>,
+  source5: AsyncIterable<T5>,
+  source6: AsyncIterable<T6>
+): AsyncIterableX<[T, T2, T3, T4, T5, T6]>;
+
+/**
+ * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
+ * one of the async-iterable sequences produces an element.
+ *
+ * @export
+ * @template T The of the elements in the source sequences.
+ * @param {...AsyncIterable<T>[]} sources The async-iterable sources.
+ * @returns {AsyncIterableX<T[]>} An async-iterable sequence containing an array of all sources.
+ */
+export function combineLatest<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]> {
+  return new CombineLatestAsyncIterable<T>(sources);
 }

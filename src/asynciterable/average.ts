@@ -40,7 +40,10 @@ export async function average(
   source: AsyncIterable<any>,
   options?: MathOptions<any>
 ): Promise<number> {
-  const opts = options || ({ ['selector']: identityAsync } as MathOptions<any>);
+  const opts = options || ({} as MathOptions<any>);
+  if (!opts.selector) {
+    opts.selector = identityAsync;
+  }
   const { ['selector']: selector, ['signal']: signal, ['thisArg']: thisArg } = opts;
   throwIfAborted(signal);
   let sum = 0;

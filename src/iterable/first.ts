@@ -1,27 +1,35 @@
+import { OptionalFindOptions, OptionalFindSubclassedOptions } from './findoptions';
+
 /**
- * Returns the first element in a sequence that satisfies a specified condition if provided, else
- * the first element in the sequence.
- * @param {Iterable<T>} source Source collection
- * @param {function:(value: T): boolean} [selector] An optional function to test each element for a condition.
- * @returns {T | undefined} The first element in the sequence that passes the test in the
- * specified predicate function if provided, else the first element. If there are no elements,
- * undefined is returned.
+ * Returns the first element of an iterable sequence that matches the predicate if provided, or undefined if no such element exists.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @template S The return type from the predicate which is falsy or truthy.
+ * @param {Iterable<T>} source Source async-enumerable sequence.
+ * @returns {(S | undefined)} The first element in the iterable sequence, or undefined if no such element exists.
  */
 export function first<T, S extends T>(
   source: Iterable<T>,
-  predicate: (value: T, index: number) => value is S
+  options?: OptionalFindSubclassedOptions<T, S>
 ): S | undefined;
-export function first<T>(
-  source: Iterable<T>,
-  predicate?: (value: T, index: number) => boolean
-): T | undefined;
-export function first<T>(
-  source: Iterable<T>,
-  predicate: (value: T, index: number) => boolean = () => true
-): T | undefined {
+/**
+ * Returns the first element of an iterable sequence that matches the predicate if provided, or undefined if no such element exists.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @param {Iterable<T>} source Source async-enumerable sequence.
+ * @returns {(S | undefined)} The first element in the iterable sequence, or undefined if no such element exists.
+ */
+export function first<T>(source: Iterable<T>, options?: OptionalFindOptions<T>): T | undefined {
+  const opts = options || ({} as OptionalFindOptions<T>);
+  if (!opts.predicate) {
+    opts.predicate = () => true;
+  }
+  const { ['thisArg']: thisArg, ['predicate']: predicate } = opts;
   let i = 0;
   for (const item of source) {
-    if (predicate(item, i++)) {
+    if (predicate!.call(thisArg, item, i++)) {
       return item;
     }
   }

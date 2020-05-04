@@ -26,6 +26,17 @@ export class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Returns the elements from the source async-iterable sequence until the other function
+ * that returns a promise produces an element.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {(signal?: AbortSignal) => Promise<any>} other A function that terminates the propagation of
+ * elements in the source sequence.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable sequence containing the elements of the
+ * source sequence up to the point the other function which returns a promise interrupted further propagation.
+ */
 export function takeUntil<TSource>(
   other: (signal?: AbortSignal) => Promise<any>
 ): MonoTypeOperatorAsyncFunction<TSource> {

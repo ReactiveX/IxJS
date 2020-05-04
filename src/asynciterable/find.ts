@@ -9,9 +9,7 @@ import { FindOptions, FindSubclassedOptions } from './findoptions';
  * @template T The type of the elements in the source sequence.
  * @template S The return type from the predicate which is falsy or truthy.
  * @param {AsyncIterable<T>} source An async-iterable sequence whose elements to apply the predicate to.
- * @param {(value: T, index: number, signal?: AbortSignal) => value is S} predicate Function to evaluate for each element in the async-iterable.
- * @param {*} [thisArg] An optional object to use as this inside a callback.
- * @param {AbortSignal} [signal] The optional abort signal to be used for cancelling the sequence at any time.
+ * @param {FindSubclassedOptions<T, S>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
  * @returns {(Promise<S | undefined>)} A promise with the value of the first element that matches the predicate.
  */
 export async function find<T, S extends T>(
@@ -31,7 +29,7 @@ export async function find<T>(
   source: AsyncIterable<T>,
   options: FindOptions<T>
 ): Promise<T | undefined> {
-  const { signal, thisArg, predicate } = options;
+  const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = options;
   throwIfAborted(signal);
   let i = 0;
 

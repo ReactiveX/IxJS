@@ -1,17 +1,26 @@
+import { OptionalFindOptions } from './findoptions';
+
 /**
- * Returns a number that represents how many elements in the specified sequence satisfy a condition if present,
- * else the number of items in the collection.
- * @param {Iterable<T>} source A sequence that contains elements to be tested and counted.
- * @param {function(value: T): boolean} [predicate] A function to test each element for a condition.
+ * Returns a promise that represents how many elements in the specified iterable sequence satisfy a condition
+ * otherwise, the number of items in the sequence.
+ *
+ * @export
+ * @template T The type of elements in the source collection.
+ * @param {Iterable<T>} source An iterable sequence that contains elements to be counted.
+ * @param {OptionalFindOptions<T>} [options] The options for a predicate for filtering and thisArg for binding.
+ * @returns {number} The number of matching elements for the given condition if provided, otherwise
+ * the number of elements in the sequence.
  */
-export function count<T>(
-  source: Iterable<T>,
-  predicate: (value: T) => boolean = () => true
-): number {
+export function count<T>(source: Iterable<T>, options?: OptionalFindOptions<T>): number {
+  const opts = options || ({} as OptionalFindOptions<any>);
+  if (!opts.predicate) {
+    opts.predicate = () => true;
+  }
+  const { ['thisArg']: thisArg, ['predicate']: predicate } = opts;
   let i = 0;
 
   for (const item of source) {
-    if (predicate(item)) {
+    if (predicate.call(thisArg, item, i)) {
       i++;
     }
   }

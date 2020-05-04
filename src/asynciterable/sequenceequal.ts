@@ -40,8 +40,11 @@ export async function sequenceEqual<T>(
   other: AsyncIterable<T>,
   options?: SequencEqualOptions<T>
 ): Promise<boolean> {
-  const opts = options || ({ comparer: comparerAsync } as SequencEqualOptions<T>);
-  const { signal, comparer } = opts;
+  const opts = options || ({} as SequencEqualOptions<T>);
+  if (!opts.comparer) {
+    opts.comparer = comparerAsync;
+  }
+  const { ['signal']: signal, ['comparer']: comparer } = opts;
   throwIfAborted(signal);
   const it1 = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
   const it2 = wrapWithAbort(other, signal)[Symbol.asyncIterator]();

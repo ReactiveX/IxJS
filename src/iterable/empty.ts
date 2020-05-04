@@ -7,8 +7,11 @@ class EmptyIterable<TSource> extends IterableX<TSource> {
 }
 
 /**
- * Returns an empty iterable.
- * @return {Iterable<T>} The empty iterable.
+ * Returns an empty iterable sequence.
+ *
+ * @export
+ * @template TSource The type used for the iterable type parameter of the resulting sequence.
+ * @returns {IterableX<TSource>} An iterable sequence with no elements.
  */
 export function empty<TSource>(): IterableX<TSource> {
   return new EmptyIterable<TSource>();

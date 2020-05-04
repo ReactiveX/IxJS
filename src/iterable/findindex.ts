@@ -1,28 +1,21 @@
-import { bindCallback } from '../util/bindcallback';
+import { FindOptions } from './findoptions';
 
-export function findIndex<T, S extends T>(
-  source: Iterable<T>,
-  predicate: (value: T, index: number) => value is S,
-  thisArg?: any
-): number;
-export function findIndex<T>(
-  source: Iterable<T>,
-  predicate: (value: T, index: number) => boolean,
-  thisArg?: any
-): number;
-export function findIndex<T>(
-  source: Iterable<T>,
-  predicate: (value: T, index: number) => boolean,
-  thisArg?: any
-): number {
-  if (typeof predicate !== 'function') {
-    throw new TypeError();
-  }
-  const f = bindCallback(predicate, thisArg, 2);
+/**
+ * Returns the index of the first element in the array that satisfies the provided testing function.
+ * Otherwise, it returns -1, indicating that no element passed the test.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
+ * @param {FindOptions<T>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
+ * @returns {number} The index of the first element in the array that passes the test. Otherwise, -1.
+ */
+export function findIndex<T>(source: Iterable<T>, options: FindOptions<T>): number {
+  const { ['thisArg']: thisArg, ['predicate']: predicate } = options;
   let i = 0;
 
   for (const item of source) {
-    if (f(item, i++)) {
+    if (predicate.call(thisArg, item, i++)) {
       return i;
     }
   }

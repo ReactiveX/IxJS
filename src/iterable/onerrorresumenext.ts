@@ -28,10 +28,14 @@ export class OnErrorResumeNextIterable<TSource> extends IterableX<TSource> {
   }
 }
 
-export function onErrorResumeNext<T>(source: Iterable<T>, ...args: Iterable<T>[]): IterableX<T> {
-  return new OnErrorResumeNextIterable<T>([source, ...args]);
-}
-
-export function onErrorResumeNextStatic<T>(...source: Iterable<T>[]): IterableX<T> {
+/**
+ * Concatenates all of the specified iterable sequences, even if the previous iterable sequence terminated exceptionally.
+ *
+ * @export
+ * @template T The type of the elements in the source sequences.
+ * @param {...Iterable<T>[]} args iterable sequences to concatenate.
+ * @returns {IterableX<T>} An iterable sequence that concatenates the source sequences, even if a sequence terminates exceptionally.
+ */
+export function onErrorResumeNext<T>(...source: Iterable<T>[]): IterableX<T> {
   return new OnErrorResumeNextIterable<T>(source);
 }

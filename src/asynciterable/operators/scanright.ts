@@ -36,6 +36,16 @@ export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
   }
 }
 
+/**
+ * Applies an accumulator function over an async-iterable sequence from the right and returns each intermediate result.
+ * The specified seed value, if given, is used as the initial accumulator value.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @template R The type of the result of the aggregation.
+ * @param {ScanOptions<T, R>} options The options including the accumulator function and seed.
+ * @returns {OperatorAsyncFunction<T, R>} An async-enumerable sequence containing the accumulated values from the right.
+ */
 export function scanRight<T, R = T>(options: ScanOptions<T, R>): OperatorAsyncFunction<T, R> {
   return function scanRightOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<R> {
     return new ScanRightAsyncIterable(source, options);

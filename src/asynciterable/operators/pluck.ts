@@ -19,12 +19,21 @@ function plucker(props: string[], length: number): (x: any) => any {
   return mapper;
 }
 
+/**
+ * Maps each source value to its specified nested property.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @template TResult The type of the elements in the result sequence, obtained by the property names.
+ * @param {...string[]} args The nested properties to pluck from each source value.
+ * @returns {OperatorAsyncFunction<TSource, TResult>} An async-iterable of property values from the source values.
+ */
 export function pluck<TSource, TResult>(
   ...args: string[]
 ): OperatorAsyncFunction<TSource, TResult> {
   return function pluckOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TResult> {
-    return (map<TSource, TResult>((plucker(args, args.length) as any) as (
-      value: TSource
-    ) => TResult))(source);
+    return map<TSource, TResult>(
+      (plucker(args, args.length) as any) as (value: TSource) => TResult
+    )(source);
   };
 }

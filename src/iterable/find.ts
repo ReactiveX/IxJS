@@ -1,37 +1,34 @@
-import { bindCallback } from '../util/bindcallback';
+import { FindOptions, FindSubclassedOptions } from './findoptions';
 
 /**
- * Returns the value of the first element in the sequence that satisfies the provided testing function.
- * Otherwise undefined is returned.
- * @param {Iterable<T>} source Source sequence.
- * @param {function(value: T, index: number): boolean} predicate Function to execute for every item in the sequence.
- * @param {Object} [thisArg] Object to use as this when executing callback.
- * @return {T | undefined} The value of the first element in the sequence that satisfies the provided testing function.
- * Otherwise undefined is returned.
+ * Returns the value of the first element in the provided iterable that satisfies the provided testing function.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @template S The return type from the predicate which is falsy or truthy.`
+ * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
+ * @param {FindSubclassedOptions<T, S>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
+ * @returns {(S | undefined)} The first element that matches the predicate.
  */
 export function find<T, S extends T>(
   source: Iterable<T>,
-  predicate: (value: T, index: number) => value is S,
-  thisArg?: any
-): S | undefined;
-export function find<T>(
-  source: Iterable<T>,
-  predicate: (value: T, index: number) => boolean,
-  thisArg?: any
-): T | undefined;
-export function find<T>(
-  source: Iterable<T>,
-  predicate: (value: T, index: number) => boolean,
-  thisArg?: any
-): T | undefined {
-  if (typeof predicate !== 'function') {
-    throw new TypeError();
-  }
-  const f = bindCallback(predicate, thisArg, 2);
+  options: FindSubclassedOptions<T, S>
+): Promise<S | undefined>;
+/**
+ * Returns the value of the first element in the provided iterable that satisfies the provided testing function.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
+ * @param {FindOptions<T>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
+ * @returns {(Promise<S | undefined>)} The first element that matches the predicate.
+ */
+export function find<T>(source: Iterable<T>, options: FindOptions<T>): T | undefined {
+  const { ['thisArg']: thisArg, ['predicate']: predicate } = options;
   let i = 0;
 
   for (const item of source) {
-    if (f(item, i++)) {
+    if (predicate.call(thisArg, item, i++)) {
       return item;
     }
   }

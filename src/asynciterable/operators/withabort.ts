@@ -20,6 +20,14 @@ export class WithAbortAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 }
 
+/**
+ * Wraps the existing async-iterable sequence with an abort signal for cancellation.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {AbortSignal} signal The abort signal used for cancellation.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable that can be cancelled by the abort signal.
+ */
 export function withAbort<TSource>(signal: AbortSignal): MonoTypeOperatorAsyncFunction<TSource> {
   return function withAbortOperatorFunction(
     source: AsyncIterable<TSource>
@@ -28,6 +36,18 @@ export function withAbort<TSource>(signal: AbortSignal): MonoTypeOperatorAsyncFu
   };
 }
 
-export function wrapWithAbort<TSource>(source: AsyncIterable<TSource>, signal?: AbortSignal) {
+/**
+ * Wraps an existing async-iterable with a new async-iterable which support cancellation.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {AsyncIterable<TSource>} source The source sequence to wrap with the abort signal.
+ * @param {AbortSignal} [signal] The abort signal used for cancellation.
+ * @returns {AsyncIterable<TSource>} The source sequence wrapped with an abort signal for cancellation.
+ */
+export function wrapWithAbort<TSource>(
+  source: AsyncIterable<TSource>,
+  signal?: AbortSignal
+): AsyncIterable<TSource> {
   return signal ? new WithAbortAsyncIterable(source, signal) : source;
 }

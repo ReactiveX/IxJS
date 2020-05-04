@@ -1,30 +1,19 @@
 import { wrapWithAbort } from './operators/withabort';
 import { AsyncIterableX } from './asynciterablex';
-import { identityAsync } from '../util/identity';
 import { returnAsyncIterator } from '../util/returniterator';
 import { throwIfAborted } from '../aborterror';
-import { CombineOptions } from './combineoptions';
 
-export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
+export class ZipAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _sources: AsyncIterable<TSource>[];
-  private _fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>;
-  private _thisArg?: any;
 
-  constructor(
-    sources: AsyncIterable<TSource>[],
-    fn: (values: any[], signal?: AbortSignal) => TResult | Promise<TResult>,
-    thisArg?: any
-  ) {
+  constructor(sources: AsyncIterable<TSource>[]) {
     super();
     this._sources = sources;
-    this._fn = fn;
-    this._thisArg = thisArg;
   }
 
   // eslint-disable-next-line consistent-return
-  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterableIterator<TResult> {
+  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterableIterator<TSource[]> {
     throwIfAborted(signal);
-    const { _fn: fn, _thisArg: thisArg } = this;
     const sourcesLength = this._sources.length;
     const its = this._sources.map((x) => wrapWithAbort(x, signal)[Symbol.asyncIterator]());
     while (sourcesLength > 0) {
@@ -37,26 +26,120 @@ export class ZipAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
         }
         values[i] = value;
       }
-      yield await fn.call(thisArg, values, signal);
+      yield values;
     }
   }
 }
 
 /**
- * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
+ * Merges multiple async-interable sequences into one async-interable sequence by combining their elements in a pairwise fashion.
  *
  * @export
- * @template T The type of the elements in the source sequences.
- * @template R The type of the elements in the result sequence, returned by the selector function.
- * @param {AsyncIterable<T>[]} sources The async-iterable sources.
- * @param {CombineOptions<T, R>} [options] The options to include a selector, and thisArg for binding.
- * @returns {AsyncIterableX<R>} An async-enumerable sequence containing the pairwise combining of the elements from the async-iterable sources.
+ * @template T The type of the first async-iterable sequence.
+ * @template T2 The type of the second async-iterable sequence.
+ * @param {AsyncIterable<T>} source The first async-iterable source.
+ * @param {AsyncIterable<T2>} source2 The second async-iterable source.
+ * @returns {AsyncIterableX<[T, T2]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
  */
-export function zip<T, R>(
-  sources: AsyncIterable<T>[],
-  options?: CombineOptions<T, R>
-): AsyncIterableX<R> {
-  const opts = options || ({ ['selector']: identityAsync } as CombineOptions<T, R>);
-  const { ['selector']: selector, ['thisArg']: thisArg } = opts;
-  return new ZipAsyncIterable<T, R>(sources as AsyncIterable<T>[], selector!, thisArg);
+export function zip<T, T2>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>
+): AsyncIterableX<[T, T2]>;
+/**
+ * Merges multiple async-interable sequences into one async-interable sequence by combining their elements in a pairwise fashion.
+ *
+ * @export
+ * @template T The type of the first async-iterable sequence.
+ * @template T2 The type of the second async-iterable sequence.
+ * @template T3 The type of the third async-iterable sequence.
+ * @param {AsyncIterable<T>} source The first async-iterable source.
+ * @param {AsyncIterable<T2>} source2 The second async-iterable source.
+ * @param {AsyncIterable<T3>} source3 The third async-iterable source.
+ * @returns {AsyncIterableX<[T, T2, T3]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
+ */
+export function zip<T, T2, T3>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>,
+  source3: AsyncIterable<T3>
+): AsyncIterableX<[T, T2, T3]>;
+/**
+ * Merges multiple async-interable sequences into one async-interable sequence by combining their elements in a pairwise fashion.
+ *
+ * @export
+ * @template T The type of the first async-iterable sequence.
+ * @template T2 The type of the second async-iterable sequence.
+ * @template T3 The type of the third async-iterable sequence.
+ * @template T4 The type of the fourth async-iterable sequence.
+ * @param {AsyncIterable<T>} source The first async-iterable source.
+ * @param {AsyncIterable<T2>} source2 The second async-iterable source.
+ * @param {AsyncIterable<T3>} source3 The third async-iterable source.
+ * @param {AsyncIterable<T4>} source4 The fourth async-iterable source.
+ * @returns {AsyncIterableX<[T, T2, T3, T4]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
+ */
+export function zip<T, T2, T3, T4>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>,
+  source3: AsyncIterable<T3>,
+  source4: AsyncIterable<T4>
+): AsyncIterableX<[T, T2, T3, T4]>;
+/**
+ * Merges multiple async-interable sequences into one async-interable sequence by combining their elements in a pairwise fashion.
+ *
+ * @export
+ * @template T The type of the first async-iterable sequence.
+ * @template T2 The type of the second async-iterable sequence.
+ * @template T3 The type of the third async-iterable sequence.
+ * @template T4 The type of the fourth async-iterable sequence.
+ * @template T5 The type of the fifth async-iterable sequence.
+ * @param {AsyncIterable<T>} source The first async-iterable source.
+ * @param {AsyncIterable<T2>} source2 The second async-iterable source.
+ * @param {AsyncIterable<T3>} source3 The third async-iterable source.
+ * @param {AsyncIterable<T4>} source4 The fourth async-iterable source.
+ * @param {AsyncIterable<T5>} source5 The fifth async-iterable source.
+ * @returns {AsyncIterableX<[T, T2, T3, T4, T5]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
+ */
+export function zip<T, T2, T3, T4, T5>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>,
+  source3: AsyncIterable<T3>,
+  source4: AsyncIterable<T4>,
+  source5: AsyncIterable<T5>
+): AsyncIterableX<[T, T2, T3, T4, T5]>;
+/**
+ * Merges multiple async-interable sequences into one async-interable sequence by combining their elements in a pairwise fashion.
+ *
+ * @export
+ * @template T The type of the first async-iterable sequence.
+ * @template T2 The type of the second async-iterable sequence.
+ * @template T3 The type of the third async-iterable sequence.
+ * @template T4 The type of the fourth async-iterable sequence.
+ * @template T5 The type of the fifth async-iterable sequence.
+ * @template T6 The type of the sixth async-iterable sequence.
+ * @param {AsyncIterable<T>} source The first async-iterable source.
+ * @param {AsyncIterable<T2>} source2 The second async-iterable source.
+ * @param {AsyncIterable<T3>} source3 The third async-iterable source.
+ * @param {AsyncIterable<T4>} source4 The fourth async-iterable source.
+ * @param {AsyncIterable<T5>} source5 The fifth async-iterable source.
+ * @param {AsyncIterable<T6>} source6 The sixth async-iterable source.
+ * @returns {AsyncIterableX<[T, T2, T3, T4, T5, T6]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
+ */
+export function zip<T, T2, T3, T4, T5, T6>(
+  source: AsyncIterable<T>,
+  source2: AsyncIterable<T2>,
+  source3: AsyncIterable<T3>,
+  source4: AsyncIterable<T4>,
+  source5: AsyncIterable<T5>,
+  source6: AsyncIterable<T6>
+): AsyncIterableX<[T, T2, T3, T4, T5, T6]>;
+
+/**
+ * Merges multiple async-interable sequences into one async-interable sequence by combining their elements in a pairwise fashion.
+ *
+ * @export
+ * @template T The type of elements in the source sequences.
+ * @param {...AsyncIterable<T>[]} sources The source sequences.
+ * @returns {AsyncIterableX<T[]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
+ */
+export function zip<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]> {
+  return new ZipAsyncIterable<T>(sources);
 }

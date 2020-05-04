@@ -1,21 +1,17 @@
 import { IterableX } from './iterablex';
-import { identity } from '../util/identity';
 import { returnIterator } from '../util/returniterator';
 
-export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
+export class ZipIterable<TSource> extends IterableX<TSource[]> {
   private _sources: Iterable<TSource>[];
-  private _fn: (values: any[]) => TResult;
 
-  constructor(sources: Iterable<TSource>[], fn: (values: any[]) => TResult) {
+  constructor(sources: Iterable<TSource>[]) {
     super();
     this._sources = sources;
-    this._fn = fn;
   }
   // eslint-disable-next-line consistent-return
-  *[Symbol.iterator](): IterableIterator<TResult> {
-    const fn = this._fn;
+  *[Symbol.iterator](): IterableIterator<TSource[]> {
     const sourcesLength = this._sources.length;
-    const its = this._sources.map(x => x[Symbol.iterator]());
+    const its = this._sources.map((x) => x[Symbol.iterator]());
     while (sourcesLength > 0) {
       const values = new Array(sourcesLength);
       for (let index = -1; ++index < sourcesLength; ) {
@@ -26,7 +22,7 @@ export class ZipIterable<TSource, TResult> extends IterableX<TResult> {
         }
         values[index] = result.value;
       }
-      yield fn(values);
+      yield values;
     }
   }
 }
@@ -59,50 +55,6 @@ export function zip<T, T2, T3, T4, T5, T6>(
   source6: Iterable<T6>
 ): IterableX<[T, T2, T3, T4, T5, T6]>;
 
-export function zip<T, R>(project: (values: [T]) => R, source: Iterable<T>): IterableX<R>;
-export function zip<T, T2, R>(
-  project: (values: [T, T2]) => R,
-  source: Iterable<T>,
-  source2: Iterable<T2>
-): IterableX<R>;
-export function zip<T, T2, T3, R>(
-  project: (values: [T, T2, T3]) => R,
-  source: Iterable<T>,
-  source2: Iterable<T2>,
-  source3: Iterable<T3>
-): IterableX<R>;
-export function zip<T, T2, T3, T4, R>(
-  project: (values: [T, T2, T3, T4]) => R,
-  source: Iterable<T>,
-  source2: Iterable<T2>,
-  source3: Iterable<T3>,
-  source4: Iterable<T4>
-): IterableX<R>;
-export function zip<T, T2, T3, T4, T5, R>(
-  project: (values: [T, T2, T3, T4, T5]) => R,
-  source: Iterable<T>,
-  source2: Iterable<T2>,
-  source3: Iterable<T3>,
-  source4: Iterable<T4>,
-  source5: Iterable<T5>
-): IterableX<R>;
-export function zip<T, T2, T3, T4, T5, T6, R>(
-  project: (values: [T, T2, T3, T4, T5, T6]) => R,
-  source: Iterable<T>,
-  source2: Iterable<T2>,
-  source3: Iterable<T3>,
-  source4: Iterable<T4>,
-  source5: Iterable<T5>,
-  source6: Iterable<T6>
-): IterableX<R>;
-
-export function zip<T>(...sources: Iterable<T>[]): IterableX<T[]>;
-export function zip<T, R>(project: (values: T[]) => R, ...sources: Iterable<T>[]): IterableX<R>;
-export function zip<T, R>(...sources: any[]): IterableX<R> {
-  let fn = (sources.shift() || identity) as (values: any[]) => R;
-  if (fn && typeof fn !== 'function') {
-    sources.unshift(fn);
-    fn = identity;
-  }
-  return new ZipIterable<T, R>(sources as Iterable<T>[], fn);
+export function zip<T>(...sources: Iterable<T>[]): IterableX<T[]> {
+  return new ZipIterable<T>(sources);
 }
