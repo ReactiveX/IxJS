@@ -23,6 +23,14 @@ export class PairwiseIterable<TSource> extends IterableX<TSource[]> {
   }
 }
 
+/**
+ * Returns a sequence of each element in the input sequence and its predecessor, with the exception of the
+ * first element which is only returned as the predecessor of the second element.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @returns {OperatorFunction<TSource, TSource[]>} The result sequence.
+ */
 export function pairwise<TSource>(): OperatorFunction<TSource, TSource[]> {
   return function pairwiseOperatorFunction(source: Iterable<TSource>): IterableX<TSource[]> {
     return new PairwiseIterable<TSource>(source);

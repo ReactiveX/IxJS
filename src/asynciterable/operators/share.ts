@@ -38,7 +38,7 @@ export function share<TSource>(): OperatorAsyncFunction<TSource, TSource>;
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
  * @param {((
- *     value: AsyncIterableX<TSource>,
+ *     value: AsyncIterable<TSource>,
  *     signal?: AbortSignal
  *   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>)} [selector] Selector function with shared access
  * to the source sequence for each iterator.
@@ -47,7 +47,7 @@ export function share<TSource>(): OperatorAsyncFunction<TSource, TSource>;
  */
 export function share<TSource, TResult>(
   selector?: (
-    value: AsyncIterableX<TSource>,
+    value: AsyncIterable<TSource>,
     signal?: AbortSignal
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
 ): OperatorAsyncFunction<TSource, TResult>;
@@ -59,7 +59,7 @@ export function share<TSource, TResult>(
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
  * @param {((
- *     value: AsyncIterableX<TSource>,
+ *     value: AsyncIterable<TSource>,
  *     signal?: AbortSignal
  *   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>)} [selector] Selector function with shared access
  * to the source sequence for each iterator.
@@ -68,7 +68,7 @@ export function share<TSource, TResult>(
  */
 export function share<TSource, TResult = TSource>(
   selector?: (
-    value: AsyncIterableX<TSource>,
+    value: AsyncIterable<TSource>,
     signal?: AbortSignal
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {

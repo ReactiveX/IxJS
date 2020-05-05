@@ -1,6 +1,7 @@
 import { IterableX } from '../iterablex';
 import { PartialObserver } from '../../observer';
 import { MonoTypeOperatorFunction } from '../../interfaces';
+import { toObserver } from '../../util/toobserver';
 
 export class TapIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
@@ -40,10 +41,55 @@ export class TapIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Invokes an action for each element in the iterable sequence, and propagates all observer
+ * messages through the result sequence. This method can be used for debugging, logging, etc. by
+ * intercepting the message stream to run arbitrary actions for messages on the pipeline.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {PartialObserver<TSource>} observer Observer whose methods to invoke as part of the source sequence's observation.
+ * @returns {MonoTypeOperatorFunction<TSource>} The source sequence with the side-effecting behavior applied.
+ */
+export function tap<TSource>(observer: PartialObserver<TSource>): MonoTypeOperatorFunction<TSource>;
+
+/**
+ * Invokes an action for each element in the iterable sequence, and propagates all observer
+ * messages through the result sequence. This method can be used for debugging, logging, etc. by
+ * intercepting the message stream to run arbitrary actions for messages on the pipeline.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {(((value: TSource) => any) | null)} [next] Function to invoke for each element in the iterable sequence.
+ * @param {(((err: any) => any) | null)} [error] Function to invoke upon exceptional termination of the iterable sequence.
+ * @param {((() => any) | null)} [complete] Function to invoke upon graceful termination of the iterable sequence.
+ * @returns {MonoTypeOperatorFunction<TSource>} The source sequence with the side-effecting behavior applied.
+ */
 export function tap<TSource>(
-  observer: PartialObserver<TSource>
+  next?: ((value: TSource) => any) | null,
+  error?: ((err: any) => any) | null,
+  complete?: (() => any) | null
+): MonoTypeOperatorFunction<TSource>;
+
+/**
+ * Invokes an action for each element in the iterable sequence, and propagates all observer
+ * messages through the result sequence. This method can be used for debugging, logging, etc. by
+ * intercepting the message stream to run arbitrary actions for messages on the pipeline.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @param {(PartialObserver<TSource> | ((value: TSource) => any) | null)} [observerOrNext] Observer whose methods to invoke as
+ * part of the source sequence's observation or a function to invoke for each element in the iterable sequence.
+ * @param {(((err: any) => any) | null)} [error] Function to invoke upon exceptional termination of the iterable sequence.
+ * @param {((() => any) | null)} [complete] Function to invoke upon graceful termination of the iterable sequence.
+ * @returns {MonoTypeOperatorFunction<TSource>} The source sequence with the side-effecting behavior applied.
+ */
+export function tap<TSource>(
+  observerOrNext?: PartialObserver<TSource> | ((value: TSource) => any) | null,
+  error?: ((err: any) => any) | null,
+  complete?: (() => any) | null
 ): MonoTypeOperatorFunction<TSource> {
   return function tapOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
-    return new TapIterable<TSource>(source, observer);
+    return new TapIterable<TSource>(source, toObserver(observerOrNext, error, complete));
   };
 }

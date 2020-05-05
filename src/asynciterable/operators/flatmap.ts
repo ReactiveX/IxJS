@@ -7,13 +7,18 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
   private _source: AsyncIterable<TSource>;
   private _selector: (
     value: TSource,
+    index: number,
     signal?: AbortSignal
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
   private _thisArg?: any;
 
   constructor(
     source: AsyncIterable<TSource>,
-    selector: (value: TSource) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
+    selector: (
+      value: TSource,
+      index: number,
+      signal?: AbortSignal
+    ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
     thisArg?: any
   ) {
     super();
@@ -25,8 +30,9 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
     const { _source: source, _selector: selector, _thisArg: thisArg } = this;
+    let index = 0;
     for await (const outer of wrapWithAbort(source, signal)) {
-      const inners = await selector.call(thisArg, outer, signal);
+      const inners = await selector.call(thisArg, outer, index++, signal);
       for await (const inner of wrapWithAbort(inners, signal)) {
         yield inner;
       }
@@ -43,6 +49,7 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
  * @template TResult The type of the elements in the projected inner sequences and the elements in the merged result sequence.
  * @param {((
  *     value: TSource,
+ *     index: number,
  *     signal?: AbortSignal
  *   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>)} selector A transform function to apply to each element.
  * @param {*} [thisArg] Option this for binding to the selector.
@@ -52,6 +59,7 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
 export function flatMap<TSource, TResult>(
   selector: (
     value: TSource,
+    index: number,
     signal?: AbortSignal
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>,
   thisArg?: any

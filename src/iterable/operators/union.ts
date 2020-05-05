@@ -37,6 +37,16 @@ export class UnionIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Produces the set union of two sequences by using the given equality comparer.
+ *
+ * @export
+ * @template TSource The type of the elements of the input sequences.
+ * @param {AsyncIterable<TSource>} right An iterable sequence whose distinct elements form the second set for the union.
+ * @param {((x: TSource, y: TSource) => boolean)} [comparer=defaultComparer] The equality comparer to compare values.
+ * @returns {MonoTypeOperatorFunction<TSource>} An iterable sequence that contains the elements from both input sequences,
+ * excluding duplicates.
+ */
 export function union<TSource>(
   right: Iterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean = defaultComparer

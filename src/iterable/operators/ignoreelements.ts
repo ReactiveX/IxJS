@@ -17,6 +17,14 @@ export class IgnoreElementsIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Ignores all elements in an iterable sequence leaving only the termination messages.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence
+ * @returns {MonoTypeOperatorFunction<TSource>} An operator that returns an empty iterable sequence
+ * that signals termination, successful or exceptional, of the source sequence.
+ */
 export function ignoreElements<TSource>(): MonoTypeOperatorFunction<TSource> {
   return function ignoreElementsOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
     return new IgnoreElementsIterable<TSource>(source);

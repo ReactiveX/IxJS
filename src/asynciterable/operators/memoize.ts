@@ -98,7 +98,7 @@ export function memoize<TSource>(readerCount?: number): OperatorAsyncFunction<TS
  */
 export function memoize<TSource, TResult>(
   readerCount?: number,
-  selector?: (value: AsyncIterableX<TSource>) => AsyncIterable<TResult>
+  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TResult>;
 /**
  * Memoizes the source sequence within a selector function where a specified number of iterators can get access
@@ -109,14 +109,14 @@ export function memoize<TSource, TResult>(
  * @template TResult Result sequence element type.
  * @param {number} [readerCount=-1] Number of iterators that can access the underlying buffer. Once every
  * iterator has obtained an element from the buffer, the element is removed from the buffer.
- * @param {(value: AsyncIterableX<TSource>) => AsyncIterable<TResult>} [selector] Selector function with memoized access
+ * @param {(value: AsyncIterable<TSource>) => AsyncIterable<TResult>} [selector] Selector function with memoized access
  * to the source sequence for a specified number of iterators.
  * @returns {(OperatorAsyncFunction<TSource, TSource | TResult>)} Sequence resulting from applying the selector function to the
  * memoized view over the source sequence.
  */
 export function memoize<TSource, TResult = TSource>(
   readerCount: number = -1,
-  selector?: (value: AsyncIterableX<TSource>) => AsyncIterable<TResult>
+  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
   return function memoizeOperatorFunction(
     source: AsyncIterable<TSource>

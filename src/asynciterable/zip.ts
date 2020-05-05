@@ -140,6 +140,7 @@ export function zip<T, T2, T3, T4, T5, T6>(
  * @param {...AsyncIterable<T>[]} sources The source sequences.
  * @returns {AsyncIterableX<T[]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
  */
-export function zip<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]> {
+export function zip<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]>;
+export function zip<T>(...sources: any[]): AsyncIterableX<T[]> {
   return new ZipAsyncIterable<T>(sources);
 }
