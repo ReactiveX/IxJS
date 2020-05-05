@@ -18,6 +18,13 @@ export class ReverseIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Reverses the iterable instance.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @returns {MonoTypeOperatorAsyncFunction<TSource>} The iterable in reversed sequence.
+ */
 export function reverse<TSource>(): MonoTypeOperatorFunction<TSource> {
   return function reverseOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
     return new ReverseIterable<TSource>(source);

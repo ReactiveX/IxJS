@@ -36,62 +36,15 @@ export function forkJoinProto<T, T2, T3, T4, T5, T6>(
   source6: AsyncIterable<T6>
 ): Promise<[T, T2, T3, T4, T5, T6] | undefined>;
 
-export function forkJoinProto<T, R>(
-  this: AsyncIterableX<T>,
-  project: (values: [T]) => R
-): Promise<R>;
-export function forkJoinProto<T, T2, R>(
-  this: AsyncIterableX<T>,
-  project: (values: [T, T2]) => R,
-  source2: AsyncIterable<T2>
-): Promise<R | undefined>;
-export function forkJoinProto<T, T2, T3, R>(
-  this: AsyncIterableX<T>,
-  project: (values: [T, T2, T3]) => R,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>
-): Promise<R | undefined>;
-export function forkJoinProto<T, T2, T3, T4, R>(
-  this: AsyncIterableX<T>,
-  project: (values: [T, T2, T3, T4]) => R,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>
-): Promise<R | undefined>;
-export function forkJoinProto<T, T2, T3, T4, T5, R>(
-  this: AsyncIterableX<T>,
-  project: (values: [T, T2, T3, T4, T5]) => R,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>,
-  source5: AsyncIterable<T5>
-): Promise<R | undefined>;
-export function forkJoinProto<T, T2, T3, T4, T5, T6, R>(
-  this: AsyncIterableX<T>,
-  project: (values: [T, T2, T3, T4, T5, T6]) => R,
-  source2: AsyncIterable<T2>,
-  source3: AsyncIterable<T3>,
-  source4: AsyncIterable<T4>,
-  source5: AsyncIterable<T5>,
-  source6: AsyncIterable<T6>
-): Promise<R | undefined>;
-
 export function forkJoinProto<T>(
   this: AsyncIterableX<T>,
   ...sources: AsyncIterable<T>[]
 ): Promise<T[] | undefined>;
-export function forkJoinProto<T, R>(
-  this: AsyncIterableX<T>,
-  project: (values: T[]) => R,
-  ...sources: AsyncIterable<T>[]
-): Promise<R | undefined>;
-export function forkJoinProto<T, R>(
+export function forkJoinProto<T>(
   this: AsyncIterableX<T>,
   ...args: any[]
-): Promise<R | undefined> {
-  let [arg1, ...sources] = args;
-  sources = typeof arg1 === 'function' ? [this, ...sources] : (arg1 = this) && args;
-  return forkJoin<T, R>(arg1, ...sources);
+): Promise<T[] | undefined> {
+  return forkJoin<T>(...[this, ...args]);
 }
 
 AsyncIterableX.prototype.forkJoin = forkJoinProto;

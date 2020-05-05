@@ -17,11 +17,12 @@ export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TRe
     let hasError = false;
     const it = this._source[Symbol.iterator]();
     while (1) {
-      let c = <IteratorResult<TSource>>{};
+      let done: boolean | undefined;
+      let value: TSource;
 
       try {
-        c = it.next();
-        if (c.done) {
+        ({ done, value } = it.next());
+        if (done) {
           returnIterator(it);
           break;
         }
@@ -32,7 +33,7 @@ export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TRe
         break;
       }
 
-      yield c.value;
+      yield value;
     }
 
     if (hasError) {
@@ -43,6 +44,17 @@ export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TRe
   }
 }
 
+/**
+ * Continues an async-iterable sequence that is terminated by an exception with the
+ * async-iterable sequence produced by the handler.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @template TResult The type of elements from the handler function.
+ * @param {(error: any) => Iterable<TResult>} handler Error handler function, producing another async-iterable sequence.
+ * @returns {(OperatorFunction<TSource, TSource | TResult>)} An operator which continues an async-iterable sequence that is terminated by
+ * an exception with the specified handler.
+ */
 export function catchError<TSource, TResult>(
   handler: (error: any) => Iterable<TResult>
 ): OperatorFunction<TSource, TSource | TResult> {

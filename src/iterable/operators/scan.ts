@@ -36,6 +36,16 @@ export class ScanIterable<T, R> extends IterableX<R> {
   }
 }
 
+/**
+ * Applies an accumulator function over an iterable sequence and returns each intermediate result.
+ * The specified seed value, if given, is used as the initial accumulator value.
+ *
+ * @export
+ * @template T The type of the elements in the source sequence.
+ * @template R The type of the result of the aggregation.
+ * @param {ScanOptions<T, R>} options The options including the accumulator function and seed.
+ * @returns {OperatorFunction<T, R>} An async-enumerable sequence containing the accumulated values.
+ */
 export function scan<T, R = T>(options: ScanOptions<T, R>): OperatorFunction<T, R> {
   return function scanOperatorFunction(source: Iterable<T>): IterableX<R> {
     return new ScanIterable(source, options);

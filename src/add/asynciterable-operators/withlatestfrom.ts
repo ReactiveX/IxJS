@@ -1,32 +1,32 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { combineLatest } from '../../asynciterable/combinelatest';
+import { WithLatestFromAsyncIterable } from '../../asynciterable/operators/withlatestfrom';
 
 /**
  * @ignore
  */
-export function combineLatestProto<T, T2>(
+export function withLatestFromProto<T, T2>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>
 ): AsyncIterableX<[T, T2]>;
-export function combineLatestProto<T, T2, T3>(
+export function withLatestFromProto<T, T2, T3>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>
 ): AsyncIterableX<[T, T2, T3]>;
-export function combineLatestProto<T, T2, T3, T4>(
+export function withLatestFromProto<T, T2, T3, T4>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>
 ): AsyncIterableX<[T, T2, T3, T4]>;
-export function combineLatestProto<T, T2, T3, T4, T5>(
+export function withLatestFromProto<T, T2, T3, T4, T5>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>,
   source5: AsyncIterable<T5>
 ): AsyncIterableX<[T, T2, T3, T4, T5]>;
-export function combineLatestProto<T, T2, T3, T4, T5, T6>(
+export function withLatestFromProto<T, T2, T3, T4, T5, T6>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>,
@@ -34,22 +34,22 @@ export function combineLatestProto<T, T2, T3, T4, T5, T6>(
   source5: AsyncIterable<T5>,
   source6: AsyncIterable<T6>
 ): AsyncIterableX<[T, T2, T3, T4, T5, T6]>;
-export function combineLatestProto<T>(
+export function withLatestFromProto<T>(
   this: AsyncIterableX<T>,
   ...sources: AsyncIterableX<T>[]
 ): AsyncIterableX<T[]>;
 
-export function combineLatestProto<T>(
+export function withLatestFromProto<T>(
   this: AsyncIterableX<T>,
-  ...sources: any[]
+  ...args: any[]
 ): AsyncIterableX<T[]> {
-  return combineLatest<T>(...[this, ...sources]);
+  return new WithLatestFromAsyncIterable<T>(this, args);
 }
 
-AsyncIterableX.prototype.combineLatest = combineLatestProto;
+AsyncIterableX.prototype.withLatestFrom = withLatestFromProto;
 
 declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
-    combineLatest: typeof combineLatestProto;
+    withLatestFrom: typeof withLatestFromProto;
   }
 }

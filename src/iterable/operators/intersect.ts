@@ -42,6 +42,17 @@ export class IntersectIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Produces the set intersection of two iterable sequences.
+ *
+ * @export
+ * @template TSource The type of the elements of the input sequences.
+ * @param {Iterable<TSource>} second An iterable sequence whose distinct elements that also
+ * appear in the first sequence will be returned.
+ * @param {((x: TSource, y: TSource) => boolean)} [comparer=defaultComparer] An equality comparer to compare values.
+ * @returns {MonoTypeOperatorFunction<TSource>} An operator that returns a sequence that contains the elements that form the set
+ * intersection of two sequences.
+ */
 export function intersect<TSource>(
   second: Iterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean = defaultComparer

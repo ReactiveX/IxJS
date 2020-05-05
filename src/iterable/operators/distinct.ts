@@ -3,6 +3,7 @@ import { identity } from '../../util/identity';
 import { arrayIndexOf } from '../../util/arrayindexof';
 import { comparer as defaultComparer } from '../../util/comparer';
 import { MonoTypeOperatorFunction } from '../../interfaces';
+import { DistinctOptions } from './distinctoptions';
 
 export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
@@ -33,11 +34,27 @@ export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Returns an iterable sequence that contains only distinct elements according to the keySelector and comparer.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @template TKey The type of the discriminator key computed for each element in the source sequence.
+ * @param {DistinctOptions<TSource, TKey>} [options] The optional arguments for a key selector and comparer function.
+ * @returns {MonoTypeOperatorFunction<TSource>} An operator that returns distinct elements according to the keySelector and options.
+ */
 export function distinct<TSource, TKey>(
-  keySelector: (value: TSource) => TKey = identity,
-  comparer: (x: TKey, y: TKey) => boolean = defaultComparer
+  options?: DistinctOptions<TSource, TKey>
 ): MonoTypeOperatorFunction<TSource> {
   return function distinctOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
-    return new DistinctIterable<TSource, TKey>(source, keySelector, comparer);
+    const opts = options || ({} as DistinctOptions<TSource, TKey>);
+    if (!opts.comparer) {
+      opts.comparer = defaultComparer;
+    }
+    if (!opts.keySelector) {
+      opts.keySelector = identity;
+    }
+    const { ['keySelector']: keySelector, ['comparer']: comparer } = opts;
+    return new DistinctIterable<TSource, TKey>(source, keySelector!, comparer!);
   };
 }

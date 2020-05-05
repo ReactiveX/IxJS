@@ -23,6 +23,15 @@ export class ExpandIterable<TSource> extends IterableX<TSource> {
   }
 }
 
+/**
+ * Expands (breadth first) the iterable sequence by recursively applying a selector function to generate more sequences at each recursion level.
+ *
+ * @export
+ * @template TSource Source sequence element type.
+ * @param {(( value: TSource) => Iterable<TSource>)} selector Selector function to retrieve the next sequence to expand.
+ * @returns {MonoTypeOperatorFunction<TSource>} An operator which returns a sequence with results
+ * from the recursive expansion of the source sequence.
+ */
 export function expand<TSource>(
   selector: (value: TSource) => Iterable<TSource>
 ): MonoTypeOperatorFunction<TSource> {

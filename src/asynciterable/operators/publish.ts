@@ -37,13 +37,13 @@ export function publish<TSource>(): OperatorAsyncFunction<TSource, TSource>;
  * @export
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
- * @param {(value: AsyncIterableX<TSource>) => AsyncIterable<TResult>} [selector] Selector function with published
+ * @param {(value: AsyncIterable<TSource>) => AsyncIterable<TResult>} [selector] Selector function with published
  * access to the source sequence for each iterator.
  * @returns {OperatorAsyncFunction<TSource, TResult>} Sequence resulting from applying the selector function to the
  * published view over the source sequence.
  */
 export function publish<TSource, TResult>(
-  selector?: (value: AsyncIterableX<TSource>) => AsyncIterable<TResult>
+  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TResult>;
 /**
  * Buffer enabling each iterator to retrieve elements from the shared source sequence, starting from the
@@ -52,13 +52,13 @@ export function publish<TSource, TResult>(
  * @export
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
- * @param {(value: AsyncIterableX<TSource>) => AsyncIterable<TResult>} [selector] Selector function with published
+ * @param {(value: AsyncIterable<TSource>) => AsyncIterable<TResult>} [selector] Selector function with published
  * access to the source sequence for each iterator.
  * @returns {(OperatorAsyncFunction<TSource, TSource | TResult>)} Sequence resulting from applying the selector function to the
  * published view over the source sequence.
  */
 export function publish<TSource, TResult>(
-  selector?: (value: AsyncIterableX<TSource>) => AsyncIterable<TResult>
+  selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
   return function publishOperatorFunction(
     source: AsyncIterable<TSource>

@@ -178,6 +178,7 @@ export function combineLatest<T, T2, T3, T4, T5, T6>(
  * @param {...AsyncIterable<T>[]} sources The async-iterable sources.
  * @returns {AsyncIterableX<T[]>} An async-iterable sequence containing an array of all sources.
  */
-export function combineLatest<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]> {
+export function combineLatest<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]>;
+export function combineLatest<T>(...sources: any[]): AsyncIterableX<T[]> {
   return new CombineLatestAsyncIterable<T>(sources);
 }

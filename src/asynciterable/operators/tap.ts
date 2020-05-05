@@ -82,7 +82,6 @@ export function tap<TSource>(
 ): MonoTypeOperatorAsyncFunction<TSource>;
 
 /**
-/**
  * Invokes an action for each element in the async-iterable sequence, and propagates all observer
  * messages through the result sequence. This method can be used for debugging, logging, etc. by
  * intercepting the message stream to run arbitrary actions for messages on the pipeline.

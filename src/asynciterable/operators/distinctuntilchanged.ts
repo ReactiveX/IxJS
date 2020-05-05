@@ -56,12 +56,13 @@ export function distinctUntilChanged<TSource, TKey>(
   return function distinctUntilChangedOperatorFunction(
     source: AsyncIterable<TSource>
   ): AsyncIterableX<TSource> {
-    const opts =
-      options ||
-      ({
-        ['keySelector']: identityAsync,
-        ['comparer']: comparerAsync,
-      } as DistinctOptions<TSource, TKey>);
+    const opts = options || ({} as DistinctOptions<TSource, TKey>);
+    if (!opts.comparer) {
+      opts.comparer = comparerAsync;
+    }
+    if (!opts.keySelector) {
+      opts.keySelector = identityAsync;
+    }
     const { ['keySelector']: keySelector, ['comparer']: comparer } = opts;
     return new DistinctUntilChangedAsyncIterable<TSource, TKey>(source, keySelector!, comparer!);
   };

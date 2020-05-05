@@ -61,6 +61,19 @@ export function groupBy<TSource, TKey, TValue, TResult>(
   elementSelector?: (value: TSource) => TValue,
   resultSelector?: (key: TKey, values: Iterable<TValue>) => TResult
 ): OperatorFunction<TSource, TResult>;
+
+/**
+ * Groups the elements of an iterable sequence and selects the resulting elements by using a specified function.
+ *
+ * @export
+ * @template TSource The type of the elements in the source sequence.
+ * @template TKey The type of the grouping key computed for each element in the source sequence.
+ * @template TValue The type of the elements within the groups computed for each element in the source sequence.
+ * @param {((value: TSource) => TKey)} keySelector A function to extract the key for each element.
+ * @param {((value: TSource) => TValue)} [elementSelector=identity] A function to map each source element to an element in an async-enumerable group.
+ * @returns {OperatorFunction<TSource, TResult>} A sequence of iterable groups, each of which corresponds to a unique key value,
+ * containing all elements that share that same key value.
+ */
 export function groupBy<TSource, TKey, TValue, TResult>(
   keySelector: (value: TSource) => TKey,
   elementSelector: (value: TSource) => TValue = identity,

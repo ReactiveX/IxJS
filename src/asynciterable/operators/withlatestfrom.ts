@@ -189,7 +189,9 @@ export function withLatestFrom<T, T2, T3, T4, T5, T6>(
  * @returns {OperatorAsyncFunction<T, T[]>} An async-iterable sequence containing the result of combining
  * each element of the first source with the latest element from the second source, if any as an array.
  */
-export function withLatestFrom<T>(...sources: AsyncIterable<T>[]): OperatorAsyncFunction<T, T[]> {
+export function withLatestFrom<T>(...sources: AsyncIterable<T>[]): OperatorAsyncFunction<T, T[]>;
+
+export function withLatestFrom<T>(...sources: any[]): OperatorAsyncFunction<T, T[]> {
   return function withLatestFromOperatorFunction(source: AsyncIterable<T>) {
     return new WithLatestFromAsyncIterable<T>(source, sources);
   };
