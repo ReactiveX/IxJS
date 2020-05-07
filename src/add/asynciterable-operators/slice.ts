@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { slice } from '../../asynciterable/operators/slice';
+import { SliceAsyncIterable } from '../../asynciterable/operators/slice';
 
 /**
  * @ignore
@@ -9,7 +9,7 @@ export function sliceProto<T>(
   begin: number,
   end: number
 ): AsyncIterableX<T> {
-  return slice<T>(begin, end)(this);
+  return new SliceAsyncIterable<T>(this, begin, end);
 }
 
 AsyncIterableX.prototype.slice = sliceProto;

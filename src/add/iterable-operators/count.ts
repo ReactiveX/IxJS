@@ -1,11 +1,12 @@
 import { IterableX } from '../../iterable/iterablex';
 import { count } from '../../iterable/count';
+import { OptionalFindOptions } from '../../iterable/findoptions';
 
 /**
  * @ignore
  */
-export function countProto<T>(this: IterableX<T>, fn?: (value: T) => boolean): number {
-  return count<T>(this, fn);
+export function countProto<T>(this: IterableX<T>, options?: OptionalFindOptions<T>): number {
+  return count<T>(this, options);
 }
 
 IterableX.prototype.count = countProto;

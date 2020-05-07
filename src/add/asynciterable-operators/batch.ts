@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { batch } from '../../asynciterable/operators/batch';
+import { BatchAsyncIterable } from '../../asynciterable/operators/batch';
 
 /**
  * @ignore
  */
 export function batchProto<T>(this: AsyncIterableX<T>): AsyncIterableX<T[]> {
-  return batch<T>()(this);
+  return new BatchAsyncIterable<T>(this);
 }
 
 AsyncIterableX.prototype.batch = batchProto;

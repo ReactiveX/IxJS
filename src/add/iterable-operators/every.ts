@@ -1,22 +1,16 @@
 import { IterableX } from '../../iterable/iterablex';
 import { every } from '../../iterable/every';
+import { FindSubclassedOptions, FindOptions } from '../../iterable/findoptions';
 
 /**
  * @ignore
  */
 export function everyProto<T, S extends T>(
   this: IterableX<T>,
-  predicate: (value: T, index: number) => value is S
+  options: FindSubclassedOptions<T, S>
 ): boolean;
-export function everyProto<T>(
-  this: IterableX<T>,
-  predicate: (value: T, index: number) => boolean
-): boolean;
-export function everyProto<T>(
-  this: IterableX<T>,
-  predicate: (value: T, index: number) => boolean
-): boolean {
-  return every(this, predicate);
+export function everyProto<T>(this: IterableX<T>, options: FindOptions<T>): boolean {
+  return every(this, options as any);
 }
 
 IterableX.prototype.every = everyProto;

@@ -1,15 +1,15 @@
 import { IterableX } from '../../iterable/iterablex';
 import { distinct } from '../../iterable/operators/distinct';
+import { DistinctOptions } from '../..//iterable/operators/distinctoptions';
 
 /**
  * @ignore
  */
 export function distinctProto<TSource, TKey>(
   this: IterableX<TSource>,
-  keySelector?: (value: TSource) => TKey,
-  comparer?: (x: TKey, y: TKey) => boolean
+  options?: DistinctOptions<TSource, TKey>
 ): IterableX<TSource> {
-  return distinct(keySelector, comparer)(this);
+  return distinct(options)(this);
 }
 
 IterableX.prototype.distinct = distinctProto;

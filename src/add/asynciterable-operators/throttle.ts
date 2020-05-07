@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { throttle } from '../../asynciterable/operators/throttle';
+import { ThrottleAsyncIterable } from '../../asynciterable/operators/throttle';
 
 /**
  * @ignore
  */
 export function throttleProto<T>(this: AsyncIterableX<T>, time: number): AsyncIterableX<T> {
-  return throttle<T>(time)(this);
+  return new ThrottleAsyncIterable<T>(this, time);
 }
 
 AsyncIterableX.prototype.throttle = throttleProto;

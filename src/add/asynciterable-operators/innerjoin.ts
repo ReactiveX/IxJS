@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { innerJoin } from '../../asynciterable/operators/innerjoin';
+import { JoinAsyncIterable } from '../../asynciterable/operators/innerjoin';
 
 /**
  * @ignore
@@ -11,7 +11,13 @@ export function innerJoinProto<TOuter, TInner, TKey, TResult>(
   innerSelector: (value: TInner) => TKey | Promise<TKey>,
   resultSelector: (outer: TOuter, inner: TInner) => TResult | Promise<TResult>
 ): AsyncIterableX<TResult> {
-  return innerJoin(inner, outerSelector, innerSelector, resultSelector)(this);
+  return new JoinAsyncIterable<TOuter, TInner, TKey, TResult>(
+    this,
+    inner,
+    outerSelector,
+    innerSelector,
+    resultSelector
+  );
 }
 
 AsyncIterableX.prototype.innerJoin = innerJoinProto;

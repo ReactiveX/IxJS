@@ -1,23 +1,22 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { first } from '../../asynciterable/first';
+import {
+  OptionalFindSubclassedOptions,
+  OptionalFindOptions,
+} from '../../asynciterable/findoptions';
 
 /**
  * @ignore
  */
-
 export function firstProto<T, S extends T>(
-  this: AsyncIterableX<T>,
-  predicate: (value: T, index: number) => value is S
+  this: AsyncIterable<T>,
+  options?: OptionalFindSubclassedOptions<T, S>
 ): Promise<S | undefined>;
-export function firstProto<T>(
-  this: AsyncIterableX<T>,
-  predicate?: (value: T, index: number) => boolean | Promise<boolean>
-): Promise<T | undefined>;
-export function firstProto<T>(
-  this: AsyncIterableX<T>,
-  predicate?: (value: T, index: number) => boolean | Promise<boolean>
+export async function firstProto<T>(
+  this: AsyncIterable<T>,
+  options?: OptionalFindOptions<T>
 ): Promise<T | undefined> {
-  return first(this, predicate);
+  return first(this, options as any);
 }
 
 AsyncIterableX.prototype.first = firstProto;

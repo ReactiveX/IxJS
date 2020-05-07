@@ -1,24 +1,12 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { toMap } from '../../asynciterable/tomap';
+import { toMap, ToMapOptions } from '../../asynciterable/tomap';
 
-export function toMapProto<TSource, TKey>(
-  this: AsyncIterableX<TSource>,
-  keySelector: (item: TSource) => TKey | Promise<TKey>
-): Promise<Map<TKey, TSource>>;
-export function toMapProto<TSource, TKey, TElement = TSource>(
-  this: AsyncIterableX<TSource>,
-  keySelector: (item: TSource) => TKey | Promise<TKey>,
-  elementSelector?: (item: TSource) => TElement | Promise<TElement>
-): Promise<Map<TKey, TElement>>;
-/**
- * @ignore
- */
-export function toMapProto<TSource, TKey, TElement = TSource>(
-  this: AsyncIterableX<TSource>,
-  keySelector: (item: TSource) => TKey | Promise<TKey>,
-  elementSelector?: (item: TSource) => TElement | Promise<TElement>
+export async function toMapProto<TSource, TKey, TElement = TSource>(
+  this: AsyncIterable<TSource>,
+  keySelector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
+  options?: ToMapOptions<TSource, TElement>
 ): Promise<Map<TKey, TElement | TSource>> {
-  return toMap(this, keySelector, elementSelector);
+  return toMap(this, keySelector, options);
 }
 
 AsyncIterableX.prototype.toMap = toMapProto;

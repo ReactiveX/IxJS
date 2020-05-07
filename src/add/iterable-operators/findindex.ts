@@ -1,15 +1,12 @@
 import { IterableX } from '../../iterable/iterablex';
 import { findIndex } from '../../iterable/findindex';
+import { FindOptions } from '../../iterable/findoptions';
 
 /**
  * @ignore
  */
-export function findIndexProto<T>(
-  this: IterableX<T>,
-  fn: (value: T, index: number) => boolean,
-  thisArg?: any
-): number {
-  return findIndex(this, fn, thisArg);
+export function findIndexProto<T>(this: IterableX<T>, options: FindOptions<T>): number {
+  return findIndex(this, options);
 }
 
 IterableX.prototype.findIndex = findIndexProto;

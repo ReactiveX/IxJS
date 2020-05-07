@@ -10,10 +10,10 @@ import { reduce } from './reduce';
  * @param {(left: TSource, right: TSource) => number} [comparer=equalityComparer] Comparer used to compare elements.
  * @returns {TSource} The maximum element.
  */
-export async function max<TSource>(
+export function max<TSource>(
   source: Iterable<TSource>,
   comparer: (left: TSource, right: TSource) => number = equalityComparer
-): Promise<TSource> {
+): TSource {
   const maxBy: (x: TSource, y: TSource) => TSource =
     typeof comparer === 'function'
       ? (x, y) => (comparer(x, y) > 0 ? x : y)

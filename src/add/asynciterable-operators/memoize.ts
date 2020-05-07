@@ -5,7 +5,7 @@ export function memoizeProto<T>(this: AsyncIterableX<T>, readerCount?: number): 
 export function memoizeProto<T, R>(
   this: AsyncIterableX<T>,
   readerCount?: number,
-  selector?: (value: AsyncIterable<T>) => AsyncIterable<R>
+  selector?: (value: AsyncIterable<T>, signal?: AbortSignal) => AsyncIterable<R>
 ): AsyncIterableX<R>;
 /**
  * @ignore
@@ -13,7 +13,7 @@ export function memoizeProto<T, R>(
 export function memoizeProto<T, R = T>(
   this: AsyncIterableX<T>,
   readerCount: number = -1,
-  selector?: (value: AsyncIterable<T>) => AsyncIterable<R>
+  selector?: (value: AsyncIterable<T>, signal?: AbortSignal) => AsyncIterable<R>
 ): AsyncIterableX<T | R> {
   return memoize(readerCount, selector)(this);
 }

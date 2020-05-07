@@ -1,15 +1,16 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { minBy } from '../../asynciterable/operators/minby';
+import { minBy } from '../../asynciterable/minby';
+import { ExtremaByOptions } from '../../asynciterable/_extremaby';
 
 /**
  * @ignore
  */
 export function minByProto<TSource, TKey>(
-  this: AsyncIterableX<TSource>,
-  keySelector: (x: TSource) => TKey | Promise<TKey>,
-  comparer?: (x: TKey, y: TKey) => number | Promise<number>
-): AsyncIterableX<TSource> {
-  return minBy(keySelector, comparer)(this);
+  this: AsyncIterable<TSource>,
+  selector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
+  options?: ExtremaByOptions<TKey>
+): Promise<TSource[]> {
+  return minBy(this, selector, options);
 }
 
 AsyncIterableX.prototype.minBy = minByProto;
