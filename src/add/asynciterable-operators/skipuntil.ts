@@ -1,14 +1,14 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { skipUntil } from '../../asynciterable/operators/skipuntil';
+import { SkipUntilAsyncIterable } from '../../asynciterable/operators/skipuntil';
 
 /**
  * @ignore
  */
 export function skipUntilProto<T>(
   this: AsyncIterableX<T>,
-  other: () => Promise<any>
+  other: (signal?: AbortSignal) => Promise<any>
 ): AsyncIterableX<T> {
-  return skipUntil<T>(other)(this);
+  return new SkipUntilAsyncIterable<T>(this, other);
 }
 
 AsyncIterableX.prototype.skipUntil = skipUntilProto;

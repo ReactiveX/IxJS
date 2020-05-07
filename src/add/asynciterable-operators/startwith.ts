@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { startWith } from '../../asynciterable/operators/startwith';
+import { StartWithAsyncIterable } from '../../asynciterable/operators/startwith';
 
 /**
  * @ignore
  */
 export function startWithProto<T>(this: AsyncIterableX<T>, ...args: T[]) {
-  return startWith<T>(...args)(this);
+  return new StartWithAsyncIterable<T>(this, args);
 }
 
 AsyncIterableX.prototype.startWith = startWithProto;

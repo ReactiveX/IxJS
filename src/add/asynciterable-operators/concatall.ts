@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { concatAll } from '../../asynciterable/operators/concatall';
+import { ConcatAllAsyncIterable } from '../../asynciterable/operators/concatall';
 
 /**
  * @ignore
  */
 export function concatAllProto<T>(this: AsyncIterableX<AsyncIterable<T>>): AsyncIterableX<T> {
-  return concatAll<T>()(this);
+  return new ConcatAllAsyncIterable<T>(this);
 }
 
 AsyncIterableX.prototype.concatAll = concatAllProto;

@@ -7,15 +7,15 @@ import { takeWhile } from '../../asynciterable/operators/takewhile';
 
 export function takeWhileProto<T, S extends T>(
   this: AsyncIterableX<T>,
-  predicate: (value: T, index: number) => value is S
+  predicate: (value: T, index: number, signal?: AbortSignal) => value is S
 ): AsyncIterableX<S>;
 export function takeWhileProto<T>(
   this: AsyncIterableX<T>,
-  predicate: (value: T, index: number) => boolean | Promise<boolean>
+  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>
 ): AsyncIterableX<T>;
 export function takeWhileProto<T>(
   this: AsyncIterableX<T>,
-  predicate: (value: T, index: number) => boolean | Promise<boolean>
+  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>
 ): AsyncIterableX<T> {
   return takeWhile<T>(predicate)(this);
 }

@@ -1,23 +1,20 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { identityAsync } from '../../util/identity';
 import { average } from '../../asynciterable/average';
+import { MathOptions } from '../../asynciterable/mathoptions';
 
 export function averageProto(
-  this: AsyncIterableX<number>,
-  selector?: (x: number) => number | Promise<number>
+  this: AsyncIterable<number>,
+  options?: MathOptions<number>
 ): Promise<number>;
-export function averageProto<T>(
-  this: AsyncIterableX<T>,
-  selector?: (x: T) => number | Promise<number>
+export function averageProto<TSource>(
+  this: AsyncIterable<TSource>,
+  options?: MathOptions<TSource>
 ): Promise<number>;
-/**
- * @ignore
- */
 export function averageProto(
-  this: AsyncIterableX<any>,
-  selector: (x: any) => number | Promise<number> = identityAsync
+  this: AsyncIterable<any>,
+  options?: MathOptions<any>
 ): Promise<number> {
-  return average(this, selector);
+  return average(this, options);
 }
 
 AsyncIterableX.prototype.average = averageProto;

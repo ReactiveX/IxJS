@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { takeLast } from '../../asynciterable/operators/takelast';
+import { TakeLastAsyncIterable } from '../../asynciterable/operators/takelast';
 
 /**
  * @ignore
  */
 export function takeLastProto<T>(this: AsyncIterableX<T>, count: number): AsyncIterableX<T> {
-  return takeLast<T>(count)(this);
+  return new TakeLastAsyncIterable<T>(this, count);
 }
 
 AsyncIterableX.prototype.takeLast = takeLastProto;

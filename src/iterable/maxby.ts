@@ -13,8 +13,8 @@ import { equalityComparerAsync } from '../util/comparer';
  * @returns {TSource[]} A list of zero or more elements that have a maximum key value.
  */
 export function maxBy<TSource, TKey>(
-  source: AsyncIterable<TSource>,
-  selector: (item: TSource, signal?: AbortSignal) => TKey,
+  source: Iterable<TSource>,
+  selector: (item: TSource) => TKey,
   options?: ExtremaByOptions<TKey>
 ): TSource[] {
   const opts = options || ({} as ExtremaByOptions<TKey>);

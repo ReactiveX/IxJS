@@ -16,7 +16,7 @@ import { OptionalFindSubclassedOptions, OptionalFindOptions } from './findoption
  * @returns {(Promise<S | undefined>)} A promise with the single element in the async-iterable sequence that satisfies
  * the condition in the predicate, or undefined if no such element exists.
  */
-export async function single<T, S extends T>(
+export function single<T, S extends T>(
   source: AsyncIterable<T>,
   options?: OptionalFindSubclassedOptions<T, S>
 ): Promise<S | undefined>;
@@ -37,7 +37,7 @@ export async function single<T>(
   source: AsyncIterable<T>,
   options?: OptionalFindOptions<T>
 ): Promise<T | undefined> {
-  const opts = options || ({} as OptionalFindOptions<any>);
+  const opts = options || ({} as OptionalFindOptions<T>);
   if (!opts.predicate) {
     opts.predicate = async () => true;
   }

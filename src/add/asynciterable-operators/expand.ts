@@ -1,14 +1,14 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { expand } from '../../asynciterable/operators/expand';
+import { ExpandAsyncIterable } from '../../asynciterable/operators/expand';
 
 /**
  * @ignore
  */
 export function expandProto<T>(
   this: AsyncIterableX<T>,
-  selector: (value: T) => AsyncIterable<T> | Promise<AsyncIterable<T>>
+  selector: (value: T, signal?: AbortSignal) => AsyncIterable<T> | Promise<AsyncIterable<T>>
 ) {
-  return expand<T>(selector)(this);
+  return new ExpandAsyncIterable<T>(this, selector);
 }
 
 AsyncIterableX.prototype.expand = expandProto;

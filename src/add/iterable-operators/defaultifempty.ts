@@ -1,11 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { defaultIfEmpty } from '../../iterable/operators/defaultifempty';
+import { DefaultIfEmptyIterable } from '../../iterable/operators/defaultifempty';
 
 /**
  * @ignore
  */
 export function defaultIfEmptyProto<T>(this: IterableX<T>, defaultValue: T): IterableX<T> {
-  return defaultIfEmpty<T>(defaultValue)(this);
+  return new DefaultIfEmptyIterable<T>(this, defaultValue);
 }
 
 IterableX.prototype.defaultIfEmpty = defaultIfEmptyProto;

@@ -5,8 +5,23 @@ import { PartialObserver } from '../../observer';
 /**
  * @ignore
  */
-export function tapProto<T>(this: IterableX<T>, observer: PartialObserver<T>): IterableX<T> {
-  return tap<T>(observer)(this);
+export function tapProto<TSource>(
+  this: IterableX<TSource>,
+  observer: PartialObserver<TSource>
+): IterableX<TSource>;
+export function tapProto<TSource>(
+  this: IterableX<TSource>,
+  next?: ((value: TSource) => any) | null,
+  error?: ((err: any) => any) | null,
+  complete?: (() => any) | null
+): IterableX<TSource>;
+export function tapProto<TSource>(
+  this: IterableX<TSource>,
+  observerOrNext?: PartialObserver<TSource> | ((value: TSource) => any) | null,
+  error?: ((err: any) => any) | null,
+  complete?: (() => any) | null
+): IterableX<TSource> {
+  return tap<TSource>(observerOrNext as any, error, complete)(this);
 }
 
 IterableX.prototype.tap = tapProto;

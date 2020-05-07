@@ -1,15 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { distinctUntilChanged } from '../../asynciterable/operators/distinctuntilchanged';
+import { DistinctOptions } from '../../asynciterable/operators/distinctoptions';
 
 /**
  * @ignore
  */
-export function distinctUntilChangedProto<T, TKey>(
-  this: AsyncIterableX<T>,
-  keySelector?: (value: T) => TKey | Promise<TKey>,
-  comparer?: (x: TKey, y: TKey) => boolean | Promise<boolean>
-): AsyncIterableX<T> {
-  return distinctUntilChanged(keySelector, comparer)(this);
+export function distinctUntilChangedProto<TSource, TKey>(
+  this: AsyncIterableX<TSource>,
+  options?: DistinctOptions<TSource, TKey>
+): AsyncIterableX<TSource> {
+  return distinctUntilChanged(options)(this);
 }
 
 AsyncIterableX.prototype.distinctUntilChanged = distinctUntilChangedProto;

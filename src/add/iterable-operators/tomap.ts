@@ -1,24 +1,12 @@
 import { IterableX } from '../../iterable/iterablex';
-import { toMap } from '../../iterable/tomap';
+import { toMap, ToMapOptions } from '../../iterable/tomap';
 
-export function toMapProto<TSource, TKey>(
-  this: IterableX<TSource>,
-  keySelector: (item: TSource) => TKey
-): Map<TKey, TSource>;
 export function toMapProto<TSource, TKey, TElement = TSource>(
   this: IterableX<TSource>,
   keySelector: (item: TSource) => TKey,
-  elementSelector?: (item: TSource) => TElement
-): Map<TKey, TElement>;
-/**
- * @ignore
- */
-export function toMapProto<TSource, TKey, TElement = TSource>(
-  this: IterableX<TSource>,
-  keySelector: (item: TSource) => TKey,
-  elementSelector?: (item: TSource) => TElement
+  options?: ToMapOptions<TSource, TElement>
 ): Map<TKey, TElement | TSource> {
-  return toMap(this, keySelector, elementSelector);
+  return toMap(this, keySelector, options);
 }
 
 IterableX.prototype.toMap = toMapProto;

@@ -13,7 +13,7 @@ import { FindOptions, FindSubclassedOptions } from './findoptions';
 export function find<T, S extends T>(
   source: Iterable<T>,
   options: FindSubclassedOptions<T, S>
-): Promise<S | undefined>;
+): S | undefined;
 /**
  * Returns the value of the first element in the provided iterable that satisfies the provided testing function.
  *
@@ -21,7 +21,7 @@ export function find<T, S extends T>(
  * @template T The type of the elements in the source sequence.
  * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
  * @param {FindOptions<T>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
- * @returns {(Promise<S | undefined>)} The first element that matches the predicate.
+ * @returns {(T | undefined)} The first element that matches the predicate.
  */
 export function find<T>(source: Iterable<T>, options: FindOptions<T>): T | undefined {
   const { ['thisArg']: thisArg, ['predicate']: predicate } = options;

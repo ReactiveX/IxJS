@@ -1,17 +1,11 @@
 import { IterableX } from '../../iterable/iterablex';
-import { identity } from '../../util/identity';
 import { average } from '../../iterable/average';
+import { MathOptions } from '../../iterable/mathoptions';
 
-export function averageProto(this: IterableX<number>, selector?: (x: number) => number): number;
-export function averageProto<T>(this: IterableX<T>, selector?: (x: T) => number): number;
-/**
- * @ignore
- */
-export function averageProto(
-  this: IterableX<any>,
-  selector: (x: any) => number = identity
-): number {
-  return average(this, selector);
+export function averageProto(this: IterableX<number>, options?: MathOptions<number>): number;
+export function averageProto<T>(this: IterableX<T>, options?: MathOptions<T>): number;
+export function averageProto(this: IterableX<any>, options?: MathOptions<any>): number {
+  return average(this, options);
 }
 
 IterableX.prototype.average = averageProto;

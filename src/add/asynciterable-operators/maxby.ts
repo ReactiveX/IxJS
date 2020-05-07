@@ -1,15 +1,16 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { maxBy } from '../../asynciterable/operators/maxby';
+import { maxBy } from '../../asynciterable/maxby';
+import { ExtremaByOptions } from '../../asynciterable/_extremaby';
 
 /**
  * @ignore
  */
 export function maxByProto<TSource, TKey>(
-  this: AsyncIterableX<TSource>,
-  keySelector: (x: TSource) => TKey | Promise<TKey>,
-  comparer?: (x: TKey, y: TKey) => number | Promise<number>
-): AsyncIterableX<TSource> {
-  return maxBy(keySelector, comparer)(this);
+  this: AsyncIterable<TSource>,
+  selector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
+  options?: ExtremaByOptions<TKey>
+): Promise<TSource[]> {
+  return maxBy(this, selector, options);
 }
 
 AsyncIterableX.prototype.maxBy = maxByProto;

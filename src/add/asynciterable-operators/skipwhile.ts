@@ -1,5 +1,5 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { skipWhile } from '../../asynciterable/operators/skipwhile';
+import { SkipWhileAsyncIterable } from '../../asynciterable/operators/skipwhile';
 
 /**
  * @ignore
@@ -7,17 +7,17 @@ import { skipWhile } from '../../asynciterable/operators/skipwhile';
 
 export function skipWhileProto<T, S extends T>(
   this: AsyncIterableX<T>,
-  predicate: (value: T, index: number) => value is S
+  predicate: (value: T, index: number, signal?: AbortSignal) => value is S
 ): AsyncIterableX<S>;
 export function skipWhileProto<T>(
   this: AsyncIterableX<T>,
-  predicate: (value: T, index: number) => boolean | Promise<boolean>
+  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>
 ): AsyncIterableX<T>;
 export function skipWhileProto<T>(
   this: AsyncIterableX<T>,
-  predicate: (value: T, index: number) => boolean | Promise<boolean>
+  predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>
 ): AsyncIterableX<T> {
-  return skipWhile<T>(predicate)(this);
+  return new SkipWhileAsyncIterable<T>(this, predicate);
 }
 
 AsyncIterableX.prototype.skipWhile = skipWhileProto;

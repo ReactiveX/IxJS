@@ -4,7 +4,7 @@ import { expand } from '../../iterable/operators/expand';
 /**
  * @ignore
  */
-export function expandProto<T>(this: IterableX<T>, fn: (value: T) => Iterable<T>) {
+export function expandProto<T>(this: IterableX<T>, fn: (value: T) => Iterable<T>): IterableX<T> {
   return expand(fn)(this);
 }
 

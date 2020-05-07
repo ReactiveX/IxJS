@@ -4,7 +4,6 @@ import { forkJoin } from '../../asynciterable/forkjoin';
 /**
  * @ignore
  */
-
 export function forkJoinProto<T, T2>(
   this: AsyncIterableX<T>,
   source2: AsyncIterable<T2>

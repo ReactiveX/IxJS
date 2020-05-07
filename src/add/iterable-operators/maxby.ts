@@ -1,15 +1,16 @@
 import { IterableX } from '../../iterable/iterablex';
-import { maxBy } from '../../iterable/operators/maxby';
+import { maxBy } from '../../iterable/maxby';
+import { ExtremaByOptions } from '../../iterable/_extremaby';
 
 /**
  * @ignore
  */
 export function maxByProto<TSource, TKey>(
   this: IterableX<TSource>,
-  keyFn: (x: TSource) => TKey,
-  cmp?: (x: TKey, y: TKey) => number
-): IterableX<TSource> {
-  return maxBy(keyFn, cmp)(this);
+  selector: (item: TSource) => TKey,
+  options?: ExtremaByOptions<TKey>
+): TSource[] {
+  return maxBy(this, selector, options);
 }
 
 IterableX.prototype.maxBy = maxByProto;

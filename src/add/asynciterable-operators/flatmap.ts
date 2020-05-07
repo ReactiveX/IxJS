@@ -6,7 +6,11 @@ import { flatMap } from '../../asynciterable/operators/flatmap';
  */
 export function flatMapProto<T, R>(
   this: AsyncIterableX<T>,
-  selector: (value: T) => AsyncIterable<R> | Promise<AsyncIterable<R>>,
+  selector: (
+    value: T,
+    index: number,
+    signal?: AbortSignal
+  ) => AsyncIterable<R> | Promise<AsyncIterable<R>>,
   thisArg?: any
 ): AsyncIterableX<R> {
   return flatMap<T, R>(selector, thisArg)(this);

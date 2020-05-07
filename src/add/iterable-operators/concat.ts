@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { concat } from '../../iterable/concat';
+import { ConcatIterable } from '../../iterable/concat';
 
 /**
  * @ignore
@@ -50,7 +50,7 @@ export function concatProto<T, T2, T3, T4, T5, T6>(
  */
 export function concatProto<T>(this: IterableX<T>, ...args: Iterable<T>[]): IterableX<T> {
   // @ts-ignore
-  return concat<T>(this, ...args);
+  return new ConcatIterable<T>([this, ...args]);
 }
 
 IterableX.prototype.concat = concatProto;

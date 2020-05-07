@@ -12,7 +12,7 @@ import { OptionalFindOptions, OptionalFindSubclassedOptions } from './findoption
  * @returns {(Promise<S | undefined>)} A Promise containing the first element in the async-iterable sequence,
  * or a default value if no such element exists.
  */
-export async function first<T, S extends T>(
+export function first<T, S extends T>(
   source: AsyncIterable<T>,
   options?: OptionalFindSubclassedOptions<T, S>
 ): Promise<S | undefined>;

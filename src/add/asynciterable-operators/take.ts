@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { take } from '../../asynciterable/operators/take';
+import { TakeAsyncIterable } from '../../asynciterable/operators/take';
 
 /**
  * @ignore
  */
 export function takeProto<T>(this: AsyncIterableX<T>, count: number): AsyncIterableX<T> {
-  return take<T>(count)(this);
+  return new TakeAsyncIterable<T>(this, count);
 }
 
 AsyncIterableX.prototype.take = takeProto;

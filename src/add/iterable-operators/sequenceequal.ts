@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { sequenceEqual } from '../../iterable/sequenceequal';
+import { sequenceEqual, SequencEqualOptions } from '../../iterable/sequenceequal';
 
 /**
  * @ignore
@@ -7,9 +7,9 @@ import { sequenceEqual } from '../../iterable/sequenceequal';
 export function sequenceEqualProto<T>(
   this: IterableX<T>,
   other: Iterable<T>,
-  cmp: (first: T, second: T) => boolean = (x, y) => x === y
+  options?: SequencEqualOptions<T>
 ): boolean {
-  return sequenceEqual(this, other, cmp);
+  return sequenceEqual(this, other, options);
 }
 
 IterableX.prototype.sequenceEqual = sequenceEqualProto;

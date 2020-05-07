@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { endWith } from '../../asynciterable/operators/endwith';
+import { EndWithAsyncIterable } from '../../asynciterable/operators/endwith';
 
 /**
  * @ignore
  */
 export function endWithProto<T>(this: AsyncIterableX<T>, ...args: T[]) {
-  return endWith<T>(...args)(this);
+  return new EndWithAsyncIterable<T>(this, args);
 }
 
 AsyncIterableX.prototype.endWith = endWithProto;

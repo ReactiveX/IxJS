@@ -1,11 +1,11 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { reverse } from '../../asynciterable/operators/reverse';
+import { ReverseAsyncIterable } from '../../asynciterable/operators/reverse';
 
 /**
  * @ignore
  */
 export function reverseProto<T>(this: AsyncIterableX<T>): AsyncIterableX<T> {
-  return reverse<T>()(this);
+  return new ReverseAsyncIterable<T>(this);
 }
 
 AsyncIterableX.prototype.reverse = reverseProto;

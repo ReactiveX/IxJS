@@ -1,15 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { findIndex } from '../../asynciterable/findindex';
+import { FindOptions } from '../../asynciterable/findoptions';
 
 /**
  * @ignore
  */
 export function findIndexProto<T>(
-  this: AsyncIterableX<T>,
-  predicate: (value: T, index: number) => boolean | Promise<boolean>,
-  thisArg?: any
+  this: AsyncIterable<T>,
+  options: FindOptions<T>
 ): Promise<number> {
-  return findIndex(this, predicate, thisArg);
+  return findIndex(this, options);
 }
 
 AsyncIterableX.prototype.findIndex = findIndexProto;
