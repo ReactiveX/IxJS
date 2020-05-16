@@ -6,9 +6,9 @@ test('AsyncItearble#tap next', async () => {
   let n = 0;
   const source = range(0, 10).pipe(
     tap({
-      next: async x => {
+      next: async (x) => {
         n += x;
-      }
+      },
     })
   );
 
@@ -23,12 +23,12 @@ test('AsyncIterable#tap next complete', async () => {
   let n = 0;
   const source = range(0, 10).pipe(
     tap({
-      next: async x => {
+      next: async (x) => {
         n += x;
       },
       complete: async () => {
         n *= 2;
-      }
+      },
     })
   );
 
@@ -44,12 +44,12 @@ test('AsyncIterable#tap with error', async () => {
   let ok = false;
 
   try {
-    const source = throwError<number>(err).pipe(
+    const source = throwError(err).pipe(
       tap({
-        error: async e => {
+        error: async (e) => {
           expect(err).toEqual(e);
           ok = true;
-        }
+        },
       })
     );
 
@@ -65,7 +65,7 @@ test('AsyncIterable#tap with error', async () => {
 
 test('AsyncItearble#tap with next function', async () => {
   let n = 0;
-  const source = range(0, 10).pipe(tap(async x => (n += x)));
+  const source = range(0, 10).pipe(tap(async (x) => (n += x)));
 
   // eslint-disable-next-line no-empty
   for await (const _ of source) {

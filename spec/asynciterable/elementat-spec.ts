@@ -2,7 +2,7 @@ import '../asynciterablehelpers';
 import { elementAt, empty, of } from 'ix/asynciterable';
 
 test('AsyncIterable#elementAt empty returns undefined', async () => {
-  const xs = empty<number>();
+  const xs = empty();
   const res = await elementAt<number>(xs, 0);
   expect(res).toBe(undefined);
 });

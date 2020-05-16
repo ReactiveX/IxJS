@@ -4,7 +4,7 @@ import { empty, throwError } from 'ix/iterable';
 
 test('Iterable#filter', () => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];
-  const ys = filter<number>(x => x % 2 === 0)(xs);
+  const ys = filter<number>((x) => x % 2 === 0)(xs);
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 8);
@@ -38,7 +38,7 @@ test('Iterable#filter with typeguard', () => {
     9,
     new String('2'),
     1,
-    new String('0')
+    new String('0'),
   ];
   const ys: Iterable<String> = filter<number | String, String>(
     (x): x is String => x instanceof String
@@ -56,7 +56,7 @@ test('Iterable#filter with typeguard', () => {
 test('Iterable#filter throws part way through', () => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];
   const err = new Error();
-  const ys = filter(x => {
+  const ys = filter((x) => {
     if (x === 4) {
       throw err;
     }
@@ -88,16 +88,16 @@ test('Iterable#filter with index throws part way through', () => {
 });
 
 test('Iterable#filter with error source', () => {
-  const xs = throwError<number>(new Error());
-  const ys = xs.pipe(filter(x => x % 2 === 0));
+  const xs = throwError(new Error());
+  const ys = xs.pipe(filter((x) => x % 2 === 0));
 
   const it = ys[Symbol.iterator]();
   expect(() => it.next()).toThrow();
 });
 
 test('Iterable#filter with empty source', () => {
-  const xs = empty<number>();
-  const ys = xs.pipe(filter(x => x % 2 === 0));
+  const xs = empty();
+  const ys = xs.pipe(filter((x) => x % 2 === 0));
 
   const it = ys[Symbol.iterator]();
   noNext(it);

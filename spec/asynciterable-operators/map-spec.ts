@@ -6,7 +6,7 @@ test('AsyncIterable#map single element', async () => {
   const source = of({ name: 'Frank', custId: 98088 });
   const expected = of('Frank');
 
-  expect(await sequenceEqual(expected, source.pipe(map(x => x.name)))).toBeTruthy();
+  expect(await sequenceEqual(expected, source.pipe(map((x) => x.name)))).toBeTruthy();
 });
 
 test('AsyncIterable#map maps property', async () => {
@@ -19,12 +19,12 @@ test('AsyncIterable#map maps property', async () => {
   );
   const expected = of('Frank', 'Bob', 'Chris', null, 'Frank');
 
-  expect(await sequenceEqual(expected, source.pipe(map(x => x.name)))).toBeTruthy();
+  expect(await sequenceEqual(expected, source.pipe(map((x) => x.name)))).toBeTruthy();
 });
 
 test('AsyncIterable#map empty', async () => {
   expect(
-    await sequenceEqual(empty<number>(), empty<string>().pipe(map((s, i) => s.length + i)))
+    await sequenceEqual(empty(), empty().pipe(map<string, number>((s, i) => s.length + i)))
   ).toBeTruthy();
 });
 
@@ -63,7 +63,7 @@ test('AsyncIterable#map execution is deferred', async () => {
     return 1;
   });
 
-  source.pipe(map(x => x()));
+  source.pipe(map((x) => x()));
 
   expect(fnCalled).toBeFalsy();
 });

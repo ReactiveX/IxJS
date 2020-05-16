@@ -1,7 +1,7 @@
 import { IterableX } from './iterablex';
 
-class EmptyIterable<TSource> extends IterableX<TSource> {
-  *[Symbol.iterator](): Iterator<TSource> {
+class EmptyIterable extends IterableX<never> {
+  *[Symbol.iterator](): Iterator<never> {
     // eslint-disable-next-line no-empty
   }
 }
@@ -11,8 +11,8 @@ class EmptyIterable<TSource> extends IterableX<TSource> {
  *
  * @export
  * @template TSource The type used for the iterable type parameter of the resulting sequence.
- * @returns {IterableX<TSource>} An iterable sequence with no elements.
+ * @returns {IterableX<never>} An iterable sequence with no elements.
  */
-export function empty<TSource>(): IterableX<TSource> {
-  return new EmptyIterable<TSource>();
+export function empty(): IterableX<never> {
+  return new EmptyIterable();
 }

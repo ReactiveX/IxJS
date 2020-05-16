@@ -10,9 +10,11 @@ test('Iterable#count no predicate non-empty', () => {
 });
 
 test('Iterable#count predicate empty', () => {
-  expect(count<number>([], x => x < 3)).toBe(0);
+  expect(
+    count<number>([], { predicate: (x) => x < 3 })
+  ).toBe(0);
 });
 
 test('Iterable#count predicate some', () => {
-  expect(count([1, 2, 3], x => x < 3)).toBe(2);
+  expect(count([1, 2, 3], { predicate: (x) => x < 3 })).toBe(2);
 });

@@ -3,7 +3,7 @@ import { empty, of, throwError } from 'ix/asynciterable';
 import { defaultIfEmpty } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#defaultIfEmpty with empty', async () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = xs.pipe(defaultIfEmpty(0));
 
   const it = ys[Symbol.asyncIterator]();
@@ -21,7 +21,7 @@ test('AsyncIterable#defaultIfEmpty with no empty', async () => {
 });
 
 test('AsyncIterable#defaultIfEmpty throws', async () => {
-  const xs = throwError<number>(new Error());
+  const xs = throwError(new Error());
   const ys = xs.pipe(defaultIfEmpty(0));
 
   const it = ys[Symbol.asyncIterator]();

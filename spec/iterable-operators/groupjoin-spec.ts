@@ -41,7 +41,7 @@ test('Iterable#groupJoin some groups have values', () => {
 });
 
 test('Iterable#groupJoin left throws', () => {
-  const xs = throwError<number>(new Error());
+  const xs = throwError(new Error());
   const ys = [3, 6, 4];
   const res = from(xs).pipe(
     groupJoin(
@@ -58,7 +58,7 @@ test('Iterable#groupJoin left throws', () => {
 
 test('Iterable#groupJoin right throws', () => {
   const xs = [0, 1, 2];
-  const ys = throwError<number>(new Error());
+  const ys = throwError(new Error());
   const res = from(xs).pipe(
     groupJoin(
       ys,

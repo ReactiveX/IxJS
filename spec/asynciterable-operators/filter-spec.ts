@@ -4,7 +4,7 @@ import { filter } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#filter', async () => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
-  const ys = xs.pipe(filter(async x => x % 2 === 0));
+  const ys = xs.pipe(filter(async (x) => x % 2 === 0));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 8);
@@ -55,7 +55,7 @@ test('AsyncIterable#filter throws part way through', async () => {
   const xs = of(8, 5, 7, 4, 6, 9, 2, 1, 0);
   const err = new Error();
   const ys = xs.pipe(
-    filter(async x => {
+    filter(async (x) => {
       if (x === 4) {
         throw err;
       }
@@ -98,8 +98,8 @@ test('AsyncIterable#filter with index throws part way through', async () => {
 });
 
 test('AsyncIterable#filter with error source', async () => {
-  const xs = throwError<number>(new Error());
-  const ys = xs.pipe(filter(async x => x % 2 === 0));
+  const xs = throwError(new Error());
+  const ys = xs.pipe(filter(async (x) => x % 2 === 0));
 
   const it = ys[Symbol.asyncIterator]();
   try {
@@ -110,8 +110,8 @@ test('AsyncIterable#filter with error source', async () => {
 });
 
 test('AsyncIterable#filter with empty source', async () => {
-  const xs = empty<number>();
-  const ys = xs.pipe(filter(async x => x % 2 === 0));
+  const xs = empty();
+  const ys = xs.pipe(filter(async (x) => x % 2 === 0));
 
   const it = ys[Symbol.asyncIterator]();
   await noNext(it);

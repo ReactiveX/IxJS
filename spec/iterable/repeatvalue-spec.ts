@@ -9,7 +9,7 @@ import {
   isEmpty,
   last,
   sequenceEqual,
-  toArray
+  toArray,
 } from 'ix/iterable';
 
 test('Iterable#repeatValue produce correct sequence', () => {
@@ -98,22 +98,8 @@ test('Iterable#repeatValue skip excessive', () => {
 
 test('Iterable#repeatValue take can only be one', () => {
   expect(sequenceEqual([1], repeatValue(1, 10).pipe(take(1)))).toBeTruthy();
-  expect(
-    sequenceEqual(
-      [1],
-      repeatValue(1, 10)
-        .pipe(skip(1))
-        .pipe(take(1))
-    )
-  ).toBeTruthy();
-  expect(
-    sequenceEqual(
-      [1],
-      repeatValue(1, 10)
-        .pipe(take(3))
-        .pipe(take(1))
-    )
-  ).toBeTruthy();
+  expect(sequenceEqual([1], repeatValue(1, 10).pipe(skip(1)).pipe(take(1)))).toBeTruthy();
+  expect(sequenceEqual([1], repeatValue(1, 10).pipe(take(3)).pipe(take(1)))).toBeTruthy();
 });
 
 test('Iterable#repeatValue skip none', () => {
@@ -143,13 +129,13 @@ test('Iterable#repeatValue count', () => {
 test('Iterable#repeatValue infinite', () => {
   const xs = repeatValue(42).pipe(take(100));
 
-  expect(every(xs, x => x === 42)).toBeTruthy();
+  expect(every(xs, { predicate: (x) => x === 42 })).toBeTruthy();
   expect(count(xs)).toBe(100);
 });
 
 test('Iterable#repeatValue count', () => {
   const xs = repeatValue(42, 100);
 
-  expect(every(xs, x => x === 42)).toBeTruthy();
+  expect(every(xs, { predicate: (x) => x === 42 })).toBeTruthy();
   expect(count(xs)).toBe(100);
 });

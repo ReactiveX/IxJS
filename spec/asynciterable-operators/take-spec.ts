@@ -35,7 +35,7 @@ test('AsyncIterable#take more than count', async () => {
 
 test('AsyncIterable#take throws with error', async () => {
   const err = new Error();
-  const xs = throwError<number>(err);
+  const xs = throwError(err);
   const ys = xs.pipe(take(2));
 
   const it = ys[Symbol.asyncIterator]();

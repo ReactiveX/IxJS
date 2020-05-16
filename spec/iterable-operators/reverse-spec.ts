@@ -3,7 +3,7 @@ import { empty, throwError } from 'ix/iterable';
 import { reverse } from 'ix/iterable/operators';
 
 test('Iterable#reverse empty', () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = reverse()(xs);
 
   const it = ys[Symbol.iterator]();
@@ -31,7 +31,7 @@ test('Iterable#reverse multiple elements', () => {
 });
 
 test('Iterable#reverse throws', () => {
-  const xs = throwError<number>(new Error());
+  const xs = throwError(new Error());
   const ys = reverse()(xs);
 
   const it = ys[Symbol.iterator]();

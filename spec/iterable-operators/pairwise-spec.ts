@@ -3,7 +3,7 @@ import { pairwise } from 'ix/iterable/operators';
 import { from, empty, of } from 'ix/iterable';
 
 test('Iterable#pairwise empty return empty', () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = from(xs).pipe(pairwise());
 
   const it = ys[Symbol.iterator]();

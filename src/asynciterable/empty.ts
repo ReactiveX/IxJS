@@ -1,8 +1,8 @@
 import { AsyncIterableX } from './asynciterablex';
 import { throwIfAborted } from '../aborterror';
 
-class EmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
-  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<TSource> {
+class EmptyAsyncIterable extends AsyncIterableX<never> {
+  async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<never> {
     throwIfAborted(signal);
   }
 }
@@ -12,8 +12,8 @@ class EmptyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  *
  * @export
  * @template TSource The type used for the async-iterable type parameter of the resulting sequence.
- * @returns {AsyncIterableX<TSource>} An async-iterable sequence with no elements.
+ * @returns {AsyncIterableX<never>} An async-iterable sequence with no elements.
  */
-export function empty<TSource>(): AsyncIterableX<TSource> {
-  return new EmptyAsyncIterable<TSource>();
+export function empty(): AsyncIterableX<never> {
+  return new EmptyAsyncIterable();
 }

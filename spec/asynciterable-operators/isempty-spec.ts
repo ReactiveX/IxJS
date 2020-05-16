@@ -2,7 +2,7 @@ import '../asynciterablehelpers';
 import { of, empty, isEmpty } from 'ix/asynciterable';
 
 test('Iterable#isEmpty empty', async () => {
-  expect(await isEmpty(empty<number>())).toBeTruthy();
+  expect(await isEmpty(empty())).toBeTruthy();
 });
 
 test('Iterable#isEmpty not-empty', async () => {

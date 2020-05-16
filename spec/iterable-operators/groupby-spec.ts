@@ -10,9 +10,9 @@ test('Iterable#groupBy normal', () => {
     { name: 'Lisa', age: 14 },
     { name: 'Brad', age: 27 },
     { name: 'Lisa', age: 23 },
-    { name: 'Eric', age: 42 }
+    { name: 'Eric', age: 42 },
   ];
-  const ys = from(xs).pipe(groupBy(x => Math.floor(x.age / 10)));
+  const ys = from(xs).pipe(groupBy((x) => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.iterator]();
   let next = it.next();
@@ -57,9 +57,9 @@ test('Iterable#groupBy normal can get results later', () => {
     { name: 'Lisa', age: 14 },
     { name: 'Brad', age: 27 },
     { name: 'Lisa', age: 23 },
-    { name: 'Eric', age: 42 }
+    { name: 'Eric', age: 42 },
   ];
-  const ys = from(xs).pipe(groupBy(x => Math.floor(x.age / 10)));
+  const ys = from(xs).pipe(groupBy((x) => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.iterator]();
   const g1 = it.next();
@@ -101,8 +101,8 @@ test('Iterable#groupBy normal can get results later', () => {
 });
 
 test('Iterable#groupBy empty', () => {
-  const xs = empty<number>();
-  const ys = xs.pipe(groupBy(x => x));
+  const xs = empty();
+  const ys = xs.pipe(groupBy((x) => x));
 
   const it = ys[Symbol.iterator]();
   noNext(it);
@@ -110,7 +110,12 @@ test('Iterable#groupBy empty', () => {
 
 test('Iterable#groupBy element selector', () => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const ys = from(xs).pipe(groupBy(x => x % 3, x => String.fromCharCode(97 + x)));
+  const ys = from(xs).pipe(
+    groupBy(
+      (x) => x % 3,
+      (x) => String.fromCharCode(97 + x)
+    )
+  );
 
   const it = ys[Symbol.iterator]();
 
@@ -140,48 +145,6 @@ test('Iterable#groupBy element selector', () => {
   const g3 = next.value;
   expect(g3.key).toBe(2);
   const g3it = g3[Symbol.iterator]();
-  hasNext(g3it, 'c');
-  hasNext(g3it, 'f');
-  hasNext(g3it, 'i');
-  noNext(g3it);
-
-  noNext(it);
-});
-
-test('Iterable#groupBy result selector', () => {
-  const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const ys = from(xs).pipe(
-    groupBy(x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v }))
-  );
-
-  const it = ys[Symbol.iterator]();
-
-  let next = it.next();
-  expect(next.done).toBeFalsy();
-  const g1 = next.value;
-  expect(g1.k).toBe(0);
-  const g1it = g1.v[Symbol.iterator]();
-  hasNext(g1it, 'a');
-  hasNext(g1it, 'd');
-  hasNext(g1it, 'g');
-  hasNext(g1it, 'j');
-  noNext(g1it);
-
-  next = it.next();
-  expect(next.done).toBeFalsy();
-  const g2 = next.value;
-  expect(g2.k).toBe(1);
-  const g2it = g2.v[Symbol.iterator]();
-  hasNext(g2it, 'b');
-  hasNext(g2it, 'e');
-  hasNext(g2it, 'h');
-  noNext(g2it);
-
-  next = it.next();
-  expect(next.done).toBeFalsy();
-  const g3 = next.value;
-  expect(g3.k).toBe(2);
-  const g3it = g3.v[Symbol.iterator]();
   hasNext(g3it, 'c');
   hasNext(g3it, 'f');
   hasNext(g3it, 'i');

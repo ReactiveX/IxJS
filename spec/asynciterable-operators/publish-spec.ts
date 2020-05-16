@@ -13,7 +13,7 @@ async function* tick(t: (x: number) => void | Promise<void>) {
 test('AsyncIterable#publish starts at beginning', async () => {
   let n = 0;
   const rng = as(
-    tick(async i => {
+    tick(async (i) => {
       n += i;
     })
   ).pipe(publish());
@@ -119,7 +119,7 @@ test('AsyncIterable#publish second late', async () => {
 
 test('AsyncIterbale#publish shared exceptions', async () => {
   const error = new Error();
-  const rng = concat(range(0, 2), throwError<number>(error)).pipe(publish());
+  const rng = concat(range(0, 2), throwError(error)).pipe(publish());
   const it1 = rng[Symbol.asyncIterator]();
   const it2 = rng[Symbol.asyncIterator]();
 
@@ -138,22 +138,4 @@ test('AsyncIterbale#publish shared exceptions', async () => {
   } catch (e) {
     expect(error).toEqual(e);
   }
-});
-
-test('AsyncIterable#publish with selector', async () => {
-  let n = 0;
-  const res = await toArray(
-    range(0, 10)
-      .pipe(
-        tap({
-          next: async () => {
-            n++;
-          }
-        })
-      )
-      .pipe(publish(xs => zip(async ([l, r]) => l + r, xs, xs).pipe(take(4))))
-  );
-
-  expect(await sequenceEqual(from(res), range(0, 4).pipe(map(x => x * 2)))).toBeTruthy();
-  expect(4).toBe(n);
 });

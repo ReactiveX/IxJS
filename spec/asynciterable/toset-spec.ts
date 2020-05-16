@@ -10,7 +10,7 @@ test('AsyncIterable#toSet non-empty', async () => {
 });
 
 test('AsyncIterable#toSet empty', async () => {
-  const xs = empty<number>();
+  const xs = empty();
   const res = await toSet(xs);
   expect(res.size).toBe(0);
 });

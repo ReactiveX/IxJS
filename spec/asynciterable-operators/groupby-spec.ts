@@ -15,10 +15,10 @@ test('AsyncIterable#groupBy normal', async () => {
     { name: 'Lisa', age: 14 },
     { name: 'Brad', age: 27 },
     { name: 'Lisa', age: 23 },
-    { name: 'Eric', age: 42 }
+    { name: 'Eric', age: 42 },
   ];
   const xss = from<Employee, Employee>(xs);
-  const ys = xss.pipe(groupBy(async x => Math.floor(x.age / 10)));
+  const ys = xss.pipe(groupBy(async (x) => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.asyncIterator]();
   let next = await it.next();
@@ -63,10 +63,10 @@ test('AsyncIterable#groupBy normal can get results later', async () => {
     { name: 'Lisa', age: 14 },
     { name: 'Brad', age: 27 },
     { name: 'Lisa', age: 23 },
-    { name: 'Eric', age: 42 }
+    { name: 'Eric', age: 42 },
   ];
   const xss = from<Employee, Employee>(xs);
-  const ys = xss.pipe(groupBy(async x => Math.floor(x.age / 10)));
+  const ys = xss.pipe(groupBy(async (x) => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.asyncIterator]();
   const g1 = await it.next();
@@ -108,8 +108,8 @@ test('AsyncIterable#groupBy normal can get results later', async () => {
 });
 
 test('AsyncIterable#groupBy empty', async () => {
-  const xs = empty<number>();
-  const ys = xs.pipe(groupBy(x => x));
+  const xs = empty();
+  const ys = xs.pipe(groupBy((x) => x));
 
   const it = ys[Symbol.asyncIterator]();
   await noNext(it);
@@ -118,7 +118,12 @@ test('AsyncIterable#groupBy empty', async () => {
 test('AsyncIterable#groupBy element selector', async () => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const xss = from<number, number>(xs);
-  const ys = xss.pipe(groupBy(async x => x % 3, x => String.fromCharCode(97 + x)));
+  const ys = xss.pipe(
+    groupBy(
+      async (x) => x % 3,
+      (x) => String.fromCharCode(97 + x)
+    )
+  );
 
   const it = ys[Symbol.asyncIterator]();
 
@@ -148,49 +153,6 @@ test('AsyncIterable#groupBy element selector', async () => {
   const g3 = next.value;
   expect(g3.key).toBe(2);
   const g3it = g3[Symbol.asyncIterator]();
-  await hasNext(g3it, 'c');
-  await hasNext(g3it, 'f');
-  await hasNext(g3it, 'i');
-  await noNext(g3it);
-
-  await noNext(it);
-});
-
-test('AsyncIterable#groupBy result selector', async () => {
-  const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const xss = from<number, number>(xs);
-  const ys = xss.pipe(
-    groupBy(async x => x % 3, x => String.fromCharCode(97 + x), (k, v) => ({ k, v: from(v) }))
-  );
-
-  const it = ys[Symbol.asyncIterator]();
-
-  let next = await it.next();
-  expect(next.done).toBeFalsy();
-  const g1 = next.value;
-  expect(g1.k).toBe(0);
-  const g1it = g1.v[Symbol.asyncIterator]();
-  await hasNext(g1it, 'a');
-  await hasNext(g1it, 'd');
-  await hasNext(g1it, 'g');
-  await hasNext(g1it, 'j');
-  await noNext(g1it);
-
-  next = await it.next();
-  expect(next.done).toBeFalsy();
-  const g2 = next.value;
-  expect(g2.k).toBe(1);
-  const g2it = g2.v[Symbol.asyncIterator]();
-  await hasNext(g2it, 'b');
-  await hasNext(g2it, 'e');
-  await hasNext(g2it, 'h');
-  await noNext(g2it);
-
-  next = await it.next();
-  expect(next.done).toBeFalsy();
-  const g3 = next.value;
-  expect(g3.k).toBe(2);
-  const g3it = g3.v[Symbol.asyncIterator]();
   await hasNext(g3it, 'c');
   await hasNext(g3it, 'f');
   await hasNext(g3it, 'i');
