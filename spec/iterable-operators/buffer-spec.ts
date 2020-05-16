@@ -25,7 +25,7 @@ test('Iterable#buffer no skip all full', () => {
 });
 
 test('Iterable#buffer no skip empty buffer', () => {
-  const rng = empty<number>();
+  const rng = empty();
 
   const res = rng.pipe(buffer(5)).pipe(toArray);
   expect(0).toBe(res.length);

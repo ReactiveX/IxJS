@@ -26,7 +26,7 @@ test('AsyncIterable#buffer no skip all full', async () => {
 });
 
 test('AsyncIterable#buffer no skip empty buffer', async () => {
-  const rng = empty<number>();
+  const rng = empty();
 
   const res = await toArray(rng.pipe(buffer(5)));
   expect(0).toBe(res.length);

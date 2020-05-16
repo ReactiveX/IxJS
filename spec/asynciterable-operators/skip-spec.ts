@@ -34,7 +34,7 @@ test('AsyncIterable#skip none', async () => {
 
 test('AsyncIterable#skip throws', async () => {
   const err = new Error();
-  const xs = throwError<number>(err);
+  const xs = throwError(err);
   const ys = xs.pipe(skip(2));
 
   const it = ys[Symbol.asyncIterator]();

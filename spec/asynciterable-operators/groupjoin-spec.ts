@@ -42,7 +42,7 @@ test('AsyncIterable#groupJoin some groups have values', async () => {
 
 test('AsyncIterable#groupJoin left throws', async () => {
   const err = new Error();
-  const xs = throwError<number>(err);
+  const xs = throwError(err);
   const ys = of(3, 6, 4);
   const res = xs.pipe(
     groupJoin(
@@ -64,7 +64,7 @@ test('AsyncIterable#groupJoin left throws', async () => {
 test('AsyncIterable#groupJoin right throws', async () => {
   const err = new Error();
   const xs = of(0, 1, 2);
-  const ys = throwError<number>(err);
+  const ys = throwError(err);
   const res = xs.pipe(
     groupJoin(
       ys,

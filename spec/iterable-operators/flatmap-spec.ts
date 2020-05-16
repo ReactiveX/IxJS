@@ -4,7 +4,7 @@ import { as, range, throwError } from 'ix/iterable';
 
 test('Iterable#flatMap with range', () => {
   const xs = as([1, 2, 3]);
-  const ys = xs.pipe(flatMap(x => range(0, x)));
+  const ys = xs.pipe(flatMap((x) => range(0, x)));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 0);
@@ -19,7 +19,7 @@ test('Iterable#flatMap with range', () => {
 test('Iterable#flatMap selector returns throw', () => {
   const err = new Error();
   const xs = as([1, 2, 3]);
-  const ys = xs.pipe(flatMap(x => (x < 3 ? range(0, x) : throwError(err))));
+  const ys = xs.pipe(flatMap((x) => (x < 3 ? range(0, x) : throwError(err))));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 0);
@@ -30,8 +30,8 @@ test('Iterable#flatMap selector returns throw', () => {
 
 test('Iterable#flatMap with error throws', () => {
   const err = new Error();
-  const xs = throwError<number>(err);
-  const ys = xs.pipe(flatMap(x => range(0, x)));
+  const xs = throwError(err);
+  const ys = xs.pipe(flatMap((x) => range(0, x)));
 
   const it = ys[Symbol.iterator]();
   expect(() => it.next()).toThrow();
@@ -41,7 +41,7 @@ test('Iterable#flatMap selector throws error', () => {
   const err = new Error();
   const xs = as([1, 2, 3]);
   const ys = xs.pipe(
-    flatMap(x => {
+    flatMap((x) => {
       if (x < 3) {
         return range(0, x);
       }

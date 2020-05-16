@@ -33,7 +33,7 @@ test('Iterable#skip none', () => {
 });
 
 test('Iterable#skip throws', () => {
-  const xs = throwError<number>(new Error());
+  const xs = throwError(new Error());
   const ys = from(xs).pipe(skip(2));
 
   const it = ys[Symbol.iterator]();

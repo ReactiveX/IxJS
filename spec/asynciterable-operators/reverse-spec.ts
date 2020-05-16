@@ -3,7 +3,7 @@ import { reverse } from 'ix/asynciterable/operators';
 import { empty, of, throwError } from 'ix/asynciterable';
 
 test('AsyncIterable#reverse empty', async () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = xs.pipe(reverse());
 
   const it = ys[Symbol.asyncIterator]();
@@ -31,7 +31,7 @@ test('AsyncIterable#reverse multiple elements', async () => {
 });
 
 test('AsyncIterable#reverse throws', async () => {
-  const xs = throwError<number>(new Error());
+  const xs = throwError(new Error());
   const ys = xs.pipe(reverse());
 
   const it = ys[Symbol.asyncIterator]();

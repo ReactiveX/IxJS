@@ -3,7 +3,7 @@ import { empty, range, sequenceEqual } from 'ix/asynciterable';
 import { skipLast, take } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#skipLast empty', async () => {
-  const e = empty<number>();
+  const e = empty();
   const r = e.pipe(skipLast(1));
   expect(await sequenceEqual(r, e)).toBeTruthy();
 });

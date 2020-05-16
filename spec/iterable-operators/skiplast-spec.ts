@@ -3,7 +3,7 @@ import { empty, range, sequenceEqual } from 'ix/iterable';
 import { take, skipLast } from 'ix/iterable/operators';
 
 test('Iterable#skipLast empty', () => {
-  const e = empty<number>();
+  const e = empty();
   const r = e.pipe(skipLast(1));
   expect(sequenceEqual(r, e)).toBeTruthy();
 });

@@ -6,7 +6,7 @@ test('Iterable#map single element', () => {
   const source = [{ name: 'Frank', custId: 98088 }];
   const expected = ['Frank'];
 
-  expect(sequenceEqual(expected, from(source).pipe(map(x => x.name)))).toBeTruthy();
+  expect(sequenceEqual(expected, from(source).pipe(map((x) => x.name)))).toBeTruthy();
 });
 
 test('Iterable#map maps property', () => {
@@ -15,16 +15,16 @@ test('Iterable#map maps property', () => {
     { name: 'Bob', custId: 29099 },
     { name: 'Chris', custId: 39033 },
     { name: null, custId: 30349 },
-    { name: 'Frank', custId: 39030 }
+    { name: 'Frank', custId: 39030 },
   ];
   const expected = ['Frank', 'Bob', 'Chris', null, 'Frank'];
 
-  expect(sequenceEqual(expected, from(source).pipe(map(x => x.name)))).toBeTruthy();
+  expect(sequenceEqual(expected, from(source).pipe(map((x) => x.name)))).toBeTruthy();
 });
 
 test('Iterable#map empty', () => {
   expect(
-    sequenceEqual(empty<number>(), empty<string>().pipe(map((s, i) => s.length + i)))
+    sequenceEqual(empty(), empty().pipe(map<string, number>((s, i) => s.length + i)))
   ).toBeTruthy();
 });
 
@@ -32,7 +32,7 @@ test('Iterable#map map property using index', () => {
   const source = [
     { name: 'Frank', custId: 98088 },
     { name: 'Bob', custId: 29099 },
-    { name: 'Chris', custId: 39033 }
+    { name: 'Chris', custId: 39033 },
   ];
   const expected = ['Frank', null, null];
 
@@ -47,7 +47,7 @@ test('Iterable#map map property using index on last', () => {
     { name: 'Bob', custId: 29099 },
     { name: 'Chris', custId: 39033 },
     { name: 'Bill', custId: 30349 },
-    { name: 'Frank', custId: 39030 }
+    { name: 'Frank', custId: 39030 },
   ];
   const expected = [null, null, null, null, 'Frank'];
 
@@ -62,10 +62,10 @@ test('Iterable#map execution is deferred', () => {
     () => {
       fnCalled = true;
       return 1;
-    }
+    },
   ];
 
-  from(source).pipe(map(x => x()));
+  from(source).pipe(map((x) => x()));
 
   expect(fnCalled).toBeFalsy();
 });

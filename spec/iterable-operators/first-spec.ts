@@ -10,13 +10,15 @@ test('Iterable#first no predicate returns first', () => {
 });
 
 test('Iterable#first predicate empty returns undefined', () => {
-  expect(first<number>([], () => true)).toBe(undefined);
+  expect(
+    first<number>([], { predicate: () => true })
+  ).toBe(undefined);
 });
 
 test('Iterable#first predicate hits returns value', () => {
-  expect(first([1, 2, 3], x => x % 2 === 0)).toBe(2);
+  expect(first([1, 2, 3], { predicate: (x) => x % 2 === 0 })).toBe(2);
 });
 
 test('Iterable#first predicate misses returns undefined', () => {
-  expect(first([1, 3, 5], x => x % 2 === 0)).toBe(undefined);
+  expect(first([1, 3, 5], { predicate: (x) => x % 2 === 0 })).toBe(undefined);
 });

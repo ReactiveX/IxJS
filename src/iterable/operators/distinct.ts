@@ -5,7 +5,7 @@ import { comparer as defaultComparer } from '../../util/comparer';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 import { DistinctOptions } from './distinctoptions';
 
-export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
+export class DistinctIterable<TSource, TKey = TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _keySelector: (value: TSource) => TKey;
   private _cmp: (x: TKey, y: TKey) => boolean;
@@ -43,7 +43,7 @@ export class DistinctIterable<TSource, TKey> extends IterableX<TSource> {
  * @param {DistinctOptions<TSource, TKey>} [options] The optional arguments for a key selector and comparer function.
  * @returns {MonoTypeOperatorFunction<TSource>} An operator that returns distinct elements according to the keySelector and options.
  */
-export function distinct<TSource, TKey>(
+export function distinct<TSource, TKey = TSource>(
   options?: DistinctOptions<TSource, TKey>
 ): MonoTypeOperatorFunction<TSource> {
   return function distinctOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {

@@ -6,7 +6,7 @@
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the discriminator key computed for each element in the source sequence.
  */
-export interface DistinctOptions<TSource, TKey> {
+export interface DistinctOptions<TSource, TKey = TSource> {
   /**
    * A function to compute the comparison key for each element.
    *

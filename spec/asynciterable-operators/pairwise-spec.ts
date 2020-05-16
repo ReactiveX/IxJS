@@ -3,7 +3,7 @@ import { empty, of } from 'ix/asynciterable';
 import { pairwise } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#pairwise empty return empty', async () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = xs.pipe(pairwise());
 
   const it = ys[Symbol.asyncIterator]();

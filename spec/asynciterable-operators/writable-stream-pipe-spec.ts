@@ -15,7 +15,7 @@ import { empty, of, sequenceEqual } from 'ix/asynciterable';
     return new PassThrough({
       objectMode: true,
       readableObjectMode: true,
-      writableObjectMode: true
+      writableObjectMode: true,
     });
   };
 
@@ -44,9 +44,7 @@ import { empty, of, sequenceEqual } from 'ix/asynciterable';
   });
 
   test('AsyncIterable#pipe writable-stream empty', async () => {
-    expect(
-      await sequenceEqual(empty<number>(), map((s: string, i) => s.length + i)(empty<string>()))
-    ).toBeTruthy();
+    expect(await sequenceEqual(empty(), map((s: string, i) => s.length + i)(empty()))).toBeTruthy();
   });
 
   test('AsyncIterable#pipe writable-stream map property using index', async () => {

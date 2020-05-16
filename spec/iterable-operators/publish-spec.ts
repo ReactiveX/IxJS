@@ -12,7 +12,7 @@ function* tick(t: (x: number) => void) {
 
 test('Iterable#publish starts at beginning', () => {
   let n = 0;
-  const rng = publish()(tick(i => (n += i)));
+  const rng = publish()(tick((i) => (n += i)));
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -115,7 +115,7 @@ test('Iterable#publish second late', () => {
 
 test('Iterbale#publish shared exceptions', () => {
   const error = new Error();
-  const rng = publish()(concat(range(0, 2), throwError<number>(error)));
+  const rng = publish()(concat(range(0, 2), throwError(error)));
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -127,15 +127,4 @@ test('Iterbale#publish shared exceptions', () => {
   hasNext(it2, 0);
   hasNext(it2, 1);
   expect(() => it2.next()).toThrow();
-});
-
-test('Iterable#publish with selector', () => {
-  let n = 0;
-  const res = range(0, 10)
-    .pipe(tap({ next: () => n++ }))
-    .pipe(publish(xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4))))
-    .pipe(toArray);
-
-  expect(sequenceEqual(res, range(0, 4).pipe(map(x => x * 2)))).toBeTruthy();
-  expect(4).toBe(n);
 });

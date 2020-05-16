@@ -7,7 +7,7 @@ import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 import { DistinctOptions } from './distinctoptions';
 
-export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource> {
+export class DistinctAsyncIterable<TSource, TKey = TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>;
   private _comparer: (x: TKey, y: TKey) => boolean | Promise<boolean>;
@@ -43,10 +43,10 @@ export class DistinctAsyncIterable<TSource, TKey> extends AsyncIterableX<TSource
  * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the discriminator key computed for each element in the source sequence.
- * @param {DistinctOptions<TSource, TKey>} [options] The optional arguments for a key selector and comparer function.
+ * @param {DistinctOptions<TSource, TKey = TSource>} [options] The optional arguments for a key selector and comparer function.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator that returns distinct elements according to the keySelector and options.
  */
-export function distinct<TSource, TKey>(
+export function distinct<TSource, TKey = TSource>(
   options?: DistinctOptions<TSource, TKey>
 ): MonoTypeOperatorAsyncFunction<TSource> {
   return function distinctOperatorFunction(

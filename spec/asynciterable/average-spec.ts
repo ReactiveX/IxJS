@@ -2,7 +2,7 @@ import '../asynciterablehelpers';
 import { average, empty, of } from 'ix/asynciterable';
 
 test('Iterable#average empty', async () => {
-  const xs = empty<number>();
+  const xs = empty();
   try {
     await average(xs);
   } catch (e) {
@@ -16,20 +16,20 @@ test('Iterable#average', async () => {
 });
 
 test('Iterable#average with selector empty', async () => {
-  const xs = empty<number>();
+  const xs = empty();
   try {
-    await average(xs, async x => x * 2);
+    await average(xs, { selector: async (x) => x * 2 });
   } catch (e) {
     expect(e != null).toBeTruthy();
   }
 });
 
 test('Iterable#average with selector', async () => {
-  const res = await average(of(1, 2, 3), x => x * 2);
+  const res = await average(of(1, 2, 3), { selector: (x) => x * 2 });
   expect(res).toBe(4);
 });
 
 test('Iterable#average laws', async () => {
   const xs = of(1, 2, 3);
-  expect(await average(xs)).toBe(await average(xs, x => x));
+  expect(await average(xs)).toBe(await average(xs, { selector: (x) => x }));
 });

@@ -8,6 +8,16 @@ test('Iterable#distinctUntilChanged no selector', () => {
 });
 
 test('Iterable#distinctUntilChanged with selector', () => {
-  const res = distinctUntilChanged<number>(x => Math.floor(x / 2))([1, 1, 2, 3, 4, 5, 5, 6, 7]);
+  const res = distinctUntilChanged<number>({ keySelector: (x) => Math.floor(x / 2) })([
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    5,
+    6,
+    7,
+  ]);
   expect(sequenceEqual(res, [1, 2, 4, 6])).toBeTruthy();
 });

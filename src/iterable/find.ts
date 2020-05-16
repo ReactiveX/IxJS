@@ -1,19 +1,5 @@
-import { FindOptions, FindSubclassedOptions } from './findoptions';
+import { FindOptions } from './findoptions';
 
-/**
- * Returns the value of the first element in the provided iterable that satisfies the provided testing function.
- *
- * @export
- * @template T The type of the elements in the source sequence.
- * @template S The return type from the predicate which is falsy or truthy.`
- * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
- * @param {FindSubclassedOptions<T, S>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.
- * @returns {(S | undefined)} The first element that matches the predicate.
- */
-export function find<T, S extends T>(
-  source: Iterable<T>,
-  options: FindSubclassedOptions<T, S>
-): S | undefined;
 /**
  * Returns the value of the first element in the provided iterable that satisfies the provided testing function.
  *

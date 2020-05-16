@@ -8,8 +8,8 @@ test('Iterable#reduce no seed', () => {
 });
 
 test('Iterable#reduce no seed empty throws', () => {
-  const xs = empty<number>();
-  expect(() => reduce(xs, { callback: (x, y, i) => x + y + i })).toThrow();
+  const xs = empty();
+  expect(() => reduce<number>(xs, { callback: (x, y, i) => x + y + i })).toThrow();
 });
 
 test('Iterable#reduce with seed', () => {
@@ -19,7 +19,7 @@ test('Iterable#reduce with seed', () => {
 });
 
 test('Iterable#reduce with seed empty', () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = reduce(xs, { callback: (x, y, i) => x - y - i, seed: 20 });
   expect(ys).toBe(20);
 });

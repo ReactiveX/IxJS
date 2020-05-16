@@ -8,8 +8,8 @@ test('Iterable#reduceRight no seed', () => {
 });
 
 test('Iterable#reduceRight no seed empty throws', () => {
-  const xs = empty<number>();
-  expect(() => reduceRight(xs, { callback: (x, y, i) => x + y + i })).toThrow();
+  const xs = empty();
+  expect(() => reduceRight<number>(xs, { callback: (x, y, i) => x + y + i })).toThrow();
 });
 
 test('Iterable#reduceRight with seed', () => {
@@ -19,7 +19,7 @@ test('Iterable#reduceRight with seed', () => {
 });
 
 test('Iterable#reduceRight with seed empty', () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = reduceRight(xs, { callback: (x, y, i) => x - y - i, seed: 20 });
   expect(ys).toBe(20);
 });

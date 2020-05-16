@@ -1,13 +1,16 @@
 import { never } from 'ix/asynciterable';
+import { of } from 'ix/asynciterable';
+import { race } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers';
 
 test('AsyncIterable#of never', async () => {
-  let called = false;
-  const res = never();
+  const xs = of(42, 43, 44);
+  const ys = never();
+  const res = race(xs, ys);
 
   const it = res[Symbol.asyncIterator]();
-  it.next().then(() => {
-    called = true;
-  });
-
-  expect(called).toBeFalsy();
+  await hasNext(it, 42);
+  await hasNext(it, 43);
+  await hasNext(it, 44);
+  await noNext(it);
 });

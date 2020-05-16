@@ -4,7 +4,7 @@ import { comparer as defaultComparer } from '../../util/comparer';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 import { DistinctOptions } from './distinctoptions';
 
-export class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSource> {
+export class DistinctUntilChangedIterable<TSource, TKey = TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _keySelector: (value: TSource) => TKey;
   private _comparer: (x: TKey, y: TKey) => boolean;
@@ -44,10 +44,10 @@ export class DistinctUntilChangedIterable<TSource, TKey> extends IterableX<TSour
  * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the discriminator key computed for each element in the source sequence.
- * @param {DistinctOptions<TSource, TKey>} [options] The optional options for adding a key selector and comparer.
+ * @param {DistinctOptions<TSource, TKey = TSource>} [options] The optional options for adding a key selector and comparer.
  * @returns {MonoTypeOperatorFunction<TSource>} An operator that returns an async-iterable that contains only distinct contiguous items.
  */
-export function distinctUntilChanged<TSource, TKey>(
+export function distinctUntilChanged<TSource, TKey = TSource>(
   options?: DistinctOptions<TSource, TKey>
 ): MonoTypeOperatorFunction<TSource> {
   return function distinctUntilChangedOperatorFunction(

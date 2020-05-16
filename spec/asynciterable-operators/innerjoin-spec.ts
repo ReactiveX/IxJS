@@ -5,7 +5,14 @@ import { innerJoin } from 'ix/asynciterable/operators';
 test('AsyncIterable#innerJoin normal', async () => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6, 4);
-  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, y) => x + y
+    )
+  );
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0 + 3);
@@ -17,7 +24,14 @@ test('AsyncIterable#innerJoin normal', async () => {
 test('AsyncIterable#innerJoin reversed', async () => {
   const xs = of(3, 6, 4);
   const ys = of(0, 1, 2);
-  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, y) => x + y
+    )
+  );
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 3 + 0);
@@ -29,7 +43,14 @@ test('AsyncIterable#innerJoin reversed', async () => {
 test('AsyncIterable#innerJoin only one group matches', async () => {
   const xs = of(0, 1, 2);
   const ys = of(3, 6);
-  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, y) => x + y
+    )
+  );
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0 + 3);
@@ -40,7 +61,14 @@ test('AsyncIterable#innerJoin only one group matches', async () => {
 test('AsyncIterable#innerJoin only one group matches reversed', async () => {
   const xs = of(3, 6);
   const ys = of(0, 1, 2);
-  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, y) => x + y
+    )
+  );
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 3 + 0);
@@ -49,9 +77,16 @@ test('AsyncIterable#innerJoin only one group matches reversed', async () => {
 });
 
 test('AsyncIterable#innerJoin left throws', async () => {
-  const xs = throwError<number>(new Error());
+  const xs = throwError(new Error());
   const ys = of(3, 6, 4);
-  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, y) => x + y
+    )
+  );
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -63,8 +98,15 @@ test('AsyncIterable#innerJoin left throws', async () => {
 
 test('AsyncIterable#innerJoin right throws', async () => {
   const xs = of(0, 1, 2);
-  const ys = throwError<number>(new Error());
-  const res = xs.pipe(innerJoin(ys, async x => x % 3, async y => y % 3, async (x, y) => x + y));
+  const ys = throwError(new Error());
+  const res = xs.pipe(
+    innerJoin(
+      ys,
+      async (x) => x % 3,
+      async (y) => y % 3,
+      async (x, y) => x + y
+    )
+  );
 
   const it = res[Symbol.asyncIterator]();
   try {
@@ -80,10 +122,10 @@ test('AsyncIterable#innerJoin left selector throws', async () => {
   const res = xs.pipe(
     innerJoin(
       ys,
-      async _ => {
+      async (_) => {
         throw new Error();
       },
-      async y => y % 3,
+      async (y) => y % 3,
       async (x, y) => x + y
     )
   );
@@ -102,8 +144,8 @@ test('AsyncIterable#innerJoin right selector throws', async () => {
   const res = xs.pipe(
     innerJoin(
       ys,
-      async x => x % 3,
-      async _ => {
+      async (x) => x % 3,
+      async (_) => {
         throw new Error();
       },
       async (x, y) => x + y
@@ -124,8 +166,8 @@ test('AsyncIterable#innerJoin result selector throws', async () => {
   const res = xs.pipe(
     innerJoin(
       ys,
-      async x => x % 3,
-      async y => y % 3,
+      async (x) => x % 3,
+      async (y) => y % 3,
       async (_x, _y) => {
         throw new Error();
       }

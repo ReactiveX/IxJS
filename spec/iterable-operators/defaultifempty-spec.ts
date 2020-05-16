@@ -3,7 +3,7 @@ import { defaultIfEmpty } from 'ix/iterable/operators';
 import { empty, throwError } from 'ix/iterable';
 
 test('Iterable#defaultIfEmpty with empty', () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = xs.pipe(defaultIfEmpty(0));
 
   const it = ys[Symbol.iterator]();
@@ -21,7 +21,7 @@ test('Iterable#defaultIfEmpty with no empty', () => {
 });
 
 test('Iterable#defaultIfEmpty throws', () => {
-  const xs = throwError<number>(new Error());
+  const xs = throwError(new Error());
   const ys = xs.pipe(defaultIfEmpty(0));
 
   const it = ys[Symbol.iterator]();

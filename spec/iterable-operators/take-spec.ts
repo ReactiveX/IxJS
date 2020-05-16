@@ -33,7 +33,7 @@ test('Iterable#take more than count', () => {
 });
 
 test('Iterable#take throws with error', () => {
-  const xs = throwError<number>(new Error());
+  const xs = throwError(new Error());
   const ys = take(2)(xs);
 
   const it = ys[Symbol.iterator]();

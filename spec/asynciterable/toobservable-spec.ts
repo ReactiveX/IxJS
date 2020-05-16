@@ -5,7 +5,7 @@ import { Observable as RxJSObservable, from as RxJSObservableFrom } from 'rxjs';
 import { Observable, PartialObserver } from '../../src/observer';
 
 test('AsyncIterable#toObservable empty', async () => {
-  const xs = empty<number>();
+  const xs = empty();
   const ys = toObservable(xs);
   let fail = false;
 
@@ -18,7 +18,7 @@ test('AsyncIterable#toObservable empty', async () => {
     },
     complete: () => {
       expect(fail).toBeFalsy();
-    }
+    },
   });
 });
 
@@ -38,13 +38,13 @@ test('AsyncIterable#toObservable non-empty', async () => {
     complete: () => {
       expect(results).toEqual([1, 2, 3]);
       expect(fail).toBeFalsy();
-    }
+    },
   });
 });
 
 test('AsyncIterable#toObservable error', async () => {
   const error = new Error();
-  const xs = throwError<number>(error);
+  const xs = throwError(error);
   const ys = toObservable(xs);
   let fail = false;
 
@@ -58,7 +58,7 @@ test('AsyncIterable#toObservable error', async () => {
     },
     complete: () => {
       fail = true;
-    }
+    },
   });
 });
 
@@ -77,7 +77,7 @@ test('AsyncIterable#toObservable accepts partial observers', async () => {
   let completeCalled = false;
 
   const valueObs = toObservable(of(1, 2, 3));
-  const errorObs = toObservable(throwError<number>(expectedError));
+  const errorObs = toObservable(throwError(expectedError));
 
   const onNext = (val: number) => actualValues.push(val);
   const onError = (error: any) => (actualError = error);
@@ -105,7 +105,7 @@ test('AsyncIterable#toObservable accepts observer functions', async () => {
   let completeCalled = false;
 
   const valueObs = toObservable(of(1, 2, 3));
-  const errorObs = toObservable(throwError<number>(expectedError));
+  const errorObs = toObservable(throwError(expectedError));
 
   const onNext = (val: number) => actualValues.push(val);
   const onError = (error: any) => (actualError = error);
@@ -127,7 +127,7 @@ test('AsyncIterable#toObservable accepts observer functions', async () => {
 test('AsyncIterable#toObservable interop with rxjs', async () => {
   const xs: number[] = [];
   const ys = RxJSObservableFrom(toObservable(of(1, 2, 3)));
-  await endOfObservable(ys, x => xs.push(x));
+  await endOfObservable(ys, (x) => xs.push(x));
   expect(xs).toEqual([1, 2, 3]);
 });
 
