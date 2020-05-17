@@ -1,5 +1,8 @@
 import { equalityComparerAsync } from '../util/comparer';
-import { reduce } from './reduce';
+import { identityAsync } from '../util/identity';
+import { ExtremaOptions } from './extremaoptions';
+import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 /**
  *  * Returns the minimum element with the optional selector.
@@ -7,21 +10,40 @@ import { reduce } from './reduce';
  * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {AsyncIterable<TSource>} source An async-iterable sequence to determine the minimum element of.
- * @param {(left: TSource, right: TSource) => Promise<number>} [comparer=equalityComparerAsync] Comparer used to compare elements.
- * @param {AbortSignal} [signal] An optional abort signal to cancel the operation at any time.
+ * @param {ExtremaOptions<TSource, TKey>} [options] The options which include an optional comparer and abort signal.
  * @returns {Promise<TSource>} A promise containing the minimum element.
  */
-export async function min<TSource>(
+export async function min<TSource, TResult = TSource>(
   source: AsyncIterable<TSource>,
-  comparer: (left: TSource, right: TSource) => Promise<number> = equalityComparerAsync,
-  signal?: AbortSignal
-): Promise<TSource> {
-  const minBy: (x: TSource, y: TSource) => Promise<TSource> | TSource =
-    typeof comparer === 'function'
-      ? async (x, y) => ((await comparer(x, y)) < 0 ? x : y)
-      : async (x, y) => (x < y ? x : y);
-  return reduce(source, {
-    callback: minBy,
-    signal: signal,
-  });
+  options?: ExtremaOptions<TSource, TResult>
+): Promise<TResult> {
+  const opts = options || ({} as ExtremaOptions<TSource, TResult>);
+  if (!opts.comparer) {
+    opts.comparer = equalityComparerAsync;
+  }
+  if (!opts.selector) {
+    opts.selector = identityAsync;
+  }
+
+  const { ['comparer']: comparer, ['signal']: signal, ['selector']: selector } = opts;
+
+  throwIfAborted(signal);
+
+  const it = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
+  let next = await it.next();
+
+  if (next.done) {
+    throw new Error('Sequence contains no elements');
+  }
+
+  let minValue = await selector(next.value);
+
+  while (!(next = await it.next()).done) {
+    const current = await selector(next.value);
+    if ((await comparer(current, minValue)) < 0) {
+      minValue = current;
+    }
+  }
+
+  return minValue;
 }

@@ -1,13 +1,12 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { min } from '../../asynciterable/min';
-import { equalityComparerAsync } from '../../util/comparer';
+import { ExtremaOptions } from '../../asynciterable/extremaoptions';
 
-export function minProto<TSource>(
+export function minProto<TSource, TResult = TSource>(
   this: AsyncIterable<TSource>,
-  comparer: (left: TSource, right: TSource) => Promise<number> = equalityComparerAsync,
-  signal?: AbortSignal
-): Promise<TSource> {
-  return min(this, comparer, signal);
+  options?: ExtremaOptions<TSource, TResult>
+): Promise<TResult> {
+  return min(this, options);
 }
 
 AsyncIterableX.prototype.min = minProto;

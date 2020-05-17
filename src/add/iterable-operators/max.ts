@@ -1,12 +1,12 @@
 import { IterableX } from '../../iterable/iterablex';
 import { max } from '../../iterable/max';
-import { equalityComparer } from '../../util/comparer';
+import { ExtremaOptions } from '../../iterable/extremaoptions';
 
-export function maxProto<TSource>(
+export function maxProto<TSource, TResult = TSource>(
   this: IterableX<TSource>,
-  comparer: (left: TSource, right: TSource) => number = equalityComparer
-): TSource {
-  return max(this, comparer);
+  options?: ExtremaOptions<TSource, TResult>
+): TResult {
+  return max(this, options);
 }
 
 IterableX.prototype.max = maxProto;
