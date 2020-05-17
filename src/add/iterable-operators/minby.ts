@@ -1,16 +1,15 @@
 import { IterableX } from '../../iterable/iterablex';
 import { minBy } from '../../iterable/minby';
-import { ExtremaByOptions } from '../../iterable/_extremaby';
+import { ExtremaOptions } from '../../iterable/extremaoptions';
 
 /**
  * @ignore
  */
 export function minByProto<TSource, TKey>(
   this: Iterable<TSource>,
-  selector: (item: TSource) => TKey,
-  options?: ExtremaByOptions<TKey>
+  options?: ExtremaOptions<TSource, TKey>
 ): TSource[] {
-  return minBy(this, selector, options);
+  return minBy(this, options);
 }
 
 IterableX.prototype.minBy = minByProto;

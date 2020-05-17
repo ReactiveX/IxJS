@@ -1,5 +1,6 @@
 import { equalityComparer } from '../util/comparer';
-import { reduce } from './reduce';
+import { identity } from '../util/identity';
+import { ExtremaOptions } from './extremaoptions';
 
 /**
  * Returns the maximum element with the optional selector.
@@ -7,19 +8,38 @@ import { reduce } from './reduce';
  * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {Iterable<TSource>} source An async-iterable sequence to determine the maximum element of.
- * @param {(left: TSource, right: TSource) => number} [comparer=equalityComparer] Comparer used to compare elements.
- * @returns {TSource} The maximum element.
+ * @param {ExtremaByOptions<TKey>} [options] The options which include an optional comparer and abort signal.
+ * @returns {Promise<TResult>} The maximum element.
  */
-export function max<TSource>(
+export function max<TSource, TResult = TSource>(
   source: Iterable<TSource>,
-  comparer: (left: TSource, right: TSource) => number = equalityComparer
-): TSource {
-  const maxBy: (x: TSource, y: TSource) => TSource =
-    typeof comparer === 'function'
-      ? (x, y) => (comparer(x, y) > 0 ? x : y)
-      : (x, y) => (x > y ? x : y);
+  options?: ExtremaOptions<TSource, TResult>
+): TResult {
+  const opts = options || ({} as ExtremaOptions<TSource, TResult>);
+  if (!opts.comparer) {
+    opts.comparer = equalityComparer;
+  }
+  if (!opts.selector) {
+    opts.selector = identity;
+  }
 
-  return reduce(source, {
-    callback: maxBy,
-  });
+  const { ['comparer']: comparer, ['selector']: selector } = opts;
+
+  const it = source[Symbol.iterator]();
+  let next = it.next();
+
+  if (next.done) {
+    throw new Error('Sequence contains no elements');
+  }
+
+  let maxValue = selector(next.value);
+
+  while (!(next = it.next()).done) {
+    const current = selector(next.value);
+    if (comparer(current, maxValue) > 0) {
+      maxValue = current;
+    }
+  }
+
+  return maxValue;
 }

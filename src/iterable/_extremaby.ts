@@ -1,14 +1,10 @@
-export interface ExtremaByOptions<TKey> {
-  comparer?: (left: TKey, right: TKey) => number | Promise<number>;
-  signal?: AbortSignal;
-}
+import { ExtremaOptions } from './extremaoptions';
 
 export function extremaBy<TSource, TKey>(
   source: Iterable<TSource>,
-  selector: (item: TSource) => TKey,
-  options: ExtremaByOptions<TKey>
+  options: ExtremaOptions<TSource, TKey>
 ): TSource[] {
-  const { ['comparer']: comparer } = options;
+  const { ['comparer']: comparer, ['selector']: selector } = options;
   let result = [];
   const it = source[Symbol.iterator]();
   const { value, done } = it.next();

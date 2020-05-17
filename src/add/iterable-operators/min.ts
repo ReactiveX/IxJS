@@ -1,13 +1,15 @@
 import { IterableX } from '../../iterable/iterablex';
 import { min } from '../../iterable/min';
+import { ExtremaOptions } from '../../iterable/extremaoptions';
 
-export function minProto(this: IterableX<number>, fn?: (x: number) => number): number;
-export function minProto<T>(this: IterableX<T>, fn: (x: T) => number): number;
 /**
  * @ignore
  */
-export function minProto(this: IterableX<any>, fn: (x: any) => number = x => x): number {
-  return min(this, fn);
+export function minProto<TSource, TResult = TSource>(
+  this: IterableX<TSource>,
+  options?: ExtremaOptions<TSource, TResult>
+): TResult {
+  return min(this, options);
 }
 
 IterableX.prototype.min = minProto;

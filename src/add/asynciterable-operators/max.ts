@@ -1,13 +1,12 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { max } from '../../asynciterable/max';
-import { equalityComparerAsync } from '../../util/comparer';
+import { ExtremaOptions } from '../../asynciterable/extremaoptions';
 
-export async function maxProto<TSource>(
+export async function maxProto<TSource, TResult = TSource>(
   this: AsyncIterable<TSource>,
-  comparer: (left: TSource, right: TSource) => Promise<number> = equalityComparerAsync,
-  signal?: AbortSignal
-): Promise<TSource> {
-  return max(this, comparer, signal);
+  options?: ExtremaOptions<TSource, TResult>
+): Promise<TResult> {
+  return max(this, options);
 }
 
 AsyncIterableX.prototype.max = maxProto;

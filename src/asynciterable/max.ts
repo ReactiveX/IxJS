@@ -1,5 +1,8 @@
 import { equalityComparerAsync } from '../util/comparer';
-import { reduce } from './reduce';
+import { identityAsync } from '../util/identity';
+import { ExtremaOptions } from './extremaoptions';
+import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror';
 
 /**
  * Returns the maximum element with the optional selector.
@@ -7,22 +10,40 @@ import { reduce } from './reduce';
  * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {AsyncIterable<TSource>} source An async-iterable sequence to determine the maximum element of.
- * @param {(left: TSource, right: TSource) => Promise<number>} [comparer=equalityComparerAsync] Comparer used to compare elements.
- * @param {AbortSignal} [signal]
- * @returns {Promise<TSource>}
+ * @param {ExtremaByOptions<TKey>} [options] The options which include an optional comparer and abort signal.
+ * @returns {Promise<TResult>} The maximum element.
  */
-export async function max<TSource>(
+export async function max<TSource, TResult = TSource>(
   source: AsyncIterable<TSource>,
-  comparer: (left: TSource, right: TSource) => Promise<number> = equalityComparerAsync,
-  signal?: AbortSignal
-): Promise<TSource> {
-  const maxBy: (x: TSource, y: TSource) => Promise<TSource> | TSource =
-    typeof comparer === 'function'
-      ? async (x, y) => ((await comparer(x, y)) > 0 ? x : y)
-      : async (x, y) => (x > y ? x : y);
+  options?: ExtremaOptions<TSource, TResult>
+): Promise<TResult> {
+  const opts = options || ({} as ExtremaOptions<TSource, TResult>);
+  if (!opts.comparer) {
+    opts.comparer = equalityComparerAsync;
+  }
+  if (!opts.selector) {
+    opts.selector = identityAsync;
+  }
 
-  return reduce(source, {
-    callback: maxBy,
-    signal: signal,
-  });
+  const { ['comparer']: comparer, ['signal']: signal, ['selector']: selector } = opts;
+
+  throwIfAborted(signal);
+
+  const it = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
+  let next = await it.next();
+
+  if (next.done) {
+    throw new Error('Sequence contains no elements');
+  }
+
+  let maxValue = await selector(next.value);
+
+  while (!(next = await it.next()).done) {
+    const current = await selector(next.value);
+    if ((await comparer(current, maxValue)) > 0) {
+      maxValue = current;
+    }
+  }
+
+  return maxValue;
 }
