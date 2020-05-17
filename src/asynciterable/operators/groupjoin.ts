@@ -42,9 +42,7 @@ export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends Async
     const map = await createGrouping(this._inner, this._innerSelector, identity, signal);
     for await (const outerElement of wrapWithAbort(this._outer, signal)) {
       const outerKey = await this._outerSelector(outerElement, signal);
-      const innerElements = map.has(outerKey)
-        ? <Iterable<TInner>>map.get(outerKey)
-        : empty<TInner>();
+      const innerElements = map.has(outerKey) ? <Iterable<TInner>>map.get(outerKey) : empty();
       yield await this._resultSelector(outerElement, from(innerElements), signal);
     }
   }
