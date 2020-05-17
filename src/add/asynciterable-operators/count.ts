@@ -1,14 +1,15 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { count } from '../../asynciterable/count';
+import { OptionalFindOptions } from '../../asynciterable/findoptions';
 
 /**
  * @ignore
  */
 export function countProto<T>(
-  this: AsyncIterableX<T>,
-  selector?: (value: T) => boolean | Promise<boolean>
+  this: AsyncIterable<T>,
+  options?: OptionalFindOptions<T>
 ): Promise<number> {
-  return count<T>(this, selector);
+  return count<T>(this, options);
 }
 
 AsyncIterableX.prototype.count = countProto;

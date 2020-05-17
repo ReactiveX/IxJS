@@ -2,69 +2,69 @@ import { AsyncIterableX } from './asynciterablex';
 import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
 
-class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
-  private _left: AsyncIterable<TSource>;
-  private _right: AsyncIterable<TSource>;
+type MergeResult<T> = { value: T; index: number };
 
-  constructor(left: AsyncIterable<TSource>, right: AsyncIterable<TSource>) {
+function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
+  return promise.then((value) => ({ value, index })) as Promise<MergeResult<T>>;
+}
+
+export class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
+  private _sources: AsyncIterable<TSource>[];
+
+  constructor(sources: AsyncIterable<TSource>[]) {
     super();
-    this._left = left;
-    this._right = right;
+    this._sources = sources;
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const left = wrapWithAbort(this._left, signal);
-    const right = wrapWithAbort(this._right, signal);
-    const leftIt = left[Symbol.asyncIterator]();
-    const rightIt = right[Symbol.asyncIterator]();
-    let otherIterator: AsyncIterator<TSource>;
-    let resultIterator: AsyncIterator<TSource>;
-    const { value, done } = await Promise.race([
-      leftIt.next().then((x) => {
-        if (!resultIterator) {
-          resultIterator = leftIt;
-          otherIterator = rightIt;
-        }
-        return x;
-      }),
-      rightIt.next().then((x) => {
-        if (!resultIterator) {
-          resultIterator = rightIt;
-          otherIterator = leftIt;
-        }
-        return x;
-      }),
-    ]);
+    const sources = this._sources;
+    const length = sources.length;
 
-    if (!done) {
-      yield value;
+    const iterators = new Array<AsyncIterator<TSource>>(length);
+    const nexts = new Array<Promise<MergeResult<IteratorResult<TSource>>>>(length);
+
+    for (let i = 0; i < length; i++) {
+      const iterator = wrapWithAbort<TSource>(sources[i], signal)[Symbol.asyncIterator]();
+      iterators[i] = iterator;
+      nexts[i] = wrapPromiseWithIndex(iterator.next(), i);
     }
 
-    otherIterator = otherIterator!;
-    resultIterator = resultIterator!;
+    const next = Promise.race(nexts);
+    const { value: next$, index } = await next;
 
-    // Cancel/finish other iterator
-    if (otherIterator.return) {
-      await otherIterator.return!();
+    if (!next$.done) {
+      yield next$.value;
     }
 
-    let next;
-    while (!(next = await resultIterator.next()).done) {
-      yield next.value;
+    const iterator$ = iterators[index];
+
+    // Cancel/finish other iterators
+    for (let i = 0; i < length; i++) {
+      if (i === index) {
+        continue;
+      }
+
+      const otherIterator = iterators[i];
+      if (otherIterator.return) {
+        otherIterator.return();
+      }
+    }
+
+    let nextItem;
+    while (!(nextItem = await iterator$.next()).done) {
+      yield nextItem.value;
     }
   }
 }
 
 /**
  * Propagates the async sequence that reacts first.
- * @param {AsyncIterable<T>} left First async sequence.
- * @param {AsyncIterable<T>} right Second async sequence.
+ *
+ * @export
+ * @param {...AsyncIterable<T>[]} sources The source sequences.
  * @return {AsyncIterable<T>} An async sequence that surfaces either of the given sequences, whichever reacted first.
  */
-export function race<TSource>(
-  left: AsyncIterable<TSource>,
-  right: AsyncIterable<TSource>
-): AsyncIterableX<TSource> {
-  return new RaceAsyncIterable<TSource>(left, right);
+export function race<TSource>(...sources: AsyncIterable<TSource>[]): AsyncIterableX<TSource> {
+  return new RaceAsyncIterable<TSource>(sources);
 }

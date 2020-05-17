@@ -1,17 +1,10 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { first } from '../../asynciterable/first';
-import {
-  OptionalFindSubclassedOptions,
-  OptionalFindOptions,
-} from '../../asynciterable/findoptions';
+import { OptionalFindOptions } from '../../asynciterable/findoptions';
 
 /**
  * @ignore
  */
-export function firstProto<T, S extends T>(
-  this: AsyncIterable<T>,
-  options?: OptionalFindSubclassedOptions<T, S>
-): Promise<S | undefined>;
 export async function firstProto<T>(
   this: AsyncIterable<T>,
   options?: OptionalFindOptions<T>

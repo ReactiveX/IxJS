@@ -1,6 +1,7 @@
 export * from './buffer';
 export * from './catcherror';
 export * from './concatall';
+export * from './concatwith';
 export * from './defaultifempty';
 export * from './distinct';
 export * from './distinctuntilchanged';
@@ -40,3 +41,4 @@ export * from './takewhile';
 export * from './tap';
 export * from './todomstream';
 export * from './union';
+export * from './zipwith';

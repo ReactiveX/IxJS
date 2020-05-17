@@ -30,9 +30,7 @@ export class GroupJoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<
     const map = createGrouping(this._inner, this._innerSelector, identity);
     for (const outerElement of this._outer) {
       const outerKey = this._outerSelector(outerElement);
-      const innerElements = map.has(outerKey)
-        ? <Iterable<TInner>>map.get(outerKey)
-        : empty<TInner>();
+      const innerElements = map.has(outerKey) ? <Iterable<TInner>>map.get(outerKey) : empty();
       yield this._resultSelector(outerElement, innerElements);
     }
   }

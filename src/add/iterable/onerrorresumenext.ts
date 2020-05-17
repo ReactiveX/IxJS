@@ -1,5 +1,5 @@
 import { IterableX } from '../../iterable/iterablex';
-import { onErrorResumeNextStatic } from '../../iterable/onerrorresumenext';
+import { onErrorResumeNext as onErrorResumeNextStatic } from '../../iterable/onerrorresumenext';
 
 /** @nocollapse */
 IterableX.onErrorResumeNext = onErrorResumeNextStatic;
