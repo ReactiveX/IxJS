@@ -3,7 +3,7 @@ import { RefCountList } from '../../iterable/operators/_refcountlist';
 import { create } from '../create';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { MemoizeAsyncBuffer } from './memoize';
-import { throwIfAborted } from 'ix/aborterror';
+import { throwIfAborted } from '../../aborterror';
 
 class PublishedAsyncBuffer<T> extends MemoizeAsyncBuffer<T> {
   // @ts-ignore
