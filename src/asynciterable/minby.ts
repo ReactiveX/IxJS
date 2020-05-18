@@ -1,7 +1,6 @@
 import { extremaBy } from './_extremaby';
 import { ExtremaOptions } from './extremaoptions';
 import { equalityComparerAsync } from '../util/comparer';
-import { identityAsync } from '../util/identity';
 
 /**
  * Returns the elements in an async-enumerable sequence with the minimum key value.
@@ -13,15 +12,15 @@ import { identityAsync } from '../util/identity';
  * @param {ExtremaOptions<TSource, TKey>} options The options which include an optional comparer and abort signal.
  * @returns {Promise<TSource[]>} A promise containing a list of zero or more elements that have a minimum key value.
  */
-export async function minBy<TSource, TKey>(
+export function minBy<TSource, TKey>(
   source: AsyncIterable<TSource>,
   options?: ExtremaOptions<TSource, TKey>
 ): Promise<TSource[]> {
   const {
     ['comparer']: comparer = equalityComparerAsync,
-    ['selector']: selector = identityAsync,
+    ['selector']: selector,
     ['signal']: signal,
   } = options || {};
-  const newComparer = (key: TKey, minValue: TKey) => -comparer!(key, minValue);
-  return extremaBy(source, selector, newComparer, signal);
+  const newComparer = (key: TKey, minValue: TKey) => -comparer(key, minValue);
+  return extremaBy(source, selector!, newComparer, signal);
 }

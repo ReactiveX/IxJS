@@ -14,8 +14,8 @@ test('Iterable#repeat infinite', () => {
     every(
       from(res)
         .pipe(buffer(2))
-        .pipe(map(b => sum(b))),
-      x => x === 3
+        .pipe(map((b) => sum(b))),
+      { predicate: (x) => x === 3 }
     )
   ).toBeTruthy();
   expect(10).toBe(i);
@@ -33,8 +33,8 @@ test('Iterable#repeat finite', () => {
     every(
       from(res)
         .pipe(buffer(2))
-        .pipe(map(b => sum(b))),
-      x => x === 3
+        .pipe(map((b) => sum(b))),
+      { predicate: (x) => x === 3 }
     )
   ).toBeTruthy();
   expect(10).toBe(i);

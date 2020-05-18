@@ -20,7 +20,7 @@ export async function extremaBy<TSource, TKey>(
   while (!(next = await it.next()).done) {
     const { value: current } = next;
     const key = await selector(current, signal);
-    const cmp = await comparer(resKey, key);
+    const cmp = await comparer(key, resKey);
 
     if (cmp === 0) {
       result.push(current);
