@@ -17,11 +17,8 @@ export async function count<T>(
   source: AsyncIterable<T>,
   options?: OptionalFindOptions<T>
 ): Promise<number> {
-  const opts = options || ({} as OptionalFindOptions<any>);
-  if (!opts.predicate) {
-    opts.predicate = () => true;
-  }
-  const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = opts;
+  const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate = async () => true } =
+    options || {};
   throwIfAborted(signal);
   let i = 0;
 

@@ -14,7 +14,7 @@ import { FindOptions } from './findoptions';
  * pass the test in the specified predicate.
  */
 export async function some<T>(source: AsyncIterable<T>, options: FindOptions<T>): Promise<boolean> {
-  const { signal, thisArg, predicate } = options;
+  const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = options;
   throwIfAborted(signal);
   let i = 0;
   for await (const item of wrapWithAbort(source, signal)) {

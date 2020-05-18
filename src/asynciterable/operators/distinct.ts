@@ -52,14 +52,8 @@ export function distinct<TSource, TKey = TSource>(
   return function distinctOperatorFunction(
     source: AsyncIterable<TSource>
   ): AsyncIterableX<TSource> {
-    const opts = options || ({} as DistinctOptions<TSource, TKey>);
-    if (!opts.comparer) {
-      opts.comparer = comparerAsync;
-    }
-    if (!opts.keySelector) {
-      opts.keySelector = identityAsync;
-    }
-    const { ['keySelector']: keySelector, ['comparer']: comparer } = opts;
+    const { ['keySelector']: keySelector = identityAsync, ['comparer']: comparer = comparerAsync } =
+      options || {};
     return new DistinctAsyncIterable<TSource, TKey>(source, keySelector!, comparer!);
   };
 }

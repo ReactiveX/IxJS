@@ -12,11 +12,7 @@ import { OptionalFindOptions } from './findoptions';
  * @returns {(S | undefined)} The last value that matches the optional predicate or last item, otherwise undefined.
  */
 export function last<T>(source: Iterable<T>, options?: OptionalFindOptions<T>): T | undefined {
-  const opts = options || ({} as OptionalFindOptions<T>);
-  if (!opts.predicate) {
-    opts.predicate = () => true;
-  }
-  const { ['thisArg']: thisArg, ['predicate']: predicate } = opts;
+  const { ['thisArg']: thisArg, ['predicate']: predicate = () => true } = options || {};
   let i = 0;
   let result: T | undefined;
   for (const item of source) {

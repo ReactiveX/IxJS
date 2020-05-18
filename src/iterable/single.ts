@@ -14,11 +14,7 @@ import { OptionalFindOptions } from './findoptions';
  * the condition in the predicate, or undefined if no such element exists.
  */
 export function single<T>(source: Iterable<T>, options?: OptionalFindOptions<T>): T | undefined {
-  const opts = options || ({} as OptionalFindOptions<any>);
-  if (!opts.predicate) {
-    opts.predicate = () => true;
-  }
-  const { ['thisArg']: thisArg, ['predicate']: predicate } = opts;
+  const { ['thisArg']: thisArg, ['predicate']: predicate = () => true } = options || {};
   let result: T | undefined;
   let hasResult = false;
   let i = 0;

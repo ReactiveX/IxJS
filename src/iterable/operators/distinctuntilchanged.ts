@@ -53,14 +53,8 @@ export function distinctUntilChanged<TSource, TKey = TSource>(
   return function distinctUntilChangedOperatorFunction(
     source: Iterable<TSource>
   ): IterableX<TSource> {
-    const opts = options || ({} as DistinctOptions<TSource, TKey>);
-    if (!opts.comparer) {
-      opts.comparer = defaultComparer;
-    }
-    if (!opts.keySelector) {
-      opts.keySelector = identity;
-    }
-    const { ['keySelector']: keySelector, ['comparer']: comparer } = opts;
+    const { ['keySelector']: keySelector = identity, ['comparer']: comparer = defaultComparer } =
+      options || {};
     return new DistinctUntilChangedIterable<TSource, TKey>(source, keySelector!, comparer!);
   };
 }
