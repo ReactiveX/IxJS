@@ -47,14 +47,8 @@ export function distinct<TSource, TKey = TSource>(
   options?: DistinctOptions<TSource, TKey>
 ): MonoTypeOperatorFunction<TSource> {
   return function distinctOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
-    const opts = options || ({} as DistinctOptions<TSource, TKey>);
-    if (!opts.comparer) {
-      opts.comparer = defaultComparer;
-    }
-    if (!opts.keySelector) {
-      opts.keySelector = identity;
-    }
-    const { ['keySelector']: keySelector, ['comparer']: comparer } = opts;
+    const { ['keySelector']: keySelector = identity, ['comparer']: comparer = defaultComparer } =
+      options || {};
     return new DistinctIterable<TSource, TKey>(source, keySelector!, comparer!);
   };
 }

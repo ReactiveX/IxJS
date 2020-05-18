@@ -17,15 +17,11 @@ export async function max<TSource, TResult = TSource>(
   source: AsyncIterable<TSource>,
   options?: ExtremaOptions<TSource, TResult>
 ): Promise<TResult> {
-  const opts = options || ({} as ExtremaOptions<TSource, TResult>);
-  if (!opts.comparer) {
-    opts.comparer = equalityComparerAsync;
-  }
-  if (!opts.selector) {
-    opts.selector = identityAsync;
-  }
-
-  const { ['comparer']: comparer, ['signal']: signal, ['selector']: selector } = opts;
+  const {
+    ['comparer']: comparer = equalityComparerAsync,
+    ['signal']: signal,
+    ['selector']: selector = identityAsync,
+  } = options || {};
 
   throwIfAborted(signal);
 

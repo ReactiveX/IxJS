@@ -40,16 +40,16 @@ export async function average(
   source: AsyncIterable<any>,
   options?: MathOptions<any>
 ): Promise<number> {
-  const opts = options || ({} as MathOptions<any>);
-  if (!opts.selector) {
-    opts.selector = identityAsync;
-  }
-  const { ['selector']: selector, ['signal']: signal, ['thisArg']: thisArg } = opts;
+  const {
+    ['selector']: selector = identityAsync as any,
+    ['signal']: signal,
+    ['thisArg']: thisArg,
+  } = options || {};
   throwIfAborted(signal);
   let sum = 0;
   let count = 0;
   for await (const item of wrapWithAbort(source, signal)) {
-    sum += await selector!.call(thisArg, item, signal);
+    sum += await selector.call(thisArg, item, signal);
     count++;
   }
 

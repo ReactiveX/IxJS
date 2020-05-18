@@ -9,11 +9,7 @@ import { OptionalFindOptions } from './findoptions';
  * @returns {(S | undefined)} The first element in the iterable sequence, or undefined if no such element exists.
  */
 export function first<T>(source: Iterable<T>, options?: OptionalFindOptions<T>): T | undefined {
-  const opts = options || ({} as OptionalFindOptions<T>);
-  if (!opts.predicate) {
-    opts.predicate = () => true;
-  }
-  const { ['thisArg']: thisArg, ['predicate']: predicate } = opts;
+  const { ['thisArg']: thisArg, ['predicate']: predicate = () => true } = options || {};
   let i = 0;
   for (const item of source) {
     if (predicate!.call(thisArg, item, i++)) {

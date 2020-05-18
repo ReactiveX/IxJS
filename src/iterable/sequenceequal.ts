@@ -1,4 +1,4 @@
-import { comparer } from '../util/comparer';
+import { comparer as defaultComparer } from '../util/comparer';
 
 /**
  * The options for sequence equal operations including a comparer and abort signal
@@ -31,16 +31,13 @@ export function sequenceEqual<T>(
   other: Iterable<T>,
   options?: SequencEqualOptions<T>
 ): boolean {
-  const opts = options || ({} as SequencEqualOptions<T>);
-  if (!opts.comparer) {
-    opts.comparer = comparer;
-  }
+  const { ['comparer']: comparer = defaultComparer } = options || {};
   const it1 = source[Symbol.iterator]();
   const it2 = other[Symbol.iterator]();
   let next1: IteratorResult<T>;
   let next2: IteratorResult<T>;
   while (!(next1 = it1.next()).done) {
-    if (!(!(next2 = it2.next()).done && opts.comparer(next1.value, next2.value))) {
+    if (!(!(next2 = it2.next()).done && comparer(next1.value, next2.value))) {
       return false;
     }
   }

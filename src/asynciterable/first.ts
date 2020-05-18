@@ -15,11 +15,8 @@ export async function first<T>(
   source: AsyncIterable<T>,
   options?: OptionalFindOptions<T>
 ): Promise<T | undefined> {
-  const opts = options || ({} as OptionalFindOptions<T>);
-  if (!opts.predicate) {
-    opts.predicate = async () => true;
-  }
-  const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = opts;
+  const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate = async () => true } =
+    options || {};
   throwIfAborted(signal);
   let i = 0;
   for await (const item of wrapWithAbort(source, signal)) {

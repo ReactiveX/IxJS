@@ -31,11 +31,7 @@ export function average<T>(source: Iterable<T>, options?: MathOptions<T>): numbe
  * @returns {number} The computed average for the iterable sequence.
  */
 export function average(source: Iterable<any>, options?: MathOptions<any>): number {
-  const opts = options || ({} as MathOptions<any>);
-  if (!opts.selector) {
-    opts.selector = identity;
-  }
-  const { ['selector']: selector, ['thisArg']: thisArg } = opts;
+  const { ['selector']: selector = identity, ['thisArg']: thisArg } = options || {};
   let sum = 0;
   let count = 0;
   for (const item of source) {
