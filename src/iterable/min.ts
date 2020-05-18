@@ -15,15 +15,8 @@ export function min<TSource, TResult = TSource>(
   source: Iterable<TSource>,
   options?: ExtremaOptions<TSource, TResult>
 ): TResult {
-  const opts = options || ({} as ExtremaOptions<TSource, TResult>);
-  if (!opts.comparer) {
-    opts.comparer = equalityComparer;
-  }
-  if (!opts.selector) {
-    opts.selector = identity;
-  }
-
-  const { ['comparer']: comparer, ['selector']: selector } = opts;
+  const { ['comparer']: comparer = equalityComparer, ['selector']: selector = identity } =
+    options || {};
 
   const it = source[Symbol.iterator]();
   let next = it.next();

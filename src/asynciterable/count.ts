@@ -23,7 +23,7 @@ export async function count<T>(
   let i = 0;
 
   for await (const item of wrapWithAbort(source, signal)) {
-    if (await predicate!.call(thisArg, item, i, signal)) {
+    if (await predicate.call(thisArg, item, i, signal)) {
       i++;
     }
   }

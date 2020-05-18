@@ -54,6 +54,6 @@ export function distinct<TSource, TKey = TSource>(
   ): AsyncIterableX<TSource> {
     const { ['keySelector']: keySelector = identityAsync, ['comparer']: comparer = comparerAsync } =
       options || {};
-    return new DistinctAsyncIterable<TSource, TKey>(source, keySelector!, comparer!);
+    return new DistinctAsyncIterable<TSource, TKey>(source, keySelector, comparer);
   };
 }

@@ -12,11 +12,7 @@ import { OptionalFindOptions } from './findoptions';
  * the number of elements in the sequence.
  */
 export function count<T>(source: Iterable<T>, options?: OptionalFindOptions<T>): number {
-  const opts = options || ({} as OptionalFindOptions<any>);
-  if (!opts.predicate) {
-    opts.predicate = () => true;
-  }
-  const { ['thisArg']: thisArg, ['predicate']: predicate } = opts;
+  const { ['thisArg']: thisArg, ['predicate']: predicate = () => true } = options || {};
   let i = 0;
 
   for (const item of source) {

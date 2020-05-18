@@ -1,10 +1,8 @@
-import { ExtremaOptions } from './extremaoptions';
-
 export function extremaBy<TSource, TKey>(
   source: Iterable<TSource>,
-  options: ExtremaOptions<TSource, TKey>
+  selector: (item: TSource) => TKey,
+  comparer: (left: TKey, right: TKey) => number
 ): TSource[] {
-  const { ['comparer']: comparer, ['selector']: selector } = options;
   let result = [];
   const it = source[Symbol.iterator]();
   const { value, done } = it.next();

@@ -1,6 +1,6 @@
 import { hasNext, noNext } from '../asynciterablehelpers';
-import { share, take, tap } from 'ix/asynciterable/operators';
-import { range, toArray, zip } from 'ix/asynciterable';
+import { share, take } from 'ix/asynciterable/operators';
+import { range, toArray } from 'ix/asynciterable';
 import { sequenceEqual } from 'ix/iterable';
 
 test('AsyncIterable#share single', async () => {
@@ -53,21 +53,4 @@ test('AsyncIterable#share shared does not interrupt', async () => {
 
   const res2 = await toArray(rng);
   expect(sequenceEqual(res2, [3, 4])).toBe(true);
-});
-
-test('AsyncIterable#share with selector', async () => {
-  let n = 0;
-  const res = await toArray(
-    range(0, 10).pipe(
-      tap({
-        next: async () => {
-          n++;
-        }
-      }),
-      share(xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4)))
-    )
-  );
-
-  expect(sequenceEqual(res, [0 + 1, 2 + 3, 4 + 5, 6 + 7])).toBeTruthy();
-  expect(8).toBe(n);
 });

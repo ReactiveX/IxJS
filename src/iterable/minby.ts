@@ -17,13 +17,8 @@ export function minBy<TSource, TKey>(
   source: Iterable<TSource>,
   options?: ExtremaOptions<TSource, TKey>
 ): TSource[] {
-  const opts = options || ({} as ExtremaOptions<TSource, TKey>);
-  if (!opts.comparer) {
-    opts.comparer = equalityComparer;
-  }
-  if (!opts.selector) {
-    opts.selector = identity;
-  }
-  opts.comparer = (key, minValue) => -opts.comparer!(key, minValue);
-  return extremaBy(source, opts);
+  const { ['comparer']: comparer = equalityComparer, ['selector']: selector = identity } =
+    options || {};
+  const newComparer = (key: TKey, minValue: TKey) => -comparer(key, minValue);
+  return extremaBy(source, selector, newComparer);
 }

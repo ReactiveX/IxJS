@@ -29,11 +29,7 @@ export function sum<T>(source: Iterable<T>, options?: MathOptions<T>): number;
  * @returns {Promise<number>} A promise containing the sum of the sequence of values.
  */
 export function sum(source: Iterable<any>, options?: MathOptions<any>): number {
-  const opts = options || ({} as MathOptions<any>);
-  if (!opts.selector) {
-    opts.selector = identity;
-  }
-  const { ['selector']: selector, ['thisArg']: thisArg } = opts;
+  const { ['selector']: selector = identity, ['thisArg']: thisArg } = options || {};
   let value = 0;
   for (const item of source) {
     value += selector!.call(thisArg, item);

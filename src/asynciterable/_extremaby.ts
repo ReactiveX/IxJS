@@ -1,11 +1,11 @@
 import { wrapWithAbort } from './operators/withabort';
-import { ExtremaOptions } from './extremaoptions';
 
 export async function extremaBy<TSource, TKey>(
   source: AsyncIterable<TSource>,
-  options: ExtremaOptions<TSource, TKey>
+  selector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
+  comparer: (left: TKey, right: TKey) => number | Promise<number>,
+  signal?: AbortSignal
 ): Promise<TSource[]> {
-  const { ['comparer']: comparer, ['signal']: signal, ['selector']: selector } = options;
   let result = [];
   const it = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
   const { value, done } = await it.next();
@@ -13,14 +13,14 @@ export async function extremaBy<TSource, TKey>(
     throw new Error('Sequence contains no elements');
   }
 
-  let resKey = await selector!(value, signal);
+  let resKey = await selector(value, signal);
   result.push(value);
 
   let next: IteratorResult<TSource>;
   while (!(next = await it.next()).done) {
     const { value: current } = next;
-    const key = await selector!(current, signal);
-    const cmp = comparer!(resKey, key);
+    const key = await selector(current, signal);
+    const cmp = await comparer(resKey, key);
 
     if (cmp === 0) {
       result.push(current);
