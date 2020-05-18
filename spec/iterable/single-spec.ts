@@ -7,12 +7,12 @@ test('Iterable#single no predicate empty returns undefined', () => {
 });
 
 test('Iterable#single with predicate empty returns undefined', () => {
-  const res = single<number>([], () => true);
+  const res = single<number>([], { predicate: () => true });
   expect(res).toBe(undefined);
 });
 
 test('Iterable#single predicate miss', () => {
-  const res = single([42], x => x % 2 !== 0);
+  const res = single([42], { predicate: (x) => x % 2 !== 0 });
   expect(res).toBe(undefined);
 });
 
@@ -22,7 +22,7 @@ test('Iterable#single no predicate hit', () => {
 });
 
 test('Iterable#single predicate hit', () => {
-  const res = single([42], x => x % 2 === 0);
+  const res = single([42], { predicate: (x) => x % 2 === 0 });
   expect(res).toBe(42);
 });
 
@@ -31,5 +31,5 @@ test('Iterable#single no predicate multiple throws error', () => {
 });
 
 test('Iterable#single with predicate multiple throws error', () => {
-  expect(() => single([42, 45, 90], x => x % 2 === 0)).toThrow();
+  expect(() => single([42, 45, 90], { predicate: (x) => x % 2 === 0 })).toThrow();
 });
