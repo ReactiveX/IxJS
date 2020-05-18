@@ -21,6 +21,6 @@ export function minBy<TSource, TKey>(
     ['selector']: selector,
     ['signal']: signal,
   } = options || {};
-  const newComparer = (key: TKey, minValue: TKey) => -comparer(key, minValue);
+  const newComparer = async (key: TKey, minValue: TKey) => -(await comparer(key, minValue));
   return extremaBy(source, selector!, newComparer, signal);
 }
