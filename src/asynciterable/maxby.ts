@@ -17,12 +17,10 @@ export async function maxBy<TSource, TKey>(
   source: AsyncIterable<TSource>,
   options?: ExtremaOptions<TSource, TKey>
 ): Promise<TSource[]> {
-  const opts = options || ({} as ExtremaOptions<TSource, TKey>);
-  if (!opts.comparer) {
-    opts.comparer = equalityComparerAsync;
-  }
-  if (!opts.selector) {
-    opts.selector = identityAsync;
-  }
-  return extremaBy(source, opts);
+  const {
+    ['comparer']: comparer = equalityComparerAsync,
+    ['selector']: selector = identityAsync,
+    ['signal']: signal,
+  } = options || {};
+  return extremaBy(source, selector, comparer, signal);
 }

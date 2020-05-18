@@ -1,6 +1,6 @@
 import { hasNext, noNext } from '../iterablehelpers';
-import { share, take, tap } from 'ix/iterable/operators';
-import { range, sequenceEqual, toArray, zip } from 'ix/iterable';
+import { share } from 'ix/iterable/operators';
+import { range } from 'ix/iterable';
 
 test('Iterable#share single', () => {
   const rng = range(0, 5).pipe(share());
@@ -42,15 +42,4 @@ test('Iterable#share shared exhausts any time', () => {
 
   noNext(it1);
   noNext(it2);
-});
-
-test('Iterable#share with selector', () => {
-  let n = 0;
-  const res = range(0, 10)
-    .pipe(tap({ next: () => n++ }))
-    .pipe(share(xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4))))
-    .pipe(toArray);
-
-  expect(sequenceEqual(res, [0 + 1, 2 + 3, 4 + 5, 6 + 7])).toBeTruthy();
-  expect(8).toBe(n);
 });

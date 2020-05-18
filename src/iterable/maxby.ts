@@ -17,13 +17,7 @@ export function maxBy<TSource, TKey>(
   source: Iterable<TSource>,
   options?: ExtremaOptions<TSource, TKey>
 ): TSource[] {
-  const opts = options || ({} as ExtremaOptions<TSource, TKey>);
-  if (!opts.comparer) {
-    opts.comparer = equalityComparer;
-  }
-  if (!opts.selector) {
-    opts.selector = identity;
-  }
-
-  return extremaBy(source, opts);
+  const { ['comparer']: comparer = equalityComparer, ['selector']: selector = identity } =
+    options || {};
+  return extremaBy(source, selector, comparer);
 }

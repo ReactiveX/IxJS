@@ -11,9 +11,9 @@ import { map, toDOMStream } from 'ix/iterable/operators';
     });
   }
 
-  const stringsItr = () => from([1, 2, 3]).pipe(map(i => `${i}`));
-  const buffersItr = () => stringsItr().pipe(map(val => Buffer.from(val)));
-  const objectsItr = () => stringsItr().pipe(map(val => ({ val })));
+  const stringsItr = () => from([1, 2, 3]).pipe(map((i) => `${i}`));
+  const buffersItr = () => stringsItr().pipe(map((val) => Buffer.from(val)));
+  const objectsItr = () => stringsItr().pipe(map((val) => ({ val })));
   const compare = <T>(a: T, b: T) => {
     const aVal = ArrayBuffer.isView(a) ? `${Buffer.from(a.buffer, a.byteOffset, a.byteLength)}` : a;
     const bVal = ArrayBuffer.isView(b) ? `${Buffer.from(b.buffer, b.byteOffset, b.byteLength)}` : b;
@@ -29,8 +29,8 @@ import { map, toDOMStream } from 'ix/iterable/operators';
   describe('Iterable#toDOMStream', () => {
     describe('DefaultController', () => {
       const expectedStrings = ['1', '2', '3'];
-      const expectedObjects = expectedStrings.map(val => ({ val }));
-      const expectedBuffers = expectedStrings.map(x => Buffer.from(x));
+      const expectedObjects = expectedStrings.map((val) => ({ val }));
+      const expectedBuffers = expectedStrings.map((x) => Buffer.from(x));
       test('yields Strings', async () => {
         const expected = from(expectedStrings);
         const actual = stringsItr().pipe(toDOMStream());
@@ -50,11 +50,11 @@ import { map, toDOMStream } from 'ix/iterable/operators';
 
     describe('ReadableByteStreamController (byobRequest)', () => {
       const expectedStrings = ['123'];
-      const expectedBuffers = expectedStrings.map(x => Buffer.from(x));
+      const expectedBuffers = expectedStrings.map((x) => Buffer.from(x));
       test('yields Strings', async () => {
         const expected = from(expectedBuffers);
         const actual = stringsItr()
-          .pipe(map(x => Buffer.from(x)))
+          .pipe(map((x) => Buffer.from(x)))
           .pipe(toDOMStream({ type: 'bytes' }));
         await expect(actual).toEqualStream(expected, compare);
       });
@@ -67,11 +67,11 @@ import { map, toDOMStream } from 'ix/iterable/operators';
 
     describe('ReadableByteStreamController (autoAllocateChunkSize)', () => {
       const expectedStrings = ['123'];
-      const expectedBuffers = expectedStrings.map(x => Buffer.from(x));
+      const expectedBuffers = expectedStrings.map((x) => Buffer.from(x));
       test('yields Strings', async () => {
         const expected = from(expectedBuffers);
         const actual = stringsItr()
-          .pipe(map(x => Buffer.from(x)))
+          .pipe(map((x) => Buffer.from(x)))
           .pipe(toDOMStream({ type: 'bytes', autoAllocateChunkSize: 1024 }));
         await expect(actual).toEqualStream(expected, compare);
       });

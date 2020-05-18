@@ -60,6 +60,6 @@ export function distinctUntilChanged<TSource, TKey = TSource>(
   ): AsyncIterableX<TSource> {
     const { ['keySelector']: keySelector = identityAsync, ['comparer']: comparer = comparerAsync } =
       options || {};
-    return new DistinctUntilChangedAsyncIterable<TSource, TKey>(source, keySelector!, comparer!);
+    return new DistinctUntilChangedAsyncIterable<TSource, TKey>(source, keySelector, comparer);
   };
 }

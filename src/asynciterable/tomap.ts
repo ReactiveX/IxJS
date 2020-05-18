@@ -11,6 +11,12 @@ import { throwIfAborted } from '../aborterror';
  */
 export interface ToMapOptions<TSource, TElement> {
   /**
+   * The selector to get the key for the map.
+   *
+   * @memberof ToMapOptions
+   */
+  keySelector: (item: TSource, signal?: AbortSignal) => TElement | Promise<TElement>;
+  /**
    * The selector used to get the element for the Map.
    *
    * @memberof ToMapOptions
@@ -33,17 +39,18 @@ export interface ToMapOptions<TSource, TElement> {
  * @template TKey The type of key used for the map.
  * @template TElement The type of element to use for the map.
  * @param {AsyncIterable<TSource>} source The source collection to turn into a map.
- * @param {((item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>)} keySelector
  * @param {ToMapOptions<TSource, TElement>} [options]
  * @returns {(Promise<Map<TKey, TElement | TSource>>)}
  */
 export async function toMap<TSource, TKey, TElement = TSource>(
   source: AsyncIterable<TSource>,
-  keySelector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>,
-  options?: ToMapOptions<TSource, TElement>
+  options: ToMapOptions<TSource, TElement>
 ): Promise<Map<TKey, TElement | TSource>> {
-  const opts = options || ({ keySelector: identityAsync } as ToMapOptions<TSource, TElement>);
-  const { ['signal']: signal, ['elementSelector']: elementSelector } = opts;
+  const {
+    ['signal']: signal,
+    ['elementSelector']: elementSelector = identityAsync as any,
+    ['keySelector']: keySelector = identityAsync as any,
+  } = options || {};
   throwIfAborted(signal);
   const map = new Map<TKey, TElement | TSource>();
   for await (const item of wrapWithAbort(source, signal)) {
