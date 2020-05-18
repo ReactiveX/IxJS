@@ -35,13 +35,12 @@ export function sequenceEqual<T>(
   if (!opts.comparer) {
     opts.comparer = comparer;
   }
-  const { ['comparer']: cmp } = opts;
   const it1 = source[Symbol.iterator]();
   const it2 = other[Symbol.iterator]();
   let next1: IteratorResult<T>;
   let next2: IteratorResult<T>;
   while (!(next1 = it1.next()).done) {
-    if (!(!(next2 = it2.next()).done && cmp!(next1.value, next2.value))) {
+    if (!(!(next2 = it2.next()).done && opts.comparer(next1.value, next2.value))) {
       return false;
     }
   }

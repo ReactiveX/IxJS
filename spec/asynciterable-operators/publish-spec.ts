@@ -1,6 +1,6 @@
 import { hasNext, noNext } from '../asynciterablehelpers';
-import { map, publish, take, tap } from 'ix/asynciterable/operators';
-import { as, concat, from, range, sequenceEqual, throwError, toArray, zip } from 'ix/asynciterable';
+import { publish } from 'ix/asynciterable/operators';
+import { as, concat, range, throwError } from 'ix/asynciterable';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;

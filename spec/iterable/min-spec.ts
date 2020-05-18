@@ -3,7 +3,7 @@ import { min } from 'ix/iterable';
 
 test('Itearble#min laws', () => {
   const xs = [5, 3, 1, 2, 4];
-  expect(min(xs)).toBe(min(xs, x => x));
+  expect(min(xs)).toBe(min(xs, { selector: (x) => x }));
 });
 
 test('Iterable#min empty throws', () => {
@@ -16,10 +16,10 @@ test('Iterable#min', () => {
 });
 
 test('Iterable#min with selector empty throws', () => {
-  expect(() => min([], x => x * 2)).toThrow();
+  expect(() => min([], { selector: (x) => x * 2 })).toThrow();
 });
 
 test('Iterable#min with selector', () => {
   const xs = [5, 3, 1, 2, 4];
-  expect(min(xs, x => x * 2)).toBe(2);
+  expect(min(xs, { selector: (x) => x * 2 })).toBe(2);
 });
