@@ -3,7 +3,7 @@ import { of, empty, max } from 'ix/asynciterable';
 
 test('AsyncItearble#max laws', async () => {
   const xs = of(5, 3, 1, 2, 4);
-  expect(await max(xs)).toBe(await max(xs));
+  expect(await max(xs)).toBe(await max(xs, { selector: (x) => x }));
 });
 
 test('AsyncIterable#max empty throws', async () => {

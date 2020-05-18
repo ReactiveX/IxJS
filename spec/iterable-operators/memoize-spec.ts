@@ -1,6 +1,6 @@
 import { hasNext, noNext } from '../iterablehelpers';
-import { map, take, tap, memoize } from 'ix/iterable/operators';
-import { from, concat, every, range, sequenceEqual, throwError, toArray, zip } from 'ix/iterable';
+import { memoize } from 'ix/iterable/operators';
+import { concat, range, throwError } from 'ix/iterable';
 
 function* tick(t: (x: number) => void) {
   let i = 0;
@@ -12,7 +12,7 @@ function* tick(t: (x: number) => void) {
 
 test('Iterable#memoize memoizes effects', () => {
   let n = 0;
-  const rng = memoize()(tick(i => (n += i)));
+  const rng = memoize()(tick((i) => (n += i)));
 
   const it1 = rng[Symbol.iterator]();
   const it2 = rng[Symbol.iterator]();
@@ -128,50 +128,4 @@ test('Iterable#memoize concat with error', () => {
   hasNext(it2, 0);
   hasNext(it2, 1);
   expect(() => it2.next()).toThrow();
-});
-
-function getRandom() {
-  const min = 0;
-  const max = Math.pow(2, 53) - 1;
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function* rand() {
-  while (1) {
-    yield getRandom();
-  }
-}
-
-test('Iterable#memoize should share effects of random', () => {
-  const rnd = from(rand())
-    .pipe(take(100))
-    .pipe(memoize());
-  expect(
-    every(
-      zip(([l, r]) => l === r, rnd, rnd),
-      x => x
-    )
-  ).toBeTruthy();
-});
-
-test('Iterable#memoize with selector', () => {
-  let n = 0;
-  const res = range(0, 4)
-    .pipe(tap({ next: () => n++ }))
-    .pipe(memoize(undefined, xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4))))
-    .pipe(toArray);
-
-  expect(sequenceEqual(res, range(0, 4).pipe(map(x => x * 2)))).toBeTruthy();
-  expect(4).toBe(n);
-});
-
-test('Iterable#memoize limited with selector', () => {
-  let n = 0;
-  const res = range(0, 4)
-    .pipe(tap({ next: () => n++ }))
-    .pipe(memoize(2, xs => zip(([l, r]) => l + r, xs, xs).pipe(take(4))))
-    .pipe(toArray);
-
-  expect(sequenceEqual(res, range(0, 4).pipe(map(x => x * 2)))).toBeTruthy();
-  expect(4).toBe(n);
 });
