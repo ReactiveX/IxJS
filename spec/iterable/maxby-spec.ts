@@ -1,18 +1,18 @@
 import '../iterablehelpers';
-import { from, maxBy, sequenceEqual } from 'ix/iterable';
+import { empty, maxBy, sequenceEqual } from 'ix/iterable';
 
 test('Iterable#maxBy', () => {
-  const source = [2, 5, 0, 7, 4, 3, 6, 2, 1];
+  const source = [3, 5, 7, 6, 4, 2];
 
-  const res = maxBy(from(source), { selector: (x) => x % 3 });
-  expect(sequenceEqual(res, [2, 5, 2])).toBeTruthy();
+  const res = maxBy(source, { selector: async (x) => Math.floor(x / 2) });
+  expect(sequenceEqual(res, [7, 6])).toBeTruthy();
 });
 
 test('Iterable#maxBy empty throws', () => {
-  const source: number[] = [];
+  const source = empty();
 
   try {
-    maxBy(from(source), { selector: (x) => x % 3 });
+    maxBy(source, { selector: (x) => Math.floor(x / 2) });
   } catch (e) {
     expect(e != null).toBeTruthy();
   }

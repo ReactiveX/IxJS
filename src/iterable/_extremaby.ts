@@ -15,9 +15,9 @@ export function extremaBy<TSource, TKey>(
 
   let next: IteratorResult<TSource>;
   while (!(next = it.next()).done) {
-    const { value: current } = next;
+    const current = next.value;
     const key = selector(current);
-    const cmp = comparer!(resKey, key);
+    const cmp = comparer(key, resKey);
 
     if (cmp === 0) {
       result.push(current);

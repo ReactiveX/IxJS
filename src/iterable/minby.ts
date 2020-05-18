@@ -1,7 +1,6 @@
 import { extremaBy } from './_extremaby';
 import { ExtremaOptions } from './extremaoptions';
 import { equalityComparer } from '../util/comparer';
-import { identity } from '../util/identity';
 
 /**
  * Returns the elements in an terable sequence with the minimum key value.
@@ -17,8 +16,7 @@ export function minBy<TSource, TKey>(
   source: Iterable<TSource>,
   options?: ExtremaOptions<TSource, TKey>
 ): TSource[] {
-  const { ['comparer']: comparer = equalityComparer, ['selector']: selector = identity } =
-    options || {};
+  const { ['comparer']: comparer = equalityComparer, ['selector']: selector } = options || {};
   const newComparer = (key: TKey, minValue: TKey) => -comparer(key, minValue);
-  return extremaBy(source, selector, newComparer);
+  return extremaBy(source, selector!, newComparer);
 }

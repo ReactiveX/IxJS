@@ -1,7 +1,6 @@
 import { extremaBy } from './_extremaby';
 import { ExtremaOptions } from './extremaoptions';
 import { equalityComparer } from '../util/comparer';
-import { identity } from '../util/identity';
 
 /**
  * Returns the elements in an iterable sequence with the maximum key value.
@@ -17,7 +16,6 @@ export function maxBy<TSource, TKey>(
   source: Iterable<TSource>,
   options?: ExtremaOptions<TSource, TKey>
 ): TSource[] {
-  const { ['comparer']: comparer = equalityComparer, ['selector']: selector = identity } =
-    options || {};
-  return extremaBy(source, selector, comparer);
+  const { ['comparer']: comparer = equalityComparer, ['selector']: selector } = options || {};
+  return extremaBy(source, selector!, comparer);
 }

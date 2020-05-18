@@ -1,19 +1,18 @@
 import '../iterablehelpers';
-import {} from 'ix/iterable';
-import { from, minBy, sequenceEqual } from 'ix/iterable';
+import { empty, minBy, sequenceEqual } from 'ix/iterable';
 
 test('Iterable#minBy', () => {
-  const source = [2, 5, 0, 7, 4, 3, 6, 2, 1];
+  const source = [3, 5, 7, 6, 4, 2];
 
-  const res = minBy(from(source), { selector: (x) => x % 3 });
-  expect(sequenceEqual(res, [0, 3, 6])).toBeTruthy();
+  const res = minBy(source, { selector: (x) => Math.floor(x / 2) });
+  expect(sequenceEqual(res, [3, 2])).toBeTruthy();
 });
 
 test('Iterable#minBy empty throws', () => {
-  const source: number[] = [];
+  const source = empty();
 
   try {
-    minBy(from(source), { selector: (x) => x % 3 });
+    minBy(source, { selector: (x) => Math.floor(x / 2) });
   } catch (e) {
     expect(e != null).toBeTruthy();
   }
