@@ -43,7 +43,7 @@ test('AsyncIterable#sequenceEqual left throws', async () => {
   try {
     await sequenceEqual(xs, ys);
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -55,7 +55,7 @@ test('AsyncIterable#sequenceEqual right throws', async () => {
   try {
     await sequenceEqual(xs, ys);
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -107,7 +107,7 @@ test('AsyncIterable#sequenceEqual with custom comparer left throws', async () =>
   try {
     await sequenceEqual(xs, ys, { comparer: comparer });
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -120,7 +120,7 @@ test('AsyncIterable#sequenceEqual with custom comparer right throws', async () =
   try {
     await sequenceEqual(xs, ys, { comparer: comparer });
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -143,6 +143,6 @@ test('Itearble#sequenceEqual with custom comparer throws', async () => {
   try {
     await sequenceEqual(xs, ys, { comparer: comparer });
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

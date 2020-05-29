@@ -34,7 +34,7 @@ test('Iterable#finally calls even with error', () => {
   try {
     hasNext(it, 0);
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 
   expect(done).toBeTruthy();

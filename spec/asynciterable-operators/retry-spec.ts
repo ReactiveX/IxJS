@@ -29,6 +29,6 @@ test('AsyncIterable#retry finite eventually gives up', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

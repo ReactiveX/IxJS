@@ -42,6 +42,6 @@ test('AsyncIterable#take throws with error', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

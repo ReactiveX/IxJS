@@ -57,7 +57,7 @@ test('AsyncIterable#groupJoin left throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -78,7 +78,7 @@ test('AsyncIterable#groupJoin right throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -101,7 +101,7 @@ test('AsyncIterable#groupJoin left selector throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -124,7 +124,7 @@ test('AsyncIterable#groupJoin right selector throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -151,6 +151,6 @@ test('AsyncIterable#groupJoin result selector eventually throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
