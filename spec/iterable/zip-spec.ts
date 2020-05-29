@@ -1,3 +1,4 @@
+import '../iterablehelpers';
 import { sequenceEqual, throwError, zip } from 'ix/iterable';
 
 test('Iterable#zip equal length', () => {
