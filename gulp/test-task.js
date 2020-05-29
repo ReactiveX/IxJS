@@ -41,10 +41,10 @@ const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function 
     const args = [...execArgv];
     const opts = { ...testOptions };
     if (argv.coverage) {
-        args.push(`-c`, `jest.coverage.config.js`, `--coverage`);
+        args.push(`-c`, `jest.coverage.config.js`, `--coverage`, `--no-cache`);
     } else {
         const cfgname = [target, format].filter(Boolean).join('.');
-        args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, `-i`, `spec/*`);
+        args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, `-i`, `--no-cache`, `spec/*`);
     }
     opts.env = { ...opts.env,
         TEST_TARGET: target,

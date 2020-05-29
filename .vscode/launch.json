@@ -38,6 +38,7 @@
             },
             "args": [
                 "-i",
+                "--no-cache",
                 "-c", "jestconfigs/jest.src.config.js",
                 // "-c", "jestconfigs/jest.es5.umd.config.js",
                 "spec/iterable/",
