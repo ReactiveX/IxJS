@@ -109,7 +109,14 @@ module.exports = closureTask;
 module.exports.closureTask = closureTask;
 
 function generateUMDExportAssignnent(entry) {
-    return [
+    return [`
+import { __await } from 'tslib';
+__await.prototype[Symbol.toStringTag] = '__await';
+Object.defineProperty(__await, Symbol.hasInstance, {
+  writable: true, configurable: true, value(inst) {
+    return !!(inst && inst[Symbol.toStringTag] === '__await');
+  }
+});`,
         `import * as exports0 from './${entry}';`,
         'Object.assign(arguments[0], exports0);'
     ].join('\n');

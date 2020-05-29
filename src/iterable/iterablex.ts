@@ -33,6 +33,16 @@ export abstract class IterableX<T> implements Iterable<T> {
   }
 }
 
+(<any>IterableX.prototype)[Symbol.toStringTag] = 'IterableX';
+
+Object.defineProperty(IterableX, Symbol.hasInstance, {
+  writable: true,
+  configurable: true,
+  value(inst: any) {
+    return !!(inst && inst[Symbol.toStringTag] === 'IterableX');
+  },
+});
+
 _initializeFrom(IterableX);
 
 type WritableOrOperatorFunction<T, R> =
@@ -107,7 +117,7 @@ declare module '../iterable/iterablex' {
 }
 
 try {
-  (isBrowser => {
+  ((isBrowser) => {
     if (isBrowser) {
       return;
     }
