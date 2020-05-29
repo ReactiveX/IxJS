@@ -7,6 +7,7 @@ Convered in this section are the following:
 - Creating a sequence from an `Observable`
 - Creating a sequence from a DOM Stream
 - Creating a sequence from a Node Stream
+- Operators in this category
 
 ## Creating a sequence from an existing sequence such as `Set`, `Map`, `Generator` and `AsyncGenerator`.
 
@@ -43,3 +44,13 @@ const result5 = from([1, 2, 3], x => x * x);
 // From Array-like projecting the index
 const result6 = from({ length: 3}, (x, i) => i);
 ```
+
+## Operators in this category
+
+There are a number of creation methods in this category:
+- `as` - Convert an existing structure such as one that implements the `[Symbol.iterator]` or `[Symbol.asyncIterator]` methods to an AsyncIterable.
+- `from` - Convert an existing structure such as one that implements the `[Symbol.iterator]` or `[Symbol.asyncIterator]` methods, or an array-like structure to an AsyncIterable with an optional projection.
+- `fromDOMStream`
+- `fromEvent`
+- `fromEventPattern`
+- `fromNodeStream`

@@ -1,14 +1,16 @@
 # Creating AsyncIterables using IxJS
 
-Using IxJS, you can create AsyncIterables a number of ways, either converting existing structures such as `Map`, `Set`, `Array`, `Generator`, `AsyncGenerator` or even `Observable`, or by using some of the factory methods provided with IxJS.
+Using IxJS, you can create AsyncIterables a number of ways by using some of the factory methods provided with IxJS.
 
 Convered in this section are the following:
 - Understanding Async-Iterables
 - Brief Interlude - `AsyncSink`
 - Creating a sequence with `create`
 - Creating a sequence from values with `of`
-- Creating a sequence from an existing sequence such as `Set`, `Map` and `Generator`
-- Creating a sequence from a range
+- Creating empty or never yielding sequences with `empty` and `never`
+- Creating a sequence from a range with `range`
+- Creating a sequence from a loop with `generate` and `generateTime`
+- Creating a sequence at a specified interval with `interval`
 - Operators in this category
 
 ## Understanding Async-Iterables
@@ -111,56 +113,119 @@ for await (const item of source) {
 }
 ```
 
-## Creating a sequence from an existing sequence such as `Set`, `Map`, `Generator` and `AsyncGenerator`.
+## Creating empty or never yielding sequences with `empty` and `never`
 
-Very often we have an existing data structure that we wish to convert to an async-iterable.  To support this, we have the `from` and `as` methods.  These methods allows us to convert any structure that implements the `[Symbol.iterator]` method such as `Map`, `Set`, `Array`, and `Generator`, as well as anything that implements the `[Symbol.asyncIterator]` method such as an `AsyncGenerator`.
-
-The `as` method converts directly to an async-iterable, whereas with `from` method allows us to modify the collection as it is created, mimicking the the [`Array.from`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from) method.
+There may be cases when you want to return an empty sequence, when iterated will always say it is complete.  For that, we have the `empty` method.
 
 ```typescript
-import { as, from } from 'ix/asynciterable';
+import { empty } from 'ix/asynciterable';
 
-// As with Array and Set
-const result1 = as([1, 2, 3]); // From array
-const result2 = as(new Set([1, 2, 3])); // From Set
+const source = empty();
 
-// As with generator
-const source3 = function* () {
-  yield 1;
-  yield 2;
-  yield 3;
-};
-const result3 = as(source3());
-
-// As with async-generator
-const source4 = async function* () {
-  yield Promise.resolve(1);
-  yield Promise.resolve(2);
-  yield Promise.resolve(3);
-};
-const result4 = as(source4());
-
-// From with Array, modifying each value
-const result5 = from([1, 2, 3], x => x * x);
-
-// From Array-like projecting the index
-const result6 = from({ length: 3}, (x, i) => i);
+const it = source[Symbol.asyncIterator]();
+const { value, done } = it.next();
+// { done: true }
 ```
 
-## Creating a sequence from a range
+There may also be cases where you never want the sequence to return.  In the case of `never`, it can be used in places like `race` where the other sequence will always win.
+
+```typescript
+import { never, of, race } from 'ix/asynciterable';
+
+const source = race(of(1), never());
+
+const it = source[Symbol.asyncIterator]();
+let value, done;
+
+{ value, done } = await it.next(); 
+// { done: false, value: 1 }
+{ value, done } = await it.next(); 
+// { done: true }
+```
+
+## Creating a sequence from a range with `range`
+
+Another way we can create async-iterable sequences is with a range.  For example, if we want 10 numbers starting at 1, we can use the `range` factory method to call `range(1, 10)`.
+
+```typescript
+import { range } from 'ix/asynciterable';
+
+const source = range(1, 10);
+
+for await (const item of source) {
+  console.log(`Next: ${item}`);
+}
+```
+
+## Creating a sequence from a loop with `generate` and `generateTime`
+
+We can also create a sequence as if it were inside a for-loop using `generate` and `generateTime`.  This operator acts exactly like a for loop where we have some initial state, a condition for termination, an increment, and a result selector.
+
+```typescript
+for (
+  let i = 0, // Initial State
+  i < 10,    // condition
+  i++        // increment 
+) {
+  // Result selector
+}
+```
+
+The `generate` method has the same parameters as this for loop, as in our example here.
+
+```typescript
+import { generate } from 'ix/asynciterable';
+
+const source = generate(
+  0,            // Initial State
+  i => i < 10,  // Condition
+  i => i + 1,   // Iterate
+  i => i        // Result selector 
+);
+
+for await (const item of source) {
+  console.log(`Next: ${item}`);
+}
+```
+
+In addition to the `generate` method, we have the `generateTime` which adds a time element to the sequence to delay in milliseconds between results.
+
+```typescript
+import { generate } from 'ix/asynciterable';
+
+const source = generate(
+  0,            // Initial State
+  i => i < 10,  // Condition
+  i => i + 1,   // Iterate
+  i => i        // Result selector 
+  i => i * 1000 // Time selector in ms
+);
+
+for await (const item of source) {
+  console.log(`Next: ${item}`);
+}
+```
+
+## Creating a sequence at a specified interval with `interval`
+
+There are many factory functions that carry over from RxJS over to IxJS including `interval` where we can yield a value at a specified interval.  For example, we can loop through a sequence, yielding a value every 1 second.
+
+```typescript
+import { interval } from 'ix/asynciterable';
+
+const source = interval(1000 /* ms */);
+
+for await (const item of source) {
+  console.log(`Next: ${item}`); // Yields an item every second.
+}
+```
 
 ## Operators in this category
 
 There are a number of creation methods in this category:
-- `as` - Convert an existing structure such as one that implements the `[Symbol.iterator]` or `[Symbol.asyncIterator]` methods to an AsyncIterable.
 - `create` - Creates an AsyncIterable from the `[Symbol.asyncIterator]` method implementation.
-- `from` - Convert an existing structure such as one that implements the `[Symbol.iterator]` or `[Symbol.asyncIterator]` methods, or an array-like structure to an AsyncIterable with an optional projection.
-- `generate`
-- `generateTime`
-- `empty`
-- `fromDOMStream`
-- `fromEvent`
-- `fromEventPattern`
-- `fromNodeStream`
-- `interval`
-- `never`
+- `generate` - Generates a sequence based upon a for loop construct.
+- `generateTime` - Generates a sequence based upon a for loop with a time projection.
+- `empty` - Creates an empty sequence which returns an iterator result that is always done.
+- `interval`- Creates a sequence which produces a value at the specified interval.
+- `never` - Creates a sequence that never yields a value.
