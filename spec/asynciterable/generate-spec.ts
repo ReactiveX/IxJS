@@ -2,7 +2,12 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 import { generate } from 'ix/asynciterable';
 
 test('AsyncIterable#generate generates normal sequence', async () => {
-  const xs = generate(0, async x => x < 5, async x => x + 1, async x => x * x);
+  const xs = generate(
+    0,
+    async (x) => x < 5,
+    async (x) => x + 1,
+    async (x) => x * x
+  );
 
   const it = xs[Symbol.asyncIterator]();
   await hasNext(it, 0);
@@ -17,11 +22,11 @@ test('AsyncIterable#generate condition throws', async () => {
   const err = new Error();
   const xs = generate(
     0,
-    async _ => {
+    async (_) => {
       throw err;
     },
-    async x => x + 1,
-    async x => x * x
+    async (x) => x + 1,
+    async (x) => x * x
   );
 
   const it = xs[Symbol.asyncIterator]();
@@ -29,7 +34,7 @@ test('AsyncIterable#generate condition throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -37,11 +42,11 @@ test('AsyncIterable#generate increment throws', async () => {
   const err = new Error();
   const xs = generate(
     0,
-    async x => x < 5,
-    async _ => {
+    async (x) => x < 5,
+    async (_) => {
       throw err;
     },
-    async x => x * x
+    async (x) => x * x
   );
 
   const it = xs[Symbol.asyncIterator]();
@@ -49,7 +54,7 @@ test('AsyncIterable#generate increment throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -57,9 +62,9 @@ test('AsyncIterable#generate result selector throws', async () => {
   const err = new Error();
   const xs = generate(
     0,
-    async x => x < 5,
-    async x => x + 1,
-    async _ => {
+    async (x) => x < 5,
+    async (x) => x + 1,
+    async (_) => {
       throw err;
     }
   );
@@ -69,6 +74,6 @@ test('AsyncIterable#generate result selector throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

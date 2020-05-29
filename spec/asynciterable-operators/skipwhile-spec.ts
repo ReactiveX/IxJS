@@ -4,7 +4,7 @@ import { of } from 'ix/asynciterable';
 
 test('AsyncIterable#skipWhile skips some', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = xs.pipe(skipWhile(async x => x < 3));
+  const ys = xs.pipe(skipWhile(async (x) => x < 3));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 3);
@@ -34,7 +34,7 @@ test('AsyncIterable#skipWhile skips all', async () => {
 
 test('AsyncIterable#skipWhile skips some another run', async () => {
   const xs = of(1, 2, 3, 4, 3, 2, 1);
-  const ys = xs.pipe(skipWhile(x => x < 3));
+  const ys = xs.pipe(skipWhile((x) => x < 3));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 3);
@@ -58,7 +58,7 @@ test('AsyncIterable#skipWhile predicate throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 

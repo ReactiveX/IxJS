@@ -47,7 +47,7 @@ test('AsyncIterable#tap with error', async () => {
     const source = throwError(err).pipe(
       tap({
         error: async (e) => {
-          expect(err).toEqual(e);
+          expect(e).toEqual(err);
           ok = true;
         },
       })
@@ -57,7 +57,7 @@ test('AsyncIterable#tap with error', async () => {
     for await (const _ of source) {
     }
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 
   expect(ok).toBeTruthy();

@@ -24,7 +24,7 @@ test('AsyncIterable#count throws', async () => {
   try {
     await count(xs);
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -63,6 +63,6 @@ test('AsyncIterable#count predicate throws', async () => {
       },
     });
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

@@ -36,7 +36,7 @@ test('AsyncIterable#generateTime condition throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -57,7 +57,7 @@ test('AsyncIterable#generateTime increment throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -78,7 +78,7 @@ test('AsyncIterable#generateTime result selector throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -99,6 +99,6 @@ test('AsyncIterable#generateTime time selector throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

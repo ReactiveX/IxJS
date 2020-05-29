@@ -20,7 +20,7 @@ test('AsyncIterable#some throws', async () => {
   try {
     await some(xs, { predicate: async (x) => x % 2 === 0 });
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -35,6 +35,6 @@ test('AsyncIterable#some predicate throws', async () => {
       },
     });
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
