@@ -53,6 +53,16 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
   }
 }
 
+(<any>AsyncIterableX.prototype)[Symbol.toStringTag] = 'AsyncIterableX';
+
+Object.defineProperty(AsyncIterableX, Symbol.hasInstance, {
+  writable: true,
+  configurable: true,
+  value(inst: any) {
+    return !!(inst && inst[Symbol.toStringTag] === 'AsyncIterableX');
+  },
+});
+
 _initializeFrom(AsyncIterableX);
 
 export type AsyncIterableInput<TSource> =
