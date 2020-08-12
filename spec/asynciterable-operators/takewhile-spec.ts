@@ -4,7 +4,7 @@ import { of } from 'ix/asynciterable';
 
 test('AsyncIterable#takeWhile some match', async () => {
   const xs = of(1, 2, 3, 4);
-  const ys = xs.pipe(takeWhile(x => x < 3));
+  const ys = xs.pipe(takeWhile((x) => x < 3));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -55,6 +55,6 @@ test('AsyncIterable#takeWhile predicate throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

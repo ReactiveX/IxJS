@@ -7,7 +7,7 @@ test('Iterable#catchError error catches', () => {
   const res = single(
     throwError(err).pipe(
       catchError((e: Error) => {
-        expect(err).toEqual(e);
+        expect(e).toEqual(err);
         return of(42);
       })
     )

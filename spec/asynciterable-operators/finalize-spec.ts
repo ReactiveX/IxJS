@@ -42,7 +42,7 @@ test('AsyncIterable#finally calls even with error', async () => {
   try {
     await hasNext(it, 0);
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 
   expect(done).toBeTruthy();

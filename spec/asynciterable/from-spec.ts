@@ -7,7 +7,7 @@ test('AsyncIterable#from from promise list', async () => {
   const xs: Iterable<Promise<number>> = [
     Promise.resolve(1),
     Promise.resolve(2),
-    Promise.resolve(3)
+    Promise.resolve(3),
   ];
   const res = from(xs);
 
@@ -127,7 +127,7 @@ test('AsyncIterable#from from promise with selector', async () => {
   await noNext(it);
 });
 
-test('AsyncIterable#from from with non-iterable throws', done => {
+test('AsyncIterable#from from with non-iterable throws', (done) => {
   let error = false;
   try {
     from({} as any);
@@ -175,7 +175,7 @@ class TestObservable<T> implements Observable<T> {
 }
 
 test('AsyncIterable#fromObservable with completion', async () => {
-  const xs = new TestObservable<number>(obs => {
+  const xs = new TestObservable<number>((obs) => {
     obs.next(42);
     obs.complete();
     return new EmptySubscription();
@@ -188,7 +188,7 @@ test('AsyncIterable#fromObservable with completion', async () => {
 });
 
 test('AsyncIterable#fromObservable with completion', async () => {
-  const xs = new TestObservable<number>(obs => {
+  const xs = new TestObservable<number>((obs) => {
     obs.next(42);
     obs.complete();
     return new EmptySubscription();
@@ -201,7 +201,7 @@ test('AsyncIterable#fromObservable with completion', async () => {
 });
 
 test('AsyncIterable#fromObservable with multiple', async () => {
-  const xs = new TestObservable<number>(obs => {
+  const xs = new TestObservable<number>((obs) => {
     let count = 0;
     const interval = setInterval(() => {
       obs.next(count++);
@@ -222,7 +222,7 @@ test('AsyncIterable#fromObservable with multiple', async () => {
 });
 
 test('AsyncIterable#fromObservable multiple with selector', async () => {
-  const xs = new TestObservable<number>(obs => {
+  const xs = new TestObservable<number>((obs) => {
     let count = 0;
     const interval = setInterval(() => {
       obs.next(count++);
@@ -244,7 +244,7 @@ test('AsyncIterable#fromObservable multiple with selector', async () => {
 
 test('AsyncIterable#fromObservable with error', async () => {
   const err = new Error();
-  const xs = new TestObservable<number>(obs => {
+  const xs = new TestObservable<number>((obs) => {
     obs.error(err);
     return new EmptySubscription();
   });
@@ -254,6 +254,6 @@ test('AsyncIterable#fromObservable with error', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

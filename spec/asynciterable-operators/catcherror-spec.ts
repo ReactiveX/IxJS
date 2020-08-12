@@ -7,7 +7,7 @@ test('AsyncIterable#catchError error catches', async () => {
   const res = await single(
     throwError(err).pipe(
       catchError(async (e: Error) => {
-        expect(err).toEqual(e);
+        expect(e).toEqual(err);
         return of(42);
       })
     )

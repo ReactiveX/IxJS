@@ -4,7 +4,7 @@ import { orderBy, orderByDescending, thenBy, thenByDescending } from 'ix/asyncit
 
 test('AsyncIterable#orderBy normal ordering', async () => {
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-  const ys = xs.pipe(orderBy(x => x));
+  const ys = xs.pipe(orderBy((x) => x));
 
   const it = ys[Symbol.asyncIterator]();
   for (let i = 0; i < 10; i++) {
@@ -18,7 +18,7 @@ test('AsyncIterable#orderBy normal ordering with thenBy throws', async () => {
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
   const ys = xs.pipe(
-    orderBy(x => x),
+    orderBy((x) => x),
     thenBy(() => {
       throw err;
     })
@@ -28,7 +28,7 @@ test('AsyncIterable#orderBy normal ordering with thenBy throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
@@ -45,13 +45,13 @@ test('AsyncIterable#orderBy selector throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
 
 test('AsyncIterable#orderByDescending normal ordering', async () => {
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
-  const ys = xs.pipe(orderByDescending(x => x));
+  const ys = xs.pipe(orderByDescending((x) => x));
 
   const it = ys[Symbol.asyncIterator]();
   for (let i = 9; i >= 0; i--) {
@@ -65,7 +65,7 @@ test('AsyncIterable#orderByDescending normal ordering with thenByDescending thro
   const err = new Error();
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);
   const ys = xs.pipe(
-    orderByDescending(x => x),
+    orderByDescending((x) => x),
     thenByDescending(() => {
       throw err;
     })
@@ -75,6 +75,6 @@ test('AsyncIterable#orderByDescending normal ordering with thenByDescending thro
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });

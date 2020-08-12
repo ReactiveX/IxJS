@@ -41,6 +41,6 @@ test('AsyncIterable#skip throws', async () => {
   try {
     await it.next();
   } catch (e) {
-    expect(err).toEqual(e);
+    expect(e).toEqual(err);
   }
 });
