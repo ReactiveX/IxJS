@@ -131,11 +131,12 @@ const result = await as(sourceFactory())
 
 This just scratches the surface with the capabilities of using async iterables with each section going into detail below.
 
-- Creating Sequences
-- Creating from Events
-- Converting to and from Arrays, Maps and Sets
-- Converting to and from Observables
-- Converting to and from DOM and Node Streams
+- [Creating Sequences](asynciterable/creating.md)
+- [Converting to AsyncIterable, which includes](asynciterable/converting.md):
+  - Events
+  - DOM and Node.js Streams
+  - Iterables such as `Array`, `Map`, `Set`, `Generator` and `AsyncGenerator`.
+  - Observables
 - Transforming Sequences
 - Filtering Sequences
 - Combining Sequences
