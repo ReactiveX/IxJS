@@ -40,15 +40,29 @@ for (const item of result) {
 That's only the beginning with IxJS and each section below covers more in detail:
 
 - Creating Sequences
-- Converting to and from Arrays, Maps and Sets
-- Converting to DOM and Node Streams
+  - `create`, `defer`, `empty`, `generate`, `of`, `range`, `repeat`, `throwError`
+- Converting to AsyncIterable
+  - `from`
+- Converting AsyncIterables
+  - `toArray`, `toDOMStream`, `toMap`, `toNodeStream`, `toObservable`, `toSet`
 - Transforming Sequences
+  - `buffer`, `flat`, `flatMap`, `groupBy`, `map`, `pluck`, `scan`, `scanRight`
 - Filtering Sequences
+  - `distinct`, `distinctUntilChanged`, `elementAt`, `find`, `findIndex`, `first`, `ignoreElements`, `last`, `single`, `slice`
 - Combining Sequences
+  - `concat`, `combineLatest`, `endWith`, `startWith`, `zip`
+- Relational Operations
+  - `groupJoin`, `except`, `innerJoin`, `intersect`
 - Aggregate Operations
+  - `average`, `count`, `max`, `maxBy`, `min`, `minBy`, `reduce`, `reduceRight`,  `sum`
 - Conditional Operators
+  - `every`, `includes`, `isEmpty`, `sequenceEqual`, `skip`, `skipLast`, `some`, `takeLast`
 - Error Handling
-- Debugging and Side Effects
+  - `catchError`, `onErrorResumeNext`, `retry`
+- Debugging
+  - `tap`
+- Sharing Operations:
+  - `memoize`, `publish`, `share`
 
 ## AsyncIterable
 
@@ -132,17 +146,30 @@ const result = await as(sourceFactory())
 This just scratches the surface with the capabilities of using async iterables with each section going into detail below.
 
 - [Creating Sequences](asynciterable/creating.md)
-- [Converting to AsyncIterable, which includes](asynciterable/converting.md):
-  - Events
-  - DOM and Node.js Streams
-  - Iterables such as `Array`, `Map`, `Set`, `Generator` and `AsyncGenerator`.
-  - Observables
-- Transforming Sequences
+  - `create`, `defer`, `empty`, `generate`, `generateTime`, `never`, `of`, `range`, `repeat`, `throwError`
+- [Converting to AsyncIterable](asynciterable/converting.md)
+  - `from`, `fromEvent`, `fromEventPattern`
+- Converting AsyncIterables
+  - `toArray`, `toDOMStream`, `toMap`, `toNodeStream`, `toObservable`, `toSet`
+- [Transforming Sequences](asynciterable/transforming.md)
+  - `buffer`, `flat`, `flatMap`, `groupBy`, `map`, `pluck`, `scan`, `scanRight`
 - Filtering Sequences
+  - `debounce`, `distinct`, `distinctUntilChanged`, `elementAt`, `find`, `findIndex`, `first`, `ignoreElements`, `last`, `single`, `slice`
 - Combining Sequences
+  - `concat`, `combineLatest`, `endWith`, `merge`, `startWith`, `withLatestFrom`, `zip`
+- Relational Operations
+  - `groupJoin`, `except`, `innerJoin`, `intersect`
 - Aggregate Operations
+  - `average`, `count`, `max`, `maxBy`, `min`, `minBy`, `reduce`, `reduceRight`,  `sum`
 - Conditional Operators
+  - `every`, `includes`, `isEmpty`, `race`, `sequenceEqual`, `skip`, `skipLast`, `skipWhile`, `skipUntil`, `some`, `take`, `takeLast`, `takeWhile`, `takeUntil`
 - Error Handling
-- Debugging and Side Effects
+  - `catchError`, `onErrorResumeNext`, `retry`
+- Debugging
+  - `tap`
+- Sharing Operations:
+  - `memoize`, `publish`, `share`
 - Time Based Operations
+  - `timeInterval`, `timestamp`
 - Aborting a Stream
+  - `withAbort`
