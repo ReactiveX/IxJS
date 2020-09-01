@@ -1,3 +1,85 @@
+# [4.0.0](https://github.com/ReactiveX/IxJS/compare/v3.0.2...v4.0.0) (2020-09-01)
+
+
+### Continuous Integration
+
+* **travis:** update to the latest npm ([d53de73](https://github.com/ReactiveX/IxJS/commit/d53de73b93b50d039703e5d30d5a4de18a900134))
+
+
+### Documentation
+
+* **AsyncIterable:** Add basic async-iterable docs ([11c2037](https://github.com/ReactiveX/IxJS/commit/11c20377d3e92ab47b268a67c4d2c839e0c529f7))
+* **creation:** split creation/converting ([e8dfa97](https://github.com/ReactiveX/IxJS/commit/e8dfa973976f96382bbda7ee8156d441d17bb921))
+* **IxJS:** Adding basic overview ([10abfdc](https://github.com/ReactiveX/IxJS/commit/10abfdca32907c01c162ab18e8a987dde23d3f05))
+
+
+### Features
+
+* **Abort:** Add basic abortsignal support ([a66a7c8](https://github.com/ReactiveX/IxJS/commit/a66a7c842250bb5fe4e831c8740de4b7e52ca13b))
+* **Abort:** Add basic abortsignal support ([07ba58c](https://github.com/ReactiveX/IxJS/commit/07ba58c47e6171a7bde85aef6b140ce0e36f8899))
+* **Abort:** Add more aborts ([b7832a6](https://github.com/ReactiveX/IxJS/commit/b7832a67599769a4e885a3435ea5d0872ab6da6e))
+* **Abort:** add more throws if aborted ([2a489e1](https://github.com/ReactiveX/IxJS/commit/2a489e18dd1e1ee729e2bc62bb52a03765c4a7a0))
+* **Abort:** fix debounce ([954ce58](https://github.com/ReactiveX/IxJS/commit/954ce588edd585c679db126e5b9faa166d261ef2))
+* **Abort:** Fix most operators ([08a4c08](https://github.com/ReactiveX/IxJS/commit/08a4c08f768e9a9af5a421a0f7eb00b14c1bf017))
+* **Abort:** fix reduce ([6e848f1](https://github.com/ReactiveX/IxJS/commit/6e848f16116a21cb650e441826c30893fd73c32b))
+* **Abort:** Formatting ([d9e75ef](https://github.com/ReactiveX/IxJS/commit/d9e75efc622cf9b4639d2ba206e7b708c33c9248))
+* **Abort:** Update all JSDocs ([313a1b4](https://github.com/ReactiveX/IxJS/commit/313a1b4af54dabadef07f3c0aca3cf17c8eccfd6))
+* **asasynciterable:** add AsyncIterableTransform stream ([e3d12a1](https://github.com/ReactiveX/IxJS/commit/e3d12a1f999ce96ac3f68522609a342679eb34f0))
+* **min/max:** Fix min and max ([37e7c0a](https://github.com/ReactiveX/IxJS/commit/37e7c0afd0a42909376c35db5ca5a9fc1dcda8d8))
+* **never:** Adds never ([64a9c31](https://github.com/ReactiveX/IxJS/commit/64a9c311f7ef47b77fd7694641e8fe7ae3acc6c8))
+
+
+* Adding converting docs and links ([6c493ae](https://github.com/ReactiveX/IxJS/commit/6c493ae446ae7c035ec3b93a9ef51eb6e37790f7))
+* Updating through withLatestFrom ([79be89c](https://github.com/ReactiveX/IxJS/commit/79be89cdce26f65434072ddfcbd9bf815dc1df19))
+* Adding docs through map ([cf6a509](https://github.com/ReactiveX/IxJS/commit/cf6a50914321760e809aadb983e45fa67667066a))
+
+
+### Bug Fixes
+
+* **aborterror:** add Symbol.hasInstance method to AbortSignal ([c9d9f1e](https://github.com/ReactiveX/IxJS/commit/c9d9f1e5666d9432b22c2871b37f260f5a0c3bb2))
+* **closure:** fixing indexing ([8692d0c](https://github.com/ReactiveX/IxJS/commit/8692d0c17786de4e61e3cbd244be4c064c62bb5c))
+* **debounce:** fix AsyncIterable debounce and reenable tests ([480996e](https://github.com/ReactiveX/IxJS/commit/480996e092f8db33cf68646f943ad74819bbfdbb))
+* **extremaBy:** fixing extrema/minBy ([297d6e4](https://github.com/ReactiveX/IxJS/commit/297d6e4c9d31d8dbfa8044b79edb4c5d74ad03f6))
+* **maxby-spec:** fix maxby test ([2699e40](https://github.com/ReactiveX/IxJS/commit/2699e40d0435487bddabf6def2b6a43b2f0a90a9))
+* **minification:** fix test failures breaking due to aggressive closure-compiler minification ([a888ce8](https://github.com/ReactiveX/IxJS/commit/a888ce8d74a9f7154b1e5e5f938946cf3514736c))
+* **specs:** fixing tests for single ([2793801](https://github.com/ReactiveX/IxJS/commit/2793801bcb344e0b4d01d2021ed887934bfdebde))
+* **tests:** Fix bad max test ([3a853ee](https://github.com/ReactiveX/IxJS/commit/3a853ee8144fd936c26aeb3a922c024c5a2f22f4))
+* **tests:** Fixing tests ([0affef1](https://github.com/ReactiveX/IxJS/commit/0affef1c806dd6444bfe5c0bf94163a5f3b688e4))
+* **tests:** Fixing tests ([c0a3e68](https://github.com/ReactiveX/IxJS/commit/c0a3e68a2966f8b7bf4bb6c2a2d27d8b393702da))
+* **tests:** Get closure working on tests ([4c0705f](https://github.com/ReactiveX/IxJS/commit/4c0705fc318d97b8cf7e8d701386644daf8526f6))
+
+
+### Build System
+
+* **jest:** disable jest test caching ([92a1978](https://github.com/ReactiveX/IxJS/commit/92a1978b45025f107c93277b1e86720cc8858581))
+* **typescript:** update typescript, tslib, and google-closure-compiler versions ([37d66b3](https://github.com/ReactiveX/IxJS/commit/37d66b31f6cc303e6a69c1caa43e7f3147096bec))
+
+
+### chore
+
+* **Abort:** Adds docs ([6950e8e](https://github.com/ReactiveX/IxJS/commit/6950e8ef6d579847b567c5f7632ce1fbce5c9acf))
+* **add:** clean up adds ([8371ee4](https://github.com/ReactiveX/IxJS/commit/8371ee4144c6557a44c76ab25e48495687313651))
+* **add:** fix add operators ([bb38187](https://github.com/ReactiveX/IxJS/commit/bb3818767cfb72c6ec26f455843f104d01464fae))
+* **build:** Fix build issues ([1ae7646](https://github.com/ReactiveX/IxJS/commit/1ae76461497578404f9d8435736dbd0e49adae6b))
+* **tests:** refactor tests to fit new APIs ([c179ca9](https://github.com/ReactiveX/IxJS/commit/c179ca9d528a4d8db0028acb703f31a20fee6a21))
+
+
+### Code Refactoring
+
+* **abortsignal:** remove AbortSignal interface ([8ed7fca](https://github.com/ReactiveX/IxJS/commit/8ed7fcad5ae7c01b401424f38579d137333b8f17))
+
+
+### Styles
+
+* **specs:** reorder expected vs. actual comparisons for error-throwing tests ([3cc1d8d](https://github.com/ReactiveX/IxJS/commit/3cc1d8d6d5b35d6c67874aff141ee0acbc88c179))
+
+
+### Tests
+
+* **umd:** import test utils to fix missing window global when testing webpack-minified UMD bundles ([111f854](https://github.com/ReactiveX/IxJS/commit/111f854023320539dfa3ba4cbc9fcc1661467688))
+
+
+
 ## [3.0.1](https://github.com/ReactiveX/IxJS/compare/v3.0.0...v3.0.1) (2020-02-21)
 
 
