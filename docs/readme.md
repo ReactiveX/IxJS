@@ -4,7 +4,7 @@ The Interactive Extensions for JavaScript (IxJS) is a set of methods on top of `
 
 ## Iterable
 
-Starting in ES6, the [`Symbol.iterator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) method was introduced to allow for iteration over collections such as `Array`, `Map`, `Set` and even ``Generator`.  IxJS introduces a number of creation factories and operators that operate on these `Iterable` collections lazily.  Each factory can be imported from `'ix/iterable'` and operators from `'ix/iterable/operators'` such as the following creating an iterable via `of` and then transforming each item using the `map` operator.  You can then iterate over the resulting collection using [`for ... of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) syntax, or the use of the `forEach` method.
+Starting in ES6, the [`Symbol.iterator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) method was introduced to allow for iteration over collections such as `Array`, `Map`, `Set` and even ``Generator`.  IxJS introduces a number of creation factories and operators that operate on these`Iterable` collections lazily.  Each factory can be imported from `'ix/iterable'` and operators from `'ix/iterable/operators'` such as the following creating an iterable via `of` and then transforming each item using the `map`operator.  You can then iterate over the resulting collection using [`for ... of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) syntax, or the use of the`forEach` method.
 
 ```typescript
 import { of } from 'ix/iterable';

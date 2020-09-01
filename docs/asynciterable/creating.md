@@ -3,6 +3,7 @@
 Using IxJS, you can create AsyncIterables a number of ways by using some of the factory methods provided with IxJS.
 
 Convered in this section are the following:
+
 - Understanding Async-Iterables
 - Brief Interlude - `AsyncSink`
 - Creating a sequence with `create`
