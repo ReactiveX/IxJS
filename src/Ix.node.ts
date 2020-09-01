@@ -2,6 +2,7 @@ export * from './Ix';
 
 export { IterableReadable } from './iterable/tonodestream';
 export { AsyncIterableReadable } from './asynciterable/tonodestream';
+export { asAsyncIterable, AsyncIterableTransform } from './asynciterable/asasynciterable';
 export { fromNodeStream, ReadableStreamAsyncIterable } from './asynciterable/fromnodestream';
 
 import './add/asynciterable-operators/skipwhile';

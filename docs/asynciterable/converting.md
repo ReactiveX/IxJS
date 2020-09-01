@@ -97,7 +97,7 @@ We can then introduce IxJS by using the `fromNodeStream` which allows us then to
 
 ```typescript
 import * as fs from 'fs';
-import { fromNodeStream } from 'ix/asynciterable';
+import { fromNodeStream } from 'ix/asynciterable/fromnodestream';
 
 const readable = fs.createReadStream('tmp.txt', {encoding: 'utf8'});
 const source = fromNodeStream(readable);
@@ -105,6 +105,27 @@ const source = fromNodeStream(readable);
 for await (const chunk in source) {
   console.log(chunk);
 }
+```
+
+Or we can use `asAsyncIterable()` to take advantage of Node Streams' fluent `pipe` API:
+
+```typescript
+import * as fs from 'fs';
+import { map } from 'ix/asynciterable/operators/map';
+import { flatMap } from 'ix/asynciterable/operators/flatmap';
+import { asAsyncIterable } from 'ix/asynciterable/asasynciterable';
+
+const source = fs
+    .createReadStream('tmp.txt', {encoding: 'utf8'})
+    // Transform a Node stream into an AsyncIterable
+    .pipe(asAsyncIterable({ objectMode: false }))
+    // The result here is an AsyncIterableX
+    .pipe(map((chunk, index) => `${index}: ${chunk}`));
+
+for await (const chunk in source) {
+  console.log(chunk);
+}
+
 ```
 
 ## Creating a sequence from Events
