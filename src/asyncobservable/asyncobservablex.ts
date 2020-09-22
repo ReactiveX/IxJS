@@ -2,8 +2,10 @@ import {
   AsyncObservable,
   AsyncObserver,
   AsyncSubscription,
+  OperatorAsyncObservableFunction,
   PartialAsyncObserver,
   SYMBOL_ASYNC_DISPOSABLE,
+  UnaryFunction,
 } from '../interfaces';
 import { AsyncObserverX } from './asyncobserverx';
 
@@ -125,13 +127,33 @@ export class SafeObserver<T> extends AsyncObserverX<T> {
 }
 
 export abstract class AsyncObservableX<T> implements AsyncObservable<T> {
-  async subscribeAsync(observer: PartialAsyncObserver<T>): Promise<AsyncSubscription> {
+  async subscribeAsync(
+    observer: PartialAsyncObserver<T>,
+    signal?: AbortSignal
+  ): Promise<AsyncSubscription> {
     const safeObserver = new SafeObserver<T>(observer);
     const autoDetachObserver = new AutoDetachObserver<T>(safeObserver);
-    const subscription = await this._subscribeAsync(autoDetachObserver);
+    const subscription = await this._subscribeAsync(autoDetachObserver, signal);
     await autoDetachObserver.assign(subscription);
     return autoDetachObserver;
   }
 
-  abstract _subscribeAsync(observer: AsyncObserver<T>): Promise<AsyncSubscription>;
+  abstract _subscribeAsync(
+    observer: AsyncObserver<T>,
+    signal?: AbortSignal
+  ): Promise<AsyncSubscription>;
+
+  /** @nocollapse */
+  pipe<R>(...operations: UnaryFunction<AsyncObservable<T>, R>[]): R;
+  pipe<R>(...operations: OperatorAsyncObservableFunction<T, R>[]): AsyncObservableX<R>;
+  pipe(...args: any[]) {
+    let i = -1;
+    const n = args.length;
+    let acc: any = this;
+    while (++i < n) {
+      // TODO: Cast using `as`
+      acc = args[i](acc);
+    }
+    return acc;
+  }
 }

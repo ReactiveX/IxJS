@@ -17,6 +17,8 @@ export type MonoTypeOperatorFunction<T> = OperatorFunction<T, T>;
 
 export type MonoTypeOperatorAsyncFunction<T> = OperatorAsyncFunction<T, T>;
 
+export type MonoTypeOperatorAsyncObservableFunction<T> = OperatorAsyncObservableFunction<T, T>;
+
 /** @ignore */
 export type BufferLike = string | Buffer | Uint8Array;
 
@@ -56,7 +58,10 @@ export interface AsyncObserver<T> {
 }
 
 export interface AsyncObservable<T> {
-  subscribeAsync: (observer: PartialAsyncObserver<T>) => Promise<AsyncSubscription>;
+  subscribeAsync: (
+    observer: PartialAsyncObserver<T>,
+    signal?: AbortSignal
+  ) => Promise<AsyncSubscription>;
 }
 
 export interface AsyncSubject<TInput, TOutput = TInput>
