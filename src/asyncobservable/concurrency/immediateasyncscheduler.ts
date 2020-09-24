@@ -27,6 +27,11 @@ function delay(dueTime: number, signal: AbortSignal) {
 }
 
 export class ImmediateAsyncScheduler extends AsyncSchedulerX {
+  private static _instance = new ImmediateAsyncScheduler();
+  static get instance() {
+    return ImmediateAsyncScheduler._instance;
+  }
+
   async _scheduleCoreAsync(
     action: (signal: AbortSignal) => Promise<void>,
     signal: AbortSignal
