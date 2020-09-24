@@ -11,8 +11,8 @@ export class MicroTaskAsyncScheduler extends AsyncSchedulerX {
     action: (signal: AbortSignal) => Promise<void>,
     signal: AbortSignal
   ): Promise<void> {
-    return new Promise<void>((resolve) => {
-      resolve(action(signal));
+    return Promise.resolve().then(() => {
+      return action(signal);
     });
   }
 
