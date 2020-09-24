@@ -15,6 +15,7 @@ export class MicroTaskAsyncScheduler extends AsyncSchedulerX {
       resolve(action(signal));
     });
   }
+
   async _delay(dueTime: number, signal: AbortSignal): Promise<void> {
     await delay(dueTime, signal);
   }
