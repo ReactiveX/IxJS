@@ -1,19 +1,20 @@
 import { AsyncSchedulerX } from './asyncschedulerx';
 import { delay } from './_delay';
 
-export class ImmediateAsyncScheduler extends AsyncSchedulerX {
-  private static _instance = new ImmediateAsyncScheduler();
+export class MicroTaskAsyncScheduler extends AsyncSchedulerX {
+  private static _instance = new MicroTaskAsyncScheduler();
   static get instance() {
-    return ImmediateAsyncScheduler._instance;
+    return MicroTaskAsyncScheduler._instance;
   }
 
   async _scheduleCoreAsync(
     action: (signal: AbortSignal) => Promise<void>,
     signal: AbortSignal
   ): Promise<void> {
-    await action(signal);
+    return new Promise<void>((resolve) => {
+      resolve(action(signal));
+    });
   }
-
   async _delay(dueTime: number, signal: AbortSignal): Promise<void> {
     await delay(dueTime, signal);
   }

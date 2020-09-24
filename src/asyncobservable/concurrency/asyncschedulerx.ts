@@ -1,3 +1,4 @@
+import { throwIfAborted } from 'ix/aborterror';
 import { AsyncScheduler, AsyncSubscription, SYMBOL_ASYNC_DISPOSABLE } from '../../interfaces';
 
 function normalizeTime(time: number) {
@@ -9,21 +10,31 @@ export abstract class AsyncSchedulerX implements AsyncScheduler {
     return Date.now();
   }
 
-  scheduleNowAsync(action: (signal: AbortSignal) => Promise<void>) {
-    return this._scheduleAsync(action);
+  scheduleNowAsync(action: (signal: AbortSignal) => Promise<void>, signal?: AbortSignal) {
+    return this._scheduleAsync(action, signal);
   }
 
-  scheduleFutureAsync(action: (signal: AbortSignal) => Promise<void>, dueTime: number) {
+  scheduleFutureAsync(
+    action: (signal: AbortSignal) => Promise<void>,
+    dueTime: number,
+    signal?: AbortSignal
+  ) {
     const newTime = normalizeTime(dueTime);
 
-    return this._scheduleAsync(async (signal) => {
-      await this._delay(newTime, signal);
-      await action(signal);
-    });
+    return this._scheduleAsync(async (innerSignal) => {
+      await this._delay(newTime, innerSignal);
+      await action(innerSignal);
+    }, signal);
   }
 
-  async _scheduleAsync(action: (signal: AbortSignal) => Promise<void>): Promise<AsyncSubscription> {
+  async _scheduleAsync(
+    action: (signal: AbortSignal) => Promise<void>,
+    signal?: AbortSignal
+  ): Promise<AsyncSubscription> {
+    throwIfAborted(signal);
+
     const cas = new CancellationAsyncSubscription();
+    cas.link(signal);
     await this._scheduleCoreAsync(action, cas.signal);
     return cas;
   }
@@ -45,6 +56,12 @@ export class CancellationAsyncSubscription implements AsyncSubscription {
 
   get signal() {
     return this._controller.signal;
+  }
+
+  link(signal?: AbortSignal) {
+    if (signal) {
+      signal.addEventListener('abort', () => this._controller.abort(), { once: true });
+    }
   }
 
   async [SYMBOL_ASYNC_DISPOSABLE]() {

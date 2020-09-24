@@ -70,9 +70,13 @@ export interface AsyncSubject<TInput, TOutput = TInput>
 
 export interface AsyncScheduler {
   now: number;
-  scheduleNowAsync(action: (signal: AbortSignal) => Promise<void>): Promise<AsyncSubscription>;
+  scheduleNowAsync(
+    action: (signal: AbortSignal) => Promise<void>,
+    signal?: AbortSignal
+  ): Promise<AsyncSubscription>;
   scheduleFutureAsync(
     action: (signal: AbortSignal) => Promise<void>,
-    dueTime: number
+    dueTime: number,
+    signal?: AbortSignal
   ): Promise<AsyncSubscription>;
 }
