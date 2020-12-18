@@ -8,8 +8,26 @@ import { ScanOptions } from '../../iterable/operators/scanoptions';
 export function scanRightProto<T, R = T>(
   this: IterableX<T>,
   options: ScanOptions<T, R>
+): IterableX<R>;
+export function scanRightProto<T, R = T>(
+  this: IterableX<T>,
+  accumulator: (accumulator: R, current: T, index: number) => R,
+  seed?: R
+): IterableX<R>;
+export function scanRightProto<T, R = T>(
+  this: IterableX<T>,
+  optionsOrAccumulator: ScanOptions<T, R> | ((accumulator: R, current: T, index: number) => R),
+  seed?: R
 ): IterableX<R> {
-  return new ScanRightIterable(this, options);
+  return new ScanRightIterable(
+    this,
+    // eslint-disable-next-line no-nested-ternary
+    typeof optionsOrAccumulator === 'function'
+      ? arguments.length > 1
+        ? { 'callback': optionsOrAccumulator, 'seed': seed }
+        : { 'callback': optionsOrAccumulator }
+      : optionsOrAccumulator
+  );
 }
 
 IterableX.prototype.scanRight = scanRightProto;

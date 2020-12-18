@@ -12,12 +12,29 @@ import { ReduceOptions } from './reduceoptions';
  * @param {ReduceOptions<T, R>} options The options which contains a callback and optional seed.
  * @returns {R} The final accumulator value.
  */
-export function reduce<T, R = T>(source: Iterable<T>, options: ReduceOptions<T, R>): R {
-  const { ['seed']: seed, ['callback']: callback } = options;
+export function reduce<T, R = T>(source: Iterable<T>, options: ReduceOptions<T, R>): R;
+export function reduce<T, R = T>(
+  source: Iterable<T>,
+  accumulator: (accumulator: R, current: T, index: number) => R,
+  seed?: R
+): R;
+export function reduce<T, R = T>(
+  source: Iterable<T>,
+  optionsOrAccumulator: ReduceOptions<T, R> | ((accumulator: R, current: T, index: number) => R),
+  seed?: R
+): R {
+  const options =
+    // eslint-disable-next-line no-nested-ternary
+    typeof optionsOrAccumulator === 'function'
+      ? arguments.length > 2
+        ? { 'callback': optionsOrAccumulator, 'seed': seed }
+        : { 'callback': optionsOrAccumulator }
+      : optionsOrAccumulator;
+  const { ['seed']: _seed, ['callback']: callback } = options;
   const hasSeed = options.hasOwnProperty('seed');
   let i = 0;
   let hasValue = false;
-  let acc = seed as T | R;
+  let acc = _seed as T | R;
   for (const item of source) {
     if (hasValue || (hasValue = hasSeed)) {
       acc = callback(<R>acc, item, i++);
