@@ -55,4 +55,6 @@ export * from './timeout';
 export * from './timestamp';
 export * from './todomstream';
 export * from './union';
+export * from './withabort';
+export * from './withlatestfrom';
 export * from './zipwith';
