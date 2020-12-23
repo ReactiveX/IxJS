@@ -46,7 +46,22 @@ export class ScanIterable<T, R> extends IterableX<R> {
  * @param {ScanOptions<T, R>} options The options including the accumulator function and seed.
  * @returns {OperatorFunction<T, R>} An async-enumerable sequence containing the accumulated values.
  */
-export function scan<T, R = T>(options: ScanOptions<T, R>): OperatorFunction<T, R> {
+export function scan<T, R = T>(options: ScanOptions<T, R>): OperatorFunction<T, R>;
+export function scan<T, R = T>(
+  accumulator: (accumulator: R, current: T, index: number) => R,
+  seed?: R
+): OperatorFunction<T, R>;
+export function scan<T, R = T>(
+  optionsOrAccumulator: ScanOptions<T, R> | ((accumulator: R, current: T, index: number) => R),
+  seed?: R
+): OperatorFunction<T, R> {
+  const options =
+    // eslint-disable-next-line no-nested-ternary
+    typeof optionsOrAccumulator === 'function'
+      ? arguments.length > 1
+        ? { 'callback': optionsOrAccumulator, 'seed': seed }
+        : { 'callback': optionsOrAccumulator }
+      : optionsOrAccumulator;
   return function scanOperatorFunction(source: Iterable<T>): IterableX<R> {
     return new ScanIterable(source, options);
   };

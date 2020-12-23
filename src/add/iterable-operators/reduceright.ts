@@ -5,8 +5,26 @@ import { ReduceOptions } from '../../iterable/reduceoptions';
 /**
  * @ignore
  */
-export function reduceRightProto<T, R = T>(this: IterableX<T>, options: ReduceOptions<T, R>): R {
-  return reduceRight(this, options);
+export function reduceRightProto<T, R = T>(this: IterableX<T>, options: ReduceOptions<T, R>): R;
+export function reduceRightProto<T, R = T>(
+  this: IterableX<T>,
+  accumulator: (accumulator: R, current: T, index: number) => R,
+  seed?: R
+): R;
+export function reduceRightProto<T, R = T>(
+  this: IterableX<T>,
+  optionsOrAccumulator: ReduceOptions<T, R> | ((accumulator: R, current: T, index: number) => R),
+  seed?: R
+): R {
+  return reduceRight(
+    this,
+    // eslint-disable-next-line no-nested-ternary
+    typeof optionsOrAccumulator === 'function'
+      ? arguments.length > 1
+        ? { 'callback': optionsOrAccumulator, 'seed': seed }
+        : { 'callback': optionsOrAccumulator }
+      : optionsOrAccumulator
+  );
 }
 
 IterableX.prototype.reduceRight = reduceRightProto;
