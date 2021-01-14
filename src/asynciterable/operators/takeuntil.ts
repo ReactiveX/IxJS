@@ -3,6 +3,8 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+const DONE_PROMISE_VALUE = undefined;
+
 export class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _other: (signal?: AbortSignal) => Promise<any>;
@@ -15,13 +17,15 @@ export class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    let otherDone = false;
-    this._other(signal).then(() => (otherDone = true));
-    for await (const item of wrapWithAbort(this._source, signal)) {
-      if (otherDone) {
+    const donePromise = this._other(signal).then(() => DONE_PROMISE_VALUE);
+    const itemsAsyncIterator = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
+    for (;;) {
+      const itemPromise = itemsAsyncIterator.next();
+      const result = await Promise.race([donePromise, itemPromise]);
+      if (result === DONE_PROMISE_VALUE || result.done) {
         break;
       }
-      yield item;
+      yield result.value;
     }
   }
 }
