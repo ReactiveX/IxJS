@@ -1,3 +1,26 @@
+# [4.1.0](https://github.com/ReactiveX/IxJS/compare/v4.0.0...v4.1.0) (2021-01-21)
+
+
+### Bug Fixes
+
+* **operators:** export withLatestFrom and withAbort AsyncIterable operators ([#313](https://github.com/ReactiveX/IxJS/issues/313)) ([19915b5](https://github.com/ReactiveX/IxJS/commit/19915b514a95c43aea86ad455962e0cd646a5e9a))
+* **operators:** support Array.prototype.reduce signature in Iterable scan and reduce operators again. Fixes [#311](https://github.com/ReactiveX/IxJS/issues/311) ([#312](https://github.com/ReactiveX/IxJS/issues/312)) ([1d98746](https://github.com/ReactiveX/IxJS/commit/1d98746302d91bd864bf6c0743104ac7c61b2252))
+* **repeat-spec.ts:** fix unhandled-rejection error in node v15 ([7d84c87](https://github.com/ReactiveX/IxJS/commit/7d84c87e784c3d5e814cbe2e6d98e31b2c2f5cf7))
+* **takeUntil:** complete iterable immediately ([#315](https://github.com/ReactiveX/IxJS/issues/315)) ([#316](https://github.com/ReactiveX/IxJS/issues/316)) ([97b2ca2](https://github.com/ReactiveX/IxJS/commit/97b2ca2714b410d485382f05ecd1692d650ab76f))
+
+
+### chore
+
+* **npm-release.sh:** add prompt to enter npm OTP before release ([f0c111e](https://github.com/ReactiveX/IxJS/commit/f0c111e2c0ea9b22dfbee8946d8763d1c061077c))
+* **npm-release.sh:** use npm run-script instead of npx run-s in release script ([b03597d](https://github.com/ReactiveX/IxJS/commit/b03597dbaa8099be5eadc79bf94bebc1313fc134))
+
+
+### Documentation
+
+* **readme:** fix wrong result of samples and typo ([16fe9b0](https://github.com/ReactiveX/IxJS/commit/16fe9b08096d29079d24e60efcaeee330a67e36b))
+
+
+
 # [4.0.0](https://github.com/ReactiveX/IxJS/compare/v3.0.2...v4.0.0) (2020-09-01)
 
 
