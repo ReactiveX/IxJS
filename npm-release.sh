@@ -1,7 +1,9 @@
 bump=${1:?missing required semantic-version bump. usage: \`$0 major|minor|patch\`}
 echo "semantic-version bump: $bump"
 
-npx run-s --silent lint build test
+npm run --silent lint
+npm run --silent build
+npm run --silent test
 npx lerna version \
     --yes --force-publish=* \
     --no-push --no-git-tag-version \
