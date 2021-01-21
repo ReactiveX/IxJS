@@ -17,4 +17,6 @@ npm version $bump -m "chore(release): %s"
 git push --follow-tags
 npx conventional-github-releaser -p angular
 
-npx lerna exec --no-bail -- npm publish
+read -p "Please enter your npm 2FA one-time password: " NPM_OTP </dev/tty
+
+npx lerna exec --no-bail -- npm publish --otp=$NPM_OTP
