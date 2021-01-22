@@ -57,7 +57,7 @@ sink.write(2);
 sink.write(3);
 sink.end();
 
-const it = source[Symbol.asyncIterator]();
+const it = sink[Symbol.asyncIterator]();
 let value, done;
 
 { value, done } = await it.next(); 
