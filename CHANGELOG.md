@@ -1,3 +1,12 @@
+# [4.2.0](https://github.com/ReactiveX/IxJS/compare/v4.1.0...v4.2.0) (2021-01-26)
+
+
+### Bug Fixes
+
+* **umd:** fix the UMD bundle export names so they don't conflict and overwrite each other ([#318](https://github.com/ReactiveX/IxJS/issues/318)) ([c45eaa8](https://github.com/ReactiveX/IxJS/commit/c45eaa8de6de48cd994e7d61738c602172da9ef6))
+
+
+
 # [4.1.0](https://github.com/ReactiveX/IxJS/compare/v4.0.0...v4.1.0) (2021-01-21)
 
 
