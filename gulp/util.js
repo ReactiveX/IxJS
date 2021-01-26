@@ -216,6 +216,12 @@ const esmRequire = require(`esm`)(module, {
     }
 });
 
+const getUMDExportName = (umdEntryFileName) => umdEntryFileName
+    .split('.')
+    .filter((x) => x != 'dom')
+    .map((x) => x[0].toUpperCase() + x.slice(1))
+    .join('');
+
 module.exports = {
 
     mainExport, npmPkgName, npmOrgName, metadataFiles, packageJSONFields,
@@ -224,5 +230,5 @@ module.exports = {
     gCCLanguageNames, UMDSourceTargets, terserLanguageNames,
 
     taskName, packageName, tsconfigName, targetDir, combinations, observableFromStreams,
-    ESKeywords, esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess
+    ESKeywords, esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess, getUMDExportName
 };
