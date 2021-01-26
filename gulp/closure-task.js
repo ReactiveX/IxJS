@@ -19,6 +19,7 @@ const {
     targetDir,
     mainExport,
     esmRequire,
+    getUMDExportName,
     gCCLanguageNames,
     observableFromStreams,
     shouldRunInChildProcess,
@@ -58,7 +59,7 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
         const externsPath = path.join(out, `${entry}.externs.js`);
 
         await Promise.all([
-            fs.promises.writeFile(entry_point, generateUMDExportAssignnent(entry)),
+            fs.promises.writeFile(entry_point, generateUMDExportAssignment(entry)),
             fs.promises.writeFile(externsPath, generateExternsFile(path.resolve(`${src}/${entry}.js`)))
         ]);
 
@@ -73,7 +74,7 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
                 `${src}/**/*.js` /* <-- then sources globs  */
             ], { base: `./` }),
             sourcemaps.init(),
-            closureCompiler(createClosureArgs(entry_point, entry, externsPath)),
+            closureCompiler(createClosureArgs(entry_point, entry, externsPath, getUMDExportName(entry))),
             // rename the sourcemaps from *.js.map files to *.min.js.map
             sourcemaps.write(`.`, { mapFile: (mapPath) => mapPath.replace(`.js.map`, `.${target}.min.js.map`) }),
             gulp.dest(out)
@@ -81,7 +82,7 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
     }
 }))({});
 
-const createClosureArgs = (entry_point, output, externs) => ({
+const createClosureArgs = (entry_point, output, externs, libraryName) => ({
     externs,
     entry_point,
     third_party: true,
@@ -100,15 +101,15 @@ const createClosureArgs = (entry_point, output, externs) => ({
     language_out: gCCLanguageNames[`esnext`],
     output_wrapper: `(function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (factory(global.Ix = global.Ix || {}));
+    typeof define === 'function' && define.amd ? define(['${libraryName}'], factory) :
+    (factory(global.${libraryName} = global.${libraryName} || {}));
 }(this, (function (exports) {%output%}.bind(this))));`
 });
 
 module.exports = closureTask;
 module.exports.closureTask = closureTask;
 
-function generateUMDExportAssignnent(entry) {
+function generateUMDExportAssignment(entry) {
     return [`
 import { __await } from 'tslib';
 __await.prototype[Symbol.toStringTag] = '__await';

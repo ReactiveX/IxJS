@@ -18,6 +18,7 @@
 const {
     targetDir,
     mainExport,
+    getUMDExportName,
     UMDSourceTargets,
     terserLanguageNames,
     shouldRunInChildProcess,
@@ -57,6 +58,10 @@ const minifyTask = ((cache, commonConfig) => memoizeTask(cache, function minifyJ
     ].map((entry) => ({
         ...targetConfig,
         name: entry,
+        output: {
+            ...targetConfig.output,
+            library: getUMDExportName(entry)
+        },
         entry: { [entry]: path.resolve(`${src}/${entry}.js`) },
         plugins: [
             ...(targetConfig.plugins || []),
