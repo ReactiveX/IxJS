@@ -1,5 +1,5 @@
-import { interval } from 'ix/asynciterable';
 import '../asynciterablehelpers';
+import { interval } from 'ix/asynciterable';
 import { take } from 'ix/asynciterable/operators';
 
 test('Abort signal isn\'t overloaded with event listeners', async () => {
