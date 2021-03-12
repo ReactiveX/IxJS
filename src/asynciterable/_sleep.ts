@@ -7,22 +7,24 @@ export function sleep(dueTime: number, signal?: AbortSignal) {
     }
 
     const id = setTimeout(() => {
-      if (signal && signal.aborted) {
-        reject(new AbortError());
+      if (signal) {
+        signal.removeEventListener('abort', onAbort);
+        if (signal.aborted) {
+          onAbort();
+          return;
+        }
       }
 
       resolve();
     }, dueTime);
 
     if (signal) {
-      signal.addEventListener(
-        'abort',
-        () => {
-          clearTimeout(id);
-          reject(new AbortError());
-        },
-        { once: true }
-      );
+      signal.addEventListener('abort', onAbort, { once: true });
+    }
+
+    function onAbort() {
+      clearTimeout(id);
+      reject(new AbortError());
     }
   });
 }
