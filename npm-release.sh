@@ -21,4 +21,4 @@ npx conventional-github-releaser -p angular
 
 read -p "Please enter your npm 2FA one-time password: " NPM_OTP </dev/tty
 
-npx lerna exec --no-bail -- npm publish --otp=$NPM_OTP
+npx lerna exec --concurrency 1 --no-bail -- npm publish --otp=$NPM_OTP
