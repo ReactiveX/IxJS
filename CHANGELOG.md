@@ -1,3 +1,12 @@
+# [4.3.0](https://github.com/ReactiveX/IxJS/compare/v4.2.0...v4.3.0) (2021-03-15)
+
+
+### Bug Fixes
+
+* **Abort:** Ensure removal of event listeners from AbortSignal ([#321](https://github.com/ReactiveX/IxJS/issues/321)) ([d4de33b](https://github.com/ReactiveX/IxJS/commit/d4de33bdf053c83f87045bc11d1a4e6edd023fa5))
+
+
+
 # [4.2.0](https://github.com/ReactiveX/IxJS/compare/v4.1.0...v4.2.0) (2021-01-26)
 
 
