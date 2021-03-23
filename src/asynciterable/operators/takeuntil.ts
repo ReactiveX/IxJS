@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
+import { safeRace } from '../../util/safeRace';
 
 const DONE_PROMISE_VALUE = undefined;
 
@@ -21,7 +22,7 @@ export class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     const itemsAsyncIterator = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
     for (;;) {
       const itemPromise = itemsAsyncIterator.next();
-      const result = await Promise.race([donePromise, itemPromise]);
+      const result = await safeRace([donePromise, itemPromise]);
       if (result === DONE_PROMISE_VALUE || result.done) {
         break;
       }
