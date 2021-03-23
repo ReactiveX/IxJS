@@ -1,3 +1,18 @@
+## [4.3.1](https://github.com/ReactiveX/IxJS/compare/v4.3.0...v4.3.1) (2021-03-23)
+
+
+### Bug Fixes
+
+* **Promise.race:** Fix Promise.race memory leaks ([#323](https://github.com/ReactiveX/IxJS/issues/323)) ([75ef616](https://github.com/ReactiveX/IxJS/commit/75ef61687fde8f62aa284bf908576142cff60e86))
+
+
+### chore
+
+* **npm-release.sh:** set concurrency to 1 to work around npm publish rate limits ([825bdd8](https://github.com/ReactiveX/IxJS/commit/825bdd8dc79b67a643e09520440c671fa64d56c4))
+* **saferace.ts:** add unlicense to safeRace.ts ([c9c0a83](https://github.com/ReactiveX/IxJS/commit/c9c0a836dd1946007e0687d2243d82ca8b86b6a5))
+
+
+
 # [4.3.0](https://github.com/ReactiveX/IxJS/compare/v4.2.0...v4.3.0) (2021-03-15)
 
 
