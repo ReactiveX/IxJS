@@ -3,6 +3,7 @@ import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 import { identity } from '../../util/identity';
+import { safeRace } from '../../util/safeRace';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
@@ -47,7 +48,7 @@ export class WithLatestFromAsyncIterable<TSource> extends AsyncIterableX<TSource
     nexts[length] = wrapPromiseWithIndex(it.next(), length);
 
     for (;;) {
-      const next = Promise.race(nexts);
+      const next = safeRace(nexts);
       const {
         value: { value: value$, done: done$ },
         index,

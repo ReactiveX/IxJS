@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
+import { safeRace } from '../util/safeRace';
 
 type MergeResult<T> = { value: T; index: number };
 
@@ -30,7 +31,7 @@ export class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       nexts[i] = wrapPromiseWithIndex(iterator.next(), i);
     }
 
-    const next = Promise.race(nexts);
+    const next = safeRace(nexts);
     const { value: next$, index } = await next;
 
     if (!next$.done) {

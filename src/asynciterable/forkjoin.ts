@@ -1,5 +1,6 @@
 import { identity } from '../util/identity';
 import { wrapWithAbort } from './operators/withabort';
+import { safeRace } from '../util/safeRace';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
@@ -290,7 +291,7 @@ export async function forkJoin<T>(...sources: any[]): Promise<T[] | undefined> {
   }
 
   while (active > 0) {
-    const next = Promise.race(nexts);
+    const next = safeRace(nexts);
     const { value: next$, index } = await next;
     if (next$.done) {
       nexts[index] = <Promise<MergeResult<IteratorResult<T>>>>NEVER_PROMISE;

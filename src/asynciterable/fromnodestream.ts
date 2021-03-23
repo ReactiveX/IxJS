@@ -1,4 +1,5 @@
 import { AsyncIterableX } from './asynciterablex';
+import { safeRace } from '../util/safeRace';
 
 const NON_FLOWING = 0;
 const READABLE = 1;
@@ -44,7 +45,7 @@ export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
 
   async next(size = this._defaultSize): Promise<IteratorResult<string | Buffer>> {
     if (this._state === NON_FLOWING) {
-      await Promise.race([this._waitReadable(), this._waitEnd()]);
+      await safeRace([this._waitReadable(), this._waitEnd()]);
       return await this.next(size);
     }
 

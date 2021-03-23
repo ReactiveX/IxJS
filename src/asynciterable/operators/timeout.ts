@@ -4,6 +4,7 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 import { isObject } from '../../util/isiterable';
+import { safeRace } from '../../util/safeRace';
 
 export class TimeoutError extends Error {
   constructor(message: string = 'Timeout has occurred') {
@@ -51,7 +52,7 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     throwIfAborted(signal);
     const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
     while (1) {
-      const { type, value } = await Promise.race<TimeoutOperation<TSource>>([
+      const { type, value } = await safeRace<TimeoutOperation<TSource>>([
         it.next().then((val) => {
           return { type: VALUE_TYPE, val };
         }),
