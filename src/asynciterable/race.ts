@@ -1,7 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
-import { safeRace } from 'ix/util/safeRace';
+import { safeRace } from '../util/safeRace';
 
 type MergeResult<T> = { value: T; index: number };
 
