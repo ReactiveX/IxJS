@@ -14,10 +14,12 @@ function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
 
 export class MergeAsyncIterable<T> extends AsyncIterableX<T> {
   private _source: AsyncIterable<T>[];
+  private _minActive: number;
 
-  constructor(source: AsyncIterable<T>[]) {
+  constructor(source: AsyncIterable<T>[], minActive = 0) {
     super();
     this._source = source;
+    this._minActive = minActive;
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<T> {
@@ -32,7 +34,7 @@ export class MergeAsyncIterable<T> extends AsyncIterableX<T> {
       nexts[i] = wrapPromiseWithIndex(iterator.next(), i);
     }
 
-    while (active > 0) {
+    while (active > this._minActive) {
       const next = safeRace(nexts);
       const {
         value: { done: done$, value: value$ },

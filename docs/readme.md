@@ -152,7 +152,7 @@ This just scratches the surface with the capabilities of using async iterables w
 - Converting AsyncIterables
   - `toArray`, `toDOMStream`, `toMap`, `toNodeStream`, `toObservable`, `toSet`
 - [Transforming Sequences](asynciterable/transforming.md)
-  - `buffer`, `flat`, `flatMap`, `groupBy`, `map`, `pluck`, `scan`, `scanRight`
+  - `buffer`, `bufferCountOrTime`, `flat`, `flatMap`, `groupBy`, `map`, `pluck`, `scan`, `scanRight`
 - Filtering Sequences
   - `debounce`, `distinct`, `distinctUntilChanged`, `elementAt`, `find`, `findIndex`, `first`, `ignoreElements`, `last`, `single`, `slice`
 - Combining Sequences
