@@ -1,10 +1,11 @@
 import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX, interval } from '../';
+import { AsyncIterableX, interval, concat, of } from '../';
 import { map } from './map';
 import { MergeAsyncIterable } from '../merge';
 import { wrapWithAbort } from './withabort';
 
 const timerEvent = '__internal_timer_event__' as const;
+const ended = '__internal_ended_event__' as const;
 
 class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
   constructor(
@@ -18,14 +19,18 @@ class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     const buffer: TSource[] = [];
     const timer = interval(this.maxWaitTime).pipe(map(() => timerEvent));
-    const merged = new MergeAsyncIterable<TSource | typeof timerEvent>(
-      [timer, this.source],
+    const source = concat(this.source, of(ended));
+    const merged = new MergeAsyncIterable<TSource | typeof ended | typeof timerEvent>(
+      [timer, source],
       // we want this merge to end when the source ends
       // so we set the min active to 1
       1
     );
 
     for await (const item of wrapWithAbort(merged, signal)) {
+      if (item === ended) {
+        break;
+      }
       if (item !== timerEvent) {
         buffer.push(item);
       }
