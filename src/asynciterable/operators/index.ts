@@ -1,5 +1,6 @@
 export * from './batch';
 export * from './buffer';
+export * from './buffercountortime';
 export * from './catcherror';
 export * from './combinelatestwith';
 export * from './concatall';
