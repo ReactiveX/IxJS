@@ -54,7 +54,7 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     while (1) {
       const { type, value } = await safeRace<TimeoutOperation<TSource>>([
         it.next().then((val) => {
-          return { type: VALUE_TYPE, val };
+          return { type: VALUE_TYPE, value: val };
         }),
         sleep(this._dueTime, signal).then(() => {
           return { type: ERROR_TYPE };
