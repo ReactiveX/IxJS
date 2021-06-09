@@ -40,6 +40,7 @@ export class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 
     let state: State<TSource> = { type: BATCHING_TYPE, values: [] };
     let ended: null | Promise<IteratorResult<TSource[]>> = null;
+    let error: any = null;
 
     function consumeNext() {
       it.next().then(
@@ -65,11 +66,9 @@ export class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
           }
         },
         (err) => {
-          ended = Promise.reject(err);
-
+          error = err;
           if (state.type === WAITING_TYPE) {
-            const { reject } = state.resolver;
-            reject(err);
+            state.resolver.reject(err);
           }
         }
       );
@@ -79,6 +78,10 @@ export class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 
     return {
       next() {
+        if (error) {
+          return Promise.reject(error);
+        }
+
         if (state.type === BATCHING_TYPE && state.values.length > 0) {
           const { values } = state;
           state.values = [];
