@@ -1,3 +1,23 @@
+# [4.4.0](https://github.com/ReactiveX/IxJS/compare/v4.3.1...v4.4.0) (2021-06-09)
+
+
+### Bug Fixes
+
+* **src/asynciterable/operators/batch.ts:** create rejected Promise on demand ([#328](https://github.com/ReactiveX/IxJS/issues/328)) ([aa40ab1](https://github.com/ReactiveX/IxJS/commit/aa40ab1eabc66ce7cbe4ca71a46853e9ac736006)), closes [#320](https://github.com/ReactiveX/IxJS/issues/320)
+* **src/asynciterable/operators/timeout.ts:** ensure AsyncIterable timeout operator passes its values ([#327](https://github.com/ReactiveX/IxJS/issues/327)) ([f5a213a](https://github.com/ReactiveX/IxJS/commit/f5a213abee816337a35d1ab8566165de02b200ce)), closes [#325](https://github.com/ReactiveX/IxJS/issues/325)
+
+
+### Documentation
+
+* **docs/asynciterable/creating.md:** Fix async iterable docs typo s/source/sink ([#317](https://github.com/ReactiveX/IxJS/issues/317)) ([084658f](https://github.com/ReactiveX/IxJS/commit/084658fbec2d657107610502eb3f3f6c82f253fb))
+
+
+### Features
+
+* **asynciterable-operators:** Add `bufferCountOrTime` operator ([#324](https://github.com/ReactiveX/IxJS/issues/324)) ([ee7c43e](https://github.com/ReactiveX/IxJS/commit/ee7c43e32c6aebacd649b0ca107b2fc5096c3fd5))
+
+
+
 ## [4.3.1](https://github.com/ReactiveX/IxJS/compare/v4.3.0...v4.3.1) (2021-03-23)
 
 
@@ -416,6 +436,3 @@
 * **scheduler:** initial scheduler implementation ([4ad0468](https://github.com/ReactiveX/IxJS/commit/4ad0468))
 * **time:** add time based operators ([1b6732a](https://github.com/ReactiveX/IxJS/commit/1b6732a))
 * **zip:** Make it parallel as possible ([c505389](https://github.com/ReactiveX/IxJS/commit/c505389))
-
-
-
