@@ -4,8 +4,8 @@ import { map } from './map';
 import { merge } from '../merge';
 import { wrapWithAbort } from './withabort';
 
-const timerEvent = {} as const;
-const ended = {} as const;
+const timerEvent = {};
+const ended = {};
 
 class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
   constructor(
@@ -27,7 +27,7 @@ class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
         break;
       }
       if (item !== timerEvent) {
-        buffer.push(item);
+        buffer.push(item as TSource);
       }
       if (buffer.length >= this.bufferSize || (buffer.length && item === timerEvent)) {
         yield buffer.slice();
