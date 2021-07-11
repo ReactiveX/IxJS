@@ -1,3 +1,12 @@
+## [4.4.1](https://github.com/ReactiveX/IxJS/compare/v4.4.0...v4.4.1) (2021-07-11)
+
+
+### Bug Fixes
+
+* **package.json:** use ^ for allowed tslib versions ([#330](https://github.com/ReactiveX/IxJS/issues/330)) ([02b1a22](https://github.com/ReactiveX/IxJS/commit/02b1a22b701397d3f969eac965a8a7034fcecc1c))
+
+
+
 # [4.4.0](https://github.com/ReactiveX/IxJS/compare/v4.3.1...v4.4.0) (2021-06-09)
 
 
