@@ -47,7 +47,7 @@
   ],
   "dependencies": {
     "@types/node": "^13.7.4",
-    "tslib": "2.0.0"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@types/glob": "7.1.1",
