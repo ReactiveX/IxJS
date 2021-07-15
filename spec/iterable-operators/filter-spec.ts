@@ -29,27 +29,17 @@ test('Iterable#filter with index', () => {
 });
 
 test('Iterable#filter with typeguard', () => {
-  const xs = [
-    new String('8'),
-    5,
-    new String('7'),
-    4,
-    new String('6'),
-    9,
-    new String('2'),
-    1,
-    new String('0'),
-  ];
+  const xs = ['8', 5, '7', 4, '6', 9, '2', 1, '0'];
   const ys: Iterable<string> = filter<number | string, string>(
-    (x): x is string => x instanceof String
+    (x): x is string => typeof x === 'string'
   )(xs);
 
   const it = ys[Symbol.iterator]();
-  hasNext(it, new String('8'));
-  hasNext(it, new String('7'));
-  hasNext(it, new String('6'));
-  hasNext(it, new String('2'));
-  hasNext(it, new String('0'));
+  hasNext(it, '8');
+  hasNext(it, '7');
+  hasNext(it, '6');
+  hasNext(it, '2');
+  hasNext(it, '0');
   noNext(it);
 });
 

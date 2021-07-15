@@ -4,7 +4,7 @@ module.exports = {
     "globals": {
         "ts-jest": {
             "diagnostics": false,
-            "tsConfig": "spec/tsconfig/tsconfig.es5.cjs.json"
+            "tsConfig": "<rootDir>/spec/tsconfig/tsconfig.es5.cjs.json"
         }
     },
     "moduleNameMapper": {
