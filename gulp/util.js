@@ -236,5 +236,7 @@ module.exports = {
     gCCLanguageNames, UMDSourceTargets, terserLanguageNames,
 
     taskName, packageName, tsconfigName, targetDir, combinations, observableFromStreams,
-    ESKeywords, esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess, getUMDExportName
+    ESKeywords, esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess, getUMDExportName,
+
+    targetAndModuleCombinations: [...combinations(targets, modules)]
 };

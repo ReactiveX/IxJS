@@ -1,5 +1,6 @@
 module.exports = {
     ...require('../jest.config'),
+    "rootDir": "../",
     "globals": {
         "ts-jest": {
             "diagnostics": false,
@@ -12,5 +13,5 @@ module.exports = {
         "^ix/iterable/operators(.*)": "<rootDir>/targets/es5/umd/Ix.dom.iterable.operators.js",
         "^ix/iterable(.*)": "<rootDir>/targets/es5/umd/Ix.dom.iterable.js",
         "^ix(.*)": "<rootDir>/targets/es5/umd/Ix.dom.js"
-    }  
+    }
 };

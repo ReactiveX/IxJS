@@ -1,5 +1,6 @@
 module.exports = {
     ...require('../jest.config'),
+    "rootDir": "../",
     "globals": {
         "ts-jest": {
             "diagnostics": false,
@@ -8,5 +9,5 @@ module.exports = {
     },
     "moduleNameMapper": {
         "^ix(.*)": "<rootDir>/targets/ix$1"
-    }  
+    }
 };

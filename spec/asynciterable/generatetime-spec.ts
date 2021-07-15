@@ -49,7 +49,7 @@ test('AsyncIterable#generateTime increment throws', async () => {
   );
 
   const it = xs[Symbol.asyncIterator]();
-
+  await expect(it.next()).resolves.toBeDefined();
   await expect(it.next()).rejects.toThrow(err);
 });
 

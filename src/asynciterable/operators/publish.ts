@@ -6,8 +6,7 @@ import { MemoizeAsyncBuffer } from './memoize';
 import { throwIfAborted } from '../../aborterror';
 
 class PublishedAsyncBuffer<T> extends MemoizeAsyncBuffer<T> {
-  // @ts-ignore
-  protected _buffer: RefCountList<T>;
+  protected declare _buffer: RefCountList<T>;
 
   constructor(source: AsyncIterator<T>) {
     super(source, new RefCountList<T>(0));
