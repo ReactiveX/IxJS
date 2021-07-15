@@ -43,22 +43,21 @@ test('AsyncIterable#tap with error', async () => {
   const err = new Error();
   let ok = false;
 
-  try {
-    const source = throwError(err).pipe(
-      tap({
-        error: async (e) => {
-          expect(e).toEqual(err);
-          ok = true;
-        },
-      })
-    );
+  const source = throwError(err).pipe(
+    tap({
+      error: async (e) => {
+        expect(e).toEqual(err);
+        ok = true;
+      },
+    })
+  );
 
-    // eslint-disable-next-line no-empty
-    for await (const _ of source) {
-    }
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  // eslint-disable-next-line no-empty
+  await expect(
+    (async () => {
+      for await (const _ of source);
+    })()
+  ).rejects.toThrow(err);
 
   expect(ok).toBeTruthy();
 });
@@ -75,8 +74,8 @@ test('AsyncItearble#tap with next function', async () => {
 });
 
 class MyObserver {
-  public sum: number = 0;
-  public done: boolean = false;
+  public sum = 0;
+  public done = false;
 
   async next(value: number) {
     this.sum += value;

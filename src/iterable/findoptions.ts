@@ -1,7 +1,6 @@
 /**
  * A find options property bag with the selector and thisArg for binding all optional.
  *
- * @export
  * @interface OptionalFindOptions
  * @template T The type of the elements in the source sequence.
  */
@@ -25,7 +24,6 @@ export interface OptionalFindOptions<T> {
 /**
  * A find options property bag with the selector being required and the thisArg for binding are all optional.
  *
- * @export
  * @interface FindOptions
  * @template T The type of the elements in the source sequence.
  */

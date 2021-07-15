@@ -142,7 +142,7 @@ declare module '../asynciterable/asynciterablex' {
       op8: OperatorAsyncFunction<G, H>,
       op9: OperatorAsyncFunction<H, I>
     ): AsyncIterableX<I>;
-    pipe(...operations: OperatorAsyncFunction<any, any>[]): AsyncIterableX<{}>;
+    pipe(...operations: OperatorAsyncFunction<any, any>[]): AsyncIterableX<any>;
     pipe<A extends NodeJS.WritableStream>(op1: A, options?: { end?: boolean }): A;
   }
 }

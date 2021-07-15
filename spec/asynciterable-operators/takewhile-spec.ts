@@ -52,9 +52,5 @@ test('AsyncIterable#takeWhile predicate throws', async () => {
   );
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

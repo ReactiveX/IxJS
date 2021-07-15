@@ -44,7 +44,7 @@ test('AsyncIterable#forkJoin no selector first empty', async () => {
   const zs = of(39, 42, 25);
 
   const res = await forkJoin(xs, ys, zs);
-  expect(res).toBe(undefined);
+  expect(res).toBeUndefined();
 });
 
 test('AsyncIterable#forkJoin no selector middle empty', async () => {
@@ -53,7 +53,7 @@ test('AsyncIterable#forkJoin no selector middle empty', async () => {
   const zs = of(39, 42, 25);
 
   const res = await forkJoin(xs, ys, zs);
-  expect(res).toBe(undefined);
+  expect(res).toBeUndefined();
 });
 
 test('AsyncIterable#forkJoin no selector last empty', async () => {
@@ -62,5 +62,5 @@ test('AsyncIterable#forkJoin no selector last empty', async () => {
   const zs = empty();
 
   const res = await forkJoin(xs, ys, zs);
-  expect(res).toBe(undefined);
+  expect(res).toBeUndefined();
 });

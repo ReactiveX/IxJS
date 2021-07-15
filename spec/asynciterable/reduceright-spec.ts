@@ -9,11 +9,9 @@ test('AsyncIterable#reduceRight no seed', async () => {
 
 test('AsyncIterable#reduceRight no seed empty throws', async () => {
   const xs = empty();
-  try {
-    await reduceRight<number>(xs, { callback: (x, y, i) => x + y + i });
-  } catch (e) {
-    expect(e !== null).toBeTruthy();
-  }
+  await expect(
+    reduceRight<number>(xs, { callback: (x, y, i) => x + y + i })
+  ).rejects.toThrow();
 });
 
 test('AsyncIterable#reduceRight with seed', async () => {

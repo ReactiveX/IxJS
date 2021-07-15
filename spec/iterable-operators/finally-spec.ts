@@ -31,11 +31,7 @@ test('Iterable#finally calls even with error', () => {
   const it = xs[Symbol.iterator]();
   expect(done).toBeFalsy();
 
-  try {
-    hasNext(it, 0);
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  expect(() => hasNext(it, 0)).toThrow(err);
 
   expect(done).toBeTruthy();
 });

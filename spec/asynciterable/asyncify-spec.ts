@@ -3,7 +3,7 @@ import { asyncify } from 'ix/asynciterable';
 import { sequenceEqual } from 'ix/iterable';
 
 test('AsyncIterable#asyncify single argument', async () => {
-  const callbackFn = (a: number, b: number, cb: Function) => {
+  const callbackFn = (a: number, b: number, cb: (...xs: any[]) => any) => {
     cb(a + b);
   };
 
@@ -16,7 +16,7 @@ test('AsyncIterable#asyncify single argument', async () => {
 });
 
 test('AsyncIterable#asyncify multiple arguments', async () => {
-  const callbackFn = (a: number, b: number, cb: Function) => {
+  const callbackFn = (a: number, b: number, cb: (...xs: any[]) => any) => {
     cb(a, b);
   };
 

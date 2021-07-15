@@ -62,8 +62,8 @@ test('Iterable#tap with error', () => {
 });
 
 class MyObserver {
-  public sum: number = 0;
-  public done: boolean = false;
+  public sum = 0;
+  public done = false;
 
   next(value: number) {
     this.sum += value;

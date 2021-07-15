@@ -6,13 +6,12 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 /**
  * Retries the async-iterable instance the number of given times. If not supplied, it will try infinitely.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} [count=-1] An optional number of times to retry, otherwise is set to infinite retries
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable sequence producing the elements of the
  * given sequence repeatedly until it terminates successfully.
  */
-export function retry<TSource>(count: number = -1): MonoTypeOperatorAsyncFunction<TSource> {
+export function retry<TSource>(count = -1): MonoTypeOperatorAsyncFunction<TSource> {
   return function retryOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
     return new CatchAllAsyncIterable<TSource>(repeatValue<AsyncIterable<TSource>>(source, count));
   };

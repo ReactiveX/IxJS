@@ -8,10 +8,10 @@ export interface NodeEventEmitter {
 
 export type EventListenerOptions =
   | {
-    capture?: boolean;
-    passive?: boolean;
-    once?: boolean;
-  }
+      capture?: boolean;
+      passive?: boolean;
+      once?: boolean;
+    }
   | boolean;
 
 export type EventedTarget = EventTarget | NodeEventEmitter;
@@ -31,7 +31,6 @@ function isEventTarget(obj: any): obj is EventTarget {
 /**
  * Converts an event emitter event into an async-iterable stream.
  *
- * @export
  * @template TSource The type of elements in the emitter stream.
  * @param {EventedTarget} obj The object that emits the events to turn into an async-iterable.
  * @param {string} type The name of the event to listen for creation of the async-iterable.

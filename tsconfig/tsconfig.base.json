@@ -9,6 +9,7 @@
   "compilerOptions": {
     "baseUrl": "../",
     "paths": {
+      "ix": ["src/Ix.node"],
       "ix/*": [
         "src/*"
       ]
@@ -22,6 +23,7 @@
     ],
     /* Control what is emitted */
     "declaration": true,
+    "declarationMap": true,
     "noEmitOnError": true,
     "removeComments": false,
     "downlevelIteration": true,

@@ -99,7 +99,6 @@ export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
 /**
  * Creates a new async-iterable from a Node.js stream.
  *
- * @export
  * @param {NodeJS.ReadableStream} stream The Node.js stream to convert to an async-iterable.
  * @param {number} [size] The size of the buffers for the stream.
  * @returns {(AsyncIterableX<string | Buffer>)} An async-iterable containing data from the stream either in string or Buffer format.

@@ -5,7 +5,6 @@ import { equalityComparer } from '../util/comparer';
 /**
  * Returns the elements in an iterable sequence with the maximum key value.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the key computed for each element in the source sequence.
  * @param {Iterable<TSource>} source The source to get the maximum by.

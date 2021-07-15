@@ -8,11 +8,7 @@ test('AsyncItearble#max laws', async () => {
 
 test('AsyncIterable#max empty throws', async () => {
   const xs = empty();
-  try {
-    await max(xs);
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(max(xs)).rejects.toThrow();
 });
 
 test('AsyncIterable#max', async () => {

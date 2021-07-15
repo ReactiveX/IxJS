@@ -39,7 +39,6 @@ export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Expands (breadth first) the async-iterable sequence by recursively applying a selector function to generate more sequences at each recursion level.
  *
- * @export
  * @template TSource Source sequence element type.
  * @param {((
  *     value: TSource,

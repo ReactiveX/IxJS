@@ -14,7 +14,6 @@ function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @param {AsyncIterable<T>} source First async-iterable source.
@@ -28,7 +27,6 @@ export function forkJoin<T, T2>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -45,7 +43,6 @@ export function forkJoin<T, T2, T3>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -65,7 +62,6 @@ export function forkJoin<T, T2, T3, T4>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -88,7 +84,6 @@ export function forkJoin<T, T2, T3, T4, T5>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -115,7 +110,6 @@ export function forkJoin<T, T2, T3, T4, T5, T6>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @param {AbortSignal} signal An abort signal used for cancellation at any time.
  * @param {AsyncIterable<T>} source First async-iterable source.
@@ -128,7 +122,6 @@ export function forkJoin<T>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @param {AbortSignal} signal An abort signal used for cancellation at any time.
@@ -144,7 +137,6 @@ export function forkJoin<T, T2>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -163,7 +155,6 @@ export function forkJoin<T, T2, T3>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -185,7 +176,6 @@ export function forkJoin<T, T2, T3, T4>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -210,7 +200,6 @@ export function forkJoin<T, T2, T3, T4, T5>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -239,7 +228,6 @@ export function forkJoin<T, T2, T3, T4, T5, T6>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the source sequences.
  * @param {...AsyncIterable<T>[]} sources The source sequences.
  * @returns {(Promise<T[] | undefined>)} An async-iterable sequence with an array of all the last elements of all sequences.
@@ -249,7 +237,6 @@ export function forkJoin<T>(...sources: AsyncIterable<T>[]): Promise<T[] | undef
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the source sequences.
  * @param {AbortSignal} signal An abort signal used for cancellation at any time.
  * @param {...AsyncIterable<T>[]} sources The source sequences.
@@ -263,7 +250,6 @@ export function forkJoin<T>(
 /**
  * Runs all specified async-iterable sequences in parallel and collects their last elements.
  *
- * @export
  * @template T The type of the elements in the source sequences.
  * @param {...any[]} sources Async-iterable sequence to collect the last elements for.
  * @returns {(Promise<T[] | undefined>)} An async-iterable sequence with an array of all the last elements of all sequences.

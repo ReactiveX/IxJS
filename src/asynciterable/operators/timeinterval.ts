@@ -31,7 +31,6 @@ export class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInter
 /**
  * Records the time interval between consecutive elements in an async-iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @returns {OperatorAsyncFunction<TSource, TimeInterval<TSource>>} An async-iterable sequence with time
  * interval information on elements.

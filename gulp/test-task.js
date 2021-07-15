@@ -19,10 +19,18 @@ const path = require('path');
 const { argv } = require('./argv');
 const child_process = require(`child_process`);
 const { memoizeTask } = require('./memoize-task');
+const { targetAndModuleCombinations } = require('./util');
 const asyncDone = require('util').promisify(require('async-done'));
 
-const jestArgv = [];
-argv.verbose && jestArgv.push(`--verbose`);
+const jestArgv = [`--reporters=jest-silent-reporter`];
+
+if (argv.verbose) {
+  jestArgv.push(`--verbose`);
+}
+
+if (targetAndModuleCombinations.length > 1) {
+  jestArgv.push(`--detectOpenHandles`, `--no-cache`);
+}
 
 const jest = path.join(path.parse(require.resolve(`jest`)).dir, `../bin/jest.js`);
 const testOptions = {
@@ -31,9 +39,7 @@ const testOptions = {
         ...process.env,
         // hide fs.promises/stream[Symbol.asyncIterator] warnings
         NODE_NO_WARNINGS: `1`,
-        // prevent the user-land `readable-stream` module from
-        // patching node's streams -- they're better now
-        READABLE_STREAM: `disable`
+        TS_JEST_DISABLE_VER_CHECKER: true
     },
 };
 
@@ -41,17 +47,14 @@ const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function 
     const args = [...execArgv];
     const opts = { ...testOptions };
     if (argv.coverage) {
-        args.push(`-c`, `jest.coverage.config.js`, `--coverage`, `--no-cache`);
+        args.push(`-c`, `jest.coverage.config.js`, `--coverage`);
     } else {
         const cfgname = [target, format].filter(Boolean).join('.');
-        args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, `-i`, `--no-cache`, `spec/*`);
+        args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, `spec/*`);
     }
     opts.env = { ...opts.env,
-        TEST_TARGET: target,
-        TEST_MODULE: format,
         TEST_DOM_STREAMS: (target ==='src' || format === 'umd').toString(),
         TEST_NODE_STREAMS: (target ==='src' || format !== 'umd').toString(),
-        TEST_TS_SOURCE: !!argv.coverage || (target === 'src') || (opts.env.TEST_TS_SOURCE === 'true')
     };
     return asyncDone(() => child_process.spawn(`node`, args, opts));
 }))({}, [jest, ...jestArgv], testOptions);

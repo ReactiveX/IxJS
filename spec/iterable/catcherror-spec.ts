@@ -29,9 +29,5 @@ test('Iterable.catchError still throws', () => {
   hasNext(it, 1);
   hasNext(it, 2);
   hasNext(it, 3);
-  try {
-    it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  expect(() => it.next()).toThrow();
 });

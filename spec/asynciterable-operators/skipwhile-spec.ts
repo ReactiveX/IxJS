@@ -55,11 +55,7 @@ test('AsyncIterable#skipWhile predicate throws', async () => {
   );
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#skipWhile with index', async () => {

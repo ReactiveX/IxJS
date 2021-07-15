@@ -18,7 +18,6 @@ export interface SequencEqualOptions<T> {
 /**
  * Determines whether two sequences are equal by comparing the elements pairwise.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @param {Iterable<T>} source First iterable sequence to compare.
  * @param {Iterable<T>} other Second iterable sequence to compare.

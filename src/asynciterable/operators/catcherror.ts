@@ -60,7 +60,6 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
  * Continues an async-iterable sequence that is terminated by an exception with the
  * async-iterable sequence produced by the handler.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TResult The type of elements from the handler function.
  * @param {((

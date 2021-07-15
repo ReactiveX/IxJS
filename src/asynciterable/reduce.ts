@@ -7,7 +7,6 @@ import { throwIfAborted } from '../aborterror';
  * single element in the result sequence. The seed value, if specified, is used as the initial accumulator value.
  * For aggregation behavior with incremental intermediate results, scan.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @template R The type of the result of the aggregation.
  * @param {AsyncIterable<T>} source An async-iterable sequence to aggregate over.

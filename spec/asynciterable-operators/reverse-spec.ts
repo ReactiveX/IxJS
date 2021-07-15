@@ -35,9 +35,5 @@ test('AsyncIterable#reverse throws', async () => {
   const ys = xs.pipe(reverse());
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow();
 });

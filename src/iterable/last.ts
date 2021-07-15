@@ -4,7 +4,6 @@ import { OptionalFindOptions } from './findoptions';
  * Returns the last element of an iterable sequence that satisfies the condition in the predicate if given
  * otherwise the last item in the sequence, or a default value if no such element exists.
  *
- * @export
  * @template T The type of elements in the source sequence.
  * @param {Iterable<T>} source The source iterable sequence.
  * @param {OptionalFindSubclassedOptions<T, S>} [options] The options which include an optional predicate for filtering,

@@ -5,7 +5,6 @@ import { equalityComparer } from '../util/comparer';
 /**
  * Returns the elements in an terable sequence with the minimum key value.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the key computed for each element in the source sequence.
  * @param {Iterable<TSource>} source An async-iterable sequence to get the minimum elements for.

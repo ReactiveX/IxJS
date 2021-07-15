@@ -3,11 +3,7 @@ import { average, empty, of } from 'ix/asynciterable';
 
 test('Iterable#average empty', async () => {
   const xs = empty();
-  try {
-    await average(xs);
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(average(xs)).rejects.toThrow();
 });
 
 test('Iterable#average', async () => {
@@ -17,11 +13,7 @@ test('Iterable#average', async () => {
 
 test('Iterable#average with selector empty', async () => {
   const xs = empty();
-  try {
-    await average(xs, { selector: async (x) => x * 2 });
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(average(xs, { selector: async (x) => x * 2 })).rejects.toThrow();
 });
 
 test('Iterable#average with selector', async () => {

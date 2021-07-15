@@ -12,7 +12,8 @@
             "args": [
                 "build",
                 // Specify we want to debug the "src" target, which won't clean or build -- essentially a "dry-run" of the gulp build
-                "--target", "src"
+                "--target",
+                "src"
             ]
         },
         {
@@ -20,6 +21,7 @@
             "request": "launch",
             "name": "Debug Unit Tests",
             "cwd": "${workspaceRoot}",
+            "console": "integratedTerminal",
             "program": "${workspaceFolder}/node_modules/.bin/jest",
             "skipFiles": [
                 "<node_internals>/**/*.js",
@@ -27,26 +29,57 @@
             ],
             "env": {
                 "NODE_NO_WARNINGS": "1",
-                "READABLE_STREAM": "disable",
                 "TEST_DOM_STREAMS": "true",
                 "TEST_NODE_STREAMS": "true",
-                // Modify these environment variables to run tests on a specific compilation target + module format combo
-                // "TEST_TS_SOURCE": "true",
-                "TEST_TS_SOURCE": "false",
-                "TEST_TARGET": "es5",
-                "TEST_MODULE": "cjs"
             },
             "args": [
-                "-i",
+                "--verbose",
+                "-runInBand",
                 "--no-cache",
-                "-c", "jestconfigs/jest.src.config.js",
-                // "-c", "jestconfigs/jest.es5.umd.config.js",
-                "spec/iterable/",
-                "spec/asynciterable/",
-                "spec/iterable-operators/",
-                "spec/asynciterable-operators/",
-                // "spec/asynciterable/toobservable-spec.ts"
+                "-c", "jestconfigs/jest.${input:TEST_TARGET}.config.js",
+                "${input:TEST_FILE}"
             ]
         }
-    ]
+    ],
+    "inputs": [
+        {
+            "type": "pickString",
+            "default": "src",
+            "id": "TEST_TARGET",
+            "options": [
+                "src",
+                "ix",
+                "ts",
+                "es5.cjs",
+                "es5.esm",
+                "es5.umd",
+                "es2015.cjs",
+                "es2015.esm",
+                "es2015.umd",
+                "esnext.cjs",
+                "esnext.esm",
+                "esnext.umd",
+            ],
+            "description": "The JS version + Module format combination to test (or src to test source files)",
+        },
+        {
+            "type": "command",
+            "id": "TEST_FILE",
+            "command": "shellCommand.execute",
+            "args": {
+                "cwd": "${workspaceFolder}",
+                "description": "Select a file to debug",
+                "command": "./node_modules/.bin/jest --listTests | sed -r \"s@$PWD/spec/@@g\"",
+            }
+        },
+        {
+            "type": "command",
+            "id": "TEST_RUNTIME_ARGS",
+            "command": "shellCommand.execute",
+            "args": {
+                "useSingleResult": "true",
+                "command": "case \"${input:TEST_TARGET}\" in *cjs | *umd | ix) echo '';; *) echo '--experimental-vm-modules';; esac"
+            }
+        },
+    ],
 }

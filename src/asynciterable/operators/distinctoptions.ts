@@ -1,7 +1,6 @@
 /**
  * This class holds the options for the distinct operator including a key selector and comparer.
  *
- * @export
  * @interface DistinctOptions
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the discriminator key computed for each element in the source sequence.

@@ -5,7 +5,6 @@ import { ExtremaOptions } from './extremaoptions';
 /**
  * Returns the maximum element with the optional selector.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {Iterable<TSource>} source An async-iterable sequence to determine the maximum element of.
  * @param {ExtremaByOptions<TKey>} [options] The options which include an optional comparer and abort signal.

@@ -30,7 +30,6 @@ export class PairwiseAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
  * Returns a sequence of each element in the input sequence and its predecessor, with the exception of the
  * first element which is only returned as the predecessor of the second element.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @returns {OperatorAsyncFunction<TSource, TSource[]>} The result sequence.
  */

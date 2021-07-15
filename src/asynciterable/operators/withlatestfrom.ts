@@ -83,7 +83,6 @@ export class WithLatestFromAsyncIterable<TSource> extends AsyncIterableX<TSource
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @param {AsyncIterable<T2>} source2 Second async-iterable source.
@@ -97,7 +96,6 @@ export function withLatestFrom<T, T2>(
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -114,7 +112,6 @@ export function withLatestFrom<T, T2, T3>(
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -134,7 +131,6 @@ export function withLatestFrom<T, T2, T3, T4>(
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -157,7 +153,6 @@ export function withLatestFrom<T, T2, T3, T4, T5>(
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -184,7 +179,6 @@ export function withLatestFrom<T, T2, T3, T4, T5, T6>(
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
  *
- * @export
  * @template T The type of the elements in the source sequences.
  * @param {...AsyncIterable<T>[]} sources The source sequences.
  * @returns {OperatorAsyncFunction<T, T[]>} An async-iterable sequence containing the result of combining

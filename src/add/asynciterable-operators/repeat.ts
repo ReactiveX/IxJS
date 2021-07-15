@@ -4,7 +4,7 @@ import { RepeatAsyncIterable } from '../../asynciterable/operators/repeat';
 /**
  * @ignore
  */
-export function repeatProto<T>(this: AsyncIterableX<T>, count: number = -1): AsyncIterableX<T> {
+export function repeatProto<T>(this: AsyncIterableX<T>, count = -1): AsyncIterableX<T> {
   return new RepeatAsyncIterable<T>(this, count);
 }
 

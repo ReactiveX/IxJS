@@ -4,7 +4,6 @@ import { MergeAsyncIterable } from '../merge';
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @param {AsyncIterable<T>} source The first async-iterable source to merge.
@@ -16,7 +15,6 @@ export function mergeWith<T, T2>(v2: AsyncIterable<T2>): OperatorAsyncFunction<T
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @template T3 The type of the third async-iterable sequence.
@@ -32,7 +30,6 @@ export function mergeWith<T, T2, T3>(
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @template T3 The type of the third async-iterable sequence.
@@ -52,7 +49,6 @@ export function mergeWith<T, T2, T3, T4>(
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @template T3 The type of the third async-iterable sequence.
@@ -74,7 +70,6 @@ export function mergeWith<T, T2, T3, T4, T5>(
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @template T3 The type of the third async-iterable sequence.
@@ -99,7 +94,6 @@ export function mergeWith<T, T2, T3, T4, T5, T6>(
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
- * @export
  * @template T The type of the elements in the sequence to merge.
  * @param {...AsyncIterable<T>[]} args The async-iterable sources to merge.
  * @returns {AsyncIterableX<T>} The merged elements from all of the specified async-iterable sequences into a single async-iterable sequence.

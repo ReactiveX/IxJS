@@ -10,7 +10,7 @@ import { from, fromDOMStream } from 'ix/asynciterable';
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  // eslint-disable-next-line
   const { toStream } = require('web-stream-tools').default;
 
   class Counter extends Readable {
@@ -51,7 +51,7 @@ import { from, fromDOMStream } from 'ix/asynciterable';
     test('objectMode: false', async () => {
       const c = toStream(new Counter({ objectMode: false }));
       const xs = fromDOMStream(c) as AsyncIterable<Buffer>;
-      const expected = from(['1', '2', '3'].map(s => Buffer.from(s)));
+      const expected = from(['1', '2', '3'].map((s) => Buffer.from(s)));
       await expect(xs).toEqualStream(expected, compare);
     });
   });

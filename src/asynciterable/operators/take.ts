@@ -30,7 +30,6 @@ export class TakeAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Returns a specified number of contiguous elements from the start of an async-iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} count The number of elements to return.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable sequence that contains the specified

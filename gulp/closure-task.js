@@ -74,7 +74,9 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
                 `${src}/**/*.js` /* <-- then sources globs  */
             ], { base: `./` }),
             sourcemaps.init(),
-            closureCompiler(createClosureArgs(entry_point, entry, externsPath, getUMDExportName(entry))),
+            closureCompiler(createClosureArgs(target, entry_point, entry, externsPath, getUMDExportName(entry)), {
+                platform: ['native', 'java', 'javascript']
+            }),
             // rename the sourcemaps from *.js.map files to *.min.js.map
             sourcemaps.write(`.`, { mapFile: (mapPath) => mapPath.replace(`.js.map`, `.${target}.min.js.map`) }),
             gulp.dest(out)
@@ -82,7 +84,7 @@ const closureTask = ((cache) => memoizeTask(cache, async function closure(target
     }
 }))({});
 
-const createClosureArgs = (entry_point, output, externs, libraryName) => ({
+const createClosureArgs = (target, entry_point, output, externs, libraryName) => ({
     externs,
     entry_point,
     third_party: true,
@@ -97,8 +99,8 @@ const createClosureArgs = (entry_point, output, externs, libraryName) => ({
     package_json_entry_names: `module,jsnext:main,main`,
     assume_function_wrapper: true,
     js_output_file: `${output}.js`,
-    language_in: gCCLanguageNames[`es2015`],
-    language_out: gCCLanguageNames[`esnext`],
+    language_in: gCCLanguageNames[`esnext`],
+    language_out: gCCLanguageNames[target],
     output_wrapper: `(function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['${libraryName}'], factory) :

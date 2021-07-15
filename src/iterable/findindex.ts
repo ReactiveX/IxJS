@@ -4,7 +4,6 @@ import { FindOptions } from './findoptions';
  * Returns the index of the first element in the array that satisfies the provided testing function.
  * Otherwise, it returns -1, indicating that no element passed the test.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
  * @param {FindOptions<T>} options The options for a predicate for filtering, thisArg for binding and AbortSignal for cancellation.

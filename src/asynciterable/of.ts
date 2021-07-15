@@ -20,7 +20,6 @@ export class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Creates an async-iterable from the specified elements.
  *
- * @export
  * @template TSource The type of the elements to create an async-iterable sequence.
  * @param {...TSource[]} args The elements to turn into an async-iterable sequence.
  * @returns {AsyncIterableX<TSource>} The async-iterable sequence created from the elements.

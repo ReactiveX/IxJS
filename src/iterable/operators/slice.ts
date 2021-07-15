@@ -36,16 +36,12 @@ export class SliceIterable<TSource> extends IterableX<TSource> {
 /**
  * Returns the elements from the source iterable sequence only after the function that returns a promise produces an element.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @param {number} begin Zero-based index at which to begin extraction.
  * @param {number} [end=Infinity] Zero-based index before which to end extraction.
  * @returns {MonoTypeOperatorFunction<TSource>} An iterable containing the extracted elements.
  */
-export function slice<TSource>(
-  begin: number,
-  end: number = Infinity
-): MonoTypeOperatorFunction<TSource> {
+export function slice<TSource>(begin: number, end = Infinity): MonoTypeOperatorFunction<TSource> {
   return function sliceOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
     return new SliceIterable<TSource>(source, begin, end);
   };

@@ -7,7 +7,6 @@ import { OptionalFindOptions } from './findoptions';
  * or undefined if no such element exists; this method reports an exception if there is more
  * than one element in the async-iterable sequence.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @param {AsyncIterable<T>} source Source async-iterable sequence.
  * @param {OptionalFindOptions<T>} [options] The optional options which includes a predicate for filtering,

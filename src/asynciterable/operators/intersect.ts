@@ -53,7 +53,6 @@ export class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Produces the set intersection of two async-iterable sequences.
  *
- * @export
  * @template TSource The type of the elements of the input sequences.
  * @param {AsyncIterable<TSource>} second An async-iterable sequence whose distinct elements that also
  * appear in the first sequence will be returned.

@@ -11,9 +11,5 @@ test('Iterable#minBy', () => {
 test('Iterable#minBy empty throws', () => {
   const source = empty();
 
-  try {
-    minBy(source, { selector: (x) => Math.floor(x / 2) });
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  expect(() => minBy(source, { selector: (x) => Math.floor(x / 2) })).toThrow();
 });

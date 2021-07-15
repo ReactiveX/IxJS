@@ -139,11 +139,7 @@ test('AsyncIterable#memoize max two readers', async () => {
   await hasNext(it2, 2);
 
   const it3 = rng[Symbol.asyncIterator]();
-  try {
-    await it3.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it3.next()).rejects.toThrow();
 });
 
 test('AsyncIterable#memoize concat with error', async () => {
@@ -154,29 +150,9 @@ test('AsyncIterable#memoize concat with error', async () => {
   const it2 = rng[Symbol.asyncIterator]();
   await hasNext(it1, 0);
   await hasNext(it1, 1);
-  try {
-    await it1.next();
-  } catch (e) {
-    expect(error).toEqual(e);
-  }
+  await expect(it1.next()).rejects.toThrow(error);
 
   await hasNext(it2, 0);
   await hasNext(it2, 1);
-  try {
-    await it2.next();
-  } catch (e) {
-    expect(error).toEqual(e);
-  }
+  await expect(it2.next()).rejects.toThrow(error);
 });
-
-function getRandom() {
-  const min = 0;
-  const max = Math.pow(2, 53) - 1;
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-async function* rand() {
-  while (1) {
-    yield getRandom();
-  }
-}

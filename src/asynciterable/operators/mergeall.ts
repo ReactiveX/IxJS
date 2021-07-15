@@ -6,7 +6,6 @@ import { OperatorAsyncFunction } from '../../interfaces';
 /**
  * Merges elements from all inner async-iterable sequences into a single async-iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequences.
  * @returns {OperatorAsyncFunction<AsyncIterable<TSource>, TSource>} The async-iterable sequence that merges the elements of the inner sequences.
  */

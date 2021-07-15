@@ -54,11 +54,7 @@ test('AsyncIterable#groupJoin left throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#groupJoin right throws', async () => {
@@ -75,11 +71,7 @@ test('AsyncIterable#groupJoin right throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#groupJoin left selector throws', async () => {
@@ -98,11 +90,7 @@ test('AsyncIterable#groupJoin left selector throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#groupJoin right selector throws', async () => {
@@ -121,11 +109,7 @@ test('AsyncIterable#groupJoin right selector throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#groupJoin result selector eventually throws', async () => {
@@ -148,9 +132,5 @@ test('AsyncIterable#groupJoin result selector eventually throws', async () => {
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, '0 - 36');
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

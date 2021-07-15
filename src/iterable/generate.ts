@@ -29,7 +29,6 @@ class GenerateIterable<TState, TResult> extends IterableX<TResult> {
 /**
  * Generates an iterable sequence by running a state-driven loop producing the sequence's elements.
  *
- * @export
  * @template TState The type of the state used in the generator loop.
  * @template TResult The type of the elements in the produced sequence.
  * @param {TState} initialState The initial state.

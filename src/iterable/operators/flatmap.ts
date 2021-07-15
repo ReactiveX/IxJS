@@ -27,7 +27,6 @@ export class FlatMapIterable<TSource, TResult> extends IterableX<TResult> {
  * Projects each element of an iterable sequence to an iterable sequence and merges
  * the resulting iterable sequences into one iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TResult The type of the elements in the projected inner sequences and the elements in the merged result sequence.
  * @param {((value: TSource, index: number) => Iterable<TResult>)} selector A transform function to apply to each element.

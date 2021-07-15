@@ -40,7 +40,6 @@ export class DistinctAsyncIterable<TSource, TKey = TSource> extends AsyncIterabl
 /**
  * Returns an async-iterable sequence that contains only distinct elements according to the keySelector and comparer.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the discriminator key computed for each element in the source sequence.
  * @param {DistinctOptions<TSource, TKey = TSource>} [options] The optional arguments for a key selector and comparer function.

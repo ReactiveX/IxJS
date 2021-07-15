@@ -41,7 +41,6 @@ export class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResu
 /**
  * Correlates the elements of two sequences based on matching keys.
  *
- * @export
  * @template TOuter The type of the elements of the first iterable sequence.
  * @template TInner The type of the elements of the second iterable sequence.
  * @template TKey The type of the keys returned by the key selector functions.

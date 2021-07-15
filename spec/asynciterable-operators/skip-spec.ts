@@ -38,9 +38,5 @@ test('AsyncIterable#skip throws', async () => {
   const ys = xs.pipe(skip(2));
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

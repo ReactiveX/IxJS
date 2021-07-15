@@ -81,13 +81,6 @@ test('Iterable#from from array-like with selector', () => {
   noNext(it);
 });
 
-test('Iterable#from from with non-iterable throws', done => {
-  let error = false;
-  try {
-    from({} as any);
-  } catch (e) {
-    error = true;
-  }
-  // eslint-disable-next-line no-unused-expressions
-  error ? done() : done.fail('expected from to throw');
+test('Iterable#from from with non-iterable throws', () => {
+  expect(() => from({} as any)).toThrow();
 });

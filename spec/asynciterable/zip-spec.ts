@@ -102,11 +102,8 @@ test('AsyncIterable#zip left throws', async () => {
   const res = zip(xs, ys);
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#zip right throws', async () => {
@@ -116,9 +113,6 @@ test('AsyncIterable#zip right throws', async () => {
   const res = zip(xs, ys);
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+
+  await expect(it.next()).rejects.toThrow(err);
 });

@@ -4,7 +4,7 @@ import { repeat } from '../../iterable/operators/repeat';
 /**
  * @ignore
  */
-export function repeatProto<T>(this: IterableX<T>, count: number = -1): IterableX<T> {
+export function repeatProto<T>(this: IterableX<T>, count = -1): IterableX<T> {
   return repeat<T>(count)(this);
 }
 

@@ -27,7 +27,6 @@ export class EndWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Append values to an async-iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {...TSource[]} args The values to append to the end of the async-iterable sequence.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator which appends values to the end of the sequence.

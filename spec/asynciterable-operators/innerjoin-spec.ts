@@ -89,11 +89,7 @@ test('AsyncIterable#innerJoin left throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow();
 });
 
 test('AsyncIterable#innerJoin right throws', async () => {
@@ -109,11 +105,7 @@ test('AsyncIterable#innerJoin right throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow();
 });
 
 test('AsyncIterable#innerJoin left selector throws', async () => {
@@ -131,11 +123,7 @@ test('AsyncIterable#innerJoin left selector throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow();
 });
 
 test('AsyncIterable#innerJoin right selector throws', async () => {
@@ -153,11 +141,7 @@ test('AsyncIterable#innerJoin right selector throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow();
 });
 
 test('AsyncIterable#innerJoin result selector throws', async () => {
@@ -175,9 +159,5 @@ test('AsyncIterable#innerJoin result selector throws', async () => {
   );
 
   const it = res[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow();
 });

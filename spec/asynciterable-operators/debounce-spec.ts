@@ -51,13 +51,9 @@ test(
     const ys = as(xs()).pipe(debounce(300));
     const controller = new AbortController();
     const it = ys[Symbol.asyncIterator](controller.signal);
-    try {
-      await hasNext(it, 1);
-      controller.abort();
-      await hasNext(it, 3);
-    } catch (e) {
-      expect(e).toBeInstanceOf(AbortError);
-    }
+    await hasNext(it, 1);
+    controller.abort();
+    await expect(hasNext(it, 3)).rejects.toThrow(AbortError);
     await noNext(it);
   },
   10 * 1000

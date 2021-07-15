@@ -21,11 +21,7 @@ test('AsyncIterable#count throws', async () => {
   const err = new Error();
   const xs = throwError(err);
 
-  try {
-    await count(xs);
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(count(xs)).rejects.toThrow(err);
 });
 
 test('AsyncIterable#count predicate some match', async () => {
@@ -56,13 +52,11 @@ test('AsyncIterable#count predicate throws', async () => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
 
-  try {
-    await count(xs, {
+  await expect(
+    count(xs, {
       predicate: async () => {
         throw err;
       },
-    });
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+    })
+  ).rejects.toThrow(err);
 });

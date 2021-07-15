@@ -36,7 +36,6 @@ export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
 /**
  * Projects each element of an async-enumerable sequence into a new form.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TResult The type of the elements in the result sequence, obtained by running the selector
  * function for each element in the source sequence.

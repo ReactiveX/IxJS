@@ -29,7 +29,6 @@ export class SkipIterable<TSource> extends IterableX<TSource> {
 /**
  * Bypasses a specified number of elements in an iterable sequence and then returns the remaining elements.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} count The number of elements to skip before returning the remaining elements.
  * @returns {MonoTypeOperatorFunction<TSource>} An iterable sequence that contains the elements that

@@ -27,7 +27,6 @@ export class TakeIterable<TSource> extends IterableX<TSource> {
 /**
  * Returns a specified number of contiguous elements from the start of an iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} count The number of elements to return.
  * @returns {MonoTypeOperatorFunction<TSource>} An iterable sequence that contains the specified

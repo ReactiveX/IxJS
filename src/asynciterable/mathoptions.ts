@@ -1,7 +1,6 @@
 /**
  * The options for calculating an average.
  *
- * @export
  * @interface MathOptions
  * @template T The type of elements in the source sequence.
  */

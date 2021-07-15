@@ -39,12 +39,11 @@ export class FlattenIterable<TSource> extends IterableX<TSource> {
 /**
  * Flattens the nested iterable by the given depth.
  *
- * @export
  * @template T The type of elements in the source sequence.
  * @param {number} [depth=Infinity] The depth to flatten the iterable sequence if specified, otherwise infinite.
  * @returns {MonoTypeOperatorFunction<T>} An operator that flattens the iterable sequence.
  */
-export function flat<T>(depth: number = Infinity): MonoTypeOperatorFunction<T> {
+export function flat<T>(depth = Infinity): MonoTypeOperatorFunction<T> {
   return function flattenOperatorFunction(source: Iterable<T>): IterableX<T> {
     return new FlattenIterable<T>(source, depth);
   };

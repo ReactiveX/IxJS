@@ -3,7 +3,6 @@ import { FindOptions } from './findoptions';
 /**
  * Determines whether any element of an iterable sequence satisfies a condition.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @param {Iterable<T>} source An iterable sequence whose elements to apply the predicate to.
  * @param {FindSubclassedOptions<T, S>} options The options which includes a required predicate, an optional

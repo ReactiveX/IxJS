@@ -3,17 +3,17 @@ import { single } from 'ix/iterable';
 
 test('Iterable#single no predicate empty returns undefined', () => {
   const res = single<number>([]);
-  expect(res).toBe(undefined);
+  expect(res).toBeUndefined();
 });
 
 test('Iterable#single with predicate empty returns undefined', () => {
   const res = single<number>([], { predicate: () => true });
-  expect(res).toBe(undefined);
+  expect(res).toBeUndefined();
 });
 
 test('Iterable#single predicate miss', () => {
   const res = single([42], { predicate: (x) => x % 2 !== 0 });
-  expect(res).toBe(undefined);
+  expect(res).toBeUndefined();
 });
 
 test('Iterable#single no predicate hit', () => {

@@ -52,7 +52,6 @@ export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncItera
 /**
  * Correlates the elements of two sequences based on matching keys.
  *
- * @export
  * @template TOuter The type of the elements of the first async-iterable sequence.
  * @template TInner The type of the elements of the second async-iterable sequence.
  * @template TKey The type of the keys returned by the key selector functions.

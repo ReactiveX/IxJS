@@ -30,11 +30,7 @@ test('AsyncSink writes and errors before next', async () => {
   await hasNext(it, 1);
   await hasNext(it, 2);
   await hasNext(it, 3);
-  try {
-    await it.next();
-  } catch (e) {
-    expect(err).toBe(e);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncSink writes after next', async () => {
@@ -46,7 +42,7 @@ test('AsyncSink writes after next', async () => {
   a.write(3);
 
   const results = await asyncResults;
-  const mappedResults = results.map(x => x.value);
+  const mappedResults = results.map((x) => x.value);
   expect(mappedResults).toEqual([1, 2, 3]);
 });
 
@@ -59,9 +55,5 @@ test('AsyncSink writes and error after next', async () => {
   a.write(2);
   a.error(err);
 
-  try {
-    await asyncResults;
-  } catch (e) {
-    expect(err).toBe(e);
-  }
+  await expect(asyncResults).rejects.toThrow(err);
 });

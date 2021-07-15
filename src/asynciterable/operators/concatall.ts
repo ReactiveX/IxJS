@@ -25,7 +25,6 @@ export class ConcatAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * Concatenates all inner async-iterable sequences, as long as the previous
  * async-iterable sequence terminated successfully.
  *
- * @export
  * @template T The type of elements in the source sequence.
  * @returns {OperatorAsyncFunction<AsyncIterable<T>, T>} An operator which concatenates all inner async-iterable sources.
  */

@@ -11,9 +11,5 @@ test('Iterable#maxBy', () => {
 test('Iterable#maxBy empty throws', () => {
   const source = empty();
 
-  try {
-    maxBy(source, { selector: (x) => Math.floor(x / 2) });
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  expect(() => maxBy(source, { selector: (x) => Math.floor(x / 2) })).toThrow();
 });

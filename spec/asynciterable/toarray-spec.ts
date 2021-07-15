@@ -12,5 +12,5 @@ test('AsyncIterable#toArray some', async () => {
 test('AsyncIterable#toArray empty', async () => {
   const xs = empty();
   const res = await toArray(xs);
-  expect(res.length).toBe(0);
+  expect(res).toHaveLength(0);
 });

@@ -27,7 +27,6 @@ export class DefaultIfEmptyIterable<TSource> extends IterableX<TSource> {
  * Returns the elements of the specified sequence or the default value in a singleton sequence
  * if the sequence is empty.
  *
- * @export
  * @template T The type of elements in the source sequence.
  * @param {T} defaultValue The value to return if the sequence is empty.
  * @returns {MonoTypeOperatorFunction<T>} An operator which returns the elements of the source sequence or the default value as a singleton.

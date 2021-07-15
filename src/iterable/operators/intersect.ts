@@ -45,7 +45,6 @@ export class IntersectIterable<TSource> extends IterableX<TSource> {
 /**
  * Produces the set intersection of two iterable sequences.
  *
- * @export
  * @template TSource The type of the elements of the input sequences.
  * @param {Iterable<TSource>} second An iterable sequence whose distinct elements that also
  * appear in the first sequence will be returned.

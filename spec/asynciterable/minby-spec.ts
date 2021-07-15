@@ -12,9 +12,5 @@ test('AsyncIterable#minBy', async () => {
 test('AsyncIterable#minBy empty throws', async () => {
   const source = empty();
 
-  try {
-    await minBy(source, { selector: (x) => Math.floor(x / 2) });
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(minBy(source, { selector: (x) => Math.floor(x / 2) })).rejects.toThrow();
 });

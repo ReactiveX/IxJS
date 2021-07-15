@@ -17,9 +17,6 @@
 
 module.exports = {
     "verbose": false,
-    "reporters": [
-      ["jest-silent-reporter", { "useDots": true, "showWarnings": true }]
-    ],
     "testEnvironment": "node",
     "globals": {
       "ts-jest": {
@@ -27,7 +24,7 @@ module.exports = {
         "tsConfig": "spec/tsconfig.json"
       }
     },
-    "rootDir": "../",
+    "rootDir": "./",
     "roots": [
       "<rootDir>/spec/"
     ],

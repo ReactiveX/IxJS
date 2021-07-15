@@ -7,7 +7,7 @@ import { isObject } from '../../util/isiterable';
 import { safeRace } from '../../util/safeRace';
 
 export class TimeoutError extends Error {
-  constructor(message: string = 'Timeout has occurred') {
+  constructor(message = 'Timeout has occurred') {
     super(message);
     Object.setPrototypeOf(this, TimeoutError.prototype);
     Error.captureStackTrace(this, this.constructor);
@@ -77,7 +77,6 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * Applies a timeout policy for each element in the async-iterable sequence.
  * If the next element isn't received within the specified timeout duration starting from its predecessor, a TimeoutError is thrown.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} dueTime Maximum duration in milliseconds between values before a timeout occurs.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} The source sequence with a TimeoutError in case of a timeout.

@@ -34,7 +34,6 @@ export class ZipAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @param {AsyncIterable<T>} source The first async-iterable source.
@@ -48,7 +47,6 @@ export function zip<T, T2>(
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @template T3 The type of the third async-iterable sequence.
@@ -65,7 +63,6 @@ export function zip<T, T2, T3>(
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @template T3 The type of the third async-iterable sequence.
@@ -85,7 +82,6 @@ export function zip<T, T2, T3, T4>(
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @template T3 The type of the third async-iterable sequence.
@@ -108,7 +104,6 @@ export function zip<T, T2, T3, T4, T5>(
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
- * @export
  * @template T The type of the first async-iterable sequence.
  * @template T2 The type of the second async-iterable sequence.
  * @template T3 The type of the third async-iterable sequence.
@@ -135,7 +130,6 @@ export function zip<T, T2, T3, T4, T5, T6>(
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
- * @export
  * @template T The type of elements in the source sequences.
  * @param {...AsyncIterable<T>[]} sources The source sequences.
  * @returns {AsyncIterableX<T[]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.

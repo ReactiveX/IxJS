@@ -4,7 +4,6 @@ import { ConcatIterable } from '../concat';
 /**
  * Concatenates the second iterable sequence to the first iterable sequence upon successful termination of the first.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @param {Iterable<T>} v1 First iterable source.
@@ -17,7 +16,6 @@ export function concatWith<T, T2>(v2: Iterable<T2>): OperatorFunction<T, T | T2>
  * Concatenates all iterable sequences in the given sequences, as long as the previous iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -35,7 +33,6 @@ export function concatWith<T, T2, T3>(
  * Concatenates all iterable sequences in the given sequences, as long as the previous iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -55,7 +52,6 @@ export function concatWith<T, T2, T3, T4>(
  * Concatenates all iterable sequences in the given sequences, as long as the previous iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -78,7 +74,6 @@ export function concatWith<T, T2, T3, T4, T5>(
  * Concatenates all iterable sequences in the given sequences, as long as the previous iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -105,7 +100,6 @@ export function concatWith<T, T2, T3, T4, T5, T6>(
  * Concatenates all iterable sequences in the given sequences, as long as the previous iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the sequences.
  * @param {...Iterable<T>[]} args The iterable sources.
  * @returns {AsyncIterableX<T>} An iterable sequence that contains the elements of each given sequence, in sequential order.

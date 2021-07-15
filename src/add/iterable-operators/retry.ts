@@ -4,7 +4,7 @@ import { retry } from '../../iterable/operators/retry';
 /**
  * @ignore
  */
-export function retryProto<T>(this: IterableX<T>, count: number = -1): IterableX<T> {
+export function retryProto<T>(this: IterableX<T>, count = -1): IterableX<T> {
   return retry<T>(count)(this);
 }
 

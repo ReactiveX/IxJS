@@ -7,8 +7,8 @@ const done = (_: any) => null as any;
 type SourceIterator<TSource> = Iterator<TSource, any, number | ArrayBufferView | undefined | null>;
 
 export class IterableReadable<T> extends Readable {
-  private _pulling: boolean = false;
-  private _objectMode: boolean = true;
+  private _pulling = false;
+  private _objectMode = true;
   private _iterator: SourceIterator<T> | undefined;
   constructor(source: Iterable<T>, options?: ReadableOptions) {
     super(options);

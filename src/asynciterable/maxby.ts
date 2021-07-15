@@ -5,7 +5,6 @@ import { equalityComparerAsync } from '../util/comparer';
 /**
  * Returns the elements in an async-iterable sequence with the maximum key value.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the key computed for each element in the source sequence.
  * @param {AsyncIterable<TSource>} source An async-iterable sequence to get the maximum elements for.

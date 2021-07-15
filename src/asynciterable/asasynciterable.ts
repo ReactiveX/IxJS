@@ -1,26 +1,6 @@
 import { AsyncIterableX } from './asynciterablex';
 import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
-import { Transform, TransformCallback } from 'stream';
-
-export interface TransformOptions {
-  // ReadableOptions/WritableOptions
-  highWaterMark?: number;
-  objectMode?: boolean;
-  autoDestroy?: boolean;
-  // ReadableOptions
-  encoding?: string;
-  // WritableOptions
-  decodeStrings?: boolean;
-  defaultEncoding?: string;
-  emitClose?: boolean;
-  // DuplexOptions
-  allowHalfOpen?: boolean;
-  readableObjectMode?: boolean;
-  writableObjectMode?: boolean;
-  readableHighWaterMark?: number;
-  writableHighWaterMark?: number;
-  writableCorked?: number;
-}
+import { Transform, TransformCallback, TransformOptions } from 'stream';
 
 export interface AsyncIterableTransform<T> extends AsyncIterableX<T>, Transform {
   pipe<R>(...operations: UnaryFunction<AsyncIterable<T>, R>[]): R;

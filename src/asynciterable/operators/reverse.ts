@@ -24,7 +24,6 @@ export class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Reverses the async-iterable instance.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} The async-iterable in reversed sequence.
  */

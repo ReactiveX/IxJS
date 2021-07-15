@@ -31,7 +31,6 @@ export class OnErrorResumeNextIterable<TSource> extends IterableX<TSource> {
 /**
  * Concatenates all of the specified iterable sequences, even if the previous iterable sequence terminated exceptionally.
  *
- * @export
  * @template T The type of the elements in the source sequences.
  * @param {...Iterable<T>[]} args iterable sequences to concatenate.
  * @returns {IterableX<T>} An iterable sequence that concatenates the source sequences, even if a sequence terminates exceptionally.

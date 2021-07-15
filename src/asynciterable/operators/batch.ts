@@ -4,7 +4,7 @@ import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
 interface AsyncResolver<T> {
-  resolve: (value?: T | PromiseLike<T> | undefined) => void;
+  resolve: (value: T | PromiseLike<T>) => void;
   reject: (reason?: any) => void;
 }
 
@@ -117,7 +117,6 @@ export class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 Returns an async iterable sequence of batches that are collected from the source sequence between
  * subsequent `next()` calls.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @returns {OperatorAsyncFunction<TSource, TSource[]>} An operator returning an async-iterable of batches that are collection from the
  * source sequence between subsequent `next()` calls.

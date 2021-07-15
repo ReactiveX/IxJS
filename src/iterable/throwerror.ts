@@ -16,7 +16,6 @@ class ThrowIterable<TSource> extends IterableX<TSource> {
 /**
  * Creates an async-iterable that throws the specified error upon iterating.
  *
- * @export
  * @param {*} error The error to throw upon iterating the iterable.
  * @returns {AsyncIterableX<never>} An iterable that throws when iterated.
  */

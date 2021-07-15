@@ -41,7 +41,6 @@ class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult>
 /**
  * Generates an async-iterable sequence by running a time-based state-driven loop producing the sequence's elements.
  *
- * @export
  * @template TState The type of the state used in the generator loop.
  * @template TResult The type of the elements in the produced sequence.
  * @param {TState} initialState The initial state.

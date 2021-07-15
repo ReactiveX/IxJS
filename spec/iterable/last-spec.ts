@@ -2,7 +2,7 @@ import '../iterablehelpers';
 import { last } from 'ix/iterable';
 
 test('Iterable#last empty returns undefined', () => {
-  expect(last<number>([])).toBe(undefined);
+  expect(last<number>([])).toBeUndefined();
 });
 
 test('Iterable#last no predicate returns first', () => {
@@ -12,7 +12,7 @@ test('Iterable#last no predicate returns first', () => {
 test('Iterable#last predicate empty returns undefined', () => {
   expect(
     last<number>([], { predicate: () => true })
-  ).toBe(undefined);
+  ).toBeUndefined();
 });
 
 test('Iterable#last predicate hits returns value', () => {
@@ -20,5 +20,5 @@ test('Iterable#last predicate hits returns value', () => {
 });
 
 test('Iterable#last predicate misses returns undefined', () => {
-  expect(last([1, 3, 5], { predicate: (x) => x % 2 === 0 })).toBe(undefined);
+  expect(last([1, 3, 5], { predicate: (x) => x % 2 === 0 })).toBeUndefined();
 });

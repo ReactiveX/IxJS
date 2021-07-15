@@ -39,9 +39,5 @@ test('AsyncIterable#take throws with error', async () => {
   const ys = xs.pipe(take(2));
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

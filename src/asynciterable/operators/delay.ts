@@ -26,7 +26,6 @@ export class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Delays the emitting of the first item in the async-iterable by the given due time.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @param {number} dueTime The delay duration in milliseconds
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator which delays the before the iteration begins.

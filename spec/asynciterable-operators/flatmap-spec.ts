@@ -25,11 +25,7 @@ test('Iterable#flatMap selector returns throw', async () => {
   hasNext(it, 0);
   hasNext(it, 0);
   hasNext(it, 1);
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('Iterable#flatMap with error throws', async () => {
@@ -38,11 +34,7 @@ test('Iterable#flatMap with error throws', async () => {
   const ys = xs.pipe(flatMap((x) => range(0, x)));
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('Iterable#flatMap selector throws error', async () => {
@@ -61,9 +53,5 @@ test('Iterable#flatMap selector throws error', async () => {
   hasNext(it, 0);
   hasNext(it, 0);
   hasNext(it, 1);
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

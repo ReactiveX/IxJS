@@ -18,7 +18,6 @@ class ThrowAsyncIterable extends AsyncIterableX<never> {
 /**
  * Creates an async-iterable that throws the specified error upon iterating.
  *
- * @export
  * @param {*} error The error to throw upon iterating the async-iterable.
  * @returns {AsyncIterableX<never>} An async-iterable that throws when iterated.
  */
