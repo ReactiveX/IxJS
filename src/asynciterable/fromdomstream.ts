@@ -149,7 +149,7 @@ export function fromDOMStream<TSource extends ArrayBufferView>(
  * @returns {AsyncIterableX<any>} An async-iterable created from the incoming async-iterable.
  */
 export function fromDOMStream(stream: ReadableStream, options?: { mode: 'byob' }) {
-  return !options || options.mode !== 'byob'
+  return !options || options['mode'] !== 'byob'
     ? new AsyncIterableReadableStream(stream)
     : new AsyncIterableReadableByteStream(stream);
 }

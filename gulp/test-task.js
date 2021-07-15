@@ -29,7 +29,7 @@ if (argv.verbose) {
 }
 
 if (targetAndModuleCombinations.length > 1) {
-  jestArgv.push(`--detectOpenHandles`);
+  jestArgv.push(`--detectOpenHandles`, `--no-cache`);
 }
 
 const jest = path.join(path.parse(require.resolve(`jest`)).dir, `../bin/jest.js`);

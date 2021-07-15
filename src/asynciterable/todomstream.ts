@@ -65,7 +65,7 @@ class UnderlyingAsyncIterableByteSource<TSource extends ArrayBufferView = Uint8A
   extends AbstractUnderlyingSource<TSource>
   implements UnderlyingSource<TSource> {
   //   public readonly type: 'bytes';
-  public declare readonly autoAllocateChunkSize?: number;
+  public readonly autoAllocateChunkSize?: number;
 
   // If we can't create a "byob" reader (no browsers currently suppor it),
   // fallback to pulling values from the source iterator and enqueueing like
@@ -77,8 +77,8 @@ class UnderlyingAsyncIterableByteSource<TSource extends ArrayBufferView = Uint8A
     opts: { autoAllocateChunkSize?: number } = {}
   ) {
     super(reader);
-    // this.type = 'bytes';
-    this.autoAllocateChunkSize = opts.autoAllocateChunkSize;
+    (this as any).type = 'bytes';
+    this.autoAllocateChunkSize = opts['autoAllocateChunkSize'];
     this.fallbackDefaultSource = new UnderlyingAsyncIterableDefaultSource<TSource>(reader);
   }
 
@@ -203,7 +203,10 @@ export function toDOMStream(
     );
   }
   return asyncIterableReadableStream(
-    new UnderlyingAsyncIterableByteSource(source[Symbol.asyncIterator]()),
+    new UnderlyingAsyncIterableByteSource(
+      source[Symbol.asyncIterator](),
+      options as ReadableByteStreamOptions
+    ),
     options
   );
 }
