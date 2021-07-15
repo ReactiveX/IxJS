@@ -41,7 +41,6 @@ export class DistinctUntilChangedIterable<TSource, TKey = TSource> extends Itera
 /**
  * Returns an async-iterable sequence that contains only distinct contiguous elements according to the optional keySelector and comparer.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the discriminator key computed for each element in the source sequence.
  * @param {DistinctOptions<TSource, TKey = TSource>} [options] The optional options for adding a key selector and comparer.

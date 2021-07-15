@@ -46,7 +46,6 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Flattens the nested async-iterable by the given depth.
  *
- * @export
  * @template T The type of elements in the source sequence.
  * @param {number} [depth=Infinity] The depth to flatten the async-iterable sequence if specified, otherwise infinite.
  * @returns {MonoTypeOperatorAsyncFunction<T>} An operator that flattens the async-iterable sequence.

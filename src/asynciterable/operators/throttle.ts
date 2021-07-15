@@ -30,7 +30,6 @@ export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Throttles the source async-iterable sequence so that it doesn't emit more than one value during the given timeframe.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @param {number} time The time in milliseconds to throttle the source sequence.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} The source sequence throttled by the given timeframe.

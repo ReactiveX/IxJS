@@ -6,7 +6,6 @@ import { MonoTypeOperatorFunction } from '../../interfaces';
 /**
  * Retries the iterable instance the number of given times. If not supplied, it will try infinitely.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} [count=-1] An optional number of times to retry, otherwise is set to infinite retries
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An iterable sequence producing the elements of the

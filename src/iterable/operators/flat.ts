@@ -39,7 +39,6 @@ export class FlattenIterable<TSource> extends IterableX<TSource> {
 /**
  * Flattens the nested iterable by the given depth.
  *
- * @export
  * @template T The type of elements in the source sequence.
  * @param {number} [depth=Infinity] The depth to flatten the iterable sequence if specified, otherwise infinite.
  * @returns {MonoTypeOperatorFunction<T>} An operator that flattens the iterable sequence.

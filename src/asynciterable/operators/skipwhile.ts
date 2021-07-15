@@ -39,7 +39,6 @@ export class SkipWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * Bypasses elements in an async-iterale sequence as long as a specified condition is true
  * and then returns the remaining elements.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @template S The result of the predicate that is truthy/falsy.
  * @param {(value: T, index: number, signal?: AbortSignal) => value is S} predicate A function to test each element for a condition.
@@ -53,7 +52,6 @@ export function skipWhile<T, S extends T>(
  * Bypasses elements in an async-iterale sequence as long as a specified condition is true
  * and then returns the remaining elements.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @param {((value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>)} predicate A function to test each element for a condition.
  * @returns {OperatorAsyncFunction<T, T>} An async-iterable sequence that contains the elements from the input
@@ -66,7 +64,6 @@ export function skipWhile<T>(
  * Bypasses elements in an async-iterale sequence as long as a specified condition is true
  * and then returns the remaining elements.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @param {((value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>)} predicate A function to test each element for a condition.
  * @returns {OperatorAsyncFunction<T, T>} An async-iterable sequence that contains the elements from the input

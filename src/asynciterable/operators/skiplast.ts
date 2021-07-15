@@ -28,7 +28,6 @@ export class SkipLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Bypasses a specified number of elements at the end of an async-iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} count Number of elements to bypass at the end of the source sequence.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable sequence containing the

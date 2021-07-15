@@ -88,7 +88,6 @@ export class OrderedIterableX<TKey, TSource> extends OrderedIterableBaseX<TSourc
 /**
  * Sorts the elements of a sequence in ascending order according to a key by using a specified comparer.
  *
- * @export
  * @template TKey The type of the elements of source.
  * @template TSource The type of the key returned by keySelector.
  * @param {(item: TSource) => TKey} keySelector A function to extract a key from an element.
@@ -108,7 +107,6 @@ export function orderBy<TKey, TSource>(
 /**
  * Sorts the elements of a sequence in descending order according to a key by using a specified comparer.
  *
- * @export
  * @template TKey The type of the elements of source.
  * @template TSource The type of the key returned by keySelector.
  * @param {(item: TSource) => TKey} keySelector A function to extract a key from an element.
@@ -128,7 +126,6 @@ export function orderByDescending<TKey, TSource>(
 /**
  * Performs a subsequent ordering of the elements in a sequence in ascending order according to a key using a specified comparer.
  *
- * @export
  * @template TKey The type of the elements of source.
  * @template TSource The type of the key returned by keySelector.
  * @param {(item: TSource) => TKey} keySelector A function to extract a key from an element.
@@ -155,7 +152,6 @@ export function thenBy<TKey, TSource>(
 /**
  * Performs a subsequent ordering of the elements in a sequence in descending order according to a key using a specified comparer.
  *
- * @export
  * @template TKey The type of the elements of source.
  * @template TSource The type of the key returned by keySelector.
  * @param {(item: TSource) => TKey} keySelector A function to extract a key from an element.

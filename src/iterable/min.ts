@@ -5,7 +5,6 @@ import { ExtremaOptions } from './extremaoptions';
 /**
  *  * Returns the minimum element with the optional selector.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {Iterable<TSource>} source An iterable sequence to determine the minimum element of.
  * @param {ExtremaByOptions<TKey>} [options] The options which include an optional comparer.

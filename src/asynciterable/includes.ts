@@ -5,7 +5,6 @@ import { throwIfAborted } from '../aborterror';
 /**
  *  Determines whether an async-itreable includes a certain value among its entries, returning true or false as appropriate.
  *
- * @export
  * @template T The type of elements in the source sequence.
  * @param {AsyncIterable<T>} source The source sequence to search for the item.
  * @param {T} valueToFind The value to search for.

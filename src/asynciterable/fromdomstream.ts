@@ -123,7 +123,6 @@ async function readInto(
 /**
  * Creates an async-iterable from an existing DOM stream.
  *
- * @export
  * @template TSource The type of elements in the source DOM stream.
  * @param {ReadableStream<TSource>} stream The DOM Readable stream to convert to an async-iterable.
  * @returns {AsyncIterableX<TSource>} An async-iterable containing the elements from the ReadableStream.
@@ -132,7 +131,6 @@ export function fromDOMStream<TSource>(stream: ReadableStream<TSource>): AsyncIt
 /**
  * Creates an async-iterable from an existing DOM stream and options.
  *
- * @export
  * @template TSource  * @template TSource The type of elements in the source DOM stream.
  * @param {ReadableStream<TSource>} stream The readable stream to convert to an async-iterable.
  * @param {{ mode: 'byob' }} options The options to set the mode for the DOM stream.
@@ -146,7 +144,6 @@ export function fromDOMStream<TSource extends ArrayBufferView>(
 /**
  * Creates an async-iterable from an existing DOM stream and optional options.
  *
- * @export
  * @param {ReadableStream} stream The readable stream to convert to an async-iterable.
  * @param {{ mode: 'byob' }} [options] The optional options to set the mode for the DOM stream.
  * @returns {AsyncIterableX<any>} An async-iterable created from the incoming async-iterable.

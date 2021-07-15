@@ -40,7 +40,6 @@ export class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Returns the elements from the source async-iterable sequence only after the function that returns a promise produces an element.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @param {number} begin Zero-based index at which to begin extraction.
  * @param {number} [end=Infinity] Zero-based index before which to end extraction.

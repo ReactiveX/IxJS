@@ -6,7 +6,6 @@ import { empty } from './empty';
  * If the specified condition evaluates true, select the thenSource sequence.
  * Otherwise, select the elseSource sequence.
  *
- * @export
  * @template TSource The type of the elements in the result sequence.
  * @param {((signal?: AbortSignal) => boolean | Promise<boolean>)} condition Condition evaluated to decide which sequence to return.
  * @param {AsyncIterable<TSource>} thenSource Sequence returned in case evaluates true.

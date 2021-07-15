@@ -68,7 +68,6 @@ export class CombineLatestAsyncIterable<TSource> extends AsyncIterableX<TSource[
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @param {AsyncIterable<T>} source First async-iterable source.
@@ -83,7 +82,6 @@ export function combineLatest<T, T2>(
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -101,7 +99,6 @@ export function combineLatest<T, T2, T3>(
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -122,7 +119,6 @@ export function combineLatest<T, T2, T3, T4>(
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -146,7 +142,6 @@ export function combineLatest<T, T2, T3, T4, T5>(
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -174,7 +169,6 @@ export function combineLatest<T, T2, T3, T4, T5, T6>(
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
  *
- * @export
  * @template T The of the elements in the source sequences.
  * @param {...AsyncIterable<T>[]} sources The async-iterable sources.
  * @returns {AsyncIterableX<T[]>} An async-iterable sequence containing an array of all sources.

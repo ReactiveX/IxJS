@@ -24,7 +24,6 @@ class DeferAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Returns an async-iterable sequence that invokes the specified factory function whenever a call to [Symbol.asyncIterator] has been made.
  *
- * @export
  * @template TSource The type of the elements in the sequence returned by the factory function, and in the resulting sequence.
  * @param {((signal?: AbortSignal) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>)} factory Async-iterable factory function to
  * invoke for each call to [Symbol.asyncIterator].

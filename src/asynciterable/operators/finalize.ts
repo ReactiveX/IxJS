@@ -28,7 +28,6 @@ export class FinallyAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  *  Invokes a specified asynchronous action after the source async-iterable sequence terminates gracefully or exceptionally.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {(() => void | Promise<void>)} action Action to invoke and await asynchronously after the source async-iterable sequence terminates
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator that returns the source sequence with the

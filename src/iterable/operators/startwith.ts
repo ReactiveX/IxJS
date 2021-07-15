@@ -24,7 +24,6 @@ export class StartWithIterable<TSource> extends IterableX<TSource> {
 /**
  * Prepend a value to an iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {...TSource[]} args Elements to prepend to the specified sequence.
  * @returns {MonoTypeOperatorFunction<TSource>} The source sequence prepended with the specified values.

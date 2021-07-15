@@ -34,7 +34,6 @@ export class RepeatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Repeats the async-enumerable sequence a specified number of times.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} [count=-1] Number of times to repeat the sequence. If not specified, the sequence repeats indefinitely.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} The async-iterable sequence producing the elements of the given sequence repeatedly.

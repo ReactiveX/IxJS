@@ -65,7 +65,6 @@ class MemoizeBuffer<T> extends IterableX<T> {
 /**
  * Creates a buffer with a view over the source sequence, causing a specified number of iterators to obtain access
  * to all of the sequence's elements without causing multiple enumerations over the source.
- * @export
  * @template TSource Source sequence element type.
  * @param {number} [readerCount] Number of iterators that can access the underlying buffer.
  * Once every iterator has obtained an element from the buffer, the element is removed from the buffer.
@@ -77,7 +76,6 @@ export function memoize<TSource>(readerCount?: number): OperatorFunction<TSource
  * Memoizes the source sequence within a selector function where a specified number of iterators can get access
  * to all of the sequence's elements without causing multiple iterations over the source.
  *
- * @export
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
  * @param {number} [readerCount] Number of iterators that can access the underlying buffer. Once every
@@ -95,7 +93,6 @@ export function memoize<TSource, TResult>(
  * Memoizes the source sequence within a selector function where a specified number of iterators can get access
  * to all of the sequence's elements without causing multiple iterations over the source.
  *
- * @export
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
  * @param {number} [readerCount=-1] Number of iterators that can access the underlying buffer. Once every

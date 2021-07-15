@@ -21,7 +21,7 @@ export class GroupedIterable<TKey, TValue> extends IterableX<TValue> {
 }
 
 export class GroupByIterable<TSource, TKey, TValue> extends IterableX<
-GroupedIterable<TKey, TValue>
+  GroupedIterable<TKey, TValue>
 > {
   private _source: Iterable<TSource>;
   private _keySelector: (value: TSource) => TKey;
@@ -56,7 +56,6 @@ export function groupBy<TSource, TKey, TValue>(
 /**
  * Groups the elements of an async-iterable sequence and selects the resulting elements by using a specified function.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the grouping key computed for each element in the source sequence.
  * @template TValue The type of the elements within the groups computed for each element in the source sequence.

@@ -44,7 +44,6 @@ export class FlatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResu
  * Projects each element of an async-iterable sequence to an async-iterable sequence and merges
  * the resulting async-iterable sequences into one async-iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TResult The type of the elements in the projected inner sequences and the elements in the merged result sequence.
  * @param {((
