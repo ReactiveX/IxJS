@@ -5,11 +5,12 @@ process.on('unhandledRejection', (error: any) => {
 });
 
 const cwd = process.cwd();
+// eslint-disable-next-line
 const resolve = require('path').resolve;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('glob')('./spec/**/*-spec.ts', (err: Error, files: string[]) => {
   if (err) {
     throw err;
   }
-  files.forEach(file => require(resolve(cwd, file)));
+  files.forEach((file) => require(resolve(cwd, file)));
 });

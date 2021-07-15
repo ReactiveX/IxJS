@@ -4,7 +4,7 @@ import { Observable, PartialObserver } from '../observer';
 import { Subscription } from '../subscription';
 
 class BooleanSubscription implements Subscription {
-  public isUnsubscribed: boolean = false;
+  public isUnsubscribed = false;
 
   unsubscribe() {
     this.isUnsubscribed = true;

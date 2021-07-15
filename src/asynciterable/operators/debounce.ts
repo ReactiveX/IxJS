@@ -18,7 +18,7 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     let reject: (reason?: any) => void = () => {
       /**/
     };
-    let resolve: (value?: TSource | PromiseLike<TSource>) => void = () => {
+    let resolve: (value: TSource | PromiseLike<TSource>) => void = () => {
       /**/
     };
     let promise = new Promise<TSource>((r1, r2) => {

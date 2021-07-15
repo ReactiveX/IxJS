@@ -10,7 +10,7 @@ import { comparer } from '../util/comparer';
  * @param {number} [fromIndex=0] The position in this iterable at which to begin searching for valueToFind.
  * @returns {boolean} Returns true if the value valueToFind is found within the iterable.
  */
-export function includes<T>(source: Iterable<T>, searchElement: T, fromIndex: number = 0): boolean {
+export function includes<T>(source: Iterable<T>, searchElement: T, fromIndex = 0): boolean {
   let fromIdx = fromIndex;
   let i = 0;
   if (Math.abs(fromIdx)) {

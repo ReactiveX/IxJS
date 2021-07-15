@@ -33,11 +33,7 @@ test('AsyncIterable#generateTime condition throws', async () => {
 
   const it = xs[Symbol.asyncIterator]();
 
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#generateTime increment throws', async () => {
@@ -54,11 +50,7 @@ test('AsyncIterable#generateTime increment throws', async () => {
 
   const it = xs[Symbol.asyncIterator]();
 
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#generateTime result selector throws', async () => {
@@ -75,11 +67,7 @@ test('AsyncIterable#generateTime result selector throws', async () => {
 
   const it = xs[Symbol.asyncIterator]();
 
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#generateTime time selector throws', async () => {
@@ -96,9 +84,5 @@ test('AsyncIterable#generateTime time selector throws', async () => {
 
   const it = xs[Symbol.asyncIterator]();
 
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

@@ -7,7 +7,7 @@ class PublishedBuffer<T> extends IterableX<T> {
   private _buffer: RefCountList<T>;
   private _source: Iterator<T>;
   private _error: any;
-  private _stopped: boolean = false;
+  private _stopped = false;
 
   constructor(source: Iterator<T>) {
     super();

@@ -82,5 +82,5 @@ test('Iterable#map source returns expected values', () => {
     index++;
   }
 
-  expect(source.length).toBe(index);
+  expect(source).toHaveLength(index);
 });

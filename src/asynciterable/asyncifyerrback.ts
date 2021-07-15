@@ -11,7 +11,7 @@ import { memoize } from './operators/memoize';
  * @returns {(...args: any[]) => AsyncIterableX<TSource>} A function, when invoked, contains the result of the callback as an async-iterable.
  */
 export function asyncifyErrback<TSource>(
-  func: Function
+  func: (...xs: any[]) => any
 ): (...args: any[]) => AsyncIterableX<TSource> {
   return function (...args: any[]) {
     const sink = new AsyncSink<TSource>();

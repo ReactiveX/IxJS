@@ -127,15 +127,8 @@ test('AsyncIterable#from from promise with selector', async () => {
   await noNext(it);
 });
 
-test('AsyncIterable#from from with non-iterable throws', (done) => {
-  let error = false;
-  try {
-    from({} as any);
-  } catch (e) {
-    error = true;
-  }
-  // eslint-disable-next-line no-unused-expressions
-  error ? done() : done.fail('expected from to throw');
+test('AsyncIterable#from from with non-iterable throws', () => {
+  expect(() => from({} as any)).toThrow();
 });
 
 interface Observer<T> {
@@ -187,7 +180,7 @@ test('AsyncIterable#fromObservable with completion', async () => {
   await noNext(it);
 });
 
-test('AsyncIterable#fromObservable with completion', async () => {
+test('AsyncIterable#fromObservable with map selector and completion', async () => {
   const xs = new TestObservable<number>((obs) => {
     obs.next(42);
     obs.complete();
@@ -251,9 +244,5 @@ test('AsyncIterable#fromObservable with error', async () => {
   const ys = from(xs);
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

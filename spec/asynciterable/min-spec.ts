@@ -8,11 +8,7 @@ test('AsyncItearble#min laws', async () => {
 
 test('AsyncIterable#min empty throws', async () => {
   const xs = empty();
-  try {
-    await min(xs);
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(min(xs)).rejects.toThrow();
 });
 
 test('AsyncIterable#min', async () => {

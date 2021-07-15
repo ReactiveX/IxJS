@@ -7,7 +7,7 @@ import { isObject } from '../../util/isiterable';
 import { safeRace } from '../../util/safeRace';
 
 export class TimeoutError extends Error {
-  constructor(message: string = 'Timeout has occurred') {
+  constructor(message = 'Timeout has occurred') {
     super(message);
     Object.setPrototypeOf(this, TimeoutError.prototype);
     Error.captureStackTrace(this, this.constructor);

@@ -40,11 +40,7 @@ test('AsyncIterable#sequenceEqual left throws', async () => {
   const xs = throwError(err);
   const ys = of(1, 2, 3);
 
-  try {
-    await sequenceEqual(xs, ys);
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(sequenceEqual(xs, ys)).rejects.toThrow(err);
 });
 
 test('AsyncIterable#sequenceEqual right throws', async () => {
@@ -52,11 +48,7 @@ test('AsyncIterable#sequenceEqual right throws', async () => {
   const xs = of(1, 2, 3);
   const ys = throwError(err);
 
-  try {
-    await sequenceEqual(xs, ys);
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(sequenceEqual(xs, ys)).rejects.toThrow(err);
 });
 
 test('AsyncIterable#sequenceEqual with ccustom omparer sequence equals itself', async () => {
@@ -104,11 +96,7 @@ test('AsyncIterable#sequenceEqual with custom comparer left throws', async () =>
   const xs = throwError(err);
   const ys = of(1, 2, 3);
 
-  try {
-    await sequenceEqual(xs, ys, { comparer: comparer });
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(sequenceEqual(xs, ys, { comparer: comparer })).rejects.toThrow(err);
 });
 
 test('AsyncIterable#sequenceEqual with custom comparer right throws', async () => {
@@ -117,11 +105,7 @@ test('AsyncIterable#sequenceEqual with custom comparer right throws', async () =
   const xs = of(1, 2, 3);
   const ys = throwError(err);
 
-  try {
-    await sequenceEqual(xs, ys, { comparer: comparer });
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(sequenceEqual(xs, ys, { comparer: comparer })).rejects.toThrow(err);
 });
 
 test('Itearble#sequenceEqual with custom comparer should be equal', async () => {
@@ -140,9 +124,5 @@ test('Itearble#sequenceEqual with custom comparer throws', async () => {
   const xs = of(1, 2, -3, 4);
   const ys = of(1, -2, 3, 4);
 
-  try {
-    await sequenceEqual(xs, ys, { comparer: comparer });
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(sequenceEqual(xs, ys, { comparer: comparer })).rejects.toThrow(err);
 });

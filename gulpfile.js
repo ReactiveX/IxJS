@@ -54,9 +54,9 @@ knownTargets.forEach((target) => {
     gulp.task(`build:${umd}`, gulp.series(
         `build:${cls}`,
         `clean:${umd}`, `compile:${umd}`, `package:${umd}`,
-        function remove_closure_tmp_files() {
-            return del(targetDir(target, `cls`))
-        }
+        // function remove_closure_tmp_files() {
+        //     return del(targetDir(target, `cls`))
+        // }
     ));
 });
 

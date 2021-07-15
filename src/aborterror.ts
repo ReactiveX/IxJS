@@ -1,7 +1,7 @@
 import { isObject } from './util/isiterable';
 
 export class AbortError extends Error {
-  constructor(message: string = 'The operation has been aborted') {
+  constructor(message = 'The operation has been aborted') {
     super(message);
     Object.setPrototypeOf(this, AbortError.prototype);
     Error.captureStackTrace(this, this.constructor);

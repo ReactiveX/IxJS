@@ -51,7 +51,7 @@ export class FlattenAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @param {number} [depth=Infinity] The depth to flatten the async-iterable sequence if specified, otherwise infinite.
  * @returns {MonoTypeOperatorAsyncFunction<T>} An operator that flattens the async-iterable sequence.
  */
-export function flat<T>(depth: number = Infinity): MonoTypeOperatorAsyncFunction<T> {
+export function flat<T>(depth = Infinity): MonoTypeOperatorAsyncFunction<T> {
   return function flattenOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
     return new FlattenAsyncIterable<T>(source, depth);
   };

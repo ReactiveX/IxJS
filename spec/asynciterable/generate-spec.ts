@@ -31,11 +31,7 @@ test('AsyncIterable#generate condition throws', async () => {
 
   const it = xs[Symbol.asyncIterator]();
 
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#generate increment throws', async () => {
@@ -51,11 +47,7 @@ test('AsyncIterable#generate increment throws', async () => {
 
   const it = xs[Symbol.asyncIterator]();
 
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#generate result selector throws', async () => {
@@ -71,9 +63,5 @@ test('AsyncIterable#generate result selector throws', async () => {
 
   const it = xs[Symbol.asyncIterator]();
 
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

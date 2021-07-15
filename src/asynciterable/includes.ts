@@ -16,7 +16,7 @@ import { throwIfAborted } from '../aborterror';
 export async function includes<T>(
   source: AsyncIterable<T>,
   valueToFind: T,
-  fromIndex: number = 0,
+  fromIndex = 0,
   signal?: AbortSignal
 ): Promise<boolean> {
   throwIfAborted(signal);

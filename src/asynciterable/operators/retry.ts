@@ -12,7 +12,7 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable sequence producing the elements of the
  * given sequence repeatedly until it terminates successfully.
  */
-export function retry<TSource>(count: number = -1): MonoTypeOperatorAsyncFunction<TSource> {
+export function retry<TSource>(count = -1): MonoTypeOperatorAsyncFunction<TSource> {
   return function retryOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
     return new CatchAllAsyncIterable<TSource>(repeatValue<AsyncIterable<TSource>>(source, count));
   };

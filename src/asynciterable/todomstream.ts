@@ -9,9 +9,9 @@ export type ReadableByteStreamOptions<T = any> = QueuingStrategy<T> & {
 };
 
 type AsyncSourceIterator<TSource> = AsyncIterator<
-TSource,
-any,
-number | ArrayBufferView | undefined | null
+  TSource,
+  any,
+  number | ArrayBufferView | undefined | null
 >;
 
 /** @ignore */
@@ -63,9 +63,9 @@ class UnderlyingAsyncIterableDefaultSource<TSource = any> extends AbstractUnderl
 
 class UnderlyingAsyncIterableByteSource<TSource extends ArrayBufferView = Uint8Array>
   extends AbstractUnderlyingSource<TSource>
-  implements UnderlyingByteSource {
-  public readonly type: 'bytes';
-  public readonly autoAllocateChunkSize?: number;
+  implements UnderlyingSource<TSource> {
+  //   public readonly type: 'bytes';
+  public declare readonly autoAllocateChunkSize?: number;
 
   // If we can't create a "byob" reader (no browsers currently suppor it),
   // fallback to pulling values from the source iterator and enqueueing like
@@ -77,33 +77,33 @@ class UnderlyingAsyncIterableByteSource<TSource extends ArrayBufferView = Uint8A
     opts: { autoAllocateChunkSize?: number } = {}
   ) {
     super(reader);
-    this.type = 'bytes';
+    // this.type = 'bytes';
     this.autoAllocateChunkSize = opts.autoAllocateChunkSize;
     this.fallbackDefaultSource = new UnderlyingAsyncIterableDefaultSource<TSource>(reader);
   }
 
   // eslint-disable-next-line consistent-return
-  async pull(controller: ReadableByteStreamController) {
-    if (!controller.byobRequest) {
+  async pull(controller: ReadableStreamController<TSource>) {
+    if (!(controller as any).byobRequest) {
       return await this.fallbackDefaultSource.pull(controller);
     }
     if (this._source) {
-      const { view } = controller.byobRequest;
+      const { view } = (controller as any).byobRequest;
       const { done, value } = await this._source.next(view);
       if (!done) {
         // Did the source write into the BYOB view itself,
         // then yield us the `bytesWritten` value? If so,
         // pass that along
         if (typeof value === 'number') {
-          return controller.byobRequest.respond(value);
+          return (controller as any).byobRequest.respond(value);
         }
         // otherwise if the source is only producing buffers
         // but doesn't expect to be given one, we should copy
         // the produced buffer into the front of the BYOB view
         if (ArrayBuffer.isView(value)) {
           return value.buffer === view.buffer
-            ? controller.byobRequest.respondWithNewView(value)
-            : controller.byobRequest.respond(memcpy(view, value));
+            ? (controller as any).byobRequest.respondWithNewView(value)
+            : (controller as any).byobRequest.respond(memcpy(view, value));
         }
       }
     }
@@ -208,22 +208,22 @@ export function toDOMStream(
   );
 }
 
-AsyncIterableX.prototype.tee = function <T> (this: AsyncIterableX<T>) {
+AsyncIterableX.prototype.tee = function <T>(this: AsyncIterableX<T>) {
   return _getDOMStream(this).tee();
 };
 
-AsyncIterableX.prototype.pipeTo = function <T> (
+AsyncIterableX.prototype.pipeTo = function <T>(
   this: AsyncIterableX<T>,
   writable: WritableStream<T>,
-  options?: PipeOptions
+  options?: StreamPipeOptions
 ) {
   return _getDOMStream(this).pipeTo(writable, options);
 };
 
-AsyncIterableX.prototype.pipeThrough = function <T, R extends ReadableStream<any>> (
+AsyncIterableX.prototype.pipeThrough = function <T, R extends ReadableStream<any>>(
   this: AsyncIterableX<T>,
   duplex: { writable: WritableStream<T>; readable: R },
-  options?: PipeOptions
+  options?: StreamPipeOptions
 ) {
   return _getDOMStream(this).pipeThrough(duplex, options);
 };
@@ -260,10 +260,10 @@ declare module '../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
     toDOMStream: typeof toDOMStreamProto;
     tee(): [ReadableStream<T>, ReadableStream<T>];
-    pipeTo(writable: WritableStream<T>, options?: PipeOptions): Promise<void>;
+    pipeTo(writable: WritableStream<T>, options?: StreamPipeOptions): Promise<void>;
     pipeThrough<R extends ReadableStream<any>>(
       duplex: { writable: WritableStream<T>; readable: R },
-      options?: PipeOptions
+      options?: StreamPipeOptions
     ): ReadableStream<T>;
   }
 }

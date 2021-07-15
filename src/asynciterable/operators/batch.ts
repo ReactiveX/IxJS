@@ -4,7 +4,7 @@ import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
 interface AsyncResolver<T> {
-  resolve: (value?: T | PromiseLike<T> | undefined) => void;
+  resolve: (value: T | PromiseLike<T>) => void;
   reject: (reason?: any) => void;
 }
 

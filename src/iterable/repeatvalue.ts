@@ -11,6 +11,6 @@ import { IterableX } from './iterablex';
  * @param {number} [count=-1] The number of times to repeat the value, infinite if not specified.
  * @returns {AsyncIterableX<TSource>} An iterable with a single item that is repeated over the specified times.
  */
-export function repeatValue<TSource>(value: TSource, count: number = -1): IterableX<TSource> {
+export function repeatValue<TSource>(value: TSource, count = -1): IterableX<TSource> {
   return new RepeatIterable<TSource>(of(value), count);
 }

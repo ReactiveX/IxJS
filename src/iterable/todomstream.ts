@@ -4,7 +4,7 @@ import { IterableX } from '../iterable/iterablex';
 import {
   toDOMStream as asyncIterableToDOMStream,
   ReadableBYOBStreamOptions,
-  ReadableByteStreamOptions
+  ReadableByteStreamOptions,
 } from '../asynciterable/todomstream';
 
 export function toDOMStream<T>(
@@ -29,22 +29,22 @@ export function toDOMStream(
   return asyncIterableToDOMStream(from(source), options);
 }
 
-IterableX.prototype.tee = function<T> (this: IterableX<T>) {
+IterableX.prototype.tee = function <T>(this: IterableX<T>) {
   return _getDOMStream(this).tee();
 };
 
-IterableX.prototype.pipeTo = function<T> (
+IterableX.prototype.pipeTo = function <T>(
   this: IterableX<T>,
   writable: WritableStream<T>,
-  options?: PipeOptions
+  options?: StreamPipeOptions
 ) {
   return _getDOMStream(this).pipeTo(writable, options);
 };
 
-IterableX.prototype.pipeThrough = function<T, R extends ReadableStream<any>> (
+IterableX.prototype.pipeThrough = function <T, R extends ReadableStream<any>>(
   this: IterableX<T>,
   duplex: { writable: WritableStream<T>; readable: R },
-  options?: PipeOptions
+  options?: StreamPipeOptions
 ) {
   return _getDOMStream(this).pipeThrough(duplex, options);
 };
@@ -81,10 +81,10 @@ declare module '../iterable/iterablex' {
   interface IterableX<T> {
     toDOMStream: typeof toDOMStreamProto;
     tee(): [ReadableStream<T>, ReadableStream<T>];
-    pipeTo(writable: WritableStream<T>, options?: PipeOptions): Promise<void>;
+    pipeTo(writable: WritableStream<T>, options?: StreamPipeOptions): Promise<void>;
     pipeThrough<R extends ReadableStream<any>>(
       duplex: { writable: WritableStream<T>; readable: R },
-      options?: PipeOptions
+      options?: StreamPipeOptions
     ): ReadableStream<T>;
   }
 }

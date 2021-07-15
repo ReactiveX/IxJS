@@ -42,10 +42,7 @@ export class SliceIterable<TSource> extends IterableX<TSource> {
  * @param {number} [end=Infinity] Zero-based index before which to end extraction.
  * @returns {MonoTypeOperatorFunction<TSource>} An iterable containing the extracted elements.
  */
-export function slice<TSource>(
-  begin: number,
-  end: number = Infinity
-): MonoTypeOperatorFunction<TSource> {
+export function slice<TSource>(begin: number, end = Infinity): MonoTypeOperatorFunction<TSource> {
   return function sliceOperatorFunction(source: Iterable<TSource>): IterableX<TSource> {
     return new SliceIterable<TSource>(source, begin, end);
   };

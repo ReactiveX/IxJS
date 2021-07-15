@@ -34,7 +34,7 @@ test('Iterable#repeatValue toArray produce correct result', () => {
 });
 
 test('Iterable#repeatValue works with null element', () => {
-  const objectInstance: null = null;
+  const objectInstance = null;
   const array = toArray(repeatValue(objectInstance, 100));
 
   expect(100).toBe(array.length);
@@ -45,7 +45,7 @@ test('Iterable#repeatValue works with null element', () => {
 
 test('Iterable#repeatValue zero count leads to empty sequence', () => {
   const array = toArray(repeatValue(1, 0));
-  expect(array.length).toBe(0);
+  expect(array).toHaveLength(0);
 });
 
 test('Iterable#repeatValue not enumerate after end', () => {
@@ -126,15 +126,15 @@ test('Iterable#repeatValue count', () => {
   expect(42).toBe(count(repeatValue('test', 42)));
 });
 
-test('Iterable#repeatValue infinite', () => {
-  const xs = repeatValue(42).pipe(take(100));
+test('Iterable#repeatValue count 100', () => {
+  const xs = repeatValue(42, 100);
 
   expect(every(xs, { predicate: (x) => x === 42 })).toBeTruthy();
   expect(count(xs)).toBe(100);
 });
 
-test('Iterable#repeatValue count', () => {
-  const xs = repeatValue(42, 100);
+test('Iterable#repeatValue count take 100', () => {
+  const xs = repeatValue(42).pipe(take(100));
 
   expect(every(xs, { predicate: (x) => x === 42 })).toBeTruthy();
   expect(count(xs)).toBe(100);

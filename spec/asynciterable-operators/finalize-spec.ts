@@ -39,11 +39,7 @@ test('AsyncIterable#finally calls even with error', async () => {
   const it = xs[Symbol.asyncIterator]();
   expect(done).toBeFalsy();
 
-  try {
-    await hasNext(it, 0);
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(hasNext(it, 0)).rejects.toThrow(err);
 
   expect(done).toBeTruthy();
 });

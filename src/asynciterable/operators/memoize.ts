@@ -115,7 +115,7 @@ export function memoize<TSource, TResult>(
  * memoized view over the source sequence.
  */
 export function memoize<TSource, TResult = TSource>(
-  readerCount: number = -1,
+  readerCount = -1,
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
   return function memoizeOperatorFunction(
@@ -124,13 +124,13 @@ export function memoize<TSource, TResult = TSource>(
     if (!selector) {
       return readerCount === -1
         ? new MemoizeAsyncBuffer<TSource>(
-          source[Symbol.asyncIterator](),
-          new MaxRefCountList<TSource>()
-        )
+            source[Symbol.asyncIterator](),
+            new MaxRefCountList<TSource>()
+          )
         : new MemoizeAsyncBuffer<TSource>(
-          source[Symbol.asyncIterator](),
-          new RefCountList<TSource>(readerCount)
-        );
+            source[Symbol.asyncIterator](),
+            new RefCountList<TSource>(readerCount)
+          );
     }
     return create<TSource | TResult>(() =>
       selector!(memoize<TSource>(readerCount)(source))[Symbol.asyncIterator]()
