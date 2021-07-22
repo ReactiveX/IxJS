@@ -26,8 +26,10 @@ export function reduce<T, R = T>(
     // eslint-disable-next-line no-nested-ternary
     typeof optionsOrAccumulator === 'function'
       ? arguments.length > 2
-        ? { callback: optionsOrAccumulator, seed: seed }
-        : { callback: optionsOrAccumulator }
+        ? // prettier-ignore
+          { 'callback': optionsOrAccumulator, 'seed': seed }
+        : // prettier-ignore
+          { 'callback': optionsOrAccumulator }
       : optionsOrAccumulator;
   const { ['seed']: _seed, ['callback']: callback } = options;
   const hasSeed = options.hasOwnProperty('seed');

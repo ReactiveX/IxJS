@@ -58,8 +58,10 @@ export function scan<T, R = T>(
     // eslint-disable-next-line no-nested-ternary
     typeof optionsOrAccumulator === 'function'
       ? arguments.length > 1
-        ? { callback: optionsOrAccumulator, seed: seed }
-        : { callback: optionsOrAccumulator }
+        ? // prettier-ignore
+          { 'callback': optionsOrAccumulator, 'seed': seed }
+        : // prettier-ignore
+          { 'callback': optionsOrAccumulator }
       : optionsOrAccumulator;
   return function scanOperatorFunction(source: Iterable<T>): IterableX<R> {
     return new ScanIterable(source, options);
