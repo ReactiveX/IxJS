@@ -2,6 +2,8 @@ import { hasNext, noNext, toObserver } from '../asynciterablehelpers';
 import { setInterval, clearInterval } from 'timers';
 import { PartialObserver } from '../../src/observer';
 import { from } from 'ix/asynciterable';
+import { AbortError } from 'ix/Ix';
+import { withAbort } from 'ix/Ix.dom.asynciterable.operators';
 
 test('AsyncIterable#from from promise list', async () => {
   const xs: Iterable<Promise<number>> = [
@@ -256,4 +258,60 @@ test('AsyncIterable#fromObservable with error', async () => {
   } catch (e) {
     expect(e).toEqual(err);
   }
+});
+
+test('AsyncIterable#fromObservable with abort while waiting', async () => {
+  let unsubscribed = false;
+
+  const xs = new TestObservable<number>((obs) => {
+    obs.next(0);
+
+    return {
+      unsubscribe() {
+        unsubscribed = true;
+      },
+    };
+  });
+
+  const abortController = new AbortController();
+
+  const ys = from(xs).pipe(withAbort(abortController.signal));
+  const it = ys[Symbol.asyncIterator]();
+
+  await hasNext(it, 0);
+
+  setTimeout(() => {
+    abortController.abort();
+  }, 100);
+
+  await expect(it.next()).rejects.toBeInstanceOf(AbortError);
+  expect(unsubscribed).toBe(true);
+});
+
+test('AsyncIterable#fromObservable with abort while queueing', async () => {
+  let unsubscribed = false;
+
+  const xs = new TestObservable<number>((obs) => {
+    obs.next(0);
+    obs.next(1);
+    obs.next(2);
+
+    return {
+      unsubscribe() {
+        unsubscribed = true;
+      },
+    };
+  });
+
+  const abortController = new AbortController();
+
+  const ys = from(xs).pipe(withAbort(abortController.signal));
+  const it = ys[Symbol.asyncIterator]();
+
+  await hasNext(it, 0);
+
+  abortController.abort();
+
+  await expect(it.next()).rejects.toBeInstanceOf(AbortError);
+  expect(unsubscribed).toBe(true);
 });
