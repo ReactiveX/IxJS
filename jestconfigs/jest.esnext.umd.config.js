@@ -1,9 +1,10 @@
 module.exports = {
     ...require('../jest.config'),
+    "rootDir": "../",
     "globals": {
         "ts-jest": {
             "diagnostics": false,
-            "tsConfig": "spec/tsconfig/tsconfig.esnext.umd.json"
+            "tsConfig": "<rootDir>/spec/tsconfig/tsconfig.esnext.umd.json"
         }
     },
     "moduleNameMapper": {

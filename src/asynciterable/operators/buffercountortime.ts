@@ -45,7 +45,6 @@ class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
  * Projects each element of an async-iterable sequence into consecutive buffers
  * which are emitted when either the threshold count or time is met.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @param {number} count The size of the buffer.
  * @param {number} time The threshold number of milliseconds to wait before flushing a non-full buffer

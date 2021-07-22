@@ -46,7 +46,6 @@ export class TapIterable<TSource> extends IterableX<TSource> {
  * messages through the result sequence. This method can be used for debugging, logging, etc. by
  * intercepting the message stream to run arbitrary actions for messages on the pipeline.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {PartialObserver<TSource>} observer Observer whose methods to invoke as part of the source sequence's observation.
  * @returns {MonoTypeOperatorFunction<TSource>} The source sequence with the side-effecting behavior applied.
@@ -58,7 +57,6 @@ export function tap<TSource>(observer: PartialObserver<TSource>): MonoTypeOperat
  * messages through the result sequence. This method can be used for debugging, logging, etc. by
  * intercepting the message stream to run arbitrary actions for messages on the pipeline.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {(((value: TSource) => any) | null)} [next] Function to invoke for each element in the iterable sequence.
  * @param {(((err: any) => any) | null)} [error] Function to invoke upon exceptional termination of the iterable sequence.
@@ -76,7 +74,6 @@ export function tap<TSource>(
  * messages through the result sequence. This method can be used for debugging, logging, etc. by
  * intercepting the message stream to run arbitrary actions for messages on the pipeline.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {(PartialObserver<TSource> | ((value: TSource) => any) | null)} [observerOrNext] Observer whose methods to invoke as
  * part of the source sequence's observation or a function to invoke for each element in the iterable sequence.

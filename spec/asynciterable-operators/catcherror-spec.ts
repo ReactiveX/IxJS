@@ -18,11 +18,11 @@ test('AsyncIterable#catchError error catches', async () => {
 test('AsyncIterable#catchError no error misses', async () => {
   const xs = range(0, 10);
   const res = xs.pipe(catchError(async (_: Error) => of(42)));
-  expect(sequenceEqual(res, xs)).resolves.toBeTruthy();
+  await expect(sequenceEqual(res, xs)).resolves.toBeTruthy();
 });
 
 test('AsyncIterable#catchError source and handler types are composed', async () => {
   const xs = range(0, 10);
   const res = xs.pipe(catchError(async (_: Error) => of('foo')));
-  expect(sequenceEqual(res, xs)).resolves.toBeTruthy();
+  await expect(sequenceEqual(res, xs)).resolves.toBeTruthy();
 });

@@ -27,7 +27,6 @@ export interface SequencEqualOptions<T> {
 /**
  * Determines whether two sequences are equal by comparing the elements pairwise.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @param {AsyncIterable<T>} source First async-iterable sequence to compare.
  * @param {AsyncIterable<T>} other Second async-iterable sequence to compare.

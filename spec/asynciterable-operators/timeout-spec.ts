@@ -27,10 +27,6 @@ test('AsyncIterable#timeout throws when delayed', async () => {
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toBeInstanceOf(TimeoutError);
-  }
+  await expect(it.next()).rejects.toThrow(TimeoutError);
   await noNext(it);
 });

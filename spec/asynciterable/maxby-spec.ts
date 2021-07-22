@@ -12,9 +12,5 @@ test('AsyncIterable#maxBy', async () => {
 test('AsyncIterable#maxBy empty throws', async () => {
   const source = empty();
 
-  try {
-    await maxBy(source, { selector: async (x) => Math.floor(x / 2) });
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(maxBy(source, { selector: async (x) => Math.floor(x / 2) })).rejects.toThrow();
 });

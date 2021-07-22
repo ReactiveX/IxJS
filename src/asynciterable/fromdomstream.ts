@@ -17,9 +17,9 @@ export class AsyncIterableReadableStream<T> extends AsyncIterableX<T | undefined
 export class AsyncIterableReadableByteStream extends AsyncIterableReadableStream<Uint8Array> {
   [Symbol.asyncIterator]() {
     const stream = this._stream;
-    let reader: ReadableStreamBYOBReader;
+    let reader: ReadableStreamReader<Uint8Array>;
     try {
-      reader = stream['getReader']({ mode: 'byob' });
+      reader = (stream as any)['getReader']({ mode: 'byob' });
     } catch (e) {
       return super[Symbol.asyncIterator]();
     }
@@ -32,7 +32,7 @@ export class AsyncIterableReadableByteStream extends AsyncIterableReadableStream
 
 async function* _consumeReader<T>(
   stream: ReadableStream<T>,
-  reader: ReadableStreamBYOBReader | ReadableStreamDefaultReader,
+  reader: ReadableStreamReader<Uint8Array> | ReadableStreamDefaultReader,
   iterator: AsyncGenerator<T>
 ): AsyncIterator<T, any, undefined> {
   let threw = false;
@@ -43,20 +43,19 @@ async function* _consumeReader<T>(
       await reader['cancel'](e);
     }
   } finally {
-    if (!reader) {
-      return;
-    }
-    if (!threw) {
-      await reader['cancel']();
-    }
-    if (stream.locked) {
-      try {
-        reader.closed.catch(() => {
+    if (reader) {
+      if (!threw) {
+        await reader['cancel']();
+      }
+      if (stream.locked) {
+        try {
+          reader.closed.catch(() => {
+            /* */
+          });
+          reader.releaseLock();
+        } catch (e) {
           /* */
-        });
-        reader.releaseLock();
-      } catch (e) {
-        /* */
+        }
       }
     }
   }
@@ -64,15 +63,15 @@ async function* _consumeReader<T>(
 
 /** @ignore */
 async function* defaultReaderToAsyncIterator<T = any>(reader: ReadableStreamDefaultReader<T>) {
-  let r: ReadableStreamReadResult<T>;
+  let r: ReadableStreamDefaultReadResult<T>;
   while (!(r = await reader.read()).done) {
     yield r.value;
   }
 }
 
 /** @ignore */
-async function* byobReaderToAsyncIterator(reader: ReadableStreamBYOBReader) {
-  let r: ReadableStreamReadResult<Uint8Array>;
+async function* byobReaderToAsyncIterator(reader: ReadableStreamReader<Uint8Array>) {
+  let r: ReadableStreamDefaultReadResult<Uint8Array>;
   let value: number | ArrayBufferLike = yield null!;
   while (!(r = await readNext(reader, value, 0)).done) {
     value = yield r.value;
@@ -81,10 +80,10 @@ async function* byobReaderToAsyncIterator(reader: ReadableStreamBYOBReader) {
 
 /** @ignore */
 async function readNext(
-  reader: ReadableStreamBYOBReader,
+  reader: ReadableStreamReader<Uint8Array>,
   bufferOrLen: ArrayBufferLike | number,
   offset: number
-): Promise<ReadableStreamReadResult<Uint8Array>> {
+): Promise<ReadableStreamDefaultReadResult<Uint8Array>> {
   let size: number;
   let buffer: ArrayBufferLike;
 
@@ -103,16 +102,16 @@ async function readNext(
 
 /** @ignore */
 async function readInto(
-  reader: ReadableStreamBYOBReader,
+  reader: ReadableStreamReader<Uint8Array>,
   buffer: ArrayBufferLike,
   offset: number,
   size: number
-): Promise<ReadableStreamReadResult<Uint8Array>> {
+): Promise<ReadableStreamDefaultReadResult<Uint8Array>> {
   let innerOffset = offset;
   if (innerOffset >= size) {
     return { done: false, value: new Uint8Array(buffer, 0, size) };
   }
-  const { done, value } = await reader.read(
+  const { done, value } = await (reader as any).read(
     new Uint8Array(buffer, innerOffset, size - innerOffset)
   );
   if ((innerOffset += value!.byteLength) < size && !done) {
@@ -124,7 +123,6 @@ async function readInto(
 /**
  * Creates an async-iterable from an existing DOM stream.
  *
- * @export
  * @template TSource The type of elements in the source DOM stream.
  * @param {ReadableStream<TSource>} stream The DOM Readable stream to convert to an async-iterable.
  * @returns {AsyncIterableX<TSource>} An async-iterable containing the elements from the ReadableStream.
@@ -133,7 +131,6 @@ export function fromDOMStream<TSource>(stream: ReadableStream<TSource>): AsyncIt
 /**
  * Creates an async-iterable from an existing DOM stream and options.
  *
- * @export
  * @template TSource  * @template TSource The type of elements in the source DOM stream.
  * @param {ReadableStream<TSource>} stream The readable stream to convert to an async-iterable.
  * @param {{ mode: 'byob' }} options The options to set the mode for the DOM stream.
@@ -147,13 +144,12 @@ export function fromDOMStream<TSource extends ArrayBufferView>(
 /**
  * Creates an async-iterable from an existing DOM stream and optional options.
  *
- * @export
  * @param {ReadableStream} stream The readable stream to convert to an async-iterable.
  * @param {{ mode: 'byob' }} [options] The optional options to set the mode for the DOM stream.
  * @returns {AsyncIterableX<any>} An async-iterable created from the incoming async-iterable.
  */
 export function fromDOMStream(stream: ReadableStream, options?: { mode: 'byob' }) {
-  return !options || options.mode !== 'byob'
+  return !options || options['mode'] !== 'byob'
     ? new AsyncIterableReadableStream(stream)
     : new AsyncIterableReadableByteStream(stream);
 }

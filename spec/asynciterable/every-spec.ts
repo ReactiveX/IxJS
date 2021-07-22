@@ -21,24 +21,18 @@ test('AsyncIterable#every throws', async () => {
   const err = new Error();
   const xs = throwError(err);
 
-  try {
-    await every(xs, { predicate: async (x) => x % 2 === 0 });
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(every(xs, { predicate: async (x) => x % 2 === 0 })).rejects.toThrow(err);
 });
 
 test('AsyncIterable#every predicate throws', async () => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
 
-  try {
-    await every(xs, {
+  await expect(
+    every(xs, {
       predicate: async () => {
         throw err;
       },
-    });
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+    })
+  ).rejects.toThrow(err);
 });

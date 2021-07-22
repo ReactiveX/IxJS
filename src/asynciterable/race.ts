@@ -62,7 +62,6 @@ export class RaceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 /**
  * Propagates the async sequence that reacts first.
  *
- * @export
  * @param {...AsyncIterable<T>[]} sources The source sequences.
  * @return {AsyncIterable<T>} An async sequence that surfaces either of the given sequences, whichever reacted first.
  */

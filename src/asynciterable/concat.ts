@@ -29,7 +29,6 @@ export function _concatAll<TSource>(
 /**
  * Concatenates the second async-iterable sequence to the first async-iterable sequence upon successful termination of the first.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @param {AsyncIterable<T>} v1 First async-iterable source.
@@ -42,7 +41,6 @@ export function concat<T, T2>(v1: AsyncIterable<T>, v2: AsyncIterable<T2>): Asyn
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -60,7 +58,6 @@ export function concat<T, T2, T3>(
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -81,7 +78,6 @@ export function concat<T, T2, T3, T4>(
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -106,7 +102,6 @@ export function concat<T, T2, T3, T4, T5>(
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the first source sequence.
  * @template T2 The type of the elements in the second source sequence.
  * @template T3 The type of the elements in the third source sequence.
@@ -135,7 +130,6 @@ export function concat<T, T2, T3, T4, T5, T6>(
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
  *
- * @export
  * @template T The type of the elements in the sequences.
  * @param {...AsyncIterable<T>[]} args The async-iterable sources.
  * @returns {AsyncIterableX<T>} An async-iterable sequence that contains the elements of each given sequence, in sequential order.

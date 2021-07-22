@@ -37,7 +37,6 @@ export class ExceptIterable<TSource> extends IterableX<TSource> {
 /**
  *  Produces the set difference of two iterable sequences by using the specified equality comparer to compare values.
  *
- * @export
  * @template TSource The type of the elements of the input sequences.
  * @param {Iterable<TSource>} second An iterable sequence whose elements that also occur in the
  * operator sequence will cause those elements to be removed from the returned sequence.

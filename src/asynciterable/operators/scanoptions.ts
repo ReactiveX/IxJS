@@ -1,7 +1,6 @@
 /**
  * The options for performing a scan operation, including the callback and the optional seed.
  *
- * @export
  * @interface ScanOptions
  * @template T The type of the elements in the source sequence.
  * @template R The type of the result for the reducer callback.

@@ -7,7 +7,7 @@ class PublishedBuffer<T> extends IterableX<T> {
   private _buffer: RefCountList<T>;
   private _source: Iterator<T>;
   private _error: any;
-  private _stopped: boolean = false;
+  private _stopped = false;
 
   constructor(source: Iterator<T>) {
     super();
@@ -75,7 +75,6 @@ class PublishedBuffer<T> extends IterableX<T> {
  * Creates a buffer with a view over the source sequence, causing each iterator to obtain access to the
  * remainder of the sequence from the current index in the buffer.
  *
- * @export
  * @template TSource Source sequence element type.
  * @returns {OperatorFunction<TSource, TSource>} Buffer enabling each iterator to retrieve elements from
  * the shared source sequence, starting from the index at the point of obtaining the enumerator.
@@ -85,7 +84,6 @@ export function publish<TSource>(): OperatorFunction<TSource, TSource>;
  * Buffer enabling each iterator to retrieve elements from the shared source sequence, starting from the
  * index at the point of obtaining the iterator.
  *
- * @export
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
  * @param {(value: Iterable<TSource>) => Iterable<TResult>} [selector] Selector function with published
@@ -100,7 +98,6 @@ export function publish<TSource, TResult>(
  * Buffer enabling each iterator to retrieve elements from the shared source sequence, starting from the
  * index at the point of obtaining the iterator.
  *
- * @export
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
  * @param {(value: Iterable<TSource>) => Iterable<TResult>} [selector] Selector function with published

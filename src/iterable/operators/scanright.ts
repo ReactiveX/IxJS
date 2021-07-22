@@ -38,7 +38,6 @@ export class ScanRightIterable<T, R> extends IterableX<R> {
  * Applies an accumulator function over an async-iterable sequence from the right and returns each intermediate result.
  * The specified seed value, if given, is used as the initial accumulator value.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @template R The type of the result of the aggregation.
  * @param {ScanOptions<T, R>} options The options including the accumulator function and seed.
@@ -57,8 +56,10 @@ export function scanRight<T, R = T>(
     // eslint-disable-next-line no-nested-ternary
     typeof optionsOrAccumulator === 'function'
       ? arguments.length > 1
-        ? { 'callback': optionsOrAccumulator, 'seed': seed }
-        : { 'callback': optionsOrAccumulator }
+        ? // prettier-ignore
+          { 'callback': optionsOrAccumulator, 'seed': seed }
+        : // prettier-ignore
+          { 'callback': optionsOrAccumulator }
       : optionsOrAccumulator;
   return function scanRightOperatorFunction(source: Iterable<T>): IterableX<R> {
     return new ScanRightIterable(source, options);

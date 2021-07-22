@@ -125,17 +125,9 @@ test('AsyncIterbale#publish shared exceptions', async () => {
 
   await hasNext(it1, 0);
   await hasNext(it1, 1);
-  try {
-    await it1.next();
-  } catch (e) {
-    expect(error).toEqual(e);
-  }
+  await expect(it1.next()).rejects.toThrow(error);
 
   await hasNext(it2, 0);
   await hasNext(it2, 1);
-  try {
-    await it2.next();
-  } catch (e) {
-    expect(error).toEqual(e);
-  }
+  await expect(it2.next()).rejects.toThrow(error);
 });

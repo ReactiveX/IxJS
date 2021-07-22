@@ -29,9 +29,5 @@ test('AsyncIterable#catch still throws', async () => {
   await hasNext(it, 1);
   await hasNext(it, 2);
   await hasNext(it, 3);
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow();
 });

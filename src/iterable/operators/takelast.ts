@@ -31,7 +31,6 @@ export class TakeLastIterable<TSource> extends IterableX<TSource> {
 /**
  * Returns a specified number of contiguous elements from the end of an iterable sequence.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {number} count Number of elements to take from the end of the source sequence.
  * @returns {MonoTypeOperatorFunction<TSource>} An iterable sequence containing the specified

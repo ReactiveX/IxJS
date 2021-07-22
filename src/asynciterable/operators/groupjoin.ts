@@ -51,7 +51,6 @@ export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends Async
 /**
  * Correlates the elements of two async-iterable sequences based on equality of keys and groups the results.
  *
- * @export
  * @template TOuter The type of the elements of the first async-iterable sequence.
  * @template TInner The type of the elements of the second async-iterable sequence.
  * @template TKey The type of the keys returned by the key selector functions.

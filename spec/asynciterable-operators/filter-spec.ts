@@ -67,11 +67,7 @@ test('AsyncIterable#filter throws part way through', async () => {
   await hasNext(it, 8);
   await hasNext(it, 5);
   await hasNext(it, 7);
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#filter with index throws part way through', async () => {
@@ -90,11 +86,7 @@ test('AsyncIterable#filter with index throws part way through', async () => {
   await hasNext(it, 8);
   await hasNext(it, 5);
   await hasNext(it, 7);
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#filter with error source', async () => {
@@ -102,11 +94,7 @@ test('AsyncIterable#filter with error source', async () => {
   const ys = xs.pipe(filter(async (x) => x % 2 === 0));
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e != null).toBeTruthy();
-  }
+  await expect(it.next()).rejects.toThrow();
 });
 
 test('AsyncIterable#filter with empty source', async () => {

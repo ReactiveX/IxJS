@@ -19,18 +19,16 @@ const { npmPkgName } = require('./util');
 const { memoizeTask } = require('./memoize-task');
 const { empty: ObservableEmpty } = require('rxjs');
 
-const minifyTask = require('./minify-task');
 const closureTask = require('./closure-task');
 const typescriptTask = require('./typescript-task');
 const { copyMainTask, copyTSTask } = require('./copy-main-task');
 
 const compileTask = ((cache) => memoizeTask(cache, function compile(target, format, ...args) {
-    return target === `src`                    ? ObservableEmpty()
-         : target === npmPkgName               ? copyMainTask(target, format, ...args)()
-         : target === `ts`                     ? copyTSTask(target, format, ...args)()
-         : format === `umd` ? target === `es5` ? closureTask(target, format, ...args)()
-                                               : minifyTask(target, format, ...args)()
-                                               : typescriptTask(target, format, ...args)();
+    return target === `src`      ? ObservableEmpty()
+         : target === npmPkgName ? copyMainTask(target, format, ...args)()
+         : target === `ts`       ? copyTSTask(target, format, ...args)()
+         : format === `umd`      ? closureTask(target, format, ...args)()
+                                 : typescriptTask(target, format, ...args)();
 }))({});
 
 module.exports = compileTask;

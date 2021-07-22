@@ -6,7 +6,6 @@ import { MathOptions } from './mathoptions';
 /**
  * Computes the average of the async-iterable sequence.
  *
- * @export
  * @param {AsyncIterable<number>} source The source async-iterable sequence to compute the average.
  * @param {AverageOptions<number>} [options] The options for calculating the average.
  * @returns {Promise<number>} A Promise which returns the computed average for the async-iterable sequence.
@@ -18,7 +17,6 @@ export async function average(
 /**
  * Computes the average of the async-iterable sequence.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @param {AsyncIterable<TSource>} source source async-iterable sequence to compute the average.
  * @param {AverageOptions<TSource>} [options] The options for calculating the average.
@@ -31,7 +29,6 @@ export async function average<TSource>(
 /**
  * Computes the average of the async-iterable sequence.
  *
- * @export
  * @param {AsyncIterable<any>} source source async-iterable sequence to compute the average.
  * @param {AverageOptions<any>} [options] The options for calculating the average.
  * @returns {Promise<number>} A Promise which returns the computed average for the async-iterable sequence.
