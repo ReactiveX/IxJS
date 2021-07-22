@@ -3,7 +3,7 @@ import { setInterval, clearInterval } from 'timers';
 import { PartialObserver } from '../../src/observer';
 import { from } from 'ix/asynciterable';
 import { AbortError } from 'ix/Ix';
-import { withAbort } from 'ix/Ix.dom.asynciterable.operators';
+import { withAbort } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#from from promise list', async () => {
   const xs: Iterable<Promise<number>> = [
