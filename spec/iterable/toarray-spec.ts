@@ -9,5 +9,5 @@ test('Iterable#toArray some', () => {
 
 test('Iterable#toArray empty', () => {
   const res = toArray<number>([]);
-  expect(res.length).toBe(0);
+  expect(res).toHaveLength(0);
 });

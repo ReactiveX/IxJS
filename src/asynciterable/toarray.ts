@@ -4,7 +4,6 @@ import { throwIfAborted } from '../aborterror';
 /**
  * Converts an existing async-iterable to a promise containing the array of values.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @param {AsyncIterable<TSource>} source The source sequence to convert to an array.
  * @param {AbortSignal} [signal] An optional abort signal to cancel the operation at any time.

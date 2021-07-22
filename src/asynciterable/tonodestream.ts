@@ -5,14 +5,14 @@ import { Readable, ReadableOptions } from 'stream';
 const done = async (_: any) => null as any;
 
 type AsyncSourceIterator<TSource> = AsyncIterator<
-TSource,
-any,
-number | ArrayBufferView | undefined | null
+  TSource,
+  any,
+  number | ArrayBufferView | undefined | null
 >;
 
 export class AsyncIterableReadable<T> extends Readable {
-  private _pulling: boolean = false;
-  private _objectMode: boolean = true;
+  private _pulling = false;
+  private _objectMode = true;
   private _iterator: AsyncSourceIterator<T> | undefined;
   constructor(source: AsyncIterable<T>, options?: ReadableOptions) {
     super(options);

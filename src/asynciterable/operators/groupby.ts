@@ -23,7 +23,7 @@ export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
 }
 
 export class GroupByAsyncIterable<TSource, TKey, TValue> extends AsyncIterableX<
-GroupedAsyncIterable<TKey, TValue>
+  GroupedAsyncIterable<TKey, TValue>
 > {
   private _source: AsyncIterable<TSource>;
   private _keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>;
@@ -64,7 +64,6 @@ export function groupBy<TSource, TKey, TValue>(
 /**
  * Groups the elements of an async-iterable sequence and selects the resulting elements by using a specified function.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @template TKey The type of the grouping key computed for each element in the source sequence.
  * @template TValue The type of the elements within the groups computed for each element in the source sequence.

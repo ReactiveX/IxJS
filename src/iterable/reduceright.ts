@@ -6,7 +6,6 @@ import { ReduceOptions } from './reduceoptions';
  * single element in the result sequence. The seed value, if specified, is used as the initial accumulator value.
  * For aggregation behavior with incremental intermediate results, scan.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @template R The type of the result of the aggregation.
  * @param {Iterable<T>} source An iterable sequence to aggregate over.
@@ -28,8 +27,10 @@ export function reduceRight<T, R = T>(
     // eslint-disable-next-line no-nested-ternary
     typeof optionsOrAccumulator === 'function'
       ? arguments.length > 2
-        ? { 'callback': optionsOrAccumulator, 'seed': seed }
-        : { 'callback': optionsOrAccumulator }
+        ? // prettier-ignore
+          { 'callback': optionsOrAccumulator, 'seed': seed }
+        : // prettier-ignore
+          { 'callback': optionsOrAccumulator }
       : optionsOrAccumulator;
   const { ['seed']: _seed, ['callback']: callback } = options;
   const hasSeed = options.hasOwnProperty('seed');

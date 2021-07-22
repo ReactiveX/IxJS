@@ -1,7 +1,6 @@
 /**
  * Returns the element at a specified index in a sequence or undefined if the index is out of range.
  *
- * @export
  * @template T The type of the elements in the source sequence.
  * @param {Iterable<T>} source iterable sequence to return the element from.
  * @param {number} index The zero-based index of the element to retrieve.

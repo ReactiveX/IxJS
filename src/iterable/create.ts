@@ -16,7 +16,6 @@ class AnonymousIterable<T> extends IterableX<T> {
 /**
  * Creates a new iterable using the specified function implementing the members of AsyncIterable
  *
- * @export
  * @template T The type of the elements returned by the iterable sequence.
  * @param {(() => Iterator<T>)} fn The function that creates the [Symbol.iterator]() method
  * @returns {IterableX<T>} A new iterable instance.

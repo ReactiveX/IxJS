@@ -17,24 +17,18 @@ test('AsyncIterable#some throws', async () => {
   const err = new Error();
   const xs = throwError(err);
 
-  try {
-    await some(xs, { predicate: async (x) => x % 2 === 0 });
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(some(xs, { predicate: async (x) => x % 2 === 0 })).rejects.toThrow(err);
 });
 
 test('AsyncIterable#some predicate throws', async () => {
   const err = new Error();
   const xs = of(1, 2, 3, 4);
 
-  try {
-    await some(xs, {
+  await expect(
+    some(xs, {
       predicate: async () => {
         throw err;
       },
-    });
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+    })
+  ).rejects.toThrow(err);
 });

@@ -15,7 +15,7 @@ export function memoizeProto<TSource, TResult>(
  */
 export function memoizeProto<TSource, TResult = TSource>(
   this: IterableX<TSource>,
-  readerCount: number = -1,
+  readerCount = -1,
   selector?: (value: Iterable<TSource>) => Iterable<TResult>
 ): IterableX<TSource | TResult> {
   return memoize(readerCount, selector)(this);

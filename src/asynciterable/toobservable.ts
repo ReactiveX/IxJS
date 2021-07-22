@@ -4,7 +4,7 @@ import { Observable, PartialObserver } from '../observer';
 import { Subscription } from '../subscription';
 
 class BooleanSubscription implements Subscription {
-  public isUnsubscribed: boolean = false;
+  public isUnsubscribed = false;
 
   unsubscribe() {
     this.isUnsubscribed = true;
@@ -57,7 +57,6 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
 /**
  * Converts the async-iterable sequence to an observable.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {AsyncIterable<TSource>} source The async-iterable to convert to an observable.
  * @returns {Observable<TSource>} The observable containing the elements from the async-iterable.

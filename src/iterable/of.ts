@@ -3,7 +3,6 @@ import { IterableX } from './iterablex';
 /**
  * Creates an iterable from the specified elements.
  *
- * @export
  * @template TSource The type of the elements to create an iterable sequence.
  * @param {...TSource[]} args The elements to turn into an iterable sequence.
  * @returns {IterableX<TSource>} The iterable sequence created from the elements.

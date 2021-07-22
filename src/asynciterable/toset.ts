@@ -4,7 +4,6 @@ import { throwIfAborted } from '../aborterror';
 /**
  * Converts the existing async-iterable into a promise which resolves a Set.
  *
- * @export
  * @template TSource The type of elements in the source sequence.
  * @param {AsyncIterable<TSource>} source The async-iterable to convert into a set.
  * @param {AbortSignal} [signal] An optional abort signal to cancel the operation at any time.

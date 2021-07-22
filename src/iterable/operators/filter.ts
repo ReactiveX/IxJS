@@ -39,7 +39,6 @@ export function filter<T>(
 /**
  * Filters the elements of an iterable sequence based on a predicate.
  *
- * @export
  * @template TSource The type of the elements in the source sequence.
  * @param {((value: TSource, index: number) => boolean)} predicate A function to test each source element for a condition.
  * @param {*} [thisArg] Optional this for binding.

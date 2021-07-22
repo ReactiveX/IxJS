@@ -3,7 +3,6 @@ import { ScanOptions } from './operators/scanoptions';
 /**
  * The reduce options which includes an accumulator function, optional seed, and optional abort signal for cancellation.
  *
- * @export
  * @interface ReduceOptions
  * @extends {ScanOptions<T, R>}
  * @template T The type of the elements in the source sequence.

@@ -5,12 +5,13 @@ import { memoize } from './operators/memoize';
 /**
  * Converts the callback function into wrapped function which returns an async-iterable.
  *
- * @export
  * @template TSource The type of the value returned from the callback.
  * @param {Function} func The callback function to wrap as an async-iterable.
  * @returns {(...args: any[]) => AsyncIterableX<TSource>} A function when invoked, returns an async-iterable from the callback.
  */
-export function asyncify<TSource>(func: Function): (...args: any[]) => AsyncIterableX<TSource> {
+export function asyncify<TSource>(
+  func: (...xs: any[]) => any
+): (...args: any[]) => AsyncIterableX<TSource> {
   return function (...args: any[]) {
     const sink = new AsyncSink<TSource>();
 

@@ -4,7 +4,6 @@ import { throwIfAborted } from '../aborterror';
 /**
  * Determines whether the given async-iterable is empty.
  *
- * @export
  * @template T The type of elements in the source sequence.
  * @param {AsyncIterable<T>} source The source async-iterable to determine whether it is empty.
  * @param {AbortSignal} [signal] An optional abort signal to cancel the operation.

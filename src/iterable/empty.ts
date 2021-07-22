@@ -9,7 +9,6 @@ class EmptyIterable extends IterableX<never> {
 /**
  * Returns an empty iterable sequence.
  *
- * @export
  * @template TSource The type used for the iterable type parameter of the resulting sequence.
  * @returns {IterableX<never>} An iterable sequence with no elements.
  */

@@ -46,7 +46,7 @@ export class MaxRefCountList<T> implements IRefCountList<T> {
 export class RefCountList<T> implements IRefCountList<T> {
   private _readerCount: number;
   private _list: Map<number, RefCount<T>>;
-  private _count: number = 0;
+  private _count = 0;
 
   constructor(readerCount: number) {
     this._readerCount = readerCount;

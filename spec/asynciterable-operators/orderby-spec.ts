@@ -25,11 +25,7 @@ test('AsyncIterable#orderBy normal ordering with thenBy throws', async () => {
   );
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#orderBy selector throws', async () => {
@@ -42,11 +38,7 @@ test('AsyncIterable#orderBy selector throws', async () => {
   );
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });
 
 test('AsyncIterable#orderByDescending normal ordering', async () => {
@@ -72,9 +64,5 @@ test('AsyncIterable#orderByDescending normal ordering with thenByDescending thro
   );
 
   const it = ys[Symbol.asyncIterator]();
-  try {
-    await it.next();
-  } catch (e) {
-    expect(e).toEqual(err);
-  }
+  await expect(it.next()).rejects.toThrow(err);
 });

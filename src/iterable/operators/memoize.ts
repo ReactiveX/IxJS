@@ -7,7 +7,7 @@ class MemoizeBuffer<T> extends IterableX<T> {
   private _source: Iterator<T>;
   private _buffer: IRefCountList<T>;
   private _error: any;
-  private _stopped: boolean = false;
+  private _stopped = false;
 
   constructor(source: Iterator<T>, buffer: IRefCountList<T>) {
     super();
@@ -65,7 +65,6 @@ class MemoizeBuffer<T> extends IterableX<T> {
 /**
  * Creates a buffer with a view over the source sequence, causing a specified number of iterators to obtain access
  * to all of the sequence's elements without causing multiple enumerations over the source.
- * @export
  * @template TSource Source sequence element type.
  * @param {number} [readerCount] Number of iterators that can access the underlying buffer.
  * Once every iterator has obtained an element from the buffer, the element is removed from the buffer.
@@ -77,7 +76,6 @@ export function memoize<TSource>(readerCount?: number): OperatorFunction<TSource
  * Memoizes the source sequence within a selector function where a specified number of iterators can get access
  * to all of the sequence's elements without causing multiple iterations over the source.
  *
- * @export
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
  * @param {number} [readerCount] Number of iterators that can access the underlying buffer. Once every
@@ -95,7 +93,6 @@ export function memoize<TSource, TResult>(
  * Memoizes the source sequence within a selector function where a specified number of iterators can get access
  * to all of the sequence's elements without causing multiple iterations over the source.
  *
- * @export
  * @template TSource Source sequence element type.
  * @template TResult Result sequence element type.
  * @param {number} [readerCount=-1] Number of iterators that can access the underlying buffer. Once every
@@ -106,7 +103,7 @@ export function memoize<TSource, TResult>(
  * memoized view over the source sequence.
  */
 export function memoize<TSource, TResult = TSource>(
-  readerCount: number = -1,
+  readerCount = -1,
   selector?: (value: Iterable<TSource>) => Iterable<TResult>
 ): OperatorFunction<TSource, TSource | TResult> {
   return function memoizeOperatorFunction(source: Iterable<TSource>): IterableX<TSource | TResult> {
@@ -114,9 +111,9 @@ export function memoize<TSource, TResult = TSource>(
       return readerCount === -1
         ? new MemoizeBuffer<TSource>(source[Symbol.iterator](), new MaxRefCountList<TSource>())
         : new MemoizeBuffer<TSource>(
-          source[Symbol.iterator](),
-          new RefCountList<TSource>(readerCount)
-        );
+            source[Symbol.iterator](),
+            new RefCountList<TSource>(readerCount)
+          );
     }
     return create<TSource | TResult>(() =>
       selector!(memoize<TSource>(readerCount)(source))[Symbol.iterator]()
