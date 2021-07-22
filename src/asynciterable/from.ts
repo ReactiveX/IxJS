@@ -12,6 +12,7 @@ import {
 import { Observable } from '../observer';
 import { toLength } from '../util/tolength';
 import { AsyncSink } from './asyncsink';
+import { AbortError, throwIfAborted } from '../aborterror';
 
 export let from: <TSource, TResult = TSource>(
   source: AsyncIterableInput<TSource>,
@@ -149,7 +150,9 @@ export function _initialize(Ctor: typeof AsyncIterableX) {
       this._selector = selector;
     }
 
-    async *[Symbol.asyncIterator]() {
+    async *[Symbol.asyncIterator](signal?: AbortSignal) {
+      throwIfAborted(signal);
+
       const sink: AsyncSink<TSource> = new AsyncSink<TSource>();
       const subscription = this._observable.subscribe({
         next(value: TSource) {
@@ -163,12 +166,25 @@ export function _initialize(Ctor: typeof AsyncIterableX) {
         }
       });
 
+      function onAbort() {
+        sink.error(new AbortError());
+      }
+
+      if (signal) {
+        signal.addEventListener('abort', onAbort);
+      }
+
       let i = 0;
       try {
         for (let next; !(next = await sink.next()).done; ) {
+          throwIfAborted(signal);
           yield await this._selector(next.value!, i++);
         }
       } finally {
+        if (signal) {
+          signal.removeEventListener('abort', onAbort);
+        }
+
         subscription.unsubscribe();
       }
     }
