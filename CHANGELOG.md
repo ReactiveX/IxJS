@@ -1,3 +1,16 @@
+# [4.5.0](https://github.com/ReactiveX/IxJS/compare/v4.4.1...v4.5.0) (2021-07-29)
+
+
+* * chore(readme.md): update travis-ci badge url (#334) ([370ae91](https://github.com/ReactiveX/IxJS/commit/370ae919000390c8725423bb23e4707f81afb619)), closes [#334](https://github.com/ReactiveX/IxJS/issues/334)
+* Update to TypeScript v4.3.5 (#332) ([0637a25](https://github.com/ReactiveX/IxJS/commit/0637a25f552520490e9025d559cf384043d6e93f)), closes [#332](https://github.com/ReactiveX/IxJS/issues/332) [#331](https://github.com/ReactiveX/IxJS/issues/331)
+
+
+### Features
+
+* **from:** support `AbortSignal` in `from(observable)` ([#333](https://github.com/ReactiveX/IxJS/issues/333)) ([7897e85](https://github.com/ReactiveX/IxJS/commit/7897e85c11bcdece1efd749e42e772e5cf0974cf))
+
+
+
 ## [4.4.1](https://github.com/ReactiveX/IxJS/compare/v4.4.0...v4.4.1) (2021-07-11)
 
 
