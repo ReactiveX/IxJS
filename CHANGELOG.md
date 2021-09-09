@@ -1,3 +1,12 @@
+## [4.5.1](https://github.com/ReactiveX/IxJS/compare/v4.5.0...v4.5.1) (2021-09-09)
+
+
+### Bug Fixes
+
+* add static Iterable.as and AsyncIterable.as ([#336](https://github.com/ReactiveX/IxJS/issues/336)) ([b911d1a](https://github.com/ReactiveX/IxJS/commit/b911d1a1d5dc971f063929a5b3bf213f634103be))
+
+
+
 # [4.5.0](https://github.com/ReactiveX/IxJS/compare/v4.4.1...v4.5.0) (2021-07-29)
 
 
