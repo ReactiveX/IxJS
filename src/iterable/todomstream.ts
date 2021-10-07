@@ -85,6 +85,6 @@ declare module '../iterable/iterablex' {
     pipeThrough<R extends ReadableStream<any>>(
       duplex: { writable: WritableStream<T>; readable: R },
       options?: StreamPipeOptions
-    ): ReadableStream<T>;
+    ): R;
   }
 }
