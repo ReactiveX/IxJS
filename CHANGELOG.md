@@ -1,3 +1,12 @@
+## [4.5.2](https://github.com/ReactiveX/IxJS/compare/v4.5.1...v4.5.2) (2021-10-07)
+
+
+### Bug Fixes
+
+* **pipethrough:** fix Iterable/AsyncIterable pipeThrough signature ([#338](https://github.com/ReactiveX/IxJS/issues/338)) ([58dea12](https://github.com/ReactiveX/IxJS/commit/58dea12785dc756ee8a363b42a24c61c69c7c2c0))
+
+
+
 ## [4.5.1](https://github.com/ReactiveX/IxJS/compare/v4.5.0...v4.5.1) (2021-09-09)
 
 
