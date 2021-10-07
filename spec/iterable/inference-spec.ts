@@ -33,11 +33,11 @@ describe('Iterable type inference', () => {
 
   if (TEST_DOM_STREAMS) {
     test('#pipeThrough type inference is correct with writable stream', () => {
-      const source = of(0, 1, 2).pipeThrough(new TransformStream());
+      const source = of(0, 1, 2).pipeThrough(new TransformStream<number, number>());
       expect(source).toEqualStream([0, 1, 2]);
     });
     test('#pipeThrough type inference is correct with writable stream and pipe options', () => {
-      const source = of(0, 1, 2).pipeThrough(new TransformStream(), {
+      const source = of(0, 1, 2).pipeThrough(new TransformStream<number, number>(), {
         preventClose: false,
       });
       expect(source).toEqualStream([0, 1, 2]);

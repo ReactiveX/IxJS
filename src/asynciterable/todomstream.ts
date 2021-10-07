@@ -267,6 +267,6 @@ declare module '../asynciterable/asynciterablex' {
     pipeThrough<R extends ReadableStream<any>>(
       duplex: { writable: WritableStream<T>; readable: R },
       options?: StreamPipeOptions
-    ): ReadableStream<T>;
+    ): R;
   }
 }
