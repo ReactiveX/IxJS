@@ -29,5 +29,5 @@ test('AsyncIterable#switchMap switches inner sequences', async () => {
   expect(await toArray(source)).toEqual(expected);
 
   expect(innerValues).toEqual(expected);
-  expect(outerValues).toEqual(['0', '1', '2']);
+  expect(outerValues).toEqual([0, 1, 2]);
 });
