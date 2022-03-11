@@ -2,11 +2,11 @@ import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import {
   orderBy,
   orderByDescending,
-  OrderedAsyncIterableX
+  OrderedAsyncIterableX,
 } from '../../asynciterable/operators/orderby';
 import {
   thenBy as _thenBy,
-  thenByDescending as _thenByDescending
+  thenByDescending as _thenByDescending,
 } from '../../asynciterable/operators/orderby';
 
 /**

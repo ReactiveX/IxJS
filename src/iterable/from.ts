@@ -19,7 +19,7 @@ export let FromIterable: new <TSource, TResult = TSource>(
 
 export function _initialize(Ctor: typeof IterableX) {
   /** @nocollapse */
-  from = function<TSource, TResult = TSource> (
+  from = function <TSource, TResult = TSource>(
     source: Iterable<TSource> | Iterator<TSource> | ArrayLike<TSource>,
     selector: (value: TSource, index: number) => TResult = identity,
     thisArg?: any
@@ -55,13 +55,13 @@ export function _initialize(Ctor: typeof IterableX) {
       const iterable = isIterable(this._source);
       let i = 0;
       if (iterable) {
-        for (const item of <Iterable<TSource>> this._source) {
+        for (const item of <Iterable<TSource>>this._source) {
           yield this._fn(item, i++);
         }
       } else {
-        const length = toLength((<ArrayLike<TSource>> this._source).length);
+        const length = toLength((<ArrayLike<TSource>>this._source).length);
         while (i < length) {
-          const val = (<ArrayLike<TSource>> this._source)[i];
+          const val = (<ArrayLike<TSource>>this._source)[i];
           yield this._fn(val, i++);
         }
       }

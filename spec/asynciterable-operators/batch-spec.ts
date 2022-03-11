@@ -2,7 +2,7 @@ import '../asynciterablehelpers';
 import { batch } from 'ix/asynciterable/operators';
 import { AsyncSink } from 'ix/asynciterable';
 
-const delay = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 
 test('AsyncIterable#batch basic', async () => {
   const sink = new AsyncSink<number>();
@@ -26,10 +26,10 @@ test('AsyncIterable#batch basic', async () => {
   await delay();
   expect(await it.next()).toEqual({
     done: false,
-    value: [4, 5]
+    value: [4, 5],
   });
   expect(await it.next()).toEqual({
-    done: true
+    done: true,
   });
 });
 

@@ -4,7 +4,7 @@ import { from } from 'ix/iterable';
 
 test('Iterable#skipWhile skips some', () => {
   const xs = [1, 2, 3, 4];
-  const ys = from(xs).pipe(skipWhile(x => x < 3));
+  const ys = from(xs).pipe(skipWhile((x) => x < 3));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 3);
@@ -34,7 +34,7 @@ test('Iterable#skipWhile skips all', () => {
 
 test('Iterable#skipWhile skips some another run', () => {
   const xs = [1, 2, 3, 4, 3, 2, 1];
-  const ys = from(xs).pipe(skipWhile(x => x < 3));
+  const ys = from(xs).pipe(skipWhile((x) => x < 3));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 3);

@@ -10,12 +10,12 @@ test('Iterable#concat concatAll behavior', () => {
 test('Iterable#concat concatAll order of effects', () => {
   let i = 0;
   const xss = range(0, 3).pipe(
-    map(x => range(0, x + 1)),
+    map((x) => range(0, x + 1)),
     tap({ next: async () => ++i })
   );
   const res = xss.pipe(
     concatAll(),
-    map(x => i + ' - ' + x)
+    map((x) => i + ' - ' + x)
   );
 
   expect(sequenceEqual(res, of('1 - 0', '2 - 0', '2 - 1', '3 - 0', '3 - 1', '3 - 2'))).toBeTruthy();

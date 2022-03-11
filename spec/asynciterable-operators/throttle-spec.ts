@@ -3,7 +3,7 @@ import { throttle } from 'ix/asynciterable/operators';
 import { as } from 'ix/asynciterable';
 
 test('AsyncIterable#throttle drops none', async () => {
-  const xs = async function*() {
+  const xs = async function* () {
     yield await delayValue(1, 100);
     yield await delayValue(2, 100);
     yield await delayValue(3, 100);
@@ -18,7 +18,7 @@ test('AsyncIterable#throttle drops none', async () => {
 });
 
 test('AsyncIterable#throttle drops some', async () => {
-  const xs = async function*() {
+  const xs = async function* () {
     yield await delayValue(1, 200);
     yield await delayValue(2, 200);
     yield await delayValue(3, 200);

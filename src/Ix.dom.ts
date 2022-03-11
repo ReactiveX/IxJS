@@ -13,5 +13,5 @@ export { ReadableBYOBStreamOptions, ReadableByteStreamOptions } from './asyncite
 export {
   fromDOMStream,
   AsyncIterableReadableStream,
-  AsyncIterableReadableByteStream
+  AsyncIterableReadableByteStream,
 } from './asynciterable/fromdomstream';

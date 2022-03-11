@@ -14,7 +14,7 @@ export async function noNext<T>(source: AsyncIterator<T>) {
 }
 
 export function delayValue<T>(item: T, delay: number): Promise<T> {
-  return new Promise<T>(res => {
+  return new Promise<T>((res) => {
     setTimeout(() => {
       res(item);
     }, delay);
@@ -36,13 +36,13 @@ export function toObserver<T>(
     return {
       next: (observer.next || noop).bind(observer),
       error: (observer.error || noop).bind(observer),
-      complete: (observer.complete || noop).bind(observer)
+      complete: (observer.complete || noop).bind(observer),
     };
   } else {
     return {
       next: typeof next === 'function' ? next : noop,
       error: typeof error === 'function' ? error : noop,
-      complete: typeof complete === 'function' ? complete : noop
+      complete: typeof complete === 'function' ? complete : noop,
     };
   }
 }
@@ -108,7 +108,7 @@ expect.extend({
       results.push(`expected length ${expectedCount}, instead received ${++actualCount}`);
     }
     return { pass: results.length === 0, message: () => results.join('\n') };
-  }
+  },
 });
 
 function getValueByteLength(value: any) {

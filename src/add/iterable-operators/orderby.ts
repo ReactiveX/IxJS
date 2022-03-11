@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable/iterablex';
 import { orderBy, orderByDescending, OrderedIterableX } from '../../iterable/operators/orderby';
 import {
   thenBy as _thenBy,
-  thenByDescending as _thenByDescending
+  thenByDescending as _thenByDescending,
 } from '../../iterable/operators/orderby';
 
 /**
