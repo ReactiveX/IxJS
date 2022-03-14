@@ -7,15 +7,22 @@ function compareArrays<T>(fst: Iterable<T>, snd: Iterable<T>) {
 }
 
 test('AsyncIterable#flat flattens all', async () => {
-  const xs = of<any>(1, of<any>(2, of<any>(3)), 4);
+  const xs = of(1, of(2, of(3)), 4);
   const ys = await toArray(xs.pipe(flat()));
+
+  compareArrays(ys, [1, 4, 2, 3]);
+});
+
+test('AsyncIterable#flat flattens all with concurrent = 1', async () => {
+  const xs = of(1, of(2, of(3)), 4);
+  const ys = await toArray(xs.pipe(flat(-1, 1)));
 
   compareArrays(ys, [1, 2, 3, 4]);
 });
 
 test('AsyncIterable#flat flattens two layers', async () => {
-  const xs = of<any>(1, of<any>(2, of<any>(3)), 4);
+  const xs = of(1, of(2, of(3)), 4);
   const ys = await toArray(xs.pipe(flat(2)));
 
-  compareArrays(ys, [1, 2, 3, 4]);
+  compareArrays(ys, [1, 4, 2, 3]);
 });
