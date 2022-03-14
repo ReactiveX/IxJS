@@ -24,6 +24,8 @@ export class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @param {...TSource[]} args The elements to turn into an async-iterable sequence.
  * @returns {AsyncIterableX<TSource>} The async-iterable sequence created from the elements.
  */
-export function of<TSource>(...args: TSource[]): AsyncIterableX<TSource> {
-  return new OfAsyncIterable<TSource>(args);
+export function of<TSource extends any[]>(
+  ...args: TSource
+): AsyncIterableX<TSource[number & keyof TSource]> {
+  return new OfAsyncIterable<TSource[number & keyof TSource]>(args);
 }

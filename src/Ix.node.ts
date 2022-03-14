@@ -11,6 +11,7 @@ import './add/asynciterable-operators/buffer';
 import './add/asynciterable-operators/catcherror';
 import './add/asynciterable-operators/combinelatest';
 import './add/asynciterable-operators/concatall';
+import './add/asynciterable-operators/concatmap';
 import './add/asynciterable-operators/concat';
 import './add/asynciterable-operators/count';
 import './add/asynciterable-operators/debounce';

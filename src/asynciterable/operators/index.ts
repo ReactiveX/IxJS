@@ -4,6 +4,7 @@ export * from './buffercountortime';
 export * from './catcherror';
 export * from './combinelatestwith';
 export * from './concatall';
+export * from './concatmap';
 export * from './concatwith';
 export * from './debounce';
 export * from './defaultifempty';
