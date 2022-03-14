@@ -5,7 +5,7 @@ import { mergeAll } from '../../asynciterable/operators/mergeall';
  * @ignore
  */
 export function mergeAllProto<T>(this: AsyncIterableX<AsyncIterable<T>>): AsyncIterableX<T> {
-  return mergeAll<T>()(this);
+  return mergeAll()(this);
 }
 
 AsyncIterableX.prototype.mergeAll = mergeAllProto;

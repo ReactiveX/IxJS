@@ -1,7 +1,5 @@
-import { AsyncIterableX } from '../asynciterablex';
 import { as } from '../as';
 import { flatMap } from './flatmap';
-import { OperatorAsyncFunction } from '../../interfaces';
 
 /**
  * Merges elements from all inner async-iterable sequences into a single async-iterable sequence.
@@ -9,10 +7,8 @@ import { OperatorAsyncFunction } from '../../interfaces';
  * @template TSource The type of the elements in the source sequences.
  * @returns {OperatorAsyncFunction<AsyncIterable<TSource>, TSource>} The async-iterable sequence that merges the elements of the inner sequences.
  */
-export function mergeAll<TSource>(): OperatorAsyncFunction<AsyncIterable<TSource>, TSource> {
-  return function mergeAllOperatorFunction(
-    source: AsyncIterable<AsyncIterable<TSource>>
-  ): AsyncIterableX<TSource> {
-    return as(source)['pipe'](flatMap<AsyncIterable<TSource>, TSource>((s) => s));
+export function mergeAll(concurrent = Infinity) {
+  return function mergeAllOperatorFunction<TSource>(source: AsyncIterable<AsyncIterable<TSource>>) {
+    return as(source)['pipe'](flatMap((s) => s, concurrent));
   };
 }

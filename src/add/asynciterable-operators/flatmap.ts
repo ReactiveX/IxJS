@@ -1,19 +1,16 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
 import { flatMap } from '../../asynciterable/operators/flatmap';
+import { FlattenConcurrentSelector } from '../../asynciterable/operators/_flatten';
 
 /**
  * @ignore
  */
 export function flatMapProto<T, R>(
   this: AsyncIterableX<T>,
-  selector: (
-    value: T,
-    index: number,
-    signal?: AbortSignal
-  ) => AsyncIterable<R> | Promise<AsyncIterable<R>>,
+  selector: FlattenConcurrentSelector<T, R>,
   thisArg?: any
-): AsyncIterableX<R> {
-  return flatMap<T, R>(selector, thisArg)(this);
+) {
+  return flatMap(selector, thisArg)(this);
 }
 
 AsyncIterableX.prototype.flatMap = flatMapProto;
