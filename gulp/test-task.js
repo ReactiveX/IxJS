@@ -34,29 +34,31 @@ if (targetAndModuleCombinations.length > 1) {
 
 const jest = path.join(path.parse(require.resolve(`jest`)).dir, `../bin/jest.js`);
 const testOptions = {
-    stdio: [`ignore`, `inherit`, `inherit`],
-    env: {
-        ...process.env,
-        // hide fs.promises/stream[Symbol.asyncIterator] warnings
-        NODE_NO_WARNINGS: `1`,
-        TS_JEST_DISABLE_VER_CHECKER: true
-    },
+  stdio: [`ignore`, `inherit`, `inherit`],
+  env: {
+    ...process.env,
+    // hide fs.promises/stream[Symbol.asyncIterator] warnings
+    NODE_NO_WARNINGS: `1`,
+    TS_JEST_DISABLE_VER_CHECKER: true
+  },
 };
 
 const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function test(target, format) {
-    const args = [...execArgv];
-    const opts = { ...testOptions };
-    if (argv.coverage) {
-        args.push(`-c`, `jest.coverage.config.js`, `--coverage`);
-    } else {
-        const cfgname = [target, format].filter(Boolean).join('.');
-        args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, `spec/*`);
-    }
-    opts.env = { ...opts.env,
-        TEST_DOM_STREAMS: (target ==='src' || format === 'umd').toString(),
-        TEST_NODE_STREAMS: (target ==='src' || format !== 'umd').toString(),
-    };
-    return asyncDone(() => child_process.spawn(`node`, args, opts));
+  const args = [...execArgv];
+  const opts = { ...testOptions };
+  if (argv.coverage) {
+    args.push(`-c`, `jest.coverage.config.js`, `--coverage`);
+  } else {
+    const cfgname = [target, format].filter(Boolean).join('.');
+    // args.push(`--verbose`, `--no-cache`, `-i`);
+    args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, ...argv.tests);
+  }
+  opts.env = {
+    ...opts.env,
+    TEST_DOM_STREAMS: (target === 'src' || format === 'umd').toString(),
+    TEST_NODE_STREAMS: (target === 'src' || format !== 'umd').toString(),
+  };
+  return asyncDone(() => child_process.spawn(`node`, args, opts));
 }))({}, [jest, ...jestArgv], testOptions);
 
 module.exports = testTask;

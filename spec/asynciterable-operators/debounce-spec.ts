@@ -52,7 +52,7 @@ test(
     const controller = new AbortController();
     const it = ys[Symbol.asyncIterator](controller.signal);
     await hasNext(it, 1);
-    controller.abort();
+    setImmediate(() => controller.abort());
     await expect(hasNext(it, 3)).rejects.toThrow(AbortError);
     await noNext(it);
   },
