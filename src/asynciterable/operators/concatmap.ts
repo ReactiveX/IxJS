@@ -16,12 +16,11 @@ import { OperatorAsyncFunction } from '../../interfaces';
  * @returns {OperatorAsyncFunction<TSource, TResult>} An operator that creates an async-iterable sequence whose
  * elements are the result of invoking the one-to-many transform function on each element of the input sequence.
  */
-export function flatMap<TSource, TResult>(
+export function concatMap<TSource, TResult>(
   selector: FlattenConcurrentSelector<TSource, TResult>,
-  concurrent = Infinity,
   thisArg?: any
 ): OperatorAsyncFunction<TSource, TResult> {
-  return function flatMapOperatorFunction(source) {
-    return new FlattenConcurrentAsyncIterable(source, selector, concurrent, false, thisArg);
+  return function concatMapOperatorFunction(source) {
+    return new FlattenConcurrentAsyncIterable(source, selector, 1, false, thisArg);
   };
 }

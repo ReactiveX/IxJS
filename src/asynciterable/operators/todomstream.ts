@@ -1,7 +1,7 @@
 import {
   toDOMStream as toDOMStreamOperator,
   ReadableBYOBStreamOptions,
-  ReadableByteStreamOptions
+  ReadableByteStreamOptions,
 } from '../../asynciterable/todomstream';
 
 import { UnaryFunction } from '../../interfaces';
@@ -22,8 +22,9 @@ export function toDOMStream(
     if (!options || !('type' in options) || options['type'] !== 'bytes') {
       return toDOMStreamOperator(source, options as QueuingStrategy<any> | undefined);
     }
-    return toDOMStreamOperator(source, options as
-      | ReadableBYOBStreamOptions
-      | ReadableByteStreamOptions);
+    return toDOMStreamOperator(
+      source,
+      options as ReadableBYOBStreamOptions | ReadableByteStreamOptions
+    );
   };
 }

@@ -28,7 +28,7 @@ export class DefaultScheduler implements Scheduler {
   }
 
   delay(dueTime: number) {
-    return new Promise<void>(res => setTimeout(res, dueTime));
+    return new Promise<void>((res) => setTimeout(res, dueTime));
   }
 
   schedule(action: () => void, dueTime: number): Subscription {

@@ -6,13 +6,13 @@ test("Abort signal isn't overloaded with event listeners", async () => {
   const abortController = new AbortController();
   const listeners: (() => void)[] = [];
   // eslint-disable-next-line jest/no-jasmine-globals
-  spyOn(abortController.signal, 'addEventListener').and.callFake((_, listener) =>
-    listeners.push(listener)
-  );
+  jest
+    .spyOn(abortController.signal, 'addEventListener')
+    .mockImplementation((_, listener) => listeners.push(listener as any));
   // eslint-disable-next-line jest/no-jasmine-globals
-  spyOn(abortController.signal, 'removeEventListener').and.callFake((_, listener) =>
-    listeners.splice(listeners.indexOf(listener), 1)
-  );
+  jest
+    .spyOn(abortController.signal, 'removeEventListener')
+    .mockImplementation((_, listener) => listeners.splice(listeners.indexOf(listener as any), 1));
   await interval(10)
     .pipe(take(10))
     .forEach(

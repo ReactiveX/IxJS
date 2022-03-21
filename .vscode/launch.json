@@ -34,8 +34,8 @@
             },
             "args": [
                 "--verbose",
-                "-runInBand",
                 "--no-cache",
+                "--runInBand",
                 "-c", "jestconfigs/jest.${input:TEST_TARGET}.config.js",
                 "${input:TEST_FILE}"
             ]

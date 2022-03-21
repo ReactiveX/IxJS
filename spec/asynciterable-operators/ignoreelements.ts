@@ -9,7 +9,7 @@ test('Iterable#ignoreElements has side effects', async () => {
       tap({
         next: async () => {
           n++;
-        }
+        },
       }),
       ignoreElements(),
       take(5)

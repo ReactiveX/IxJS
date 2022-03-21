@@ -16,42 +16,42 @@
 // under the License.
 
 module.exports = {
-    "verbose": false,
-    "testEnvironment": "node",
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false,
-        "tsConfig": "spec/tsconfig.json"
-      }
-    },
-    "rootDir": "./",
-    "roots": [
-      "<rootDir>/spec/"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "tsx"
-    ],
-    "coverageReporters": [
-      "lcov"
-    ],
-    "coveragePathIgnorePatterns": [
-      "spec\\/.*\\.(ts|tsx|js)$",
-      "/node_modules/"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "ts-jest",
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "transformIgnorePatterns": [
-      "/(es5|es2015|esnext)/umd/",
-      "/node_modules/(?!web-stream-tools).+\\.js$"
-    ],
-    "testRegex": "(.*(-|\\.)(test|spec)s?)\\.(ts|tsx|js)$",
-    "preset": "ts-jest",
-    "testMatch": null,
-    "moduleNameMapper": {
-        "^ix(.*)": "<rootDir>/src/$1.js"
+  "verbose": false,
+  "testEnvironment": "node",
+  "globals": {
+    "ts-jest": {
+      "diagnostics": false,
+      "tsconfig": "spec/tsconfig.json"
     }
+  },
+  "rootDir": "./",
+  "roots": [
+    "<rootDir>/spec/"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "ts",
+    "tsx"
+  ],
+  "coverageReporters": [
+    "lcov"
+  ],
+  "coveragePathIgnorePatterns": [
+    "spec\\/.*\\.(ts|tsx|js)$",
+    "/node_modules/"
+  ],
+  "transform": {
+    "^.+\\.jsx?$": "ts-jest",
+    "^.+\\.tsx?$": "ts-jest"
+  },
+  "transformIgnorePatterns": [
+    "/(es5|es2015|esnext)/umd/",
+    "/node_modules/(?!web-stream-tools).+\\.js$"
+  ],
+  "testRegex": "(.*(-|\\.)(test|spec)s?)\\.(ts|tsx|js)$",
+  "preset": "ts-jest",
+  "testMatch": null,
+  "moduleNameMapper": {
+    "^ix(.*)": "<rootDir>/src/$1.js"
+  }
 };

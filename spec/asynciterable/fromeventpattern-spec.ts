@@ -7,8 +7,8 @@ const EVENT_TYPE = 'data';
 test('AsyncIterable#fromEventPattern writes before emit', async () => {
   const e = new EventEmitter();
   const a = fromEventPattern(
-    h => e.addListener(EVENT_TYPE, h),
-    h => e.removeListener(EVENT_TYPE, h)
+    (h) => e.addListener(EVENT_TYPE, h),
+    (h) => e.removeListener(EVENT_TYPE, h)
   );
 
   e.emit(EVENT_TYPE, 1);

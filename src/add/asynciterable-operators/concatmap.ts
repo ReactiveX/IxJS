@@ -1,22 +1,22 @@
 import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { flatMap } from '../../asynciterable/operators/flatmap';
+import { concatMap } from '../../asynciterable/operators/concatmap';
 import { FlattenConcurrentSelector } from '../../asynciterable/operators/_flatten';
 
 /**
  * @ignore
  */
-export function flatMapProto<T, R>(
+export function concatMapProto<T, R>(
   this: AsyncIterableX<T>,
   selector: FlattenConcurrentSelector<T, R>,
   thisArg?: any
 ) {
-  return flatMap(selector, thisArg)(this);
+  return concatMap(selector, thisArg)(this);
 }
 
-AsyncIterableX.prototype.flatMap = flatMapProto;
+AsyncIterableX.prototype.concatMap = concatMapProto;
 
 declare module '../../asynciterable/asynciterablex' {
   interface AsyncIterableX<T> {
-    flatMap: typeof flatMapProto;
+    concatMap: typeof concatMapProto;
   }
 }

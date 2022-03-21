@@ -3,7 +3,7 @@ import { skipUntil } from 'ix/asynciterable/operators';
 import { as } from 'ix/asynciterable';
 
 test('AsyncIterable#skipUntil hits', async () => {
-  const xs = async function*() {
+  const xs = async function* () {
     yield await delayValue(1, 100);
     yield await delayValue(2, 300);
     yield await delayValue(3, 600);
@@ -17,7 +17,7 @@ test('AsyncIterable#skipUntil hits', async () => {
 });
 
 test('AsyncIterable#skipUntil misses', async () => {
-  const xs = async function*() {
+  const xs = async function* () {
     yield await delayValue(1, 400);
     yield await delayValue(2, 500);
     yield await delayValue(3, 600);

@@ -4,7 +4,7 @@ import { range } from 'ix/iterable';
 test('Iterable#forEach', () => {
   let n = 0;
 
-  range(5, 3).forEach(x => (n += x));
+  range(5, 3).forEach((x) => (n += x));
 
   expect(5 + 6 + 7).toBe(n);
 });

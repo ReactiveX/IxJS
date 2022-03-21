@@ -2,7 +2,7 @@ import { IterableX } from '../../iterable/iterablex';
 import { toDOMStream } from '../../iterable/todomstream';
 import {
   ReadableBYOBStreamOptions,
-  ReadableByteStreamOptions
+  ReadableByteStreamOptions,
 } from '../../asynciterable/todomstream';
 
 /**

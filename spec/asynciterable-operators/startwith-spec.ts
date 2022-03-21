@@ -14,14 +14,9 @@ test('AsyncIterable#startWith adds without causing effects', async () => {
     tap({
       next: async () => {
         oops = true;
-      }
+      },
     })
   );
-  await toArray(
-    e.pipe(
-      startWith(0),
-      take(1)
-    )
-  );
+  await toArray(e.pipe(startWith(0), take(1)));
   expect(oops).toBeFalsy();
 });

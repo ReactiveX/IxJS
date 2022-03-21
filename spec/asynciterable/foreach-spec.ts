@@ -4,7 +4,7 @@ import { range } from 'ix/asynciterable';
 test('AsyncIterable#forEach', async () => {
   let n = 0;
 
-  await range(5, 3).forEach(async x => {
+  await range(5, 3).forEach(async (x) => {
     n += x;
   });
 
