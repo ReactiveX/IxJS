@@ -1,5 +1,4 @@
 import { AsyncIterableX } from '../asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
@@ -29,12 +28,12 @@ export class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  *
  * @template TSource The type of the elements in the source sequence.
  * @param {...TSource[]} args Elements to prepend to the specified sequence.
- * @returns {MonoTypeOperatorAsyncFunction<TSource>} The source sequence prepended with the specified values.
+ * @returns The source sequence prepended with the specified values.
  */
-export function startWith<TSource>(...args: TSource[]): MonoTypeOperatorAsyncFunction<TSource> {
-  return function startWithOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new StartWithAsyncIterable<TSource>(source, args);
+export function startWith<TSource extends any[]>(...args: TSource) {
+  return function startWithOperatorFunction<TInput>(
+    source: AsyncIterable<TInput>
+  ): AsyncIterableX<TInput | TSource[number & keyof TSource]> {
+    return new StartWithAsyncIterable<TInput | TSource[number & keyof TSource]>(source, args);
   };
 }
