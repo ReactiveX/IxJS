@@ -1,23 +1,19 @@
-import { as as asAsyncIterable } from './as';
-import { _initialize as _initializeFrom } from './from';
 import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
 import { Observable } from '../observer';
-import { isReadableNodeStream, isWritableNodeStream } from '../util/isiterable';
-
-class WithAbortAsyncIterable<TSource> implements AsyncIterable<TSource> {
-  private _source: AsyncIterable<TSource>;
-  private _signal: AbortSignal;
-
-  constructor(source: AsyncIterable<TSource>, signal: AbortSignal) {
-    this._source = source;
-    this._signal = signal;
-  }
-
-  [Symbol.asyncIterator](): AsyncIterator<TSource> {
-    // @ts-ignore
-    return this._source[Symbol.asyncIterator](this._signal);
-  }
-}
+import { bindCallback } from '../util/bindcallback';
+import { identityAsync } from '../util/identity';
+import {
+  isReadableNodeStream,
+  isWritableNodeStream,
+  isIterable,
+  isAsyncIterable,
+  isArrayLike,
+  isIterator,
+  isPromise,
+  isObservable,
+} from '../util/isiterable';
+import { toLength } from '../util/tolength';
+import { AbortError, throwIfAborted } from '../aborterror';
 
 /**
  * This class serves as the base for all operations which support [Symbol.asyncIterator].
@@ -47,9 +43,85 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     const n = args.length;
     let acc: any = this;
     while (++i < n) {
-      acc = args[i](asAsyncIterable(acc));
+      acc = args[i](AsyncIterableX.asAsyncIterable(acc));
     }
     return acc;
+  }
+
+  static from<TSource, TResult = TSource>(
+    source: AsyncIterableInput<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
+    thisArg?: any
+  ): AsyncIterableX<TResult> {
+    const fn = bindCallback(selector, thisArg, 2);
+    if (isIterable(source) || isAsyncIterable(source)) {
+      return new FromAsyncIterable<TSource, TResult>(source, fn);
+    }
+    if (isPromise(source)) {
+      return new FromPromiseIterable<TSource, TResult>(source, fn);
+    }
+    if (isObservable(source)) {
+      return new FromObservableAsyncIterable<TSource, TResult>(source, fn);
+    }
+    if (isArrayLike(source)) {
+      return new FromArrayIterable<TSource, TResult>(source, fn);
+    }
+    if (isIterator(source)) {
+      return new FromAsyncIterable<TSource, TResult>({ [Symbol.asyncIterator]: () => source }, fn);
+    }
+    throw new TypeError('Input type not supported');
+  }
+
+  /**
+   * Converts an existing string into an async-iterable of characters.
+   *
+   * @param {string} source The string to convert to an async-iterable.
+   * @returns {AsyncIterableX<string>} An async-iterable stream of characters from the source.
+   */
+  static asAsyncIterable(source: string): AsyncIterableX<string>;
+  /**
+   * Converts the async iterable like input into an async-iterable.
+   *
+   * @template T The type of elements in the async-iterable like sequence.
+   * @param {AsyncIterableInput<T>} source The async-iterable like input to convert to an async-iterable.
+   * @returns {AsyncIterableX<T>} An async-iterable stream from elements in the async-iterable like sequence.
+   */
+  static asAsyncIterable<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
+  /**
+   * Converts the single element into an async-iterable sequence.
+   *
+   * @template T The type of the input to turn into an async-iterable sequence.
+   * @param {T} source The single element to turn into an async-iterable sequence.
+   * @returns {AsyncIterableX<T>} An async-iterable sequence which contains the single element.
+   */
+  static asAsyncIterable<T>(source: T): AsyncIterableX<T>;
+  /**
+   * Converts the input into an async-iterable sequence.
+   *
+   * @param {*} source The source to convert to an async-iterable sequence.
+   * @returns {AsyncIterableX<*>} An async-iterable containing the input.
+   */
+  /** @nocollapse */
+  static asAsyncIterable(source: any): AsyncIterableX<any> {
+    if (source instanceof AsyncIterableX) {
+      return source;
+    }
+    if (typeof source === 'string') {
+      return new FromArrayIterable([source], identityAsync);
+    }
+    if (isIterable(source) || isAsyncIterable(source)) {
+      return new FromAsyncIterable(source, identityAsync);
+    }
+    if (isPromise(source)) {
+      return new FromPromiseIterable(source, identityAsync);
+    }
+    if (isObservable(source)) {
+      return new FromObservableAsyncIterable(source, identityAsync);
+    }
+    if (isArrayLike(source)) {
+      return new FromArrayIterable(source, identityAsync);
+    }
+    return new FromArrayIterable([source], identityAsync);
   }
 }
 
@@ -63,7 +135,218 @@ Object.defineProperty(AsyncIterableX, Symbol.hasInstance, {
   },
 });
 
-_initializeFrom(AsyncIterableX);
+const ARRAY_VALUE = 'value';
+const ARRAY_ERROR = 'error';
+
+interface AsyncSinkItem<T> {
+  type: string;
+  value?: T;
+  error?: any;
+}
+
+interface AsyncResolver<T> {
+  resolve: (value: T | PromiseLike<T>) => void;
+  reject: (reason?: any) => void;
+}
+
+export class AsyncSink<TSource> implements AsyncIterableIterator<TSource> {
+  private _ended: boolean;
+  private _values: AsyncSinkItem<TSource>[];
+  private _resolvers: AsyncResolver<IteratorResult<TSource>>[];
+
+  constructor() {
+    this._ended = false;
+    this._values = [];
+    this._resolvers = [];
+  }
+
+  [Symbol.asyncIterator]() {
+    return this;
+  }
+
+  write(value: TSource) {
+    this._push({ type: ARRAY_VALUE, value });
+  }
+
+  error(error: any) {
+    this._push({ type: ARRAY_ERROR, error });
+  }
+
+  private _push(item: AsyncSinkItem<TSource>) {
+    if (this._ended) {
+      throw new Error('AsyncSink already ended');
+    }
+
+    if (this._resolvers.length > 0) {
+      const { resolve, reject } = this._resolvers.shift()!;
+      if (item.type === ARRAY_ERROR) {
+        reject(item.error!);
+      } else {
+        resolve({ done: false, value: item.value! });
+      }
+    } else {
+      this._values.push(item);
+    }
+  }
+
+  next() {
+    if (this._values.length > 0) {
+      const { type, value, error } = this._values.shift()!;
+      if (type === ARRAY_ERROR) {
+        return Promise.reject(error);
+      } else {
+        return Promise.resolve({ done: false, value } as IteratorResult<TSource>);
+      }
+    }
+
+    if (this._ended) {
+      return Promise.resolve({ done: true } as IteratorResult<TSource>);
+    }
+
+    return new Promise<IteratorResult<TSource>>((resolve, reject) => {
+      this._resolvers.push({ resolve, reject });
+    });
+  }
+
+  end() {
+    while (this._resolvers.length > 0) {
+      this._resolvers.shift()!.resolve({ done: true } as IteratorResult<TSource>);
+    }
+    this._ended = true;
+  }
+}
+
+export class FromArrayIterable<TSource, TResult = TSource> extends AsyncIterableX<TResult> {
+  private _source: ArrayLike<TSource>;
+  private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
+
+  constructor(
+    source: ArrayLike<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult>
+  ) {
+    super();
+    this._source = source;
+    this._selector = selector;
+  }
+
+  async *[Symbol.asyncIterator]() {
+    let i = 0;
+    const length = toLength((<ArrayLike<TSource>>this._source).length);
+    while (i < length) {
+      yield await this._selector(this._source[i], i++);
+    }
+  }
+}
+
+export class FromAsyncIterable<TSource, TResult = TSource> extends AsyncIterableX<TResult> {
+  private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>;
+  private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
+
+  constructor(
+    source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult>
+  ) {
+    super();
+    this._source = source;
+    this._selector = selector;
+  }
+
+  async *[Symbol.asyncIterator]() {
+    let i = 0;
+    for await (const item of <AsyncIterable<TSource>>this._source) {
+      yield await this._selector(item, i++);
+    }
+  }
+}
+
+export class FromPromiseIterable<TSource, TResult = TSource> extends AsyncIterableX<TResult> {
+  private _source: PromiseLike<TSource>;
+  private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
+
+  constructor(
+    source: PromiseLike<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult>
+  ) {
+    super();
+    this._source = source;
+    this._selector = selector;
+  }
+
+  async *[Symbol.asyncIterator]() {
+    const item = await this._source;
+    yield await this._selector(item, 0);
+  }
+}
+
+export class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncIterableX<
+  TResult
+> {
+  private _observable: Observable<TSource>;
+  private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
+
+  constructor(
+    observable: Observable<TSource>,
+    selector: (value: TSource, index: number) => TResult | Promise<TResult>
+  ) {
+    super();
+    this._observable = observable;
+    this._selector = selector;
+  }
+
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
+
+    const sink: AsyncSink<TSource> = new AsyncSink<TSource>();
+    const subscription = this._observable.subscribe({
+      next(value: TSource) {
+        sink.write(value);
+      },
+      error(err: any) {
+        sink.error(err);
+      },
+      complete() {
+        sink.end();
+      },
+    });
+
+    function onAbort() {
+      sink.error(new AbortError());
+    }
+
+    if (signal) {
+      signal.addEventListener('abort', onAbort);
+    }
+
+    let i = 0;
+    try {
+      for (let next; !(next = await sink.next()).done; ) {
+        throwIfAborted(signal);
+        yield await this._selector(next.value!, i++);
+      }
+    } finally {
+      if (signal) {
+        signal.removeEventListener('abort', onAbort);
+      }
+
+      subscription.unsubscribe();
+    }
+  }
+}
+
+class WithAbortAsyncIterable<TSource> implements AsyncIterable<TSource> {
+  private _source: AsyncIterable<TSource>;
+  private _signal: AbortSignal;
+
+  constructor(source: AsyncIterable<TSource>, signal: AbortSignal) {
+    this._source = source;
+    this._signal = signal;
+  }
+
+  [Symbol.asyncIterator](): AsyncIterator<TSource> {
+    // @ts-ignore
+    return this._source[Symbol.asyncIterator](this._signal);
+  }
+}
 
 export type AsyncIterableInput<TSource> =
   | AsyncIterable<TSource>
@@ -165,12 +448,12 @@ try {
       while (++i < n) {
         next = args[i];
         if (typeof next === 'function') {
-          prev = next(asAsyncIterable(prev));
+          prev = next(AsyncIterableX.asAsyncIterable(prev));
         } else if (isWritableNodeStream(next)) {
           ({ end = true } = args[i + 1] || {});
           // prettier-ignore
           return isReadableNodeStream(prev) ? prev.pipe(next, {end}) :
-            asAsyncIterable(prev).toNodeStream(readableOpts(next)).pipe(next, {end});
+          AsyncIterableX.asAsyncIterable(prev).toNodeStream(readableOpts(next)).pipe(next, {end});
         }
       }
       return prev;

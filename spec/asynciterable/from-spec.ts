@@ -1,7 +1,7 @@
 import { hasNext, noNext, toObserver } from '../asynciterablehelpers';
 import { setInterval, clearInterval } from 'timers';
 import { PartialObserver } from '../../src/observer';
-import { from } from 'ix/asynciterable';
+import { AsyncIterableX } from 'ix/asynciterable';
 import { AbortError } from 'ix/Ix';
 import { withAbort } from 'ix/asynciterable/operators';
 
@@ -11,7 +11,7 @@ test('AsyncIterable#from from promise list', async () => {
     Promise.resolve(2),
     Promise.resolve(3),
   ];
-  const res = from(xs);
+  const res = AsyncIterableX.from(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -28,7 +28,7 @@ async function* getData() {
 
 test('AsyncIterable#from from async generator', async () => {
   const xs = getData();
-  const res = from(xs);
+  const res = AsyncIterableX.from(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -39,7 +39,7 @@ test('AsyncIterable#from from async generator', async () => {
 
 test('AsyncIterable#from from async iterator', async () => {
   const xs = getData();
-  const res = from({ next: () => xs.next() });
+  const res = AsyncIterableX.from({ next: () => xs.next() });
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -50,7 +50,7 @@ test('AsyncIterable#from from async iterator', async () => {
 
 test('AsyncIterable#from from array/iterable', async () => {
   const xs = [1, 2, 3];
-  const res = from(xs);
+  const res = AsyncIterableX.from(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -61,7 +61,7 @@ test('AsyncIterable#from from array/iterable', async () => {
 
 test('AsyncIterable#from from array/iterable with selector', async () => {
   const xs = [1, 2, 3];
-  const res = from(xs, async (x, i) => x + i);
+  const res = AsyncIterableX.from(xs, async (x, i) => x + i);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -72,7 +72,7 @@ test('AsyncIterable#from from array/iterable with selector', async () => {
 
 test('AsyncIterable#from from async generator with selector', async () => {
   const xs = getData();
-  const res = from(xs, async (x, i) => x + i);
+  const res = AsyncIterableX.from(xs, async (x, i) => x + i);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -83,7 +83,7 @@ test('AsyncIterable#from from async generator with selector', async () => {
 
 test('AsyncIterable#from from empty array/iterable', async () => {
   const xs: number[] = [];
-  const res = from(xs);
+  const res = AsyncIterableX.from(xs);
 
   const it = res[Symbol.asyncIterator]();
   await noNext(it);
@@ -91,7 +91,7 @@ test('AsyncIterable#from from empty array/iterable', async () => {
 
 test('AsyncIterable#from from array-like', async () => {
   const xs = { length: 3 };
-  const res = from(xs);
+  const res = AsyncIterableX.from(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, undefined);
@@ -102,7 +102,7 @@ test('AsyncIterable#from from array-like', async () => {
 
 test('AsyncIterable#from from array-like with selector', async () => {
   const xs = { length: 3 };
-  const res = from(xs, (_, i) => i);
+  const res = AsyncIterableX.from(xs, (_, i) => i);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 0);
@@ -113,7 +113,7 @@ test('AsyncIterable#from from array-like with selector', async () => {
 
 test('AsyncIterable#from from promise', async () => {
   const xs = Promise.resolve(42);
-  const res = from(xs);
+  const res = AsyncIterableX.from(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 42);
@@ -122,7 +122,7 @@ test('AsyncIterable#from from promise', async () => {
 
 test('AsyncIterable#from from promise with selector', async () => {
   const xs = Promise.resolve(42);
-  const res = from(xs, (x, i) => x + i);
+  const res = AsyncIterableX.from(xs, (x, i) => x + i);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 42);
@@ -130,7 +130,7 @@ test('AsyncIterable#from from promise with selector', async () => {
 });
 
 test('AsyncIterable#from from with non-iterable throws', () => {
-  expect(() => from({} as any)).toThrow();
+  expect(() => AsyncIterableX.from({} as any)).toThrow();
 });
 
 interface Observer<T> {
@@ -175,7 +175,7 @@ test('AsyncIterable#fromObservable with completion', async () => {
     obs.complete();
     return new EmptySubscription();
   });
-  const ys = from(xs);
+  const ys = AsyncIterableX.from(xs);
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 42);
@@ -188,7 +188,7 @@ test('AsyncIterable#fromObservable with map selector and completion', async () =
     obs.complete();
     return new EmptySubscription();
   });
-  const ys = from(xs, (x, i) => x + i);
+  const ys = AsyncIterableX.from(xs, (x, i) => x + i);
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 42);
@@ -207,7 +207,7 @@ test('AsyncIterable#fromObservable with multiple', async () => {
     }, 10);
     return new EmptySubscription();
   });
-  const ys = from(xs);
+  const ys = AsyncIterableX.from(xs);
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 0);
@@ -228,7 +228,7 @@ test('AsyncIterable#fromObservable multiple with selector', async () => {
     }, 10);
     return new EmptySubscription();
   });
-  const ys = from(xs, (x, i) => x + i);
+  const ys = AsyncIterableX.from(xs, (x, i) => x + i);
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 0);
@@ -243,7 +243,7 @@ test('AsyncIterable#fromObservable with error', async () => {
     obs.error(err);
     return new EmptySubscription();
   });
-  const ys = from(xs);
+  const ys = AsyncIterableX.from(xs);
 
   const it = ys[Symbol.asyncIterator]();
   await expect(it.next()).rejects.toThrow(err);
@@ -264,7 +264,7 @@ test('AsyncIterable#fromObservable with abort while waiting', async () => {
 
   const abortController = new AbortController();
 
-  const ys = from(xs).pipe(withAbort(abortController.signal));
+  const ys = AsyncIterableX.from(xs).pipe(withAbort(abortController.signal));
   const it = ys[Symbol.asyncIterator]();
 
   await hasNext(it, 0);
@@ -294,7 +294,7 @@ test('AsyncIterable#fromObservable with abort while queueing', async () => {
 
   const abortController = new AbortController();
 
-  const ys = from(xs).pipe(withAbort(abortController.signal));
+  const ys = AsyncIterableX.from(xs).pipe(withAbort(abortController.signal));
   const it = ys[Symbol.asyncIterator]();
 
   await hasNext(it, 0);

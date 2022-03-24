@@ -1,9 +1,9 @@
 import { hasNext, noNext } from '../asynciterablehelpers';
 import { slice } from 'ix/asynciterable/operators';
-import { from } from 'ix/asynciterable';
+import { AsyncIterableX } from 'ix/asynciterable';
 
 test('AsyncIterable#slice slices at zero with one item', async () => {
-  const xs = from([1, 2, 3, 4]);
+  const xs = AsyncIterableX.from([1, 2, 3, 4]);
   const ys = xs.pipe(slice(0, 1));
 
   const it = ys[Symbol.asyncIterator]();
@@ -12,7 +12,7 @@ test('AsyncIterable#slice slices at zero with one item', async () => {
 });
 
 test('AsyncIterable#slice slices at one with one item', async () => {
-  const xs = from([1, 2, 3, 4]);
+  const xs = AsyncIterableX.from([1, 2, 3, 4]);
   const ys = xs.pipe(slice(1, 1));
 
   const it = ys[Symbol.asyncIterator]();
@@ -21,7 +21,7 @@ test('AsyncIterable#slice slices at one with one item', async () => {
 });
 
 test('AsyncIterable#slice slices at one with multiple items', async () => {
-  const xs = from([1, 2, 3, 4]);
+  const xs = AsyncIterableX.from([1, 2, 3, 4]);
   const ys = xs.pipe(slice(1, 2));
 
   const it = ys[Symbol.asyncIterator]();
@@ -31,7 +31,7 @@ test('AsyncIterable#slice slices at one with multiple items', async () => {
 });
 
 test('AsyncIterable#slice slices at one with no end', async () => {
-  const xs = from([1, 2, 3, 4]);
+  const xs = AsyncIterableX.from([1, 2, 3, 4]);
   const ys = xs.pipe(slice(1));
 
   const it = ys[Symbol.asyncIterator]();
@@ -42,7 +42,7 @@ test('AsyncIterable#slice slices at one with no end', async () => {
 });
 
 test('AsyncIterable#slice slices at zero with no end', async () => {
-  const xs = from([1, 2, 3, 4]);
+  const xs = AsyncIterableX.from([1, 2, 3, 4]);
   const ys = xs.pipe(slice(0));
 
   const it = ys[Symbol.asyncIterator]();

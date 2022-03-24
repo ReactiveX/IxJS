@@ -1,6 +1,6 @@
 import '../asynciterablehelpers';
 import { sum } from 'ix/iterable';
-import { from, every, of, toArray } from 'ix/asynciterable';
+import { AsyncIterableX, every, of, toArray } from 'ix/asynciterable';
 import { buffer, map, repeat, tap, take } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#repeat infinite', async () => {
@@ -18,7 +18,7 @@ test('AsyncIterable#repeat infinite', async () => {
   expect(10).toBe(res.length);
   expect(
     every(
-      from(res).pipe(
+      AsyncIterableX.from(res).pipe(
         buffer(2),
         map((b) => sum(b))
       ),
@@ -40,7 +40,7 @@ test('AsyncIterable#repeat finite', async () => {
   expect(10).toBe(res.length);
   expect(
     every(
-      from(res).pipe(
+      AsyncIterableX.from(res).pipe(
         buffer(2),
         map((b) => sum(b))
       ),

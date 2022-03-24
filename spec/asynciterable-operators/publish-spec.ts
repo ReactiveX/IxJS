@@ -1,6 +1,6 @@
 import { hasNext, noNext } from '../asynciterablehelpers';
 import { publish } from 'ix/asynciterable/operators';
-import { as, concat, range, throwError } from 'ix/asynciterable';
+import { AsyncIterableX, concat, range, throwError } from 'ix/asynciterable';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;
@@ -12,7 +12,7 @@ async function* tick(t: (x: number) => void | Promise<void>) {
 
 test('AsyncIterable#publish starts at beginning', async () => {
   let n = 0;
-  const rng = as(
+  const rng = AsyncIterableX.from(
     tick(async (i) => {
       n += i;
     })

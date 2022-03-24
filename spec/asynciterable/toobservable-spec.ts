@@ -1,6 +1,6 @@
 import '../asynciterablehelpers';
 import Ix from 'ix/Ix';
-import { empty, from, of, throwError, toArray, toObservable } from 'ix/asynciterable';
+import { empty, AsyncIterableX, of, throwError, toArray, toObservable } from 'ix/asynciterable';
 import { Observable as RxJSObservable, from as RxJSObservableFrom } from 'rxjs';
 import { Observable, PartialObserver } from '../../src/observer';
 
@@ -93,7 +93,7 @@ test('AsyncIterable#toObservable accepts partial observers', async () => {
 
   expect(actualValues).toEqual(expectedValues);
   expect(actualError).toEqual(expectedError);
-  expect(completeCalled).toEqual(true);
+  expect(completeCalled).toBe(true);
 });
 
 test('AsyncIterable#toObservable accepts observer functions', async () => {
@@ -121,7 +121,7 @@ test('AsyncIterable#toObservable accepts observer functions', async () => {
 
   expect(actualValues).toEqual(expectedValues);
   expect(actualError).toEqual(expectedError);
-  expect(completeCalled).toEqual(true);
+  expect(completeCalled).toBe(true);
 });
 
 test('AsyncIterable#toObservable interop with rxjs', async () => {
@@ -132,7 +132,7 @@ test('AsyncIterable#toObservable interop with rxjs', async () => {
 });
 
 test('AsyncIterable.from interop with rxjs', async () => {
-  const ys = from(RxJSObservableFrom(toObservable(of(1, 2, 3))));
+  const ys = AsyncIterableX.from(RxJSObservableFrom(toObservable(of(1, 2, 3))));
   const xs = await toArray(ys);
   expect(xs).toEqual([1, 2, 3]);
 });

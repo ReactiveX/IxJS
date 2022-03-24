@@ -1,6 +1,6 @@
 import '../asynciterablehelpers';
 import { Readable, ReadableOptions } from 'stream';
-import { from, fromDOMStream } from 'ix/asynciterable';
+import { AsyncIterableX, fromDOMStream } from 'ix/asynciterable';
 
 // eslint-disable-next-line consistent-return
 (() => {
@@ -44,14 +44,14 @@ import { from, fromDOMStream } from 'ix/asynciterable';
     test('objectMode: true', async () => {
       const c = toStream(new Counter({ objectMode: true }));
       const xs = fromDOMStream(c) as AsyncIterable<string>;
-      const expected = from(['1', '2', '3']);
+      const expected = AsyncIterableX.from(['1', '2', '3']);
       await expect(xs).toEqualStream(expected, compare);
     });
 
     test('objectMode: false', async () => {
       const c = toStream(new Counter({ objectMode: false }));
       const xs = fromDOMStream(c) as AsyncIterable<Buffer>;
-      const expected = from(['1', '2', '3'].map((s) => Buffer.from(s)));
+      const expected = AsyncIterableX.from(['1', '2', '3'].map((s) => Buffer.from(s)));
       await expect(xs).toEqualStream(expected, compare);
     });
   });

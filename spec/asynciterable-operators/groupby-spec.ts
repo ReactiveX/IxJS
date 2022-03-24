@@ -1,5 +1,5 @@
 import { hasNext, noNext } from '../asynciterablehelpers';
-import { empty, from } from 'ix/asynciterable';
+import { empty, AsyncIterableX } from 'ix/asynciterable';
 import { groupBy } from 'ix/asynciterable/operators';
 
 interface Employee {
@@ -17,7 +17,7 @@ test('AsyncIterable#groupBy normal', async () => {
     { name: 'Lisa', age: 23 },
     { name: 'Eric', age: 42 },
   ];
-  const xss = from<Employee, Employee>(xs);
+  const xss = AsyncIterableX.from<Employee, Employee>(xs);
   const ys = xss.pipe(groupBy(async (x) => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.asyncIterator]();
@@ -65,7 +65,7 @@ test('AsyncIterable#groupBy normal can get results later', async () => {
     { name: 'Lisa', age: 23 },
     { name: 'Eric', age: 42 },
   ];
-  const xss = from<Employee, Employee>(xs);
+  const xss = AsyncIterableX.from<Employee, Employee>(xs);
   const ys = xss.pipe(groupBy(async (x) => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.asyncIterator]();
@@ -117,7 +117,7 @@ test('AsyncIterable#groupBy empty', async () => {
 
 test('AsyncIterable#groupBy element selector', async () => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const xss = from<number, number>(xs);
+  const xss = AsyncIterableX.from<number, number>(xs);
   const ys = xss.pipe(
     groupBy(
       async (x) => x % 3,

@@ -1,6 +1,6 @@
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 import { skipUntil } from 'ix/asynciterable/operators';
-import { as } from 'ix/asynciterable';
+import { AsyncIterableX } from 'ix/asynciterable';
 
 test('AsyncIterable#skipUntil hits', async () => {
   const xs = async function* () {
@@ -8,7 +8,7 @@ test('AsyncIterable#skipUntil hits', async () => {
     yield await delayValue(2, 300);
     yield await delayValue(3, 600);
   };
-  const ys = as(xs()).pipe(skipUntil(() => delayValue(42, 200)));
+  const ys = AsyncIterableX.from(xs()).pipe(skipUntil(() => delayValue(42, 200)));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 2);
@@ -22,7 +22,7 @@ test('AsyncIterable#skipUntil misses', async () => {
     yield await delayValue(2, 500);
     yield await delayValue(3, 600);
   };
-  const ys = as(xs()).pipe(skipUntil(() => delayValue(42, 0)));
+  const ys = AsyncIterableX.from(xs()).pipe(skipUntil(() => delayValue(42, 0)));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);

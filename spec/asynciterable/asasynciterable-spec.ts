@@ -1,5 +1,5 @@
 import '../asynciterablehelpers';
-import { from } from 'ix/asynciterable';
+import { AsyncIterableX } from 'ix/asynciterable';
 import { Readable, ReadableOptions } from 'stream';
 import { asAsyncIterable } from 'ix/asynciterable/asasynciterable';
 
@@ -34,7 +34,7 @@ import { asAsyncIterable } from 'ix/asynciterable/asasynciterable';
       const xs = c.pipe(
         asAsyncIterable<string>({ objectMode: true })
       );
-      const expected = from(['1', '2', '3']);
+      const expected = AsyncIterableX.from(['1', '2', '3']);
       await expect(xs).toEqualStream(expected, compare);
     });
 
@@ -43,7 +43,7 @@ import { asAsyncIterable } from 'ix/asynciterable/asasynciterable';
       const xs = c.pipe(
         asAsyncIterable<string>({ objectMode: false })
       );
-      const expected = from(['123']);
+      const expected = AsyncIterableX.from(['123']);
       await expect(xs).toEqualStream(expected, compare);
     });
   });

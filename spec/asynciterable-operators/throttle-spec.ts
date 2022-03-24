@@ -1,6 +1,6 @@
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 import { throttle } from 'ix/asynciterable/operators';
-import { as } from 'ix/asynciterable';
+import { AsyncIterableX } from 'ix/asynciterable';
 
 test('AsyncIterable#throttle drops none', async () => {
   const xs = async function* () {
@@ -8,7 +8,7 @@ test('AsyncIterable#throttle drops none', async () => {
     yield await delayValue(2, 100);
     yield await delayValue(3, 100);
   };
-  const ys = as(xs()).pipe(throttle(50));
+  const ys = AsyncIterableX.from(xs()).pipe(throttle(50));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -24,7 +24,7 @@ test('AsyncIterable#throttle drops some', async () => {
     yield await delayValue(3, 200);
     yield await delayValue(4, 200);
   };
-  const ys = as(xs()).pipe(throttle(300));
+  const ys = AsyncIterableX.from(xs()).pipe(throttle(300));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);

@@ -1,9 +1,9 @@
 import { hasNext, noNext } from '../asynciterablehelpers';
-import { as } from 'ix/asynciterable';
+import { AsyncIterableX } from 'ix/asynciterable';
 
 test('AsyncIterable#as from non-iterable', async () => {
   const xs = {};
-  const res = as(xs);
+  const res = AsyncIterableX.asAsyncIterable(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, xs);
@@ -12,7 +12,7 @@ test('AsyncIterable#as from non-iterable', async () => {
 
 test('AsyncIterable#as from string emits the string, not chars', async () => {
   const x = 'foo';
-  const res = as(x);
+  const res = AsyncIterableX.asAsyncIterable(x);
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, x);
   await noNext(it);
@@ -24,7 +24,7 @@ test('AsyncIterable#as from promise list', async () => {
     Promise.resolve(2),
     Promise.resolve(3),
   ];
-  const res = as(xs);
+  const res = AsyncIterableX.asAsyncIterable(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -41,7 +41,7 @@ async function* getData(): AsyncIterable<number> {
 
 test('AsyncIterable#as from async generator', async () => {
   const xs = getData();
-  const res = as(xs);
+  const res = AsyncIterableX.asAsyncIterable(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -52,7 +52,7 @@ test('AsyncIterable#as from async generator', async () => {
 
 test('AsyncIterable#as from array/iterable', async () => {
   const xs = [1, 2, 3];
-  const res = as(xs);
+  const res = AsyncIterableX.asAsyncIterable(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -63,7 +63,7 @@ test('AsyncIterable#as from array/iterable', async () => {
 
 test('AsyncIterable#as from empty array/iterable', async () => {
   const xs: number[] = [];
-  const res = as(xs);
+  const res = AsyncIterableX.asAsyncIterable(xs);
 
   const it = res[Symbol.asyncIterator]();
   await noNext(it);
@@ -71,7 +71,7 @@ test('AsyncIterable#as from empty array/iterable', async () => {
 
 test('AsyncIterable#as from array-like', async () => {
   const xs = { length: 3 };
-  const res = as(xs);
+  const res = AsyncIterableX.asAsyncIterable(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, undefined);
@@ -82,7 +82,7 @@ test('AsyncIterable#as from array-like', async () => {
 
 test('AsyncIterable#as from promise', async () => {
   const xs = Promise.resolve(42);
-  const res = as(xs);
+  const res = AsyncIterableX.asAsyncIterable(xs);
 
   const it = res[Symbol.asyncIterator]();
   await hasNext(it, 42);
