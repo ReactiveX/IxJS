@@ -1,10 +1,10 @@
 import '../iterablehelpers';
-import { from, every, sum, toArray } from 'ix/iterable';
+import { IterableX, every, sum, toArray } from 'ix/iterable';
 import { buffer, map, take, tap, repeat } from 'ix/iterable/operators';
 
 test('Iterable#repeat infinite', () => {
   let i = 0;
-  const xs = from([1, 2])
+  const xs = IterableX.from([1, 2])
     .pipe(tap({ next: () => ++i }))
     .pipe(repeat());
 
@@ -12,7 +12,7 @@ test('Iterable#repeat infinite', () => {
   expect(10).toBe(res.length);
   expect(
     every(
-      from(res)
+      IterableX.from(res)
         .pipe(buffer(2))
         .pipe(map((b) => sum(b))),
       { predicate: (x) => x === 3 }
@@ -23,7 +23,7 @@ test('Iterable#repeat infinite', () => {
 
 test('Iterable#repeat finite', () => {
   let i = 0;
-  const xs = from([1, 2])
+  const xs = IterableX.from([1, 2])
     .pipe(tap({ next: () => ++i }))
     .pipe(repeat(5));
 
@@ -31,7 +31,7 @@ test('Iterable#repeat finite', () => {
   expect(10).toBe(res.length);
   expect(
     every(
-      from(res)
+      IterableX.from(res)
         .pipe(buffer(2))
         .pipe(map((b) => sum(b))),
       { predicate: (x) => x === 3 }

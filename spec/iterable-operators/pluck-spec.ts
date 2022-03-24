@@ -1,10 +1,10 @@
 import { hasNext, noNext } from '../iterablehelpers';
 import { pluck } from 'ix/iterable/operators';
-import { from, of } from 'ix/iterable';
+import { IterableX, of } from 'ix/iterable';
 
 test('Iterable#pluck simple prop', () => {
   const xs = of({ prop: 1 }, { prop: 2 }, { prop: 3 }, { prop: 4 }, { prop: 5 });
-  const ys = from(xs).pipe(pluck('prop'));
+  const ys = IterableX.from(xs).pipe(pluck('prop'));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
@@ -23,7 +23,7 @@ test('Iterable#pluck nested prop', () => {
     { a: { b: { c: 4 } } },
     { a: { b: { c: 5 } } }
   );
-  const ys = from(xs).pipe(pluck('a', 'b', 'c'));
+  const ys = IterableX.from(xs).pipe(pluck('a', 'b', 'c'));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
@@ -42,7 +42,7 @@ test('Iterable#pluck edge cases', () => {
     {},
     { a: { b: { c: 5 } } }
   );
-  const ys = from(xs).pipe(pluck('a', 'b', 'c'));
+  const ys = IterableX.from(xs).pipe(pluck('a', 'b', 'c'));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);

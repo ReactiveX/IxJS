@@ -1,5 +1,5 @@
 import { hasNext, noNext } from '../iterablehelpers';
-import { from, empty } from 'ix/iterable';
+import { IterableX, empty } from 'ix/iterable';
 import { groupBy } from 'ix/iterable/operators';
 
 test('Iterable#groupBy normal', () => {
@@ -12,7 +12,7 @@ test('Iterable#groupBy normal', () => {
     { name: 'Lisa', age: 23 },
     { name: 'Eric', age: 42 },
   ];
-  const ys = from(xs).pipe(groupBy((x) => Math.floor(x.age / 10)));
+  const ys = IterableX.from(xs).pipe(groupBy((x) => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.iterator]();
   let next = it.next();
@@ -59,7 +59,7 @@ test('Iterable#groupBy normal can get results later', () => {
     { name: 'Lisa', age: 23 },
     { name: 'Eric', age: 42 },
   ];
-  const ys = from(xs).pipe(groupBy((x) => Math.floor(x.age / 10)));
+  const ys = IterableX.from(xs).pipe(groupBy((x) => Math.floor(x.age / 10)));
 
   const it = ys[Symbol.iterator]();
   const g1 = it.next();
@@ -110,7 +110,7 @@ test('Iterable#groupBy empty', () => {
 
 test('Iterable#groupBy element selector', () => {
   const xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const ys = from(xs).pipe(
+  const ys = IterableX.from(xs).pipe(
     groupBy(
       (x) => x % 3,
       (x) => String.fromCharCode(97 + x)

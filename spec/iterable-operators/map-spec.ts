@@ -1,12 +1,12 @@
 import '../iterablehelpers';
-import { from, empty, sequenceEqual } from 'ix/iterable';
+import { IterableX, empty, sequenceEqual } from 'ix/iterable';
 import { map } from 'ix/iterable/operators';
 
 test('Iterable#map single element', () => {
   const source = [{ name: 'Frank', custId: 98088 }];
   const expected = ['Frank'];
 
-  expect(sequenceEqual(expected, from(source).pipe(map((x) => x.name)))).toBeTruthy();
+  expect(sequenceEqual(expected, IterableX.from(source).pipe(map((x) => x.name)))).toBeTruthy();
 });
 
 test('Iterable#map maps property', () => {
@@ -19,7 +19,7 @@ test('Iterable#map maps property', () => {
   ];
   const expected = ['Frank', 'Bob', 'Chris', null, 'Frank'];
 
-  expect(sequenceEqual(expected, from(source).pipe(map((x) => x.name)))).toBeTruthy();
+  expect(sequenceEqual(expected, IterableX.from(source).pipe(map((x) => x.name)))).toBeTruthy();
 });
 
 test('Iterable#map empty', () => {
@@ -37,7 +37,7 @@ test('Iterable#map map property using index', () => {
   const expected = ['Frank', null, null];
 
   expect(
-    sequenceEqual(expected, from(source).pipe(map((x, i) => (i === 0 ? x.name : null))))
+    sequenceEqual(expected, IterableX.from(source).pipe(map((x, i) => (i === 0 ? x.name : null))))
   ).toBeTruthy();
 });
 
@@ -52,7 +52,7 @@ test('Iterable#map map property using index on last', () => {
   const expected = [null, null, null, null, 'Frank'];
 
   expect(
-    sequenceEqual(expected, from(source).pipe(map((x, i) => (i === 4 ? x.name : null))))
+    sequenceEqual(expected, IterableX.from(source).pipe(map((x, i) => (i === 4 ? x.name : null))))
   ).toBeTruthy();
 });
 
@@ -65,7 +65,7 @@ test('Iterable#map execution is deferred', () => {
     },
   ];
 
-  from(source).pipe(map((x) => x()));
+  IterableX.from(source).pipe(map((x) => x()));
 
   expect(fnCalled).toBeFalsy();
 });

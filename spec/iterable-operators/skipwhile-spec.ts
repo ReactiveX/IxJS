@@ -1,10 +1,10 @@
 import { hasNext, noNext } from '../iterablehelpers';
 import { skipWhile } from 'ix/iterable/operators';
-import { from } from 'ix/iterable';
+import { IterableX } from 'ix/iterable';
 
 test('Iterable#skipWhile skips some', () => {
   const xs = [1, 2, 3, 4];
-  const ys = from(xs).pipe(skipWhile((x) => x < 3));
+  const ys = IterableX.from(xs).pipe(skipWhile((x) => x < 3));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 3);
@@ -14,7 +14,7 @@ test('Iterable#skipWhile skips some', () => {
 
 test('Iterable#skipWhile skips none', () => {
   const xs = [1, 2, 3, 4];
-  const ys = from(xs).pipe(skipWhile(() => false));
+  const ys = IterableX.from(xs).pipe(skipWhile(() => false));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 1);
@@ -26,7 +26,7 @@ test('Iterable#skipWhile skips none', () => {
 
 test('Iterable#skipWhile skips all', () => {
   const xs = [1, 2, 3, 4];
-  const ys = from(xs).pipe(skipWhile(() => true));
+  const ys = IterableX.from(xs).pipe(skipWhile(() => true));
 
   const it = ys[Symbol.iterator]();
   noNext(it);
@@ -34,7 +34,7 @@ test('Iterable#skipWhile skips all', () => {
 
 test('Iterable#skipWhile skips some another run', () => {
   const xs = [1, 2, 3, 4, 3, 2, 1];
-  const ys = from(xs).pipe(skipWhile((x) => x < 3));
+  const ys = IterableX.from(xs).pipe(skipWhile((x) => x < 3));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 3);
@@ -47,7 +47,7 @@ test('Iterable#skipWhile skips some another run', () => {
 
 test('Iterable#skipWhile predicate throws', () => {
   const xs = [1, 2, 3, 4];
-  const ys = from(xs).pipe(
+  const ys = IterableX.from(xs).pipe(
     skipWhile(() => {
       throw new Error();
     })
@@ -59,7 +59,7 @@ test('Iterable#skipWhile predicate throws', () => {
 
 test('Iterable#skipWhile with index', () => {
   const xs = [1, 2, 3, 4];
-  const ys = from(xs).pipe(skipWhile((_, i) => i < 2));
+  const ys = IterableX.from(xs).pipe(skipWhile((_, i) => i < 2));
 
   const it = ys[Symbol.iterator]();
   hasNext(it, 3);

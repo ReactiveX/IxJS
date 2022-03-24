@@ -1,6 +1,6 @@
 import '../iterablehelpers';
 import '../asynciterablehelpers';
-import { from as fromIterable } from 'ix/iterable';
+import { IterableX } from 'ix/iterable';
 import { AsyncIterableX } from 'ix/asynciterable';
 import { map, toNodeStream } from 'ix/iterable/operators/index.node';
 import { IterableReadable } from 'ix/Ix.node';
@@ -13,7 +13,7 @@ import { IterableReadable } from 'ix/Ix.node';
     });
   }
 
-  const stringsItr = () => fromIterable([1, 2, 3]).pipe(map((i) => `${i}`));
+  const stringsItr = () => IterableX.from([1, 2, 3]).pipe(map((i) => `${i}`));
   const buffersItr = () => stringsItr().pipe(map((val) => Buffer.from(val)));
   const objectsItr = () => stringsItr().pipe(map((val) => ({ val })));
   const compare = <T>(a: T, b: T) => {

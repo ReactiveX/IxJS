@@ -1,5 +1,5 @@
 import { hasNext, noNext } from '../iterablehelpers';
-import { from } from 'ix/iterable';
+import { IterableX } from 'ix/iterable';
 
 function* getData() {
   yield 1;
@@ -9,7 +9,7 @@ function* getData() {
 
 test('Iterable#from from array/iterable', () => {
   const xs = [1, 2, 3];
-  const res = from(xs);
+  const res = IterableX.from(xs);
 
   const it = res[Symbol.iterator]();
   hasNext(it, 1);
@@ -20,7 +20,7 @@ test('Iterable#from from array/iterable', () => {
 
 test('Iterable#from from generator', () => {
   const xs = getData();
-  const res = from(xs);
+  const res = IterableX.from(xs);
 
   const it = res[Symbol.iterator]();
   hasNext(it, 1);
@@ -31,7 +31,7 @@ test('Iterable#from from generator', () => {
 
 test('Iterable#from from iterator', () => {
   const xs = getData();
-  const res = from({ next: () => xs.next() });
+  const res = IterableX.from({ next: () => xs.next() });
 
   const it = res[Symbol.iterator]();
   hasNext(it, 1);
@@ -42,7 +42,7 @@ test('Iterable#from from iterator', () => {
 
 test('Iterable#from from array/iterable with selector', () => {
   const xs = [1, 2, 3];
-  const res = from(xs, (x, i) => x + i);
+  const res = IterableX.from(xs, (x, i) => x + i);
 
   const it = res[Symbol.iterator]();
   hasNext(it, 1);
@@ -53,7 +53,7 @@ test('Iterable#from from array/iterable with selector', () => {
 
 test('Iterable#from from empty array/iterable', () => {
   const xs: number[] = [];
-  const res = from(xs);
+  const res = IterableX.from(xs);
 
   const it = res[Symbol.iterator]();
   noNext(it);
@@ -61,7 +61,7 @@ test('Iterable#from from empty array/iterable', () => {
 
 test('Iterable#from from array-like', () => {
   const xs = { length: 3 };
-  const res = from(xs);
+  const res = IterableX.from(xs);
 
   const it = res[Symbol.iterator]();
   hasNext(it, undefined);
@@ -72,7 +72,7 @@ test('Iterable#from from array-like', () => {
 
 test('Iterable#from from array-like with selector', () => {
   const xs = { length: 3 };
-  const res = from(xs, (_, i) => i);
+  const res = IterableX.from(xs, (_, i) => i);
 
   const it = res[Symbol.iterator]();
   hasNext(it, 0);
@@ -82,5 +82,5 @@ test('Iterable#from from array-like with selector', () => {
 });
 
 test('Iterable#from from with non-iterable throws', () => {
-  expect(() => from({} as any)).toThrow();
+  expect(() => IterableX.from({} as any)).toThrow();
 });
