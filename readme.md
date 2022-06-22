@@ -5,7 +5,7 @@
 [![npm version](https://badge.fury.io/js/ix.svg)](https://badge.fury.io/js/ix)
 [![Join the chat at https://gitter.im/ReactiveXIxJS/](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ReactiveXIxJS/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-*IxJS is a set of libraries to compose synchronous and asynchronous collections and [Array#extras](http://blogs.msdn.com/b/ie/archive/2010/12/13/ecmascript-5-part-2-array-extras.aspx) style composition in JavaScript*
+*IxJS is a set of libraries to compose synchronous and asynchronous collections and [Array#extras](https://docs.microsoft.com/en-us/archive/blogs/ie/ecmascript-5-part-2-array-extras) style composition in JavaScript*
 
 The Interactive Extensions for JavaScript (IxJS) brings the Array#extras combinators to iterables, generators, async iterables and async generators.  With the introduction of the `Symbol.iterator` and generators in ES2015, and subsequent introduction of `Symbol.asyncIterator` and async generators, it became obvious we need an abstraction over these data structures for composition, querying and more.  
 
