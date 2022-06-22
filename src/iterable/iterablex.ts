@@ -16,6 +16,7 @@ import { toLength } from '../util/tolength';
 export abstract class IterableX<T> implements Iterable<T> {
   abstract [Symbol.iterator](): Iterator<T>;
 
+  /** @nocollapse */
   forEach(projection: (value: T, index: number) => void, thisArg?: any): void {
     const fn = bindCallback(projection, thisArg, 2);
     let i = 0;
@@ -84,6 +85,7 @@ export abstract class IterableX<T> implements Iterable<T> {
     return new FromIterable([source], identity);
   }
 
+  /** @nocollapse */
   static from<TSource, TResult = TSource>(
     source: Iterable<TSource> | Iterator<TSource> | ArrayLike<TSource>,
     selector: (value: TSource, index: number) => TResult = identity,
@@ -236,8 +238,8 @@ try {
         } else if (isWritableNodeStream(next)) {
           ({ end = true } = args[i + 1] || {});
           // prettier-ignore
-          return isReadableNodeStream(prev) ? prev.pipe(next, {end}) :
-          IterableX.asIterable(prev).toNodeStream(readableOpts(next)).pipe(next, {end});
+          return isReadableNodeStream(prev) ? prev.pipe(next, { end }) :
+            IterableX.asIterable(prev).toNodeStream(readableOpts(next)).pipe(next, { end });
         }
       }
       return prev;

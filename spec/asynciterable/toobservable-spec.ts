@@ -1,5 +1,5 @@
 import '../asynciterablehelpers';
-import Ix from 'ix/Ix';
+import { symbolObservable } from 'ix/Ix';
 import { empty, AsyncIterableX, of, throwError, toArray, toObservable } from 'ix/asynciterable';
 import { Observable as RxJSObservable, from as RxJSObservableFrom } from 'rxjs';
 import { Observable, PartialObserver } from '../../src/observer';
@@ -62,10 +62,10 @@ test('AsyncIterable#toObservable error', async () => {
   });
 });
 
-test('AsyncIterable#toObservable Symbol.observable should return same instance', async () => {
+test('AsyncIterable#toObservable Symbol.observable should return same instance', () => {
   const ys = toObservable(of(1, 2, 3));
   // @ts-ignore
-  expect(ys).toBe(ys[Ix.symbolObservable]());
+  expect(ys).toBe(ys[symbolObservable]());
 });
 
 test('AsyncIterable#toObservable accepts partial observers', async () => {
@@ -155,16 +155,16 @@ function endOfObservable<T>(
   };
   if (next && typeof next === 'object') {
     // prettier-ignore
-    next.error = wrap(e => reject(e),(next.error || (() => { /**/ })).bind(next));
+    next.error = wrap(e => reject(e), (next.error || (() => { /**/ })).bind(next));
     // prettier-ignore
     next.complete = wrap(() => resolve(), (next.complete || (() => { /**/ })).bind(next));
   } else {
     // prettier-ignore
     // eslint-disable-next-line no-param-reassign
-    error = wrap(e => reject(e),error || (() => { /**/ }));
+    error = wrap(e => reject(e), error || (() => { /**/ }));
     // prettier-ignore
     // eslint-disable-next-line no-param-reassign
-    complete = wrap(() => resolve(),complete || (() => { /**/ }));
+    complete = wrap(() => resolve(), complete || (() => { /**/ }));
   }
 
   observable.subscribe(<any>next, <any>error, <any>complete);

@@ -18,9 +18,12 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
     this._source = source;
   }
 
+  /** @nocollapse */
   [symbolObservable](): Observable<TSource> {
     return this;
   }
+
+  /** @nocollapse */
   subscribe(
     next?: PartialObserver<TSource> | ((value: TSource) => any) | null,
     error?: ((err: any) => any) | null,

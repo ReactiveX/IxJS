@@ -162,6 +162,8 @@ Symbol.iterator;
 Symbol.observable;
 /** @type {symbol} */
 Symbol.asyncIterator;
+/** @type {symbol} */
+var symbolObservable = function() {};
 `);
 }
 

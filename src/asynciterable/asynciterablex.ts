@@ -21,6 +21,7 @@ import { AbortError, throwIfAborted } from '../aborterror';
 export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
   abstract [Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<T>;
 
+  /** @nocollapse */
   async forEach(
     projection: (value: T, index: number, signal?: AbortSignal) => void | Promise<void>,
     thisArg?: any,
@@ -48,6 +49,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     return acc;
   }
 
+  /** @nocollapse */
   static from<TSource, TResult = TSource>(
     source: AsyncIterableInput<TSource>,
     selector: (value: TSource, index: number) => TResult | Promise<TResult> = identityAsync,
@@ -452,8 +454,8 @@ try {
         } else if (isWritableNodeStream(next)) {
           ({ end = true } = args[i + 1] || {});
           // prettier-ignore
-          return isReadableNodeStream(prev) ? prev.pipe(next, {end}) :
-          AsyncIterableX.asAsyncIterable(prev).toNodeStream(readableOpts(next)).pipe(next, {end});
+          return isReadableNodeStream(prev) ? prev.pipe(next, { end }) :
+            AsyncIterableX.asAsyncIterable(prev).toNodeStream(readableOpts(next)).pipe(next, { end });
         }
       }
       return prev;
