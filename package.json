@@ -92,7 +92,6 @@
     "rimraf": "3.0.2",
     "rxjs": "6.5.4",
     "shx": "0.3.2",
-    "source-map": "^0.8.0-beta.0",
     "source-map-loader": "0.2.4",
     "terser": "4.6.4",
     "terser-webpack-plugin": "2.3.5",
@@ -104,9 +103,6 @@
     "web-stream-tools": "0.0.1",
     "web-streams-polyfill": "2.1.0",
     "webpack": "4.41.6"
-  },
-  "resolutions": {
-    "source-map": "^0.8.0-beta.0"
   },
   "config": {
     "commitizen": {
