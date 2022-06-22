@@ -156,7 +156,7 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
 
       const wrapAndPullInner = (inner: AsyncIterableInput<TResult> | TResult) => {
         inners[index - 1] = wrapIterator(
-          AsyncIterableX.asAsyncIterable(inner),
+          AsyncIterableX.as(inner),
           index,
           Type.INNER,
           innerSignal

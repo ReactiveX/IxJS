@@ -34,7 +34,7 @@ export abstract class IterableX<T> implements Iterable<T> {
     const n = args.length;
     let acc: any = this;
     while (++i < n) {
-      acc = args[i](IterableX.asIterable(acc));
+      acc = args[i](IterableX.as(acc));
     }
     return acc;
   }
@@ -45,7 +45,7 @@ export abstract class IterableX<T> implements Iterable<T> {
    * @param {string} source The string to convert to an iterable.
    * @returns {IterableX<string>} An terable stream of characters from the source.
    */
-  static asIterable(source: string): IterableX<string>;
+  static as(source: string): IterableX<string>;
   /**
    * Converts the iterable like input into an iterable.
    *
@@ -53,7 +53,7 @@ export abstract class IterableX<T> implements Iterable<T> {
    * @param {Iterable<T>} source The iterable to convert to an iterable.
    * @returns {IterableX<T>} An iterable stream of the source sequence.
    */
-  static asIterable<T>(source: Iterable<T>): IterableX<T>;
+  static as<T>(source: Iterable<T>): IterableX<T>;
   /**
    * Converts an array-like object to an iterable.
    *
@@ -61,7 +61,7 @@ export abstract class IterableX<T> implements Iterable<T> {
    * @param {ArrayLike<T>} source The array-like sequence to convert to an iterable.
    * @returns {IterableX<T>} The iterable containing the elements from the array-like sequence.
    */
-  static asIterable<T>(source: ArrayLike<T>): IterableX<T>;
+  static as<T>(source: ArrayLike<T>): IterableX<T>;
   /**
    * Converts the object into a singleton in an iterable sequence.
    *
@@ -69,9 +69,9 @@ export abstract class IterableX<T> implements Iterable<T> {
    * @param {T} source The item to turn into an iterable sequence.
    * @returns {IterableX<T>} An iterable sequence from the source object.
    */
-  static asIterable<T>(source: T): IterableX<T>;
+  static as<T>(source: T): IterableX<T>;
   /** @nocollapse */
-  static asIterable(source: any) {
+  static as(source: any) {
     if (source instanceof IterableX) {
       return source;
     }
@@ -234,12 +234,12 @@ try {
       while (++i < n) {
         next = args[i];
         if (typeof next === 'function') {
-          prev = next(IterableX.asIterable(prev));
+          prev = next(IterableX.as(prev));
         } else if (isWritableNodeStream(next)) {
           ({ end = true } = args[i + 1] || {});
           // prettier-ignore
           return isReadableNodeStream(prev) ? prev.pipe(next, { end }) :
-            IterableX.asIterable(prev).toNodeStream(readableOpts(next)).pipe(next, { end });
+            IterableX.as(prev).toNodeStream(readableOpts(next)).pipe(next, { end });
         }
       }
       return prev;

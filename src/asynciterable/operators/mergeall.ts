@@ -9,6 +9,6 @@ import { flatMap } from './flatmap';
  */
 export function mergeAll(concurrent = Infinity) {
   return function mergeAllOperatorFunction<TSource>(source: AsyncIterable<AsyncIterable<TSource>>) {
-    return AsyncIterableX.asAsyncIterable(source)['pipe'](flatMap((s) => s, concurrent));
+    return AsyncIterableX.as(source)['pipe'](flatMap((s) => s, concurrent));
   };
 }

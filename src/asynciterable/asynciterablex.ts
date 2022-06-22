@@ -44,7 +44,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
     const n = args.length;
     let acc: any = this;
     while (++i < n) {
-      acc = args[i](AsyncIterableX.asAsyncIterable(acc));
+      acc = args[i](AsyncIterableX.as(acc));
     }
     return acc;
   }
@@ -80,7 +80,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
    * @param {string} source The string to convert to an async-iterable.
    * @returns {AsyncIterableX<string>} An async-iterable stream of characters from the source.
    */
-  static asAsyncIterable(source: string): AsyncIterableX<string>;
+  static as(source: string): AsyncIterableX<string>;
   /**
    * Converts the async iterable like input into an async-iterable.
    *
@@ -88,7 +88,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
    * @param {AsyncIterableInput<T>} source The async-iterable like input to convert to an async-iterable.
    * @returns {AsyncIterableX<T>} An async-iterable stream from elements in the async-iterable like sequence.
    */
-  static asAsyncIterable<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
+  static as<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
   /**
    * Converts the single element into an async-iterable sequence.
    *
@@ -96,7 +96,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
    * @param {T} source The single element to turn into an async-iterable sequence.
    * @returns {AsyncIterableX<T>} An async-iterable sequence which contains the single element.
    */
-  static asAsyncIterable<T>(source: T): AsyncIterableX<T>;
+  static as<T>(source: T): AsyncIterableX<T>;
   /**
    * Converts the input into an async-iterable sequence.
    *
@@ -104,7 +104,7 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
    * @returns {AsyncIterableX<*>} An async-iterable containing the input.
    */
   /** @nocollapse */
-  static asAsyncIterable(source: any): AsyncIterableX<any> {
+  static as(source: any): AsyncIterableX<any> {
     if (source instanceof AsyncIterableX) {
       return source;
     }
@@ -450,12 +450,12 @@ try {
       while (++i < n) {
         next = args[i];
         if (typeof next === 'function') {
-          prev = next(AsyncIterableX.asAsyncIterable(prev));
+          prev = next(AsyncIterableX.as(prev));
         } else if (isWritableNodeStream(next)) {
           ({ end = true } = args[i + 1] || {});
           // prettier-ignore
           return isReadableNodeStream(prev) ? prev.pipe(next, { end }) :
-            AsyncIterableX.asAsyncIterable(prev).toNodeStream(readableOpts(next)).pipe(next, { end });
+            AsyncIterableX.as(prev).toNodeStream(readableOpts(next)).pipe(next, { end });
         }
       }
       return prev;

@@ -81,7 +81,7 @@ expect.extend({
     let next1: IteratorResult<T>;
     let next2: IteratorResult<T>;
     const results: string[] = [];
-    const it1 = AsyncIterableX.asAsyncIterable(expected)[Symbol.asyncIterator]();
+    const it1 = AsyncIterableX.as(expected)[Symbol.asyncIterator]();
     const it2 =
       typeof (<any>actual)[Symbol.asyncIterator] === 'function'
         ? (<any>actual)[Symbol.asyncIterator]()
