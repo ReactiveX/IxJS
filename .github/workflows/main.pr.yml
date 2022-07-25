@@ -58,6 +58,8 @@ jobs:
         node: [14.x, 16.x, 18.x]
         module: [cjs, esm, umd]
         target: [es5, es2015, esnext]
+        exclude:
+          - {node: 14.x, target: esnext}
     steps:
       - name: Setup node v${{ matrix.node }}
         uses: actions/setup-node@v3
