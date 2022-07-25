@@ -50,3 +50,7 @@ export * from './toobservable';
 export * from './toset';
 export * from './whiledo';
 export * from './zip';
+
+import { AsyncIterableX } from './asynciterablex';
+export const as = AsyncIterableX.as;
+export const from = AsyncIterableX.from;

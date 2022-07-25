@@ -37,3 +37,7 @@ export * from './tomap';
 export * from './toset';
 export * from './whiledo';
 export * from './zip';
+
+import { IterableX } from './iterablex';
+export const as = IterableX.as;
+export const from = IterableX.from;
