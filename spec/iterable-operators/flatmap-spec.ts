@@ -1,9 +1,9 @@
 import { hasNext, noNext } from '../iterablehelpers';
 import { flatMap } from 'ix/iterable/operators';
-import { IterableX, range, throwError } from 'ix/iterable';
+import { as, range, throwError } from 'ix/iterable';
 
 test('Iterable#flatMap with range', () => {
-  const xs = IterableX.from([1, 2, 3]);
+  const xs = as([1, 2, 3]);
   const ys = xs.pipe(flatMap((x) => range(0, x)));
 
   const it = ys[Symbol.iterator]();
@@ -18,7 +18,7 @@ test('Iterable#flatMap with range', () => {
 
 test('Iterable#flatMap selector returns throw', () => {
   const err = new Error();
-  const xs = IterableX.from([1, 2, 3]);
+  const xs = as([1, 2, 3]);
   const ys = xs.pipe(flatMap((x) => (x < 3 ? range(0, x) : throwError(err))));
 
   const it = ys[Symbol.iterator]();
@@ -39,7 +39,7 @@ test('Iterable#flatMap with error throws', () => {
 
 test('Iterable#flatMap selector throws error', () => {
   const err = new Error();
-  const xs = IterableX.from([1, 2, 3]);
+  const xs = as([1, 2, 3]);
   const ys = xs.pipe(
     flatMap((x) => {
       if (x < 3) {

@@ -1,5 +1,5 @@
 import '../asynciterablehelpers';
-import { AsyncIterableX } from 'ix/asynciterable';
+import { as } from 'ix/asynciterable';
 import { Readable, ReadableOptions } from 'stream';
 import { fromNodeStream } from 'ix/asynciterable/fromnodestream';
 
@@ -32,14 +32,14 @@ import { fromNodeStream } from 'ix/asynciterable/fromnodestream';
     test('objectMode: true', async () => {
       const c = new Counter({ objectMode: true });
       const xs = fromNodeStream(c) as AsyncIterable<string>;
-      const expected = AsyncIterableX.from(['1', '2', '3']);
+      const expected = as(['1', '2', '3']);
       await expect(xs).toEqualStream(expected, compare);
     });
 
     test('objectMode: false', async () => {
       const c = new Counter({ objectMode: false });
       const xs = fromNodeStream(c) as AsyncIterable<string>;
-      const expected = AsyncIterableX.from(['123']);
+      const expected = as(['123']);
       await expect(xs).toEqualStream(expected, compare);
     });
   });

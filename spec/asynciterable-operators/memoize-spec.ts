@@ -1,6 +1,6 @@
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 import { memoize } from 'ix/asynciterable/operators';
-import { AsyncIterableX, defer, concat, range, throwError } from 'ix/asynciterable';
+import { as, defer, concat, range, throwError } from 'ix/asynciterable';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;
@@ -12,7 +12,7 @@ async function* tick(t: (x: number) => void | Promise<void>) {
 
 test('AsyncIterable#memoize memoizes effects', async () => {
   let n = 0;
-  const rng = AsyncIterableX.from(
+  const rng = as(
     tick(async (i) => {
       n += i;
     })

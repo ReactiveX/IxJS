@@ -1,6 +1,6 @@
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 import { timeout } from 'ix/asynciterable/operators';
-import { AsyncIterableX } from 'ix/asynciterable';
+import { as } from 'ix/asynciterable';
 import { TimeoutError } from 'ix/asynciterable/operators/timeout';
 
 test('AsyncIterable#timeout drops none', async () => {
@@ -9,7 +9,7 @@ test('AsyncIterable#timeout drops none', async () => {
     yield await delayValue(2, 50);
     yield await delayValue(3, 50);
   };
-  const ys = AsyncIterableX.from(xs()).pipe(timeout(100));
+  const ys = as(xs()).pipe(timeout(100));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -23,7 +23,7 @@ test('AsyncIterable#timeout throws when delayed', async () => {
     yield await delayValue(1, 50);
     yield await delayValue(2, 200);
   };
-  const ys = AsyncIterableX.from(xs()).pipe(timeout(100));
+  const ys = as(xs()).pipe(timeout(100));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);

@@ -1,6 +1,6 @@
 import '../asynciterablehelpers';
 import { symbolObservable } from 'ix/Ix';
-import { empty, AsyncIterableX, of, throwError, toArray, toObservable } from 'ix/asynciterable';
+import { empty, as, of, throwError, toArray, toObservable } from 'ix/asynciterable';
 import { Observable as RxJSObservable, from as RxJSObservableFrom } from 'rxjs';
 import { Observable, PartialObserver } from '../../src/observer';
 
@@ -132,7 +132,7 @@ test('AsyncIterable#toObservable interop with rxjs', async () => {
 });
 
 test('AsyncIterable.from interop with rxjs', async () => {
-  const ys = AsyncIterableX.from(RxJSObservableFrom(toObservable(of(1, 2, 3))));
+  const ys = as(RxJSObservableFrom(toObservable(of(1, 2, 3))));
   const xs = await toArray(ys);
   expect(xs).toEqual([1, 2, 3]);
 });

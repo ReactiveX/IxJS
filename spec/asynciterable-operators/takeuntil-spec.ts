@@ -1,6 +1,6 @@
 import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
 import { takeUntil } from 'ix/asynciterable/operators';
-import { AsyncIterableX, AsyncSink } from 'ix/asynciterable';
+import { as, AsyncSink } from 'ix/asynciterable';
 
 test('AsyncIterable#takeUntil hits', async () => {
   const xs = async function* () {
@@ -8,7 +8,7 @@ test('AsyncIterable#takeUntil hits', async () => {
     yield await delayValue(2, 300);
     yield await delayValue(3, 1200);
   };
-  const ys = AsyncIterableX.from(xs()).pipe(takeUntil(() => delayValue(42, 500)));
+  const ys = as(xs()).pipe(takeUntil(() => delayValue(42, 500)));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -22,7 +22,7 @@ test('AsyncIterable#takeUntil misses', async () => {
     yield await delayValue(2, 300);
     yield await delayValue(3, 600);
   };
-  const ys = AsyncIterableX.from(xs()).pipe(takeUntil(() => delayValue(42, 1200)));
+  const ys = as(xs()).pipe(takeUntil(() => delayValue(42, 1200)));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -33,7 +33,7 @@ test('AsyncIterable#takeUntil misses', async () => {
 
 test('AsyncIterable#takeUntil completes immediately', async () => {
   const sink = new AsyncSink<void>();
-  const ys = AsyncIterableX.from(sink).pipe(takeUntil(() => Promise.resolve()));
+  const ys = as(sink).pipe(takeUntil(() => Promise.resolve()));
 
   const it = ys[Symbol.asyncIterator]();
   await noNext(it);
