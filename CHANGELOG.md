@@ -1,3 +1,33 @@
+# [4.6.0](https://github.com/ReactiveX/IxJS/compare/v4.5.2...v4.6.0) (2022-07-26)
+
+
+### chore
+
+* **types:** Fixing types ([#341](https://github.com/ReactiveX/IxJS/issues/341)) ([e13a6d3](https://github.com/ReactiveX/IxJS/commit/e13a6d3e4f807482f77b5a9c8e4610080b369a77))
+
+
+### Continuous Integration
+
+* use github actions instead of travis-ci ([#344](https://github.com/ReactiveX/IxJS/issues/344)) ([d357a19](https://github.com/ReactiveX/IxJS/commit/d357a1919c1c1511877168f947239d2cc733d996))
+
+
+### Documentation
+
+* **readme:** update link to Array#extras ([#343](https://github.com/ReactiveX/IxJS/issues/343)) ([b06a217](https://github.com/ReactiveX/IxJS/commit/b06a21793abd665314426d7d92a7b7a2629791fc))
+
+
+* [FEA] Add AsyncIterable `switchMap` (#340) ([7b7d493](https://github.com/ReactiveX/IxJS/commit/7b7d493e89d93c80ed619d1e1646aec4dc790cac)), closes [#340](https://github.com/ReactiveX/IxJS/issues/340) [#244](https://github.com/ReactiveX/IxJS/issues/244)
+
+
+### BREAKING CHANGES
+
+* flatMap enumerates inner sequences in parallel
+* flat enumerates inner sequences in parallel
+
+* feat(concatmap.ts): add concatMap implementation
+
+
+
 ## [4.5.2](https://github.com/ReactiveX/IxJS/compare/v4.5.1...v4.5.2) (2021-10-07)
 
 
