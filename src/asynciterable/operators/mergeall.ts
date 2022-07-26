@@ -1,5 +1,4 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { flatMap } from './flatmap';
+import { FlattenConcurrentAsyncIterable } from './_flatten';
 
 /**
  * Merges elements from all inner async-iterable sequences into a single async-iterable sequence.
@@ -9,6 +8,6 @@ import { flatMap } from './flatmap';
  */
 export function mergeAll() {
   return function mergeAllOperatorFunction<TSource>(source: AsyncIterable<AsyncIterable<TSource>>) {
-    return AsyncIterableX.as(source)['pipe'](flatMap((s) => s));
+    return new FlattenConcurrentAsyncIterable(source, (s) => s, 1, false);
   };
 }

@@ -1,6 +1,6 @@
 import { hasNext, noNext } from '../asynciterablehelpers';
-import { of, range, throwError } from 'ix/asynciterable';
-import { concatMap } from 'ix/asynciterable/operators';
+import { of, range, sequenceEqual, throwError } from 'ix/asynciterable';
+import { map, tap, concatMap } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#concatMap with range', async () => {
   const xs = of(1, 2, 3);
@@ -14,6 +14,19 @@ test('AsyncIterable#concatMap with range', async () => {
   hasNext(it, 1);
   hasNext(it, 2);
   noNext(it);
+});
+
+test('AsyncIterable#concatMap order of effects', async () => {
+  let i = 0;
+  const res = range(0, 3).pipe(
+    tap({ next: async () => ++i }),
+    concatMap((x) => range(0, x + 1)),
+    map((x) => i + ' - ' + x)
+  );
+
+  expect(
+    await sequenceEqual(res, of('1 - 0', '2 - 0', '2 - 1', '3 - 0', '3 - 1', '3 - 2'))
+  ).toBeTruthy();
 });
 
 test('AsyncIterable#concatMap selector returns throw', async () => {
