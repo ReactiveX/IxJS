@@ -8,9 +8,10 @@ import { FlattenConcurrentSelector } from '../../asynciterable/operators/_flatte
 export function flatMapProto<T, R>(
   this: AsyncIterableX<T>,
   selector: FlattenConcurrentSelector<T, R>,
+  concurrent = Infinity,
   thisArg?: any
 ) {
-  return flatMap(selector, thisArg)(this);
+  return flatMap(selector, concurrent, thisArg)(this);
 }
 
 AsyncIterableX.prototype.flatMap = flatMapProto;

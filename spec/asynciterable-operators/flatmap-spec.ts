@@ -1,19 +1,12 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { of, range, throwError } from 'ix/asynciterable';
+import { hasNext } from '../asynciterablehelpers';
+import { of, range, throwError, toArray } from 'ix/asynciterable';
 import { flatMap } from 'ix/asynciterable/operators';
 
 test('AsyncIterable#flatMap with range', async () => {
   const xs = of(1, 2, 3);
   const ys = xs.pipe(flatMap(async (x) => range(0, x)));
 
-  const it = ys[Symbol.asyncIterator]();
-  hasNext(it, 0);
-  hasNext(it, 0);
-  hasNext(it, 1);
-  hasNext(it, 0);
-  hasNext(it, 1);
-  hasNext(it, 2);
-  noNext(it);
+  expect(await toArray(ys)).toEqual([0, 0, 0, 1, 1, 2]);
 });
 
 test('AsyncIterable#flatMap selector returns throw', async () => {
