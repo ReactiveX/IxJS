@@ -6,8 +6,8 @@ import { FlattenConcurrentAsyncIterable } from './_flatten';
  * @template TSource The type of the elements in the source sequences.
  * @returns {OperatorAsyncFunction<AsyncIterable<TSource>, TSource>} The async-iterable sequence that merges the elements of the inner sequences.
  */
-export function mergeAll() {
+export function mergeAll(concurrent = Infinity) {
   return function mergeAllOperatorFunction<TSource>(source: AsyncIterable<AsyncIterable<TSource>>) {
-    return new FlattenConcurrentAsyncIterable(source, (s) => s, 1, false);
+    return new FlattenConcurrentAsyncIterable(source, (s) => s, concurrent, false);
   };
 }

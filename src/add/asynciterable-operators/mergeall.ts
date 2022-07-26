@@ -4,8 +4,11 @@ import { mergeAll } from '../../asynciterable/operators/mergeall';
 /**
  * @ignore
  */
-export function mergeAllProto<T>(this: AsyncIterableX<AsyncIterable<T>>): AsyncIterableX<T> {
-  return mergeAll()(this);
+export function mergeAllProto<T>(
+  this: AsyncIterableX<AsyncIterable<T>>,
+  concurrent = Infinity
+): AsyncIterableX<T> {
+  return mergeAll(concurrent)(this);
 }
 
 AsyncIterableX.prototype.mergeAll = mergeAllProto;
