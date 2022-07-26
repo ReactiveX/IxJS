@@ -46,6 +46,7 @@ export * from './skipuntil';
 export * from './skipwhile';
 export * from './slice';
 export * from './startwith';
+export * from './switchall';
 export * from './switchmap';
 export * from './takelast';
 export * from './take';
