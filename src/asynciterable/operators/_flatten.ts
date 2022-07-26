@@ -3,6 +3,7 @@ import { wrapWithAbort } from '../operators/withabort';
 import { AbortError, throwIfAborted } from '../../aborterror';
 import { safeRace } from '../../util/safeRace';
 import { isPromise } from '../../util/isiterable';
+import { returnAsyncIterator } from '../../util/returniterator';
 
 export type FlattenConcurrentSelector<TSource, TResult> = (
   value: TSource,
@@ -17,6 +18,8 @@ const enum Type {
   INNER = 1,
 }
 
+type Wrapper<TValue, TType extends Type> = { value: TValue; index: number; type: TType };
+
 function ignoreInnerAbortErrors(signal: AbortSignal) {
   return function ignoreInnerAbortError(e?: any) {
     if (signal.aborted && e instanceof AbortError) {
@@ -26,12 +29,13 @@ function ignoreInnerAbortErrors(signal: AbortSignal) {
   };
 }
 
-async function* wrapIterator<T>(
-  source: AsyncIterable<T>,
+async function* wrapIterator<TValue, TType extends Type>(
+  source: AsyncIterable<TValue>,
   index: number,
-  type: Type,
+  type: TType,
   signal?: AbortSignal
-) {
+): AsyncGenerator<Wrapper<TValue, TType>> {
+  throwIfAborted(signal);
   for await (const value of wrapWithAbort(source, signal)) {
     throwIfAborted(signal);
     yield { type, index, value };
@@ -53,8 +57,8 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
   async *[Symbol.asyncIterator](outerSignal?: AbortSignal) {
     throwIfAborted(outerSignal);
 
-    type OuterWrapper = { value: TSource; index: number; type: Type.OUTER };
-    type InnerWrapper = { value: TResult; index: number; type: Type.INNER };
+    type OuterWrapper = Wrapper<TSource, Type.OUTER>;
+    type InnerWrapper = Wrapper<TResult, Type.INNER>;
 
     let active = 0;
     let outerIndex = 0;
@@ -70,13 +74,11 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
     const controllers = new Array<AbortController>(isFinite(concurrent) ? concurrent : 0);
     const inners = new Array<AsyncGenerator<InnerWrapper>>(isFinite(concurrent) ? concurrent : 0);
 
-    const outer = wrapIterator(this._source, 0, Type.OUTER, outerSignal) as AsyncGenerator<
-      OuterWrapper
-    >;
+    const outer = wrapIterator(this._source, 0, Type.OUTER, outerSignal);
     const results = [outer.next()] as Promise<IteratorResult<OuterWrapper | InnerWrapper>>[];
 
     try {
-      while (1) {
+      do {
         const {
           done = false,
           value: { type, value, index },
@@ -98,7 +100,11 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
             }
             case Type.INNER: {
               yield value as TResult;
-              results[index] = pullNextInner(index);
+              const { [index - 1]: inner } = inners;
+              const {
+                [index - 1]: { signal },
+              } = controllers;
+              results[index] = inner.next().catch(ignoreInnerAbortErrors(signal));
               break;
             }
           }
@@ -106,10 +112,11 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
           // ignore this result slot
           results[index] = NEVER_PROMISE;
           switch (type) {
-            case Type.OUTER:
+            case Type.OUTER: {
               outerComplete = true;
               break;
-            case Type.INNER:
+            }
+            case Type.INNER: {
               --active;
               // return the current slot to the pool
               innerIndices.push(index);
@@ -119,22 +126,13 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
                 pullNextOuter(outerValues.shift()!);
               }
               break;
-          }
-          if (outerComplete && active + outerValues.length === 0) {
-            return;
+            }
           }
         }
-      }
+      } while (!outerComplete || active + outerValues.length > 0);
     } finally {
-      controllers.forEach((controller) => {
-        controller?.abort();
-      });
-    }
-
-    function pullNextInner(index: number) {
-      const result = inners[index - 1].next();
-      const { [index - 1]: controller } = controllers;
-      return result.catch(ignoreInnerAbortErrors(controller.signal));
+      controllers.forEach((controller) => controller?.abort());
+      await Promise.all([outer as AsyncIterator<any>, ...inners].map(returnAsyncIterator));
     }
 
     function pullNextOuter(outerValue: TSource) {
@@ -154,19 +152,30 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
       // `selector` is a sync or async function that returns AsyncIterableInput.
       const inner = selector.call(thisArg, outerValue, outerIndex++, innerSignal);
 
-      const wrapAndPullInner = (inner: AsyncIterableInput<TResult> | TResult) => {
-        inners[index - 1] = wrapIterator(
-          AsyncIterableX.as(inner),
-          index,
-          Type.INNER,
-          innerSignal
-        ) as AsyncGenerator<InnerWrapper>;
-        return pullNextInner(index);
-      };
+      results[index] = wrapAndPullInner(index, innerSignal, inner).catch(
+        ignoreInnerAbortErrors(innerSignal)
+      );
+    }
 
-      results[index] = isPromise(inner)
-        ? (inner.then(wrapAndPullInner) as Promise<IteratorResult<InnerWrapper, any>>)
-        : wrapAndPullInner(inner);
+    function wrapAndPullInner(
+      index: number,
+      signal: AbortSignal,
+      inner:
+        | PromiseLike<AsyncIterableInput<TResult> | TResult>
+        | AsyncIterableInput<TResult>
+        | TResult
+    ): Promise<IteratorResult<Wrapper<TResult, Type.INNER>>> {
+      if (isPromise(inner)) {
+        return inner.then((inner) => wrapAndPullInner(index, signal, inner)) as Promise<
+          IteratorResult<Wrapper<TResult, Type.INNER>>
+        >;
+      }
+      return (inners[index - 1] = wrapIterator(
+        AsyncIterableX.as(inner),
+        index,
+        Type.INNER,
+        signal
+      )).next();
     }
   }
 }
