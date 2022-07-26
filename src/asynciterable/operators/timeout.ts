@@ -5,6 +5,7 @@ import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 import { isObject } from '../../util/isiterable';
 import { safeRace } from '../../util/safeRace';
+import { returnAsyncIterator } from '../../util/returniterator';
 
 export class TimeoutError extends Error {
   constructor(message = 'Timeout has occurred') {
@@ -51,24 +52,28 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
     const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
-    while (1) {
-      const { type, value } = await safeRace<TimeoutOperation<TSource>>([
-        it.next().then((val) => {
-          return { type: VALUE_TYPE, value: val };
-        }),
-        sleep(this._dueTime, signal).then(() => {
-          return { type: ERROR_TYPE };
-        }),
-      ]);
+    try {
+      while (1) {
+        const { type, value } = await safeRace<TimeoutOperation<TSource>>([
+          it.next().then((val) => {
+            return { type: VALUE_TYPE, value: val };
+          }),
+          sleep(this._dueTime, signal).then(() => {
+            return { type: ERROR_TYPE };
+          }),
+        ]);
 
-      if (type === ERROR_TYPE) {
-        throw new TimeoutError();
-      }
+        if (type === ERROR_TYPE) {
+          throw new TimeoutError();
+        }
 
-      if (!value || value.done) {
-        break;
+        if (!value || value.done) {
+          break;
+        }
+        yield value.value;
       }
-      yield value.value;
+    } finally {
+      await returnAsyncIterator(it);
     }
   }
 }
