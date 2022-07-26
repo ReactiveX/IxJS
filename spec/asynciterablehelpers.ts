@@ -3,20 +3,29 @@ import { AsyncIterableX } from 'ix/asynciterable';
 import { Observer, PartialObserver } from '../src/observer';
 
 export async function hasNext<T>(source: AsyncIterator<T>, expected: T) {
-  const { done, value } = await source.next();
-  expect(done).toBeFalsy();
-  expect(value).toEqual(expected);
+  await expect(source.next()).resolves.toEqual({ done: false, value: expected });
+}
+
+export async function hasErr(source: AsyncIterator<any>, expected: any) {
+  await expect(source.next()).rejects.toThrow(expected);
 }
 
 export async function noNext<T>(source: AsyncIterator<T>) {
-  const next = await source.next();
-  expect(next.done).toBeTruthy();
+  await expect(source.next()).resolves.toEqual({ done: true, value: undefined });
 }
 
 export function delayValue<T>(item: T, delay: number): Promise<T> {
   return new Promise<T>((res) => {
     setTimeout(() => {
       res(item);
+    }, delay);
+  });
+}
+
+export function delayError<T>(item: T, delay: number): Promise<void> {
+  return new Promise<void>((_, reject) => {
+    setTimeout(() => {
+      reject(item);
     }, delay);
   });
 }

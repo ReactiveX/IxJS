@@ -24,8 +24,8 @@
             "console": "integratedTerminal",
             "program": "${workspaceFolder}/node_modules/.bin/jest",
             "skipFiles": [
-                "<node_internals>/**/*.js",
-                "${workspaceFolder}/node_modules/**/*.js"
+                "<node_internals>/**/*",
+                "${workspaceFolder}/node_modules/**/*",
             ],
             "env": {
                 "NODE_NO_WARNINGS": "1",

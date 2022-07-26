@@ -2,8 +2,8 @@ import { AsyncIterableX } from '../asynciterablex';
 import { PartialAsyncObserver } from '../../observer';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { toObserver } from '../../util/toobserver';
-import { wrapWithAbort } from './withabort';
 import { AbortError, throwIfAborted } from '../../aborterror';
+import { returnAsyncIterator } from '../../util/returniterator';
 
 export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
@@ -17,34 +17,25 @@ export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const source = wrapWithAbort(this._source, signal);
-    const it = source[Symbol.asyncIterator]();
-    while (1) {
-      let next;
-      try {
-        next = await it.next();
-      } catch (e) {
-        if (e instanceof AbortError) {
-          throw e;
+    const obs = this._observer;
+    const it = this._source[Symbol.asyncIterator](signal);
+    try {
+      for (let res: IteratorResult<TSource>; !(res = await it.next()).done; ) {
+        if (obs.next) {
+          await obs.next(res.value);
         }
-
-        if (this._observer.error) {
-          await this._observer.error(e);
-        }
-        throw e;
+        yield res.value;
       }
-
-      if (next.done) {
-        if (this._observer.complete) {
-          await this._observer.complete();
-        }
-        break;
+      if (obs.complete) {
+        await obs.complete();
       }
-
-      if (this._observer.next) {
-        await this._observer.next(next.value);
+    } catch (e) {
+      if (!(e instanceof AbortError) && obs.error) {
+        await obs.error(e);
       }
-      yield next.value;
+      throw e;
+    } finally {
+      await returnAsyncIterator(it);
     }
   }
 }

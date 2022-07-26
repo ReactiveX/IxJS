@@ -82,13 +82,13 @@ export abstract class AsyncIterableX<T> implements AsyncIterable<T> {
    */
   static as(source: string): AsyncIterableX<string>;
   /**
-   * Converts the async iterable like input into an async-iterable.
+   * Converts the AsyncIterable-like input or single element into an AsyncIterable.
    *
    * @template T The type of elements in the async-iterable like sequence.
    * @param {AsyncIterableInput<T>} source The async-iterable like input to convert to an async-iterable.
    * @returns {AsyncIterableX<T>} An async-iterable stream from elements in the async-iterable like sequence.
    */
-  static as<T>(source: AsyncIterableInput<T>): AsyncIterableX<T>;
+  static as<T>(source: AsyncIterableInput<T> | T): AsyncIterableX<T>;
   /**
    * Converts the single element into an async-iterable sequence.
    *
