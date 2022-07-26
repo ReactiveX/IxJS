@@ -1,3 +1,12 @@
+## [4.6.1](https://github.com/ReactiveX/IxJS/compare/v4.6.0...v4.6.1) (2022-07-26)
+
+
+### Bug Fixes
+
+* **flatMap:** default flatMap concurrent parameter to 1 ([#346](https://github.com/ReactiveX/IxJS/issues/346)) ([bcfab5a](https://github.com/ReactiveX/IxJS/commit/bcfab5a4e6da8f02b9c23bee30863062d46c04ec))
+
+
+
 # [4.6.0](https://github.com/ReactiveX/IxJS/compare/v4.5.2...v4.6.0) (2022-07-26)
 
 
