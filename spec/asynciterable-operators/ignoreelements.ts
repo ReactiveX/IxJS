@@ -2,7 +2,7 @@ import '../asynciterablehelpers';
 import { range } from 'ix/asynciterable';
 import { ignoreElements, take, tap } from 'ix/asynciterable/operators';
 
-test('Iterable#ignoreElements has side effects', async () => {
+test('AsyncIterable#ignoreElements has side effects', async () => {
   let n = 0;
   await range(0, 10)
     .pipe(

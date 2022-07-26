@@ -18,10 +18,9 @@ import { OperatorAsyncFunction } from '../../interfaces';
  */
 export function flatMap<TSource, TResult>(
   selector: FlattenConcurrentSelector<TSource, TResult>,
-  concurrent = Infinity,
   thisArg?: any
 ): OperatorAsyncFunction<TSource, TResult> {
   return function flatMapOperatorFunction(source) {
-    return new FlattenConcurrentAsyncIterable(source, selector, concurrent, false, thisArg);
+    return new FlattenConcurrentAsyncIterable(source, selector, 1, false, thisArg);
   };
 }

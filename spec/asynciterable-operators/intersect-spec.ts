@@ -2,7 +2,7 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 import { of } from 'ix/asynciterable';
 import { intersect } from 'ix/asynciterable/operators';
 
-test('Iterable#intersect with default comparer', async () => {
+test('AsyncIterable#intersect with default comparer', async () => {
   const xs = of(1, 2, 3);
   const ys = of(3, 5, 1, 4);
   const res = xs.pipe(intersect(ys));
@@ -13,7 +13,7 @@ test('Iterable#intersect with default comparer', async () => {
   await noNext(it);
 });
 
-test('Iterable#intersect with custom comparer', async () => {
+test('AsyncIterable#intersect with custom comparer', async () => {
   const comparer = (x: number, y: number) => Math.abs(x) === Math.abs(y);
   const xs = of(1, 2, -3);
   const ys = of(3, 5, -1, 4);

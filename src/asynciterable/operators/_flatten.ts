@@ -48,7 +48,7 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
     private _thisArg?: any
   ) {
     super();
-    this._concurrent = this._switchMode ? 1 : Math.max(_concurrent, 0);
+    this._concurrent = this._switchMode ? 1 : Math.max(_concurrent, 1);
   }
   async *[Symbol.asyncIterator](outerSignal?: AbortSignal) {
     throwIfAborted(outerSignal);

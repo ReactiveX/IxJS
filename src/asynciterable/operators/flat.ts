@@ -6,9 +6,7 @@ type Flattened<Arr, Depth extends number> = Depth extends -1
   ? FlattenInfinite<Arr>
   : FlattenWithDepth<Arr, Depth>;
 
-type FlattenInfinite<Arr> = Arr extends AsyncIterable<infer T>
-  ? FlattenInfinite<T>
-  : Arr;
+type FlattenInfinite<Arr> = Arr extends AsyncIterable<infer T> ? FlattenInfinite<T> : Arr;
 
 type FlattenWithDepth<Arr, Depth extends number> = {
   done: Arr;
@@ -27,7 +25,7 @@ type FlattenWithDepth<Arr, Depth extends number> = {
  * @param {number} [depth=Infinity] The depth to flatten the async-iterable sequence if specified, otherwise infinite.
  * @returns {MonoTypeOperatorAsyncFunction<T>} An operator that flattens the async-iterable sequence.
  */
-export function flat<D extends number = -1>(depth: D = -1 as any, concurrent = Infinity) {
+export function flat<D extends number = -1>(depth: D = -1 as any) {
   depth = (depth < 0 ? Infinity : depth) as any;
   return function flattenOperatorFunction<T>(
     source: AsyncIterable<T>
@@ -37,6 +35,6 @@ export function flat<D extends number = -1>(depth: D = -1 as any, concurrent = I
         return depth > 0 ? flat(depth - 1)(item) : item;
       }
       return [item];
-    }, concurrent)(source) as AsyncIterableX<Flattened<T, D>>;
+    })(source) as AsyncIterableX<Flattened<T, D>>;
   };
 }

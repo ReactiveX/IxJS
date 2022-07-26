@@ -2,7 +2,7 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 import { of } from 'ix/asynciterable';
 import { pluck } from 'ix/asynciterable/operators';
 
-test('Iterable#pluck simple prop', async () => {
+test('AsyncIterable#pluck simple prop', async () => {
   const xs = of({ prop: 1 }, { prop: 2 }, { prop: 3 }, { prop: 4 }, { prop: 5 });
   const ys = xs.pipe(pluck('prop'));
 
@@ -15,7 +15,7 @@ test('Iterable#pluck simple prop', async () => {
   await noNext(it);
 });
 
-test('Iterable#pluck nested prop', async () => {
+test('AsyncIterable#pluck nested prop', async () => {
   const xs = of(
     { a: { b: { c: 1 } } },
     { a: { b: { c: 2 } } },
@@ -34,7 +34,7 @@ test('Iterable#pluck nested prop', async () => {
   await noNext(it);
 });
 
-test('Iterable#pluck edge cases', async () => {
+test('AsyncIterable#pluck edge cases', async () => {
   const xs = of<any>(
     { a: { b: { c: 1 } } },
     { a: { b: 2 } },
