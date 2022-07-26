@@ -1,4 +1,4 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
+import { hasNext, hasErr, noNext } from '../asynciterablehelpers';
 import { of, range, sequenceEqual, throwError } from 'ix/asynciterable';
 import { map, tap, concatMap } from 'ix/asynciterable/operators';
 
@@ -7,13 +7,13 @@ test('AsyncIterable#concatMap with range', async () => {
   const ys = xs.pipe(concatMap(async (x) => range(0, x)));
 
   const it = ys[Symbol.asyncIterator]();
-  hasNext(it, 0);
-  hasNext(it, 0);
-  hasNext(it, 1);
-  hasNext(it, 0);
-  hasNext(it, 1);
-  hasNext(it, 2);
-  noNext(it);
+  await hasNext(it, 0);
+  await hasNext(it, 0);
+  await hasNext(it, 1);
+  await hasNext(it, 0);
+  await hasNext(it, 1);
+  await hasNext(it, 2);
+  await noNext(it);
 });
 
 test('AsyncIterable#concatMap order of effects', async () => {
@@ -35,10 +35,10 @@ test('AsyncIterable#concatMap selector returns throw', async () => {
   const ys = xs.pipe(concatMap(async (x) => (x < 3 ? range(0, x) : throwError(err))));
 
   const it = ys[Symbol.asyncIterator]();
-  hasNext(it, 0);
-  hasNext(it, 0);
-  hasNext(it, 1);
-  await expect(it.next()).rejects.toThrow(err);
+  await hasNext(it, 0);
+  await hasNext(it, 0);
+  await hasNext(it, 1);
+  await hasErr(it, err);
 });
 
 test('AsyncIterable#concatMap with error throws', async () => {
@@ -63,8 +63,8 @@ test('AsyncIterable#concatMap selector throws error', async () => {
   );
 
   const it = ys[Symbol.asyncIterator]();
-  hasNext(it, 0);
-  hasNext(it, 0);
-  hasNext(it, 1);
-  await expect(it.next()).rejects.toThrow(err);
+  await hasNext(it, 0);
+  await hasNext(it, 0);
+  await hasNext(it, 1);
+  await hasErr(it, err);
 });
