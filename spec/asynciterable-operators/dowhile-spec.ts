@@ -3,7 +3,7 @@ import { defer, of, toArray } from 'ix/asynciterable';
 import { doWhile, tap } from 'ix/asynciterable/operators';
 import { sequenceEqual } from 'ix/iterable';
 
-test('Iterable#doWhile some', async () => {
+test('AsyncIterable#doWhile some', async () => {
   let x = 5;
 
   const res = await toArray(
@@ -16,7 +16,7 @@ test('Iterable#doWhile some', async () => {
   expect(sequenceEqual(res, [5, 4, 3, 2, 1])).toBeTruthy();
 });
 
-test('Iterable#doWhile one', async () => {
+test('AsyncIterable#doWhile one', async () => {
   let x = 0;
   const res = await toArray(
     defer(() => of(x)).pipe(

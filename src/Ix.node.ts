@@ -55,6 +55,7 @@ import './add/asynciterable-operators/orderby';
 import './add/asynciterable-operators/pairwise';
 import './add/asynciterable-operators/pluck';
 import './add/asynciterable-operators/publish';
+import './add/asynciterable-operators/switchall';
 import './add/asynciterable-operators/switchmap';
 import './add/asynciterable-operators/reduceright';
 import './add/asynciterable-operators/reduce';

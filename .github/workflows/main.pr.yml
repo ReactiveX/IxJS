@@ -45,7 +45,7 @@ jobs:
       - name: Lint files
         if: ${{ steps.files_changed.outputs.any_changed == 'true' || steps.files_changed.outputs.any_deleted == 'true' }}
         run: |
-          yarn lint
+          yarn lint:ci
 
   build-and-test-pull-request:
     needs:

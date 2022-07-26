@@ -2,7 +2,7 @@ import { hasNext, noNext } from '../asynciterablehelpers';
 import { of, range, throwError } from 'ix/asynciterable';
 import { flatMap } from 'ix/asynciterable/operators';
 
-test('Iterable#flatMap with range', async () => {
+test('AsyncIterable#flatMap with range', async () => {
   const xs = of(1, 2, 3);
   const ys = xs.pipe(flatMap(async (x) => range(0, x)));
 
@@ -16,7 +16,7 @@ test('Iterable#flatMap with range', async () => {
   noNext(it);
 });
 
-test('Iterable#flatMap selector returns throw', async () => {
+test('AsyncIterable#flatMap selector returns throw', async () => {
   const err = new Error();
   const xs = of(1, 2, 3);
   const ys = xs.pipe(flatMap(async (x) => (x < 3 ? range(0, x) : throwError(err))));
@@ -28,7 +28,7 @@ test('Iterable#flatMap selector returns throw', async () => {
   await expect(it.next()).rejects.toThrow(err);
 });
 
-test('Iterable#flatMap with error throws', async () => {
+test('AsyncIterable#flatMap with error throws', async () => {
   const err = new Error();
   const xs = throwError(err);
   const ys = xs.pipe(flatMap((x) => range(0, x)));
@@ -37,7 +37,7 @@ test('Iterable#flatMap with error throws', async () => {
   await expect(it.next()).rejects.toThrow(err);
 });
 
-test('Iterable#flatMap selector throws error', async () => {
+test('AsyncIterable#flatMap selector throws error', async () => {
   const err = new Error();
   const xs = of(1, 2, 3);
   const ys = xs.pipe(

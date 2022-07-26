@@ -1,5 +1,32 @@
-import { FlattenConcurrentSelector, FlattenConcurrentAsyncIterable } from './_flatten';
+import { AsyncIterableInput, AsyncIterableX } from '../asynciterablex';
 import { OperatorAsyncFunction } from '../../interfaces';
+import { wrapWithAbort } from './withabort';
+import { throwIfAborted } from '../../aborterror';
+import { FlattenConcurrentSelector } from './_flatten';
+import { isPromise } from '../../util/isiterable';
+
+class ConcatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
+  constructor(
+    private _source: AsyncIterable<TSource>,
+    private _selector: FlattenConcurrentSelector<TSource, TResult>,
+    private _thisArg?: any
+  ) {
+    super();
+  }
+
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
+    throwIfAborted(signal);
+    let outerIndex = 0;
+    const { _thisArg: thisArg, _selector: selector } = this;
+    for await (const outer of wrapWithAbort(this._source, signal)) {
+      const result = selector.call(thisArg, outer, outerIndex++, signal);
+      const values = (isPromise(result) ? await result : result) as AsyncIterableInput<TResult>;
+      for await (const inner of wrapWithAbort(AsyncIterableX.as(values), signal)) {
+        yield inner;
+      }
+    }
+  }
+}
 
 /**
  * Projects each element of an async-iterable sequence to an async-iterable sequence and merges
@@ -21,6 +48,6 @@ export function concatMap<TSource, TResult>(
   thisArg?: any
 ): OperatorAsyncFunction<TSource, TResult> {
   return function concatMapOperatorFunction(source) {
-    return new FlattenConcurrentAsyncIterable(source, selector, 1, false, thisArg);
+    return new ConcatMapAsyncIterable(source, selector, thisArg);
   };
 }
