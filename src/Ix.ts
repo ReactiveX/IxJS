@@ -1,8 +1,7 @@
 import { AbortError } from './aborterror';
-import { AsyncSink } from './asynciterable/asyncsink';
 import { IterableX } from './iterable/iterablex';
 import { observable } from './observer';
-import { AsyncIterableX } from './asynciterable/asynciterablex';
+import { AsyncIterableX, AsyncSink } from './asynciterable/asynciterablex';
 import { GroupedIterable as ImportedGroupedIterable } from './iterable/operators/groupby';
 import { GroupedAsyncIterable as ImportedGroupedAsyncIterable } from './asynciterable/operators/groupby';
 export { OrderedIterableX as OrderedIterable } from './iterable/operators/orderby';

@@ -1,9 +1,17 @@
+import { memoize } from './operators/memoize';
+import { identity } from '../util/identity';
+import { isFunction } from '../util/isiterable';
 import { AsyncIterableX } from './asynciterablex';
 import { AsyncSink } from './asyncsink';
-import { memoize } from './operators/memoize';
+
+const { isArray } = Array;
+
+function callOrApply<T, R>(fn: (...values: T[]) => R, args: T | T[]): R {
+  return isArray(args) ? fn(...args) : fn(args);
+}
 
 /**
- * Creates asnyc-iterable from an event emitter by adding handlers for both listening and unsubscribing from events.
+ * Creates async-iterable from an event emitter by adding handlers for both listening and unsubscribing from events.
  *
  * @template TSource The type of elements in the event emitter.
  * @param {(handler: (...args: any[]) => void) => void} addHandler The function to add a listener to the source.
@@ -12,20 +20,28 @@ import { memoize } from './operators/memoize';
  */
 export function fromEventPattern<TSource>(
   addHandler: (handler: (...args: any[]) => void) => void,
-  removeHandler: (handler: (...args: any[]) => void) => void
+  removeHandler: (handler: (...args: any[]) => void) => void,
+  resultSelector?: (...args: any[]) => TSource
 ): AsyncIterableX<TSource> {
+  if (!isFunction(resultSelector)) {
+    resultSelector = identity;
+  }
+
   const sink = new AsyncSink<TSource>();
-  const handler = (e: TSource) => sink.write(e);
+  const handler = (...args: any[]) => sink.write(callOrApply(resultSelector!, args));
 
   addHandler(handler);
 
-  const yielder = async function* () {
-    for (let next; !(next = await sink.next()).done; ) {
-      yield next.value;
+  const loop = async function* () {
+    try {
+      for (let next; !(next = await sink.next()).done; ) {
+        yield next.value;
+      }
+    } finally {
+      removeHandler(handler);
+      sink.end();
     }
-    removeHandler(handler);
-    sink.end();
   };
 
-  return memoize<TSource>()(yielder());
+  return memoize<TSource>()(loop());
 }

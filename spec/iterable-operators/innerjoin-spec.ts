@@ -1,11 +1,11 @@
 import { hasNext, noNext } from '../iterablehelpers';
-import { from, throwError } from 'ix/iterable';
+import { as, throwError } from 'ix/iterable';
 import { innerJoin } from 'ix/iterable/operators';
 
 test('Iterable#innerJoin normal', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (x) => x % 3,
@@ -24,7 +24,7 @@ test('Iterable#innerJoin normal', () => {
 test('Iterable#innerJoin reversed', () => {
   const xs = [3, 6, 4];
   const ys = [0, 1, 2];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (x) => x % 3,
@@ -43,7 +43,7 @@ test('Iterable#innerJoin reversed', () => {
 test('Iterable#innerJoin only one group matches', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (x) => x % 3,
@@ -61,7 +61,7 @@ test('Iterable#innerJoin only one group matches', () => {
 test('Iterable#innerJoin only one group matches reversed', () => {
   const xs = [3, 6];
   const ys = [0, 1, 2];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (x) => x % 3,
@@ -79,7 +79,7 @@ test('Iterable#innerJoin only one group matches reversed', () => {
 test('Iterable#innerJoin left throws', () => {
   const xs = throwError(new Error());
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (x) => x % 3,
@@ -95,7 +95,7 @@ test('Iterable#innerJoin left throws', () => {
 test('Iterable#innerJoin right throws', () => {
   const xs = [0, 1, 2];
   const ys = throwError(new Error());
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (x) => x % 3,
@@ -111,7 +111,7 @@ test('Iterable#innerJoin right throws', () => {
 test('Iterable#innerJoin left selector throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (_) => {
@@ -129,7 +129,7 @@ test('Iterable#innerJoin left selector throws', () => {
 test('Iterable#join right selector throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (x) => x % 3,
@@ -147,7 +147,7 @@ test('Iterable#join right selector throws', () => {
 test('Iterable#innerJoin result selector throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     innerJoin(
       ys,
       (x) => x % 3,

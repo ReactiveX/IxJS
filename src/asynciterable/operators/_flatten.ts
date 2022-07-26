@@ -3,7 +3,6 @@ import { wrapWithAbort } from '../operators/withabort';
 import { AbortError, throwIfAborted } from '../../aborterror';
 import { safeRace } from '../../util/safeRace';
 import { isPromise } from '../../util/isiterable';
-import { as as asAsyncIterable } from '../as';
 
 export type FlattenConcurrentSelector<TSource, TResult> = (
   value: TSource,
@@ -157,7 +156,7 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
 
       const wrapAndPullInner = (inner: AsyncIterableInput<TResult> | TResult) => {
         inners[index - 1] = wrapIterator(
-          asAsyncIterable(inner),
+          AsyncIterableX.as(inner),
           index,
           Type.INNER,
           innerSignal

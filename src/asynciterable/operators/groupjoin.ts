@@ -1,7 +1,6 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { createGrouping } from './_grouping';
 import { empty } from '../empty';
-import { from } from '../from';
 import { identity } from '../../util/identity';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
@@ -43,7 +42,7 @@ export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends Async
     for await (const outerElement of wrapWithAbort(this._outer, signal)) {
       const outerKey = await this._outerSelector(outerElement, signal);
       const innerElements = map.has(outerKey) ? <Iterable<TInner>>map.get(outerKey) : empty();
-      yield await this._resultSelector(outerElement, from(innerElements), signal);
+      yield await this._resultSelector(outerElement, AsyncIterableX.as(innerElements), signal);
     }
   }
 }

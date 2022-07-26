@@ -16,7 +16,7 @@ import { OperatorAsyncFunction } from '../../interfaces';
  * @returns {OperatorAsyncFunction<TSource, TResult>} An operator that creates an async-iterable sequence whose
  * elements are the result of invoking the one-to-many transform function on each element of the input sequence.
  */
-export function switchMap<TSource extends unknown, TResult extends unknown>(
+export function switchMap<TSource, TResult>(
   selector: FlattenConcurrentSelector<TSource, TResult>,
   thisArg?: any
 ): OperatorAsyncFunction<TSource, TResult> {

@@ -1,11 +1,11 @@
 import { hasNext, noNext } from '../iterablehelpers';
 import { groupJoin } from 'ix/iterable/operators';
-import { from, reduce, throwError } from 'ix/iterable';
+import { as, reduce, throwError } from 'ix/iterable';
 
 test('Iterable#groupJoin all groups have values', () => {
   const xs = [0, 1, 2];
   const ys = [4, 7, 6, 2, 3, 4, 8, 9];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     groupJoin(
       ys,
       (x) => x % 3,
@@ -24,7 +24,7 @@ test('Iterable#groupJoin all groups have values', () => {
 test('Iterable#groupJoin some groups have values', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     groupJoin(
       ys,
       (x) => x % 3,
@@ -43,7 +43,7 @@ test('Iterable#groupJoin some groups have values', () => {
 test('Iterable#groupJoin left throws', () => {
   const xs = throwError(new Error());
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     groupJoin(
       ys,
       (x) => x % 3,
@@ -59,7 +59,7 @@ test('Iterable#groupJoin left throws', () => {
 test('Iterable#groupJoin right throws', () => {
   const xs = [0, 1, 2];
   const ys = throwError(new Error());
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     groupJoin(
       ys,
       (x) => x % 3,
@@ -75,7 +75,7 @@ test('Iterable#groupJoin right throws', () => {
 test('Iterable#groupJoin left selector throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     groupJoin(
       ys,
       (_) => {
@@ -93,7 +93,7 @@ test('Iterable#groupJoin left selector throws', () => {
 test('Iterable#groupJoin right selector throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     groupJoin(
       ys,
       (x) => x % 3,
@@ -111,7 +111,7 @@ test('Iterable#groupJoin right selector throws', () => {
 test('Iterable#groupJoin result selector eventually throws', () => {
   const xs = [0, 1, 2];
   const ys = [3, 6, 4];
-  const res = from(xs).pipe(
+  const res = as(xs).pipe(
     groupJoin(
       ys,
       (x) => x % 3,

@@ -1,4 +1,4 @@
-import { from } from '../asynciterable/from';
+import { AsyncIterableX } from '../asynciterable/asynciterablex';
 import { publish } from './operators/publish';
 import { IterableX } from '../iterable/iterablex';
 import {
@@ -24,9 +24,9 @@ export function toDOMStream(
   options?: QueuingStrategy<any> | ReadableBYOBStreamOptions | ReadableByteStreamOptions
 ) {
   if (!options || !('type' in options) || options['type'] !== 'bytes') {
-    return asyncIterableToDOMStream(from(source), options);
+    return asyncIterableToDOMStream(AsyncIterableX.as(source), options);
   }
-  return asyncIterableToDOMStream(from(source), options);
+  return asyncIterableToDOMStream(AsyncIterableX.as(source), options);
 }
 
 IterableX.prototype.tee = function <T>(this: IterableX<T>) {

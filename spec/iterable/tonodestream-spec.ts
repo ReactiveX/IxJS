@@ -1,7 +1,7 @@
 import '../iterablehelpers';
 import '../asynciterablehelpers';
-import { from as fromIterable } from 'ix/iterable';
-import { from as fromAsyncIterable } from 'ix/asynciterable';
+import { as as asIterable } from 'ix/iterable';
+import { as as asAsyncIterable } from 'ix/asynciterable';
 import { map, toNodeStream } from 'ix/iterable/operators/index.node';
 import { IterableReadable } from 'ix/Ix.node';
 
@@ -13,7 +13,7 @@ import { IterableReadable } from 'ix/Ix.node';
     });
   }
 
-  const stringsItr = () => fromIterable([1, 2, 3]).pipe(map((i) => `${i}`));
+  const stringsItr = () => asIterable([1, 2, 3]).pipe(map((i) => `${i}`));
   const buffersItr = () => stringsItr().pipe(map((val) => Buffer.from(val)));
   const objectsItr = () => stringsItr().pipe(map((val) => ({ val })));
   const compare = <T>(a: T, b: T) => {
@@ -35,19 +35,19 @@ import { IterableReadable } from 'ix/Ix.node';
       const expectedBuffers = expectedStrings.map((x) => Buffer.from(x));
       test('yields Strings', async () => {
         await expect(stringsItr().pipe(toNodeStream({ objectMode: true }))).toEqualStream(
-          fromAsyncIterable(expectedStrings),
+          asAsyncIterable(expectedStrings),
           compare
         );
       });
       test('yields Buffers', async () => {
         await expect(buffersItr().pipe(toNodeStream({ objectMode: true }))).toEqualStream(
-          fromAsyncIterable(expectedBuffers),
+          asAsyncIterable(expectedBuffers),
           compare
         );
       });
       test('yields Objects', async () => {
         await expect(objectsItr().pipe(toNodeStream({ objectMode: true }))).toEqualStream(
-          fromAsyncIterable(expectedObjects),
+          asAsyncIterable(expectedObjects),
           compare
         );
       });
@@ -58,13 +58,13 @@ import { IterableReadable } from 'ix/Ix.node';
       const expectedBuffers = expectedStrings.map((x) => Buffer.from(x));
       test('yields Strings', async () => {
         await expect(stringsItr().pipe(toNodeStream({ objectMode: false }))).toEqualStream(
-          fromAsyncIterable(expectedStrings),
+          asAsyncIterable(expectedStrings),
           compare
         );
       });
       test('yields Buffers', async () => {
         await expect(buffersItr().pipe(toNodeStream({ objectMode: false }))).toEqualStream(
-          fromAsyncIterable(expectedBuffers),
+          asAsyncIterable(expectedBuffers),
           compare
         );
       });

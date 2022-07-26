@@ -1,10 +1,10 @@
 import '../asynciterablehelpers';
-import { empty, from, toArray } from 'ix/asynciterable';
+import { empty, as, toArray } from 'ix/asynciterable';
 import { sequenceEqual } from 'ix/iterable';
 
 test('AsyncIterable#toArray some', async () => {
   const xs = [42, 25, 39];
-  const ys = from(xs);
+  const ys = as(xs);
   const res = await toArray(ys);
   expect(sequenceEqual(res, xs)).toBeTruthy();
 });

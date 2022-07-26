@@ -1,5 +1,5 @@
 import './Ix';
-import { from } from 'ix/asynciterable';
+import { AsyncIterableX } from 'ix/asynciterable';
 import { Observer, PartialObserver } from '../src/observer';
 
 export async function hasNext<T>(source: AsyncIterator<T>, expected: T) {
@@ -81,7 +81,7 @@ expect.extend({
     let next1: IteratorResult<T>;
     let next2: IteratorResult<T>;
     const results: string[] = [];
-    const it1 = from(expected)[Symbol.asyncIterator]();
+    const it1 = AsyncIterableX.as(expected)[Symbol.asyncIterator]();
     const it2 =
       typeof (<any>actual)[Symbol.asyncIterator] === 'function'
         ? (<any>actual)[Symbol.asyncIterator]()

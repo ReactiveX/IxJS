@@ -1,4 +1,3 @@
-export * from './as';
 export * from './average';
 export * from './catcherror';
 export * from './concat';
@@ -11,7 +10,6 @@ export * from './every';
 export * from './findindex';
 export * from './find';
 export * from './first';
-export * from './from';
 export * from './generate';
 export * from './iif';
 export * from './includes';
@@ -24,7 +22,6 @@ export * from './min';
 export * from './minby';
 export * from './of';
 export * from './onerrorresumenext';
-export * from './pipe';
 export * from './range';
 export * from './reduceright';
 export * from './reduce';
@@ -40,3 +37,7 @@ export * from './tomap';
 export * from './toset';
 export * from './whiledo';
 export * from './zip';
+
+import { IterableX } from './iterablex';
+export const as = IterableX.as;
+export const from = IterableX.from;

@@ -7,6 +7,7 @@
     "declaration": false,
     "noEmitHelpers": true,
     "importHelpers": true,
+    "esModuleInterop": true,
     "paths": {
       "ix/*": [
         "targets/esnext/umd/*"

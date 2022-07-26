@@ -4,7 +4,7 @@ import { switchMap } from '../../asynciterable/operators/switchmap';
 /**
  * @ignore
  */
-export function switchMapProto<T extends unknown, R extends AsyncIterable<any>>(
+export function switchMapProto<T, R extends AsyncIterable<any>>(
   this: AsyncIterableX<T>,
   selector: (value: T, index: number, signal?: AbortSignal) => R | Promise<R>,
   thisArg?: any
