@@ -4,8 +4,12 @@ import { flat } from '../../asynciterable/operators/flat';
 /**
  * @ignore
  */
-export function flatProto<T, D extends number = -1>(this: AsyncIterableX<T>, depth: D = -1 as any) {
-  return flat(depth)(this);
+export function flatProto<T, D extends number = -1>(
+  this: AsyncIterableX<T>,
+  depth: D = -1 as any,
+  concurrent = Infinity
+) {
+  return flat(depth, concurrent)(this);
 }
 
 AsyncIterableX.prototype.flat = flatProto;
