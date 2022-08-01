@@ -1,3 +1,26 @@
+# [5.0.0](https://github.com/ReactiveX/IxJS/compare/v4.6.0...v5.0.0) (2022-08-01)
+
+
+### Bug Fixes
+
+* **flatMap:** default flatMap concurrent parameter to 1 ([#346](https://github.com/ReactiveX/IxJS/issues/346)) ([bcfab5a](https://github.com/ReactiveX/IxJS/commit/bcfab5a4e6da8f02b9c23bee30863062d46c04ec))
+
+
+### chore
+
+* **release:** 4.6.1 ([84c73b8](https://github.com/ReactiveX/IxJS/commit/84c73b854fb87a3c83bc438df963d9cb38a8c33f))
+
+
+### Documentation
+
+* **CHANGELOG:** 4.6.1 ([0c50569](https://github.com/ReactiveX/IxJS/commit/0c5056970b1c514f14e4a552ad2a8c49176e8070))
+
+
+* [FIX] Ensure `return` is called on AsyncIterators (#348) ([72c37ec](https://github.com/ReactiveX/IxJS/commit/72c37ecc232fb9e256d0e272d7861ce8eed8135e)), closes [#348](https://github.com/ReactiveX/IxJS/issues/348)
+* Default to flatMap concurrent (#347) ([32137a7](https://github.com/ReactiveX/IxJS/commit/32137a788491a79b9686aaf8c1fa4af55c25899d)), closes [#347](https://github.com/ReactiveX/IxJS/issues/347)
+
+
+
 ## [4.6.1](https://github.com/ReactiveX/IxJS/compare/v4.6.0...v4.6.1) (2022-07-26)
 
 
