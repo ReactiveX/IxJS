@@ -1,7 +1,7 @@
 {
   "name": "ix",
   "private": true,
-  "version": "4.6.1",
+  "version": "5.0.0",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
