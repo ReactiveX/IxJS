@@ -160,7 +160,7 @@ The other type of binding is `fromEventPattern` which allows you to have an add 
 
 ```typescript
 import { EventEmitter } from 'events';
-import { fromEvent } from 'ix/asynciterable';
+import { fromEventPattern } from 'ix/asynciterable';
 
 function getEvents() {
   const emitter = new EventEmitter();
