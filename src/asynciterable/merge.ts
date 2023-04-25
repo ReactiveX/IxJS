@@ -6,10 +6,12 @@ import { safeRace } from '../util/safeRace';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
 
-type MergeResult<T> = { value: T; index: number };
+type MergeResult<T> = { value: T; index: number; done?: boolean; error?: any };
 
-function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
-  return promise.then((value) => ({ value, index })) as Promise<MergeResult<T>>;
+function wrapPromiseWithIndex<T>(promise: Promise<IteratorResult<T>>, index: number) {
+  return promise
+    .then(({value, done}) => ({ value, done, index }))
+    .catch((error) => ({ error, index })) as Promise<MergeResult<T>>;
 }
 
 /** @ignore */
@@ -25,7 +27,7 @@ export class MergeAsyncIterable<T> extends AsyncIterableX<T> {
     throwIfAborted(signal);
     const length = this._source.length;
     const iterators = new Array<AsyncIterator<T>>(length);
-    const nexts = new Array<Promise<MergeResult<IteratorResult<T>>>>(length);
+    const nexts = new Array<Promise<MergeResult<T>>>(length);
     let active = length;
     for (let i = 0; i < length; i++) {
       const iterator = wrapWithAbort(this._source[i], signal)[Symbol.asyncIterator]();
@@ -34,18 +36,16 @@ export class MergeAsyncIterable<T> extends AsyncIterableX<T> {
     }
 
     while (active > 0) {
-      const next = safeRace(nexts);
-      const {
-        value: { done: done$, value: value$ },
-        index,
-      } = await next;
-      if (done$) {
-        nexts[index] = <Promise<MergeResult<IteratorResult<T>>>>NEVER_PROMISE;
+      const next = await safeRace(nexts);
+      if (next.hasOwnProperty('error')) {
+        throw next.error;
+      } else if (next.done) {
+        nexts[next.index] = <Promise<MergeResult<T>>>NEVER_PROMISE;
         active--;
       } else {
-        const iterator$ = iterators[index];
-        nexts[index] = wrapPromiseWithIndex(iterator$.next(), index);
-        yield value$;
+        const iterator$ = iterators[next.index];
+        nexts[next.index] = wrapPromiseWithIndex(iterator$.next(), next.index);
+        yield next.value;
       }
     }
   }
