@@ -113,7 +113,7 @@ export function merge<T, T2, T3, T4>(
  * @param {AsyncIterable<T3>} v3 The third async-iterable source to merge.
  * @param {AsyncIterable<T4>} v4 The fourth async-iterable source to merge.
  * @param {AsyncIterable<T5>} v5 The fifth async-iterable source to merge.
- * @returns {(AsyncIterable<T | T2 | T3 | T4 | T5>)} The merged elements from all of the specified async-iterable sequences
+ * @returns {(AsyncIterableX<T | T2 | T3 | T4 | T5>)} The merged elements from all of the specified async-iterable sequences
  * into a single async-iterable sequence.
  */
 export function merge<T, T2, T3, T4, T5>(
@@ -122,7 +122,7 @@ export function merge<T, T2, T3, T4, T5>(
   v3: AsyncIterable<T3>,
   v4: AsyncIterable<T4>,
   v5: AsyncIterable<T5>
-): AsyncIterable<T | T2 | T3 | T4 | T5>;
+): AsyncIterableX<T | T2 | T3 | T4 | T5>;
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
@@ -138,7 +138,7 @@ export function merge<T, T2, T3, T4, T5>(
  * @param {AsyncIterable<T4>} v4 The fourth async-iterable source to merge.
  * @param {AsyncIterable<T5>} v5 The fifth async-iterable source to merge.
  * @param {AsyncIterable<T6>} v6 The sixth async-iterable source to merge.
- * @returns {(AsyncIterable<T | T2 | T3 | T4 | T5 | T6>)} The merged elements from all of the specified async-iterable sequences
+ * @returns {(AsyncIterableX<T | T2 | T3 | T4 | T5 | T6>)} The merged elements from all of the specified async-iterable sequences
  * into a single async-iterable sequence.
  */
 export function merge<T, T2, T3, T4, T5, T6>(
@@ -148,7 +148,7 @@ export function merge<T, T2, T3, T4, T5, T6>(
   v4: AsyncIterable<T4>,
   v5: AsyncIterable<T5>,
   v6: AsyncIterable<T6>
-): AsyncIterable<T | T2 | T3 | T4 | T5 | T6>;
+): AsyncIterableX<T | T2 | T3 | T4 | T5 | T6>;
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
