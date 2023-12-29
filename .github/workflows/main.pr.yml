@@ -99,7 +99,7 @@ jobs:
       - name: Install dependencies
         if: ${{ steps.test_files_changed.outputs.any_changed == 'true' || steps.test_files_changed.outputs.any_deleted == 'true' || steps.source_files_changed.outputs.any_changed == 'true' || steps.source_files_changed.outputs.any_deleted == 'true' }}
         run: |
-          yarn
+          yarn --ignore-optional --ignore-engines --non-interactive
 
       - name: Build package
         if: ${{ steps.source_files_changed.outputs.any_changed == 'true' || steps.source_files_changed.outputs.any_deleted == 'true' }}
