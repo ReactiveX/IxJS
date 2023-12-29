@@ -2,6 +2,7 @@ import { AsyncIterableX } from './asynciterablex';
 import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
 import { Transform, TransformCallback, TransformOptions } from 'stream';
 
+/** @ignore */
 export interface AsyncIterableTransform<T>
   extends AsyncIterableX<T>,
     NodeJS.ReadableStream,
