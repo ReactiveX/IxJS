@@ -4,6 +4,7 @@ import { createGrouping } from './_grouping';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
   public readonly key: TKey;
   private _source: Iterable<TValue>;

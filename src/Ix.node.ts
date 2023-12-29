@@ -1,3 +1,4 @@
+/** @ignore */
 export * from './Ix';
 
 export { IterableReadable } from './iterable/tonodestream';

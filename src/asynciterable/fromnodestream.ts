@@ -6,6 +6,7 @@ const READABLE = 1;
 const ENDED = 2;
 const ERRORED = 3;
 
+/** @ignore */
 export class ReadableStreamAsyncIterable extends AsyncIterableX<string | Buffer>
   implements AsyncIterator<string | Buffer> {
   private _stream: NodeJS.ReadableStream;

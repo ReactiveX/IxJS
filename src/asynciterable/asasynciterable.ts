@@ -11,6 +11,7 @@ export interface AsyncIterableTransform<T> extends AsyncIterableX<T>, Transform 
 
 const asyncIterableMixin = Symbol('asyncIterableMixin');
 
+/** @ignore */
 export class AsyncIterableTransform<T> extends Transform {
   private static [asyncIterableMixin] = false;
   constructor(options?: TransformOptions) {
@@ -35,6 +36,7 @@ export class AsyncIterableTransform<T> extends Transform {
   }
 }
 
+/** @ignore */
 export function asAsyncIterable<T>(options: TransformOptions = {}) {
   return new AsyncIterableTransform<T>(options);
 }

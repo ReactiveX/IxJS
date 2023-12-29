@@ -1,4 +1,5 @@
 // Manually re-export because closure-compiler doesn't support `export * from X` syntax yet
+/** @ignore */
 export * from './Ix';
 export { default } from './Ix';
 export { symbolObservable } from './Ix';

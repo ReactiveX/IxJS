@@ -4,6 +4,7 @@ import { sorter as defaultSorter } from '../../util/sorter';
 import { UnaryFunction } from '../../interfaces';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<TSource> {
   _source: AsyncIterable<TSource>;
 
@@ -59,6 +60,7 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
   ): (x: number, y: number) => number;
 }
 
+/** @ignore */
 export class OrderedAsyncIterableX<TKey, TSource> extends OrderedAsyncIterableBaseX<TSource> {
   private _keySelector: (item: TSource) => TKey;
   private _comparer: (fst: TKey, snd: TKey) => number;

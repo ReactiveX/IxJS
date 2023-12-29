@@ -3,6 +3,7 @@ import { identity } from '../../util/identity';
 import { createGrouping } from './_grouping';
 import { OperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class GroupedIterable<TKey, TValue> extends IterableX<TValue> {
   public readonly key: TKey;
   private _source: Iterable<TValue>;

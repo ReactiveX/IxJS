@@ -19,6 +19,7 @@ declare global {
 
 // Symbol.observable or a string "@@observable". Used for interop.
 // Referenced via string indexer so closure-compiler doesn't mangle.
+/** @ignore */
 export const observable = (typeof Symbol === 'function' && Symbol.observable) || '@@observable';
 
 export interface NextObserver<T> {

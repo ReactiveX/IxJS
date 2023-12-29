@@ -10,6 +10,7 @@ type AsyncSourceIterator<TSource> = AsyncIterator<
   number | ArrayBufferView | undefined | null
 >;
 
+/** @ignore */
 export class AsyncIterableReadable<T> extends Readable {
   private _pulling = false;
   private _objectMode = true;

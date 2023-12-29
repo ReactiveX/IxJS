@@ -151,6 +151,7 @@ interface AsyncResolver<T> {
   reject: (reason?: any) => void;
 }
 
+/** @ignore */
 export class AsyncSink<TSource> implements AsyncIterableIterator<TSource> {
   private _ended: boolean;
   private _values: AsyncSinkItem<TSource>[];

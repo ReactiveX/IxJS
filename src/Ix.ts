@@ -13,6 +13,7 @@ export { observable as symbolObservable };
 export { AbortError, AsyncSink, IterableX as Iterable, AsyncIterableX as AsyncIterable };
 
 // Also export default to accommodate quirks of node's `--experimental-modules` mode
+/** @ignore */
 export default {
   AbortError,
   AsyncSink,
@@ -22,7 +23,9 @@ export default {
   'symbolObservable': observable
 };
 
+/** @ignore */
 export type GroupedIterable<TKey, TValue> = ImportedGroupedIterable<TKey, TValue>;
+/** @ignore */
 export type GroupedAsyncIterable<TKey, TValue> = ImportedGroupedAsyncIterable<TKey, TValue>;
 
 declare global {

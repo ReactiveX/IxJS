@@ -2,6 +2,7 @@ import { IterableX } from '../iterablex';
 import { sorter as defaultSorter } from '../../util/sorter';
 import { UnaryFunction } from '../../interfaces';
 
+/** @ignore */
 export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
   _source: Iterable<TSource>;
 
@@ -44,6 +45,7 @@ export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
   ): (x: number, y: number) => number;
 }
 
+/** @ignore */
 export class OrderedIterableX<TKey, TSource> extends OrderedIterableBaseX<TSource> {
   private _keySelector: (item: TSource) => TKey;
   private _comparer: (fst: TKey, snd: TKey) => number;
