@@ -4,6 +4,7 @@ import { empty } from '../empty';
 import { identity } from '../../util/identity';
 import { OperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class GroupJoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult> {
   private _outer: Iterable<TOuter>;
   private _inner: Iterable<TInner>;

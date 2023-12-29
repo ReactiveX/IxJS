@@ -3,6 +3,8 @@ import { AsyncIterableX } from './asynciterablex';
 /** @ignore */
 const SharedArrayBuf = typeof SharedArrayBuffer !== 'undefined' ? SharedArrayBuffer : ArrayBuffer;
 
+/** @ignore */
+/** @ignore */
 export class AsyncIterableReadableStream<T> extends AsyncIterableX<T | undefined> {
   constructor(protected _stream: ReadableStream<T>) {
     super();
@@ -14,6 +16,8 @@ export class AsyncIterableReadableStream<T> extends AsyncIterableX<T | undefined
   }
 }
 
+/** @ignore */
+/** @ignore */
 export class AsyncIterableReadableByteStream extends AsyncIterableReadableStream<Uint8Array> {
   [Symbol.asyncIterator]() {
     const stream = this._stream;

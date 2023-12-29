@@ -6,6 +6,8 @@ const done = (_: any) => null as any;
 
 type SourceIterator<TSource> = Iterator<TSource, any, number | ArrayBufferView | undefined | null>;
 
+/** @ignore */
+/** @ignore */
 export class IterableReadable<T> extends Readable {
   private _pulling = false;
   private _objectMode = true;

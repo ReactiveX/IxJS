@@ -1,6 +1,7 @@
 import { IterableX } from '../iterablex';
 import { OperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class BufferIterable<TSource> extends IterableX<TSource[]> {
   private _source: Iterable<TSource>;
   private _count: number;

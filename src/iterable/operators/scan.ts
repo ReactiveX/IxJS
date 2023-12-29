@@ -2,6 +2,7 @@ import { IterableX } from '../iterablex';
 import { OperatorFunction } from '../../interfaces';
 import { ScanOptions } from './scanoptions';
 
+/** @ignore */
 export class ScanIterable<T, R> extends IterableX<R> {
   private _source: Iterable<T>;
   private _fn: (acc: R, x: T, index: number) => R;

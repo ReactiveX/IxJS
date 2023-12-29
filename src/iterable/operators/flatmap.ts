@@ -1,6 +1,7 @@
 import { IterableX } from '../iterablex';
 import { OperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class FlatMapIterable<TSource, TResult> extends IterableX<TResult> {
   private _source: Iterable<TSource>;
   private _fn: (value: TSource, index: number) => Iterable<TResult>;

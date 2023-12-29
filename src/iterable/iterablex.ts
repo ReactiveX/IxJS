@@ -115,6 +115,7 @@ Object.defineProperty(IterableX, Symbol.hasInstance, {
   },
 });
 
+/** @ignore */
 export class FromIterable<TSource, TResult = TSource> extends IterableX<TResult> {
   private _source: Iterable<TSource> | ArrayLike<TSource>;
   private _fn: (value: TSource, index: number) => TResult;

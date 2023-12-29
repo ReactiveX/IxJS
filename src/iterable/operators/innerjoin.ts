@@ -3,6 +3,7 @@ import { createGrouping } from './_grouping';
 import { identity } from '../../util/identity';
 import { OperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult> {
   private _outer: Iterable<TOuter>;
   private _inner: Iterable<TInner>;

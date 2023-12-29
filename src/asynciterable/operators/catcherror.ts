@@ -4,6 +4,7 @@ import { returnAsyncIterator } from '../../util/returniterator';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSource | TResult> {
   private _source: AsyncIterable<TSource>;
   private _handler: (

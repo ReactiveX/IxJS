@@ -43,6 +43,7 @@ async function* wrapIterator<TValue, TType extends Type>(
   return { type, index, value: undefined };
 }
 
+/** @ignore */
 export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   constructor(
     private _source: AsyncIterable<TSource>,

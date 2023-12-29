@@ -8,6 +8,7 @@ import { throwIfAborted } from '../aborterror';
  * @interface ToMapOptions
  * @template TSource
  * @template TElement
+ * @ignore
  */
 export interface ToMapOptions<TSource, TElement> {
   /**

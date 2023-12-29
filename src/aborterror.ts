@@ -1,5 +1,6 @@
 import { isObject } from './util/isiterable';
 
+/** @ignore */
 export class AbortError extends Error {
   constructor(message = 'The operation has been aborted') {
     super(message);

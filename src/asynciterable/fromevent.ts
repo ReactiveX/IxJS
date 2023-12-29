@@ -4,16 +4,19 @@ import { isFunction } from '../util/isiterable';
 
 type CommonEventHandler = (...args: any[]) => void;
 
+/** @ignore */
 export interface OnOffEventEmitter {
   on(event: string | symbol, listener: CommonEventHandler): this;
   off(event: string | symbol, listener: CommonEventHandler): this;
 }
 
+/** @ignore */
 export interface NodeEventEmitter {
   addListener(event: string | symbol, listener: CommonEventHandler): this;
   removeListener(event: string | symbol, listener: CommonEventHandler): this;
 }
 
+/** @ignore */
 export type EventListenerOptions =
   | {
       capture?: boolean;
@@ -22,6 +25,7 @@ export type EventListenerOptions =
     }
   | boolean;
 
+/** @ignore */
 export type EventedTarget = EventTarget | OnOffEventEmitter | NodeEventEmitter;
 
 function isMessagePortEventEmitter(obj: any): obj is OnOffEventEmitter {

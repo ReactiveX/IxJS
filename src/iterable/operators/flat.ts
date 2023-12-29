@@ -2,6 +2,7 @@ import { IterableX } from '../iterablex';
 import { isIterable } from '../../util/isiterable';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class FlattenIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _depth: number;

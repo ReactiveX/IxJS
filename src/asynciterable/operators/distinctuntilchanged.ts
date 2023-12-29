@@ -6,6 +6,7 @@ import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 import { DistinctOptions } from './distinctoptions';
 
+/** @ignore */
 export class DistinctUntilChangedAsyncIterable<TSource, TKey = TSource> extends AsyncIterableX<
   TSource
 > {

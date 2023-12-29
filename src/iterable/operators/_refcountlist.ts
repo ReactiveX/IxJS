@@ -20,6 +20,7 @@ export interface IRefCountList<T> {
 /**
  * @ignore
  */
+/** @ignore */
 export class MaxRefCountList<T> implements IRefCountList<T> {
   private _list: T[] = [];
 
@@ -43,6 +44,7 @@ export class MaxRefCountList<T> implements IRefCountList<T> {
 /**
  * @ignore
  */
+/** @ignore */
 export class RefCountList<T> implements IRefCountList<T> {
   private _readerCount: number;
   private _list: Map<number, RefCount<T>>;

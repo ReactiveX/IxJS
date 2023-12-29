@@ -5,6 +5,7 @@ import { comparer as defaultComparer } from '../util/comparer';
  *
  * @interface SequencEqualOptions
  * @template T The type of items to compare.
+ * @ignore
  */
 export interface SequencEqualOptions<T> {
   /**

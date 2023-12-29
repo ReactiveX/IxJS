@@ -151,6 +151,8 @@ interface AsyncResolver<T> {
   reject: (reason?: any) => void;
 }
 
+/** @ignore */
+/** @ignore */
 export class AsyncSink<TSource> implements AsyncIterableIterator<TSource> {
   private _ended: boolean;
   private _values: AsyncSinkItem<TSource>[];
@@ -218,6 +220,7 @@ export class AsyncSink<TSource> implements AsyncIterableIterator<TSource> {
   }
 }
 
+/** @ignore */
 export class FromArrayIterable<TSource, TResult = TSource> extends AsyncIterableX<TResult> {
   private _source: ArrayLike<TSource>;
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
@@ -240,6 +243,7 @@ export class FromArrayIterable<TSource, TResult = TSource> extends AsyncIterable
   }
 }
 
+/** @ignore */
 export class FromAsyncIterable<TSource, TResult = TSource> extends AsyncIterableX<TResult> {
   private _source: Iterable<TSource | PromiseLike<TSource>> | AsyncIterable<TSource>;
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
@@ -261,6 +265,7 @@ export class FromAsyncIterable<TSource, TResult = TSource> extends AsyncIterable
   }
 }
 
+/** @ignore */
 export class FromPromiseIterable<TSource, TResult = TSource> extends AsyncIterableX<TResult> {
   private _source: PromiseLike<TSource>;
   private _selector: (value: TSource, index: number) => TResult | Promise<TResult>;
@@ -280,6 +285,7 @@ export class FromPromiseIterable<TSource, TResult = TSource> extends AsyncIterab
   }
 }
 
+/** @ignore */
 export class FromObservableAsyncIterable<TSource, TResult = TSource> extends AsyncIterableX<
   TResult
 > {
@@ -350,6 +356,7 @@ class WithAbortAsyncIterable<TSource> implements AsyncIterable<TSource> {
   }
 }
 
+/** @ignore */
 export type AsyncIterableInput<TSource> =
   | AsyncIterable<TSource>
   | AsyncIterator<TSource>

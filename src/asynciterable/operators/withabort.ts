@@ -1,6 +1,7 @@
 import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 
+/** @ignore */
 export class WithAbortAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _signal: AbortSignal;

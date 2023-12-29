@@ -2,6 +2,7 @@ import { AsyncIterableX } from './asynciterablex';
 import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
 import { Transform, TransformCallback, TransformOptions } from 'stream';
 
+/** @ignore */
 export interface AsyncIterableTransform<T>
   extends AsyncIterableX<T>,
     NodeJS.ReadableStream,
@@ -15,6 +16,7 @@ export interface AsyncIterableTransform<T>
 
 const asyncIterableMixin = Symbol('asyncIterableMixin');
 
+/** @ignore */
 export function AsyncIterableTransform<T>(
   this: AsyncIterableTransform<T>,
   options?: TransformOptions
@@ -48,6 +50,7 @@ AsyncIterableTransform.prototype._transform = function (
   callback(null, chunk);
 };
 
+/** @ignore */
 export function asAsyncIterable<T>(options: TransformOptions = {}) {
   return Reflect.construct(AsyncIterableTransform, [options]) as AsyncIterableTransform<T>;
 }

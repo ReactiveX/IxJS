@@ -3,6 +3,7 @@ import { arrayIndexOf } from '../../util/arrayindexof';
 import { comparer as defaultComparer } from '../../util/comparer';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class UnionIterable<TSource> extends IterableX<TSource> {
   private _left: Iterable<TSource>;
   private _right: Iterable<TSource>;

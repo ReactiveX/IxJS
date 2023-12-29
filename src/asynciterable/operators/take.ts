@@ -3,6 +3,7 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class TakeAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _count: number;

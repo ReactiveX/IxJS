@@ -2,7 +2,9 @@ import { publish } from './operators/publish';
 import { fromDOMStream } from './fromdomstream';
 import { AsyncIterableX } from './asynciterablex';
 
+/** @ignore */
 export type ReadableBYOBStreamOptions<T = any> = QueuingStrategy<T> & { type: 'bytes' };
+/** @ignore */
 export type ReadableByteStreamOptions<T = any> = QueuingStrategy<T> & {
   type: 'bytes';
   autoAllocateChunkSize?: number;

@@ -4,6 +4,7 @@ import { sleep } from '../_sleep';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _dueTime: number;

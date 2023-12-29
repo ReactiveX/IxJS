@@ -7,6 +7,7 @@ import { throwIfAborted } from '../aborterror';
  *
  * @interface SequencEqualOptions
  * @template T The type of items to compare.
+ * @ignore
  */
 export interface SequencEqualOptions<T> {
   /**

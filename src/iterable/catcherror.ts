@@ -1,6 +1,7 @@
 import { IterableX } from './iterablex';
 import { returnIterator } from '../util/returniterator';
 
+/** @ignore */
 export class CatchIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<Iterable<TSource>>;
 

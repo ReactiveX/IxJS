@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { AbortError, throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _time: number;

@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { throwIfAborted } from '../aborterror';
 
+/** @ignore */
 export class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _args: TSource[];
 

@@ -11,6 +11,7 @@ export function of<TSource>(...args: TSource[]): IterableX<TSource> {
   return new OfIterable<TSource>(args);
 }
 
+/** @ignore */
 export class OfIterable<TSource> extends IterableX<TSource> {
   private _args: TSource[];
 

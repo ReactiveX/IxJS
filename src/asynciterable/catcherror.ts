@@ -3,6 +3,7 @@ import { returnAsyncIterator } from '../util/returniterator';
 import { wrapWithAbort } from './operators/withabort';
 import { throwIfAborted } from '../aborterror';
 
+/** @ignore */
 export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: Iterable<AsyncIterable<TSource>>;
 

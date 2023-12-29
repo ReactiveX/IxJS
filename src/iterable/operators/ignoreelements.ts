@@ -1,6 +1,7 @@
 import { IterableX } from '../iterablex';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class IgnoreElementsIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
 
