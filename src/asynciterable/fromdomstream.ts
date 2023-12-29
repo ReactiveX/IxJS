@@ -63,7 +63,7 @@ async function* _consumeReader<T>(
 
 /** @ignore */
 async function* defaultReaderToAsyncIterator<T = any>(reader: ReadableStreamDefaultReader<T>) {
-  let r: ReadableStreamDefaultReadResult<T>;
+  let r: ReadableStreamReadResult<T>;
   while (!(r = await reader.read()).done) {
     yield r.value;
   }
@@ -71,7 +71,7 @@ async function* defaultReaderToAsyncIterator<T = any>(reader: ReadableStreamDefa
 
 /** @ignore */
 async function* byobReaderToAsyncIterator(reader: ReadableStreamReader<Uint8Array>) {
-  let r: ReadableStreamDefaultReadResult<Uint8Array>;
+  let r: ReadableStreamReadResult<Uint8Array>;
   let value: number | ArrayBufferLike = yield null!;
   while (!(r = await readNext(reader, value, 0)).done) {
     value = yield r.value;
@@ -83,7 +83,7 @@ async function readNext(
   reader: ReadableStreamReader<Uint8Array>,
   bufferOrLen: ArrayBufferLike | number,
   offset: number
-): Promise<ReadableStreamDefaultReadResult<Uint8Array>> {
+): Promise<ReadableStreamReadResult<Uint8Array>> {
   let size: number;
   let buffer: ArrayBufferLike;
 
@@ -106,7 +106,7 @@ async function readInto(
   buffer: ArrayBufferLike,
   offset: number,
   size: number
-): Promise<ReadableStreamDefaultReadResult<Uint8Array>> {
+): Promise<ReadableStreamReadResult<Uint8Array>> {
   let innerOffset = offset;
   if (innerOffset >= size) {
     return { done: false, value: new Uint8Array(buffer, 0, size) };

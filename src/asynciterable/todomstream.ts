@@ -49,12 +49,12 @@ class UnderlyingAsyncIterableDefaultSource<TSource = any> extends AbstractUnderl
     super(source);
   }
   // eslint-disable-next-line consistent-return
-  async pull(controller: ReadableStreamDefaultController<TSource>) {
+  async pull(controller: ReadableStreamController<TSource>) {
     const source = this._source;
     if (source) {
       const r = await source.next(controller.desiredSize);
       if (!r.done) {
-        return controller.enqueue(r.value);
+        return (controller as ReadableStreamDefaultController<TSource>).enqueue(r.value);
       }
     }
     controller.close();
@@ -85,7 +85,9 @@ class UnderlyingAsyncIterableByteSource<TSource extends ArrayBufferView = Uint8A
   // eslint-disable-next-line consistent-return
   async pull(controller: ReadableStreamController<TSource>) {
     if (!(controller as any).byobRequest) {
-      return await this.fallbackDefaultSource.pull(controller);
+      return await this.fallbackDefaultSource.pull(
+        controller as ReadableStreamDefaultController<TSource>
+      );
     }
     if (this._source) {
       const { view } = (controller as any).byobRequest;
