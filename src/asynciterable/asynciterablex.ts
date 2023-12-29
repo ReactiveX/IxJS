@@ -257,10 +257,20 @@ export class FromAsyncIterable<TSource, TResult = TSource> extends AsyncIterable
     this._selector = selector;
   }
 
-  async *[Symbol.asyncIterator]() {
+  async *[Symbol.asyncIterator](signal?: AbortSignal) {
     let i = 0;
-    for await (const item of <AsyncIterable<TSource>>this._source) {
-      yield await this._selector(item, i++);
+    if (signal && this._source instanceof AsyncIterableX) {
+      for await (const item of new WithAbortAsyncIterable(this._source, signal)) {
+        yield await this._selector(item, i++);
+      }
+    } else {
+      throwIfAborted(signal);
+      for await (const item of this._source) {
+        throwIfAborted(signal);
+        const value = await this._selector(item, i++);
+        throwIfAborted(signal);
+        yield value;
+      }
     }
   }
 }
