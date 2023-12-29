@@ -3,6 +3,7 @@ import { toArray } from '../toarray';
 import { OperatorFunction } from '../../interfaces';
 import { ScanOptions } from './scanoptions';
 
+/** @ignore */
 export class ScanRightIterable<T, R> extends IterableX<R> {
   private _source: Iterable<T>;
   private _fn: (acc: R, x: T, index: number) => R;

@@ -6,6 +6,7 @@ import { safeRace } from '../../util/safeRace';
 
 const DONE_PROMISE_VALUE = undefined;
 
+/** @ignore */
 export class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _other: (signal?: AbortSignal) => Promise<any>;

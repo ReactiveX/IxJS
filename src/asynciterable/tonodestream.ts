@@ -11,6 +11,7 @@ type AsyncSourceIterator<TSource> = AsyncIterator<
 >;
 
 /** @ignore */
+/** @ignore */
 export class AsyncIterableReadable<T> extends Readable {
   private _pulling = false;
   private _objectMode = true;

@@ -2,6 +2,7 @@ import { IterableX } from '../iterablex';
 import { bindCallback } from '../../util/bindcallback';
 import { OperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class MapIterable<TSource, TResult> extends IterableX<TResult> {
   private _source: Iterable<TSource>;
   private _selector: (value: TSource, index: number) => TResult;

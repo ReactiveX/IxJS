@@ -46,6 +46,7 @@ export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {
 }
 
 /** @ignore */
+/** @ignore */
 export class OrderedIterableX<TKey, TSource> extends OrderedIterableBaseX<TSource> {
   private _keySelector: (item: TSource) => TKey;
   private _comparer: (fst: TKey, snd: TKey) => number;

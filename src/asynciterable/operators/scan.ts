@@ -4,6 +4,7 @@ import { wrapWithAbort } from './withabort';
 import { ScanOptions } from './scanoptions';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
   private _source: AsyncIterable<T>;
   private _fn: (acc: R, x: T, index: number, signal?: AbortSignal) => R | Promise<R>;

@@ -6,6 +6,7 @@ import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TResult> {
   private _outer: AsyncIterable<TOuter>;
   private _inner: AsyncIterable<TInner>;

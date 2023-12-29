@@ -26,6 +26,7 @@ function assertNever(value: never): never {
   throw new Error(`Unhandled discriminated union member ${value}`);
 }
 
+/** @ignore */
 export class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _source: AsyncIterable<TSource>;
 

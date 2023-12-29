@@ -5,6 +5,7 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _left: AsyncIterable<TSource>;
   private _right: AsyncIterable<TSource>;

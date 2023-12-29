@@ -7,6 +7,7 @@ import { isObject } from '../../util/isiterable';
 import { safeRace } from '../../util/safeRace';
 import { returnAsyncIterator } from '../../util/returniterator';
 
+/** @ignore */
 export class TimeoutError extends Error {
   constructor(message = 'Timeout has occurred') {
     super(message);
@@ -39,6 +40,7 @@ interface TimeoutOperation<T> {
   value?: IteratorResult<T>;
 }
 
+/** @ignore */
 export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _dueTime: number;

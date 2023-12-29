@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { throwIfAborted, AbortError } from '../aborterror';
 
+/** @ignore */
 export class NeverAsyncIterable extends AsyncIterableX<never> {
   constructor() {
     super();

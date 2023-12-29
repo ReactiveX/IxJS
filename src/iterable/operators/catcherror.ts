@@ -2,6 +2,7 @@ import { IterableX } from '../iterablex';
 import { returnIterator } from '../../util/returniterator';
 import { OperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TResult> {
   private _source: Iterable<TSource>;
   private _handler: (error: any) => Iterable<TResult>;

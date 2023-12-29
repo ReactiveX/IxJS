@@ -12,6 +12,7 @@ function wrapPromiseWithIndex<T>(promise: Promise<T>, index: number) {
   return promise.then((value) => ({ value, index })) as Promise<MergeResult<T>>;
 }
 
+/** @ignore */
 export class MergeAsyncIterable<T> extends AsyncIterableX<T> {
   private _source: AsyncIterable<T>[];
 

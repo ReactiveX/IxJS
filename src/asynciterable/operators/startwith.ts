@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _args: TSource[];

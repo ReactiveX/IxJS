@@ -5,6 +5,7 @@ import { toObserver } from '../../util/toobserver';
 import { AbortError, throwIfAborted } from '../../aborterror';
 import { returnAsyncIterator } from '../../util/returniterator';
 
+/** @ignore */
 export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _observer: PartialAsyncObserver<TSource>;

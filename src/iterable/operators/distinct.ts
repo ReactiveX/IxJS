@@ -5,6 +5,7 @@ import { comparer as defaultComparer } from '../../util/comparer';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 import { DistinctOptions } from './distinctoptions';
 
+/** @ignore */
 export class DistinctIterable<TSource, TKey = TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _keySelector: (value: TSource) => TKey;

@@ -8,6 +8,7 @@ import { create } from '../create';
 import { OperatorAsyncFunction } from '../../interfaces';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
   protected _source: AsyncIterator<T>;
   protected _buffer: IRefCountList<T>;

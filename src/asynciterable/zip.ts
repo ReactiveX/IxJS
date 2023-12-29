@@ -3,6 +3,7 @@ import { AsyncIterableX } from './asynciterablex';
 import { returnAsyncIterator } from '../util/returniterator';
 import { throwIfAborted } from '../aborterror';
 
+/** @ignore */
 export class ZipAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _sources: AsyncIterable<TSource>[];
 

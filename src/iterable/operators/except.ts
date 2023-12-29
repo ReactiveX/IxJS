@@ -3,6 +3,7 @@ import { arrayIndexOf } from '../../util/arrayindexof';
 import { comparer as defaultComparer } from '../../util/comparer';
 import { MonoTypeOperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class ExceptIterable<TSource> extends IterableX<TSource> {
   private _first: Iterable<TSource>;
   private _second: Iterable<TSource>;

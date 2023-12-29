@@ -61,6 +61,7 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
 }
 
 /** @ignore */
+/** @ignore */
 export class OrderedAsyncIterableX<TKey, TSource> extends OrderedAsyncIterableBaseX<TSource> {
   private _keySelector: (item: TSource) => TKey;
   private _comparer: (fst: TKey, snd: TKey) => number;

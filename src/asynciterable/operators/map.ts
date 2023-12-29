@@ -3,6 +3,7 @@ import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   private _source: AsyncIterable<TSource>;
   private _selector: (

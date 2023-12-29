@@ -1,6 +1,7 @@
 import { IterableX } from './iterablex';
 import { returnIterator } from '../util/returniterator';
 
+/** @ignore */
 export class ZipIterable<TSource> extends IterableX<TSource[]> {
   private _sources: Iterable<TSource>[];
 

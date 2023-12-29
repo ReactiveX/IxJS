@@ -7,6 +7,7 @@ import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 import { DistinctOptions } from './distinctoptions';
 
+/** @ignore */
 export class DistinctAsyncIterable<TSource, TKey = TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _keySelector: (value: TSource, signal?: AbortSignal) => TKey | Promise<TKey>;

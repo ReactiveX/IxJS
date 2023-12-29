@@ -1,6 +1,7 @@
 import { IterableX } from '../iterablex';
 import { OperatorFunction } from '../../interfaces';
 
+/** @ignore */
 export class TakeWhileIterable<TSource> extends IterableX<TSource> {
   private _source: Iterable<TSource>;
   private _predicate: (value: TSource, index: number) => boolean;

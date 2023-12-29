@@ -3,6 +3,7 @@ import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class ConcatAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<AsyncIterable<TSource>>;
 

@@ -5,6 +5,7 @@ import { OperatorAsyncFunction } from '../../interfaces';
 import { throwIfAborted } from '../../aborterror';
 
 /** @ignore */
+/** @ignore */
 export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
   public readonly key: TKey;
   private _source: Iterable<TValue>;
@@ -23,6 +24,7 @@ export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
   }
 }
 
+/** @ignore */
 export class GroupByAsyncIterable<TSource, TKey, TValue> extends AsyncIterableX<
   GroupedAsyncIterable<TKey, TValue>
 > {

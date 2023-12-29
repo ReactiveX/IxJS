@@ -5,6 +5,7 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _first: AsyncIterable<TSource>;
   private _second: AsyncIterable<TSource>;

@@ -3,11 +3,13 @@ import { OperatorAsyncFunction } from '../../interfaces';
 import { wrapWithAbort } from './withabort';
 import { throwIfAborted } from '../../aborterror';
 
+/** @ignore */
 export interface TimeInterval<T> {
   value: T;
   elapsed: number;
 }
 
+/** @ignore */
 export class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInterval<TSource>> {
   private _source: AsyncIterable<TSource>;
 

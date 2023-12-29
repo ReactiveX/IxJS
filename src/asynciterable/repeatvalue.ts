@@ -1,6 +1,7 @@
 import { AsyncIterableX } from './asynciterablex';
 import { throwIfAborted } from '../aborterror';
 
+/** @ignore */
 export class RepeatValueAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _value: TSource;
   private _count: number;
