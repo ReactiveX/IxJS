@@ -16,6 +16,7 @@ export class WithAbortAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   [Symbol.asyncIterator](): AsyncIterator<TSource> {
+    // @ts-ignore
     return this._source[Symbol.asyncIterator](this._signal);
   }
 }
