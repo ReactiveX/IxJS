@@ -47,7 +47,7 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "@types/node": "^13.7.4",
+    "@types/node": ">=13.7.4",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
