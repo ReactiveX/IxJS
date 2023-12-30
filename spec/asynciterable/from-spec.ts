@@ -1,9 +1,15 @@
 import { hasNext, noNext, toObserver } from '../asynciterablehelpers';
 import { setInterval, clearInterval } from 'timers';
 import { PartialObserver } from '../../src/observer';
-import { from } from 'ix/asynciterable';
+import { defer, from } from 'ix/asynciterable';
 import { AbortError } from 'ix/Ix';
 import { withAbort } from 'ix/asynciterable/operators';
+
+function throwIfAborted(signal?: AbortSignal) {
+  if (signal && signal.aborted) {
+    throw new AbortError();
+  }
+}
 
 test('AsyncIterable#from from promise list', async () => {
   const xs: Iterable<Promise<number>> = [
@@ -20,9 +26,12 @@ test('AsyncIterable#from from promise list', async () => {
   await noNext(it);
 });
 
-async function* getData() {
+async function* getData(signal?: AbortSignal) {
+  throwIfAborted(signal);
   yield 1;
+  throwIfAborted(signal);
   yield 2;
+  throwIfAborted(signal);
   yield 3;
 }
 
@@ -131,6 +140,33 @@ test('AsyncIterable#from from promise with selector', async () => {
 
 test('AsyncIterable#from from with non-iterable throws', () => {
   expect(() => from({} as any)).toThrow();
+});
+
+test('AsyncIterable#from from async generator with AbortSignal', async () => {
+  const abortController = new AbortController();
+  const xs = getData();
+  const res = from(xs);
+
+  const it = res[Symbol.asyncIterator](abortController.signal);
+  await hasNext(it, 1);
+  await hasNext(it, 2);
+  abortController.abort();
+  await expect(it.next()).rejects.toBeInstanceOf(AbortError);
+});
+
+test('AsyncIterable#from from defer with AbortSignal', async () => {
+  const abortController = new AbortController();
+  const xs = defer((signal) => {
+    expect(signal).toBeInstanceOf(AbortSignal);
+    return getData(signal);
+  });
+  const res = from(xs);
+
+  const it = res[Symbol.asyncIterator](abortController.signal);
+  await hasNext(it, 1);
+  await hasNext(it, 2);
+  abortController.abort();
+  await expect(it.next()).rejects.toBeInstanceOf(AbortError);
 });
 
 interface Observer<T> {
