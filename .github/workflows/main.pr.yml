@@ -31,7 +31,7 @@ jobs:
 
       - name: Check if source or test files changed
         id: files_changed
-        uses: tj-actions/changed-files@v9.1
+        uses: tj-actions/changed-files@v41
         with:
           files: |
             src/**/*
@@ -84,14 +84,14 @@ jobs:
 
       - name: Check if test files changed
         id: test_files_changed
-        uses: tj-actions/changed-files@v9.1
+        uses: tj-actions/changed-files@v41
         with:
           files: |
             spec/**/*
 
       - name: Check if source files changed
         id: source_files_changed
-        uses: tj-actions/changed-files@v9.1
+        uses: tj-actions/changed-files@v41
         with:
           files: |
             src/**/*
