@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { single } from 'ix/iterable';
+import { single } from 'ix/iterable/index.js';
 
 test('Iterable#single no predicate empty returns undefined', () => {
   const res = single<number>([]);

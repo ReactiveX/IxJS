@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { onErrorResumeNext } from '../../iterable/onerrorresumenext';
+import { IterableX } from '../../iterable/iterablex.js';
+import { onErrorResumeNext } from '../../iterable/onerrorresumenext.js';
 
 /**
  * @ignore

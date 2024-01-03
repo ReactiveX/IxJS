@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { ThrottleAsyncIterable } from '../../asynciterable/operators/throttle';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { ThrottleAsyncIterable } from '../../asynciterable/operators/throttle.js';
 
 /**
  * @ignore

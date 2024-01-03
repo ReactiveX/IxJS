@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { of as ofStatic } from '../../asynciterable/of';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { of as ofStatic } from '../../asynciterable/of.js';
 
 /** @nocollapse */
 AsyncIterableX.of = ofStatic;

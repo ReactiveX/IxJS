@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { publish } from 'ix/asynciterable/operators';
-import { as, concat, range, throwError } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { publish } from 'ix/asynciterable/operators/index.js';
+import { as, concat, range, throwError } from 'ix/asynciterable/index.js';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;

@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { average } from 'ix/iterable';
+import { average } from 'ix/iterable/index.js';
 
 test('Iterable#average empty', () => {
   expect(() => average([])).toThrow();

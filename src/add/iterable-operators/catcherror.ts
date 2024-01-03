@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { catchError } from '../../iterable/operators/catcherror';
+import { IterableX } from '../../iterable/iterablex.js';
+import { catchError } from '../../iterable/operators/catcherror.js';
 
 /**
  * @ignore

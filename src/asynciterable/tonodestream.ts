@@ -1,5 +1,5 @@
-import { BufferLike } from '../interfaces';
-import { AsyncIterableX } from './asynciterablex';
+import { BufferLike } from '../interfaces.js';
+import { AsyncIterableX } from './asynciterablex.js';
 import { Readable, ReadableOptions } from 'stream';
 
 const done = async (_: any) => null as any;

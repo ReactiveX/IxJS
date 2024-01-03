@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { sum } from '../../asynciterable/sum';
-import { MathOptions } from '../../asynciterable/mathoptions';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { sum } from '../../asynciterable/sum.js';
+import { MathOptions } from '../../asynciterable/mathoptions.js';
 
 export function sumProto(
   this: AsyncIterable<number>,

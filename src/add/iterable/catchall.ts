@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { catchAll as _catchAll } from '../../iterable/catcherror';
+import { IterableX } from '../../iterable/iterablex.js';
+import { catchAll as _catchAll } from '../../iterable/catcherror.js';
 
 /** @nocollapse */
 IterableX.catchAll = _catchAll;

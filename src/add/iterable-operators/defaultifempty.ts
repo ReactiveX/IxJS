@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { DefaultIfEmptyIterable } from '../../iterable/operators/defaultifempty';
+import { IterableX } from '../../iterable/iterablex.js';
+import { DefaultIfEmptyIterable } from '../../iterable/operators/defaultifempty.js';
 
 /**
  * @ignore

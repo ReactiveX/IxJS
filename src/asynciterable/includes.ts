@@ -1,6 +1,6 @@
-import { comparer } from '../util/comparer';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { comparer } from '../util/comparer.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /**
  *  Determines whether an async-itreable includes a certain value among its entries, returning true or false as appropriate.

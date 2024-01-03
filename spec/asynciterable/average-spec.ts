@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { average, empty, of } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { average, empty, of } from 'ix/asynciterable/index.js';
 
 test('Iterable#average empty', async () => {
   const xs = empty();

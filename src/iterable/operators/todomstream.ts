@@ -1,10 +1,10 @@
-import { toDOMStream as toDOMStreamOperator } from '../../iterable/todomstream';
+import { toDOMStream as toDOMStreamOperator } from '../../iterable/todomstream.js';
 import {
   ReadableBYOBStreamOptions,
   ReadableByteStreamOptions,
-} from '../../asynciterable/todomstream';
+} from '../../asynciterable/todomstream.js';
 
-import { UnaryFunction } from '../../interfaces';
+import { UnaryFunction } from '../../interfaces.js';
 
 export function toDOMStream<T>(
   strategy?: QueuingStrategy<T>

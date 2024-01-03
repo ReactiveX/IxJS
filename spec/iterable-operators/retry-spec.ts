@@ -1,6 +1,6 @@
-import { hasNext } from '../iterablehelpers';
-import { retry } from 'ix/iterable/operators';
-import { concat, range, throwError, sequenceEqual } from 'ix/iterable';
+import { hasNext } from '../iterablehelpers.js';
+import { retry } from 'ix/iterable/operators/index.js';
+import { concat, range, throwError, sequenceEqual } from 'ix/iterable/index.js';
 
 test('Iterable#retry infinite no errors does not retry', () => {
   const xs = range(0, 10);

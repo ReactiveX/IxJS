@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { groupBy, GroupedIterable } from '../../iterable/operators/groupby';
-import { identity } from '../../util/identity';
+import { IterableX } from '../../iterable/iterablex.js';
+import { groupBy, GroupedIterable } from '../../iterable/operators/groupby.js';
+import { identity } from '../../util/identity.js';
 
 export function groupByProto<TSource, TKey>(
   this: IterableX<TSource>,

@@ -1,14 +1,14 @@
-import { identity } from '../util/identity';
-import { UnaryFunction, OperatorFunction } from '../interfaces';
-import { bindCallback } from '../util/bindcallback';
+import { identity } from '../util/identity.js';
+import { UnaryFunction, OperatorFunction } from '../interfaces.js';
+import { bindCallback } from '../util/bindcallback.js';
 import {
   isArrayLike,
   isIterable,
   isIterator,
   isReadableNodeStream,
   isWritableNodeStream,
-} from '../util/isiterable';
-import { toLength } from '../util/tolength';
+} from '../util/isiterable.js';
+import { toLength } from '../util/tolength.js';
 
 /**
  * This class serves as the base for all operations which support [Symbol.iterator].
@@ -249,3 +249,6 @@ try {
 } catch (e) {
   /* */
 }
+
+export const as = IterableX.as;
+export const from = IterableX.from;

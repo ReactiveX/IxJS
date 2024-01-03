@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { reduceRight } from '../../iterable/reduceright';
-import { ReduceOptions } from '../../iterable/reduceoptions';
+import { IterableX } from '../../iterable/iterablex.js';
+import { reduceRight } from '../../iterable/reduceright.js';
+import { ReduceOptions } from '../../iterable/reduceoptions.js';
 
 /**
  * @ignore

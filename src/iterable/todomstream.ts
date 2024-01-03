@@ -1,11 +1,11 @@
-import { AsyncIterableX } from '../asynciterable/asynciterablex';
-import { publish } from './operators/publish';
-import { IterableX } from '../iterable/iterablex';
+import { AsyncIterableX } from '../asynciterable/asynciterablex.js';
+import { publish } from './operators/publish.js';
+import { IterableX } from '../iterable/iterablex.js';
 import {
   toDOMStream as asyncIterableToDOMStream,
   ReadableBYOBStreamOptions,
   ReadableByteStreamOptions,
-} from '../asynciterable/todomstream';
+} from '../asynciterable/todomstream.js';
 
 export function toDOMStream<T>(
   source: Iterable<T>,

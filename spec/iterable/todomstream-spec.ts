@@ -1,7 +1,7 @@
 import '../iterablehelpers';
-import '../asynciterablehelpers';
-import { as } from 'ix/iterable';
-import { map, toDOMStream } from 'ix/iterable/operators';
+import '../asynciterablehelpers.js';
+import { as } from 'ix/iterable/index.js';
+import { map, toDOMStream } from 'ix/iterable/operators/index.js';
 
 // eslint-disable-next-line consistent-return
 (() => {

@@ -1,5 +1,5 @@
-import { IterableX } from '../iterablex';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 /** @ignore */
 export class TakeWhileIterable<TSource> extends IterableX<TSource> {

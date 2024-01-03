@@ -1,6 +1,6 @@
-import { toArray } from './toarray';
-import { ReduceOptions } from './reduceoptions';
-import { throwIfAborted } from '../aborterror';
+import { toArray } from './toarray.js';
+import { ReduceOptions } from './reduceoptions.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /**
  * Applies an accumulator function over an async-iterable sequence from the end, returning the result of the aggregation as a

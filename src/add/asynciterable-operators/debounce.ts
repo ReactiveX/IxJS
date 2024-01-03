@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { debounce } from '../../asynciterable/operators/debounce';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { debounce } from '../../asynciterable/operators/debounce.js';
 
 /**
  * @ignore

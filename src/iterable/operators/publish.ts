@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { RefCountList } from './_refcountlist';
-import { create } from '../create';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { RefCountList } from './_refcountlist.js';
+import { create } from '../create.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 class PublishedBuffer<T> extends IterableX<T> {
   private _buffer: RefCountList<T>;

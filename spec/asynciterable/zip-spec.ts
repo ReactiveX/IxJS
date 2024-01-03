@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, throwError, zip } from 'ix/asynciterable';
-import { sequenceEqual } from 'ix/iterable';
+import '../asynciterablehelpers.js';
+import { of, throwError, zip } from 'ix/asynciterable/index.js';
+import { sequenceEqual } from 'ix/iterable/index.js';
 
 test('AsyncIterable#zip equal length', async () => {
   const xs = of(1, 2, 3);

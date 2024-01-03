@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { of, range, sequenceEqual } from 'ix/iterable';
-import { concatAll, map, tap } from 'ix/iterable/operators';
+import { of, range, sequenceEqual } from 'ix/iterable/index.js';
+import { concatAll, map, tap } from 'ix/iterable/operators/index.js';
 
 test('Iterable#concat concatAll behavior', () => {
   const res = of(of(1, 2, 3), of(4, 5)).pipe(concatAll());

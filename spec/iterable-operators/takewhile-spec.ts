@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { takeWhile } from 'ix/iterable/operators';
-import { as } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { takeWhile } from 'ix/iterable/operators/index.js';
+import { as } from 'ix/iterable/index.js';
 
 test('Iterable#takeWhile some match', () => {
   const xs = [1, 2, 3, 4];

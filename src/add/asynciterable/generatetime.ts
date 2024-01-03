@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { generateTime as generateTimeStatic } from '../../asynciterable/generatetime';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { generateTime as generateTimeStatic } from '../../asynciterable/generatetime.js';
 
 /** @nocollapse */
 AsyncIterableX.generateTime = generateTimeStatic;

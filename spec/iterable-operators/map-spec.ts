@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { as, empty, sequenceEqual } from 'ix/iterable';
-import { map } from 'ix/iterable/operators';
+import { as, empty, sequenceEqual } from 'ix/iterable/index.js';
+import { map } from 'ix/iterable/operators/index.js';
 
 test('Iterable#map single element', () => {
   const source = [{ name: 'Frank', custId: 98088 }];

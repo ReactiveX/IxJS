@@ -1,1 +1,1 @@
-export * from './iterable/index';
+export * from './iterable/index.js';

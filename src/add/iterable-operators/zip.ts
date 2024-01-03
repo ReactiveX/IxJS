@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { zip } from '../../iterable/zip';
+import { IterableX } from '../../iterable/iterablex.js';
+import { zip } from '../../iterable/zip.js';
 
 /**
  * @ignore

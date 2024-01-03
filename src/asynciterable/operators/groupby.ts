@@ -1,8 +1,8 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { identityAsync } from '../../util/identity';
-import { createGrouping } from './_grouping';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { identityAsync } from '../../util/identity.js';
+import { createGrouping } from './_grouping.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 /** @ignore */

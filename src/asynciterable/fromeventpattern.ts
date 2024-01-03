@@ -1,8 +1,8 @@
-import { memoize } from './operators/memoize';
-import { identity } from '../util/identity';
-import { isFunction } from '../util/isiterable';
-import { AsyncIterableX } from './asynciterablex';
-import { AsyncSink } from './asyncsink';
+import { memoize } from './operators/memoize.js';
+import { identity } from '../util/identity.js';
+import { isFunction } from '../util/isiterable.js';
+import { AsyncIterableX } from './asynciterablex.js';
+import { AsyncSink } from './asyncsink.js';
 
 const { isArray } = Array;
 

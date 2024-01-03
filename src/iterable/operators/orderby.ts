@@ -1,6 +1,6 @@
-import { IterableX } from '../iterablex';
-import { sorter as defaultSorter } from '../../util/sorter';
-import { UnaryFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { sorter as defaultSorter } from '../../util/sorter.js';
+import { UnaryFunction } from '../../interfaces.js';
 
 /** @ignore */
 export abstract class OrderedIterableBaseX<TSource> extends IterableX<TSource> {

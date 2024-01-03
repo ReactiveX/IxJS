@@ -1,12 +1,12 @@
-import { AsyncIterableX } from '../asynciterablex';
+import { AsyncIterableX } from '../asynciterablex.js';
 import {
   IRefCountList,
   MaxRefCountList,
   RefCountList,
-} from '../../iterable/operators/_refcountlist';
-import { create } from '../create';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { throwIfAborted } from '../../aborterror';
+} from '../../iterable/operators/_refcountlist.js';
+import { create } from '../create.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {

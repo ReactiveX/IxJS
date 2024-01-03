@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { empty, throwError, sequenceEqual } from 'ix/iterable';
+import { empty, throwError, sequenceEqual } from 'ix/iterable/index.js';
 
 test('Iterable#sequenceEqual sequence equals itself', () => {
   const xs = [1, 2, 3];

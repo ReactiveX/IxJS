@@ -1,6 +1,6 @@
-import { extremaBy } from './_extremaby';
-import { ExtremaOptions } from './extremaoptions';
-import { equalityComparerAsync } from '../util/comparer';
+import { extremaBy } from './_extremaby.js';
+import { ExtremaOptions } from './extremaoptions.js';
+import { equalityComparerAsync } from '../util/comparer.js';
 
 /**
  * Returns the elements in an async-enumerable sequence with the minimum key value.

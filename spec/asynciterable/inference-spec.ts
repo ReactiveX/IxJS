@@ -1,7 +1,7 @@
-import '../asynciterablehelpers';
-import { of } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { of } from 'ix/asynciterable/index.js';
 import { PassThrough } from 'stream';
-import { map } from 'ix/asynciterable/operators/index.node';
+import { map } from 'ix/asynciterable/operators/index.node.js';
 
 const TEST_DOM_STREAMS = process.env.TEST_DOM_STREAMS === 'true';
 const TEST_NODE_STREAMS = process.env.TEST_NODE_STREAMS === 'true';

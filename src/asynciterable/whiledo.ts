@@ -1,6 +1,6 @@
-import { AsyncIterableX } from './asynciterablex';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { AsyncIterableX } from './asynciterablex.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 class WhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _condition: (signal?: AbortSignal) => boolean | Promise<boolean>;

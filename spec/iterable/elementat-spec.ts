@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { elementAt } from 'ix/iterable';
+import { elementAt } from 'ix/iterable/index.js';
 
 test('Iterable#elementAt empty returns undefined', () => {
   const res = elementAt<number>([], 0);

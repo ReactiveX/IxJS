@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { ScanRightIterable } from '../../iterable/operators/scanright';
-import { ScanOptions } from '../../iterable/operators/scanoptions';
+import { IterableX } from '../../iterable/iterablex.js';
+import { ScanRightIterable } from '../../iterable/operators/scanright.js';
+import { ScanOptions } from '../../iterable/operators/scanoptions.js';
 
 /**
  * @ignore

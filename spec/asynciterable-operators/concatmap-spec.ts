@@ -1,6 +1,6 @@
-import { hasNext, hasErr, noNext } from '../asynciterablehelpers';
-import { of, range, sequenceEqual, throwError } from 'ix/asynciterable';
-import { map, tap, concatMap } from 'ix/asynciterable/operators';
+import { hasNext, hasErr, noNext } from '../asynciterablehelpers.js';
+import { of, range, sequenceEqual, throwError } from 'ix/asynciterable/index.js';
+import { map, tap, concatMap } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#concatMap with range', async () => {
   const xs = of(1, 2, 3);

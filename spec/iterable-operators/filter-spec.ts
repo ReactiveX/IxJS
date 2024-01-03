@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { filter } from 'ix/iterable/operators';
-import { empty, throwError } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { filter } from 'ix/iterable/operators/index.js';
+import { empty, throwError } from 'ix/iterable/index.js';
 
 test('Iterable#filter', () => {
   const xs = [8, 5, 7, 4, 6, 9, 2, 1, 0];

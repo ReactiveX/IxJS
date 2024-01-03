@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { groupJoin } from '../../iterable/operators/groupjoin';
+import { IterableX } from '../../iterable/iterablex.js';
+import { groupJoin } from '../../iterable/operators/groupjoin.js';
 
 /**
  * @ignore

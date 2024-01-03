@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { repeatValue } from '../repeatvalue';
-import { catchAll } from '../catcherror';
-import { MonoTypeOperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { repeatValue } from '../repeatvalue.js';
+import { catchAll } from '../catcherror.js';
+import { MonoTypeOperatorFunction } from '../../interfaces.js';
 
 /**
  * Retries the iterable instance the number of given times. If not supplied, it will try infinitely.

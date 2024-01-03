@@ -1,4 +1,4 @@
-import { comparer } from '../util/comparer';
+import { comparer } from '../util/comparer.js';
 
 /**
  *  Determines whether an itreable includes a certain value among its entries, returning true or false as appropriate.

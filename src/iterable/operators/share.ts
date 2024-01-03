@@ -1,6 +1,6 @@
-import { IterableX } from '../iterablex';
-import { create } from '../create';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { create } from '../create.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 class SharedIterable<T> extends IterableX<T> {
   private _it: Iterator<T>;

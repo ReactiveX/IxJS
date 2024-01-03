@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { zip as zipStatic } from '../../iterable/zip';
+import { IterableX } from '../../iterable/iterablex.js';
+import { zip as zipStatic } from '../../iterable/zip.js';
 
 /** @nocollapse */
 IterableX.zip = zipStatic;

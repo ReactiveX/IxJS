@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { as, empty } from 'ix/iterable';
-import { groupBy } from 'ix/iterable/operators';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { as, empty } from 'ix/iterable/index.js';
+import { groupBy } from 'ix/iterable/operators/index.js';
 
 test('Iterable#groupBy normal', () => {
   const xs = [

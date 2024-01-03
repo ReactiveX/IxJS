@@ -1,4 +1,4 @@
-import { OptionalFindOptions } from './findoptions';
+import { OptionalFindOptions } from './findoptions.js';
 
 /**
  * Returns the first element of an iterable sequence that matches the predicate if provided, or undefined if no such element exists.

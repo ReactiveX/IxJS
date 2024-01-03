@@ -1,6 +1,9 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { GroupByAsyncIterable, GroupedAsyncIterable } from '../../asynciterable/operators/groupby';
-import { identityAsync } from '../../util/identity';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import {
+  GroupByAsyncIterable,
+  GroupedAsyncIterable,
+} from '../../asynciterable/operators/groupby.js';
+import { identityAsync } from '../../util/identity.js';
 
 export function groupByProto<TSource, TKey>(
   this: AsyncIterableX<TSource>,

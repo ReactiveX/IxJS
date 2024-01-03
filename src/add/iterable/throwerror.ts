@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { throwError as throwErrorStatic } from '../../iterable/throwerror';
+import { IterableX } from '../../iterable/iterablex.js';
+import { throwError as throwErrorStatic } from '../../iterable/throwerror.js';
 
 /** @nocollapse */
 IterableX.throwError = throwErrorStatic;

@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { toMap } from 'ix/iterable';
+import { toMap } from 'ix/iterable/index.js';
 
 test('Iterable#toMap stores values', () => {
   const res = toMap([1, 4], { keySelector: (x) => x % 2 });

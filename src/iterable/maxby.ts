@@ -1,6 +1,6 @@
-import { extremaBy } from './_extremaby';
-import { ExtremaOptions } from './extremaoptions';
-import { equalityComparer } from '../util/comparer';
+import { extremaBy } from './_extremaby.js';
+import { ExtremaOptions } from './extremaoptions.js';
+import { equalityComparer } from '../util/comparer.js';
 
 /**
  * Returns the elements in an iterable sequence with the maximum key value.

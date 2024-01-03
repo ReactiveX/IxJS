@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { iif as ifStatic } from '../../iterable/iif';
+import { IterableX } from '../../iterable/iterablex.js';
+import { iif as ifStatic } from '../../iterable/iif.js';
 
 /** @nocollapse */
 IterableX.iif = ifStatic;

@@ -1,5 +1,5 @@
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /**
  * Converts the existing async-iterable into a promise which resolves a Set.

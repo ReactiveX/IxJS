@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, range, sequenceEqual, single, throwError } from 'ix/asynciterable';
-import { catchError } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { of, range, sequenceEqual, single, throwError } from 'ix/asynciterable/index.js';
+import { catchError } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#catchError error catches', async () => {
   const err = new Error();

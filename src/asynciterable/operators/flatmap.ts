@@ -1,5 +1,5 @@
-import { FlattenConcurrentSelector, FlattenConcurrentAsyncIterable } from './_flatten';
-import { OperatorAsyncFunction } from '../../interfaces';
+import { FlattenConcurrentSelector, FlattenConcurrentAsyncIterable } from './_flatten.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
 
 /**
  * Projects each element of an async-iterable sequence to an async-iterable sequence and merges

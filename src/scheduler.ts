@@ -1,4 +1,4 @@
-import { Subscription } from './subscription';
+import { Subscription } from './subscription.js';
 
 export interface Scheduler {
   readonly now: number;

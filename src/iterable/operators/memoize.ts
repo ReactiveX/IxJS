@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { IRefCountList, MaxRefCountList, RefCountList } from './_refcountlist';
-import { create } from '../create';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { IRefCountList, MaxRefCountList, RefCountList } from './_refcountlist.js';
+import { create } from '../create.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 class MemoizeBuffer<T> extends IterableX<T> {
   private _source: Iterator<T>;

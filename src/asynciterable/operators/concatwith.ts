@@ -1,5 +1,5 @@
-import { OperatorAsyncFunction } from '../../interfaces';
-import { ConcatAsyncIterable } from '../concat';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { ConcatAsyncIterable } from '../concat.js';
 
 /**
  * Concatenates the second async-iterable sequence to the first async-iterable sequence upon successful termination of the first.

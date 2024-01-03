@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { arrayIndexOf } from '../../util/arrayindexof';
-import { comparer as defaultComparer } from '../../util/comparer';
-import { MonoTypeOperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { arrayIndexOf } from '../../util/arrayindexof.js';
+import { comparer as defaultComparer } from '../../util/comparer.js';
+import { MonoTypeOperatorFunction } from '../../interfaces.js';
 
 /** @ignore */
 export class UnionIterable<TSource> extends IterableX<TSource> {

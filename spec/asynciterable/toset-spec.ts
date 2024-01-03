@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { empty, as, toSet } from 'ix/asynciterable';
-import { sequenceEqual } from 'ix/iterable';
+import '../asynciterablehelpers.js';
+import { empty, as, toSet } from 'ix/asynciterable/index.js';
+import { sequenceEqual } from 'ix/iterable/index.js';
 
 test('AsyncIterable#toSet non-empty', async () => {
   const xs = [1, 2, 3, 4, 5];

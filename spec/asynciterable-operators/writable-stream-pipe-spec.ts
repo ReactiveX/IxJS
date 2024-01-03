@@ -1,7 +1,7 @@
-import '../asynciterablehelpers';
+import '../asynciterablehelpers.js';
 import { PassThrough } from 'stream';
-import { map } from 'ix/asynciterable/operators/index.node';
-import { empty, of, sequenceEqual } from 'ix/asynciterable';
+import { map } from 'ix/asynciterable/operators/index.node.js';
+import { empty, of, sequenceEqual } from 'ix/asynciterable/index.js';
 
 // eslint-disable-next-line consistent-return
 (() => {

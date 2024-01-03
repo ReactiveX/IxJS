@@ -1,7 +1,7 @@
-import { identityAsync } from '../util/identity';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { MathOptions } from './mathoptions';
+import { identityAsync } from '../util/identity.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
+import { MathOptions } from './mathoptions.js';
 
 /**
  * Computes the sum of a sequence of values.

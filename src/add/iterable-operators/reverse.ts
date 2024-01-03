@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { reverse } from '../../iterable/operators/reverse';
+import { IterableX } from '../../iterable/iterablex.js';
+import { reverse } from '../../iterable/operators/reverse.js';
 
 /**
  * @ignore

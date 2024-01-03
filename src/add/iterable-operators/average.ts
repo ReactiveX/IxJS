@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { average } from '../../iterable/average';
-import { MathOptions } from '../../iterable/mathoptions';
+import { IterableX } from '../../iterable/iterablex.js';
+import { average } from '../../iterable/average.js';
+import { MathOptions } from '../../iterable/mathoptions.js';
 
 export function averageProto(this: IterableX<number>, options?: MathOptions<number>): number;
 export function averageProto<T>(this: IterableX<T>, options?: MathOptions<T>): number;

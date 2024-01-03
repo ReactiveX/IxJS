@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { ConcatIterable } from '../../iterable/concat';
+import { IterableX } from '../../iterable/iterablex.js';
+import { ConcatIterable } from '../../iterable/concat.js';
 
 /**
  * @ignore

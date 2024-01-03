@@ -1,4 +1,4 @@
-import { IterableX } from './iterablex';
+import { IterableX } from './iterablex.js';
 
 /** @ignore */
 export class ConcatIterable<TSource> extends IterableX<TSource> {

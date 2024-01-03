@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { expand, take } from 'ix/iterable/operators';
-import { range, sequenceEqual } from 'ix/iterable';
+import { expand, take } from 'ix/iterable/operators/index.js';
+import { range, sequenceEqual } from 'ix/iterable/index.js';
 
 test('Iterable#expand with single return behavior', () => {
   const src = expand<number>((x) => [x + 1])([0]);

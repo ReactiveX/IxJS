@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { takeWhile } from '../../iterable/operators/takewhile';
+import { IterableX } from '../../iterable/iterablex.js';
+import { takeWhile } from '../../iterable/operators/takewhile.js';
 
 /**
  * @ignore

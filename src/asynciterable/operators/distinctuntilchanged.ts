@@ -1,10 +1,10 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { identityAsync } from '../../util/identity';
-import { comparerAsync } from '../../util/comparer';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
-import { DistinctOptions } from './distinctoptions';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { identityAsync } from '../../util/identity.js';
+import { comparerAsync } from '../../util/comparer.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
+import { DistinctOptions } from './distinctoptions.js';
 
 /** @ignore */
 export class DistinctUntilChangedAsyncIterable<TSource, TKey = TSource> extends AsyncIterableX<

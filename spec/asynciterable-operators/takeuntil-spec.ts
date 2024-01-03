@@ -1,6 +1,6 @@
-import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
-import { takeUntil } from 'ix/asynciterable/operators';
-import { as, AsyncSink } from 'ix/asynciterable';
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers.js';
+import { takeUntil } from 'ix/asynciterable/operators/index.js';
+import { as, AsyncSink } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#takeUntil hits', async () => {
   const xs = async function* () {

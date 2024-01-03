@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { skipWhile } from 'ix/iterable/operators';
-import { as } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { skipWhile } from 'ix/iterable/operators/index.js';
+import { as } from 'ix/iterable/index.js';
 
 test('Iterable#skipWhile skips some', () => {
   const xs = [1, 2, 3, 4];

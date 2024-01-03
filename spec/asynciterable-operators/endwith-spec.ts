@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { range, sequenceEqual } from 'ix/asynciterable';
-import { endWith } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { range, sequenceEqual } from 'ix/asynciterable/index.js';
+import { endWith } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#endWith adds to end', async () => {
   const e = range(0, 5);

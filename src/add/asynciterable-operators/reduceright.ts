@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { reduceRight } from '../../asynciterable/reduceright';
-import { ReduceOptions } from '../../asynciterable/reduceoptions';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { reduceRight } from '../../asynciterable/reduceright.js';
+import { ReduceOptions } from '../../asynciterable/reduceoptions.js';
 
 /**
  * @ignore

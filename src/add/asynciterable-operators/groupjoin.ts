@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { GroupJoinAsyncIterable } from '../../asynciterable/operators/groupjoin';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { GroupJoinAsyncIterable } from '../../asynciterable/operators/groupjoin.js';
 
 /**
  * @ignore

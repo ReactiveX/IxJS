@@ -1,7 +1,7 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { share, take } from 'ix/asynciterable/operators';
-import { range, toArray } from 'ix/asynciterable';
-import { sequenceEqual } from 'ix/iterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { share, take } from 'ix/asynciterable/operators/index.js';
+import { range, toArray } from 'ix/asynciterable/index.js';
+import { sequenceEqual } from 'ix/iterable/index.js';
 
 test('AsyncIterable#share single', async () => {
   const rng = share()(range(0, 5));

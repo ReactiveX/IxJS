@@ -1,5 +1,5 @@
-import { throwIfAborted } from '../aborterror';
-import { wrapWithAbort } from './operators/withabort';
+import { throwIfAborted } from '../aborterror.js';
+import { wrapWithAbort } from './operators/withabort.js';
 
 export async function extremaBy<TSource, TKey>(
   source: AsyncIterable<TSource>,

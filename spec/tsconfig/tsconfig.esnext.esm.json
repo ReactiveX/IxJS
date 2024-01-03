@@ -1,13 +1,8 @@
-//Compiler configuaration to build the ESNext ESModules target
+// TypeScript configuration for the ESNext ESModules target's tests
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ESNEXT",
-    "module": "es2015",
-    "paths": {
-      "ix/*": [
-        "targets/esnext/esm/*"
-      ]
-    }
+    "target": "ESNext",
+    "module": "NodeNext"
   }
 }

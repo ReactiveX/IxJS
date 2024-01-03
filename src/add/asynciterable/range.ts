@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { range as rangeStatic } from '../../asynciterable/range';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { range as rangeStatic } from '../../asynciterable/range.js';
 
 /** @nocollapse */
 AsyncIterableX.range = rangeStatic;

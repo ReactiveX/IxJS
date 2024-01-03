@@ -1,4 +1,4 @@
-import { identity } from '../util/identity';
+import { identity } from '../util/identity.js';
 
 /**
  * The options for the toMap method which include an optional element selector and abort signal for cancellation.

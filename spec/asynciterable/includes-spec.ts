@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { of, includes } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { of, includes } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#includes includes', async () => {
   const xs = of(1, 2, 3, 4, 5);
