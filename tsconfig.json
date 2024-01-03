@@ -1,17 +1,25 @@
 {
   "extends": "./tsconfig/tsconfig.base.json",
-  "include": ["src/**/*.ts", "spec/**/*.ts"],
   "formatCodeOptions": {
     "tabSize": 2,
     "indentSize": 2
   },
   "compilerOptions": {
-    "target": "ESNEXT",
-    "module": "CommonJS",
+    "target": "ESNext",
+    "module": "ESNext",
+    "isolatedModules": true,
+    "noEmit": true,
+    "esModuleInterop": true,
     "baseUrl": "./",
+    "rootDir": "./",
     "paths": {
       "ix": ["src/Ix.node"],
       "ix/*": ["src/*"]
-    }
+    },
+    "allowImportingTsExtensions": true,
+  },
+  "include": ["src/**/*.ts", "spec/**/*.ts"],
+  "ts-node": {
+    "swc": true
   }
 }

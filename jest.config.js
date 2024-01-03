@@ -15,43 +15,47 @@
 // specific language governing permissions and limitations
 // under the License.
 
-module.exports = {
-  "verbose": false,
-  "testEnvironment": "node",
-  "globals": {
-    "ts-jest": {
-      "diagnostics": false,
-      "tsconfig": "spec/tsconfig.json"
-    }
-  },
-  "rootDir": "./",
-  "roots": [
+export default {
+  verbose: false,
+  testEnvironment: "node",
+  rootDir: ".",
+  roots: [
     "<rootDir>/spec/"
   ],
-  "moduleFileExtensions": [
-    "js",
-    "ts",
-    "tsx"
-  ],
-  "coverageReporters": [
-    "lcov"
-  ],
-  "coveragePathIgnorePatterns": [
+  cacheDirectory: ".jest-cache",
+  extensionsToTreatAsEsm: [".ts"],
+  moduleFileExtensions: ["js", "mjs", "ts"],
+  coverageReporters: ["lcov"],
+  coveragePathIgnorePatterns: [
     "spec\\/.*\\.(ts|tsx|js)$",
     "/node_modules/"
   ],
-  "transform": {
-    "^.+\\.jsx?$": "ts-jest",
-    "^.+\\.tsx?$": "ts-jest"
+  moduleNameMapper: {
+    "^ix$": "<rootDir>/src/Ix.node",
+    "^ix(.*)": "<rootDir>/src$1",
+    "^(\\.{1,2}/.*)\\.js$": "$1",
   },
-  "transformIgnorePatterns": [
-    "/(es5|es2015|esnext)/umd/",
-    "/node_modules/(?!web-stream-tools).+\\.js$"
+  testRegex: "(.*(-|\\.)(test|spec)s?)\\.(ts|tsx|js)$",
+  transform: {
+    "^.+\\.jsx?$": [
+      "ts-jest",
+      {
+        diagnostics: false,
+        tsconfig: "spec/tsconfig.json",
+        useESM: true
+      }
+    ],
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        diagnostics: false,
+        tsconfig: "spec/tsconfig.json",
+        useESM: true
+      }
+    ]
+  },
+  transformIgnorePatterns: [
+    "/targets/(es5|es2015|esnext|ix)/",
+    "/node_modules/(?!@openpgp/web-stream-tools)/",
   ],
-  "testRegex": "(.*(-|\\.)(test|spec)s?)\\.(ts|tsx|js)$",
-  "preset": "ts-jest",
-  "testMatch": null,
-  "moduleNameMapper": {
-    "^ix(.*)": "<rootDir>/src/$1.js"
-  }
 };

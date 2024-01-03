@@ -1,13 +1,30 @@
-module.exports = {
-  ...require('../jest.config'),
-  "rootDir": "../",
-  "globals": {
-    "ts-jest": {
-      "diagnostics": false,
-      "tsconfig": "<rootDir>/spec/tsconfig/tsconfig.ix.json"
-    }
+import config from '../jest.config.js';
+
+export default {
+  ...config,
+  rootDir: "../",
+  moduleFileExtensions: ["js", "ts"],
+  moduleNameMapper: {
+    "^ix(.*)": "<rootDir>/targets/ix$1",
+    "^(\\.{1,2}/.*)\\.js$": "$1",
   },
-  "moduleNameMapper": {
-    "^ix(.*)": "<rootDir>/targets/ix$1"
-  }
+  transform: {
+    ...config.transform,
+    "^.+\\.js$": [
+      "ts-jest",
+      {
+        diagnostics: false,
+        tsconfig: "<rootDir>/spec/tsconfig/tsconfig.ix.json",
+        useESM: true,
+      },
+    ],
+    "^.+\\.ts$": [
+      "ts-jest",
+      {
+        diagnostics: false,
+        tsconfig: "<rootDir>/spec/tsconfig/tsconfig.ix.json",
+        useESM: true,
+      },
+    ],
+  },
 };
