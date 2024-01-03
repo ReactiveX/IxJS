@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const {
+import {
     targetDir,
     mainExport,
     esmRequire,
@@ -24,17 +24,18 @@ const {
     observableFromStreams,
     shouldRunInChildProcess,
     spawnGulpCommandInChildProcess,
-} = require('./util');
+} from './util.js';
 
-const fs = require('fs');
-const gulp = require('gulp');
-const path = require('path');
-const mkdirp = require('mkdirp');
-const sourcemaps = require('gulp-sourcemaps');
-const { memoizeTask } = require('./memoize-task');
-const closureCompiler = require('google-closure-compiler').gulp();
+import fs from 'fs';
+import gulp from 'gulp';
+import path from 'path';
+import mkdirp from 'mkdirp';
+import sourcemaps from 'gulp-sourcemaps';
+import { memoizeTask } from './memoize-task.js';
+import cc from 'google-closure-compiler';
+const closureCompiler = cc.gulp()
 
-const closureTask = ((cache) => memoizeTask(cache, async function closure(target, format) {
+export const closureTask = ((cache) => memoizeTask(cache, async function closure(target, format) {
 
     if (shouldRunInChildProcess(target, format)) {
         return spawnGulpCommandInChildProcess('compile', target, format);
@@ -108,8 +109,7 @@ const createClosureArgs = (target, entry_point, output, externs, libraryName) =>
 }(this, (function (exports) {%output%}.bind(this))));`
 });
 
-module.exports = closureTask;
-module.exports.closureTask = closureTask;
+export default closureTask;
 
 function generateUMDExportAssignment(entry) {
     return [`

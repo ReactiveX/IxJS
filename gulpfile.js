@@ -15,24 +15,26 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const del = require('del');
-const gulp = require('gulp');
-const {
-    from: ObservableFrom,
-    bindNodeCallback: ObservableBindNodeCallback
-} = require('rxjs');
-const { flatMap } = require('rxjs/operators')
-const cleanTask = require('./gulp/clean-task');
-const { testTask } = require('./gulp/test-task');
-const compileTask = require('./gulp/compile-task');
-const packageTask = require('./gulp/package-task');
-const { targets, modules } = require('./gulp/argv');
-const {
+import * as os from 'os';
+import del from 'del';
+import gulp from 'gulp';
+import {
+    from as ObservableFrom,
+    bindNodeCallback as ObservableBindNodeCallback
+} from 'rxjs';
+import { flatMap } from 'rxjs/operators/index.js';
+import cleanTask from './gulp/clean-task.js';
+import { testTask } from './gulp/test-task.js';
+import compileTask from './gulp/compile-task.js';
+import packageTask from './gulp/package-task.js';
+import { targets, modules } from './gulp/argv.js';
+import { esbuildTask, rollupTask, webpackTask, execBundleTask } from './gulp/bundle-task.js';
+import {
     taskName, combinations,
     targetDir, knownTargets,
     npmPkgName, UMDSourceTargets,
     tasksToSkipPerTargetOrFormat
-} = require('./gulp/util');
+} from './gulp/util.js';
 
 for (const [target, format] of combinations([`all`], [`all`])) {
     const task = taskName(target, format);
@@ -77,6 +79,15 @@ gulp.task(`build:${npmPkgName}`,
     )
 );
 
+gulp.task(`bundle:esbuild`, esbuildTask());
+gulp.task(`bundle:rollup`, rollupTask());
+gulp.task(`bundle:webpack`, webpackTask());
+gulp.task(`bundle:webpack:analyze`, webpackTask({ analyze: true }));
+gulp.task(`bundle:clean`, () => del(`test/bundle/**/*-bundle.js`));
+gulp.task(`bundle:exec`, execBundleTask());
+
+gulp.task(`bundle`, gulp.series(`bundle:clean`, `bundle:esbuild`, `bundle:rollup`, `bundle:webpack`, `bundle:exec`));
+
 // And finally the global composite tasks
 gulp.task(`test`, gulpConcurrent(getTasks(`test`)));
 gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
@@ -85,7 +96,7 @@ gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
 gulp.task(`default`,  gulp.series(`clean`, `build`, `test`));
 
-function gulpConcurrent(tasks, numCPUs = Math.max(1, require('os').cpus().length * 0.5) | 0) {
+function gulpConcurrent(tasks, numCPUs = Math.max(1, os.cpus().length * 0.5) | 0) {
     return () => ObservableFrom(tasks.map((task) => gulp.series(task)))
         .pipe(flatMap((task) => ObservableBindNodeCallback(task)(), numCPUs || 1));
 }

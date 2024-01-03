@@ -15,7 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const argv = require(`command-line-args`)([
+import args from 'command-line-args';
+const argv = args([
   { name: `all`, type: Boolean },
   { name: 'verbose', alias: 'v', type: Boolean },
   { name: `target`, type: String, defaultValue: `` },
@@ -37,4 +38,4 @@ if (argv.target === `src`) {
   (argv.all || !modules.length) && modules.push(`all`);
 }
 
-module.exports = { argv, targets, modules };
+export { argv, targets, modules };

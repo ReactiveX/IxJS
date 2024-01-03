@@ -15,27 +15,28 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const {
+import {
     targetDir,
     tsconfigName,
     observableFromStreams,
     shouldRunInChildProcess,
     spawnGulpCommandInChildProcess,
-} = require('./util');
+} from './util.js';
 
-const gulp = require('gulp');
-const path = require('path');
-const ts = require(`gulp-typescript`);
-const sourcemaps = require('gulp-sourcemaps');
-const { memoizeTask } = require('./memoize-task');
-const {
+import gulp from 'gulp';
+import path from 'path';
+import tsc from 'typescript';
+import ts from 'gulp-typescript';
+import sourcemaps from 'gulp-sourcemaps';
+import { memoizeTask } from './memoize-task.js';
+import {
     ReplaySubject,
-    forkJoin: ObservableForkJoin,
-} = require('rxjs');
+    forkJoin as ObservableForkJoin,
+} from 'rxjs';
 
-const { takeLast, publish, refCount } = require('rxjs/operators');
+import { takeLast, publish, refCount } from 'rxjs/operators/index.js';
 
-const typescriptTask = ((cache) => memoizeTask(cache, function typescript(target, format) {
+export const typescriptTask = ((cache) => memoizeTask(cache, function typescript(target, format) {
 
     if (shouldRunInChildProcess(target, format)) {
         return spawnGulpCommandInChildProcess('compile', target, format);
@@ -48,19 +49,19 @@ const typescriptTask = ((cache) => memoizeTask(cache, function typescript(target
 }))({});
 
 function compileTypescript(out, tsconfigPath, tsconfigOverrides) {
-    const tsProject = ts.createProject(tsconfigPath, { typescript: require(`typescript`), ...tsconfigOverrides });
+    const tsProject = ts.createProject(tsconfigPath, { typescript: tsc, ...tsconfigOverrides });
     const { stream: { js, dts } } = observableFromStreams(
       tsProject.src(), sourcemaps.init(),
       tsProject(ts.reporter.defaultReporter())
     );
-    const writeDTypes = observableFromStreams(dts, gulp.dest(out));
-    const mapFile = tsProject.options.module === 5 ? esmMapFile : cjsMapFile;
-    const writeJS = observableFromStreams(js, sourcemaps.write('./', { mapFile }), gulp.dest(out));
-    return ObservableForkJoin(writeDTypes, writeJS);
+    const writeSources = observableFromStreams(tsProject.src(), gulp.dest(path.join(out, 'src')));
+    const writeDTypes = observableFromStreams(dts, sourcemaps.write('./', { includeContent: false, sourceRoot: './src' }), gulp.dest(out));
+    const mapFile = tsProject.options.module === tsc.ModuleKind.ES2015 ? esmMapFile : cjsMapFile;
+    const writeJS = observableFromStreams(js, sourcemaps.write('./', { mapFile, includeContent: false, sourceRoot: './src'  }), gulp.dest(out));
+    return ObservableForkJoin(writeSources, writeDTypes, writeJS);
 }
 
 function cjsMapFile(mapFilePath) { return mapFilePath; }
 function esmMapFile(mapFilePath) { return mapFilePath.replace('.js.map', '.mjs.map'); }
 
-module.exports = typescriptTask;
-module.exports.typescriptTask = typescriptTask;
+export default typescriptTask;

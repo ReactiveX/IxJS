@@ -15,20 +15,24 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { npmPkgName } from './util.js';
-import { memoizeTask } from './memoize-task.js';
-import { empty as ObservableEmpty } from 'rxjs';
+const esm = require('esm');
 
-import closureTask from './closure-task.js';
-import typescriptTask from './typescript-task.js';
-import { copyMainTask, copyTSTask } from './copy-main-task.js';
+const esmRequire = esm(module, {
+    mode: `auto`,
+    cjs: {
+        /* A boolean for storing ES modules in require.cache. */
+        cache: true,
+        /* A boolean for respecting require.extensions in ESM. */
+        extensions: true,
+        /* A boolean for __esModule interoperability. */
+        interop: true,
+        /* A boolean for importing named exports of CJS modules. */
+        namedExports: true,
+        /* A boolean for following CJS path rules in ESM. */
+        paths: true,
+        /* A boolean for __dirname, __filename, and require in ESM. */
+        vars: true,
+    }
+});
 
-export const compileTask = ((cache) => memoizeTask(cache, function compile(target, format, ...args) {
-    return target === `src`      ? ObservableEmpty()
-         : target === npmPkgName ? copyMainTask(target, format, ...args)()
-         : target === `ts`       ? copyTSTask(target, format, ...args)()
-         : format === `umd`      ? closureTask(target, format, ...args)()
-                                 : typescriptTask(target, format, ...args)();
-}))({});
-
-export default compileTask;
+module.exports = esmRequire;

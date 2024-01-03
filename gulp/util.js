@@ -15,27 +15,35 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const fs = require('fs');
-const path = require(`path`);
-const pump = require(`stream`).pipeline;
-const child_process = require(`child_process`);
-const { targets, modules } = require('./argv');
-const {
+import fs from 'fs';
+import path from 'path';
+import { pipeline as pump } from 'stream';
+import child_process from 'child_process';
+import { targets, modules } from './argv.js';
+import {
   ReplaySubject,
-  empty: ObservableEmpty,
-  throwError: ObservableThrow,
-  fromEvent: ObservableFromEvent
-} = require('rxjs');
-const {
+  empty as ObservableEmpty,
+  throwError as ObservableThrow,
+  fromEvent as ObservableFromEvent
+} from 'rxjs';
+import {
   merge,
   flatMap,
   takeUntil,
   defaultIfEmpty,
   multicast,
   refCount,
-} = require('rxjs/operators');
+} from 'rxjs/operators/index.js';
 
-const asyncDone = require('util').promisify(require('async-done'));
+import {promisify} from 'util';
+import asyncDone_ from 'async-done';
+
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+import esmRequire from './esm-require.cjs';
+
+const asyncDone = promisify(asyncDone_);
 
 const mainExport = `Ix`;
 const npmPkgName = `ix`;
@@ -204,32 +212,13 @@ function* combinations(_targets, _modules) {
   }
 }
 
-const esmRequire = require(`esm`)(module, {
-  mode: `auto`,
-  cjs: {
-    /* A boolean for storing ES modules in require.cache. */
-    cache: true,
-    /* A boolean for respecting require.extensions in ESM. */
-    extensions: true,
-    /* A boolean for __esModule interoperability. */
-    interop: true,
-    /* A boolean for importing named exports of CJS modules. */
-    namedExports: true,
-    /* A boolean for following CJS path rules in ESM. */
-    paths: true,
-    /* A boolean for __dirname, __filename, and require in ESM. */
-    vars: true,
-  }
-});
-
 const getUMDExportName = (umdEntryFileName) => umdEntryFileName
   .split('.')
   .filter((x) => x != 'dom')
   .map((x) => x[0].toUpperCase() + x.slice(1))
   .join('');
 
-module.exports = {
-
+export {
   mainExport, npmPkgName, npmOrgName, metadataFiles, packageJSONFields,
 
   knownTargets, knownModules, tasksToSkipPerTargetOrFormat,
@@ -237,6 +226,6 @@ module.exports = {
 
   taskName, packageName, tsconfigName, targetDir, combinations, observableFromStreams,
   ESKeywords, esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess, getUMDExportName,
-
-  targetAndModuleCombinations: [...combinations(targets, modules)]
 };
+
+export const targetAndModuleCombinations = [...combinations(targets, modules)];

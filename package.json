@@ -2,6 +2,7 @@
   "name": "ix",
   "private": true,
   "version": "5.0.0",
+  "type": "module",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
     "lerna": "lerna",
@@ -17,6 +18,7 @@
     "postinstall": "patch-package --patch-dir ./patches",
     "commitmsg": "validate-commit-msg",
     "test:coverage": "gulp test -t src --coverage",
+    "test:bundle": "gulp bundle",
     "lint:ci": "eslint src spec",
     "lint:src": "eslint --fix src",
     "lint:spec": "eslint --fix spec",
