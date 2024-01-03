@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { union } from '../../iterable/operators/union';
+import { IterableX } from '../../iterable/iterablex.js';
+import { union } from '../../iterable/operators/union.js';
 
 /**
  * @ignore

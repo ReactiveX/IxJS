@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { tap } from '../../asynciterable/operators/tap';
-import { PartialAsyncObserver } from '../../observer';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { tap } from '../../asynciterable/operators/tap.js';
+import { PartialAsyncObserver } from '../../observer.js';
 
 /** @ignore */
 export function tapProto<T>(observer: PartialAsyncObserver<T>): AsyncIterableX<T>;

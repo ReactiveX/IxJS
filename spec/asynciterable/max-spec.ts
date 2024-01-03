@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { of, empty, max } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { of, empty, max } from 'ix/asynciterable/index.js';
 
 test('AsyncItearble#max laws', async () => {
   const xs = of(5, 3, 1, 2, 4);

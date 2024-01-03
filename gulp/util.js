@@ -15,27 +15,35 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const fs = require('fs');
-const path = require(`path`);
-const pump = require(`stream`).pipeline;
-const child_process = require(`child_process`);
-const { targets, modules } = require('./argv');
-const {
+import fs from 'fs';
+import path from 'path';
+import { pipeline as pump } from 'stream';
+import child_process from 'child_process';
+import { targets, modules } from './argv.js';
+import {
   ReplaySubject,
-  empty: ObservableEmpty,
-  throwError: ObservableThrow,
-  fromEvent: ObservableFromEvent
-} = require('rxjs');
-const {
+  empty as ObservableEmpty,
+  throwError as ObservableThrow,
+  fromEvent as ObservableFromEvent,
+} from 'rxjs';
+import {
   merge,
   flatMap,
   takeUntil,
   defaultIfEmpty,
   multicast,
   refCount,
-} = require('rxjs/operators');
+} from 'rxjs/operators/index.js';
 
-const asyncDone = require('util').promisify(require('async-done'));
+import { promisify } from 'util';
+import asyncDone_ from 'async-done';
+
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+import esmRequire from './esm-require.cjs';
+
+const asyncDone = promisify(asyncDone_);
 
 const mainExport = `Ix`;
 const npmPkgName = `ix`;
@@ -46,20 +54,29 @@ const knownTargets = [`es5`, `es2015`, `esnext`];
 const knownModules = [`cjs`, `esm`, `cls`, `umd`];
 const tasksToSkipPerTargetOrFormat = {
   src: { clean: true, build: true },
-  cls: { test: true, package: true }
+  cls: { test: true, package: true },
 };
 const packageJSONFields = [
-  `version`, `license`, `description`,
-  `author`, `homepage`, `repository`,
-  `bugs`, `keywords`, `dependencies`
+  `version`,
+  `license`,
+  `description`,
+  `author`,
+  `homepage`,
+  `repository`,
+  `bugs`,
+  `keywords`,
+  `dependencies`,
 ];
 
 const metadataFiles = [`LICENSE`, `readme.md`, `CHANGELOG.md`].map((filename) => {
-  let err = false, prefixes = [`./`, `../`];
+  let err = false,
+    prefixes = [`./`, `../`];
   let p = prefixes.find((prefix) => {
     try {
       fs.statSync(path.resolve(path.join(prefix, filename)));
-    } catch (e) { return false; }
+    } catch (e) {
+      return false;
+    }
     return true;
   });
   if (!p) {
@@ -74,7 +91,7 @@ const gCCLanguageNames = {
   es2015: `ECMASCRIPT_2015`,
   es2016: `ECMASCRIPT_2016`,
   es2017: `ECMASCRIPT_2017`,
-  esnext: `ECMASCRIPT_NEXT`
+  esnext: `ECMASCRIPT_NEXT`,
 };
 
 const UMDSourceTargets = {
@@ -82,13 +99,15 @@ const UMDSourceTargets = {
   es2015: `es2015`,
   es2016: `es2015`,
   es2017: `es2015`,
-  esnext: `esnext`
+  esnext: `esnext`,
 };
 
 const terserLanguageNames = {
-  es5: 5, es2015: 6,
-  es2016: 7, es2017: 8,
-  esnext: 8 // <--- ?
+  es5: 5,
+  es2015: 6,
+  es2016: 7,
+  es2017: 8,
+  esnext: 8, // <--- ?
 };
 
 // ES7+ keywords Terser shouldn't mangle
@@ -98,17 +117,35 @@ const ESKeywords = [
   // GroupedIterable/GroupedAsyncIterable
   `key`,
   // PropertyDescriptors
-  `configurable`, `enumerable`,
+  `configurable`,
+  `enumerable`,
   // IteratorResult, Symbol.asyncIterator
-  `done`, `value`, `Symbol.asyncIterator`, `asyncIterator`,
+  `done`,
+  `value`,
+  `Symbol.asyncIterator`,
+  `asyncIterator`,
   // AsyncObserver
-  `values`, `hasError`, `hasCompleted`, `errorValue`, `closed`,
+  `values`,
+  `hasError`,
+  `hasCompleted`,
+  `errorValue`,
+  `closed`,
   // Observable/Subscription/Scheduler
-  `next`, `error`, `complete`, `subscribe`, `unsubscribe`, `isUnsubscribed`,
+  `next`,
+  `error`,
+  `complete`,
+  `subscribe`,
+  `unsubscribe`,
+  `isUnsubscribed`,
   // EventTarget
-  `addListener`, `removeListener`, `addEventListener`, `removeEventListener`,
+  `addListener`,
+  `removeListener`,
+  `addEventListener`,
+  `removeEventListener`,
   // AbortController
-  `AbortController`, `AbortSignal`, `AbortError`
+  `AbortController`,
+  `AbortSignal`,
+  `AbortError`,
 ];
 
 function taskName(target, format) {
@@ -129,9 +166,13 @@ function targetDir(target, format) {
 
 function shouldRunInChildProcess(target, format) {
   // If we're building more than one module/target, then yes run this task in a child process
-  if (targets.length > 1 || modules.length > 1) { return true; }
+  if (targets.length > 1 || modules.length > 1) {
+    return true;
+  }
   // If the target we're building *isn't* the target the gulp command was configured to run, then yes run that in a child process
-  if (targets[0] !== target || modules[0] !== format) { return true; }
+  if (targets[0] !== target || modules[0] !== format) {
+    return true;
+  }
   // Otherwise no need -- either gulp was run for just one target, or we've been spawned as the child of a multi-target parent gulp
   return false;
 }
@@ -140,22 +181,29 @@ const gulp = path.join(path.parse(require.resolve(`gulp`)).dir, `bin/gulp.js`);
 function spawnGulpCommandInChildProcess(command, target, format) {
   const err = [];
   return asyncDone(() => {
-    const child = child_process.spawn(
-      `node`,
-      [gulp, command, '-t', target, '-m', format, `-L`],
-      {
-        stdio: [`ignore`, `ignore`, `pipe`],
-        env: { ...process.env, NODE_NO_WARNINGS: `1` }
-      });
+    const child = child_process.spawn(`node`, [gulp, command, '-t', target, '-m', format, `-L`], {
+      stdio: [`ignore`, `ignore`, `pipe`],
+      env: { ...process.env, NODE_NO_WARNINGS: `1` },
+    });
     child.stderr.on('data', (line) => err.push(line));
     return child;
-  }).catch(() => Promise.reject(err.length > 0 ? err.join('\n')
-    : `Error in "${command}:${taskName(target, format)}" task.`));
+  }).catch(() =>
+    Promise.reject(
+      err.length > 0 ? err.join('\n') : `Error in "${command}:${taskName(target, format)}" task.`
+    )
+  );
 }
 
-const logAndDie = (e) => { if (e) { console.error(e); process.exit(1) } };
+const logAndDie = (e) => {
+  if (e) {
+    console.error(e);
+    process.exit(1);
+  }
+};
 function observableFromStreams(...streams) {
-  if (streams.length <= 0) { return ObservableEmpty(); }
+  if (streams.length <= 0) {
+    return ObservableEmpty();
+  }
   const pumped = streams.length <= 1 ? streams[0] : pump(...streams, logAndDie);
   const fromEvent = ObservableFromEvent.bind(null, pumped);
   const streamObs = fromEvent(`data`).pipe(
@@ -163,14 +211,14 @@ function observableFromStreams(...streams) {
     takeUntil(fromEvent(`end`).pipe(merge(fromEvent(`close`)))),
     defaultIfEmpty(`empty stream`),
     multicast(new ReplaySubject()),
-    refCount());
+    refCount()
+  );
   streamObs.stream = pumped;
   streamObs.observable = streamObs;
   return streamObs;
 }
 
 function* combinations(_targets, _modules) {
-
   const targets = known(knownTargets, _targets || [`all`]);
   const modules = known(knownModules, _modules || [`all`]);
 
@@ -192,51 +240,50 @@ function* combinations(_targets, _modules) {
   }
 
   function known(known, values) {
-    return ~values.indexOf(`all`) ? known
-      : ~values.indexOf(`src`) ? [`src`]
-        : Object.keys(
-          values.reduce((map, arg) => ((
-            (known.indexOf(arg) !== -1) &&
-            (map[arg.toLowerCase()] = true)
-            || true) && map
-          ), {})
+    return ~values.indexOf(`all`)
+      ? known
+      : ~values.indexOf(`src`)
+      ? [`src`]
+      : Object.keys(
+          values.reduce(
+            (map, arg) =>
+              ((known.indexOf(arg) !== -1 && (map[arg.toLowerCase()] = true)) || true) && map,
+            {}
+          )
         ).sort((a, b) => known.indexOf(a) - known.indexOf(b));
   }
 }
 
-const esmRequire = require(`esm`)(module, {
-  mode: `auto`,
-  cjs: {
-    /* A boolean for storing ES modules in require.cache. */
-    cache: true,
-    /* A boolean for respecting require.extensions in ESM. */
-    extensions: true,
-    /* A boolean for __esModule interoperability. */
-    interop: true,
-    /* A boolean for importing named exports of CJS modules. */
-    namedExports: true,
-    /* A boolean for following CJS path rules in ESM. */
-    paths: true,
-    /* A boolean for __dirname, __filename, and require in ESM. */
-    vars: true,
-  }
-});
+const getUMDExportName = (umdEntryFileName) =>
+  umdEntryFileName
+    .split('.')
+    .filter((x) => x != 'dom')
+    .map((x) => x[0].toUpperCase() + x.slice(1))
+    .join('');
 
-const getUMDExportName = (umdEntryFileName) => umdEntryFileName
-  .split('.')
-  .filter((x) => x != 'dom')
-  .map((x) => x[0].toUpperCase() + x.slice(1))
-  .join('');
-
-module.exports = {
-
-  mainExport, npmPkgName, npmOrgName, metadataFiles, packageJSONFields,
-
-  knownTargets, knownModules, tasksToSkipPerTargetOrFormat,
-  gCCLanguageNames, UMDSourceTargets, terserLanguageNames,
-
-  taskName, packageName, tsconfigName, targetDir, combinations, observableFromStreams,
-  ESKeywords, esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess, getUMDExportName,
-
-  targetAndModuleCombinations: [...combinations(targets, modules)]
+export {
+  mainExport,
+  npmPkgName,
+  npmOrgName,
+  metadataFiles,
+  packageJSONFields,
+  knownTargets,
+  knownModules,
+  tasksToSkipPerTargetOrFormat,
+  gCCLanguageNames,
+  UMDSourceTargets,
+  terserLanguageNames,
+  taskName,
+  packageName,
+  tsconfigName,
+  targetDir,
+  combinations,
+  observableFromStreams,
+  ESKeywords,
+  esmRequire,
+  shouldRunInChildProcess,
+  spawnGulpCommandInChildProcess,
+  getUMDExportName,
 };
+
+export const targetAndModuleCombinations = [...combinations(targets, modules)];

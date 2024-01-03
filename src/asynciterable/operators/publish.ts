@@ -1,9 +1,9 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { RefCountList } from '../../iterable/operators/_refcountlist';
-import { create } from '../create';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { MemoizeAsyncBuffer } from './memoize';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { RefCountList } from '../../iterable/operators/_refcountlist.js';
+import { create } from '../create.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { MemoizeAsyncBuffer } from './memoize.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 class PublishedAsyncBuffer<T> extends MemoizeAsyncBuffer<T> {
   protected declare _buffer: RefCountList<T>;

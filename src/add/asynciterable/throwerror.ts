@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { throwError as _throwError } from '../../asynciterable/throwerrror';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { throwError as _throwError } from '../../asynciterable/throwerrror.js';
 
 /** @nocollapse */
 AsyncIterableX.throwError = _throwError;

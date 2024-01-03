@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { of } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { of } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#of behavior', async () => {
   const res = of(1, 2, 3);

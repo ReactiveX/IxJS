@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { every } from 'ix/iterable';
+import { every } from 'ix/iterable/index.js';
 
 test('Iterable#every some true', () => {
   const res = every([1, 2, 3, 4], { predicate: (x) => x % 2 === 0 });

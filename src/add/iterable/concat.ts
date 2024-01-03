@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { concat as concatStatic } from '../../iterable/concat';
+import { IterableX } from '../../iterable/iterablex.js';
+import { concat as concatStatic } from '../../iterable/concat.js';
 
 /** @nocollapse */
 IterableX.concat = concatStatic;

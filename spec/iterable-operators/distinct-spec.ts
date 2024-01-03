@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { range, sequenceEqual } from 'ix/iterable';
-import { distinct } from 'ix/iterable/operators';
+import { range, sequenceEqual } from 'ix/iterable/index.js';
+import { distinct } from 'ix/iterable/operators/index.js';
 
 test('Iterable#distinct selector', () => {
   const src = range(0, 10);

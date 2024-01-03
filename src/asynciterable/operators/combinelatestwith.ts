@@ -1,5 +1,5 @@
-import { OperatorAsyncFunction } from '../../interfaces';
-import { CombineLatestAsyncIterable } from '../combinelatest';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { CombineLatestAsyncIterable } from '../combinelatest.js';
 
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever

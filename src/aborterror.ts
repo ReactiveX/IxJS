@@ -1,4 +1,4 @@
-import { isObject } from './util/isiterable';
+import { isObject } from './util/isiterable.js';
 
 /** @ignore */
 export class AbortError extends Error {

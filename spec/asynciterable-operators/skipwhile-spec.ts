@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { skipWhile } from 'ix/asynciterable/operators';
-import { of } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { skipWhile } from 'ix/asynciterable/operators/index.js';
+import { of } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#skipWhile skips some', async () => {
   const xs = of(1, 2, 3, 4);

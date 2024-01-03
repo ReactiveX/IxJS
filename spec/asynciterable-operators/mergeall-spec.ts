@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, toArray } from 'ix/asynciterable';
-import { mergeAll } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { of, toArray } from 'ix/asynciterable/index.js';
+import { mergeAll } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#merge mergeAll behavior', async () => {
   const res = of(of(1, 2, 3), of(4, 5)).pipe(mergeAll());

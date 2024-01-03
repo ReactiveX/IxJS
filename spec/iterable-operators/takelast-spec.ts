@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { range, sequenceEqual } from 'ix/iterable';
-import { skip, takeLast } from 'ix/iterable/operators';
+import { range, sequenceEqual } from 'ix/iterable/index.js';
+import { skip, takeLast } from 'ix/iterable/operators/index.js';
 
 test('Iterable#takeLast none', () => {
   const res = range(1, 5).pipe(takeLast(0));

@@ -1,5 +1,5 @@
-import { noNext } from '../iterablehelpers';
-import { empty } from 'ix/iterable';
+import { noNext } from '../iterablehelpers.js';
+import { empty } from 'ix/iterable/index.js';
 
 test('Iterable#empty empty', () => {
   const xs = empty();

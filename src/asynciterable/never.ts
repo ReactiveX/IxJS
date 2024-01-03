@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { throwIfAborted, AbortError } from '../aborterror';
+import { AsyncIterableX } from './asynciterablex.js';
+import { throwIfAborted, AbortError } from '../aborterror.js';
 
 /** @ignore */
 export class NeverAsyncIterable extends AsyncIterableX<never> {

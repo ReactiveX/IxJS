@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { generate } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { generate } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#generate generates normal sequence', async () => {
   const xs = generate(

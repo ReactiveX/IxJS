@@ -1,7 +1,7 @@
-import { hasNext, hasErr, noNext, delayError, delayValue } from '../asynciterablehelpers';
-import { debounce, finalize } from 'ix/asynciterable/operators';
-import { as } from 'ix/asynciterable';
-import { AbortError } from 'ix/Ix';
+import { hasNext, hasErr, noNext, delayError, delayValue } from '../asynciterablehelpers.js';
+import { debounce, finalize } from 'ix/asynciterable/operators/index.js';
+import { as } from 'ix/asynciterable/index.js';
+import { AbortError } from 'ix/Ix.js';
 
 test(
   'AsyncIterable#debounce none drop',

@@ -1,9 +1,9 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { PartialAsyncObserver } from '../../observer';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { toObserver } from '../../util/toobserver';
-import { AbortError, throwIfAborted } from '../../aborterror';
-import { returnAsyncIterator } from '../../util/returniterator';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { PartialAsyncObserver } from '../../observer.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
+import { toObserver } from '../../util/toobserver.js';
+import { AbortError, throwIfAborted } from '../../aborterror.js';
+import { returnAsyncIterator } from '../../util/returniterator.js';
 
 /** @ignore */
 export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {

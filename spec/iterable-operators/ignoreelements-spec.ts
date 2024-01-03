@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { range } from 'ix/iterable';
-import { ignoreElements, take, tap } from 'ix/iterable/operators';
+import { range } from 'ix/iterable/index.js';
+import { ignoreElements, take, tap } from 'ix/iterable/operators/index.js';
 
 test('Iterable#ignoreElements has side effects', () => {
   let n = 0;

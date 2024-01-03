@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { isEmpty } from '../../asynciterable/isempty';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { isEmpty } from '../../asynciterable/isempty.js';
 
 /**
  * @ignore

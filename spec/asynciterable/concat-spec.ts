@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { concat, of, sequenceEqual } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { concat, of, sequenceEqual } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#concat behavior', async () => {
   const res = concat(of(1, 2, 3), of(4, 5));

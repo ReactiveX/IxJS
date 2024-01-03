@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { fromEventPattern as fromEventPatternStatic } from '../../asynciterable/fromeventpattern';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { fromEventPattern as fromEventPatternStatic } from '../../asynciterable/fromeventpattern.js';
 
 /** @nocollapse */
 AsyncIterableX.fromEventPattern = fromEventPatternStatic;

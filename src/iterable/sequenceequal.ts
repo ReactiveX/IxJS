@@ -1,4 +1,4 @@
-import { comparer as defaultComparer } from '../util/comparer';
+import { comparer as defaultComparer } from '../util/comparer.js';
 
 /**
  * The options for sequence equal operations including a comparer and abort signal

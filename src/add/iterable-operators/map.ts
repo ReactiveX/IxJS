@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { map } from '../../iterable/operators/map';
+import { IterableX } from '../../iterable/iterablex.js';
+import { map } from '../../iterable/operators/map.js';
 
 /**
  * @ignore

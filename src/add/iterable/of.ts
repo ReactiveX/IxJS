@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { of as ofStatic } from '../../iterable/of';
+import { IterableX } from '../../iterable/iterablex.js';
+import { of as ofStatic } from '../../iterable/of.js';
 
 /** @nocollapse */
 IterableX.of = ofStatic;

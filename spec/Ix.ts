@@ -1,9 +1,10 @@
 import 'web-streams-polyfill';
-import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only.js';
 
 // import this before assigning window global since it does a `typeof window` check
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-require('web-stream-tools');
+// require('web-stream-tools');
+import '@openpgp/web-stream-tools';
 
 (<any>global).window = (<any>global).window || global;
 
@@ -18,4 +19,5 @@ Object.defineProperty(ArrayBuffer, Symbol.hasInstance, {
 
 // Require rxjs first so we pick up its polyfilled Symbol.observable
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-require('rxjs/internal/symbol/observable');
+// require('rxjs/internal/symbol/observable');
+import 'rxjs/internal/symbol/observable.js';

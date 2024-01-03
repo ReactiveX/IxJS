@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { throwIfAborted } from '../aborterror';
+import { AsyncIterableX } from './asynciterablex.js';
+import { throwIfAborted } from '../aborterror.js';
 
 class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
   private _initialState: TState;

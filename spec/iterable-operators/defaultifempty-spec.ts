@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { defaultIfEmpty } from 'ix/iterable/operators';
-import { empty, throwError } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { defaultIfEmpty } from 'ix/iterable/operators/index.js';
+import { empty, throwError } from 'ix/iterable/index.js';
 
 test('Iterable#defaultIfEmpty with empty', () => {
   const xs = empty();

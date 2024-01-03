@@ -1,9 +1,9 @@
-import { hasNext, noNext, toObserver } from '../asynciterablehelpers';
+import { hasNext, noNext, toObserver } from '../asynciterablehelpers.js';
 import { setInterval, clearInterval } from 'timers';
-import { PartialObserver } from '../../src/observer';
-import { defer, from } from 'ix/asynciterable';
-import { AbortError } from 'ix/Ix';
-import { withAbort } from 'ix/asynciterable/operators';
+import { PartialObserver } from '../../src/observer.js';
+import { defer, from } from 'ix/asynciterable/index.js';
+import { AbortError } from 'ix/Ix.js';
+import { withAbort } from 'ix/asynciterable/operators/index.js';
 
 function throwIfAborted(signal?: AbortSignal) {
   if (signal && signal.aborted) {

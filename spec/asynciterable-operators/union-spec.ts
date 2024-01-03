@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { union } from 'ix/asynciterable/operators';
-import { of } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { union } from 'ix/asynciterable/operators/index.js';
+import { of } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#union with default comparer', async () => {
   const xs = of(1, 2, 3);

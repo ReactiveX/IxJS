@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { union } from '../../asynciterable/operators/union';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { union } from '../../asynciterable/operators/union.js';
 
 /**
  * @ignore

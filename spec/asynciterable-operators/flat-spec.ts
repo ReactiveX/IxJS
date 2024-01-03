@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, toArray } from 'ix/asynciterable';
-import { flat } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { of, toArray } from 'ix/asynciterable/index.js';
+import { flat } from 'ix/asynciterable/operators/index.js';
 
 function compareArrays<T>(fst: Iterable<T>, snd: Iterable<T>) {
   expect(fst.toString()).toBe(snd.toString());

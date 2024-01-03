@@ -1,7 +1,7 @@
 import { ReadableOptions } from 'stream';
-import { BufferLike } from '../../interfaces';
-import { IterableX } from '../../iterable/iterablex';
-import { IterableReadable } from '../../iterable/tonodestream';
+import { BufferLike } from '../../interfaces.js';
+import { IterableX } from '../../iterable/iterablex.js';
+import { IterableReadable } from '../../iterable/tonodestream.js';
 
 /**
  * @ignore

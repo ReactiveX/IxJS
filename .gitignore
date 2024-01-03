@@ -53,3 +53,9 @@ targets/esnext
 
 # local @std/esm module cache
 .esm-cache
+
+# jest cache
+.jest-cache
+
+# test bundles
+spec/bundle/**/*-bundle.js*

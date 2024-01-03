@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { empty as emptyStatic } from '../../asynciterable/empty';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { empty as emptyStatic } from '../../asynciterable/empty.js';
 
 /** @nocollapse */
 AsyncIterableX.empty = emptyStatic;

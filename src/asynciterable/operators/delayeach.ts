@@ -1,8 +1,8 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { sleep } from '../_sleep';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
+import { sleep } from '../_sleep.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 export class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {

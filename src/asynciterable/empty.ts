@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { throwIfAborted } from '../aborterror';
+import { AsyncIterableX } from './asynciterablex.js';
+import { throwIfAborted } from '../aborterror.js';
 
 class EmptyAsyncIterable extends AsyncIterableX<never> {
   async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<never> {

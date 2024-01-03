@@ -1,5 +1,5 @@
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /**
  * Returns the element at a specified index in a sequence or undefined if the index is out of range.

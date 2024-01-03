@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { whileDo as whileDoStatic } from '../../iterable/whiledo';
+import { IterableX } from '../../iterable/iterablex.js';
+import { whileDo as whileDoStatic } from '../../iterable/whiledo.js';
 
 /** @nocollapse */
 IterableX.whileDo = whileDoStatic;

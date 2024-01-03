@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { sequenceEqual, throwError, zip } from 'ix/iterable';
+import { sequenceEqual, throwError, zip } from 'ix/iterable/index.js';
 
 test('Iterable#zip equal length', () => {
   const xs = [1, 2, 3];

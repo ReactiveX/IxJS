@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { startWith } from '../../iterable/operators/startwith';
+import { IterableX } from '../../iterable/iterablex.js';
+import { startWith } from '../../iterable/operators/startwith.js';
 
 /**
  * @ignore

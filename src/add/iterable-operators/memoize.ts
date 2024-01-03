@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { memoize } from '../../iterable/operators/memoize';
+import { IterableX } from '../../iterable/iterablex.js';
+import { memoize } from '../../iterable/operators/memoize.js';
 
 export function memoizeProto<TSource>(
   this: IterableX<TSource>,

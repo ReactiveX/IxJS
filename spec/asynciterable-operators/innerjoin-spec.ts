@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { of, throwError } from 'ix/asynciterable';
-import { innerJoin } from 'ix/asynciterable/operators';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { of, throwError } from 'ix/asynciterable/index.js';
+import { innerJoin } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#innerJoin normal', async () => {
   const xs = of(0, 1, 2);

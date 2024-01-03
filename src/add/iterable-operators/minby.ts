@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { minBy } from '../../iterable/minby';
-import { ExtremaOptions } from '../../iterable/extremaoptions';
+import { IterableX } from '../../iterable/iterablex.js';
+import { minBy } from '../../iterable/minby.js';
+import { ExtremaOptions } from '../../iterable/extremaoptions.js';
 
 /**
  * @ignore

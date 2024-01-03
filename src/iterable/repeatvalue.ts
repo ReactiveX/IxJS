@@ -1,6 +1,6 @@
-import { of } from './of';
-import { RepeatIterable } from './operators/repeat';
-import { IterableX } from './iterablex';
+import { of } from './of.js';
+import { RepeatIterable } from './operators/repeat.js';
+import { IterableX } from './iterablex.js';
 
 /**
  * Repeats a given value for the specified number of times as an iterable.

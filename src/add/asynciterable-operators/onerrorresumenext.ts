@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { onErrorResumeNext } from '../../asynciterable/onerrorresumenext';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { onErrorResumeNext } from '../../asynciterable/onerrorresumenext.js';
 
 /**
  * @ignore

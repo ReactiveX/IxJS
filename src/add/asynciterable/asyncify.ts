@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { asyncify as asyncifyStatic } from '../../asynciterable/asyncify';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { asyncify as asyncifyStatic } from '../../asynciterable/asyncify.js';
 
 /** @nocollapse */
 AsyncIterableX.asyncify = asyncifyStatic;

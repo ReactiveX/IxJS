@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, toArray } from 'ix/asynciterable';
-import { switchAll, delayEach, tap } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { of, toArray } from 'ix/asynciterable/index.js';
+import { switchAll, delayEach, tap } from 'ix/asynciterable/operators/index.js';
 
 describe(`AsyncIterable#switchAll`, () => {
   test('switches inner sequences', async () => {

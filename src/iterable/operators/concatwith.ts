@@ -1,5 +1,5 @@
-import { OperatorFunction } from '../../interfaces';
-import { ConcatIterable } from '../concat';
+import { OperatorFunction } from '../../interfaces.js';
+import { ConcatIterable } from '../concat.js';
 
 /**
  * Concatenates the second iterable sequence to the first iterable sequence upon successful termination of the first.

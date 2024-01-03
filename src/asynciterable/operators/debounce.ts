@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { AbortError, throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
+import { AbortError, throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {

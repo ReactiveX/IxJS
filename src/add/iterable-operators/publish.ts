@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { publish } from '../../iterable/operators/publish';
+import { IterableX } from '../../iterable/iterablex.js';
+import { publish } from '../../iterable/operators/publish.js';
 
 export function publishProto<T>(this: IterableX<T>): IterableX<T>;
 export function publishProto<T, R>(

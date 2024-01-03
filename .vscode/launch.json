@@ -9,6 +9,10 @@
             "request": "launch",
             "name": "Debug Gulp Build",
             "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+            "skipFiles": [
+                "<node_internals>/internal/fs/utils",
+                "<node_internals>/internal/url",
+            ],
             "args": [
                 "build",
                 // Specify we want to debug the "src" target, which won't clean or build -- essentially a "dry-run" of the gulp build
@@ -25,7 +29,7 @@
             "program": "${workspaceFolder}/node_modules/.bin/jest",
             "skipFiles": [
                 "<node_internals>/**/*",
-                "${workspaceFolder}/node_modules/**/*",
+                // "${workspaceFolder}/node_modules/**/*",
             ],
             "env": {
                 "NODE_NO_WARNINGS": "1",

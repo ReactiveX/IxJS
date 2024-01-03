@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { ReverseAsyncIterable } from '../../asynciterable/operators/reverse';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { ReverseAsyncIterable } from '../../asynciterable/operators/reverse.js';
 
 /**
  * @ignore

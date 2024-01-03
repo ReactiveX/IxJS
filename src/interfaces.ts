@@ -1,5 +1,5 @@
-import { IterableX } from './iterable';
-import { AsyncIterableX } from './asynciterable';
+import { IterableX } from './iterable/index.js';
+import { AsyncIterableX } from './asynciterable/index.js';
 
 export type UnaryFunction<T, R> = (source: T) => R;
 

@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { empty, of, sequenceEqual, throwError } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { empty, of, sequenceEqual, throwError } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#sequenceEqual sequence equals itself', async () => {
   const xs = of(1, 2, 3);

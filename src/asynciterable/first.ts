@@ -1,6 +1,6 @@
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { OptionalFindOptions } from './findoptions';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
+import { OptionalFindOptions } from './findoptions.js';
 
 /**
  * Returns the first element of an async-iterable sequence that matches the predicate if provided, or undefined if no such element exists.

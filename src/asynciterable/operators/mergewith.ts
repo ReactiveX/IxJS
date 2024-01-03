@@ -1,5 +1,5 @@
-import { OperatorAsyncFunction } from '../../interfaces';
-import { MergeAsyncIterable } from '../merge';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { MergeAsyncIterable } from '../merge.js';
 
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.

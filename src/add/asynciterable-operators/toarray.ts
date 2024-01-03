@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { toArray } from '../../asynciterable/toarray';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { toArray } from '../../asynciterable/toarray.js';
 
 /**
  * @ignore

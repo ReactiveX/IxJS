@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { throwIfAborted } from '../aborterror';
+import { AsyncIterableX } from './asynciterablex.js';
+import { throwIfAborted } from '../aborterror.js';
 
 class AnonymousAsyncIterable<T> extends AsyncIterableX<T> {
   private _fn: (signal?: AbortSignal) => AsyncIterator<T> | Promise<AsyncIterator<T>>;

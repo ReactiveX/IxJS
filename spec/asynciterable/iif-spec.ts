@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { iif, isEmpty, of, single } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { iif, isEmpty, of, single } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#if then and else', async () => {
   let x = 5;

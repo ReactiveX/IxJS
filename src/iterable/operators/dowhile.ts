@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { concat } from '../concat';
-import { whileDo } from '../whiledo';
-import { MonoTypeOperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { concat } from '../concat.js';
+import { whileDo } from '../whiledo.js';
+import { MonoTypeOperatorFunction } from '../../interfaces.js';
 
 /**
  * Generates an async-iterable sequence by repeating a source sequence as long as the given loop postcondition holds.

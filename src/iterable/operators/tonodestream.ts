@@ -1,6 +1,6 @@
 import { ReadableOptions } from 'stream';
-import { IterableReadable } from '../../iterable/tonodestream';
-import { BufferLike, UnaryFunction } from '../../interfaces';
+import { IterableReadable } from '../../iterable/tonodestream.js';
+import { BufferLike, UnaryFunction } from '../../interfaces.js';
 
 export function toNodeStream<TSource>(): UnaryFunction<
   Iterable<TSource>,

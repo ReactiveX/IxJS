@@ -1,4 +1,4 @@
-import { AbortError } from '../aborterror';
+import { AbortError } from '../aborterror.js';
 
 export function sleep(dueTime: number, signal?: AbortSignal) {
   return new Promise<void>((resolve, reject) => {

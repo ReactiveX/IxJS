@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { memoize } from '../../asynciterable/operators/memoize';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { memoize } from '../../asynciterable/operators/memoize.js';
 
 export function memoizeProto<T>(this: AsyncIterableX<T>, readerCount?: number): AsyncIterableX<T>;
 export function memoizeProto<T, R>(

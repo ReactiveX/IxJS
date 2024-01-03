@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { last } from 'ix/iterable';
+import { last } from 'ix/iterable/index.js';
 
 test('Iterable#last empty returns undefined', () => {
   expect(last<number>([])).toBeUndefined();

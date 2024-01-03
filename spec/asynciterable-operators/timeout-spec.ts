@@ -1,7 +1,7 @@
-import { hasNext, hasErr, noNext, delayValue } from '../asynciterablehelpers';
-import { timeout, finalize } from 'ix/asynciterable/operators';
-import { as } from 'ix/asynciterable';
-import { TimeoutError } from 'ix/asynciterable/operators/timeout';
+import { hasNext, hasErr, noNext, delayValue } from '../asynciterablehelpers.js';
+import { timeout, finalize } from 'ix/asynciterable/operators/index.js';
+import { as } from 'ix/asynciterable/index.js';
+import { TimeoutError } from 'ix/asynciterable/operators/timeout.js';
 
 test('AsyncIterable#timeout drops none', async () => {
   const xs = async function* () {

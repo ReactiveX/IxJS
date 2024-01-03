@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { TakeLastAsyncIterable } from '../../asynciterable/operators/takelast';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { TakeLastAsyncIterable } from '../../asynciterable/operators/takelast.js';
 
 /**
  * @ignore

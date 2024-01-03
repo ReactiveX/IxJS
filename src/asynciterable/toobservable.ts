@@ -1,7 +1,7 @@
-import { toObserver } from '../util/toobserver';
-import { observable as symbolObservable } from '../observer';
-import { Observable, PartialObserver } from '../observer';
-import { Subscription } from '../subscription';
+import { toObserver } from '../util/toobserver.js';
+import { observable as symbolObservable } from '../observer.js';
+import { Observable, PartialObserver } from '../observer.js';
+import { Subscription } from '../subscription.js';
 
 class BooleanSubscription implements Subscription {
   public isUnsubscribed = false;

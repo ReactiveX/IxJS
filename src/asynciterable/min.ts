@@ -1,8 +1,8 @@
-import { equalityComparerAsync } from '../util/comparer';
-import { identityAsync } from '../util/identity';
-import { ExtremaOptions } from './extremaoptions';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { equalityComparerAsync } from '../util/comparer.js';
+import { identityAsync } from '../util/identity.js';
+import { ExtremaOptions } from './extremaoptions.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /**
  *  * Returns the minimum element with the optional selector.

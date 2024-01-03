@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { empty, as, toArray } from 'ix/asynciterable';
-import { sequenceEqual } from 'ix/iterable';
+import '../asynciterablehelpers.js';
+import { empty, as, toArray } from 'ix/asynciterable/index.js';
+import { sequenceEqual } from 'ix/iterable/index.js';
 
 test('AsyncIterable#toArray some', async () => {
   const xs = [42, 25, 39];

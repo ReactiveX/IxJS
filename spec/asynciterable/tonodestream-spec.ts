@@ -1,7 +1,7 @@
-import '../asynciterablehelpers';
-import { as } from 'ix/asynciterable';
-import { AsyncIterableReadable } from 'ix/Ix.node';
-import { map, toNodeStream } from 'ix/asynciterable/operators/index.node';
+import '../asynciterablehelpers.js';
+import { as } from 'ix/asynciterable/index.js';
+import { AsyncIterableReadable } from 'ix/Ix.node.js';
+import { map, toNodeStream } from 'ix/asynciterable/operators/index.node.js';
 
 // eslint-disable-next-line consistent-return
 (() => {

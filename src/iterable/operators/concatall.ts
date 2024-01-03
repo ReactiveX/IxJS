@@ -1,6 +1,6 @@
-import { IterableX } from '../iterablex';
-import { ConcatIterable } from '../concat';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { ConcatIterable } from '../concat.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 /**
  * Concatenates all inner iterable sequences, as long as the previous

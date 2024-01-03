@@ -1,11 +1,11 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { sleep } from '../_sleep';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
-import { isObject } from '../../util/isiterable';
-import { safeRace } from '../../util/safeRace';
-import { returnAsyncIterator } from '../../util/returniterator';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { sleep } from '../_sleep.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
+import { isObject } from '../../util/isiterable.js';
+import { safeRace } from '../../util/safeRace.js';
+import { returnAsyncIterator } from '../../util/returniterator.js';
 
 /** @ignore */
 export class TimeoutError extends Error {

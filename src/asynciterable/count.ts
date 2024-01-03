@@ -1,6 +1,6 @@
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { OptionalFindOptions } from './findoptions';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
+import { OptionalFindOptions } from './findoptions.js';
 
 /**
  * Returns a promise that represents how many elements in the specified async-iterable sequence satisfy a condition

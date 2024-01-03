@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, sequenceEqual } from 'ix/asynciterable';
-import { distinctUntilChanged } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { of, sequenceEqual } from 'ix/asynciterable/index.js';
+import { distinctUntilChanged } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#distinctUntilChanged no selector', async () => {
   const res = of(1, 2, 2, 3, 3, 3, 2, 2, 1).pipe(distinctUntilChanged());

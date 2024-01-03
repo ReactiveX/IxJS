@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { empty, range, sequenceEqual } from 'ix/iterable';
-import { take, skipLast } from 'ix/iterable/operators';
+import { empty, range, sequenceEqual } from 'ix/iterable/index.js';
+import { take, skipLast } from 'ix/iterable/operators/index.js';
 
 test('Iterable#skipLast empty', () => {
   const e = empty();

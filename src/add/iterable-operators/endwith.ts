@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { endWith } from '../../iterable/operators/endwith';
+import { IterableX } from '../../iterable/iterablex.js';
+import { endWith } from '../../iterable/operators/endwith.js';
 
 /**
  * @ignore

@@ -1,6 +1,11 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { as } from 'ix/iterable';
-import { orderBy, orderByDescending, thenBy, thenByDescending } from 'ix/iterable/operators';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { as } from 'ix/iterable/index.js';
+import {
+  orderBy,
+  orderByDescending,
+  thenBy,
+  thenByDescending,
+} from 'ix/iterable/operators/index.js';
 
 test('Iterable#orderBy normal ordering', () => {
   const xs = [2, 6, 1, 5, 7, 8, 9, 3, 4, 0];

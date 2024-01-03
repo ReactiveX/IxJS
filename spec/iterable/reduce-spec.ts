@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { of, empty, reduce } from 'ix/iterable';
+import { of, empty, reduce } from 'ix/iterable/index.js';
 
 test('Iterable#reduce no seed', () => {
   const xs = of(0, 1, 2, 3, 4);

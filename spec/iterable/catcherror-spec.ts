@@ -1,5 +1,5 @@
-import { hasNext } from '../iterablehelpers';
-import { catchError, concat, range, sequenceEqual, throwError } from 'ix/iterable';
+import { hasNext } from '../iterablehelpers.js';
+import { catchError, concat, range, sequenceEqual, throwError } from 'ix/iterable/index.js';
 
 test('Iterable.catchError with no errors', () => {
   const res = catchError(range(0, 5), range(5, 5));

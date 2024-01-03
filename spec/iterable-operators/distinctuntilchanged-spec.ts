@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { sequenceEqual } from 'ix/iterable';
-import { distinctUntilChanged } from 'ix/iterable/operators';
+import { sequenceEqual } from 'ix/iterable/index.js';
+import { distinctUntilChanged } from 'ix/iterable/operators/index.js';
 
 test('Iterable#distinctUntilChanged no selector', () => {
   const res = distinctUntilChanged<number>()([1, 2, 2, 3, 3, 3, 2, 2, 1]);

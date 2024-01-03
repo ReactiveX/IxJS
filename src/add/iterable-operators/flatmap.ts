@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { flatMap } from '../../iterable/operators/flatmap';
+import { IterableX } from '../../iterable/iterablex.js';
+import { flatMap } from '../../iterable/operators/flatmap.js';
 
 /**
  * @ignore

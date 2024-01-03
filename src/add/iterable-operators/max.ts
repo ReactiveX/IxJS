@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { max } from '../../iterable/max';
-import { ExtremaOptions } from '../../iterable/extremaoptions';
+import { IterableX } from '../../iterable/iterablex.js';
+import { max } from '../../iterable/max.js';
+import { ExtremaOptions } from '../../iterable/extremaoptions.js';
 
 export function maxProto<TSource, TResult = TSource>(
   this: IterableX<TSource>,

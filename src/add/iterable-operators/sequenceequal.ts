@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { sequenceEqual, SequencEqualOptions } from '../../iterable/sequenceequal';
+import { IterableX } from '../../iterable/iterablex.js';
+import { sequenceEqual, SequencEqualOptions } from '../../iterable/sequenceequal.js';
 
 /**
  * @ignore

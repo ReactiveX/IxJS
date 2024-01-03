@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { toArray } from 'ix/iterable';
-import { flat } from 'ix/iterable/operators';
+import { toArray } from 'ix/iterable/index.js';
+import { flat } from 'ix/iterable/operators/index.js';
 
 function compareArrays<T>(fst: Iterable<T>, snd: Iterable<T>) {
   expect(fst.toString()).toBe(snd.toString());

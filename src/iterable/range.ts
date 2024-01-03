@@ -1,4 +1,4 @@
-import { IterableX } from './iterablex';
+import { IterableX } from './iterablex.js';
 
 class RangeIterable extends IterableX<number> {
   private _start: number;

@@ -1,4 +1,4 @@
-import { IterableX } from './iterablex';
+import { IterableX } from './iterablex.js';
 
 class GenerateIterable<TState, TResult> extends IterableX<TResult> {
   private _initialState: TState;

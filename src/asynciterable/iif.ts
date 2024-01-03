@@ -1,6 +1,6 @@
-import { AsyncIterableX } from './asynciterablex';
-import { defer } from './defer';
-import { empty } from './empty';
+import { AsyncIterableX } from './asynciterablex.js';
+import { defer } from './defer.js';
+import { empty } from './empty.js';
 
 /**
  * If the specified condition evaluates true, select the thenSource sequence.

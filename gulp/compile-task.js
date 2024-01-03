@@ -15,21 +15,25 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const { npmPkgName } = require('./util');
-const { memoizeTask } = require('./memoize-task');
-const { empty: ObservableEmpty } = require('rxjs');
+import { npmPkgName } from './util.js';
+import { memoizeTask } from './memoize-task.js';
+import { empty as ObservableEmpty } from 'rxjs';
 
-const closureTask = require('./closure-task');
-const typescriptTask = require('./typescript-task');
-const { copyMainTask, copyTSTask } = require('./copy-main-task');
+import closureTask from './closure-task.js';
+import typescriptTask from './typescript-task.js';
+import { copyMainTask, copyTSTask } from './copy-main-task.js';
 
-const compileTask = ((cache) => memoizeTask(cache, function compile(target, format, ...args) {
-    return target === `src`      ? ObservableEmpty()
-         : target === npmPkgName ? copyMainTask(target, format, ...args)()
-         : target === `ts`       ? copyTSTask(target, format, ...args)()
-         : format === `umd`      ? closureTask(target, format, ...args)()
-                                 : typescriptTask(target, format, ...args)();
-}))({});
+export const compileTask = ((cache) =>
+  memoizeTask(cache, function compile(target, format, ...args) {
+    return target === `src`
+      ? ObservableEmpty()
+      : target === npmPkgName
+      ? copyMainTask(target, format, ...args)()
+      : target === `ts`
+      ? copyTSTask(target, format, ...args)()
+      : format === `umd`
+      ? closureTask(target, format, ...args)()
+      : typescriptTask(target, format, ...args)();
+  }))({});
 
-module.exports = compileTask;
-module.exports.compileTask = compileTask;
+export default compileTask;

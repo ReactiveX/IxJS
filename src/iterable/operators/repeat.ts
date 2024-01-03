@@ -1,5 +1,5 @@
-import { IterableX } from '../iterablex';
-import { MonoTypeOperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { MonoTypeOperatorFunction } from '../../interfaces.js';
 
 /** @ignore */
 export class RepeatIterable<TSource> extends IterableX<TSource> {

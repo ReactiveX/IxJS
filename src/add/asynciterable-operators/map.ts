@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { MapAsyncIterable } from '../../asynciterable/operators/map';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { MapAsyncIterable } from '../../asynciterable/operators/map.js';
 
 /**
  * @ignore

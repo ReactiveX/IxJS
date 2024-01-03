@@ -1,9 +1,9 @@
-import { AsyncIterableInput, AsyncIterableX } from '../asynciterablex';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
-import { FlattenConcurrentSelector } from './_flatten';
-import { isPromise } from '../../util/isiterable';
+import { AsyncIterableInput, AsyncIterableX } from '../asynciterablex.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
+import { FlattenConcurrentSelector } from './_flatten.js';
+import { isPromise } from '../../util/isiterable.js';
 
 class ConcatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   constructor(

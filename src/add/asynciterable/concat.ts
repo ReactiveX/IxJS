@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { concat as concatStatic } from '../../asynciterable/concat';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { concat as concatStatic } from '../../asynciterable/concat.js';
 
 /** @nocollapse */
 AsyncIterableX.concat = concatStatic;

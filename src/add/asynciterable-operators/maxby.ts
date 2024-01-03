@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { maxBy } from '../../asynciterable/maxby';
-import { ExtremaOptions } from '../../asynciterable/extremaoptions';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { maxBy } from '../../asynciterable/maxby.js';
+import { ExtremaOptions } from '../../asynciterable/extremaoptions.js';
 
 /**
  * @ignore

@@ -1,7 +1,7 @@
-import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
-import { Observable } from '../observer';
-import { bindCallback } from '../util/bindcallback';
-import { identityAsync } from '../util/identity';
+import { OperatorAsyncFunction, UnaryFunction } from '../interfaces.js';
+import { Observable } from '../observer.js';
+import { bindCallback } from '../util/bindcallback.js';
+import { identityAsync } from '../util/identity.js';
 import {
   isReadableNodeStream,
   isWritableNodeStream,
@@ -11,9 +11,9 @@ import {
   isIterator,
   isPromise,
   isObservable,
-} from '../util/isiterable';
-import { toLength } from '../util/tolength';
-import { AbortError, throwIfAborted } from '../aborterror';
+} from '../util/isiterable.js';
+import { toLength } from '../util/tolength.js';
+import { AbortError, throwIfAborted } from '../aborterror.js';
 
 /**
  * This class serves as the base for all operations which support [Symbol.asyncIterator].
@@ -481,3 +481,6 @@ try {
 } catch (e) {
   /* */
 }
+
+export const as = AsyncIterableX.as;
+export const from = AsyncIterableX.from;

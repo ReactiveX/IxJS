@@ -1,6 +1,11 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { of } from 'ix/asynciterable';
-import { orderBy, orderByDescending, thenBy, thenByDescending } from 'ix/asynciterable/operators';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { of } from 'ix/asynciterable/index.js';
+import {
+  orderBy,
+  orderByDescending,
+  thenBy,
+  thenByDescending,
+} from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#orderBy normal ordering', async () => {
   const xs = of(2, 6, 1, 5, 7, 8, 9, 3, 4, 0);

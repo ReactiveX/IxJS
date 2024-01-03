@@ -1,5 +1,5 @@
-import { hasNext } from '../asynciterablehelpers';
-import { fromEvent } from 'ix/asynciterable';
+import { hasNext } from '../asynciterablehelpers.js';
+import { fromEvent } from 'ix/asynciterable/index.js';
 import { EventEmitter } from 'events';
 
 const EVENT_TYPE = 'data';

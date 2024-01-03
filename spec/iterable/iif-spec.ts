@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { iif, single, isEmpty } from 'ix/iterable';
+import { iif, single, isEmpty } from 'ix/iterable/index.js';
 
 test('Iterable#if then and else', () => {
   let x = 5;

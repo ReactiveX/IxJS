@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { publish } from '../../asynciterable/operators/publish';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { publish } from '../../asynciterable/operators/publish.js';
 
 export function publishProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource>;
 export function publishProto<TSource, TResult>(

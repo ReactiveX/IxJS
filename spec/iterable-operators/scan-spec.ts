@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { scan } from 'ix/iterable/operators';
-import { of, range } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { scan } from 'ix/iterable/operators/index.js';
+import { of, range } from 'ix/iterable/index.js';
 
 test('Iterable#scan no seed', () => {
   const res = range(0, 5).pipe(scan({ callback: (n, x, i) => n + x + i }));

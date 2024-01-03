@@ -1,6 +1,6 @@
-import { hasNext, hasErr, noNext } from '../asynciterablehelpers';
-import { range, throwError } from 'ix/asynciterable';
-import { flatMap, finalize, tap } from 'ix/asynciterable/operators';
+import { hasNext, hasErr, noNext } from '../asynciterablehelpers.js';
+import { range, throwError } from 'ix/asynciterable/index.js';
+import { flatMap, finalize, tap } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#finalize defers behavior', async () => {
   let done = false;

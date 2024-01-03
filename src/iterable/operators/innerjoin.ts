@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { createGrouping } from './_grouping';
-import { identity } from '../../util/identity';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { createGrouping } from './_grouping.js';
+import { identity } from '../../util/identity.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 /** @ignore */
 export class JoinIterable<TOuter, TInner, TKey, TResult> extends IterableX<TResult> {

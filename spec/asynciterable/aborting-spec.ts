@@ -1,6 +1,7 @@
-import '../asynciterablehelpers';
-import { interval } from 'ix/asynciterable';
-import { take } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { jest } from '@jest/globals';
+import { interval } from 'ix/asynciterable/index.js';
+import { take } from 'ix/asynciterable/operators/index.js';
 
 test("Abort signal isn't overloaded with event listeners", async () => {
   const abortController = new AbortController();

@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { empty, of, single } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { empty, of, single } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#single no predicate empty returns undefined', async () => {
   const xs = empty();

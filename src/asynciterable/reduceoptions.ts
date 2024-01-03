@@ -1,4 +1,4 @@
-import { ScanOptions } from './operators/scanoptions';
+import { ScanOptions } from './operators/scanoptions.js';
 
 /**
  * The reduce options which includes an accumulator function, optional seed, and optional abort signal for cancellation.

@@ -1,7 +1,7 @@
-import '../asynciterablehelpers';
-import { empty, range, toArray } from 'ix/asynciterable';
-import { buffer } from 'ix/asynciterable/operators';
-import { sequenceEqual } from 'ix/iterable';
+import '../asynciterablehelpers.js';
+import { empty, range, toArray } from 'ix/asynciterable/index.js';
+import { buffer } from 'ix/asynciterable/operators/index.js';
+import { sequenceEqual } from 'ix/iterable/index.js';
 
 test('AsyncIterable#buffer no skip non-full buffer', async () => {
   const rng = range(0, 10);

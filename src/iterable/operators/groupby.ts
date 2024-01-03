@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { identity } from '../../util/identity';
-import { createGrouping } from './_grouping';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { identity } from '../../util/identity.js';
+import { createGrouping } from './_grouping.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 /** @ignore */
 /** @ignore */

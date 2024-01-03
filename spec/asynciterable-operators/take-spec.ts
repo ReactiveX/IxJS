@@ -1,7 +1,7 @@
-import '../asynciterablehelpers';
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { take } from 'ix/asynciterable/operators';
-import { of, throwError } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { take } from 'ix/asynciterable/operators/index.js';
+import { of, throwError } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#take zero or less takes nothing', async () => {
   const xs = of(1, 2, 3, 4);

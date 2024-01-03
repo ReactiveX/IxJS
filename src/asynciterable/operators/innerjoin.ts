@@ -1,9 +1,9 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { createGrouping } from './_grouping';
-import { identity } from '../../util/identity';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { createGrouping } from './_grouping.js';
+import { identity } from '../../util/identity.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 export class JoinAsyncIterable<TOuter, TInner, TKey, TResult> extends AsyncIterableX<TResult> {

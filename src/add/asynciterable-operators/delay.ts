@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { DelayAsyncIterable } from '../../asynciterable/operators/delay';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { DelayAsyncIterable } from '../../asynciterable/operators/delay.js';
 
 export function delayProto<TSource>(
   this: AsyncIterableX<TSource>,

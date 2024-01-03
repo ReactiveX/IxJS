@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { range, sequenceEqual, toArray } from 'ix/asynciterable';
-import { startWith, take, tap } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { range, sequenceEqual, toArray } from 'ix/asynciterable/index.js';
+import { startWith, take, tap } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#startWith adds to beginning', async () => {
   const e = range(1, 5);

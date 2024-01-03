@@ -1,6 +1,6 @@
-import { IterableX } from '../iterablex';
-import { returnIterator } from '../../util/returniterator';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { returnIterator } from '../../util/returniterator.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 /** @ignore */
 export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TResult> {

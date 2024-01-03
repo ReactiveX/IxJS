@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { never as neverStatic } from '../../asynciterable/never';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { never as neverStatic } from '../../asynciterable/never.js';
 
 /** @nocollapse */
 AsyncIterableX.never = neverStatic;

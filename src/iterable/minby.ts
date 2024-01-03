@@ -1,6 +1,6 @@
-import { extremaBy } from './_extremaby';
-import { ExtremaOptions } from './extremaoptions';
-import { equalityComparer } from '../util/comparer';
+import { extremaBy } from './_extremaby.js';
+import { ExtremaOptions } from './extremaoptions.js';
+import { equalityComparer } from '../util/comparer.js';
 
 /**
  * Returns the elements in an terable sequence with the minimum key value.

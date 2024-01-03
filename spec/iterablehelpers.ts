@@ -1,4 +1,4 @@
-import './Ix';
+import './Ix.js';
 
 export function hasNext<T>(source: Iterator<T>, expected: T) {
   const { done, value } = source.next();

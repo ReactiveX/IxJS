@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { sequenceEqual, toArray } from 'ix/iterable';
+import { sequenceEqual, toArray } from 'ix/iterable/index.js';
 
 test('Iterable#toArray some', () => {
   const xs = [42, 25, 39];

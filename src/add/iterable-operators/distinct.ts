@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { distinct } from '../../iterable/operators/distinct';
-import { DistinctOptions } from '../..//iterable/operators/distinctoptions';
+import { IterableX } from '../../iterable/iterablex.js';
+import { distinct } from '../../iterable/operators/distinct.js';
+import { DistinctOptions } from '../..//iterable/operators/distinctoptions.js';
 
 /**
  * @ignore

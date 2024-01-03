@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { take, tap, startWith } from 'ix/iterable/operators';
-import { range, sequenceEqual, toArray } from 'ix/iterable';
+import { take, tap, startWith } from 'ix/iterable/operators/index.js';
+import { range, sequenceEqual, toArray } from 'ix/iterable/index.js';
 
 test('Iterable#startWith adds to beginning', () => {
   const e = range(1, 5);

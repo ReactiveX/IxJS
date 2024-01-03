@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { range, throwError } from 'ix/asynciterable';
-import { tap } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { range, throwError } from 'ix/asynciterable/index.js';
+import { tap } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncItearble#tap next', async () => {
   let n = 0;

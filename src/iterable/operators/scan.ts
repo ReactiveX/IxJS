@@ -1,6 +1,6 @@
-import { IterableX } from '../iterablex';
-import { OperatorFunction } from '../../interfaces';
-import { ScanOptions } from './scanoptions';
+import { IterableX } from '../iterablex.js';
+import { OperatorFunction } from '../../interfaces.js';
+import { ScanOptions } from './scanoptions.js';
 
 /** @ignore */
 export class ScanIterable<T, R> extends IterableX<R> {

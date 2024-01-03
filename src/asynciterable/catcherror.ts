@@ -1,7 +1,7 @@
-import { AsyncIterableX } from './asynciterablex';
-import { returnAsyncIterator } from '../util/returniterator';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { AsyncIterableX } from './asynciterablex.js';
+import { returnAsyncIterator } from '../util/returniterator.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /** @ignore */
 export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {

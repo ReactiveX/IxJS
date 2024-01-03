@@ -1,7 +1,7 @@
-import { wrapWithAbort } from './operators/withabort';
-import { AsyncIterableX } from './asynciterablex';
-import { returnAsyncIterator } from '../util/returniterator';
-import { throwIfAborted } from '../aborterror';
+import { wrapWithAbort } from './operators/withabort.js';
+import { AsyncIterableX } from './asynciterablex.js';
+import { returnAsyncIterator } from '../util/returniterator.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /** @ignore */
 export class ZipAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {

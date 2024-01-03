@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { finalize as _finalize } from '../../iterable/operators/finalize';
+import { IterableX } from '../../iterable/iterablex.js';
+import { finalize as _finalize } from '../../iterable/operators/finalize.js';
 
 /**
  * @ignore

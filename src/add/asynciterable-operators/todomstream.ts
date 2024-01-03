@@ -1,9 +1,9 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
 import {
   toDOMStream,
   ReadableBYOBStreamOptions,
   ReadableByteStreamOptions,
-} from '../../asynciterable/todomstream';
+} from '../../asynciterable/todomstream.js';
 
 /**
  * @ignore

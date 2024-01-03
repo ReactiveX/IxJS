@@ -1,8 +1,8 @@
 import '../iterablehelpers';
-import '../asynciterablehelpers';
+import '../asynciterablehelpers.js';
 import { PassThrough } from 'stream';
-import { of } from 'ix/iterable';
-import { map } from 'ix/iterable/operators/index.node';
+import { of } from 'ix/iterable/index.js';
+import { map } from 'ix/iterable/operators/index.node.js';
 
 const TEST_DOM_STREAMS = process.env.TEST_DOM_STREAMS === 'true';
 const TEST_NODE_STREAMS = process.env.TEST_NODE_STREAMS === 'true';

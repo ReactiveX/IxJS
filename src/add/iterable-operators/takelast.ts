@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { takeLast } from '../../iterable/operators/takelast';
+import { IterableX } from '../../iterable/iterablex.js';
+import { takeLast } from '../../iterable/operators/takelast.js';
 
 /**
  * @ignore

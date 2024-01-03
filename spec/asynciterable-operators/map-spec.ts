@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { map } from 'ix/asynciterable/operators';
-import { of, empty, sequenceEqual } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { map } from 'ix/asynciterable/operators/index.js';
+import { of, empty, sequenceEqual } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#map single element', async () => {
   const source = of({ name: 'Frank', custId: 98088 });

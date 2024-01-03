@@ -1,8 +1,8 @@
-import '../asynciterablehelpers';
-import { symbolObservable } from 'ix/Ix';
-import { empty, as, of, throwError, toArray, toObservable } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { symbolObservable } from 'ix/Ix.js';
+import { empty, as, of, throwError, toArray, toObservable } from 'ix/asynciterable/index.js';
 import { Observable as RxJSObservable, from as RxJSObservableFrom } from 'rxjs';
-import { Observable, PartialObserver } from '../../src/observer';
+import { Observable, PartialObserver } from '../../src/observer.js';
 
 test('AsyncIterable#toObservable empty', async () => {
   const xs = empty();

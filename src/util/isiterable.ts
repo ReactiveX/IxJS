@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
-import { Observable } from '../observer';
+import { Observable } from '../observer.js';
 
 /** @ignore */
 const isNumber = (x: any) => typeof x === 'number';

@@ -1,6 +1,6 @@
-import { AsyncIterableX } from './asynciterablex';
-import { AsyncSink } from './asyncsink';
-import { memoize } from './operators/memoize';
+import { AsyncIterableX } from './asynciterablex.js';
+import { AsyncSink } from './asyncsink.js';
+import { memoize } from './operators/memoize.js';
 
 /**
  * Converts the callback function into wrapped function which returns an async-iterable.

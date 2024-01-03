@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { flatMap } from '../../asynciterable/operators/flatmap';
-import { FlattenConcurrentSelector } from '../../asynciterable/operators/_flatten';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { flatMap } from '../../asynciterable/operators/flatmap.js';
+import { FlattenConcurrentSelector } from '../../asynciterable/operators/_flatten.js';
 
 /**
  * @ignore

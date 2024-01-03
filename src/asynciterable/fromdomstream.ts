@@ -1,4 +1,4 @@
-import { AsyncIterableX } from './asynciterablex';
+import { AsyncIterableX } from './asynciterablex.js';
 
 /** @ignore */
 const SharedArrayBuf = typeof SharedArrayBuffer !== 'undefined' ? SharedArrayBuffer : ArrayBuffer;

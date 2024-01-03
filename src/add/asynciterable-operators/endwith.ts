@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { EndWithAsyncIterable } from '../../asynciterable/operators/endwith';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { EndWithAsyncIterable } from '../../asynciterable/operators/endwith.js';
 
 /**
  * @ignore

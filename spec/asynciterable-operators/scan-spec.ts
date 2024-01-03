@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { scan } from 'ix/asynciterable/operators';
-import { of, range } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { scan } from 'ix/asynciterable/operators/index.js';
+import { of, range } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#scan no seed', async () => {
   const res = range(0, 5).pipe(scan({ callback: async (n, x, i) => n + x + i }));

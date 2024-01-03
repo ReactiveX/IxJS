@@ -1,6 +1,6 @@
-import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
-import { throttle } from 'ix/asynciterable/operators';
-import { as } from 'ix/asynciterable';
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers.js';
+import { throttle } from 'ix/asynciterable/operators/index.js';
+import { as } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#throttle drops none', async () => {
   const xs = async function* () {

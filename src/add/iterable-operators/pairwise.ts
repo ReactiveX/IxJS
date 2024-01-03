@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { PairwiseIterable } from '../../iterable/operators/pairwise';
+import { IterableX } from '../../iterable/iterablex.js';
+import { PairwiseIterable } from '../../iterable/operators/pairwise.js';
 
 /**
  * @ignore

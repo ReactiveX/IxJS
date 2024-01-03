@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { create as createStatic } from '../../asynciterable/create';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { create as createStatic } from '../../asynciterable/create.js';
 
 /** @nocollapse */
 AsyncIterableX.create = createStatic;

@@ -1,4 +1,4 @@
-import { OptionalFindOptions } from './findoptions';
+import { OptionalFindOptions } from './findoptions.js';
 
 /**
  * Returns a promise that represents how many elements in the specified iterable sequence satisfy a condition

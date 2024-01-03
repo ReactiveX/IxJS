@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { max } from 'ix/iterable';
+import { max } from 'ix/iterable/index.js';
 
 test('Itearble#max laws', () => {
   const xs = [5, 3, 1, 2, 4];

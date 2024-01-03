@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { empty, of, reduce } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { empty, of, reduce } from 'ix/asynciterable/index.js';
 
 test('Iterable#reduce no seed', async () => {
   const xs = of(0, 1, 2, 3, 4);

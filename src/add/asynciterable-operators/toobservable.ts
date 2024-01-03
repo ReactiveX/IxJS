@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { toObservable } from '../../asynciterable/toobservable';
-import { Observable } from '../../observer';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { toObservable } from '../../asynciterable/toobservable.js';
+import { Observable } from '../../observer.js';
 
 /**
  * @ignore

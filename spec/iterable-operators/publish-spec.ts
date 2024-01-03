@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { publish } from 'ix/iterable/operators';
-import { concat, range, throwError } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { publish } from 'ix/iterable/operators/index.js';
+import { concat, range, throwError } from 'ix/iterable/index.js';
 
 function* tick(t: (x: number) => void) {
   let i = 0;

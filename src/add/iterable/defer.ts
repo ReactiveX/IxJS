@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { defer as deferStatic } from '../../iterable/defer';
+import { IterableX } from '../../iterable/iterablex.js';
+import { defer as deferStatic } from '../../iterable/defer.js';
 
 /** @nocollapse */
 IterableX.defer = deferStatic;

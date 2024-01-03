@@ -1,6 +1,6 @@
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { FindOptions } from './findoptions';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
+import { FindOptions } from './findoptions.js';
 
 /**
  * Returns the a Promise containing the index of the first element in the array that satisfies the provided testing function.

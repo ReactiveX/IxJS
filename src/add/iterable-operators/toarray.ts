@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { toArray } from '../../iterable/toarray';
+import { IterableX } from '../../iterable/iterablex.js';
+import { toArray } from '../../iterable/toarray.js';
 
 /**
  * @ignore

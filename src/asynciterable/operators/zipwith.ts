@@ -1,5 +1,5 @@
-import { OperatorAsyncFunction } from '../../interfaces';
-import { ZipAsyncIterable } from '../zip';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { ZipAsyncIterable } from '../zip.js';
 
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.

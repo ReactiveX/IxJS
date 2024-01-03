@@ -1,6 +1,6 @@
-import { hasNext } from '../asynciterablehelpers';
-import { retry } from 'ix/asynciterable/operators';
-import { concat, range, sequenceEqual, throwError } from 'ix/asynciterable';
+import { hasNext } from '../asynciterablehelpers.js';
+import { retry } from 'ix/asynciterable/operators/index.js';
+import { concat, range, sequenceEqual, throwError } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#retry infinite no errors does not retry', async () => {
   const xs = range(0, 10);

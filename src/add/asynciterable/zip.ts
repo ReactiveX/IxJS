@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { zip as zipStatic } from '../../asynciterable/zip';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { zip as zipStatic } from '../../asynciterable/zip.js';
 
 /** @nocollapse */
 AsyncIterableX.zip = zipStatic;

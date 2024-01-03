@@ -1,6 +1,6 @@
-import { equalityComparer } from '../util/comparer';
-import { identity } from '../util/identity';
-import { ExtremaOptions } from './extremaoptions';
+import { equalityComparer } from '../util/comparer.js';
+import { identity } from '../util/identity.js';
+import { ExtremaOptions } from './extremaoptions.js';
 
 /**
  *  * Returns the minimum element with the optional selector.

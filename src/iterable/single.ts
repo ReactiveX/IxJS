@@ -1,4 +1,4 @@
-import { OptionalFindOptions } from './findoptions';
+import { OptionalFindOptions } from './findoptions.js';
 
 /**
  * Returns the only element of an iterable sequence that matches the predicate if specified,

@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { find } from '../../asynciterable/find';
-import { FindOptions } from '../../asynciterable/findoptions';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { find } from '../../asynciterable/find.js';
+import { FindOptions } from '../../asynciterable/findoptions.js';
 
 /**
  * @ignore

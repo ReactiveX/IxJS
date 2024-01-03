@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { empty, range, sequenceEqual } from 'ix/asynciterable';
-import { skip, takeLast } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { empty, range, sequenceEqual } from 'ix/asynciterable/index.js';
+import { skip, takeLast } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#takeLast none', async () => {
   const res = range(1, 5).pipe(takeLast(0));

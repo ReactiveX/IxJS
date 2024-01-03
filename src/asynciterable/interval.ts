@@ -1,6 +1,6 @@
-import { AsyncIterableX } from './asynciterablex';
-import { sleep } from './_sleep';
-import { throwIfAborted } from '../aborterror';
+import { AsyncIterableX } from './asynciterablex.js';
+import { sleep } from './_sleep.js';
+import { throwIfAborted } from '../aborterror.js';
 
 class IntervalAsyncIterable extends AsyncIterableX<number> {
   private _dueTime: number;

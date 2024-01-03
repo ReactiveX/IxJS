@@ -1,13 +1,8 @@
-//Compiler configuaration to build the ESNext CommonJS target
+// TypeScript configuration for the ESNext CommonJS target's tests
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ESNEXT",
-    "module": "commonjs",
-    "paths": {
-      "ix/*": [
-        "targets/esnext/cjs/*"
-      ]
-    }
+    "target": "ESNext",
+    "module": "CommonJS"
   }
 }

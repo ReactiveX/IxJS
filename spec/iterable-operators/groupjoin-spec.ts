@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { groupJoin } from 'ix/iterable/operators';
-import { as, reduce, throwError } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { groupJoin } from 'ix/iterable/operators/index.js';
+import { as, reduce, throwError } from 'ix/iterable/index.js';
 
 test('Iterable#groupJoin all groups have values', () => {
   const xs = [0, 1, 2];

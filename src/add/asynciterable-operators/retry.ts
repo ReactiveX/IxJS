@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { retry } from '../../asynciterable/operators/retry';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { retry } from '../../asynciterable/operators/retry.js';
 
 /**
  * @ignore

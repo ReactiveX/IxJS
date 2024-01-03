@@ -1,9 +1,9 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
-import { identity } from '../../util/identity';
-import { safeRace } from '../../util/safeRace';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
+import { identity } from '../../util/identity.js';
+import { safeRace } from '../../util/safeRace.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});

@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { whileDo as _whileDo } from '../../asynciterable/whiledo';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { whileDo as _whileDo } from '../../asynciterable/whiledo.js';
 
 /** @nocollapse */
 AsyncIterableX.whileDo = _whileDo;

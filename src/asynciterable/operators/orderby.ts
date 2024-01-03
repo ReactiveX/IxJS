@@ -1,8 +1,8 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { toArray } from '../toarray';
-import { sorter as defaultSorter } from '../../util/sorter';
-import { UnaryFunction } from '../../interfaces';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { toArray } from '../toarray.js';
+import { sorter as defaultSorter } from '../../util/sorter.js';
+import { UnaryFunction } from '../../interfaces.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<TSource> {

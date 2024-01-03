@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { arrayIndexOf } from '../../util/arrayindexof';
-import { comparer as defaultComparer } from '../../util/comparer';
-import { MonoTypeOperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { arrayIndexOf } from '../../util/arrayindexof.js';
+import { comparer as defaultComparer } from '../../util/comparer.js';
+import { MonoTypeOperatorFunction } from '../../interfaces.js';
 
 function arrayRemove<T>(array: T[], item: T, comparer: (x: T, y: T) => boolean): boolean {
   const idx = arrayIndexOf(array, item, comparer);

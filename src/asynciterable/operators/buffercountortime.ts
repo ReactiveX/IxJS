@@ -1,8 +1,8 @@
-import { OperatorAsyncFunction } from '../../interfaces';
-import { AsyncIterableX, interval, concat, of } from '../';
-import { map } from './map';
-import { merge } from '../merge';
-import { wrapWithAbort } from './withabort';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { AsyncIterableX, interval, concat, of } from '../index.js';
+import { map } from './map.js';
+import { merge } from '../merge.js';
+import { wrapWithAbort } from './withabort.js';
 
 const timerEvent = {};
 const ended = {};

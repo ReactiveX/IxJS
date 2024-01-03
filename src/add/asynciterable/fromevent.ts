@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { fromEvent as fromEventStatic } from '../../asynciterable/fromevent';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { fromEvent as fromEventStatic } from '../../asynciterable/fromevent.js';
 
 /** @nocollapse */
 AsyncIterableX.fromEvent = fromEventStatic;

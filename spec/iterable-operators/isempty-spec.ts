@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { empty, isEmpty } from 'ix/iterable';
+import { empty, isEmpty } from 'ix/iterable/index.js';
 
 test('Iterable#isEmpty empty', () => {
   expect(isEmpty(empty())).toBeTruthy();

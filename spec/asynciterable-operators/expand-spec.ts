@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, range, sequenceEqual } from 'ix/asynciterable';
-import { expand, take } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { of, range, sequenceEqual } from 'ix/asynciterable/index.js';
+import { expand, take } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#expand with single return behavior', async () => {
   const res = of(0).pipe(

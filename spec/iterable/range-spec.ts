@@ -1,6 +1,14 @@
 import '../iterablehelpers';
-import { elementAt, first, isEmpty, last, range, sequenceEqual, toArray } from 'ix/iterable';
-import { skip, take } from 'ix/iterable/operators';
+import {
+  elementAt,
+  first,
+  isEmpty,
+  last,
+  range,
+  sequenceEqual,
+  toArray,
+} from 'ix/iterable/index.js';
+import { skip, take } from 'ix/iterable/operators/index.js';
 
 test('Iterable#range produces correct sequence', () => {
   const rangeSequence = range(1, 100);

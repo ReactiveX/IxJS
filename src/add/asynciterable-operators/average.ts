@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { average } from '../../asynciterable/average';
-import { MathOptions } from '../../asynciterable/mathoptions';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { average } from '../../asynciterable/average.js';
+import { MathOptions } from '../../asynciterable/mathoptions.js';
 
 export function averageProto(
   this: AsyncIterable<number>,

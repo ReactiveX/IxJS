@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { generate as generateStatic } from '../../asynciterable/generate';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { generate as generateStatic } from '../../asynciterable/generate.js';
 
 /** @nocollapse */
 AsyncIterableX.generate = generateStatic;

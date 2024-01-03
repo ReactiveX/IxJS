@@ -1,5 +1,5 @@
-import { noNext } from '../asynciterablehelpers';
-import { empty } from 'ix/asynciterable';
+import { noNext } from '../asynciterablehelpers.js';
+import { empty } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#empty empty', async () => {
   const xs = empty();

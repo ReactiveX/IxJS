@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { finalize } from 'ix/iterable/operators';
-import { range, throwError } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { finalize } from 'ix/iterable/operators/index.js';
+import { range, throwError } from 'ix/iterable/index.js';
 
 test('Iterable#finally defers behavior', () => {
   let done = false;

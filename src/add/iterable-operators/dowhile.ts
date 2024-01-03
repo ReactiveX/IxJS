@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { doWhile } from '../../iterable/operators/dowhile';
+import { IterableX } from '../../iterable/iterablex.js';
+import { doWhile } from '../../iterable/operators/dowhile.js';
 
 /**
  * @ignore

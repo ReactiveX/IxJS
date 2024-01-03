@@ -1,4 +1,4 @@
-import { FindOptions } from './findoptions';
+import { FindOptions } from './findoptions.js';
 
 /**
  * Returns the index of the first element in the array that satisfies the provided testing function.

@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { toSet } from '../../iterable/toset';
+import { IterableX } from '../../iterable/iterablex.js';
+import { toSet } from '../../iterable/toset.js';
 
 /**
  * @ignore

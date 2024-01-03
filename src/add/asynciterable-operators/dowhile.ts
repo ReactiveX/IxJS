@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { doWhile } from '../../asynciterable/operators/dowhile';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { doWhile } from '../../asynciterable/operators/dowhile.js';
 
 /**
  * @ignore

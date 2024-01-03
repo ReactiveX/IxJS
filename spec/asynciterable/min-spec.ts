@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { empty, of, min } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { empty, of, min } from 'ix/asynciterable/index.js';
 
 test('AsyncItearble#min laws', async () => {
   const xs = of(5, 3, 1, 2, 4);

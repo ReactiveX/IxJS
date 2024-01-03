@@ -1,6 +1,6 @@
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { OptionalFindOptions } from './findoptions';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
+import { OptionalFindOptions } from './findoptions.js';
 
 /**
  * Returns the last element of an async-iterable sequence that satisfies the condition in the predicate if given

@@ -1,7 +1,7 @@
-import '../asynciterablehelpers';
-import { as } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { as } from 'ix/asynciterable/index.js';
 import { Readable, ReadableOptions } from 'stream';
-import { asAsyncIterable } from 'ix/asynciterable/asasynciterable';
+import { asAsyncIterable } from 'ix/asynciterable/asasynciterable.js';
 
 // eslint-disable-next-line consistent-return
 (() => {

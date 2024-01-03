@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { defer, range, sequenceEqual } from 'ix/iterable';
+import { defer, range, sequenceEqual } from 'ix/iterable/index.js';
 
 test('Iterable#defer defers side effects', () => {
   let i = 0;

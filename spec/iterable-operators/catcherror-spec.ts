@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { of, range, sequenceEqual, single, throwError } from 'ix/iterable';
-import { catchError } from 'ix/iterable/operators';
+import { of, range, sequenceEqual, single, throwError } from 'ix/iterable/index.js';
+import { catchError } from 'ix/iterable/operators/index.js';
 
 test('Iterable#catchError error catches', () => {
   const err = new Error();

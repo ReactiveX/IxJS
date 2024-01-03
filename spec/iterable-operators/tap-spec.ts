@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { range, throwError } from 'ix/iterable';
-import { tap } from 'ix/iterable/operators';
+import { range, throwError } from 'ix/iterable/index.js';
+import { tap } from 'ix/iterable/operators/index.js';
 
 test('Itearble#tap next', () => {
   let n = 0;

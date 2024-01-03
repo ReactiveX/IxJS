@@ -1,3 +1,3 @@
-export * from './index';
+export * from './index.js';
 
-export * from './tonodestream';
+export * from './tonodestream.js';

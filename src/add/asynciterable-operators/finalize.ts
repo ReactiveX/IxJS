@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { finalize as _finalizeProto } from '../../asynciterable/operators/finalize';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { finalize as _finalizeProto } from '../../asynciterable/operators/finalize.js';
 
 /**
  * @ignore

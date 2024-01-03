@@ -2,9 +2,9 @@ import {
   toDOMStream as toDOMStreamOperator,
   ReadableBYOBStreamOptions,
   ReadableByteStreamOptions,
-} from '../../asynciterable/todomstream';
+} from '../../asynciterable/todomstream.js';
 
-import { UnaryFunction } from '../../interfaces';
+import { UnaryFunction } from '../../interfaces.js';
 
 export function toDOMStream<T>(
   strategy?: QueuingStrategy<T>

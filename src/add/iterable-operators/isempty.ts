@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { isEmpty } from '../../iterable/isempty';
+import { IterableX } from '../../iterable/iterablex.js';
+import { isEmpty } from '../../iterable/isempty.js';
 
 /**
  * @ignore

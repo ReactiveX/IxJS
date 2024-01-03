@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { AsyncSink } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { AsyncSink } from 'ix/asynciterable/index.js';
 
 test('AsyncSink writes before next', async () => {
   const a = new AsyncSink<number>();

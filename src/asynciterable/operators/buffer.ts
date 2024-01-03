@@ -1,7 +1,7 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 export class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {

@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { of, empty, isEmpty } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { of, empty, isEmpty } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#isEmpty empty', async () => {
   expect(await isEmpty(empty())).toBeTruthy();

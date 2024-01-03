@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { empty, maxBy, of } from 'ix/asynciterable';
-import { sequenceEqual } from 'ix/iterable';
+import '../asynciterablehelpers.js';
+import { empty, maxBy, of } from 'ix/asynciterable/index.js';
+import { sequenceEqual } from 'ix/iterable/index.js';
 
 test('AsyncIterable#maxBy', async () => {
   const source = of(3, 5, 7, 6, 4, 2);

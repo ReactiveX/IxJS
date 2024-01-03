@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { slice } from 'ix/asynciterable/operators';
-import { as } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { slice } from 'ix/asynciterable/operators/index.js';
+import { as } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#slice slices at zero with one item', async () => {
   const xs = as([1, 2, 3, 4]);

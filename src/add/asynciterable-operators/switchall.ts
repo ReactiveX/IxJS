@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { switchAll } from '../../asynciterable/operators/switchall';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { switchAll } from '../../asynciterable/operators/switchall.js';
 
 /**
  * @ignore

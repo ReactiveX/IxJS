@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { empty, maxBy, sequenceEqual } from 'ix/iterable';
+import { empty, maxBy, sequenceEqual } from 'ix/iterable/index.js';
 
 test('Iterable#maxBy', () => {
   const source = [3, 5, 7, 6, 4, 2];

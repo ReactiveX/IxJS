@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { every, of, throwError } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { every, of, throwError } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#every not all match', async () => {
   const xs = of(1, 2, 3, 4);

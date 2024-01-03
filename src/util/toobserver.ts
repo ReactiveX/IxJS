@@ -1,5 +1,5 @@
-import { isFunction } from './isiterable';
-import { Observer, PartialObserver } from '../observer';
+import { isFunction } from './isiterable.js';
+import { Observer, PartialObserver } from '../observer.js';
 
 const noop = (_?: any) => {
   /**/

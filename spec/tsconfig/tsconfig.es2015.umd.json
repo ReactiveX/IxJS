@@ -1,17 +1,11 @@
-//Compiler configuaration to build the ES2015 Closure Compiler target
+// TypeScript configuration for the ES2015 Closure Compiler target's tests
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "es2015",
+    "target": "ESNext",
+    "module": "UMD",
     "declaration": false,
     "noEmitHelpers": true,
-    "importHelpers": true,
-    "esModuleInterop": true,
-    "paths": {
-      "ix/*": [
-        "targets/es2015/umd/*"
-      ]
-    }
+    "importHelpers": true
   }
 }

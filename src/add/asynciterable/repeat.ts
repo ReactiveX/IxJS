@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { repeatValue as _repeatValue } from '../../asynciterable/repeatvalue';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { repeatValue as _repeatValue } from '../../asynciterable/repeatvalue.js';
 
 /** @nocollapse */
 AsyncIterableX.repeatValue = _repeatValue;

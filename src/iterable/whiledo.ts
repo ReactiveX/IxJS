@@ -1,4 +1,4 @@
-import { IterableX } from './iterablex';
+import { IterableX } from './iterablex.js';
 
 class WhileIterable<TSource> extends IterableX<TSource> {
   private _condition: () => boolean;

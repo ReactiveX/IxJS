@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { switchMap } from '../../asynciterable/operators/switchmap';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { switchMap } from '../../asynciterable/operators/switchmap.js';
 
 /**
  * @ignore

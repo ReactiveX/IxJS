@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, range, sequenceEqual } from 'ix/asynciterable';
-import { concatAll, map, tap } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { of, range, sequenceEqual } from 'ix/asynciterable/index.js';
+import { concatAll, map, tap } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#concat concatAll behavior', async () => {
   const res = of(of(1, 2, 3), of(4, 5)).pipe(concatAll());

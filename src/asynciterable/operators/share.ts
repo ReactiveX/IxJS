@@ -1,7 +1,7 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { create } from '../create';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { create } from '../create.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 class SharedAsyncIterable<T> extends AsyncIterableX<T> {
   private _it: AsyncIterator<T>;

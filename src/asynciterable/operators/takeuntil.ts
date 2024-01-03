@@ -1,8 +1,8 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
-import { safeRace } from '../../util/safeRace';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
+import { safeRace } from '../../util/safeRace.js';
 
 const DONE_PROMISE_VALUE = undefined;
 

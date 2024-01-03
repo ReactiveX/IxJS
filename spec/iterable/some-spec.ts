@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { some } from 'ix/iterable';
+import { some } from 'ix/iterable/index.js';
 
 test('Iterable#some some true', () => {
   const res = some([1, 2, 3, 4], { predicate: (x) => x % 2 === 0 });

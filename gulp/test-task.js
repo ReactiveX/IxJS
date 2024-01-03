@@ -15,12 +15,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-const path = require('path');
-const { argv } = require('./argv');
-const child_process = require(`child_process`);
-const { memoizeTask } = require('./memoize-task');
-const { targetAndModuleCombinations } = require('./util');
-const asyncDone = require('util').promisify(require('async-done'));
+import * as path from 'path';
+import { argv } from './argv.js';
+import child_process from 'child_process';
+import { memoizeTask } from './memoize-task.js';
+import { npmPkgName, targetAndModuleCombinations } from './util.js';
+import { promisify } from 'util';
+import asyncDone_ from 'async-done';
+const asyncDone = promisify(asyncDone_);
+
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
 const jestArgv = [`--reporters=jest-silent-reporter`];
 
@@ -39,27 +44,30 @@ const testOptions = {
     ...process.env,
     // hide fs.promises/stream[Symbol.asyncIterator] warnings
     NODE_NO_WARNINGS: `1`,
-    TS_JEST_DISABLE_VER_CHECKER: true
+    // TS_JEST_DISABLE_VER_CHECKER: true
   },
 };
 
-const testTask = ((cache, execArgv, testOptions) => memoizeTask(cache, function test(target, format) {
-  const args = [...execArgv];
-  const opts = { ...testOptions };
-  if (argv.coverage) {
-    args.push(`-c`, `jest.coverage.config.js`, `--coverage`);
-  } else {
-    const cfgname = [target, format].filter(Boolean).join('.');
-    // args.push(`--verbose`, `--no-cache`, `-i`);
-    args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, ...argv.tests);
-  }
-  opts.env = {
-    ...opts.env,
-    TEST_DOM_STREAMS: (target === 'src' || format === 'umd').toString(),
-    TEST_NODE_STREAMS: (target === 'src' || format !== 'umd').toString(),
-  };
-  return asyncDone(() => child_process.spawn(`node`, args, opts));
-}))({}, [jest, ...jestArgv], testOptions);
+export const testTask = ((cache, execArgv, testOptions) =>
+  memoizeTask(cache, function test(target, format) {
+    const args = [...execArgv];
+    const opts = { ...testOptions };
+    if (format === 'esm' || target === 'ts' || target === 'src' || target === npmPkgName) {
+      args.unshift(`--experimental-vm-modules`);
+    }
+    if (argv.coverage) {
+      args.push(`-c`, `jest.coverage.config.js`, `--coverage`);
+    } else {
+      const cfgname = [target, format].filter(Boolean).join('.');
+      // args.push(`--verbose`, `--no-cache`, `-i`);
+      args.push(`-c`, `jestconfigs/jest.${cfgname}.config.js`, ...argv.tests);
+    }
+    opts.env = {
+      ...opts.env,
+      TEST_DOM_STREAMS: (target === 'src' || format === 'umd').toString(),
+      TEST_NODE_STREAMS: (target === 'src' || format !== 'umd').toString(),
+    };
+    return asyncDone(() => child_process.spawn(`node`, args, opts));
+  }))({}, [jest, ...jestArgv], testOptions);
 
-module.exports = testTask;
-module.exports.testTask = testTask;
+export default testTask;

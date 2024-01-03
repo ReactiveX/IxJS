@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { range } from 'ix/iterable';
+import { range } from 'ix/iterable/index.js';
 
 test('Iterable#forEach', () => {
   let n = 0;

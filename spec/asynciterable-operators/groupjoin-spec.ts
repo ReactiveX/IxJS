@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { of, reduce, throwError } from 'ix/asynciterable';
-import { groupJoin } from 'ix/asynciterable/operators';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { of, reduce, throwError } from 'ix/asynciterable/index.js';
+import { groupJoin } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#groupJoin all groups have values', async () => {
   const xs = of(0, 1, 2);

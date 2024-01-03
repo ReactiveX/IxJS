@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { PartialObserver } from '../../observer';
-import { MonoTypeOperatorFunction } from '../../interfaces';
-import { toObserver } from '../../util/toobserver';
+import { IterableX } from '../iterablex.js';
+import { PartialObserver } from '../../observer.js';
+import { MonoTypeOperatorFunction } from '../../interfaces.js';
+import { toObserver } from '../../util/toobserver.js';
 
 /** @ignore */
 export class TapIterable<TSource> extends IterableX<TSource> {

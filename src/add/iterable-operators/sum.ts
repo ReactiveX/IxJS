@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { sum } from '../../iterable/sum';
-import { MathOptions } from '../../iterable/mathoptions';
+import { IterableX } from '../../iterable/iterablex.js';
+import { sum } from '../../iterable/sum.js';
+import { MathOptions } from '../../iterable/mathoptions.js';
 
 export function sumProto(this: IterableX<number>, options?: MathOptions<number>): number;
 export function sumProto<T>(this: IterableX<T>, options?: MathOptions<T>): number;

@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { safeRace } from '../util/safeRace';
+import { AsyncIterableX } from './asynciterablex.js';
+import { safeRace } from '../util/safeRace.js';
 
 const NON_FLOWING = 0;
 const READABLE = 1;

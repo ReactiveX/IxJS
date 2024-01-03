@@ -1,7 +1,7 @@
-import { IterableX } from '../iterablex';
-import { toArray } from '../toarray';
-import { OperatorFunction } from '../../interfaces';
-import { ScanOptions } from './scanoptions';
+import { IterableX } from '../iterablex.js';
+import { toArray } from '../toarray.js';
+import { OperatorFunction } from '../../interfaces.js';
+import { ScanOptions } from './scanoptions.js';
 
 /** @ignore */
 export class ScanRightIterable<T, R> extends IterableX<R> {

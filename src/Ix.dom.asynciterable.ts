@@ -1,1 +1,1 @@
-export * from './asynciterable/index';
+export * from './asynciterable/index.js';

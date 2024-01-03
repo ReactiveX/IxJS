@@ -1,8 +1,8 @@
-import { AsyncIterableX } from './asynciterablex';
-import { identity } from '../util/identity';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { safeRace } from '../util/safeRace';
+import { AsyncIterableX } from './asynciterablex.js';
+import { identity } from '../util/identity.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
+import { safeRace } from '../util/safeRace.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});

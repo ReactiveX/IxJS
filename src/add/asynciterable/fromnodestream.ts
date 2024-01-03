@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { fromNodeStream as fromNodeStreamStatic } from '../../asynciterable/fromnodestream';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { fromNodeStream as fromNodeStreamStatic } from '../../asynciterable/fromnodestream.js';
 
 /** @nocollapse */
 AsyncIterableX.fromNodeStream = fromNodeStreamStatic;

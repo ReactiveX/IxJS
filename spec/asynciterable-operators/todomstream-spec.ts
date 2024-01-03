@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { as } from 'ix/asynciterable';
-import { map, toDOMStream } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { as } from 'ix/asynciterable/index.js';
+import { map, toDOMStream } from 'ix/asynciterable/operators/index.js';
 
 // eslint-disable-next-line consistent-return
 (() => {

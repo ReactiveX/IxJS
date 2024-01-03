@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { buffer } from 'ix/iterable/operators';
-import { empty, range, sequenceEqual, toArray } from 'ix/iterable';
+import { buffer } from 'ix/iterable/operators/index.js';
+import { empty, range, sequenceEqual, toArray } from 'ix/iterable/index.js';
 
 test('Iterable#buffer no skip non-full buffer', () => {
   const rng = range(0, 10);

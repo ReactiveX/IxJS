@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { range } from 'ix/asynciterable';
-import { ignoreElements, take, tap } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { range } from 'ix/asynciterable/index.js';
+import { ignoreElements, take, tap } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#ignoreElements has side effects', async () => {
   let n = 0;

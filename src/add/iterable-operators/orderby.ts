@@ -1,9 +1,9 @@
-import { IterableX } from '../../iterable/iterablex';
-import { orderBy, orderByDescending, OrderedIterableX } from '../../iterable/operators/orderby';
+import { IterableX } from '../../iterable/iterablex.js';
+import { orderBy, orderByDescending, OrderedIterableX } from '../../iterable/operators/orderby.js';
 import {
   thenBy as _thenBy,
   thenByDescending as _thenByDescending,
-} from '../../iterable/operators/orderby';
+} from '../../iterable/operators/orderby.js';
 
 /**
  * @ignore

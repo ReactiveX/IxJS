@@ -1,9 +1,9 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { arrayIndexOfAsync } from '../../util/arrayindexof';
-import { comparerAsync } from '../../util/comparer';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { wrapWithAbort } from './withabort';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { arrayIndexOfAsync } from '../../util/arrayindexof.js';
+import { comparerAsync } from '../../util/comparer.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
+import { wrapWithAbort } from './withabort.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {

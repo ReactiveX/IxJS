@@ -1,5 +1,5 @@
-import { IterableX } from './iterablex';
-import { returnIterator } from '../util/returniterator';
+import { IterableX } from './iterablex.js';
+import { returnIterator } from '../util/returniterator.js';
 
 /** @ignore */
 export class ZipIterable<TSource> extends IterableX<TSource[]> {

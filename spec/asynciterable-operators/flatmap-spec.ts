@@ -1,6 +1,6 @@
-import { hasNext, hasErr } from '../asynciterablehelpers';
-import { of, range, throwError, toArray } from 'ix/asynciterable';
-import { flatMap } from 'ix/asynciterable/operators';
+import { hasNext, hasErr } from '../asynciterablehelpers.js';
+import { of, range, throwError, toArray } from 'ix/asynciterable/index.js';
+import { flatMap } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#flatMap with range', async () => {
   const xs = of(1, 2, 3);

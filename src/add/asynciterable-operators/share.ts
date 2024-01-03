@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { share } from '../../asynciterable/operators/share';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { share } from '../../asynciterable/operators/share.js';
 
 export function shareProto<TSource>(this: AsyncIterableX<TSource>): AsyncIterableX<TSource>;
 export function shareProto<TSource, TResult>(

@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { repeatValue } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { repeatValue } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#repeat repeats value finitely', async () => {
   const xs = repeatValue(2, 5);

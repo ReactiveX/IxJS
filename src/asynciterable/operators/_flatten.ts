@@ -1,9 +1,9 @@
-import { AsyncIterableInput, AsyncIterableX } from '../asynciterablex';
-import { wrapWithAbort } from '../operators/withabort';
-import { AbortError, throwIfAborted } from '../../aborterror';
-import { safeRace } from '../../util/safeRace';
-import { isPromise } from '../../util/isiterable';
-import { returnAsyncIterator } from '../../util/returniterator';
+import { AsyncIterableInput, AsyncIterableX } from '../asynciterablex.js';
+import { wrapWithAbort } from '../operators/withabort.js';
+import { AbortError, throwIfAborted } from '../../aborterror.js';
+import { safeRace } from '../../util/safeRace.js';
+import { isPromise } from '../../util/isiterable.js';
+import { returnAsyncIterator } from '../../util/returniterator.js';
 
 export type FlattenConcurrentSelector<TSource, TResult> = (
   value: TSource,
