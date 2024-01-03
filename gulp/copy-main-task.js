@@ -15,9 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import {
-    targetDir, observableFromStreams
-} from './util.js';
+import { targetDir, observableFromStreams } from './util.js';
 
 import del from 'del';
 import gulp from 'gulp';
@@ -31,7 +29,8 @@ import { publish, refCount } from 'rxjs/operators/index.js';
 
 const exec = promisify(childProcess.exec);
 
-export const copyMainTask = ((cache) => memoizeTask(cache, function copyMain(target) {
+export const copyMainTask = ((cache) =>
+  memoizeTask(cache, function copyMain(target) {
     const out = targetDir(target);
     const dtsGlob = `${targetDir(`es2015`, `cjs`)}/**/*.ts`;
     const cjsGlob = `${targetDir(`es2015`, `cjs`)}/**/*.js`;
@@ -43,24 +42,43 @@ export const copyMainTask = ((cache) => memoizeTask(cache, function copyMain(tar
     const es2015UmdSourceMapsGlob = `${targetDir(`es2015`, `umd`)}/*.map`;
     const esnextUmdSourceMapsGlob = `${targetDir(`esnext`, `umd`)}/*.map`;
     return ObservableForkJoin(
-        observableFromStreams(gulp.src(dtsGlob),                 gulp.dest(out)), // copy d.ts files
-        observableFromStreams(gulp.src(cjsGlob),                 gulp.dest(out)), // copy es2015 cjs files
-        observableFromStreams(gulp.src(cjsSourceMapsGlob),       gulp.dest(out)), // copy es2015 cjs sourcemaps
-        observableFromStreams(gulp.src(esmSourceMapsGlob),       gulp.dest(out)), // copy es2015 esm sourcemaps
-        observableFromStreams(gulp.src(es2015UmdSourceMapsGlob),    gulp.dest(out)), // copy es2015 umd sourcemap files, but don't rename
-        observableFromStreams(gulp.src(esnextUmdSourceMapsGlob), gulp.dest(out)), // copy es2015 umd sourcemap files, but don't rename
-        observableFromStreams(gulp.src(esmGlob),       gulpRename((p) => { p.extname = '.mjs'; }), gulpReplace(`.js'`, `.mjs'`),  gulp.dest(out)), // copy es2015 esm files and rename to `.mjs`
-        observableFromStreams(gulp.src(es2015UmdGlob), gulpRename((p) => { p.basename += `.es2015.min`; }),                       gulp.dest(out)), // copy es2015 umd files and add `.min`
-        observableFromStreams(gulp.src(esnextUmdGlob), gulpRename((p) => { p.basename += `.esnext.min`; }),                       gulp.dest(out)), // copy esnext umd files and add `.esnext.min`
+      observableFromStreams(gulp.src(dtsGlob), gulp.dest(out)), // copy d.ts files
+      observableFromStreams(gulp.src(cjsGlob), gulp.dest(out)), // copy es2015 cjs files
+      observableFromStreams(gulp.src(cjsSourceMapsGlob), gulp.dest(out)), // copy es2015 cjs sourcemaps
+      observableFromStreams(gulp.src(esmSourceMapsGlob), gulp.dest(out)), // copy es2015 esm sourcemaps
+      observableFromStreams(gulp.src(es2015UmdSourceMapsGlob), gulp.dest(out)), // copy es2015 umd sourcemap files, but don't rename
+      observableFromStreams(gulp.src(esnextUmdSourceMapsGlob), gulp.dest(out)), // copy es2015 umd sourcemap files, but don't rename
+      observableFromStreams(
+        gulp.src(esmGlob),
+        gulpRename((p) => {
+          p.extname = '.mjs';
+        }),
+        gulpReplace(`.js'`, `.mjs'`),
+        gulp.dest(out)
+      ), // copy es2015 esm files and rename to `.mjs`
+      observableFromStreams(
+        gulp.src(es2015UmdGlob),
+        gulpRename((p) => {
+          p.basename += `.es2015.min`;
+        }),
+        gulp.dest(out)
+      ), // copy es2015 umd files and add `.min`
+      observableFromStreams(
+        gulp.src(esnextUmdGlob),
+        gulpRename((p) => {
+          p.basename += `.esnext.min`;
+        }),
+        gulp.dest(out)
+      ) // copy esnext umd files and add `.esnext.min`
     ).pipe(publish(new ReplaySubject()), refCount());
-}))({});
+  }))({});
 
-export const copyTSTask = ((cache) => memoizeTask(cache, async function copyTS(target, format) {
+export const copyTSTask = ((cache) =>
+  memoizeTask(cache, async function copyTS(target, format) {
     const out = targetDir(target, format);
     await exec(`mkdirp ${out}`);
     await exec(`shx cp -r src/* ${out}`);
     await del(`${out}/**/*.js`);
-}))({});
-
+  }))({});
 
 export default copyMainTask;

@@ -23,12 +23,17 @@ import closureTask from './closure-task.js';
 import typescriptTask from './typescript-task.js';
 import { copyMainTask, copyTSTask } from './copy-main-task.js';
 
-export const compileTask = ((cache) => memoizeTask(cache, function compile(target, format, ...args) {
-    return target === `src`      ? ObservableEmpty()
-         : target === npmPkgName ? copyMainTask(target, format, ...args)()
-         : target === `ts`       ? copyTSTask(target, format, ...args)()
-         : format === `umd`      ? closureTask(target, format, ...args)()
-                                 : typescriptTask(target, format, ...args)();
-}))({});
+export const compileTask = ((cache) =>
+  memoizeTask(cache, function compile(target, format, ...args) {
+    return target === `src`
+      ? ObservableEmpty()
+      : target === npmPkgName
+      ? copyMainTask(target, format, ...args)()
+      : target === `ts`
+      ? copyTSTask(target, format, ...args)()
+      : format === `umd`
+      ? closureTask(target, format, ...args)()
+      : typescriptTask(target, format, ...args)();
+  }))({});
 
 export default compileTask;

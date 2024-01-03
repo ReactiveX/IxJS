@@ -16,34 +16,40 @@
 // under the License.
 
 import {
-  metadataFiles, packageJSONFields,
-  mainExport, npmPkgName, npmOrgName,
-  targetDir, packageName, observableFromStreams
+  metadataFiles,
+  packageJSONFields,
+  mainExport,
+  npmPkgName,
+  npmOrgName,
+  targetDir,
+  packageName,
+  observableFromStreams,
 } from './util.js';
 
 import gulp from 'gulp';
 import { memoizeTask } from './memoize-task.js';
 import gulpJsonTransform from 'gulp-json-transform';
-import {
-  ReplaySubject,
-  empty as ObservableEmpty,
-  forkJoin as ObservableForkJoin,
-} from 'rxjs';
+import { ReplaySubject, empty as ObservableEmpty, forkJoin as ObservableForkJoin } from 'rxjs';
 
 import { publish, refCount } from 'rxjs/operators/index.js';
 
-export const packageTask = ((cache) => memoizeTask(cache, function bundle(target, format) {
-  if (target === `src`) return ObservableEmpty();
-  const out = targetDir(target, format);
-  const jsonTransform = gulpJsonTransform(target === npmPkgName ? createMainPackageJson(target, format) :
-    target === `ts` ? createTypeScriptPackageJson(target, format)
-      : createScopedPackageJSON(target, format),
-    2);
-  return ObservableForkJoin(
-    observableFromStreams(gulp.src(metadataFiles), gulp.dest(out)), // copy metadata files
-    observableFromStreams(gulp.src(`package.json`), jsonTransform, gulp.dest(out)) // write packageJSONs
-  ).pipe(publish(new ReplaySubject()), refCount());
-}))({});
+export const packageTask = ((cache) =>
+  memoizeTask(cache, function bundle(target, format) {
+    if (target === `src`) return ObservableEmpty();
+    const out = targetDir(target, format);
+    const jsonTransform = gulpJsonTransform(
+      target === npmPkgName
+        ? createMainPackageJson(target, format)
+        : target === `ts`
+        ? createTypeScriptPackageJson(target, format)
+        : createScopedPackageJSON(target, format),
+      2
+    );
+    return ObservableForkJoin(
+      observableFromStreams(gulp.src(metadataFiles), gulp.dest(out)), // copy metadata files
+      observableFromStreams(gulp.src(`package.json`), jsonTransform, gulp.dest(out)) // write packageJSONs
+    ).pipe(publish(new ReplaySubject()), refCount());
+  }))({});
 
 export default packageTask;
 
@@ -56,7 +62,7 @@ const createMainPackageJson = (target, format) => (orig) => ({
   module: `${mainExport}.node.mjs`,
   browser: {
     [`./${mainExport}.node.js`]: `./${mainExport}.dom.js`,
-    [`./${mainExport}.node.mjs`]: `./${mainExport}.dom.mjs`
+    [`./${mainExport}.node.mjs`]: `./${mainExport}.dom.mjs`,
   },
   exports: {
     '.': {
@@ -69,14 +75,14 @@ const createMainPackageJson = (target, format) => (orig) => ({
     },
     './*': {
       import: `./*.mjs`,
-      require: `./*.js`
-    }
+      require: `./*.js`,
+    },
   },
   types: `${mainExport}.node.d.ts`,
   unpkg: `${mainExport}.dom.es2015.min.js`,
   jsdelivr: `${mainExport}.dom.es2015.min.js`,
   sideEffects: false,
-  esm: { mode: `all`, sourceMap: true }
+  esm: { mode: `all`, sourceMap: true },
 });
 
 const createTypeScriptPackageJson = (target, format) => (orig) => ({
@@ -89,35 +95,31 @@ const createTypeScriptPackageJson = (target, format) => (orig) => ({
   type: 'module',
   dependencies: {
     '@types/node': '*',
-    ...orig.dependencies
-  }
+    ...orig.dependencies,
+  },
 });
 
-const createScopedPackageJSON = (target, format) => (({ name, ...orig }) =>
-  packageJSONFields.reduce(
-    (xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }),
-    {
-      // un-set version, since it's automatically applied during the release process
-      version: undefined,
-      // set the scoped package name (e.g. "@apache-arrow/esnext-esm")
-      name: `${npmOrgName}/${npmPkgName}-${packageName(target, format)}`,
-      // set "unpkg"/"jsdeliver" if building scoped UMD target
-      unpkg: format === 'umd' ? `${mainExport}.dom.js` : undefined,
-      jsdelivr: format === 'umd' ? `${mainExport}.dom.js` : undefined,
-      // set "browser" if building scoped UMD target, otherwise "Arrow.dom"
-      browser: format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.dom.js`,
-      // set "main" to "Arrow" if building scoped UMD target, otherwise "Arrow.node"
-      main: format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.node.js`,
-      // set "type" to `module` or `commonjs` (https://nodejs.org/api/packages.html#packages_type)
-      type: format === 'esm' ? `module` : `commonjs`,
-      // set "module" (for https://www.npmjs.com/package/@pika/pack) if building scoped ESM target
-      module: format === 'esm' ? `${mainExport}.dom.js` : undefined,
-      // set "sideEffects" to false as a hint to Webpack that it's safe to tree-shake the ESM target
-      sideEffects: format === 'esm' ? false : undefined,
-      // include "esm" settings for https://www.npmjs.com/package/esm if building scoped ESM target
-      esm: format === `esm` ? { mode: `auto`, sourceMap: true } : undefined,
-      // set "types" (for TypeScript/VSCode)
-      types: format === 'umd' ? undefined : `${mainExport}.node.d.ts`,
-    }
-  )
-);
+const createScopedPackageJSON = (target, format) => ({ name, ...orig }) =>
+  packageJSONFields.reduce((xs, key) => ({ ...xs, [key]: xs[key] || orig[key] }), {
+    // un-set version, since it's automatically applied during the release process
+    version: undefined,
+    // set the scoped package name (e.g. "@apache-arrow/esnext-esm")
+    name: `${npmOrgName}/${npmPkgName}-${packageName(target, format)}`,
+    // set "unpkg"/"jsdeliver" if building scoped UMD target
+    unpkg: format === 'umd' ? `${mainExport}.dom.js` : undefined,
+    jsdelivr: format === 'umd' ? `${mainExport}.dom.js` : undefined,
+    // set "browser" if building scoped UMD target, otherwise "Arrow.dom"
+    browser: format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.dom.js`,
+    // set "main" to "Arrow" if building scoped UMD target, otherwise "Arrow.node"
+    main: format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.node.js`,
+    // set "type" to `module` or `commonjs` (https://nodejs.org/api/packages.html#packages_type)
+    type: format === 'esm' ? `module` : `commonjs`,
+    // set "module" (for https://www.npmjs.com/package/@pika/pack) if building scoped ESM target
+    module: format === 'esm' ? `${mainExport}.dom.js` : undefined,
+    // set "sideEffects" to false as a hint to Webpack that it's safe to tree-shake the ESM target
+    sideEffects: format === 'esm' ? false : undefined,
+    // include "esm" settings for https://www.npmjs.com/package/esm if building scoped ESM target
+    esm: format === `esm` ? { mode: `auto`, sourceMap: true } : undefined,
+    // set "types" (for TypeScript/VSCode)
+    types: format === 'umd' ? undefined : `${mainExport}.node.d.ts`,
+  });

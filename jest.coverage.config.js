@@ -16,11 +16,11 @@
 // under the License.
 
 module.exports = {
-    ...require('./jest.config'),
-    "globals": {
-        "ts-jest": {
-            "diagnostics": false,
-            "tsConfig": "spec/tsconfig.coverage.json"
-        }
-    }
+  ...require('./jest.config'),
+  globals: {
+    'ts-jest': {
+      diagnostics: false,
+      tsConfig: 'spec/tsconfig.coverage.json',
+    },
+  },
 };

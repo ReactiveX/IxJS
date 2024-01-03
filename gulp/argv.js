@@ -16,16 +16,19 @@
 // under the License.
 
 import args from 'command-line-args';
-const argv = args([
-  { name: `all`, type: Boolean },
-  { name: 'verbose', alias: 'v', type: Boolean },
-  { name: `target`, type: String, defaultValue: `` },
-  { name: `module`, type: String, defaultValue: `` },
-  { name: `coverage`, type: Boolean, defaultValue: false },
-  { name: `tests`, type: String, multiple: true, defaultValue: [`spec/*`] },
-  { name: `targets`, alias: `t`, type: String, multiple: true, defaultValue: [] },
-  { name: `modules`, alias: `m`, type: String, multiple: true, defaultValue: [] },
-], { partial: true });
+const argv = args(
+  [
+    { name: `all`, type: Boolean },
+    { name: 'verbose', alias: 'v', type: Boolean },
+    { name: `target`, type: String, defaultValue: `` },
+    { name: `module`, type: String, defaultValue: `` },
+    { name: `coverage`, type: Boolean, defaultValue: false },
+    { name: `tests`, type: String, multiple: true, defaultValue: [`spec/*`] },
+    { name: `targets`, alias: `t`, type: String, multiple: true, defaultValue: [] },
+    { name: `modules`, alias: `m`, type: String, multiple: true, defaultValue: [] },
+  ],
+  { partial: true }
+);
 
 const { targets, modules } = argv;
 
