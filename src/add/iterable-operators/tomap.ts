@@ -3,7 +3,7 @@ import { toMap, ToMapOptions } from '../../iterable/tomap';
 
 export function toMapProto<TSource, TKey, TElement = TSource>(
   this: IterableX<TSource>,
-  options: ToMapOptions<TSource, TElement>
+  options: ToMapOptions<TSource, TKey, TElement>
 ): Map<TKey, TElement | TSource> {
   return toMap(this, options);
 }

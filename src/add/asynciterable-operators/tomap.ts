@@ -3,7 +3,7 @@ import { toMap, ToMapOptions } from '../../asynciterable/tomap';
 
 export async function toMapProto<TSource, TKey, TElement = TSource>(
   this: AsyncIterable<TSource>,
-  options: ToMapOptions<TSource, TElement>
+  options: ToMapOptions<TSource, TKey, TElement>
 ): Promise<Map<TKey, TElement | TSource>> {
   return toMap(this, options);
 }
