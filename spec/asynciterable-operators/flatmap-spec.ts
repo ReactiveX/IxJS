@@ -9,6 +9,13 @@ test('AsyncIterable#flatMap with range', async () => {
   expect(await toArray(ys)).toEqual([0, 0, 0, 1, 1, 2]);
 });
 
+test(`AsyncIterable#flatMap with fewer inputs than max concurrent doesn't throw`, async () => {
+  const xs = of(1, 2);
+  const ys = xs.pipe(flatMap(async (x) => range(0, x), 3));
+
+  expect(await toArray(ys)).toEqual([0, 0, 1]);
+});
+
 test('AsyncIterable#flatMap selector returns throw', async () => {
   const err = new Error();
   const xs = of(1, 2, 3);
