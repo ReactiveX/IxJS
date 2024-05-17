@@ -10,13 +10,13 @@ import { throwIfAborted } from '../aborterror.js';
  * @template TElement
  * @ignore
  */
-export interface ToMapOptions<TSource, TElement> {
+export interface ToMapOptions<TSource, TKey, TElement> {
   /**
    * The selector to get the key for the map.
    *
    * @memberof ToMapOptions
    */
-  keySelector: (item: TSource, signal?: AbortSignal) => TElement | Promise<TElement>;
+  keySelector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>;
   /**
    * The selector used to get the element for the Map.
    *
@@ -44,7 +44,7 @@ export interface ToMapOptions<TSource, TElement> {
  */
 export async function toMap<TSource, TKey, TElement = TSource>(
   source: AsyncIterable<TSource>,
-  options: ToMapOptions<TSource, TElement>
+  options: ToMapOptions<TSource, TKey, TElement>
 ): Promise<Map<TKey, TElement | TSource>> {
   const {
     ['signal']: signal,

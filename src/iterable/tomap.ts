@@ -8,13 +8,13 @@ import { identity } from '../util/identity.js';
  * @template TElement
  * @ignore
  */
-export interface ToMapOptions<TSource, TElement> {
+export interface ToMapOptions<TSource, TKey, TElement> {
   /**
    * The selector to get the key for the map.
    *
    * @memberof ToMapOptions
    */
-  keySelector: (item: TSource) => TElement;
+  keySelector: (item: TSource) => TKey;
   /**
    * The selector used to get the element for the Map.
    *
@@ -35,7 +35,7 @@ export interface ToMapOptions<TSource, TElement> {
  */
 export function toMap<TSource, TKey, TElement = TSource>(
   source: Iterable<TSource>,
-  options: ToMapOptions<TSource, TElement>
+  options: ToMapOptions<TSource, TKey, TElement>
 ): Map<TKey, TElement | TSource> {
   const {
     ['elementSelector']: elementSelector = identity as any,
