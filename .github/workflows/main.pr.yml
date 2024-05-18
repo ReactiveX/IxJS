@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint-pull-request:
-    name: Lint pull request
+    name: Lint
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
@@ -52,7 +52,7 @@ jobs:
   build-and-test-pull-request:
     needs:
       - lint-pull-request
-    name: Build and test pull request
+    name: Test
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
