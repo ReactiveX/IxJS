@@ -144,15 +144,13 @@ jobs:
         uses: actions/cache@v4
         with:
           key: ${{ runner.os }}-targets-${{ matrix.node }}-ix-${{ hashFiles('package.json') }}
-          path: |
-            targets
+          path: targets
 
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json') }}
-          path: |
-            node_modules
+          path: node_modules
 
       - name: Check if source files changed
         id: source_files_changed
