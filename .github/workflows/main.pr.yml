@@ -109,7 +109,7 @@ jobs:
       - name: Install dependencies
         if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' || steps.test_files_changed.outputs.any_modified	 == 'true' }}
         run: |
-          yarn --ignore-optional --ignore-engines --non-interactive
+          yarn --ignore-engines --non-interactive
 
       - name: Build package
         if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' && matrix.target != 'src' }}

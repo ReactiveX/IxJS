@@ -32,7 +32,7 @@ jobs:
         working-directory: main
         run: |
           set -x
-          yarn --ignore-optional --ignore-engines --non-interactive
+          yarn --ignore-engines --non-interactive
           yarn doc
       - name: Copy Docs to gh-pages
         run: |

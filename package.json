@@ -117,6 +117,9 @@
     "webpack-bundle-analyzer": "4.10.1",
     "webpack-stream": "7.0.0"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.17.2"
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
