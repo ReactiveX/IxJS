@@ -46,7 +46,7 @@ jobs:
       - name: Install dependencies
         if: ${{ steps.files_changed.outputs.any_modified == 'true' }}
         run: |
-          yarn
+          yarn --ignore-engines --non-interactive
 
       - name: Lint files
         if: ${{ steps.files_changed.outputs.any_modified == 'true' }}
@@ -86,7 +86,7 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json') }}
           path: |
             node_modules
 
