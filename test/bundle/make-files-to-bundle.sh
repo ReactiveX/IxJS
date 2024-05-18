@@ -10,8 +10,8 @@ for typ in iterable iterable.operators asynciterable asynciterable.operators; do
     ))"
     for fun in "${ary[@]}"; do
         cat << EOF > "test/bundle/${typ}.${fun}.js"
-import * as ix from 'ix/Ix.${typ}.mjs';
-console.log(ix.${fun});
+import { ${fun} } from 'ix/Ix.${typ}.mjs';
+console.log(${fun});
 EOF
     done
 done
