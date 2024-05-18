@@ -46,6 +46,8 @@ export const esbuildTask = (minify = true) => () => observableFromStreams(
                 'ix': resolve(__dirname, `../targets/${npmPkgName}/Ix.dom.mjs`),
                 'ix/Ix.iterable.mjs': resolve(__dirname, `../targets/${npmPkgName}/Ix.iterable.mjs`),
                 'ix/Ix.asynciterable.mjs': resolve(__dirname, `../targets/${npmPkgName}/Ix.asynciterable.mjs`),
+                'ix/Ix.iterable.operators.mjs': resolve(__dirname, `../targets/${npmPkgName}/Ix.iterable.operators.mjs`),
+                'ix/Ix.asynciterable.operators.mjs': resolve(__dirname, `../targets/${npmPkgName}/Ix.asynciterable.operators.mjs`),
             }),
         ],
     }),

@@ -55,4 +55,4 @@ targets/esnext
 .jest-cache
 
 # test bundles
-test/bundle/**/*-bundle.js*
+test/bundle/**/*.js

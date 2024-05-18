@@ -169,4 +169,5 @@ jobs:
         run: |
           yarn --ignore-engines --non-interactive
           yarn build -t ix
+          test/bundle/make-files-to-bundle.sh
           yarn test:bundle
