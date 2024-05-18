@@ -9,7 +9,7 @@ export default {
         '^ix/iterable/operators(.*)': '<rootDir>/targets/esnext/umd/Ix.iterable.operators.js',
         '^ix/asynciterable(.*)': '<rootDir>/targets/esnext/umd/Ix.asynciterable.js',
         '^ix/iterable(.*)': '<rootDir>/targets/esnext/umd/Ix.iterable.js',
-        '^ix': '<rootDir>/targets/esnext/umd/Ix.js',
+        '^ix': '<rootDir>/targets/esnext/umd/Ix.dom.js',
         '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     transform: {
