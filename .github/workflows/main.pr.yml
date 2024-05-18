@@ -61,11 +61,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        node: [14.x, 16.x, 18.x, 20.x]
+        node: [16.x, 18.x, 20.x]
         module: [cjs, esm, umd]
         target: [es5, es2015, esnext]
-        exclude:
-          - {node: 14.x, target: esnext}
         include:
           - {node: 20.x, target: src, args: --coverage}
     steps:
