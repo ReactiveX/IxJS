@@ -75,7 +75,7 @@ jobs:
       - name: Cache targets
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-targets-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json', 'yarn.lock') }}
+          key: ${{ runner.os }}-targets-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json', 'yarn.lock', 'src/**/*') }}
           path: targets
 
       - name: Cache node_modules
@@ -144,7 +144,7 @@ jobs:
       - name: Cache targets
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-targets-${{ matrix.node }}-ix-${{ hashFiles('package.json', 'yarn.lock') }}
+          key: ${{ runner.os }}-targets-${{ matrix.node }}-ix-${{ hashFiles('package.json', 'yarn.lock', 'src/**/*') }}
           path: targets
 
       - name: Cache node_modules
