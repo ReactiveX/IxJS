@@ -43,14 +43,10 @@ jobs:
             src/**/*
             spec/**/*
 
-      - name: Install dependencies
-        if: ${{ steps.files_changed.outputs.any_modified == 'true' }}
-        run: |
-          yarn --ignore-engines --non-interactive
-
       - name: Lint files
         if: ${{ steps.files_changed.outputs.any_modified == 'true' }}
         run: |
+          yarn --ignore-engines --non-interactive
           yarn lint:ci
 
   build-and-test-pull-request:
@@ -80,15 +76,13 @@ jobs:
         uses: actions/cache@v4
         with:
           key: ${{ runner.os }}-targets-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json') }}
-          path: |
-            targets
+          path: targets
 
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json') }}
-          path: |
-            node_modules
+          path: node_modules
 
       - name: Check if test files changed
         id: test_files_changed
@@ -102,10 +96,12 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           files: |
+            .npmrc
+            package.json
             src/**/*
 
       - name: Install dependencies
-        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' || steps.test_files_changed.outputs.any_modified	 == 'true' }}
+        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' || steps.test_files_changed.outputs.any_modified == 'true' }}
         run: |
           yarn --ignore-engines --non-interactive
 
@@ -118,9 +114,59 @@ jobs:
           yarn build ${ecmascriptver:+-t ${ecmascriptver}} ${module_format:+-m ${module_format}}
 
       - name: Test package
-        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' || steps.test_files_changed.outputs.any_modified	 == 'true' }}
+        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' || steps.test_files_changed.outputs.any_modified == 'true' }}
         env:
           ecmascriptver: "${{ matrix.target }}"
           module_format: "${{ matrix.module }}"
         run: |
           yarn test ${ecmascriptver:+-t ${ecmascriptver}} ${module_format:+-m ${module_format}} ${{ matrix.args }}
+
+  test-tree-shaking-pull-request:
+    needs:
+      - build-and-test-pull-request
+    name: Test tree shaking
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20.x]
+    steps:
+      - name: Setup node v${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Cache targets
+        uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-targets-${{ matrix.node }}-ix-${{ hashFiles('package.json') }}
+          path: |
+            targets
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json') }}
+          path: |
+            node_modules
+
+      - name: Check if source files changed
+        id: source_files_changed
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            .npmrc
+            package.json
+            src/**/*
+            test/bundle/**/*
+
+      - name: Test bundler tree-shaking
+        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' }}
+        run: |
+          yarn --ignore-engines --non-interactive
+          yarn build -t ix
+          yarn test:bundle
