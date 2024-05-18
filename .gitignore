@@ -36,8 +36,6 @@ package-lock.json
 .node_repl_history
 
 # editor configurations
-.vscode/**
-!.vscode/launch.json
 .editorconfig
 
 # esdoc output
@@ -58,4 +56,4 @@ targets/esnext
 .jest-cache
 
 # test bundles
-spec/bundle/**/*-bundle.js*
+test/bundle/**/*-bundle.js*

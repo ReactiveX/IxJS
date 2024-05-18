@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "dbaeumer.vscode-eslint",
+        "augustocdias.tasks-shell-input",
+        "orta.vscode-jest"
+    ]
+}

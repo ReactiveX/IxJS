@@ -1,8 +1,6 @@
-// TypeScript configuration for the ix target's tests
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS"
   }
 }

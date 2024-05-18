@@ -1,8 +1,8 @@
-// TypeScript configuration for the ix target's tests
+// Compiler configuration to build the docs
 {
   "extends": "./tsconfig.base.json",
+  "include": ["../src/**/*.ts"],
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS"
   }
 }

@@ -1,7 +1,0 @@
-{
-  "source": "./targets/es2015/cjs",
-  "destination": "./doc",
-  "plugins": [{
-    "name": "esdoc-standard-plugin"
-  }]
-}

@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
-  "include": ["../src/**/*.ts", "../test/**/*.ts"],
+  "include": ["../src/**/*.ts", "../spec/**/*.ts"],
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",

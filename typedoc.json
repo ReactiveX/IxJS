@@ -1,0 +1,18 @@
+{
+    "entryPoints": [
+        "src/Ix.ts",
+        "src/Ix.dom.ts",
+        "src/Ix.node.ts",
+        "src/Ix.iterable.ts",
+        "src/Ix.iterable.operators.ts",
+        "src/Ix.asynciterable.ts",
+        "src/Ix.asynciterable.operators.ts"
+    ],
+    "out": "doc",
+    "name": "ReactiveX IxJS",
+    "tsconfig": "tsconfig/tsconfig.docs.json",
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "excludeExternals": true,
+    "includeVersion": true
+}
