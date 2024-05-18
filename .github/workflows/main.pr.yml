@@ -31,7 +31,7 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json', 'yarn.lock') }}
           path: |
             node_modules
 
@@ -75,13 +75,13 @@ jobs:
       - name: Cache targets
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-targets-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-targets-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json', 'yarn.lock') }}
           path: targets
 
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json', 'yarn.lock') }}
           path: node_modules
 
       - name: Check if test files changed
@@ -97,6 +97,7 @@ jobs:
         with:
           files: |
             .npmrc
+            yarn.lock
             package.json
             src/**/*
 
@@ -143,13 +144,13 @@ jobs:
       - name: Cache targets
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-targets-${{ matrix.node }}-ix-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-targets-${{ matrix.node }}-ix-${{ hashFiles('package.json', 'yarn.lock') }}
           path: targets
 
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json', 'yarn.lock') }}
           path: node_modules
 
       - name: Check if source files changed
@@ -158,6 +159,7 @@ jobs:
         with:
           files: |
             .npmrc
+            yarn.lock
             package.json
             src/**/*
             test/bundle/**/*
