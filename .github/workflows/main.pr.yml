@@ -60,6 +60,7 @@ jobs:
         module: [cjs, esm, umd]
         target: [es5, es2015, esnext]
         include:
+          - {target: ix}
           - {node: 20.x, target: src, args: --coverage}
     steps:
       - name: Setup node v${{ matrix.node }}
@@ -130,15 +131,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [20.x]
         module: [cjs, esm, umd]
         target: [es5, es2015, esnext]
-        pkgr: [esbuild, rollup, webpack]
+        bundler: [esbuild, rollup, webpack]
+        include:
+          - {target: ix}
     steps:
-      - name: Setup node v${{ matrix.node }}
+      - name: Setup node v20.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 20.x
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -147,13 +149,13 @@ jobs:
       - name: Cache targets
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-targets-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json', 'yarn.lock', 'src/**/*') }}
+          key: ${{ runner.os }}-targets-20.x-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json', 'yarn.lock', 'src/**/*') }}
           path: targets
 
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json', 'yarn.lock') }}
+          key: ${{ runner.os }}-node_modules-20.x-${{ hashFiles('package.json', 'yarn.lock') }}
           path: node_modules
 
       - name: Check if source files changed
