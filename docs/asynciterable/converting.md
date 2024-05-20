@@ -17,7 +17,7 @@ Very often we have an existing data structure that we wish to convert to an asyn
 The `as` method converts directly to an async-iterable, whereas with `from` method allows us to modify the collection as it is created, mimicking the the [`Array.from`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from) method.
 
 ```typescript
-import { as, from } from 'ix/asynciterable';
+import { as, from } from 'ix/Ix.asynciterable';
 
 // As with Array and Set
 const result1 = as([1, 2, 3]); // From array
@@ -52,7 +52,7 @@ IxJS also gives seamless support for Observables, for those that implement the `
 
 ```typescript
 import { observableOf } from 'rxjs';
-import { as } from 'ix/asynciterable';
+import { as } from 'ix/Ix.asynciterable';
 
 const source = observableOf(1, 2, 3);
 const results = as(source);
@@ -67,7 +67,7 @@ for await (const item of results) {
 Streams and AsyncIterables go hand in hand as a pull to push model.  DOM Streams are a newer concept, bringing streaming capabilities into the browser, and with IxJS, we can then convert those DOM streams into AsyncIterables using the `fromDOMStream` method.
 
 ```typescript
-import { fromDOMStream } from 'ix/asynciterable';
+import { fromDOMStream } from 'ix/Ix.asynciterable';
 
 const response = await fetch('someurl');
 
@@ -97,7 +97,7 @@ We can then introduce IxJS by using the `fromNodeStream` which allows us then to
 
 ```typescript
 import * as fs from 'fs';
-import { fromNodeStream } from 'ix/asynciterable/fromnodestream';
+import { fromNodeStream } from 'ix/Ix.node';
 
 const readable = fs.createReadStream('tmp.txt', {encoding: 'utf8'});
 const source = fromNodeStream(readable);
@@ -111,9 +111,9 @@ Or we can use `asAsyncIterable()` to take advantage of Node Streams' fluent `pip
 
 ```typescript
 import * as fs from 'fs';
-import { map } from 'ix/asynciterable/operators/map';
-import { flatMap } from 'ix/asynciterable/operators/flatmap';
-import { asAsyncIterable } from 'ix/asynciterable/asasynciterable';
+import { map } from 'ix/Ix.asynciterable.operators';
+import { flatMap } from 'ix/Ix.asynciterable.operators';
+import { asAsyncIterable } from 'ix/Ix.node';
 
 const source = fs
     .createReadStream('tmp.txt', {encoding: 'utf8'})
@@ -134,7 +134,7 @@ Although we traditionally think of events being push only such as Subject/Observ
 
 ```typescript
 import { EventEmitter } from 'events';
-import { fromEvent } from 'ix/asynciterable';
+import { fromEvent } from 'ix/Ix.asynciterable';
 
 function getEvents() {
   const emitter = new EventEmitter();
@@ -160,7 +160,7 @@ The other type of binding is `fromEventPattern` which allows you to have an add 
 
 ```typescript
 import { EventEmitter } from 'events';
-import { fromEventPattern } from 'ix/asynciterable';
+import { fromEventPattern } from 'ix/Ix.asynciterable';
 
 function getEvents() {
   const emitter = new EventEmitter();
