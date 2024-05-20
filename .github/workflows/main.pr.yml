@@ -183,4 +183,4 @@ jobs:
           if test "${t}" != ix; then
             yarn build ${t:+-t ${t}} ${m:+-m ${m}}
           fi
-          yarn gulp bundle:${t:+:${t}}${m:+:${m}}:${{ matrix.bundler }}
+          yarn gulp bundle${t:+:${t}}${m:+:${m}}:${{ matrix.bundler }}
