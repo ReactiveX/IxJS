@@ -138,7 +138,7 @@ jobs:
           # Install the package into a temp dir
           _tmp="$(mktemp -d)";
           mkdir -p "${_tmp}/node_modules";
-          cp -ar "${targetdir}" "${_tmp}/node_modules/";
+          cp -ar "${targetdir}" "${_tmp}/node_modules/${pkg_name}";
           cd "${_tmp}/node_modules/${pkg_name}";
           npm i;
           cd "${_tmp}/";
