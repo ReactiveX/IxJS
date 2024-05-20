@@ -32,8 +32,7 @@ jobs:
         uses: actions/cache@v4
         with:
           key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json', 'yarn.lock') }}
-          path: |
-            node_modules
+          path: node_modules
 
       - name: Check if source or test files changed
         id: files_changed
@@ -100,6 +99,7 @@ jobs:
             yarn.lock
             package.json
             src/**/*
+            integration/**/*
 
       - name: Install dependencies
         if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' || steps.test_files_changed.outputs.any_modified == 'true' }}
@@ -125,12 +125,15 @@ jobs:
   test-tree-shaking-pull-request:
     needs:
       - build-and-test-pull-request
-    name: Test tree shaking
+    name: Integration
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         node: [20.x]
+        module: [cjs, esm, umd]
+        target: [es5, es2015, esnext]
+        pkgr: [esbuild, rollup, webpack]
     steps:
       - name: Setup node v${{ matrix.node }}
         uses: actions/setup-node@v4
@@ -144,7 +147,7 @@ jobs:
       - name: Cache targets
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-targets-${{ matrix.node }}-ix-${{ hashFiles('package.json', 'yarn.lock', 'src/**/*') }}
+          key: ${{ runner.os }}-targets-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json', 'yarn.lock', 'src/**/*') }}
           path: targets
 
       - name: Cache node_modules
@@ -162,12 +165,10 @@ jobs:
             yarn.lock
             package.json
             src/**/*
-            test/bundle/**/*
+            integration/**/*
 
-      - name: Test bundler tree-shaking
+      - name: Test ${{ matrix.bundler }} tree-shaking
         if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' }}
         run: |
-          yarn --ignore-engines --non-interactive
-          yarn build -t ix
-          test/bundle/make-files-to-bundle.sh
-          yarn test:bundle
+          integration/make-files-to-bundle.sh
+          yarn gulp bundle:${{ matrix.target }}:${{ matrix.module }}:${{ matrix.bundler }}

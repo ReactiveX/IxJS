@@ -31,7 +31,7 @@
       "args": {
         "cwd": "${workspaceFolder}",
         "description": "Select a file to debug",
-        "command": "ls test/bundle/**/*-bundle.js",
+        "command": "ls integration/{esbuild,rollup,webpack}/**/*.js",
       }
     },
     {

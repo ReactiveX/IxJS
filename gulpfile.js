@@ -8,7 +8,8 @@ import cleanTask from './gulp/clean-task.js';
 import compileTask from './gulp/compile-task.js';
 import packageTask from './gulp/package-task.js';
 import { testTask } from './gulp/test-task.js';
-import { esbuildTask, rollupTask, webpackTask, execBundleTask } from './gulp/bundle-task.js';
+import * as Path from 'node:path';
+import { bundleTask, execBundleTask } from './gulp/bundle-task.js';
 import { taskName, combinations, targetDir, knownTargets, npmPkgName, tasksToSkipPerTargetOrFormat, targetAndModuleCombinations } from './gulp/util.js';
 
 for (const [target, format] of combinations([`all`], [`all`])) {
@@ -19,6 +20,34 @@ for (const [target, format] of combinations([`all`], [`all`])) {
     gulp.task(`package:${task}`, packageTask(target, format));
     gulp.task(`build:${task}`, gulp.series(
         `clean:${task}`, `compile:${task}`, `package:${task}`
+    ));
+    gulp.task(`package:${task}`, packageTask(target, format));
+
+    for (const bundler of ['esbuild', 'rollup', 'webpack']) {
+        gulp.task(`bundle:${task}:${bundler}:clean`, () => del(Path.join(`integration`, bundler, target, format, '**', `*.js`)));
+        gulp.task(`bundle:${task}:${bundler}:test`, bundleTask(bundler, target, format));
+        gulp.task(`bundle:${task}:${bundler}:exec`, execBundleTask(bundler, target, format));
+        gulp.task(`bundle:${task}:${bundler}`, gulp.series(
+            `bundle:${task}:${bundler}:clean`,
+            `bundle:${task}:${bundler}:test`,
+            `bundle:${task}:${bundler}:exec`,
+        ));
+    }
+    gulp.task(`bundle:${task}:webpack:analyze`, bundleTask('webpack', target, format, { analyze: true }));
+    gulp.task(`bundle:${task}:clean`, gulp.parallel(
+        `bundle:${task}:esbuild:clean`,
+        `bundle:${task}:rollup:clean`,
+        `bundle:${task}:webpack:clean`,
+    ));
+    gulp.task(`bundle:${task}:exec`, gulp.series(
+        `bundle:${task}:esbuild:exec`,
+        `bundle:${task}:rollup:exec`,
+        `bundle:${task}:webpack:exec`,
+    ));
+    gulp.task(`bundle:${task}`, gulp.parallel(
+        `bundle:${task}:esbuild`,
+        `bundle:${task}:rollup`,
+        `bundle:${task}:webpack`,
     ));
 }
 
@@ -64,16 +93,8 @@ gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
+gulp.task(`bundle`, gulp.parallel(getTasks(`bundle`)));
 gulp.task(`default`, gulp.series(`clean`, `build`, `test`));
-
-gulp.task(`bundle:esbuild`, esbuildTask());
-gulp.task(`bundle:rollup`, rollupTask());
-gulp.task(`bundle:webpack`, webpackTask());
-gulp.task(`bundle:webpack:analyze`, webpackTask({ analyze: true }));
-gulp.task(`bundle:clean`, () => del(`test/bundle/**/*-bundle.js`));
-gulp.task(`bundle:exec`, execBundleTask());
-
-gulp.task(`bundle`, gulp.series(`bundle:clean`, `bundle:esbuild`, `bundle:rollup`, `bundle:webpack`, `bundle:exec`));
 
 function gulpConcurrent(tasks, numCPUs = Math.max(1, os.cpus().length * 0.5) | 0) {
     return () => ObservableFrom(tasks.map((task) => gulp.series(task)))

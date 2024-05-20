@@ -3,4 +3,4 @@ gulp
 jest.config.js
 jestconfigs
 targets
-test/bundle/
+integration
