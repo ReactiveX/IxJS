@@ -94,7 +94,7 @@ const createScopedPackageJSON = (target, format) => (({ name, ...orig }) =>
             // un-set version, since it's automatically applied during the release process
             version: undefined,
             // set the scoped package name (e.g. "@reactivex/ix-esnext-esm")
-            name: `${npmOrgName}/${packageName(target, format)}`,
+            name: `${npmOrgName}/${npmPkgName}-${packageName(target, format)}`,
             // set "unpkg"/"jsdeliver" if building scoped UMD target
             unpkg: format === 'umd' ? `${mainExport}.dom.js` : undefined,
             jsdelivr: format === 'umd' ? `${mainExport}.dom.js` : undefined,
