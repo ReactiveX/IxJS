@@ -135,12 +135,19 @@ jobs:
           set -x;
           targetdir="./targets${t:+/${t}}${m:+/${m}}";
           pkg_name="$(jq -r '.name' "${targetdir}/package.json")";
-          npm install --loglevel verbose --global --unsafe-perm "${targetdir}";
-          cd /;
+          # Install the package into a temp dir
+          _tmp="$(mktemp -d)";
+          mkdir -p "${_tmp}/node_modules";
+          cp -ar "${targetdir}" "${_tmp}/node_modules/";
+          cd "${_tmp}/${pkg_name}";
+          npm i;
+          cd "${_tmp}/";
           # Attempt to import as CommonJS
           node -e "require('${pkg_name}')" || true;
           # Attempt to import as ESModule
           node --input-type=module -e "import '${pkg_name}'" || true;
+          cd /;
+          rm -rf "${_tmp}";
 
   test-tree-shaking-pull-request:
     needs:
