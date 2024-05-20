@@ -138,9 +138,7 @@ jobs:
           # Install the package into a temp dir
           _tmp="$(mktemp -d)";
           mkdir -p "${_tmp}/node_modules/${pkg_name}";
-          shopt -s globstar;
-          cp -ar "${targetdir}"/**/* "${_tmp}/node_modules/${pkg_name}/";
-          shopt -u globstar;
+          cp -ar "${targetdir}"/* "${_tmp}/node_modules/${pkg_name}/";
           cd "${_tmp}/node_modules/${pkg_name}";
           npm i;
           cd "${_tmp}/";
