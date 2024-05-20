@@ -135,7 +135,8 @@ jobs:
           set -x;
           targetdir="./targets${t:+/${t}}${m:+/${m}}";
           pkg_name="$(jq -r '.name' "${targetdir}/package.json")";
-          npm link "${targetdir}";
+          npm install --location=global --unsafe-perm "${targetdir}";
+          cd /;
           # Attempt to import as CommonJS
           node -e "require('${pkg_name}')" || true;
           # Attempt to import as ESModule
