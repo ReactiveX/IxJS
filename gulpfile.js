@@ -10,7 +10,7 @@ import packageTask from './gulp/package-task.js';
 import { testTask } from './gulp/test-task.js';
 import * as Path from 'node:path';
 import { bundleTask, execBundleTask } from './gulp/bundle-task.js';
-import { taskName, combinations, targetDir, knownTargets, npmPkgName, tasksToSkipPerTargetOrFormat, targetAndModuleCombinations } from './gulp/util.js';
+import { taskName, combinations, targetDir, knownTargets, npmPkgName, tasksToSkipPerTargetOrFormat, targetAndModuleCombinations, shouldRunInChildProcess, spawnGulpCommandInChildProcess } from './gulp/util.js';
 
 for (const [target, format] of combinations([`all`], [`all`])) {
     const task = taskName(target, format);
@@ -44,11 +44,16 @@ for (const [target, format] of combinations([`all`], [`all`])) {
         `bundle:${task}:rollup:exec`,
         `bundle:${task}:webpack:exec`,
     ));
-    gulp.task(`bundle:${task}`, gulp.parallel(
-        `bundle:${task}:esbuild`,
-        `bundle:${task}:rollup`,
-        `bundle:${task}:webpack`,
-    ));
+    gulp.task(`bundle:${task}`, (...args) => {
+        if (shouldRunInChildProcess(target, format)) {
+            return spawnGulpCommandInChildProcess(`bundle`, target, format);
+        }
+        return gulp.parallel(
+            `bundle:${task}:esbuild`,
+            `bundle:${task}:rollup`,
+            `bundle:${task}:webpack`,
+        )(...args);
+    });
 }
 
 // The UMD bundles build temporary es5/6/next targets via TS,
@@ -93,7 +98,7 @@ gulp.task(`clean`, gulp.parallel(getTasks(`clean`)));
 gulp.task(`build`, gulpConcurrent(getTasks(`build`)));
 gulp.task(`compile`, gulpConcurrent(getTasks(`compile`)));
 gulp.task(`package`, gulpConcurrent(getTasks(`package`)));
-gulp.task(`bundle`, gulp.parallel(getTasks(`bundle`)));
+gulp.task(`bundle`, gulpConcurrent(getTasks(`bundle`)));
 gulp.task(`default`, gulp.series(`clean`, `build`, `test`));
 
 function gulpConcurrent(tasks, numCPUs = Math.max(1, os.cpus().length * 0.5) | 0) {

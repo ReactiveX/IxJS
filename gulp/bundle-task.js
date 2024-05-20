@@ -30,11 +30,11 @@ const bundleDir = Path.resolve(__dirname, '../integration');
 const srcDir = Path.join(bundleDir, 'src');
 const srcGlob = Path.join(srcDir, '**/*.js');
 
-export function bundleTask(bundler, ...rest) {
+export function bundleTask(bundler, target, format, ...rest) {
     switch (bundler) {
-        case 'esbuild': return esbuildTask(...rest);
-        case 'rollup': return rollupTask(...rest);
-        case 'webpack': return webpackTask(...rest);
+        case 'esbuild': return esbuildTask(target, format, ...rest);
+        case 'rollup': return rollupTask(target, format, ...rest);
+        case 'webpack': return webpackTask(target, format, ...rest);
     }
 }
 

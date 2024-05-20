@@ -22,8 +22,9 @@ const releasesRootDir = `targets`;
 const knownTargets = [`es5`, `es2015`, `esnext`];
 const knownModules = [`cjs`, `esm`, `cls`, `umd`];
 const tasksToSkipPerTargetOrFormat = {
-    src: { clean: true, build: true },
-    cls: { test: true, package: true }
+    ts: { bundle: true },
+    src: { clean: true, build: true, bundle: true },
+    cls: { test: true, package: true, bundle: true }
 };
 const packageJSONFields = [
     `version`, `license`, `description`,
@@ -82,21 +83,20 @@ function shouldRunInChildProcess(target, format) {
     return false;
 }
 
-const gulp = path.join(path.parse(require.resolve(`gulp`)).dir, `bin/gulp.js`);
+const gulpBin = path.join(path.parse(require.resolve(`gulp`)).dir, `bin/gulp.js`);
 function spawnGulpCommandInChildProcess(command, target, format) {
-    const err = [];
+    const err = [`Error in "${command}:${taskName(target, format)}" task:`];
     return asyncDone(() => {
         const child = child_process.spawn(
             `node`,
-            [gulp, command, '-t', target, '-m', format, `-L`],
+            [gulpBin, command, '-t', target, '-m', format, `-S`],
             {
-                stdio: [`ignore`, `ignore`, `pipe`],
+                stdio: [`ignore`, `inherit`, `pipe`],
                 env: { ...process.env, NODE_NO_WARNINGS: `1` }
             });
         child.stderr.on('data', (line) => err.push(line));
         return child;
-    }).catch(() => Promise.reject(err.length > 0 ? err.join('\n')
-        : `Error in "${command}:${taskName(target, format)}" task.`));
+    }).catch(() => Promise.reject(err.join('\n')));
 }
 
 const logAndDie = (e) => { if (e) { console.error(e); process.exit(1); } };

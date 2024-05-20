@@ -170,5 +170,6 @@ jobs:
       - name: Test ${{ matrix.bundler }} tree-shaking
         if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' }}
         run: |
+          yarn build -t ix
           integration/make-files-to-bundle.sh
           yarn gulp bundle:${{ matrix.target }}:${{ matrix.module }}:${{ matrix.bundler }}
