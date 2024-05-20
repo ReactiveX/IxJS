@@ -137,8 +137,8 @@ jobs:
           pkg_name="$(jq -r '.name' "${targetdir}/package.json")";
           # Install the package into a temp dir
           _tmp="$(mktemp -d)";
-          mkdir -p "${_tmp}/node_modules/${pkg_name}";
-          cp -ar "${targetdir}"/* "${_tmp}/node_modules/${pkg_name}/";
+          mkdir -p "$(dirname "${_tmp}/node_modules/${pkg_name}")";
+          cp -ar "${targetdir}" "${_tmp}/node_modules/${pkg_name}";
           cd "${_tmp}/node_modules/${pkg_name}";
           npm i;
           cd "${_tmp}/";
