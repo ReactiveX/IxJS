@@ -125,6 +125,23 @@ jobs:
         run: |
           yarn test ${t:+-t ${t}} ${m:+-m ${m}} ${{ matrix.args }}
 
+      - name: Test importing
+        continue-on-error: true
+        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' && matrix.target != 'src' }}
+        env:
+          t: "${{ matrix.target }}"
+          m: "${{ matrix.module }}"
+        run: |
+          set -x;
+          targetdir="./targets${t:+/${t}}${m:+/${m}}";
+          pkg_name="$(jq -r '.name' "${targetdir}/package.json")";
+          npm link -g "${targetdir}";
+          cd /;
+          # Attempt to import as CommonJS
+          node -e "require('${pkg_name}')" || true;
+          # Attempt to import as ESModule
+          node --input-type=module -e "import '${pkg_name}'" || true;
+
   test-tree-shaking-pull-request:
     needs:
       - build-and-test-pull-request
