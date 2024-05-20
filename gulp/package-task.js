@@ -96,12 +96,12 @@ const createScopedPackageJSON = (target, format) => (({ name, ...orig }) =>
             // set the scoped package name (e.g. "@reactivex/ix-esnext-esm")
             name: `${npmOrgName}/${packageName(target, format)}`,
             // set "unpkg"/"jsdeliver" if building scoped UMD target
-            unpkg: format === 'umd' ? `${mainExport}.js` : undefined,
-            jsdelivr: format === 'umd' ? `${mainExport}.js` : undefined,
+            unpkg: format === 'umd' ? `${mainExport}.dom.js` : undefined,
+            jsdelivr: format === 'umd' ? `${mainExport}.dom.js` : undefined,
             // set "browser" if building scoped UMD target, otherwise "Ix.dom"
-            browser: format === 'umd' ? `${mainExport}.js` : `${mainExport}.dom.js`,
+            browser: format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.dom.js`,
             // set "main" to "Ix" if building scoped UMD target, otherwise "Ix.node"
-            main: format === 'umd' ? `${mainExport}.js` : `${mainExport}.node.js`,
+            main: format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.node.js`,
             // set "type" to `module` or `commonjs` (https://nodejs.org/api/packages.html#packages_type)
             type: format === 'esm' ? `module` : `commonjs`,
             // set "module" if building scoped ESM target
