@@ -1,0 +1,123 @@
+name: Test
+
+on:
+  workflow_call:
+
+jobs:
+  build-and-test-pull-request:
+    name: ${{ matrix.node }} ${{ matrix.target }} ${{ matrix.module }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [16.x, 18.x, 20.x]
+        target: [es5, es2015, esnext]
+        module: [cjs, esm, umd]
+        include:
+          - {node: 16.x, target: ix}
+          - {node: 18.x, target: ix}
+          - {node: 20.x, target: ix}
+          - {node: 20.x, target: src, args: --coverage}
+    steps:
+      - name: Setup node v${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Construct cache keys
+        run: |
+          echo node_modules_key='["${{ runner.os }}", "node_modules", "${{ matrix.node }}", "${{ hashFiles('package.json', 'yarn.lock') }}"]' >> $GITHUB_ENV;
+          echo targets_key='["${{ runner.os }}", "targets", "${{ matrix.node }}", "${{ matrix.target }}", "${{ matrix.module }}", "${{ hashFiles('package.json', 'yarn.lock', 'tsconfig.json', 'src/**/*', 'tsconfigs/**/*') }}"]' >> $GITHUB_ENV;
+
+      - name: Cache targets
+        uses: actions/cache@v4
+        with:
+          key: ${{ join(fromJSON(env.targets_key), '-') }}
+          path: targets
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          key: ${{ join(fromJSON(env.node_modules_key), '-') }}
+          path: node_modules
+
+      - name: Check if test files changed
+        id: test_files_changed
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            spec/**/*
+            tsconfig.json
+            tsconfigs/**/*
+            jest.config.js
+            jestconfigs/**/*
+
+      - name: Check if source files changed
+        id: source_files_changed
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            .npmrc
+            yarn.lock
+            package.json
+            tsconfig.json
+            src/**/*
+            gulp/**/*
+            tsconfigs/**/*
+            integration/**/*
+
+      - name: Install dependencies
+        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' || steps.test_files_changed.outputs.any_modified == 'true' }}
+        run: |
+          yarn --ignore-engines --non-interactive
+
+      - name: Build package
+        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' && matrix.target != 'src' }}
+        env:
+          t: "${{ matrix.target }}"
+          m: "${{ matrix.module }}"
+        run: |
+          yarn build ${t:+-t ${t}} ${m:+-m ${m}}
+
+      - name: Test package
+        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' || steps.test_files_changed.outputs.any_modified == 'true' }}
+        env:
+          t: "${{ matrix.target }}"
+          m: "${{ matrix.module }}"
+        run: |
+          yarn test ${t:+-t ${t}} ${m:+-m ${m}} ${{ matrix.args }}
+
+      - name: Test importing
+        if: ${{ steps.source_files_changed.outputs.any_modified	== 'true' && matrix.target != 'src' }}
+        env:
+          t: "${{ matrix.target }}"
+          m: "${{ matrix.module }}"
+        run: |
+          targetdir="./targets${t:+/${t}}${m:+/${m}}";
+          pkg_name="$(jq -r '.name' "${targetdir}/package.json")";
+          pkg_type="$(jq -r '.type' "${targetdir}/package.json")";
+          # Install the package into a temp dir
+          _tmp="$(mktemp -d)";
+          mkdir -p "$(dirname "${_tmp}/node_modules/${pkg_name}")";
+          cp -ar "${targetdir}" "${_tmp}/node_modules/${pkg_name}";
+          cd "${_tmp}/node_modules/${pkg_name}";
+          npm i;
+          cd "${_tmp}/";
+          set -x;
+          if test "${pkg_type}" = "module"; then
+            # Test importing as ESModule
+            node --input-type=module -e "import '${pkg_name}'";
+          else
+            # Test importing as CommonJS
+            node --input-type=commonjs -e "require('${pkg_name}')";
+            # Test importing CommonJS module but allow it to fail
+            node --input-type=module -e "import '${pkg_name}'" || true;
+          fi
+          set +x;
+          cd /;
+          rm -rf "${_tmp}";
