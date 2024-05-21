@@ -1,4 +1,4 @@
-name: Build pull request
+name: PR
 
 concurrency:
   group: pr-on-${{ github.event_name }}-from-${{ github.ref_name }}

@@ -30,7 +30,7 @@ jobs:
       - name: Construct cache keys
         run: |
           echo node_modules_key='["${{ runner.os }}", "node_modules", "20.x", "${{ hashFiles('package.json', 'yarn.lock') }}"]' >> $GITHUB_ENV;
-          echo targets_key='["${{ runner.os }}", "targets", "20.x", "${{ matrix.target }}", "${{ matrix.module }}", "${{ hashFiles('package.json', 'yarn.lock', 'tsconfig.json', 'src/**/*', 'tsconfigs/**/*') }}"]' >> $GITHUB_ENV;
+          echo targets_key='["${{ runner.os }}", "targets", "20.x", "ix", "", "${{ hashFiles('package.json', 'yarn.lock', 'tsconfig.json', 'src/**/*', 'tsconfigs/**/*') }}"]' >> $GITHUB_ENV;
 
       - name: Cache targets
         uses: actions/cache@v4
