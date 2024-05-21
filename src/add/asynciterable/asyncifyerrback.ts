@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { asyncifyErrback as asyncifyErrbackStatic } from '../../asynciterable/asyncifyerrback';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { asyncifyErrback as asyncifyErrbackStatic } from '../../asynciterable/asyncifyerrback.js';
 
 /** @nocollapse */
 AsyncIterableX.asyncifyErrback = asyncifyErrbackStatic;

@@ -1,5 +1,5 @@
-import { BufferLike } from '../interfaces';
-import { IterableX } from '../iterable/iterablex';
+import { BufferLike } from '../interfaces.js';
+import { IterableX } from '../iterable/iterablex.js';
 import { Readable, ReadableOptions } from 'stream';
 
 const done = (_: any) => null as any;

@@ -1,4 +1,4 @@
-import { ReduceOptions } from './reduceoptions';
+import { ReduceOptions } from './reduceoptions.js';
 
 /**
  * Applies an accumulator function over an iterable sequence, returning the result of the aggregation as a

@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { range as rangeStatic } from '../../iterable/range';
+import { IterableX } from '../../iterable/iterablex.js';
+import { range as rangeStatic } from '../../iterable/range.js';
 
 /** @nocollapse */
 IterableX.range = rangeStatic;

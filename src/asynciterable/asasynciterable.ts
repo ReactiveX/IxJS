@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { OperatorAsyncFunction, UnaryFunction } from '../interfaces';
+import { AsyncIterableX } from './asynciterablex.js';
+import { OperatorAsyncFunction, UnaryFunction } from '../interfaces.js';
 import { Transform, TransformCallback, TransformOptions } from 'stream';
 
 /** @ignore */

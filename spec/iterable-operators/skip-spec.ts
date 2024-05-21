@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { as, throwError } from 'ix/iterable';
-import { skip } from 'ix/iterable/operators';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { as, throwError } from 'ix/iterable/index.js';
+import { skip } from 'ix/iterable/operators/index.js';
 
 test('Iterable#skip skips some', () => {
   const xs = [1, 2, 3, 4];

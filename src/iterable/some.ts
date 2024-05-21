@@ -1,4 +1,4 @@
-import { FindOptions } from './findoptions';
+import { FindOptions } from './findoptions.js';
 
 /**
  * Determines whether any element of an iterable sequence satisfies a condition.

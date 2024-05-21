@@ -1,6 +1,6 @@
-import { ReduceOptions } from './reduceoptions';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { ReduceOptions } from './reduceoptions.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /**
  * Applies an accumulator function over an async-iterable sequence, returning the result of the aggregation as a

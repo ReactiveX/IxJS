@@ -18,19 +18,21 @@ jobs:
     container: node:16.15.1-bullseye
     steps:
       - name: Checkout main
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: main
+          persist-credentials: false
       - name: Checkout gh-pages
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
+          persist-credentials: false
       - name: Build Docs
         working-directory: main
         run: |
           set -x
-          yarn --ignore-optional --ignore-engines --non-interactive
+          yarn --ignore-engines --non-interactive
           yarn doc
       - name: Copy Docs to gh-pages
         run: |

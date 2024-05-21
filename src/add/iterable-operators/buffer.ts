@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { buffer } from '../../iterable/operators/buffer';
+import { IterableX } from '../../iterable/iterablex.js';
+import { buffer } from '../../iterable/operators/buffer.js';
 
 /**
  * @ignore

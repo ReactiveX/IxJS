@@ -1,5 +1,5 @@
-import '../iterablehelpers';
-import { skip, take } from 'ix/iterable/operators';
+import '../iterablehelpers.js';
+import { skip, take } from 'ix/iterable/operators/index.js';
 import {
   repeatValue,
   count,
@@ -10,7 +10,7 @@ import {
   last,
   sequenceEqual,
   toArray,
-} from 'ix/iterable';
+} from 'ix/iterable/index.js';
 
 test('Iterable#repeatValue produce correct sequence', () => {
   const repeatSequence = repeatValue(1, 100);

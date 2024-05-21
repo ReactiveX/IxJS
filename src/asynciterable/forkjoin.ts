@@ -1,6 +1,6 @@
-import { identity } from '../util/identity';
-import { wrapWithAbort } from './operators/withabort';
-import { safeRace } from '../util/safeRace';
+import { identity } from '../util/identity.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { safeRace } from '../util/safeRace.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});

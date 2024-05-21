@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { range } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { range } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#forEach', async () => {
   let n = 0;

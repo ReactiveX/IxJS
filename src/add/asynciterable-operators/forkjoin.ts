@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { forkJoin } from '../../asynciterable/forkjoin';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { forkJoin } from '../../asynciterable/forkjoin.js';
 
 /**
  * @ignore

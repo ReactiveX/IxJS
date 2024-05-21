@@ -1,5 +1,5 @@
-import { toArray } from './toarray';
-import { ReduceOptions } from './reduceoptions';
+import { toArray } from './toarray.js';
+import { ReduceOptions } from './reduceoptions.js';
 
 /**
  * Applies an accumulator function over an iterable sequence from the right, returning the result of the aggregation as a

@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { expand } from '../../iterable/operators/expand';
+import { IterableX } from '../../iterable/iterablex.js';
+import { expand } from '../../iterable/operators/expand.js';
 
 /**
  * @ignore

@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { batch } from 'ix/asynciterable/operators';
-import { AsyncSink } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { batch } from 'ix/asynciterable/operators/index.js';
+import { AsyncSink } from 'ix/asynciterable/index.js';
 
 const delay = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 

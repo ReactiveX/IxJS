@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { min } from 'ix/iterable';
+import { min } from 'ix/iterable/index.js';
 
 test('Itearble#min laws', () => {
   const xs = [5, 3, 1, 2, 4];

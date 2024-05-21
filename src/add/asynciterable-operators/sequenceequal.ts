@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { sequenceEqual, SequencEqualOptions } from '../../asynciterable/sequenceequal';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { sequenceEqual, SequencEqualOptions } from '../../asynciterable/sequenceequal.js';
 
 /**
  * @ignore

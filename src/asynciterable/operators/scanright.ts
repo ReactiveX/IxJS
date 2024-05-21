@@ -1,8 +1,8 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { toArray } from '../toarray';
-import { OperatorAsyncFunction } from '../../interfaces';
-import { ScanOptions } from './scanoptions';
-import { throwIfAborted } from '../../aborterror';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { toArray } from '../toarray.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
+import { ScanOptions } from './scanoptions.js';
+import { throwIfAborted } from '../../aborterror.js';
 
 /** @ignore */
 export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {

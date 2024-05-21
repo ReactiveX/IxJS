@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { empty as emptyStatic } from '../../iterable/empty';
+import { IterableX } from '../../iterable/iterablex.js';
+import { empty as emptyStatic } from '../../iterable/empty.js';
 
 /** @nocollapse */
 IterableX.empty = emptyStatic;

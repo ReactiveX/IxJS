@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { sum } from 'ix/iterable';
+import { sum } from 'ix/iterable/index.js';
 
 test('Iterable#sum laws', () => {
   const xs = [1, 2, 3];

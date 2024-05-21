@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { map } from './map';
-import { OperatorAsyncFunction } from '../../interfaces';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { map } from './map.js';
+import { OperatorAsyncFunction } from '../../interfaces.js';
 
 function plucker(props: string[], length: number): (x: any) => any {
   const mapper = (x: any) => {

@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { count } from 'ix/iterable';
+import { count } from 'ix/iterable/index.js';
 
 test('Iterable#count no predicate empty', () => {
   expect(count<number>([])).toBe(0);

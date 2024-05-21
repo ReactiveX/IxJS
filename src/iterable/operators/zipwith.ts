@@ -1,5 +1,5 @@
-import { OperatorFunction } from '../../interfaces';
-import { ZipIterable } from '../zip';
+import { OperatorFunction } from '../../interfaces.js';
+import { ZipIterable } from '../zip.js';
 
 /**
  * Merges multiple iterable sequences into one iterable sequence by combining their elements in a pairwise fashion.

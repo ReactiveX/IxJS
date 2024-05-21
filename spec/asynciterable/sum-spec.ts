@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { of, empty, sum } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { of, empty, sum } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#sum laws', async () => {
   const xs = of(1, 2, 3);

@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { create as createStatic } from '../../iterable/create';
+import { IterableX } from '../../iterable/iterablex.js';
+import { create as createStatic } from '../../iterable/create.js';
 
 /** @nocollapse */
 IterableX.create = createStatic;

@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { toMap, ToMapOptions } from '../../asynciterable/tomap';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { toMap, ToMapOptions } from '../../asynciterable/tomap.js';
 
 export async function toMapProto<TSource, TKey, TElement = TSource>(
   this: AsyncIterable<TSource>,

@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { tap } from 'ix/iterable/operators';
-import { defer, sequenceEqual, toArray, whileDo } from 'ix/iterable';
+import { tap } from 'ix/iterable/operators/index.js';
+import { defer, sequenceEqual, toArray, whileDo } from 'ix/iterable/index.js';
 
 test('Iterable#while some', () => {
   let x = 5;

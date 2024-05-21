@@ -1,4 +1,4 @@
-import { OptionalFindOptions } from './findoptions';
+import { OptionalFindOptions } from './findoptions.js';
 
 /**
  * Returns the last element of an iterable sequence that satisfies the condition in the predicate if given

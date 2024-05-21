@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { IterableX } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { IterableX } from 'ix/iterable/index.js';
 
 test('Iterable#as from array/iterable', () => {
   const xs = [1, 2, 3];

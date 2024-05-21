@@ -1,4 +1,4 @@
-import { toInteger } from './tointeger';
+import { toInteger } from './tointeger.js';
 const maxSafeInteger = Math.pow(2, 53) - 1;
 
 /**

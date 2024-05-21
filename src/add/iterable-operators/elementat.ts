@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { elementAt } from '../../iterable/elementat';
+import { IterableX } from '../../iterable/iterablex.js';
+import { elementAt } from '../../iterable/elementat.js';
 
 /**
  * @ignore

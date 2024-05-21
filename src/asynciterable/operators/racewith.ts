@@ -1,5 +1,5 @@
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
-import { RaceAsyncIterable } from '../race';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
+import { RaceAsyncIterable } from '../race.js';
 
 /**
  * Propagates the async sequence that reacts first.

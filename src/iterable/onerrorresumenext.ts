@@ -1,4 +1,4 @@
-import { IterableX } from './iterablex';
+import { IterableX } from './iterablex.js';
 
 /** @ignore */
 export class OnErrorResumeNextIterable<TSource> extends IterableX<TSource> {

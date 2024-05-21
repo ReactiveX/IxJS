@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { concat, sequenceEqual, throwError, onErrorResumeNext } from 'ix/iterable';
+import { concat, sequenceEqual, throwError, onErrorResumeNext } from 'ix/iterable/index.js';
 
 test('Iterable#onErrorResumeNext continues without error', () => {
   const xs = [1, 2];

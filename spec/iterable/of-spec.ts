@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { of } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { of } from 'ix/iterable/index.js';
 
 test('Iterable#of behavior', () => {
   const res = of(1, 2, 3);

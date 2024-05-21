@@ -1,6 +1,6 @@
-import { publish } from './operators/publish';
-import { fromDOMStream } from './fromdomstream';
-import { AsyncIterableX } from './asynciterablex';
+import { publish } from './operators/publish.js';
+import { fromDOMStream } from './fromdomstream.js';
+import { AsyncIterableX } from './asynciterablex.js';
 
 /** @ignore */
 export type ReadableBYOBStreamOptions<T = any> = QueuingStrategy<T> & { type: 'bytes' };

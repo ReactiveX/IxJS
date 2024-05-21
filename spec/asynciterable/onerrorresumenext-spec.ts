@@ -1,5 +1,11 @@
-import '../asynciterablehelpers';
-import { concat, of, sequenceEqual, throwError, onErrorResumeNext } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import {
+  concat,
+  of,
+  sequenceEqual,
+  throwError,
+  onErrorResumeNext,
+} from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#onErrorResumeNext continues without error', async () => {
   const xs = of(1, 2);

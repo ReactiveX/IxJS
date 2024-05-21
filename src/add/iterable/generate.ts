@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { generate as generateStatic } from '../../iterable/generate';
+import { IterableX } from '../../iterable/iterablex.js';
+import { generate as generateStatic } from '../../iterable/generate.js';
 
 /** @nocollapse */
 IterableX.generate = generateStatic;

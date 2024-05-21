@@ -1,6 +1,6 @@
-import './Ix';
-import { AsyncIterableX } from 'ix/asynciterable';
-import { Observer, PartialObserver } from '../src/observer';
+import './Ix.js';
+import { Observer, PartialObserver } from '../src/observer.js';
+import { AsyncIterableX } from 'ix/asynciterable/asynciterablex.js';
 
 export async function hasNext<T>(source: AsyncIterator<T>, expected: T) {
   await expect(source.next()).resolves.toEqual({ done: false, value: expected });

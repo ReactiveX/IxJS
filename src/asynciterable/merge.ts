@@ -1,7 +1,7 @@
-import { AsyncIterableX } from './asynciterablex';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { safeRace } from '../util/safeRace';
+import { AsyncIterableX } from './asynciterablex.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
+import { safeRace } from '../util/safeRace.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const NEVER_PROMISE = new Promise(() => {});
@@ -10,7 +10,7 @@ type MergeResult<T> = { value: T; index: number; done?: boolean; error?: any };
 
 function wrapPromiseWithIndex<T>(promise: Promise<IteratorResult<T>>, index: number) {
   return promise
-    .then(({value, done}) => ({ value, done, index }))
+    .then(({ value, done }) => ({ value, done, index }))
     .catch((error) => ({ error, index })) as Promise<MergeResult<T>>;
 }
 

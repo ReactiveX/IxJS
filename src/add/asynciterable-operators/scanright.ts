@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { ScanRightAsyncIterable } from '../../asynciterable/operators/scanright';
-import { ScanOptions } from 'ix/asynciterable/operators/scanoptions';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { ScanRightAsyncIterable } from '../../asynciterable/operators/scanright.js';
+import { ScanOptions } from '../../asynciterable/operators/scanoptions.js';
 
 /**
  * @ignore

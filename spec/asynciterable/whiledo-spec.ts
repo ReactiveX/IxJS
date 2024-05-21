@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { defer, of, whileDo } from 'ix/asynciterable';
-import { tap } from 'ix/asynciterable/operators';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { defer, of, whileDo } from 'ix/asynciterable/index.js';
+import { tap } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#whileDo some', async () => {
   let x = 5;

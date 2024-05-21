@@ -1,6 +1,6 @@
-import { AsyncIterableX } from './asynciterablex';
-import { fromEventPattern } from './fromeventpattern';
-import { isFunction } from '../util/isiterable';
+import { AsyncIterableX } from './asynciterablex.js';
+import { fromEventPattern } from './fromeventpattern.js';
+import { isFunction } from '../util/isiterable.js';
 
 type CommonEventHandler = (...args: any[]) => void;
 

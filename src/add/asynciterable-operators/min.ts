@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { min } from '../../asynciterable/min';
-import { ExtremaOptions } from '../../asynciterable/extremaoptions';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { min } from '../../asynciterable/min.js';
+import { ExtremaOptions } from '../../asynciterable/extremaoptions.js';
 
 export function minProto<TSource, TResult = TSource>(
   this: AsyncIterable<TSource>,

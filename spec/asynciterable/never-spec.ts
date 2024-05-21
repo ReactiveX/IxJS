@@ -1,8 +1,8 @@
-import '../asynciterablehelpers';
-import { never } from 'ix/asynciterable';
-import { of } from 'ix/asynciterable';
-import { race } from 'ix/asynciterable';
-import { hasNext, noNext } from '../asynciterablehelpers';
+import '../asynciterablehelpers.js';
+import { never } from 'ix/asynciterable/index.js';
+import { of } from 'ix/asynciterable/index.js';
+import { race } from 'ix/asynciterable/index.js';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
 
 test('AsyncIterable#of never', async () => {
   const xs = of(42, 43, 44);

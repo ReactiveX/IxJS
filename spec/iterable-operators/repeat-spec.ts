@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { as, every, sum, toArray } from 'ix/iterable';
-import { buffer, map, take, tap, repeat } from 'ix/iterable/operators';
+import { as, every, sum, toArray } from 'ix/iterable/index.js';
+import { buffer, map, take, tap, repeat } from 'ix/iterable/operators/index.js';
 
 test('Iterable#repeat infinite', () => {
   let i = 0;

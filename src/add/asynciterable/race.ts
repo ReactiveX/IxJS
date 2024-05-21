@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { race as raceStatic } from '../../asynciterable/race';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { race as raceStatic } from '../../asynciterable/race.js';
 
 /** @nocollapse */
 AsyncIterableX.race = raceStatic;

@@ -1,6 +1,6 @@
-import { identityAsync } from '../util/identity';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { identityAsync } from '../util/identity.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /**
  * The options for the toMap method which include an optional element selector and abort signal for cancellation.

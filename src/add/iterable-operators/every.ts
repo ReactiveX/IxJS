@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { every } from '../../iterable/every';
-import { FindOptions } from '../../iterable/findoptions';
+import { IterableX } from '../../iterable/iterablex.js';
+import { every } from '../../iterable/every.js';
+import { FindOptions } from '../../iterable/findoptions.js';
 
 /**
  * @ignore

@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { take } from 'ix/iterable/operators';
-import { throwError } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { take } from 'ix/iterable/operators/index.js';
+import { throwError } from 'ix/iterable/index.js';
 
 test('Iterable#take zero or less takes nothing', () => {
   const xs = [1, 2, 3, 4];

@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { of } from 'ix/asynciterable';
-import { pluck } from 'ix/asynciterable/operators';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { of } from 'ix/asynciterable/index.js';
+import { pluck } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#pluck simple prop', async () => {
   const xs = of({ prop: 1 }, { prop: 2 }, { prop: 3 }, { prop: 4 }, { prop: 5 });

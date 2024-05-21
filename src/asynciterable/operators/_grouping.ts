@@ -1,4 +1,4 @@
-import { wrapWithAbort } from './withabort';
+import { wrapWithAbort } from './withabort.js';
 
 /**
  * @ignore

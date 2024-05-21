@@ -1,13 +1,8 @@
-//Compiler configuaration to build the ES2015 CommonJS target
+// TypeScript configuration for the ES2015 CommonJS target's tests
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "commonjs",
-    "paths": {
-      "ix/*": [
-        "targets/es2015/cjs/*"
-      ]
-    }
+    "target": "ESNext",
+    "module": "CommonJS"
   }
 }

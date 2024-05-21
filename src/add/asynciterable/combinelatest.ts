@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { combineLatest as combineLatestStatic } from '../../asynciterable/combinelatest';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { combineLatest as combineLatestStatic } from '../../asynciterable/combinelatest.js';
 
 /** @nocollapse */
 AsyncIterableX.combineLatest = combineLatestStatic;

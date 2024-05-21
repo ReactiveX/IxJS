@@ -1,6 +1,6 @@
-import { IterableX } from '../../iterable/iterablex';
-import { tap } from '../../iterable/operators/tap';
-import { PartialObserver } from '../../observer';
+import { IterableX } from '../../iterable/iterablex.js';
+import { tap } from '../../iterable/operators/tap.js';
+import { PartialObserver } from '../../observer.js';
 
 /**
  * @ignore

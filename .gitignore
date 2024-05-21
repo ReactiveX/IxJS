@@ -25,7 +25,6 @@ build/Release
 dist
 
 # npm/yarn stuff
-yarn.lock
 node_modules
 package-lock.json
 
@@ -36,8 +35,6 @@ package-lock.json
 .node_repl_history
 
 # editor configurations
-.vscode/**
-!.vscode/launch.json
 .editorconfig
 
 # esdoc output
@@ -53,3 +50,13 @@ targets/esnext
 
 # local @std/esm module cache
 .esm-cache
+
+# jest cache
+.jest-cache
+
+# test bundles
+integration/src/*/
+integration/esbuild/
+integration/rollup/
+integration/webpack/
+integration/generated/

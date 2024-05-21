@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { elementAt, empty, of } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { elementAt, empty, of } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#elementAt empty returns undefined', async () => {
   const xs = empty();

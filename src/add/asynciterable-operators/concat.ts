@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { concat } from '../../asynciterable/concat';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { concat } from '../../asynciterable/concat.js';
 
 /**
  * @ignore

@@ -1,6 +1,6 @@
-import { flatMap } from './flatmap';
-import { AsyncIterableX } from '../asynciterablex';
-import { isAsyncIterable } from '../../util/isiterable';
+import { flatMap } from './flatmap.js';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { isAsyncIterable } from '../../util/isiterable.js';
 
 type Flattened<Arr, Depth extends number> = Depth extends -1
   ? FlattenInfinite<Arr>

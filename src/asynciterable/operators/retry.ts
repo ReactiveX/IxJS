@@ -1,7 +1,7 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { repeatValue } from '../../iterable/repeatvalue';
-import { CatchAllAsyncIterable } from '../catcherror';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { repeatValue } from '../../iterable/repeatvalue.js';
+import { CatchAllAsyncIterable } from '../catcherror.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
 
 /**
  * Retries the async-iterable instance the number of given times. If not supplied, it will try infinitely.

@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { share } from '../../iterable/operators/share';
+import { IterableX } from '../../iterable/iterablex.js';
+import { share } from '../../iterable/operators/share.js';
 
 export function shareProto<TSource>(this: IterableX<TSource>): IterableX<TSource>;
 export function shareProto<TSource, TResult>(

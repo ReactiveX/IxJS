@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { except } from 'ix/iterable/operators';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { except } from 'ix/iterable/operators/index.js';
 
 test('Iterable#except with default comparer', () => {
   const xs = [1, 2, 3];

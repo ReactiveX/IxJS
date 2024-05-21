@@ -1,6 +1,6 @@
-import { IterableX } from '../iterablex';
-import { bindCallback } from '../../util/bindcallback';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { bindCallback } from '../../util/bindcallback.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 /** @ignore */
 export class MapIterable<TSource, TResult> extends IterableX<TResult> {

@@ -1,17 +1,14 @@
-import '../asynciterablehelpers';
+import '../asynciterablehelpers.js';
 import { Readable, ReadableOptions } from 'stream';
-import { as, fromDOMStream } from 'ix/asynciterable';
+import { as, fromDOMStream } from 'ix/asynciterable/index.js';
 
 // eslint-disable-next-line consistent-return
-(() => {
+(async () => {
   if (!fromDOMStream || process.env.TEST_DOM_STREAMS !== 'true') {
     return test('not testing node streams because process.env.TEST_DOM_STREAMS !== "true"', () => {
       /**/
     });
   }
-
-  // eslint-disable-next-line
-  const { toStream } = require('web-stream-tools').default;
 
   class Counter extends Readable {
     private _index: number;
@@ -42,6 +39,8 @@ import { as, fromDOMStream } from 'ix/asynciterable';
 
   describe('AsyncIterable#fromDOMStream', () => {
     test('objectMode: true', async () => {
+      // @ts-ignore
+      const { toStream } = await import('@openpgp/web-stream-tools');
       const c = toStream(new Counter({ objectMode: true }));
       const xs = fromDOMStream(c) as AsyncIterable<string>;
       const expected = as(['1', '2', '3']);
@@ -49,6 +48,8 @@ import { as, fromDOMStream } from 'ix/asynciterable';
     });
 
     test('objectMode: false', async () => {
+      // @ts-ignore
+      const { toStream } = await import('@openpgp/web-stream-tools');
       const c = toStream(new Counter({ objectMode: false }));
       const xs = fromDOMStream(c) as AsyncIterable<Buffer>;
       const expected = as(['1', '2', '3'].map((s) => Buffer.from(s)));

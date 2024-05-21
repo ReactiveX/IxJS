@@ -1,13 +1,13 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
 import {
   orderBy,
   orderByDescending,
   OrderedAsyncIterableX,
-} from '../../asynciterable/operators/orderby';
+} from '../../asynciterable/operators/orderby.js';
 import {
   thenBy as _thenBy,
   thenByDescending as _thenByDescending,
-} from '../../asynciterable/operators/orderby';
+} from '../../asynciterable/operators/orderby.js';
 
 /**
  * @ignore

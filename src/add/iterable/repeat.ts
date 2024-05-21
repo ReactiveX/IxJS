@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { repeatValue as _repeatValue } from '../../iterable/repeatvalue';
+import { IterableX } from '../../iterable/iterablex.js';
+import { repeatValue as _repeatValue } from '../../iterable/repeatvalue.js';
 
 /** @nocollapse */
 IterableX.repeatValue = _repeatValue;

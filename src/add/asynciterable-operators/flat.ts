@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { flat } from '../../asynciterable/operators/flat';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { flat } from '../../asynciterable/operators/flat.js';
 
 /**
  * @ignore

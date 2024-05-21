@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { range } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { range } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#range produces values', async () => {
   const xs = range(2, 5);

@@ -1,5 +1,5 @@
-import { AsyncIterableX } from './asynciterablex';
-import { throwIfAborted } from '../aborterror';
+import { AsyncIterableX } from './asynciterablex.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /** @ignore */
 export class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {

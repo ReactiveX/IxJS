@@ -1,6 +1,6 @@
-import { IterableX } from '../iterablex';
-import { isIterable } from '../../util/isiterable';
-import { MonoTypeOperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { isIterable } from '../../util/isiterable.js';
+import { MonoTypeOperatorFunction } from '../../interfaces.js';
 
 /** @ignore */
 export class FlattenIterable<TSource> extends IterableX<TSource> {

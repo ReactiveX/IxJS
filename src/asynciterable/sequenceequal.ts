@@ -1,6 +1,6 @@
-import { comparerAsync } from '../util/comparer';
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
+import { comparerAsync } from '../util/comparer.js';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
 
 /**
  * The options for sequence equal operations including a comparer and abort signal

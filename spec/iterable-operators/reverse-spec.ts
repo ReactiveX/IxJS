@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { empty, throwError } from 'ix/iterable';
-import { reverse } from 'ix/iterable/operators';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { empty, throwError } from 'ix/iterable/index.js';
+import { reverse } from 'ix/iterable/operators/index.js';
 
 test('Iterable#reverse empty', () => {
   const xs = empty();

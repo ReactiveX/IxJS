@@ -1,6 +1,6 @@
 import '../iterablehelpers';
-import { endWith } from 'ix/iterable/operators';
-import { range, sequenceEqual } from 'ix/iterable';
+import { endWith } from 'ix/iterable/operators/index.js';
+import { range, sequenceEqual } from 'ix/iterable/index.js';
 
 test('Iterable#endWith adds to end', () => {
   const e = range(0, 5);

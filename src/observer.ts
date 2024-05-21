@@ -1,4 +1,4 @@
-import { Subscription } from './subscription';
+import { Subscription } from './subscription.js';
 
 // Older versions of Rx will polyfill Symbol.observable, which gets
 // compiled into our UMD bundle. At runtime, our UMD bundle defines its

@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { count, empty, of, throwError } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { count, empty, of, throwError } from 'ix/asynciterable/index.js';
 
 test('AsyncItearble#count some', async () => {
   const xs = of(1, 2, 3, 4);

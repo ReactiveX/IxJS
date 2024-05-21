@@ -1,15 +1,15 @@
-import { hasNext, hasErr, noNext, delayValue } from '../asynciterablehelpers';
-import { timeout, finalize } from 'ix/asynciterable/operators';
-import { as } from 'ix/asynciterable';
-import { TimeoutError } from 'ix/asynciterable/operators/timeout';
+import { hasNext, hasErr, noNext, delayValue } from '../asynciterablehelpers.js';
+import { timeout, finalize } from 'ix/asynciterable/operators/index.js';
+import { as } from 'ix/asynciterable/index.js';
+import { TimeoutError } from 'ix/asynciterable/operators/timeout.js';
 
 test('AsyncIterable#timeout drops none', async () => {
   const xs = async function* () {
-    yield await delayValue(1, 50);
-    yield await delayValue(2, 50);
-    yield await delayValue(3, 50);
+    yield await delayValue(1, 500);
+    yield await delayValue(2, 500);
+    yield await delayValue(3, 500);
   };
-  const ys = as(xs()).pipe(timeout(100));
+  const ys = as(xs()).pipe(timeout(1000));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -20,10 +20,10 @@ test('AsyncIterable#timeout drops none', async () => {
 
 test('AsyncIterable#timeout throws when delayed', async () => {
   const xs = async function* () {
-    yield await delayValue(1, 50);
-    yield await delayValue(2, 200);
+    yield await delayValue(1, 500);
+    yield await delayValue(2, 2000);
   };
-  const ys = as(xs()).pipe(timeout(100));
+  const ys = as(xs()).pipe(timeout(1000));
 
   const it = ys[Symbol.asyncIterator]();
   await hasNext(it, 1);
@@ -34,14 +34,14 @@ test('AsyncIterable#timeout throws when delayed', async () => {
 test('AsyncIterable#timeout triggers finalize', async () => {
   let done = false;
   const xs = async function* () {
-    yield await delayValue(1, 50);
-    yield await delayValue(2, 200);
+    yield await delayValue(1, 500);
+    yield await delayValue(2, 2000);
   };
   const ys = as(xs()).pipe(
     finalize(() => {
       done = true;
     }),
-    timeout(100)
+    timeout(1000)
   );
 
   const it = ys[Symbol.asyncIterator]();

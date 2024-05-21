@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { of, toMap } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { of, toMap } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#toMap stores values', async () => {
   const xs = of(1, 4);

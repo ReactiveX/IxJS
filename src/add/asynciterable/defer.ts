@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { defer as deferStatic } from '../../asynciterable/defer';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { defer as deferStatic } from '../../asynciterable/defer.js';
 
 /** @nocollapse */
 AsyncIterableX.defer = deferStatic;

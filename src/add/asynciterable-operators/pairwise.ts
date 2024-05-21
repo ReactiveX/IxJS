@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { PairwiseAsyncIterable } from '../../asynciterable/operators/pairwise';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { PairwiseAsyncIterable } from '../../asynciterable/operators/pairwise.js';
 
 /**
  * @ignore

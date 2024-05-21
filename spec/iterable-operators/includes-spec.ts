@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { includes } from 'ix/iterable';
+import { includes } from 'ix/iterable/index.js';
 
 test('Iterable#includes includes', () => {
   const xs = [1, 2, 3, 4, 5];

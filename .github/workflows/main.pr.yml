@@ -1,4 +1,8 @@
-name: Build pull request
+name: PR
+
+concurrency:
+  group: pr-on-${{ github.event_name }}-from-${{ github.ref_name }}
+  cancel-in-progress: true
 
 on:
   pull_request:
@@ -7,106 +11,15 @@ on:
 
 jobs:
   lint-pull-request:
-    name: Lint pull request
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: true
-      matrix:
-        node: [18.x]
-    steps:
-      - name: Setup node v${{ matrix.node }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Cache node_modules
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ hashFiles('package.json') }}
-          path: |
-            node_modules
-
-      - name: Check if source or test files changed
-        id: files_changed
-        uses: tj-actions/changed-files@v41
-        with:
-          files: |
-            src/**/*
-            spec/**/*
-
-      - name: Install dependencies
-        if: ${{ steps.files_changed.outputs.any_changed == 'true' || steps.files_changed.outputs.any_deleted == 'true' }}
-        run: |
-          yarn
-
-      - name: Lint files
-        if: ${{ steps.files_changed.outputs.any_changed == 'true' || steps.files_changed.outputs.any_deleted == 'true' }}
-        run: |
-          yarn lint:ci
+    name: Lint
+    uses: ./.github/workflows/lint.yml
 
   build-and-test-pull-request:
-    needs:
-      - lint-pull-request
-    name: Build and test pull request
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: true
-      matrix:
-        node: [14.x, 16.x, 18.x]
-        module: [cjs, esm, umd]
-        target: [es5, es2015, esnext]
-        exclude:
-          - {node: 14.x, target: esnext}
-    steps:
-      - name: Setup node v${{ matrix.node }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Checkout
-        uses: actions/checkout@v3
+    name: Test
+    needs: lint-pull-request
+    uses: ./.github/workflows/test.yml
 
-      - name: Cache targets
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-targets-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json') }}
-          path: |
-            targets
-
-      - name: Cache node_modules
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-node_modules-${{ matrix.node }}-${{ matrix.target }}-${{ matrix.module }}-${{ hashFiles('package.json') }}
-          path: |
-            node_modules
-
-      - name: Check if test files changed
-        id: test_files_changed
-        uses: tj-actions/changed-files@v41
-        with:
-          files: |
-            spec/**/*
-
-      - name: Check if source files changed
-        id: source_files_changed
-        uses: tj-actions/changed-files@v41
-        with:
-          files: |
-            src/**/*
-
-      - name: Install dependencies
-        if: ${{ steps.test_files_changed.outputs.any_changed == 'true' || steps.test_files_changed.outputs.any_deleted == 'true' || steps.source_files_changed.outputs.any_changed == 'true' || steps.source_files_changed.outputs.any_deleted == 'true' }}
-        run: |
-          yarn --ignore-optional --ignore-engines --non-interactive
-
-      - name: Build package
-        if: ${{ steps.source_files_changed.outputs.any_changed == 'true' || steps.source_files_changed.outputs.any_deleted == 'true' }}
-        run: |
-          yarn build -t ${{ matrix.target }} -m ${{ matrix.module }}
-
-      - name: Test package
-        if: ${{ steps.test_files_changed.outputs.any_changed == 'true' || steps.test_files_changed.outputs.any_deleted == 'true' || steps.source_files_changed.outputs.any_changed == 'true' || steps.source_files_changed.outputs.any_deleted == 'true' }}
-        run: |
-          yarn test -t ${{ matrix.target }} -m ${{ matrix.module }}
+  test-tree-shaking-pull-request:
+    needs: build-and-test-pull-request
+    name: Bundle
+    uses: ./.github/workflows/bundle.yml

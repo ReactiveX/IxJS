@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { slice } from '../../iterable/operators/slice';
+import { IterableX } from '../../iterable/iterablex.js';
+import { slice } from '../../iterable/operators/slice.js';
 
 /**
  * @ignore

@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { onErrorResumeNext as _onErrorResumeNextStatic } from '../../asynciterable/onerrorresumenext';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { onErrorResumeNext as _onErrorResumeNextStatic } from '../../asynciterable/onerrorresumenext.js';
 
 /** @nocollapse */
 AsyncIterableX.onErrorResumeNext = _onErrorResumeNextStatic;

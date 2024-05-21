@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { pluck } from '../../iterable/operators/pluck';
+import { IterableX } from '../../iterable/iterablex.js';
+import { pluck } from '../../iterable/operators/pluck.js';
 
 /**
  * @ignore

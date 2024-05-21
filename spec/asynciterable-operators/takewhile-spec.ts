@@ -1,6 +1,6 @@
-import { hasNext, noNext } from '../asynciterablehelpers';
-import { takeWhile } from 'ix/asynciterable/operators';
-import { of } from 'ix/asynciterable';
+import { hasNext, noNext } from '../asynciterablehelpers.js';
+import { takeWhile } from 'ix/asynciterable/operators/index.js';
+import { of } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#takeWhile some match', async () => {
   const xs = of(1, 2, 3, 4);

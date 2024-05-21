@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../asynciterablex';
-import { MonoTypeOperatorAsyncFunction } from '../../interfaces';
+import { AsyncIterableX } from '../asynciterablex.js';
+import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
 
 /** @ignore */
 export class WithAbortAsyncIterable<TSource> extends AsyncIterableX<TSource> {

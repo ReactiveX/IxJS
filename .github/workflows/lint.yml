@@ -1,0 +1,43 @@
+name: Lint
+
+on:
+  workflow_call:
+
+jobs:
+  lint-pull-request:
+    name: Lint
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup node v20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Construct cache keys
+        run: |
+          echo node_modules_key='["${{ runner.os }}", "node_modules", "20.x", "${{ hashFiles('package.json', 'yarn.lock') }}"]' >> $GITHUB_ENV;
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          key: ${{ join(fromJSON(env.node_modules_key), '-') }}
+          path: node_modules
+
+      - name: Check if source or test files changed
+        id: files_changed
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            src/**/*
+            spec/**/*
+
+      - name: Lint files
+        if: ${{ steps.files_changed.outputs.any_modified == 'true' }}
+        run: |
+          yarn --ignore-engines --non-interactive
+          yarn lint:ci

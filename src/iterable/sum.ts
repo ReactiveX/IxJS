@@ -1,5 +1,5 @@
-import { identity } from '../util/identity';
-import { MathOptions } from './mathoptions';
+import { identity } from '../util/identity.js';
+import { MathOptions } from './mathoptions.js';
 
 /**
  * Computes the sum of a sequence of values.

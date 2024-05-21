@@ -1,27 +1,25 @@
 {
   "extends": "../tsconfig.json",
-  "include": [
-    "../src/**/*.ts",
-    "../spec/**/*.ts"
-  ],
+  "include": ["../src/**/*.ts", "../spec/**/*.ts"],
   "compilerOptions": {
-    "target": "ESNEXT",
-    "module": "CommonJS",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "rootDir": "../",
     "allowJs": true,
     "declaration": false,
     "declarationMap": false,
     "importHelpers": false,
+    "noEmit": true,
     "noEmitHelpers": false,
     "noEmitOnError": false,
-    "sourceMap": false,
+    "sourceMap": true,
     "inlineSources": false,
     "inlineSourceMap": false,
     "downlevelIteration": false,
     "baseUrl": "../",
     "paths": {
-      "ix/*": [
-        "src/*"
-      ]
+      "ix": ["src/Ix.node"],
+      "ix/*": ["src/*"]
     }
   }
 }

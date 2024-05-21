@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { catchError as catchErrorStatic } from '../../asynciterable/catcherror';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { catchError as catchErrorStatic } from '../../asynciterable/catcherror.js';
 
 /** @nocollapse */
 AsyncIterableX.catchError = catchErrorStatic;

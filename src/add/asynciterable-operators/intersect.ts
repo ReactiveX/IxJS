@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { intersect } from '../../asynciterable/operators/intersect';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { intersect } from '../../asynciterable/operators/intersect.js';
 
 /**
  * @ignore

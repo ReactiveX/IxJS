@@ -1,6 +1,6 @@
-import { IterableX } from '../iterablex';
-import { MapIterable } from './map';
-import { OperatorFunction } from '../../interfaces';
+import { IterableX } from '../iterablex.js';
+import { MapIterable } from './map.js';
+import { OperatorFunction } from '../../interfaces.js';
 
 function plucker(props: string[], length: number): (x: any) => any {
   const mapper = (x: any) => {

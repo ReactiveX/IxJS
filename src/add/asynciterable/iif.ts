@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { iif as ifStatic } from '../../asynciterable/iif';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { iif as ifStatic } from '../../asynciterable/iif.js';
 
 /** @nocollapse */
 AsyncIterableX.iif = ifStatic;

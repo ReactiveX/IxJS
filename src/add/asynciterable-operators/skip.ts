@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { SkipAsyncIterable } from '../../asynciterable/operators/skip';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { SkipAsyncIterable } from '../../asynciterable/operators/skip.js';
 
 /**
  * @ignore

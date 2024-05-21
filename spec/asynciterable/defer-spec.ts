@@ -1,5 +1,5 @@
-import '../asynciterablehelpers';
-import { sequenceEqual, defer, range } from 'ix/asynciterable';
+import '../asynciterablehelpers.js';
+import { sequenceEqual, defer, range } from 'ix/asynciterable/index.js';
 
 test('AsyncIterable#defer defers side effects', async () => {
   let i = 0;

@@ -1,7 +1,7 @@
-import '../asynciterablehelpers';
-import { sum } from 'ix/iterable';
-import { as, every, of, toArray } from 'ix/asynciterable';
-import { buffer, map, repeat, tap, take } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { sum } from 'ix/iterable/index.js';
+import { as, every, of, toArray } from 'ix/asynciterable/index.js';
+import { buffer, map, repeat, tap, take } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#repeat infinite', async () => {
   let i = 0;

@@ -1,9 +1,9 @@
-import { IterableX } from '../iterablex';
-import { identity } from '../../util/identity';
-import { arrayIndexOf } from '../../util/arrayindexof';
-import { comparer as defaultComparer } from '../../util/comparer';
-import { MonoTypeOperatorFunction } from '../../interfaces';
-import { DistinctOptions } from './distinctoptions';
+import { IterableX } from '../iterablex.js';
+import { identity } from '../../util/identity.js';
+import { arrayIndexOf } from '../../util/arrayindexof.js';
+import { comparer as defaultComparer } from '../../util/comparer.js';
+import { MonoTypeOperatorFunction } from '../../interfaces.js';
+import { DistinctOptions } from './distinctoptions.js';
 
 /** @ignore */
 export class DistinctIterable<TSource, TKey = TSource> extends IterableX<TSource> {

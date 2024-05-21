@@ -1,5 +1,5 @@
 import '../iterablehelpers';
-import { sequenceEqual, toSet } from 'ix/iterable';
+import { sequenceEqual, toSet } from 'ix/iterable/index.js';
 
 test('Iterable#toSet non-empty', () => {
   const xs = [1, 2, 3, 4, 5];

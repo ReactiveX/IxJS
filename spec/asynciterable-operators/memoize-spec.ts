@@ -1,6 +1,6 @@
-import { hasNext, noNext, delayValue } from '../asynciterablehelpers';
-import { memoize } from 'ix/asynciterable/operators';
-import { as, defer, concat, range, throwError } from 'ix/asynciterable';
+import { hasNext, noNext, delayValue } from '../asynciterablehelpers.js';
+import { memoize } from 'ix/asynciterable/operators/index.js';
+import { as, defer, concat, range, throwError } from 'ix/asynciterable/index.js';
 
 async function* tick(t: (x: number) => void | Promise<void>) {
   let i = 0;

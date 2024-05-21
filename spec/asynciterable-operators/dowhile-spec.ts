@@ -1,7 +1,7 @@
-import '../asynciterablehelpers';
-import { defer, of, toArray } from 'ix/asynciterable';
-import { doWhile, tap } from 'ix/asynciterable/operators';
-import { sequenceEqual } from 'ix/iterable';
+import '../asynciterablehelpers.js';
+import { defer, of, toArray } from 'ix/asynciterable/index.js';
+import { doWhile, tap } from 'ix/asynciterable/operators/index.js';
+import { sequenceEqual } from 'ix/iterable/index.js';
 
 test('AsyncIterable#doWhile some', async () => {
   let x = 5;

@@ -1,4 +1,4 @@
-import { IterableX } from './iterablex';
+import { IterableX } from './iterablex.js';
 
 class EmptyIterable extends IterableX<never> {
   *[Symbol.iterator](): Iterator<never> {

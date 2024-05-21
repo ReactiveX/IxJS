@@ -1,6 +1,6 @@
-import { wrapWithAbort } from './operators/withabort';
-import { throwIfAborted } from '../aborterror';
-import { FindOptions } from './findoptions';
+import { wrapWithAbort } from './operators/withabort.js';
+import { throwIfAborted } from '../aborterror.js';
+import { FindOptions } from './findoptions.js';
 
 /**
  * Determines whether any element of an async-iterable sequence satisfies a condition.

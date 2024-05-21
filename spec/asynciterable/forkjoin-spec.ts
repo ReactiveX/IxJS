@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { empty, forkJoin, of } from 'ix/asynciterable';
-import { sequenceEqual } from 'ix/iterable';
+import '../asynciterablehelpers.js';
+import { empty, forkJoin, of } from 'ix/asynciterable/index.js';
+import { sequenceEqual } from 'ix/iterable/index.js';
 
 test('AsyncIterable#forkJoin no selector all equal', async () => {
   const xs = of(42, 25, 39);

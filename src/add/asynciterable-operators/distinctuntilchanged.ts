@@ -1,6 +1,6 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { distinctUntilChanged } from '../../asynciterable/operators/distinctuntilchanged';
-import { DistinctOptions } from '../../asynciterable/operators/distinctoptions';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { distinctUntilChanged } from '../../asynciterable/operators/distinctuntilchanged.js';
+import { DistinctOptions } from '../../asynciterable/operators/distinctoptions.js';
 
 /**
  * @ignore

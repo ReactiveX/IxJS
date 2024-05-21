@@ -1,4 +1,4 @@
-import { FindOptions } from './findoptions';
+import { FindOptions } from './findoptions.js';
 
 /**
  * Returns the value of the first element in the provided iterable that satisfies the provided testing function.

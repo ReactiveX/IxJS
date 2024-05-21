@@ -1,5 +1,5 @@
-import { hasNext, noNext } from '../iterablehelpers';
-import { from } from 'ix/iterable';
+import { hasNext, noNext } from '../iterablehelpers.js';
+import { from } from 'ix/iterable/index.js';
 
 function* getData() {
   yield 1;

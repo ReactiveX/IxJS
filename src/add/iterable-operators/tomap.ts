@@ -1,5 +1,5 @@
-import { IterableX } from '../../iterable/iterablex';
-import { toMap, ToMapOptions } from '../../iterable/tomap';
+import { IterableX } from '../../iterable/iterablex.js';
+import { toMap, ToMapOptions } from '../../iterable/tomap.js';
 
 export function toMapProto<TSource, TKey, TElement = TSource>(
   this: IterableX<TSource>,

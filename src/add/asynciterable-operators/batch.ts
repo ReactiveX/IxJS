@@ -1,5 +1,5 @@
-import { AsyncIterableX } from '../../asynciterable/asynciterablex';
-import { BatchAsyncIterable } from '../../asynciterable/operators/batch';
+import { AsyncIterableX } from '../../asynciterable/asynciterablex.js';
+import { BatchAsyncIterable } from '../../asynciterable/operators/batch.js';
 
 /**
  * @ignore

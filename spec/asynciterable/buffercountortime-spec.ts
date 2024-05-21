@@ -1,6 +1,6 @@
-import '../asynciterablehelpers';
-import { of, concat } from 'ix/asynciterable';
-import { bufferCountOrTime, delay } from 'ix/asynciterable/operators';
+import '../asynciterablehelpers.js';
+import { of, concat } from 'ix/asynciterable/index.js';
+import { bufferCountOrTime, delay } from 'ix/asynciterable/operators/index.js';
 
 test('buffer count behaviour', async () => {
   const result: number[][] = [];
