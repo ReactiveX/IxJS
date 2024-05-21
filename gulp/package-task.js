@@ -29,8 +29,8 @@ const createMainPackageJson = (target, format) => (orig) => ({
     main: `${mainExport}.node.js`,
     module: `${mainExport}.node.mjs`,
     types: `${mainExport}.node.d.ts`,
-    unpkg: `${mainExport}.es2015.min.js`,
-    jsdelivr: `${mainExport}.es2015.min.js`,
+    unpkg: `${mainExport}.dom.es2015.min.js`,
+    jsdelivr: `${mainExport}.dom.es2015.min.js`,
     browser: {
         [`./${mainExport}.node.js`]: `./${mainExport}.dom.js`,
         [`./${mainExport}.node.mjs`]: `./${mainExport}.dom.mjs`
