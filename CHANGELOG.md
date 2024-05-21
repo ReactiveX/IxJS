@@ -1,3 +1,38 @@
+# [6.0.0](https://github.com/ReactiveX/IxJS/compare/v5.0.0...v6.0.0) (2024-05-21)
+
+
+### Bug Fixes
+
+* **flatmap:** flatMap shouldn't throw when the input size is smaller than concurrent ([#367](https://github.com/ReactiveX/IxJS/issues/367)) ([dffd344](https://github.com/ReactiveX/IxJS/commit/dffd3449a03a4706938e1b037f5828787998ea12)), closes [#366](https://github.com/ReactiveX/IxJS/issues/366)
+* **from:** make from forward or check abort signal. fixes [#352](https://github.com/ReactiveX/IxJS/issues/352) ([#361](https://github.com/ReactiveX/IxJS/issues/361)) ([e2dd8d7](https://github.com/ReactiveX/IxJS/commit/e2dd8d7954c46072a14653c228e01aa70ff1aaf3))
+* **merge:** catch promise errors to avoid unhandled exceptions ([#354](https://github.com/ReactiveX/IxJS/issues/354)) ([520e096](https://github.com/ReactiveX/IxJS/commit/520e096e4a0a0cb88fc43ea644aa141f2342eaaf)), closes [#353](https://github.com/ReactiveX/IxJS/issues/353)
+* **package.json:** fix CDN names in ix package.json ([760242e](https://github.com/ReactiveX/IxJS/commit/760242e5bd0b968282c8e3d2cef4158b0d49c86b))
+* **toMap:** fix return type of keySelector ([#365](https://github.com/ReactiveX/IxJS/issues/365)) ([eab2f10](https://github.com/ReactiveX/IxJS/commit/eab2f1037199ad14834fae72daf6eae3186ec809)), closes [#364](https://github.com/ReactiveX/IxJS/issues/364)
+
+
+### Build System
+
+* **deps-dev:** bump json from 9.0.6 to 10.0.0 ([#359](https://github.com/ReactiveX/IxJS/issues/359)) ([1e4dd6f](https://github.com/ReactiveX/IxJS/commit/1e4dd6f3a348a2fe98540f639b7816baaeb96d65))
+* **deps:** bump tj-actions/changed-files in /.github/workflows ([#362](https://github.com/ReactiveX/IxJS/issues/362)) ([ff1cef0](https://github.com/ReactiveX/IxJS/commit/ff1cef03d91a4a7c527fa8c8dbdac025a652c236))
+
+
+### chore
+
+* **npm-release.sh:** update npm-release.sh ([d465319](https://github.com/ReactiveX/IxJS/commit/d46531904c6a99fa6f3884f4f3e1c7d11a8aee19))
+* **types/merge:** fix return type for merge with 5, 6 args ([#355](https://github.com/ReactiveX/IxJS/issues/355)) ([9932fe8](https://github.com/ReactiveX/IxJS/commit/9932fe84896a41a6809896fefde19855d734e5c7))
+* **typescript:** update to typescript@5.3.3 ([#358](https://github.com/ReactiveX/IxJS/issues/358)) ([2fcd440](https://github.com/ReactiveX/IxJS/commit/2fcd4401beae188066a32575060e726028141706)), closes [#345](https://github.com/ReactiveX/IxJS/issues/345) [#335](https://github.com/ReactiveX/IxJS/issues/335) [#345](https://github.com/ReactiveX/IxJS/issues/345)
+
+
+### Documentation
+
+* **docs/asynciterable/converting.md:** Fix fromEventPattern import ([#350](https://github.com/ReactiveX/IxJS/issues/350)) ([f07b7ef](https://github.com/ReactiveX/IxJS/commit/f07b7ef4095120f1ef21a4023030c75b36335cd1))
+
+
+* Fix ESM imports and tree-shaking (#363) ([d31d2c5](https://github.com/ReactiveX/IxJS/commit/d31d2c53881a3c63250e8ea57b65eeae459a7207)), closes [#363](https://github.com/ReactiveX/IxJS/issues/363)
+* Add `docs` action (#360) ([d6591ee](https://github.com/ReactiveX/IxJS/commit/d6591ee78d6010d0190d51d79ebb128af2d2343d)), closes [#360](https://github.com/ReactiveX/IxJS/issues/360)
+
+
+
 # [5.0.0](https://github.com/ReactiveX/IxJS/compare/v4.6.0...v5.0.0) (2022-08-01)
 
 
