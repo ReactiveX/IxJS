@@ -4,7 +4,7 @@ export default {
     ...config,
     rootDir: '../',
     moduleNameMapper: {
-        '^ix$': '<rootDir>/targets/ts/Ix.node',
+        '^ix$': '<rootDir>/targets/ts/node',
         '^ix(.*)\\.js$': '<rootDir>/targets/ts$1',
         '^(\\.{1,2}/.*)\\.js$': '$1',
     },

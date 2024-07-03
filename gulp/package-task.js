@@ -1,4 +1,4 @@
-import { metadataFiles, packageJSONFields, mainExport, npmPkgName, npmOrgName, targetDir, packageName, observableFromStreams } from './util.js';
+import { metadataFiles, packageJSONFields, npmPkgName, npmOrgName, targetDir, packageName, observableFromStreams } from './util.js';
 
 import gulp from 'gulp';
 import { memoizeTask } from './memoize-task.js';
@@ -26,46 +26,28 @@ const createMainPackageJson = (target, format) => (orig) => ({
     bin: orig.bin,
     name: npmPkgName,
     type: 'commonjs',
-    main: `${mainExport}.node.js`,
-    module: `${mainExport}.node.mjs`,
-    types: `${mainExport}.node.d.ts`,
-    unpkg: `${mainExport}.dom.es2015.min.js`,
-    jsdelivr: `${mainExport}.dom.es2015.min.js`,
+    main: `node.js`,
+    module: `node.mjs`,
+    types: `node.d.ts`,
+    unpkg: `dom.es2015.min.js`,
+    jsdelivr: `dom.es2015.min.js`,
     browser: {
-        [`./${mainExport}.node.js`]: `./${mainExport}.dom.js`,
-        [`./${mainExport}.node.mjs`]: `./${mainExport}.dom.mjs`
+        [`./node.js`]: `./dom.js`,
+        [`./node.mjs`]: `./dom.mjs`
     },
     exports: {
+        './package.json': './package.json',
+        './Ix.asynciterable.operators': createDualExport(`asynciterable/operators`),
+        './Ix.iterable.operators': createDualExport(`iterable/operators`),
+        './Ix.asynciterable': createDualExport(`asynciterable`),
+        './Ix.iterable': createDualExport(`iterable`),
+        './Ix.node': createDualExport(`node`),
+        './Ix.dom': createDualExport(`dom`),
         '.': {
-            node: {
-                import: {
-                    types: `./${mainExport}.node.d.ts`,
-                    default: `./${mainExport}.node.mjs`,
-                },
-                require: {
-                    types: `./${mainExport}.node.d.ts`,
-                    default: `./${mainExport}.node.js`,
-                },
-            },
-            import: {
-                types: `./${mainExport}.dom.d.ts`,
-                default: `./${mainExport}.dom.mjs`,
-            },
-            require: {
-                types: `./${mainExport}.dom.d.ts`,
-                default: `./${mainExport}.dom.js`,
-            }
+            node: createDualExport(`node`),
+            ...createDualExport(`dom`),
         },
-        './*': {
-            import: {
-                types: `./*.d.ts`,
-                default: `./*.mjs`,
-            },
-            require: {
-                types: `./*.d.ts`,
-                default: `./*.js`,
-            },
-        },
+        './*': createDualExport('*'),
     },
     sideEffects: false,
     esm: { mode: `all`, sourceMap: true }
@@ -74,10 +56,10 @@ const createMainPackageJson = (target, format) => (orig) => ({
 const createTypeScriptPackageJson = (target, format) => (orig) => ({
     ...createScopedPackageJSON(target, format)(orig),
     bin: undefined,
-    main: `${mainExport}.node.ts`,
-    module: `${mainExport}.node.ts`,
-    types: `${mainExport}.node.ts`,
-    browser: `${mainExport}.dom.ts`,
+    main: `node.ts`,
+    module: `node.ts`,
+    types: `node.ts`,
+    browser: `dom.ts`,
     type: 'module',
     sideEffects: false,
     esm: { mode: `auto`, sourceMap: true },
@@ -96,22 +78,69 @@ const createScopedPackageJSON = (target, format) => (({ name, ...orig }) =>
             // set the scoped package name (e.g. "@reactivex/ix-esnext-esm")
             name: `${npmOrgName}/${npmPkgName}-${packageName(target, format)}`,
             // set "unpkg"/"jsdeliver" if building scoped UMD target
-            unpkg: format === 'umd' ? `${mainExport}.dom.js` : undefined,
-            jsdelivr: format === 'umd' ? `${mainExport}.dom.js` : undefined,
-            // set "browser" if building scoped UMD target, otherwise "Ix.dom"
-            browser: format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.dom.js`,
-            // set "main" to "Ix" if building scoped UMD target, otherwise "Ix.node"
-            main: format === 'umd' ? `${mainExport}.dom.js` : `${mainExport}.node.js`,
+            unpkg: format === 'umd' ? `dom.js` : undefined,
+            jsdelivr: format === 'umd' ? `dom.js` : undefined,
+            // set "browser" if building scoped UMD target, otherwise "dom"
+            browser: format === 'umd' ? `dom.js` : `dom.js`,
+            // set "main" to "Ix" if building scoped UMD target, otherwise "node"
+            main: format === 'umd' ? `dom.js` : `node.js`,
             // set "type" to `module` or `commonjs` (https://nodejs.org/api/packages.html#packages_type)
             type: format === 'esm' ? `module` : `commonjs`,
             // set "module" if building scoped ESM target
-            module: format === 'esm' ? `${mainExport}.node.js` : undefined,
+            module: format === 'esm' ? `node.js` : undefined,
             // set "sideEffects" to false as a hint to Webpack that it's safe to tree-shake the ESM target
             sideEffects: format === 'esm' ? false : undefined,
             // include "esm" settings for https://www.npmjs.com/package/esm if building scoped ESM target
             esm: format === `esm` ? { mode: `auto`, sourceMap: true } : undefined,
-            // set "types" to "Ix.dom" if building scoped UMD target, otherwise "Ix.node"
-            types: format === 'umd' ? `${mainExport}.dom.d.ts` : `${mainExport}.node.d.ts`,
+            // set "types" to "dom" if building scoped UMD target, otherwise "node"
+            types: format === 'umd' ? `dom.d.ts` : `node.d.ts`,
+            exports: format !== 'umd' ? {
+                './package.json': './package.json',
+                './Ix.asynciterable.operators': createExport(`asynciterable/operators`),
+                './Ix.iterable.operators': createExport(`iterable/operators`),
+                './Ix.asynciterable': createExport(`asynciterable`),
+                './Ix.iterable': createExport(`iterable`),
+                './Ix.node': createExport(`node`),
+                './Ix.dom': createExport(`dom`),
+                '.': {
+                    node: createExport(`node`),
+                    ...createExport(`dom`)
+                },
+                './*': createExport(`*`),
+            } : {
+                './package.json': './package.json',
+                './Ix.asynciterable.operators': createExport(`asynciterable/operators`),
+                './asynciterable/operators/*': createExport(`asynciterable/operators`),
+                './asynciterable/operators': createExport(`asynciterable/operators`),
+                './Ix.iterable.operators': createExport(`iterable/operators`),
+                './iterable/operators/*': createExport(`iterable/operators`),
+                './iterable/operators': createExport(`iterable/operators`),
+                './Ix.asynciterable': createExport(`asynciterable`),
+                './asynciterable/*': createExport(`asynciterable`),
+                './asynciterable': createExport(`asynciterable`),
+                './Ix.iterable': createExport(`iterable`),
+                './iterable/*': createExport(`iterable`),
+                './iterable': createExport(`iterable`),
+                './Ix.node': createExport(`dom`),
+                './Ix.dom': createExport(`dom`),
+                './Ix': createExport(`dom`),
+                '.': createExport(`dom`),
+                './*': createExport(`*`),
+            },
         }
     )
 );
+
+function createDualExport(path) {
+    return {
+        import: createExport(path, 'mjs'),
+        require: createExport(path, 'js')
+    };
+}
+
+function createExport(path, ext = 'js') {
+    return {
+        types: `./${path}.d.ts`,
+        default: `./${path}.${ext}`
+    };
+}

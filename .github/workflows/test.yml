@@ -98,6 +98,8 @@ jobs:
           t: "${{ matrix.target }}"
           m: "${{ matrix.module }}"
         run: |
+          set -e;
+
           targetdir="./targets${t:+/${t}}${m:+/${m}}";
           pkg_name="$(jq -r '.name' "${targetdir}/package.json")";
           pkg_type="$(jq -r '.type' "${targetdir}/package.json")";
@@ -108,16 +110,50 @@ jobs:
           cd "${_tmp}/node_modules/${pkg_name}";
           npm i;
           cd "${_tmp}/";
+
+          import_paths=(
+            "${pkg_name}"
+            "${pkg_name}/Ix"
+            "${pkg_name}/Ix.iterable"
+            "${pkg_name}/Ix.iterable.operators"
+            "${pkg_name}/Ix.asynciterable"
+            "${pkg_name}/Ix.asynciterable.operators"
+            "${pkg_name}/iterable/index"
+            "${pkg_name}/iterable/operators"
+            "${pkg_name}/iterable/operators/index"
+            "${pkg_name}/asynciterable/index"
+            "${pkg_name}/asynciterable/operators"
+            "${pkg_name}/asynciterable/operators/index"
+          );
+
+          test_import_esm() {
+            local path;
+            for path in "${import_paths[@]}"; do
+              node --input-type=module -e "import '${path}'";
+            done
+          }
+
+          test_import_cjs() {
+            local path;
+            for path in "${import_paths[@]}"; do
+              node --input-type=commonjs -e "require('${path}')";
+            done
+          }
+
           set -x;
           if test "${pkg_type}" = "module"; then
             # Test importing as ESModule
-            node --input-type=module -e "import '${pkg_name}'";
+            test_import_esm;
+          elif "$m" = umd; then
+            # Test importing UMD as both CommonJS and ESM
+            test_import_cjs;
+            test_import_esm;
           else
-            # Test importing as CommonJS
-            node --input-type=commonjs -e "require('${pkg_name}')";
-            # Test importing CommonJS module but allow it to fail
-            node --input-type=module -e "import '${pkg_name}'" || true;
+            # Test importing others as both CommonJS and ESM, but allow ESM to fail
+            test_import_cjs;
+            test_import_esm 2>/dev/null || true;
           fi
           set +x;
+
           cd /;
           rm -rf "${_tmp}";

@@ -5,11 +5,11 @@ export default {
     rootDir: '../',
     moduleFileExtensions: ['js', 'ts'],
     moduleNameMapper: {
-        '^ix/asynciterable/operators(.*)': '<rootDir>/targets/esnext/umd/Ix.asynciterable.operators.js',
-        '^ix/iterable/operators(.*)': '<rootDir>/targets/esnext/umd/Ix.iterable.operators.js',
-        '^ix/asynciterable(.*)': '<rootDir>/targets/esnext/umd/Ix.asynciterable.js',
-        '^ix/iterable(.*)': '<rootDir>/targets/esnext/umd/Ix.iterable.js',
-        '^ix': '<rootDir>/targets/esnext/umd/Ix.dom.js',
+        '^ix/asynciterable/operators(.*)': '<rootDir>/targets/esnext/umd/asynciterable/operators.js',
+        '^ix/iterable/operators(.*)': '<rootDir>/targets/esnext/umd/iterable/operators.js',
+        '^ix/asynciterable(.*)': '<rootDir>/targets/esnext/umd/asynciterable.js',
+        '^ix/iterable(.*)': '<rootDir>/targets/esnext/umd/iterable.js',
+        '^ix': '<rootDir>/targets/esnext/umd/dom.js',
         '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     transform: {

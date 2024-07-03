@@ -1,2 +1,2 @@
-import { IterableX } from 'ix/Ix.iterable';
+import { IterableX } from 'ix/iterable';
 console.log(IterableX);

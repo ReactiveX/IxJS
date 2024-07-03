@@ -1,12 +1,12 @@
 {
     "entryPoints": [
         "src/Ix.ts",
-        "src/Ix.dom.ts",
-        "src/Ix.node.ts",
-        "src/Ix.iterable.ts",
-        "src/Ix.iterable.operators.ts",
-        "src/Ix.asynciterable.ts",
-        "src/Ix.asynciterable.operators.ts"
+        "src/dom.ts",
+        "src/node.ts",
+        "src/iterable.ts",
+        "src/iterable/operators.ts",
+        "src/asynciterable.ts",
+        "src/asynciterable/operators.ts"
     ],
     "out": "doc",
     "name": "ReactiveX IxJS",

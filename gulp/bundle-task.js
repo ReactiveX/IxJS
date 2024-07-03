@@ -49,12 +49,12 @@ export const esbuildTask = ((cache) => memoizeTask(cache, function pkgEsbuild(ta
     ].reduce((aliases, ext) => {
         return [
             'Ix',
-            'Ix.dom',
-            'Ix.node',
-            'Ix.iterable',
-            'Ix.asynciterable',
-            'Ix.iterable.operators',
-            'Ix.asynciterable.operators'
+            'dom',
+            'node',
+            'iterable',
+            'asynciterable',
+            'iterable/operators',
+            'asynciterable/operators'
         ].reduce((aliases, entrypoint) => ({
             ...aliases,
             [`ix/${entrypoint}.${ext}`]: Path.join(pkgDir, `${entrypoint}.${ext}`)
@@ -135,7 +135,7 @@ export const webpackTask = ((cache) => memoizeTask(cache, function pkgWebpack(ta
                 ]
             },
             resolve: {
-                extensions: ['.mjs', '.cjs', '.js'],
+                extensions: ['.mjs', '.js'],
                 alias: { 'ix': pkgDir }
             },
             stats: 'errors-only',

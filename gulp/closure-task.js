@@ -1,4 +1,4 @@
-import { esmRequire, gCCLanguageNames, mainExport, observableFromStreams, shouldRunInChildProcess, spawnGulpCommandInChildProcess, targetDir } from "./util.js";
+import { esmRequire, gCCLanguageNames, observableFromStreams, shouldRunInChildProcess, spawnGulpCommandInChildProcess, targetDir } from "./util.js";
 
 import gulp from 'gulp';
 import sourcemaps from 'gulp-sourcemaps';
@@ -34,11 +34,11 @@ export const closureTask = ((cache) => memoizeTask(cache, async function closure
 
     await Promise.all(
         [
-            `${mainExport}.dom`,
-            `${mainExport}.iterable`,
-            `${mainExport}.asynciterable`,
-            `${mainExport}.iterable.operators`,
-            `${mainExport}.asynciterable.operators`,
+            `dom`,
+            `iterable`,
+            `asynciterable`,
+            `iterable/operators`,
+            `asynciterable/operators`,
         ].map(closureCompile)
     );
 
@@ -68,6 +68,12 @@ export const closureTask = ((cache) => memoizeTask(cache, async function closure
     }));
 
     async function closureCompile(entry) {
+
+        const entryOutDir = Path.dirname(Path.join(out, entry));
+        const entrySrcDir = Path.dirname(Path.join(srcAbsolute, entry));
+
+        await mkdirp(entryOutDir);
+
         const entry_point = Path.join(src, `${entry}.cls.js`);
         const externsPath = Path.join(out, `${entry}.externs.js`);
 
@@ -82,7 +88,7 @@ export const closureTask = ((cache) => memoizeTask(cache, async function closure
 
         await Promise.all([
             fs.promises.writeFile(externsPath, generateExternsFile(exportedImports)),
-            fs.promises.writeFile(entry_point, generateUMDExportAssignment(srcAbsolute, exportedImports))
+            fs.promises.writeFile(entry_point, generateUMDExportAssignment(entrySrcDir, exportedImports))
         ]);
 
         await Promise.all([

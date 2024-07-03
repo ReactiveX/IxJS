@@ -1,2 +1,2 @@
-import { AsyncIterableX } from 'ix/Ix.asynciterable';
+import { AsyncIterableX } from 'ix/asynciterable';
 console.log(AsyncIterableX);

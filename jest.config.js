@@ -15,7 +15,7 @@ export default {
         '/node_modules/',
     ],
     moduleNameMapper: {
-        '^ix$': '<rootDir>/src/Ix.node',
+        '^ix$': '<rootDir>/src/node',
         '^ix(.*)': '<rootDir>/src$1',
         '^(\\.{1,2}/.*)\\.js$': '$1',
     },

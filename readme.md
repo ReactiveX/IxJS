@@ -25,12 +25,12 @@ The `Iterable` class a way to create and compose synchronous collections much li
 
 ```js
 // ES
-import { from } from 'ix/Ix.iterable';
-import { filter, map } from 'ix/Ix.iterable.operators';
+import { from } from 'ix/iterable';
+import { filter, map } from 'ix/iterable/operators';
 
 // CommonJS
-const from = require('ix/Ix.iterable').from;
-const { filter, map } = require('ix/Ix.iterable.operators');
+const from = require('ix/iterable').from;
+const { filter, map } = require('ix/iterable/operators');
 
 const source = function* () {
   yield 1;
@@ -56,12 +56,12 @@ In addition, we also supply a `forEach` so it's your choice for which to use.
 
 ```js
 // ES
-import { from } from 'ix/Ix.asynciterable';
-import { filter, map } from 'ix/Ix.asynciterable.operators';
+import { from } from 'ix/asynciterable';
+import { filter, map } from 'ix/asynciterable/operators';
 
 // CommonJS
-const from = require('ix/Ix.asynciterable').from;
-const { filter, map } = require('ix/Ix.asynciterable.operators');
+const from = require('ix/asynciterable').from;
+const { filter, map } = require('ix/asynciterable/operators');
 
 const source = function* () {
   yield 1;
@@ -87,12 +87,12 @@ Instead of bringing in the entire library for `Iterable`, we can pick and choose
 
 ```js
 // ES
-import { IterableX as Iterable } from 'ix/Ix.iterable';
+import { IterableX as Iterable } from 'ix/iterable';
 import 'ix/add/iterable/of';
 import 'ix/add/iterable-operators/map';
 
 // CommonJS
-const { IterableX: Iterable } = require('ix/Ix.iterable');
+const { IterableX: Iterable } = require('ix/iterable');
 require('ix/add/iterable/of');
 require('ix/add/iterable-operators/map');
 
@@ -125,12 +125,12 @@ The `AsyncIterable` object is based off the ECMAScript Proposal for [Asynchronou
 
 ```js
 // ES
-import { from } from 'ix/Ix.asynciterable';
-import { filter, map } from 'ix/Ix.asynciterable.operators';
+import { from } from 'ix/asynciterable';
+import { filter, map } from 'ix/asynciterable/operators';
 
 // CommonJS
-const from = require('ix/Ix.asynciterable').from;
-const { filter, map } = require('ix/Ix.asynciterable.operators');
+const from = require('ix/asynciterable').from;
+const { filter, map } = require('ix/asynciterable/operators');
 
 const source = async function* () {
   yield 1;
@@ -156,12 +156,12 @@ Alternatively, we can use the built-in `forEach` and `catch` should there be any
 
 ```js
 // ES
-import { from } from 'ix/Ix.asynciterable';
-import { filter, map } from 'ix/Ix.asynciterable.operators';
+import { from } from 'ix/asynciterable';
+import { filter, map } from 'ix/asynciterable/operators';
 
 // CommonJS
-const from = require('ix/Ix.asynciterable').from;
-const { filter, map } = require('ix/Ix.asynciterable.operators');
+const from = require('ix/asynciterable').from;
+const { filter, map } = require('ix/asynciterable/operators');
 
 const source = async function* () {
   yield 1;
@@ -195,12 +195,12 @@ Instead of bringing in the entire library for `AsyncIterable`, we can pick and c
 
 ```js
 // ES
-import { AsyncIterableX as AsyncIterable } from 'ix/Ix.asynciterable';
+import { AsyncIterableX as AsyncIterable } from 'ix/asynciterable';
 import 'ix/add/async-iterable/of';
 import 'ix/add/asynciterable-operators/map';
 
 // CommonJS
-const { AsyncIterableX: AsyncIterable } = require('ix/Ix.asynciterable');
+const { AsyncIterableX: AsyncIterable } = require('ix/asynciterable');
 require('ix/add/asynciterable-operators/map');
 
 const results = AsyncIterable.of(1,2,3)
@@ -232,8 +232,8 @@ interface IteratorResult<T> {
 Using IxJS, you can easily go from an `Iterable` to an `AsyncIterable` using a number of methods.  First, we can use the `from` function, either as a standalone or on the `Ix.AsyncIterable` object.  The `from` method accepts a standard `Iterable`, `Generator`, and `Iterator` of Promises, or even another `AsyncIterable`.
 
 ```js
-import { from } from 'ix/Ix.asynciterable';
-import { map } from 'ix/Ix.asynciterable.operators';
+import { from } from 'ix/asynciterable';
+import { map } from 'ix/asynciterable/operators';
 
 const xs = [1, 2, 3, 4];
 const mapped = from(xs).pipe(
