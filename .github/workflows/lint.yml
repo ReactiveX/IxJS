@@ -8,10 +8,10 @@ jobs:
     name: Lint
     runs-on: ubuntu-22.04
     steps:
-      - name: Setup node v20.x
+      - name: Setup node v22.x
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
 
       - name: Construct cache keys
         run: |
-          echo node_modules_key='["${{ runner.os }}", "node_modules", "20.x", "${{ hashFiles('package.json', 'yarn.lock') }}"]' >> $GITHUB_ENV;
+          echo node_modules_key='["${{ runner.os }}", "node_modules", "22.x", "${{ hashFiles('package.json', 'yarn.lock') }}"]' >> $GITHUB_ENV;
 
       - name: Cache node_modules
         uses: actions/cache@v4

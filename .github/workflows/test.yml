@@ -10,14 +10,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [16.x, 18.x, 20.x]
+        node: [16.x, 18.x, 20.x, 22.x]
         target: [es5, es2015, esnext]
         module: [cjs, esm, umd]
         include:
           - {node: 16.x, target: ix}
           - {node: 18.x, target: ix}
           - {node: 20.x, target: ix}
-          - {node: 20.x, target: src, args: --coverage}
+          - {node: 22.x, target: ix}
+          - {node: 22.x, target: src, args: --coverage}
     steps:
       - name: Setup node v${{ matrix.node }}
         uses: actions/setup-node@v4
