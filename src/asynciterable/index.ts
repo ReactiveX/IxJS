@@ -42,7 +42,7 @@ export { sequenceEqual } from './sequenceequal.js';
 export { single } from './single.js';
 export { some } from './some.js';
 export { sum } from './sum.js';
-export { throwError } from './throwerrror.js';
+export { throwError } from './throwerror.js';
 export { toArray } from './toarray.js';
 export { toDOMStream } from './todomstream.js';
 export { toMap } from './tomap.js';
