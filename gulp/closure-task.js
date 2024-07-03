@@ -1,4 +1,4 @@
-import { esmRequire, gCCLanguageNames, observableFromStreams, shouldRunInChildProcess, spawnGulpCommandInChildProcess, targetDir } from "./util.js";
+import { gCCLanguageNames, observableFromStreams, shouldRunInChildProcess, spawnGulpCommandInChildProcess, targetDir } from './util.js';
 
 import gulp from 'gulp';
 import sourcemaps from 'gulp-sourcemaps';
@@ -77,14 +77,15 @@ export const closureTask = ((cache) => memoizeTask(cache, async function closure
         const entry_point = Path.join(src, `${entry}.cls.js`);
         const externsPath = Path.join(out, `${entry}.externs.js`);
 
-        const exportedImports = [
+        const exportedImports = [];
+        for (const publicModulePath of [
             Path.join(srcAbsolute, `${entry}.js`)
-        ].reduce((entries, publicModulePath) => [
-            ...entries, {
+        ]) {
+            exportedImports.push({
                 publicModulePath,
-                exports_: getPublicExportedNames(esmRequire(publicModulePath))
-            }
-        ], []);
+                exports_: getPublicExportedNames(await import(publicModulePath))
+            });
+        }
 
         await Promise.all([
             fs.promises.writeFile(externsPath, generateExternsFile(exportedImports)),

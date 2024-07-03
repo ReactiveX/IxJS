@@ -10,7 +10,6 @@ import { ReplaySubject, empty as ObservableEmpty, throwError as ObservableThrow,
 import { share, flatMap, takeUntil, defaultIfEmpty, merge } from 'rxjs/operators/index.js';
 const asyncDone = util.promisify(asyncDoneSync);
 import { createRequire } from 'node:module';
-import esmRequire from './esm-require.cjs'
 
 const require = createRequire(import.meta.url);
 
@@ -155,7 +154,7 @@ export {
     knownTargets, knownModules, tasksToSkipPerTargetOrFormat, gCCLanguageNames,
 
     taskName, packageName, tsconfigName, targetDir, combinations, observableFromStreams,
-    esmRequire, shouldRunInChildProcess, spawnGulpCommandInChildProcess,
+    shouldRunInChildProcess, spawnGulpCommandInChildProcess,
 };
 
 export const targetAndModuleCombinations = [...combinations(targets, modules)];
