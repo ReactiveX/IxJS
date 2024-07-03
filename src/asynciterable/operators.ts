@@ -1,1 +1,1 @@
-export * from './operators/index.js'
+export * from './operators/index.js';
