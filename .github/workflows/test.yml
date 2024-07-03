@@ -145,14 +145,14 @@ jobs:
           if test "${pkg_type}" = "module"; then
             # Test importing as ESModule
             test_import_esm;
-          elif "$m" = umd; then
+          elif test "$m" = umd; then
             # Test importing UMD as both CommonJS and ESM
             test_import_cjs;
             test_import_esm;
           else
             # Test importing others as both CommonJS and ESM, but allow ESM to fail
             test_import_cjs;
-            test_import_esm 2>/dev/null || true;
+            test_import_esm || true;
           fi
           set +x;
 
