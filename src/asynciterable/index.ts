@@ -21,7 +21,7 @@ export { fromEvent } from './fromevent.js';
 export { generate } from './generate.js';
 export { generateTime } from './generatetime.js';
 export { iif } from './iif.js';
-export { includes } from './includes';
+export { includes } from './includes.js';
 export { interval } from './interval.js';
 export { isEmpty } from './isempty.js';
 export { last } from './last.js';

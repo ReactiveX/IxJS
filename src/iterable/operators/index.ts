@@ -15,7 +15,7 @@ export * from './flatmap.js';
 export * from './flat.js';
 export * from './groupby.js';
 export * from './groupjoin.js';
-export * from './ignoreelements';
+export * from './ignoreelements.js';
 export * from './innerjoin.js';
 export * from './intersect.js';
 export * from './map.js';
