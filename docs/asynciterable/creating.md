@@ -49,7 +49,7 @@ let value, done;
 Very rarely will we ever need to create these async-iterables by hand, however, if you need a collection that you can add to as well as iterate, we have the `AsyncSink` class.  This class serves as a basis for some of our operators such as binding to events and DOM and Node.js streams.
 
 ```typescript
-import { AsyncSink } from 'ix/Ix.asynciterable';
+import { AsyncSink } from 'ix/asynciterable';
 
 const sink = new AsyncSink();
 sink.write(1);
@@ -75,7 +75,7 @@ let value, done;
 Now that we know the basics, we can take the async-iterable from above and create an AsyncIterable from the source using the `create` method.  This takes in a function which takes in an optional `AbortSignal` for cancellation, and you return the the `[Symbol.asyncIterator]` method implementation.  It's up to you whether to cancel based upon the incoming `AbortSignal`, whether to throw an `AbortError` or not.
 
 ```typescript
-import { create } from 'ix/Ix.asynciterable';
+import { create } from 'ix/asynciterable';
 
 const source = {
   data: [1, 2, 3],
@@ -104,7 +104,7 @@ for await (const item of results) {
 Understanding the basics gets us so far, but we want to be able to easily create async-iterable sequences, for example, from known values.  To do this, we have the `of` factory function which takes any number of arguments and converts those arguments into an async-iterable sequence.  This implementation mimicks that of [`Array.of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of)
 
 ```typescript
-import { of } from 'ix/Ix.asynciterable';
+import { of } from 'ix/asynciterable';
 
 const source = of(1, 2, 3, 4, 5);
 
@@ -118,7 +118,7 @@ for await (const item of source) {
 There may be cases when you want to return an empty sequence, when iterated will always say it is complete.  For that, we have the `empty` method.
 
 ```typescript
-import { empty } from 'ix/Ix.asynciterable';
+import { empty } from 'ix/asynciterable';
 
 const source = empty();
 
@@ -130,7 +130,7 @@ const { value, done } = it.next();
 There may also be cases where you never want the sequence to return.  In the case of `never`, it can be used in places like `race` where the other sequence will always win.
 
 ```typescript
-import { never, of, race } from 'ix/Ix.asynciterable';
+import { never, of, race } from 'ix/asynciterable';
 
 const source = race(of(1), never());
 
@@ -148,7 +148,7 @@ let value, done;
 Another way we can create async-iterable sequences is with a range.  For example, if we want 10 numbers starting at 1, we can use the `range` factory method to call `range(1, 10)`.
 
 ```typescript
-import { range } from 'ix/Ix.asynciterable';
+import { range } from 'ix/asynciterable';
 
 const source = range(1, 10);
 
@@ -174,7 +174,7 @@ for (
 The `generate` method has the same parameters as this for loop, as in our example here.
 
 ```typescript
-import { generate } from 'ix/Ix.asynciterable';
+import { generate } from 'ix/asynciterable';
 
 const source = generate(
   0,            // Initial State
@@ -191,7 +191,7 @@ for await (const item of source) {
 In addition to the `generate` method, we have the `generateTime` which adds a time element to the sequence to delay in milliseconds between results.
 
 ```typescript
-import { generate } from 'ix/Ix.asynciterable';
+import { generate } from 'ix/asynciterable';
 
 const source = generate(
   0,            // Initial State
@@ -211,7 +211,7 @@ for await (const item of source) {
 There are many factory functions that carry over from RxJS over to IxJS including `interval` where we can yield a value at a specified interval.  For example, we can loop through a sequence, yielding a value every 1 second.
 
 ```typescript
-import { interval } from 'ix/Ix.asynciterable';
+import { interval } from 'ix/asynciterable';
 
 const source = interval(1000 /* ms */);
 

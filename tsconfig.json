@@ -12,7 +12,7 @@
     "baseUrl": "./",
     "rootDir": "./",
     "paths": {
-      "ix": ["src/Ix.node"],
+      "ix": ["src/node"],
       "ix/*": ["src/*"]
     },
     "allowImportingTsExtensions": true,

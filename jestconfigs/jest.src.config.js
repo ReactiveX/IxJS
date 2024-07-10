@@ -4,7 +4,7 @@ export default {
     ...config,
     rootDir: '../',
     moduleNameMapper: {
-        '^ix$': '<rootDir>/src/Ix.node',
+        '^ix$': '<rootDir>/src/node',
         '^ix(.*)\\.js$': '<rootDir>/src$1',
         '^(\\.{1,2}/.*)\\.js$': '$1',
     },

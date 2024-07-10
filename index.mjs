@@ -1,1 +1,1 @@
-export * from './targets/ix/Ix.node.mjs';
+export * from './targets/ix/node.mjs';

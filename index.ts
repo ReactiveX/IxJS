@@ -1,1 +1,1 @@
-export * from './src/Ix.node.ts';
+export * from './src/node.ts';

@@ -3,7 +3,7 @@ import '../asynciterablehelpers.js';
 import { as as asIterable } from 'ix/iterable/index.js';
 import { as as asAsyncIterable } from 'ix/asynciterable/index.js';
 import { map, toNodeStream } from 'ix/iterable/operators/index.node.js';
-import { IterableReadable } from 'ix/Ix.node.js';
+import { IterableReadable } from 'ix/node.js';
 
 // eslint-disable-next-line consistent-return
 (() => {

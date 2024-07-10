@@ -12,7 +12,7 @@ export { find } from './find.js';
 export { first } from './first.js';
 export { generate } from './generate.js';
 export { iif } from './iif.js';
-export { includes } from './includes';
+export { includes } from './includes.js';
 export { isEmpty } from './isempty.js';
 export { IterableX, as, from } from './iterablex.js';
 export { last } from './last.js';
