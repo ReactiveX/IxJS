@@ -1,7 +1,7 @@
 {
   "name": "ix",
   "private": true,
-  "version": "6.0.0",
+  "version": "7.0.0",
   "type": "module",
   "description": "The Interactive Extensions for JavaScript",
   "scripts": {
