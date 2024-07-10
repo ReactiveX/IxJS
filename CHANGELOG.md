@@ -1,3 +1,21 @@
+# [7.0.0](https://github.com/ReactiveX/IxJS/compare/v6.0.0...v7.0.0) (2024-07-10)
+
+
+### Bug Fixes
+
+* **actions:** fix docs workflow ([512e370](https://github.com/ReactiveX/IxJS/commit/512e370f428a970f1f55dbf3a0dcd528e3bbc0ba))
+* **changelog:** include latest changelog in npm packages ([f25687b](https://github.com/ReactiveX/IxJS/commit/f25687b46a547b510184ff6558884628e37063b5))
+
+
+### chore
+
+* **build:** fix gulp async task completion ([c68e97c](https://github.com/ReactiveX/IxJS/commit/c68e97c91d565baf33de989d3f6190a8b5046adc))
+
+
+* Fix exports (#371) ([d461eae](https://github.com/ReactiveX/IxJS/commit/d461eae02cc63bafc4e3256d5d59541d1ff7e43f)), closes [#371](https://github.com/ReactiveX/IxJS/issues/371)
+
+
+
 # [6.0.0](https://github.com/ReactiveX/IxJS/compare/v5.0.0...v6.0.0) (2024-05-21)
 
 
