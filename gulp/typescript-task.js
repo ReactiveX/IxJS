@@ -6,8 +6,8 @@ import tsc from 'typescript';
 import ts from 'gulp-typescript';
 import sourcemaps from 'gulp-sourcemaps';
 import { memoizeTask } from './memoize-task.js';
-import { ReplaySubject, forkJoin as ObservableForkJoin, defer as ObservableDefer } from 'rxjs';
-import { takeLast, share, concat } from 'rxjs/operators/index.js';
+import { forkJoin as ObservableForkJoin } from 'rxjs';
+import { takeLast } from 'rxjs/operators/index.js';
 
 export const typescriptTask = ((cache) => memoizeTask(cache, function typescript(target, format) {
     if (shouldRunInChildProcess(target, format)) {
@@ -18,7 +18,7 @@ export const typescriptTask = ((cache) => memoizeTask(cache, function typescript
     const tsconfigPath = path.join(`tsconfig`, `tsconfig.${tsconfigName(target, format)}.json`);
     return compileTypescript(out, tsconfigPath)
         .pipe(takeLast(1))
-        .pipe(share({ connector: () => new ReplaySubject(), resetOnError: false, resetOnComplete: false, resetOnRefCountZero: false }))
+        .toPromise();
 }))({});
 
 export default typescriptTask;

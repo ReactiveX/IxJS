@@ -6,8 +6,8 @@ import util from 'node:util';
 import asyncDoneSync from 'async-done';
 const pump = stream.pipeline;
 import { targets, modules } from './argv.js';
-import { ReplaySubject, empty as ObservableEmpty, throwError as ObservableThrow, fromEvent as ObservableFromEvent } from 'rxjs';
-import { share, flatMap, takeUntil, defaultIfEmpty, merge } from 'rxjs/operators/index.js';
+import { empty as ObservableEmpty, throwError as ObservableThrow, fromEvent as ObservableFromEvent } from 'rxjs';
+import { flatMap, takeUntil, defaultIfEmpty, merge, publishReplay } from 'rxjs/operators/index.js';
 const asyncDone = util.promisify(asyncDoneSync);
 import { createRequire } from 'node:module';
 
@@ -107,10 +107,11 @@ function observableFromStreams(...streams) {
         merge(fromEvent(`error`).pipe(flatMap((e) => ObservableThrow(e)))),
         takeUntil(fromEvent(`end`).pipe(merge(fromEvent(`close`)))),
         defaultIfEmpty(`empty stream`),
-        share({ connector: () => new ReplaySubject(), resetOnError: false, resetOnComplete: false, resetOnRefCountZero: false })
+        publishReplay()
     );
     streamObs.stream = pumped;
     streamObs.observable = streamObs;
+    streamObs.subscription = streamObs.connect();
     return streamObs;
 }
 

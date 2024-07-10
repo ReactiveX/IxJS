@@ -6,8 +6,7 @@ import { mkdirp } from 'mkdirp';
 import gulpRename from 'gulp-rename';
 import gulpReplace from 'gulp-replace';
 import { memoizeTask } from './memoize-task.js';
-import { ReplaySubject, forkJoin as ObservableForkJoin } from 'rxjs';
-import { share } from 'rxjs/operators/index.js';
+import { forkJoin as ObservableForkJoin } from 'rxjs';
 import { pipeline } from 'stream/promises';
 
 export const copyMainTask = ((cache) => memoizeTask(cache, function copyMain(target) {
@@ -31,7 +30,7 @@ export const copyMainTask = ((cache) => memoizeTask(cache, function copyMain(tar
         observableFromStreams(gulp.src(esmGlob), gulpRename((p) => { p.extname = '.mjs'; }), gulpReplace(`.js'`, `.mjs'`), gulpReplace(`.js.map`, `.mjs.map`), gulp.dest(out)), // copy es2015 esm files and rename to `.mjs`
         observableFromStreams(gulp.src(es2015UmdGlob), gulpRename((p) => { p.basename += `.es2015.min`; }), gulp.dest(out)), // copy es2015 umd files and add `.es2015.min`
         observableFromStreams(gulp.src(esnextUmdGlob), gulpRename((p) => { p.basename += `.esnext.min`; }), gulp.dest(out)), // copy esnext umd files and add `.esnext.min`
-    ]).pipe(share({ connector: () => new ReplaySubject(), resetOnError: false, resetOnComplete: false, resetOnRefCountZero: false }));
+    ]).toPromise();
 }))({});
 
 export const copyTSTask = ((cache) => memoizeTask(cache, async function copyTS(target, format) {

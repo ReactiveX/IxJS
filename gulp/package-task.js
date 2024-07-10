@@ -2,8 +2,7 @@ import { metadataFiles, packageJSONFields, npmPkgName, npmOrgName, targetDir, pa
 
 import gulp from 'gulp';
 import { memoizeTask } from './memoize-task.js';
-import { ReplaySubject, EMPTY as ObservableEmpty, forkJoin as ObservableForkJoin } from 'rxjs';
-import { share } from 'rxjs/operators/index.js';
+import { EMPTY as ObservableEmpty, forkJoin as ObservableForkJoin } from 'rxjs';
 import gulpJsonTransform from 'gulp-json-transform';
 
 export const packageTask = ((cache) => memoizeTask(cache, function bundle(target, format) {
@@ -16,7 +15,7 @@ export const packageTask = ((cache) => memoizeTask(cache, function bundle(target
     return ObservableForkJoin([
         observableFromStreams(gulp.src(metadataFiles), gulp.dest(out)), // copy metadata files
         observableFromStreams(gulp.src(`package.json`), jsonTransform, gulp.dest(out)) // write packageJSONs
-    ]).pipe(share({ connector: () => new ReplaySubject(), resetOnError: false, resetOnComplete: false, resetOnRefCountZero: false }));
+    ]).toPromise();
 }))({});
 
 export default packageTask;
