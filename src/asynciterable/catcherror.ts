@@ -24,24 +24,26 @@ export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
       error = null;
       hasError = false;
 
-      while (1) {
-        let c = <TSource>{};
+      try {
+        while (1) {
+          let c = <TSource>{};
 
-        try {
-          const { done, value } = await it.next();
-          if (done) {
-            await returnAsyncIterator(it);
+          try {
+            const { done, value } = await it.next();
+            if (done) {
+              break;
+            }
+            c = value;
+          } catch (e) {
+            error = e;
+            hasError = true;
             break;
           }
-          c = value;
-        } catch (e) {
-          error = e;
-          hasError = true;
-          await returnAsyncIterator(it);
-          break;
-        }
 
-        yield c;
+          yield c;
+        }
+      } finally {
+        await returnAsyncIterator(it);
       }
 
       if (!hasError) {

@@ -1,5 +1,6 @@
 import { IterableX } from '../iterablex.js';
 import { MonoTypeOperatorFunction } from '../../interfaces.js';
+import { returnIterator } from '../../util/returniterator.js';
 
 /** @ignore */
 export class SkipIterable<TSource> extends IterableX<TSource> {
@@ -16,13 +17,18 @@ export class SkipIterable<TSource> extends IterableX<TSource> {
     const it = this._source[Symbol.iterator]();
     let count = this._count;
     let next;
-    while (count > 0 && !(next = it.next()).done) {
-      count--;
-    }
-    if (count <= 0) {
-      while (!(next = it.next()).done) {
-        yield next.value;
+
+    try {
+      while (count > 0 && !(next = it.next()).done) {
+        count--;
       }
+      if (count <= 0) {
+        while (!(next = it.next()).done) {
+          yield next.value;
+        }
+      }
+    } finally {
+      returnIterator(it);
     }
   }
 }

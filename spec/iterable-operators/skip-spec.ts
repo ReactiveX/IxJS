@@ -1,5 +1,6 @@
+import { jest } from '@jest/globals';
 import { hasNext, noNext } from '../iterablehelpers.js';
-import { as, throwError } from 'ix/iterable/index.js';
+import { as, first, range, throwError } from 'ix/iterable/index.js';
 import { skip } from 'ix/iterable/operators/index.js';
 
 test('Iterable#skip skips some', () => {
@@ -38,4 +39,15 @@ test('Iterable#skip throws', () => {
 
   const it = ys[Symbol.iterator]();
   expect(() => it.next()).toThrow();
+});
+
+test('Iterable#skip calls return() on source iterator when stopped early', () => {
+  const xs = range(0, 10)[Symbol.iterator]();
+  const returnSpy = jest.spyOn(xs, 'return');
+
+  const res = as(xs).pipe(skip(2));
+
+  first(res);
+
+  expect(returnSpy).toHaveBeenCalled();
 });

@@ -17,24 +17,27 @@ export class CatchWithIterable<TSource, TResult> extends IterableX<TSource | TRe
     let err: Iterable<TResult> | undefined;
     let hasError = false;
     const it = this._source[Symbol.iterator]();
-    while (1) {
-      let done: boolean | undefined;
-      let value: TSource;
 
-      try {
-        ({ done, value } = it.next());
-        if (done) {
-          returnIterator(it);
+    try {
+      while (1) {
+        let done: boolean | undefined;
+        let value: TSource;
+
+        try {
+          ({ done, value } = it.next());
+          if (done) {
+            break;
+          }
+        } catch (e) {
+          err = this._handler(e);
+          hasError = true;
           break;
         }
-      } catch (e) {
-        err = this._handler(e);
-        hasError = true;
-        returnIterator(it);
-        break;
-      }
 
-      yield value;
+        yield value;
+      }
+    } finally {
+      returnIterator(it);
     }
 
     if (hasError) {

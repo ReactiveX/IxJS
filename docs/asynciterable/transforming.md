@@ -11,6 +11,5 @@ await subscription.pipe(
 .forEach(handleBatch)
 ```
 
-Using this operator makes sure that if messages slow down you'll still 
-handle them in a reasonable time whereas using `buffer` would leave you stuck until you get
+Using this operator makes sure that if messages slow down you'll still handle them in a reasonable time whereas using `buffer` would leave you stuck until you get
 the right amount of messages.

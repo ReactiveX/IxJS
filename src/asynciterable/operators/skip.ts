@@ -2,6 +2,7 @@ import { AsyncIterableX } from '../asynciterablex.js';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
 import { wrapWithAbort } from './withabort.js';
 import { throwIfAborted } from '../../aborterror.js';
+import { returnAsyncIterator } from '../../util/returniterator.js';
 
 /** @ignore */
 export class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
@@ -20,13 +21,18 @@ export class SkipAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     const it = source[Symbol.asyncIterator]();
     let count = this._count;
     let next;
-    while (count > 0 && !(next = await it.next()).done) {
-      count--;
-    }
-    if (count <= 0) {
-      while (!(next = await it.next()).done) {
-        yield next.value;
+
+    try {
+      while (count > 0 && !(next = await it.next()).done) {
+        count--;
       }
+      if (count <= 0) {
+        while (!(next = await it.next()).done) {
+          yield next.value;
+        }
+      }
+    } finally {
+      returnAsyncIterator(it);
     }
   }
 }
