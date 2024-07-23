@@ -1,5 +1,6 @@
+import { jest } from '@jest/globals';
 import { hasNext, noNext } from '../asynciterablehelpers.js';
-import { of, throwError } from 'ix/asynciterable/index.js';
+import { as, first, of, range, throwError } from 'ix/asynciterable/index.js';
 import { skip } from 'ix/asynciterable/operators/index.js';
 
 test('AsyncIterable#skip skips some', async () => {
@@ -39,4 +40,15 @@ test('AsyncIterable#skip throws', async () => {
 
   const it = ys[Symbol.asyncIterator]();
   await expect(it.next()).rejects.toThrow(err);
+});
+
+test('Iterable#skip calls return() on source iterator when stopped early', async () => {
+  const xs = range(0, 10)[Symbol.asyncIterator]();
+  const returnSpy = jest.spyOn(xs, 'return');
+
+  const res = as(xs).pipe(skip(2));
+
+  await first(res);
+
+  expect(returnSpy).toHaveBeenCalled();
 });

@@ -20,24 +20,26 @@ export class CatchIterable<TSource> extends IterableX<TSource> {
       error = null;
       hasError = false;
 
-      while (1) {
-        let c = <TSource>{};
+      try {
+        while (1) {
+          let c = <TSource>{};
 
-        try {
-          const { done, value } = it.next();
-          if (done) {
-            returnIterator(it);
+          try {
+            const { done, value } = it.next();
+            if (done) {
+              break;
+            }
+            c = value;
+          } catch (e) {
+            error = e;
+            hasError = true;
             break;
           }
-          c = value;
-        } catch (e) {
-          error = e;
-          hasError = true;
-          returnIterator(it);
-          break;
-        }
 
-        yield c;
+          yield c;
+        }
+      } finally {
+        returnIterator(it);
       }
 
       if (!hasError) {

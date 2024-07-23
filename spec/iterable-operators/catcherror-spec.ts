@@ -1,5 +1,6 @@
+import { jest } from '@jest/globals';
 import '../iterablehelpers';
-import { of, range, sequenceEqual, single, throwError } from 'ix/iterable/index.js';
+import { first, from, of, range, sequenceEqual, single, throwError } from 'ix/iterable/index.js';
 import { catchError } from 'ix/iterable/operators/index.js';
 
 test('Iterable#catchError error catches', () => {
@@ -25,4 +26,15 @@ test('Iterable#catchError source and handler types are composed', () => {
   const xs = range(0, 10);
   const res = xs.pipe(catchError((_: Error) => of('foo')));
   expect(sequenceEqual(res, xs)).toBeTruthy();
+});
+
+test('Iterable#catchError calls return() on source iterator when stopped early', () => {
+  const xs = range(0, 10)[Symbol.iterator]();
+  const returnSpy = jest.spyOn(xs, 'return');
+
+  const res = from(xs).pipe(catchError((_: Error) => from([])));
+
+  first(res);
+
+  expect(returnSpy).toHaveBeenCalled();
 });

@@ -46,7 +46,7 @@ let value, done;
 
 ## Brief Interlude - `AsyncSink`
 
-Very rarely will we ever need to create these async-iterables by hand, however, if you need a collection that you can add to as well as iterate, we have the `AsyncSink` class.  This class serves as a basis for some of our operators such as binding to events and DOM and Node.js streams.
+Very rarely will we ever need to create these async-iterables by hand, however, if you need a collection that you can add to as well as iterate, we have the `AsyncSink` class. This class serves as a basis for some of our operators such as binding to events and DOM and Node.js streams.
 
 ```typescript
 import { AsyncSink } from 'ix/asynciterable';

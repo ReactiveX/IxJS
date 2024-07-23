@@ -30,23 +30,26 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
     let hasError = false;
     const source = wrapWithAbort(this._source, signal);
     const it = source[Symbol.asyncIterator]();
-    while (1) {
-      let c = <IteratorResult<TSource>>{};
 
-      try {
-        c = await it.next();
-        if (c.done) {
-          await returnAsyncIterator(it);
+    try {
+      while (1) {
+        let c = <IteratorResult<TSource>>{};
+
+        try {
+          c = await it.next();
+          if (c.done) {
+            break;
+          }
+        } catch (e) {
+          err = await this._handler(e, signal);
+          hasError = true;
           break;
         }
-      } catch (e) {
-        err = await this._handler(e, signal);
-        hasError = true;
-        await returnAsyncIterator(it);
-        break;
-      }
 
-      yield c.value;
+        yield c.value;
+      }
+    } finally {
+      await returnAsyncIterator(it);
     }
 
     if (hasError) {

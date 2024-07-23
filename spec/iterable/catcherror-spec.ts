@@ -1,5 +1,15 @@
+import { jest } from '@jest/globals';
+import { skip } from 'ix/iterable/operators.js';
 import { hasNext } from '../iterablehelpers.js';
-import { catchError, concat, range, sequenceEqual, throwError } from 'ix/iterable/index.js';
+import {
+  from,
+  catchError,
+  concat,
+  range,
+  sequenceEqual,
+  throwError,
+  first,
+} from 'ix/iterable/index.js';
 
 test('Iterable.catchError with no errors', () => {
   const res = catchError(range(0, 5), range(5, 5));
@@ -30,4 +40,18 @@ test('Iterable.catchError still throws', () => {
   hasNext(it, 2);
   hasNext(it, 3);
   expect(() => it.next()).toThrow();
+});
+
+test('Iterable.catchError calls return() on source iterator when stopped early', () => {
+  const e1 = new Error();
+  const er1 = throwError(e1);
+
+  const xs2 = range(2, 2)[Symbol.iterator]();
+  const returnSpy = jest.spyOn(xs2, 'return');
+
+  const res = catchError(concat(range(0, 2), er1), from(xs2)).pipe(skip(2));
+
+  first(res);
+
+  expect(returnSpy).toHaveBeenCalled();
 });
