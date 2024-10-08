@@ -121,8 +121,10 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
             }
             case Type.INNER: {
               --active;
-              // add the outer iterator to the race
-              results[0] = outer.next();
+              // add the outer iterator to the race, if its been removed and we are not yet done with it
+              if (results[0] === NEVER_PROMISE && !outerComplete) {
+                results[0] = outer.next();
+              }
               // return the current slot to the pool
               innerIndices.push(index);
               // synchronously drain the `outerValues` buffer
