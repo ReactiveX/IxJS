@@ -17,7 +17,9 @@ export class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     await sleep(this._dueTime, signal);
+
     for await (const item of wrapWithAbort(this._source, signal)) {
       yield item;
     }
@@ -32,7 +34,7 @@ export class DelayAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator which delays the before the iteration begins.
  */
 export function delay<TSource>(dueTime: number): MonoTypeOperatorAsyncFunction<TSource> {
-  return function delayOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new DelayAsyncIterable<TSource>(source, dueTime);
+  return function delayOperatorFunction(source) {
+    return new DelayAsyncIterable(source, dueTime);
   };
 }

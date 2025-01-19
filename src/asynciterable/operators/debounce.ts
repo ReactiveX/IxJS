@@ -87,9 +87,7 @@ export class DebounceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator function which debounces by the given timeout.
  */
 export function debounce<TSource>(time: number): MonoTypeOperatorAsyncFunction<TSource> {
-  return function debounceOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new DebounceAsyncIterable<TSource>(source, time);
+  return function debounceOperatorFunction(source) {
+    return new DebounceAsyncIterable(source, time);
   };
 }

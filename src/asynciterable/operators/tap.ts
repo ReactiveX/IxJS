@@ -3,7 +3,7 @@ import { PartialAsyncObserver } from '../../observer.js';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
 import { toObserver } from '../../util/toobserver.js';
 import { AbortError, throwIfAborted } from '../../aborterror.js';
-import { returnAsyncIterator } from '../../util/returniterator.js';
+import { wrapWithAbort } from './withabort.js';
 
 /** @ignore */
 export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
@@ -18,25 +18,21 @@ export class TapAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const obs = this._observer;
-    const it = this._source[Symbol.asyncIterator](signal);
+
     try {
-      for (let res: IteratorResult<TSource>; !(res = await it.next()).done; ) {
-        if (obs.next) {
-          await obs.next(res.value);
-        }
-        yield res.value;
+      for await (const item of wrapWithAbort(this._source, signal)) {
+        await this._observer.next?.(item);
+
+        yield item;
       }
-      if (obs.complete) {
-        await obs.complete();
-      }
+
+      await this._observer.complete?.();
     } catch (e) {
-      if (!(e instanceof AbortError) && obs.error) {
-        await obs.error(e);
+      if (!(e instanceof AbortError)) {
+        await this._observer.error?.(e);
       }
+
       throw e;
-    } finally {
-      await returnAsyncIterator(it);
     }
   }
 }
@@ -88,7 +84,7 @@ export function tap<TSource>(
   error?: ((err: any) => any) | null,
   complete?: (() => any) | null
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function tapOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new TapAsyncIterable<TSource>(source, toObserver(observerOrNext, error, complete));
+  return function tapOperatorFunction(source) {
+    return new TapAsyncIterable(source, toObserver(observerOrNext, error, complete));
   };
 }

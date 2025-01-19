@@ -9,28 +9,30 @@ export async function extremaBy<TSource, TKey>(
 ): Promise<TSource[]> {
   throwIfAborted(signal);
 
-  let result = [];
-  const it = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
-  const { value, done } = await it.next();
-  if (done) {
-    throw new Error('Sequence contains no elements');
+  let hasValue = false;
+  let key: TKey | undefined;
+  let result: TSource[] = [];
+
+  for await (const item of wrapWithAbort(source, signal)) {
+    if (!hasValue) {
+      key = await selector(item, signal);
+      result.push(item);
+      hasValue = true;
+    } else {
+      const currentKey = await selector(item, signal);
+      const cmp = await comparer(currentKey, key as TKey, signal);
+
+      if (cmp === 0) {
+        result.push(item);
+      } else if (cmp > 0) {
+        result = [item];
+        key = currentKey;
+      }
+    }
   }
 
-  let resKey = await selector(value, signal);
-  result.push(value);
-
-  let next: IteratorResult<TSource>;
-  while (!(next = await it.next()).done) {
-    const current = next.value;
-    const key = await selector(current, signal);
-    const cmp = await comparer(key, resKey, signal);
-
-    if (cmp === 0) {
-      result.push(current);
-    } else if (cmp > 0) {
-      result = [current];
-      resKey = key;
-    }
+  if (!hasValue) {
+    throw new Error('Sequence contains no elements');
   }
 
   return result;

@@ -20,11 +20,14 @@ export class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInter
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let last = Date.now();
+
     for await (const item of wrapWithAbort(this._source, signal)) {
       const now = Date.now();
       const span = now - last;
       last = now;
+
       yield { value: item, elapsed: span };
     }
   }
@@ -38,9 +41,7 @@ export class TimeIntervalAsyncIterable<TSource> extends AsyncIterableX<TimeInter
  * interval information on elements.
  */
 export function timeInterval<TSource>(): OperatorAsyncFunction<TSource, TimeInterval<TSource>> {
-  return function timeIntervalOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TimeInterval<TSource>> {
-    return new TimeIntervalAsyncIterable<TSource>(source);
+  return function timeIntervalOperatorFunction(source) {
+    return new TimeIntervalAsyncIterable(source);
   };
 }

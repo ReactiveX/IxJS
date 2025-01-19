@@ -12,6 +12,7 @@ import { ConcatAsyncIterable } from '../concat.js';
  * followed by those of the second the sequence.
  */
 export function concatWith<T, T2>(v2: AsyncIterable<T2>): OperatorAsyncFunction<T, T | T2>;
+
 /**
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
@@ -29,6 +30,7 @@ export function concatWith<T, T2, T3>(
   v2: AsyncIterable<T2>,
   v3: AsyncIterable<T3>
 ): OperatorAsyncFunction<T, T | T2 | T3>;
+
 /**
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
@@ -48,6 +50,7 @@ export function concatWith<T, T2, T3, T4>(
   v3: AsyncIterable<T3>,
   v4: AsyncIterable<T4>
 ): OperatorAsyncFunction<T, T | T2 | T3 | T4>;
+
 /**
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
@@ -70,6 +73,7 @@ export function concatWith<T, T2, T3, T4, T5>(
   v4: AsyncIterable<T4>,
   v5: AsyncIterable<T5>
 ): OperatorAsyncFunction<T, T | T2 | T3 | T4 | T5>;
+
 /**
  * Concatenates all async-iterable sequences in the given sequences, as long as the previous async-iterable
  * sequence terminated successfully.
@@ -105,7 +109,7 @@ export function concatWith<T, T2, T3, T4, T5, T6>(
  * @returns {AsyncIterableX<T>} An async-iterable sequence that contains the elements of each given sequence, in sequential order.
  */
 export function concatWith<T>(...args: AsyncIterable<T>[]): OperatorAsyncFunction<T, T> {
-  return function concatWithOperatorFunction(source: AsyncIterable<T>) {
-    return new ConcatAsyncIterable<T>([source, ...args]);
+  return function concatWithOperatorFunction(source) {
+    return new ConcatAsyncIterable([source, ...args]);
   };
 }

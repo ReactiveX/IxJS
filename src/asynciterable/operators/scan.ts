@@ -21,12 +21,14 @@ export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let i = 0;
-    let hasValue = false;
+    let hasValue = this._hasSeed;
     let acc = this._seed;
+
     for await (const item of wrapWithAbort(this._source, signal)) {
-      if (hasValue || (hasValue = this._hasSeed)) {
-        acc = await this._fn(<R>acc, item, i++, signal);
+      if (hasValue) {
+        acc = await this._fn(acc as R, item, i++, signal);
         yield acc;
       } else {
         acc = item;
@@ -34,6 +36,7 @@ export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
         i++;
       }
     }
+
     if (i === 1 && !this._hasSeed) {
       yield acc as R;
     }
@@ -50,7 +53,7 @@ export class ScanAsyncIterable<T, R> extends AsyncIterableX<R> {
  * @returns {OperatorAsyncFunction<T, R>} An async-enumerable sequence containing the accumulated values.
  */
 export function scan<T, R = T>(options: ScanOptions<T, R>): OperatorAsyncFunction<T, R> {
-  return function scanOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<R> {
+  return function scanOperatorFunction(source) {
     return new ScanAsyncIterable(source, options);
   };
 }

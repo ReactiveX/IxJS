@@ -23,13 +23,13 @@ export class SkipWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    let yielding = false;
+
+    let metCondition = false;
     let i = 0;
     for await (const element of wrapWithAbort(this._source, signal)) {
-      if (!yielding && !(await this._predicate(element, i++, signal))) {
-        yielding = true;
-      }
-      if (yielding) {
+      metCondition = metCondition || !(await this._predicate(element, i++, signal));
+
+      if (metCondition) {
         yield element;
       }
     }
@@ -49,6 +49,7 @@ export class SkipWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 export function skipWhile<T, S extends T>(
   predicate: (value: T, index: number, signal?: AbortSignal) => value is S
 ): OperatorAsyncFunction<T, S>;
+
 /**
  * Bypasses elements in an async-iterale sequence as long as a specified condition is true
  * and then returns the remaining elements.
@@ -61,6 +62,7 @@ export function skipWhile<T, S extends T>(
 export function skipWhile<T>(
   predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>
 ): OperatorAsyncFunction<T, T>;
+
 /**
  * Bypasses elements in an async-iterale sequence as long as a specified condition is true
  * and then returns the remaining elements.
@@ -73,7 +75,7 @@ export function skipWhile<T>(
 export function skipWhile<T>(
   predicate: (value: T, index: number) => boolean | Promise<boolean>
 ): OperatorAsyncFunction<T, T> {
-  return function skipWhileOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
-    return new SkipWhileAsyncIterable<T>(source, predicate);
+  return function skipWhileOperatorFunction(source) {
+    return new SkipWhileAsyncIterable(source, predicate);
   };
 }

@@ -19,11 +19,13 @@ export async function includes<T>(
   signal?: AbortSignal
 ): Promise<boolean> {
   throwIfAborted(signal);
+
   let fromIdx = fromIndex;
   let i = 0;
   if (Math.abs(fromIdx)) {
     fromIdx = 0;
   }
+
   for await (const item of wrapWithAbort(source, signal)) {
     if (i++ > fromIdx && comparer(item, valueToFind)) {
       return true;

@@ -1,6 +1,5 @@
 import { AsyncIterableX } from '../asynciterablex.js';
 import { OperatorAsyncFunction } from '../../interfaces.js';
-import { returnAsyncIterator } from '../../util/returniterator.js';
 import { wrapWithAbort } from './withabort.js';
 import { throwIfAborted } from '../../aborterror.js';
 
@@ -26,27 +25,17 @@ export class CatchWithAsyncIterable<TSource, TResult> extends AsyncIterableX<TSo
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let err: AsyncIterable<TResult> | undefined;
     let hasError = false;
-    const source = wrapWithAbort(this._source, signal);
-    const it = source[Symbol.asyncIterator]();
-    while (1) {
-      let c = <IteratorResult<TSource>>{};
 
-      try {
-        c = await it.next();
-        if (c.done) {
-          await returnAsyncIterator(it);
-          break;
-        }
-      } catch (e) {
-        err = await this._handler(e, signal);
-        hasError = true;
-        await returnAsyncIterator(it);
-        break;
+    try {
+      for await (const item of wrapWithAbort(this._source, signal)) {
+        yield item;
       }
-
-      yield c.value;
+    } catch (e) {
+      err = await this._handler(e, signal);
+      hasError = true;
     }
 
     if (hasError) {
@@ -76,9 +65,7 @@ export function catchError<TSource, TResult>(
     signal?: AbortSignal
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
-  return function catchWithOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource | TResult> {
-    return new CatchWithAsyncIterable<TSource, TResult>(source, handler);
+  return function catchWithOperatorFunction(source) {
+    return new CatchWithAsyncIterable(source, handler);
   };
 }

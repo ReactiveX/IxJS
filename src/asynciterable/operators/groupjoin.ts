@@ -39,10 +39,16 @@ export class GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult> extends Async
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const map = await createGrouping(this._inner, this._innerSelector, identity, signal);
+
+    const map = (await createGrouping(this._inner, this._innerSelector, identity, signal)) as Map<
+      TKey,
+      Iterable<TInner>
+    >;
+
     for await (const outerElement of wrapWithAbort(this._outer, signal)) {
       const outerKey = await this._outerSelector(outerElement, signal);
-      const innerElements = map.has(outerKey) ? <Iterable<TInner>>map.get(outerKey) : empty();
+      const innerElements = map.has(outerKey) ? map.get(outerKey)! : empty();
+
       yield await this._resultSelector(outerElement, AsyncIterableX.as(innerElements), signal);
     }
   }
@@ -79,13 +85,7 @@ export function groupJoin<TOuter, TInner, TKey, TResult>(
     signal?: AbortSignal
   ) => TResult | Promise<TResult>
 ): OperatorAsyncFunction<TOuter, TResult> {
-  return function groupJoinOperatorFunction(outer: AsyncIterable<TOuter>): AsyncIterableX<TResult> {
-    return new GroupJoinAsyncIterable<TOuter, TInner, TKey, TResult>(
-      outer,
-      inner,
-      outerSelector,
-      innerSelector,
-      resultSelector
-    );
+  return function groupJoinOperatorFunction(outer) {
+    return new GroupJoinAsyncIterable(outer, inner, outerSelector, innerSelector, resultSelector);
   };
 }

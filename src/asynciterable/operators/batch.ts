@@ -8,24 +8,6 @@ interface AsyncResolver<T> {
   reject: (reason?: any) => void;
 }
 
-const WAITING_TYPE = 'waiting';
-const BATCHING_TYPE = 'batching';
-
-interface WaitingState<T> {
-  type: 'waiting';
-  resolver: AsyncResolver<IteratorResult<T[]>>;
-}
-interface BatchingState<T> {
-  type: 'batching';
-  values: T[];
-}
-
-type State<T> = WaitingState<T> | BatchingState<T>;
-
-function assertNever(value: never): never {
-  throw new Error(`Unhandled discriminated union member ${value}`);
-}
-
 /** @ignore */
 export class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   private _source: AsyncIterable<TSource>;
@@ -35,87 +17,79 @@ export class BatchAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
     this._source = source;
   }
 
-  [Symbol.asyncIterator](signal?: AbortSignal) {
+  [Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<TSource[]> {
     throwIfAborted(signal);
-    const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
 
-    let state: State<TSource> = { type: BATCHING_TYPE, values: [] };
-    let ended: null | Promise<IteratorResult<TSource[]>> = null;
-    let error: any = null;
+    let waitingResolver: AsyncResolver<TSource[] | null> | null = null;
+    let batch: TSource[] = [];
+    let it: AsyncIterator<TSource> | undefined;
 
-    function consumeNext() {
-      it.next().then(
-        (res) => {
-          if (res.done) {
-            ended = Promise.resolve({ done: true } as IteratorResult<TSource[]>);
+    let sourceError: any;
+    let sourceDone = false;
 
-            if (state.type === WAITING_TYPE) {
-              state.resolver.resolve(ended);
-            }
+    const run = async () => {
+      it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
+
+      try {
+        for await (const item of {
+          [Symbol.asyncIterator]: () => it!,
+        }) {
+          if (waitingResolver) {
+            waitingResolver.resolve([item]);
+            waitingResolver = null;
           } else {
-            if (state.type === WAITING_TYPE) {
-              const { resolve } = state.resolver;
-              state = { type: BATCHING_TYPE, values: [] };
-              resolve({ done: res.done, value: [res.value] });
-            } else if (state.type === BATCHING_TYPE) {
-              state.values.push(res.value);
-            } else {
-              assertNever(state);
-            }
-
-            consumeNext();
-          }
-        },
-        (err) => {
-          error = err;
-          if (state.type === WAITING_TYPE) {
-            state.resolver.reject(err);
+            batch.push(item);
           }
         }
-      );
-    }
 
-    consumeNext();
+        sourceDone = true;
+        waitingResolver?.resolve(null);
+      } catch (e) {
+        sourceError = e;
+        waitingResolver?.reject(e);
+      }
+    };
+
+    run();
 
     return {
-      next() {
-        if (error) {
-          return Promise.reject(error);
+      async next() {
+        if (batch.length) {
+          const value = batch;
+          batch = [];
+          return { value, done: false };
         }
 
-        if (state.type === BATCHING_TYPE && state.values.length > 0) {
-          const { values } = state;
-          state.values = [];
-          return Promise.resolve({ done: false, value: values });
+        if (sourceError) {
+          throw sourceError;
         }
 
-        if (ended) {
-          return ended;
+        if (sourceDone) {
+          return { done: true, value: undefined };
         }
 
-        if (state.type === WAITING_TYPE) {
-          throw new Error('Previous `next()` is still in progress');
-        }
-
-        return new Promise<IteratorResult<TSource[]>>((resolve, reject) => {
-          state = {
-            type: WAITING_TYPE,
-            resolver: { resolve, reject },
-          };
+        // There were no queued items, so we need to wait
+        const value = await new Promise<TSource[] | null>((resolve, reject) => {
+          waitingResolver = { resolve, reject };
         });
-      },
 
-      return(value: any) {
-        return it.return
-          ? it.return(value).then(() => ({ done: true } as IteratorResult<TSource[]>))
-          : Promise.resolve({ done: true } as IteratorResult<TSource[]>);
+        if (value) {
+          return { done: false, value };
+        } else {
+          return { done: true, value: undefined };
+        }
+      },
+      async return(): Promise<IteratorResult<TSource[]>> {
+        await it?.return?.();
+
+        return { done: true, value: undefined };
       },
     };
   }
 }
 
 /**
-Returns an async iterable sequence of batches that are collected from the source sequence between
+ * Returns an async iterable sequence of batches that are collected from the source sequence between
  * subsequent `next()` calls.
  *
  * @template TSource The type of elements in the source sequence.
@@ -123,7 +97,7 @@ Returns an async iterable sequence of batches that are collected from the source
  * source sequence between subsequent `next()` calls.
  */
 export function batch<TSource>(): OperatorAsyncFunction<TSource, TSource[]> {
-  return function batchOperator(source: AsyncIterable<TSource>): AsyncIterableX<TSource[]> {
+  return function batchOperator(source) {
     return new BatchAsyncIterable(source);
   };
 }
