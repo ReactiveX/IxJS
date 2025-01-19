@@ -16,13 +16,17 @@ export class TakeAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    let i = this._count;
-    if (i > 0) {
-      for await (const item of wrapWithAbort(this._source, signal)) {
-        yield item;
-        if (--i === 0) {
-          break;
-        }
+
+    if (this._count <= 0) {
+      return;
+    }
+
+    let left = this._count;
+    for await (const item of wrapWithAbort(this._source, signal)) {
+      yield item;
+
+      if (--left === 0) {
+        break;
       }
     }
   }
@@ -37,7 +41,7 @@ export class TakeAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * number of elements from the start of the input sequence.
  */
 export function take<TSource>(count: number): MonoTypeOperatorAsyncFunction<TSource> {
-  return function takeOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new TakeAsyncIterable<TSource>(source, count);
+  return function takeOperatorFunction(source) {
+    return new TakeAsyncIterable(source, count);
   };
 }

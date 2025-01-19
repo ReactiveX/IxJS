@@ -3,9 +3,10 @@ import { identity } from '../util/identity.js';
 import { wrapWithAbort } from './operators/withabort.js';
 import { throwIfAborted } from '../aborterror.js';
 import { safeRace } from '../util/safeRace.js';
+import { returnAsyncIterators } from '../util/returniterator.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const NEVER_PROMISE = new Promise(() => {});
+const NEVER_PROMISE = new Promise<never>(() => {});
 
 type MergeResult<T> = { value: T; index: number };
 
@@ -28,12 +29,11 @@ export class CombineLatestAsyncIterable<TSource> extends AsyncIterableX<TSource[
     const length = this._sources.length;
     const iterators = new Array<AsyncIterator<TSource>>(length);
     const nexts = new Array<Promise<MergeResult<IteratorResult<TSource>>>>(length);
-    let hasValueAll = false;
-    const values = new Array<TSource>(length);
-    const hasValues = new Array<boolean>(length);
-    let active = length;
 
-    hasValues.fill(false);
+    let active = length;
+    let allValuesAvailable = false;
+    const values = new Array<TSource>(length);
+    const hasValues = new Array<boolean>(length).fill(false);
 
     for (let i = 0; i < length; i++) {
       const iterator = wrapWithAbort(this._sources[i], signal)[Symbol.asyncIterator]();
@@ -41,26 +41,30 @@ export class CombineLatestAsyncIterable<TSource> extends AsyncIterableX<TSource[
       nexts[i] = wrapPromiseWithIndex(iterator.next(), i);
     }
 
-    while (active > 0) {
-      const next = safeRace(nexts);
-      const {
-        value: { value: value$, done: done$ },
-        index,
-      } = await next;
-      if (done$) {
-        nexts[index] = <Promise<MergeResult<IteratorResult<TSource>>>>NEVER_PROMISE;
-        active--;
-      } else {
-        values[index] = value$;
-        hasValues[index] = true;
+    try {
+      while (active > 0) {
+        const {
+          value: { value, done },
+          index,
+        } = await safeRace(nexts);
 
-        const iterator$ = iterators[index];
-        nexts[index] = wrapPromiseWithIndex(iterator$.next(), index);
+        if (done) {
+          nexts[index] = NEVER_PROMISE;
+          active--;
+        } else {
+          values[index] = value;
+          hasValues[index] = true;
+          allValuesAvailable = allValuesAvailable || hasValues.every(identity);
 
-        if (hasValueAll || (hasValueAll = hasValues.every(identity))) {
-          yield values;
+          nexts[index] = wrapPromiseWithIndex(iterators[index].next(), index);
+
+          if (allValuesAvailable) {
+            yield values;
+          }
         }
       }
+    } finally {
+      await returnAsyncIterators(iterators);
     }
   }
 }
@@ -176,5 +180,5 @@ export function combineLatest<T, T2, T3, T4, T5, T6>(
  */
 export function combineLatest<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]>;
 export function combineLatest<T>(...sources: any[]): AsyncIterableX<T[]> {
-  return new CombineLatestAsyncIterable<T>(sources);
+  return new CombineLatestAsyncIterable(sources);
 }

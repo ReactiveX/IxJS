@@ -22,6 +22,7 @@ class GenerateAsyncIterable<TState, TResult> extends AsyncIterableX<TResult> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     for (
       let i = this._initialState;
       await this._condition(i, signal);
@@ -50,10 +51,5 @@ export function generate<TState, TResult>(
   iterate: (value: TState, signal?: AbortSignal) => TState | Promise<TState>,
   resultSelector: (value: TState, signal?: AbortSignal) => TResult | Promise<TResult>
 ): AsyncIterableX<TResult> {
-  return new GenerateAsyncIterable<TState, TResult>(
-    initialState,
-    condition,
-    iterate,
-    resultSelector
-  );
+  return new GenerateAsyncIterable(initialState, condition, iterate, resultSelector);
 }

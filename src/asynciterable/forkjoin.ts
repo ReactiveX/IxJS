@@ -1,9 +1,10 @@
 import { identity } from '../util/identity.js';
 import { wrapWithAbort } from './operators/withabort.js';
 import { safeRace } from '../util/safeRace.js';
+import { returnAsyncIterators } from '../util/returniterator.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const NEVER_PROMISE = new Promise(() => {});
+const NEVER_PROMISE = new Promise<never>(() => {});
 
 type MergeResult<T> = { value: T; index: number };
 
@@ -254,9 +255,11 @@ export function forkJoin<T>(
  * @param {...any[]} sources Async-iterable sequence to collect the last elements for.
  * @returns {(Promise<T[] | undefined>)} An async-iterable sequence with an array of all the last elements of all sequences.
  */
-export async function forkJoin<T>(...sources: any[]): Promise<T[] | undefined> {
-  let signal = sources.shift() as AbortSignal | undefined;
-  if (!(signal instanceof AbortSignal)) {
+export async function forkJoin<T>(
+  ...sources: (AbortSignal | AsyncIterable<T>)[]
+): Promise<T[] | undefined> {
+  let signal = sources.shift();
+  if (signal && !(signal instanceof AbortSignal)) {
     sources.unshift(signal);
     signal = undefined;
   }
@@ -267,27 +270,34 @@ export async function forkJoin<T>(...sources: any[]): Promise<T[] | undefined> {
 
   let active = length;
   const values = new Array<T>(length);
-  const hasValues = new Array<boolean>(length);
-  hasValues.fill(false);
+  const hasValues = new Array<boolean>(length).fill(false);
 
   for (let i = 0; i < length; i++) {
-    const iterator = wrapWithAbort<T>(sources[i], signal)[Symbol.asyncIterator]();
+    const iterator = wrapWithAbort<T>(sources[i] as AsyncIterable<T>, signal)[
+      Symbol.asyncIterator
+    ]();
     iterators[i] = iterator;
     nexts[i] = wrapPromiseWithIndex(iterator.next(), i);
   }
 
-  while (active > 0) {
-    const next = safeRace(nexts);
-    const { value: next$, index } = await next;
-    if (next$.done) {
-      nexts[index] = <Promise<MergeResult<IteratorResult<T>>>>NEVER_PROMISE;
-      active--;
-    } else {
-      const iterator$ = iterators[index];
-      nexts[index] = wrapPromiseWithIndex(iterator$.next(), index);
-      hasValues[index] = true;
-      values[index] = next$.value;
+  try {
+    while (active > 0) {
+      const {
+        value: { value, done },
+        index,
+      } = await safeRace(nexts);
+
+      if (done) {
+        nexts[index] = NEVER_PROMISE;
+        active--;
+      } else {
+        nexts[index] = wrapPromiseWithIndex(iterators[index].next(), index);
+        hasValues[index] = true;
+        values[index] = value;
+      }
     }
+  } finally {
+    await returnAsyncIterators(iterators);
   }
 
   if (hasValues.length > 0 && hasValues.every(identity)) {

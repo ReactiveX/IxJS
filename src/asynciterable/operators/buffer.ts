@@ -18,7 +18,9 @@ export class BufferAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     const buffers: TSource[][] = [];
+
     let i = 0;
     for await (const item of wrapWithAbort(this._source, signal)) {
       if (i % this._skip === 0) {
@@ -56,20 +58,7 @@ export function buffer<TSource>(
   count: number,
   skip?: number
 ): OperatorAsyncFunction<TSource, TSource[]> {
-  let s = skip;
-  if (s == null) {
-    s = count;
-  }
-  return function bufferOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource[]> {
-    return new BufferAsyncIterable<TSource>(source, count, s!);
+  return function bufferOperatorFunction(source) {
+    return new BufferAsyncIterable(source, count, skip ?? count);
   };
 }
-
-/**
- * Projects each element of an async-iterable sequence into consecutive non-overlapping
- * buffers which are produced based on element count information.
- * @param count Length of each buffer.
- * @param skip Number of elements to skip between creation of consecutive buffers.
- */

@@ -3,7 +3,7 @@ import { wrapWithAbort } from '../operators/withabort.js';
 import { AbortError, throwIfAborted } from '../../aborterror.js';
 import { safeRace } from '../../util/safeRace.js';
 import { isPromise } from '../../util/isiterable.js';
-import { returnAsyncIterator } from '../../util/returniterator.js';
+import { returnAsyncIterators } from '../../util/returniterator.js';
 
 export type FlattenConcurrentSelector<TSource, TResult> = (
   value: TSource,
@@ -139,7 +139,8 @@ export class FlattenConcurrentAsyncIterable<TSource, TResult> extends AsyncItera
       } while (!outerComplete || active + outerValues.length > 0);
     } finally {
       controllers.forEach((controller) => controller?.abort());
-      await Promise.all([outer as AsyncIterator<any>, ...inners].map(returnAsyncIterator));
+      // The array can contain empty values, so we filter out those.
+      await returnAsyncIterators([outer, ...inners].filter((x) => !!x));
     }
 
     function pullNextOuter(outerValue: TSource) {

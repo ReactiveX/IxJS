@@ -20,15 +20,19 @@ export async function single<T>(
 ): Promise<T | undefined> {
   const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate = async () => true } =
     options || {};
+
   throwIfAborted(signal);
+
   let result: T | undefined;
   let hasResult = false;
   let i = 0;
+
   for await (const item of wrapWithAbort(source, signal)) {
-    if (hasResult && (await predicate!.call(thisArg, item, i++, signal))) {
+    if (hasResult && (await predicate.call(thisArg, item, i, signal))) {
       throw new Error('More than one element was found');
     }
-    if (await predicate!.call(thisArg, item, i++, signal)) {
+
+    if (await predicate.call(thisArg, item, i++, signal)) {
       result = item;
       hasResult = true;
     }

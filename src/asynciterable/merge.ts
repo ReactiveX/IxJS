@@ -2,9 +2,10 @@ import { AsyncIterableX } from './asynciterablex.js';
 import { wrapWithAbort } from './operators/withabort.js';
 import { throwIfAborted } from '../aborterror.js';
 import { safeRace } from '../util/safeRace.js';
+import { returnAsyncIterators } from '../util/returniterator.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const NEVER_PROMISE = new Promise(() => {});
+const NEVER_PROMISE = new Promise<never>(() => {});
 
 type MergeResult<T> = { value: T; index: number; done?: boolean; error?: any };
 
@@ -25,28 +26,36 @@ export class MergeAsyncIterable<T> extends AsyncIterableX<T> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<T> {
     throwIfAborted(signal);
+
     const length = this._source.length;
     const iterators = new Array<AsyncIterator<T>>(length);
     const nexts = new Array<Promise<MergeResult<T>>>(length);
+
     let active = length;
+
     for (let i = 0; i < length; i++) {
       const iterator = wrapWithAbort(this._source[i], signal)[Symbol.asyncIterator]();
       iterators[i] = iterator;
       nexts[i] = wrapPromiseWithIndex(iterator.next(), i);
     }
 
-    while (active > 0) {
-      const next = await safeRace(nexts);
-      if (next.hasOwnProperty('error')) {
-        throw next.error;
-      } else if (next.done) {
-        nexts[next.index] = <Promise<MergeResult<T>>>NEVER_PROMISE;
-        active--;
-      } else {
-        const iterator$ = iterators[next.index];
-        nexts[next.index] = wrapPromiseWithIndex(iterator$.next(), next.index);
-        yield next.value;
+    try {
+      while (active > 0) {
+        const next = await safeRace(nexts);
+
+        if (next.hasOwnProperty('error')) {
+          throw next.error;
+        } else if (next.done) {
+          nexts[next.index] = NEVER_PROMISE;
+          active--;
+        } else {
+          nexts[next.index] = wrapPromiseWithIndex(iterators[next.index].next(), next.index);
+
+          yield next.value;
+        }
       }
+    } finally {
+      await returnAsyncIterators(iterators);
     }
   }
 }
@@ -161,5 +170,5 @@ export function merge<T, T2, T3, T4, T5, T6>(
 export function merge<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T>;
 
 export function merge<T>(source: AsyncIterable<T>, ...args: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return new MergeAsyncIterable<T>([source, ...args]);
+  return new MergeAsyncIterable([source, ...args]);
 }

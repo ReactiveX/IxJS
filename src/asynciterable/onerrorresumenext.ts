@@ -13,20 +13,14 @@ export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSou
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    for (const item of this._source) {
-      const it = wrapWithAbort(item, signal)[Symbol.asyncIterator]();
-      while (1) {
-        let next;
-        try {
-          next = await it.next();
-        } catch (e) {
-          break;
-        }
 
-        if (next.done) {
-          break;
+    for (const outer of this._source) {
+      try {
+        for await (const item of wrapWithAbort(outer, signal)) {
+          yield item;
         }
-        yield next.value;
+      } catch {
+        // ignore
       }
     }
   }
@@ -40,5 +34,5 @@ export class OnErrorResumeNextAsyncIterable<TSource> extends AsyncIterableX<TSou
  * @returns {AsyncIterableX<T>} An async-iterable sequence that concatenates the source sequences, even if a sequence terminates exceptionally.
  */
 export function onErrorResumeNext<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return new OnErrorResumeNextAsyncIterable<T>(args);
+  return new OnErrorResumeNextAsyncIterable(args);
 }

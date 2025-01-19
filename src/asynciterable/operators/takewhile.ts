@@ -23,11 +23,13 @@ export class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let i = 0;
     for await (const item of wrapWithAbort(this._source, signal)) {
       if (!(await this._predicate(item, i++, signal))) {
         break;
       }
+
       yield item;
     }
   }
@@ -45,6 +47,7 @@ export class TakeWhileAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 export function takeWhile<T, S extends T>(
   predicate: (value: T, index: number, signal?: AbortSignal) => value is S
 ): OperatorAsyncFunction<T, S>;
+
 /**
  * Returns elements from an async-iterable sequence as long as a specified condition is true.
  *
@@ -56,6 +59,7 @@ export function takeWhile<T, S extends T>(
 export function takeWhile<T>(
   predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>
 ): OperatorAsyncFunction<T, T>;
+
 /**
  * Returns elements from an async-iterable sequence as long as a specified condition is true.
  *
@@ -67,7 +71,7 @@ export function takeWhile<T>(
 export function takeWhile<T>(
   predicate: (value: T, index: number, signal?: AbortSignal) => boolean | Promise<boolean>
 ): OperatorAsyncFunction<T, T> {
-  return function takeWhileOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
-    return new TakeWhileAsyncIterable<T>(source, predicate);
+  return function takeWhileOperatorFunction(source) {
+    return new TakeWhileAsyncIterable(source, predicate);
   };
 }

@@ -20,6 +20,7 @@ export class TimestampAsyncIterable<TSource> extends AsyncIterableX<Timestamp<TS
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     for await (const item of wrapWithAbort(this._source, signal)) {
       yield { time: Date.now(), value: item };
     }
@@ -33,9 +34,7 @@ export class TimestampAsyncIterable<TSource> extends AsyncIterableX<Timestamp<TS
  * @returns {OperatorAsyncFunction<TSource, Timestamp<TSource>>} An async-iterable sequence with timestamp information on elements.
  */
 export function timestamp<TSource>(): OperatorAsyncFunction<TSource, Timestamp<TSource>> {
-  return function timestampOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<Timestamp<TSource>> {
-    return new TimestampAsyncIterable<TSource>(source);
+  return function timestampOperatorFunction(source) {
+    return new TimestampAsyncIterable(source);
   };
 }

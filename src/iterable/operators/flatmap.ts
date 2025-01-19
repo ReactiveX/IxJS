@@ -16,9 +16,9 @@ export class FlatMapIterable<TSource, TResult> extends IterableX<TResult> {
 
   *[Symbol.iterator]() {
     let index = 0;
-    for (const outerItem of this._source) {
-      for (const innerItem of this._fn.call(this._thisArg, outerItem, index++)) {
-        yield innerItem;
+    for (const outer of this._source) {
+      for (const item of this._fn.call(this._thisArg, outer, index++)) {
+        yield item;
       }
     }
   }

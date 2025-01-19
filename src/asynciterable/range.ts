@@ -13,6 +13,7 @@ class RangeAsyncIterable extends AsyncIterableX<number> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     for (let current = this._start, end = this._start + this._count; current < end; current++) {
       yield current;
     }

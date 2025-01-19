@@ -10,7 +10,7 @@ import { RaceAsyncIterable } from '../race.js';
 export function raceWith<TSource>(
   ...sources: AsyncIterable<TSource>[]
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function raceWithOperatorFunction(source: AsyncIterable<TSource>) {
-    return new RaceAsyncIterable<TSource>([source, ...sources]);
+  return function raceWithOperatorFunction(source) {
+    return new RaceAsyncIterable([source, ...sources]);
   };
 }

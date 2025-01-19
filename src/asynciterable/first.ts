@@ -16,10 +16,12 @@ export async function first<T>(
 ): Promise<T | undefined> {
   const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate = async () => true } =
     options || {};
+
   throwIfAborted(signal);
+
   let i = 0;
   for await (const item of wrapWithAbort(source, signal)) {
-    if (await predicate!.call(thisArg, item, i++, signal)) {
+    if (await predicate.call(thisArg, item, i++, signal)) {
       return item;
     }
   }

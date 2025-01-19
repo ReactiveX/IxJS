@@ -16,12 +16,15 @@ export async function every<T>(
   options: FindOptions<T>
 ): Promise<boolean> {
   const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = options;
+
   throwIfAborted(signal);
+
   let i = 0;
   for await (const item of wrapWithAbort(source, signal)) {
     if (!(await predicate.call(thisArg, item, i++, signal))) {
       return false;
     }
   }
+
   return true;
 }

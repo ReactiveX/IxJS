@@ -36,5 +36,5 @@ export class RepeatValueAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @returns {AsyncIterableX<TSource>} An async-iterable with a single item that is repeated over the specified times.
  */
 export function repeatValue<TSource>(value: TSource, count = -1): AsyncIterableX<TSource> {
-  return new RepeatValueAsyncIterable<TSource>(value, count);
+  return new RepeatValueAsyncIterable(value, count);
 }

@@ -14,9 +14,12 @@ export async function toArray<TSource>(
   signal?: AbortSignal
 ): Promise<TSource[]> {
   throwIfAborted(signal);
+
   const results = [] as TSource[];
+
   for await (const item of wrapWithAbort(source, signal)) {
     results.push(item);
   }
+
   return results;
 }
