@@ -112,7 +112,7 @@
     "vinyl-named": "1.1.0",
     "vinyl-source-stream": "2.0.0",
     "web-streams-polyfill": "3.2.1",
-    "webpack": "5.92.1",
+    "webpack": "5.94.0",
     "webpack-bundle-analyzer": "4.10.1",
     "webpack-stream": "7.0.0"
   },
