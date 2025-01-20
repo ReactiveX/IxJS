@@ -18,7 +18,7 @@ class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     const buffer: TSource[] = [];
-    const timer = interval(this.maxWaitTime).pipe(map(() => timerEvent));
+    const timer = interval(this.maxWaitTime, true).pipe(map(() => timerEvent));
     const source = concat(this.source, of(ended));
     const merged = merge(source, timer);
 
