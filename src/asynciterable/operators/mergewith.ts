@@ -12,6 +12,7 @@ import { MergeAsyncIterable } from '../merge.js';
  * into a single async-iterable sequence.
  */
 export function mergeWith<T, T2>(v2: AsyncIterable<T2>): OperatorAsyncFunction<T, T | T2>;
+
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
@@ -27,6 +28,7 @@ export function mergeWith<T, T2, T3>(
   v2: AsyncIterable<T2>,
   v3: AsyncIterable<T3>
 ): OperatorAsyncFunction<T, T | T2 | T3>;
+
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
@@ -46,6 +48,7 @@ export function mergeWith<T, T2, T3, T4>(
   v3: AsyncIterable<T3>,
   v4: AsyncIterable<T4>
 ): OperatorAsyncFunction<T, T | T2 | T3 | T4>;
+
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
@@ -67,6 +70,7 @@ export function mergeWith<T, T2, T3, T4, T5>(
   v4: AsyncIterable<T4>,
   v5: AsyncIterable<T5>
 ): OperatorAsyncFunction<T, T | T2 | T3 | T4 | T5>;
+
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
@@ -91,6 +95,7 @@ export function mergeWith<T, T2, T3, T4, T5, T6>(
   v5: AsyncIterable<T5>,
   v6: AsyncIterable<T6>
 ): OperatorAsyncFunction<T, T | T2 | T3 | T4 | T5 | T6>;
+
 /**
  * Merges elements from all of the specified async-iterable sequences into a single async-iterable sequence.
  *
@@ -104,7 +109,7 @@ export function mergeWith<T>(
 ): OperatorAsyncFunction<T, T>;
 
 export function mergeWith<T>(...args: AsyncIterable<T>[]): OperatorAsyncFunction<T, T> {
-  return function mergeWithOperatorFunction(source: AsyncIterable<T>) {
-    return new MergeAsyncIterable<T>([source, ...args]);
+  return function mergeWithOperatorFunction(source) {
+    return new MergeAsyncIterable([source, ...args]);
   };
 }

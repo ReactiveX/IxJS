@@ -4,9 +4,10 @@ import { wrapWithAbort } from './withabort.js';
 import { throwIfAborted } from '../../aborterror.js';
 import { identity } from '../../util/identity.js';
 import { safeRace } from '../../util/safeRace.js';
+import { returnAsyncIterators } from '../../util/returniterator.js';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const NEVER_PROMISE = new Promise(() => {});
+const NEVER_PROMISE = new Promise<never>(() => {});
 
 type MergeResult<T> = { value: T; index: number };
 
@@ -28,54 +29,56 @@ export class WithLatestFromAsyncIterable<TSource> extends AsyncIterableX<TSource
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
 
-    const length = this._others.length;
-    const newLength = length + 1;
-    const iterators = new Array<AsyncIterator<TSource>>(newLength);
-    const nexts = new Array<Promise<MergeResult<IteratorResult<TSource>>>>(newLength);
+    const othersLength = this._others.length;
+    // The last iterator is the source
+    const iterators = new Array<AsyncIterator<TSource>>(othersLength + 1);
+    const nexts = new Array<Promise<MergeResult<IteratorResult<TSource>>>>(othersLength + 1);
 
     let hasValueAll = false;
-    const hasValue = new Array(length);
-    const values = new Array(length);
-    hasValue.fill(false);
+    const values = new Array(othersLength);
+    const hasValue = new Array(othersLength).fill(false);
 
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < othersLength; i++) {
       const iterator = wrapWithAbort(this._others[i], signal)[Symbol.asyncIterator]();
       iterators[i] = iterator;
       nexts[i] = wrapPromiseWithIndex(iterator.next(), i);
     }
 
     const it = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
-    iterators[length] = it;
-    nexts[length] = wrapPromiseWithIndex(it.next(), length);
+    iterators[othersLength] = it;
+    nexts[othersLength] = wrapPromiseWithIndex(it.next(), othersLength);
 
-    for (;;) {
-      const next = safeRace(nexts);
-      const {
-        value: { value: value$, done: done$ },
-        index,
-      } = await next;
+    try {
+      while (1) {
+        const {
+          value: { value, done },
+          index,
+        } = await safeRace(nexts);
 
-      if (index === length) {
-        if (done$) {
-          break;
+        if (index === othersLength) {
+          if (done) {
+            break;
+          }
+
+          nexts[index] = wrapPromiseWithIndex(iterators[index].next(), index);
+
+          if (hasValueAll) {
+            yield [value, ...values];
+          }
+        } else {
+          if (done) {
+            nexts[index] = NEVER_PROMISE;
+          } else {
+            values[index] = value;
+            hasValue[index] = true;
+            hasValueAll = hasValueAll || hasValue.every(identity);
+
+            nexts[index] = wrapPromiseWithIndex(iterators[index].next(), index);
+          }
         }
-
-        const iterator$ = iterators[index];
-        nexts[index] = wrapPromiseWithIndex(iterator$.next(), index);
-
-        if (hasValueAll) {
-          yield [value$, ...values];
-        }
-      } else if (done$) {
-        nexts[index] = <Promise<MergeResult<IteratorResult<TSource>>>>NEVER_PROMISE;
-      } else {
-        values[index] = value$;
-        hasValue[index] = true;
-        hasValueAll = hasValue.every(identity);
-
-        const iterator$ = iterators[index];
-        nexts[index] = wrapPromiseWithIndex(iterator$.next(), index);
       }
+    } finally {
+      await returnAsyncIterators(iterators);
     }
   }
 }
@@ -93,6 +96,7 @@ export class WithLatestFromAsyncIterable<TSource> extends AsyncIterableX<TSource
 export function withLatestFrom<T, T2>(
   source2: AsyncIterable<T2>
 ): OperatorAsyncFunction<T, [T, T2]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
@@ -109,6 +113,7 @@ export function withLatestFrom<T, T2, T3>(
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>
 ): OperatorAsyncFunction<T, [T, T2, T3]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
@@ -128,6 +133,7 @@ export function withLatestFrom<T, T2, T3, T4>(
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>
 ): OperatorAsyncFunction<T, [T, T2, T3, T4]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
@@ -150,6 +156,7 @@ export function withLatestFrom<T, T2, T3, T4, T5>(
   source4: AsyncIterable<T4>,
   source5: AsyncIterable<T5>
 ): OperatorAsyncFunction<T, [T, T2, T3, T4, T5]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining each element
  * from the first source with the latest element from the other sources, if any.
@@ -187,8 +194,8 @@ export function withLatestFrom<T, T2, T3, T4, T5, T6>(
  */
 export function withLatestFrom<T>(...sources: AsyncIterable<T>[]): OperatorAsyncFunction<T, T[]>;
 
-export function withLatestFrom<T>(...sources: any[]): OperatorAsyncFunction<T, T[]> {
-  return function withLatestFromOperatorFunction(source: AsyncIterable<T>) {
-    return new WithLatestFromAsyncIterable<T>(source, sources);
+export function withLatestFrom<T>(...sources: AsyncIterable<T>[]): OperatorAsyncFunction<T, T[]> {
+  return function withLatestFromOperatorFunction(source) {
+    return new WithLatestFromAsyncIterable(source, sources);
   };
 }

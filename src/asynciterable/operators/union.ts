@@ -24,7 +24,9 @@ export class UnionAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const map = [] as TSource[];
+
+    const map: TSource[] = [];
+
     for await (const lItem of wrapWithAbort(this._left, signal)) {
       if ((await arrayIndexOfAsync(map, lItem, this._comparer)) === -1) {
         map.push(lItem);
@@ -54,7 +56,7 @@ export function union<TSource>(
   right: AsyncIterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function unionOperatorFunction(left: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new UnionAsyncIterable<TSource>(left, right, comparer);
+  return function unionOperatorFunction(left) {
+    return new UnionAsyncIterable(left, right, comparer);
   };
 }

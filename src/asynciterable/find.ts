@@ -15,13 +15,15 @@ export async function find<T>(
   options: FindOptions<T>
 ): Promise<T | undefined> {
   const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate } = options;
-  throwIfAborted(signal);
-  let i = 0;
 
+  throwIfAborted(signal);
+
+  let i = 0;
   for await (const item of wrapWithAbort(source, signal)) {
     if (await predicate.call(thisArg, item, i++, signal)) {
       return item;
     }
   }
+
   return undefined;
 }

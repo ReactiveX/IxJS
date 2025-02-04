@@ -26,10 +26,10 @@ export class MapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> 
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let i = 0;
     for await (const item of wrapWithAbort(this._source, signal)) {
-      const result = await this._selector.call(this._thisArg, item, i++, signal);
-      yield result;
+      yield await this._selector.call(this._thisArg, item, i++, signal);
     }
   }
 }
@@ -50,7 +50,7 @@ export function map<TSource, TResult>(
   selector: (value: TSource, index: number, signal?: AbortSignal) => Promise<TResult> | TResult,
   thisArg?: any
 ): OperatorAsyncFunction<TSource, TResult> {
-  return function mapOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TResult> {
-    return new MapAsyncIterable<TSource, TResult>(source, selector, thisArg);
+  return function mapOperatorFunction(source) {
+    return new MapAsyncIterable(source, selector, thisArg);
   };
 }

@@ -16,8 +16,10 @@ export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let otherDone = false;
     this._other(signal).then(() => (otherDone = true));
+
     for await (const item of wrapWithAbort(this._source, signal)) {
       if (otherDone) {
         yield item;
@@ -38,9 +40,7 @@ export class SkipUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 export function skipUntil<TSource>(
   other: (signal?: AbortSignal) => Promise<any>
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function skipUntilOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new SkipUntilAsyncIterable<TSource>(source, other);
+  return function skipUntilOperatorFunction(source) {
+    return new SkipUntilAsyncIterable(source, other);
   };
 }

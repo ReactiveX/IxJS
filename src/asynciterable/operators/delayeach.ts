@@ -17,8 +17,10 @@ export class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     for await (const item of wrapWithAbort(this._source, signal)) {
       await sleep(this._dueTime, signal);
+
       yield item;
     }
   }
@@ -32,9 +34,7 @@ export class DelayEachAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An operator which takes an async-iterable and delays each item in the sequence by the given time.
  */
 export function delayEach<TSource>(dueTime: number): MonoTypeOperatorAsyncFunction<TSource> {
-  return function delayEachOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new DelayEachAsyncIterable<TSource>(source, dueTime);
+  return function delayEachOperatorFunction(source) {
+    return new DelayEachAsyncIterable(source, dueTime);
   };
 }

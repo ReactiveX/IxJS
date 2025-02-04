@@ -82,6 +82,7 @@ export class MemoizeAsyncBuffer<T> extends AsyncIterableX<T> {
  * elements from the shared source sequence, without duplicating source iteration side-effects.
  */
 export function memoize<TSource>(readerCount?: number): OperatorAsyncFunction<TSource, TSource>;
+
 /**
  * Memoizes the source sequence within a selector function where a specified number of iterators can get access
  * to all of the sequence's elements without causing multiple iterations over the source.
@@ -99,6 +100,7 @@ export function memoize<TSource, TResult>(
   readerCount?: number,
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TResult>;
+
 /**
  * Memoizes the source sequence within a selector function where a specified number of iterators can get access
  * to all of the sequence's elements without causing multiple iterations over the source.
@@ -116,22 +118,13 @@ export function memoize<TSource, TResult = TSource>(
   readerCount = -1,
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
-  return function memoizeOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource | TResult> {
+  return function memoizeOperatorFunction(source) {
     if (!selector) {
       return readerCount === -1
-        ? new MemoizeAsyncBuffer<TSource>(
-            source[Symbol.asyncIterator](),
-            new MaxRefCountList<TSource>()
-          )
-        : new MemoizeAsyncBuffer<TSource>(
-            source[Symbol.asyncIterator](),
-            new RefCountList<TSource>(readerCount)
-          );
+        ? new MemoizeAsyncBuffer(source[Symbol.asyncIterator](), new MaxRefCountList())
+        : new MemoizeAsyncBuffer(source[Symbol.asyncIterator](), new RefCountList(readerCount));
     }
-    return create<TSource | TResult>(() =>
-      selector!(memoize<TSource>(readerCount)(source))[Symbol.asyncIterator]()
-    );
+
+    return create(() => selector!(memoize<TSource>(readerCount)(source))[Symbol.asyncIterator]());
   };
 }

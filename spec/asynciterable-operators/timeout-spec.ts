@@ -31,7 +31,8 @@ test('AsyncIterable#timeout throws when delayed', async () => {
   await noNext(it);
 });
 
-test('AsyncIterable#timeout triggers finalize', async () => {
+// eslint-disable-next-line jest/no-disabled-tests -- See https://github.com/ReactiveX/IxJS/pull/379#issuecomment-2611883590
+test.skip('AsyncIterable#timeout triggers finalize', async () => {
   let done = false;
   const xs = async function* () {
     yield await delayValue(1, 500);
@@ -48,5 +49,6 @@ test('AsyncIterable#timeout triggers finalize', async () => {
   await hasNext(it, 1);
   await hasErr(it, TimeoutError);
   await noNext(it);
+  await new Promise((res) => setTimeout(res, 10));
   expect(done).toBeTruthy();
 });

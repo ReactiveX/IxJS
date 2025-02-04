@@ -22,6 +22,7 @@ export class FilterAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let i = 0;
     for await (const item of wrapWithAbort(this._source, signal)) {
       if (await this._predicate.call(this._thisArg, item, i++)) {
@@ -54,7 +55,7 @@ export function filter<TSource>(
   predicate: (value: TSource, index: number, signal?: AbortSignal) => boolean | Promise<boolean>,
   thisArg?: any
 ): OperatorAsyncFunction<TSource, TSource> {
-  return function filterOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new FilterAsyncIterable<TSource>(source, predicate, thisArg);
+  return function filterOperatorFunction(source) {
+    return new FilterAsyncIterable(source, predicate, thisArg);
   };
 }

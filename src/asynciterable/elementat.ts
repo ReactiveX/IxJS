@@ -17,6 +17,7 @@ export async function elementAt<T>(
   signal?: AbortSignal
 ): Promise<T | undefined> {
   throwIfAborted(signal);
+
   let i = index;
   for await (const item of wrapWithAbort(source, signal)) {
     if (i === 0) {
@@ -24,5 +25,6 @@ export async function elementAt<T>(
     }
     i--;
   }
+
   return undefined;
 }

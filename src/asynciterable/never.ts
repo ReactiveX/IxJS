@@ -9,10 +9,9 @@ export class NeverAsyncIterable extends AsyncIterableX<never> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     await new Promise<never>((_, reject) => {
-      if (signal) {
-        signal.addEventListener('abort', () => reject(new AbortError()), { once: true });
-      }
+      signal?.addEventListener('abort', () => reject(new AbortError()), { once: true });
     });
   }
 }

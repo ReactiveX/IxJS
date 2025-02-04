@@ -14,6 +14,7 @@ import { CombineLatestAsyncIterable } from '../combinelatest.js';
 export function combineLatestWith<T, T2>(
   source2: AsyncIterable<T2>
 ): OperatorAsyncFunction<T, [T, T2]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
@@ -29,6 +30,7 @@ export function combineLatestWith<T, T2, T3>(
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>
 ): OperatorAsyncFunction<T, [T, T2, T3]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
@@ -47,6 +49,7 @@ export function combineLatestWith<T, T2, T3, T4>(
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>
 ): OperatorAsyncFunction<T, [T, T2, T3, T4]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
@@ -68,6 +71,7 @@ export function combineLatestWith<T, T2, T3, T4, T5>(
   source4: AsyncIterable<T4>,
   source5: AsyncIterable<T5>
 ): OperatorAsyncFunction<T, [T, T2, T3, T4, T5]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence as an array whenever
  * one of the async-iterable sequences produces an element.
@@ -102,8 +106,10 @@ export function combineLatestWith<T, T2, T3, T4, T5, T6>(
  * @returns {OperatorAsyncFunction<T, T[]>} An async-iterable sequence containing an array of all sources.
  */
 export function combineLatestWith<T>(...sources: AsyncIterable<T>[]): OperatorAsyncFunction<T, T[]>;
-export function combineLatestWith<T>(...sources: any[]): OperatorAsyncFunction<T, T[]> {
-  return function combineLatestOperatorFunction(source: AsyncIterable<T>) {
-    return new CombineLatestAsyncIterable<T>([source, ...sources]);
+export function combineLatestWith<T>(
+  ...sources: AsyncIterable<T>[]
+): OperatorAsyncFunction<T, T[]> {
+  return function combineLatestOperatorFunction(source) {
+    return new CombineLatestAsyncIterable([source, ...sources]);
   };
 }

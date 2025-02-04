@@ -13,6 +13,7 @@ export class ConcatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     for (const outer of this._source) {
       for await (const item of wrapWithAbort(outer, signal)) {
         yield item;
@@ -24,7 +25,7 @@ export class ConcatAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 export function _concatAll<TSource>(
   source: Iterable<AsyncIterable<TSource>>
 ): AsyncIterableX<TSource> {
-  return new ConcatAsyncIterable<TSource>(source);
+  return new ConcatAsyncIterable(source);
 }
 
 /**
@@ -136,5 +137,5 @@ export function concat<T, T2, T3, T4, T5, T6>(
  * @returns {AsyncIterableX<T>} An async-iterable sequence that contains the elements of each given sequence, in sequential order.
  */
 export function concat<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return new ConcatAsyncIterable<T>(args);
+  return new ConcatAsyncIterable(args);
 }

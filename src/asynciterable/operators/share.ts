@@ -8,6 +8,7 @@ class SharedAsyncIterable<T> extends AsyncIterableX<T> {
 
   constructor(it: AsyncIterator<T>) {
     super();
+
     this._it = {
       next(value) {
         return it.next(value);
@@ -17,6 +18,7 @@ class SharedAsyncIterable<T> extends AsyncIterableX<T> {
 
   [Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     return this._it;
   }
 }
@@ -29,6 +31,7 @@ class SharedAsyncIterable<T> extends AsyncIterableX<T> {
  * @returns {OperatorAsyncFunction<TSource, TSource>} Buffer enabling each enumerator to retrieve elements from the shared source sequence.
  */
 export function share<TSource>(): OperatorAsyncFunction<TSource, TSource>;
+
 /**
  * Shares the source sequence within a selector function where each iterator can fetch the next element from the
  * source sequence.
@@ -49,6 +52,7 @@ export function share<TSource, TResult>(
     signal?: AbortSignal
   ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>
 ): OperatorAsyncFunction<TSource, TResult>;
+
 /**
  * Shares the source sequence within a selector function where each iterator can fetch the next element from the
  * source sequence.
@@ -73,13 +77,14 @@ export function share<TSource, TResult = TSource>(
     source: AsyncIterable<TSource>
   ): AsyncIterableX<TSource | TResult> {
     return selector
-      ? create<TResult>(async (signal) => {
+      ? create(async (signal) => {
           const it = await selector(
             new SharedAsyncIterable(source[Symbol.asyncIterator](signal)),
             signal
           );
+
           return it[Symbol.asyncIterator](signal);
         })
-      : new SharedAsyncIterable<TSource>(source[Symbol.asyncIterator]());
+      : new SharedAsyncIterable(source[Symbol.asyncIterator]());
   };
 }

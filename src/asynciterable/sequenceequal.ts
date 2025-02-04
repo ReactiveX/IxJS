@@ -1,6 +1,7 @@
 import { comparerAsync } from '../util/comparer.js';
 import { wrapWithAbort } from './operators/withabort.js';
 import { throwIfAborted } from '../aborterror.js';
+import { returnAsyncIterators } from '../util/returniterator.js';
 
 /**
  * The options for sequence equal operations including a comparer and abort signal
@@ -16,6 +17,7 @@ export interface SequencEqualOptions<T> {
    * @memberof SequencEqualOptions
    */
   comparer?: (first: T, second: T) => boolean | Promise<boolean>;
+
   /**
    * An optional abort signal to cancel the operation at any time.
    *
@@ -41,16 +43,24 @@ export async function sequenceEqual<T>(
   options?: SequencEqualOptions<T>
 ): Promise<boolean> {
   const { ['comparer']: comparer = comparerAsync, ['signal']: signal } = options || {};
+
   throwIfAborted(signal);
+
   const it1 = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
   const it2 = wrapWithAbort(other, signal)[Symbol.asyncIterator]();
   let next1: IteratorResult<T>;
   let next2: IteratorResult<T>;
-  while (!(next1 = await it1.next()).done) {
-    if (!(!(next2 = await it2.next()).done && (await comparer(next1.value, next2.value)))) {
-      return false;
-    }
-  }
 
-  return !!(await it2.next()).done;
+  try {
+    while (!(next1 = await it1.next()).done) {
+      if (!(!(next2 = await it2.next()).done && (await comparer(next1.value, next2.value)))) {
+        return false;
+      }
+    }
+
+    // Place return inside try block to ensure iterators are returned after final .next() call
+    return !!(await it2.next()).done;
+  } finally {
+    await returnAsyncIterators([it1, it2]);
+  }
 }
