@@ -1,42 +1,61 @@
 import { OperatorAsyncFunction } from '../../interfaces.js';
-import { AsyncIterableX, interval, concat, of } from '../index.js';
-import { map } from './map.js';
+import { AsyncIterableX, concat, of } from '../index.js';
 import { merge } from '../merge.js';
 import { wrapWithAbort } from './withabort.js';
+import { AsyncSink } from '../asyncsink.js';
 
-const timerEvent = {};
-const ended = {};
+const timerEvent = Symbol('BufferCountOrTime:TimerEvent');
+const endedEvent = Symbol('BufferCountOrTime:EndedEvent');
 
 class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
   constructor(
-    private readonly source: AsyncIterable<TSource>,
-    private readonly bufferSize: number,
-    private readonly maxWaitTime: number
+    private readonly _source: AsyncIterable<TSource>,
+    private readonly _bufferSize: number,
+    private readonly _maxWaitTime: number
   ) {
     super();
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     const buffer: TSource[] = [];
-    const timer = interval(this.maxWaitTime).pipe(map(() => timerEvent));
-    const source = concat(this.source, of(ended));
-    const merged = merge(source, timer);
 
-    for await (const item of wrapWithAbort(merged, signal)) {
-      if (item === ended) {
-        break;
-      }
-      if (item !== timerEvent) {
-        buffer.push(item as TSource);
-      }
-      if (buffer.length >= this.bufferSize || (buffer.length && item === timerEvent)) {
-        yield buffer.slice();
-        buffer.length = 0;
-      }
-    }
+    const timeoutSink = new AsyncSink<typeof timerEvent>();
+    const merged = merge(concat(this._source, of(endedEvent)), timeoutSink);
 
-    if (buffer.length) {
-      yield buffer;
+    let timeout: NodeJS.Timeout | undefined;
+
+    try {
+      for await (const item of wrapWithAbort(merged, signal)) {
+        if (!timeout) {
+          timeout = setTimeout(() => {
+            timeoutSink.write(timerEvent);
+          }, this._maxWaitTime);
+        }
+
+        if (item === endedEvent) {
+          break;
+        }
+
+        if (item !== timerEvent) {
+          buffer.push(item);
+        }
+
+        if (buffer.length >= this._bufferSize || (item === timerEvent && buffer.length > 0)) {
+          clearTimeout(timeout);
+          timeout = undefined;
+
+          yield buffer.slice();
+          buffer.length = 0;
+        }
+      }
+
+      if (buffer.length) {
+        yield buffer;
+      }
+    } finally {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
     }
   }
 }
