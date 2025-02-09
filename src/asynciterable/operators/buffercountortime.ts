@@ -9,17 +9,17 @@ const ended = {};
 
 class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
   constructor(
-    private readonly source: AsyncIterable<TSource>,
-    private readonly bufferSize: number,
-    private readonly maxWaitTime: number
+    private readonly _source: AsyncIterable<TSource>,
+    private readonly _bufferSize: number,
+    private readonly _maxWaitTime: number
   ) {
     super();
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     const buffer: TSource[] = [];
-    const timer = interval(this.maxWaitTime).pipe(map(() => timerEvent));
-    const source = concat(this.source, of(ended));
+    const timer = interval(this._maxWaitTime).pipe(map(() => timerEvent));
+    const source = concat(this._source, of(ended));
     const merged = merge(source, timer);
 
     for await (const item of wrapWithAbort(merged, signal)) {
@@ -29,7 +29,7 @@ class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
       if (item !== timerEvent) {
         buffer.push(item as TSource);
       }
-      if (buffer.length >= this.bufferSize || (buffer.length && item === timerEvent)) {
+      if (buffer.length >= this._bufferSize || (buffer.length && item === timerEvent)) {
         yield buffer.slice();
         buffer.length = 0;
       }
