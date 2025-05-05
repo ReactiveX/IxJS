@@ -60,7 +60,7 @@ export class TimeoutAsyncIterable<TSource> extends AsyncIterableX<TSource> {
           it.next().then((val) => {
             return { type: VALUE_TYPE, value: val };
           }),
-          sleep(this._dueTime, signal).then(() => {
+          sleep(this._dueTime, signal, true).then(() => {
             return { type: ERROR_TYPE };
           }),
         ]);
