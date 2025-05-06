@@ -6,7 +6,7 @@ on:
 jobs:
   lint-pull-request:
     name: Lint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Setup node v22.x
         uses: actions/setup-node@v4

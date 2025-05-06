@@ -14,7 +14,7 @@ on:
 jobs:
   update:
     name: Update Docs
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container: node:16.15.1-bullseye
     steps:
       - name: Checkout main
