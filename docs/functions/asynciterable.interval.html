@@ -18,7 +18,7 @@
 <h1>Function interval</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="interval"><span class="tsd-kind-call-signature">interval</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">dueTime</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/Ix.AsyncIterable-1.html" class="tsd-signature-type tsd-kind-class">AsyncIterable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><a href="#interval" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="interval"><span class="tsd-kind-call-signature">interval</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">dueTime</span>, <span class="tsd-kind-parameter">unref</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/Ix.AsyncIterable-1.html" class="tsd-signature-type tsd-kind-class">AsyncIterable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><a href="#interval" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Produces a new item in an async-iterable at the given interval cycle time.</p>
 </div>
@@ -29,12 +29,17 @@
 <h5><span class="tsd-kind-parameter">dueTime</span>: <span class="tsd-signature-type">number</span></h5>
 <div class="tsd-comment tsd-typography"><p>The due time in milliseconds to spawn a new item.</p>
 </div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">unref</span>: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+<div class="tsd-comment tsd-typography"><p>Whether to unref the interval timer.</p>
+</div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../classes/Ix.AsyncIterable-1.html" class="tsd-signature-type tsd-kind-class">AsyncIterable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4><p>An async-iterable producing values at the specified interval.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/ReactiveX/IxJS/blob/7221be2/src/asynciterable/interval.ts#L29">asynciterable/interval.ts:29</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/ReactiveX/IxJS/blob/612fa41/src/asynciterable/interval.ts#L32">asynciterable/interval.ts:32</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
