@@ -6,7 +6,7 @@ on:
 jobs:
   build-and-test-pull-request:
     name: ${{ matrix.node }} ${{ matrix.target }} ${{ matrix.module }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -67,6 +67,7 @@ jobs:
             yarn.lock
             package.json
             tsconfig.json
+            .github/**/*
             src/**/*
             gulp/**/*
             tsconfigs/**/*

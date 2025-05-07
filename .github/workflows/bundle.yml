@@ -6,7 +6,7 @@ on:
 jobs:
   test-tree-shaking-pull-request:
     name: ${{ matrix.bundler }} ${{ matrix.target }} ${{ matrix.module }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
