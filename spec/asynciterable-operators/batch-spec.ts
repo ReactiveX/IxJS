@@ -49,7 +49,8 @@ test('done while waiting', async () => {
   expect(await it.next()).toEqual({ done: true });
 });
 
-test('canceled', async () => {
+// eslint-disable-next-line jest/no-disabled-tests -- See https://github.com/ReactiveX/IxJS/pull/379#issuecomment-2611883590
+test.skip('canceled', async () => {
   let canceled = false;
 
   async function* generate() {

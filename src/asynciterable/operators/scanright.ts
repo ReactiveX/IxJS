@@ -21,13 +21,17 @@ export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    let hasValue = false;
+
+    let hasValue = this._hasSeed;
     let acc = this._seed;
+
     const source = await toArray(this._source, signal);
+
     for (let offset = source.length - 1; offset >= 0; offset--) {
       const item = source[offset];
-      if (hasValue || (hasValue = this._hasSeed)) {
-        acc = await this._fn(<R>acc, item, offset, signal);
+
+      if (hasValue) {
+        acc = await this._fn(acc as R, item, offset, signal);
         yield acc;
       } else {
         acc = item;
@@ -47,7 +51,7 @@ export class ScanRightAsyncIterable<T, R> extends AsyncIterableX<R> {
  * @returns {OperatorAsyncFunction<T, R>} An async-enumerable sequence containing the accumulated values from the right.
  */
 export function scanRight<T, R = T>(options: ScanOptions<T, R>): OperatorAsyncFunction<T, R> {
-  return function scanRightOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<R> {
+  return function scanRightOperatorFunction(source) {
     return new ScanRightAsyncIterable(source, options);
   };
 }

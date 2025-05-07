@@ -1,9 +1,8 @@
-import { AsyncIterableInput, AsyncIterableX } from '../asynciterablex.js';
+import { AsyncIterableX } from '../asynciterablex.js';
 import { OperatorAsyncFunction } from '../../interfaces.js';
 import { wrapWithAbort } from './withabort.js';
 import { throwIfAborted } from '../../aborterror.js';
 import { FlattenConcurrentSelector } from './_flatten.js';
-import { isPromise } from '../../util/isiterable.js';
 
 class ConcatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
   constructor(
@@ -16,13 +15,13 @@ class ConcatMapAsyncIterable<TSource, TResult> extends AsyncIterableX<TResult> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let outerIndex = 0;
-    const { _thisArg: thisArg, _selector: selector } = this;
     for await (const outer of wrapWithAbort(this._source, signal)) {
-      const result = selector.call(thisArg, outer, outerIndex++, signal);
-      const values = (isPromise(result) ? await result : result) as AsyncIterableInput<TResult>;
-      for await (const inner of wrapWithAbort(AsyncIterableX.as(values), signal)) {
-        yield inner;
+      const values = await this._selector.call(this._thisArg, outer, outerIndex++, signal);
+
+      for await (const item of wrapWithAbort(AsyncIterableX.as(values), signal)) {
+        yield item;
       }
     }
   }

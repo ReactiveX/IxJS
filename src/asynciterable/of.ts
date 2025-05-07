@@ -3,16 +3,17 @@ import { throwIfAborted } from '../aborterror.js';
 
 /** @ignore */
 export class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
-  private _args: TSource[];
+  private _args: Iterable<TSource>;
 
-  constructor(args: TSource[]) {
+  constructor(args: Iterable<TSource>) {
     super();
     this._args = args;
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    for (const item of this._args) {
+
+    for await (const item of this._args) {
       yield item;
     }
   }
@@ -28,5 +29,5 @@ export class OfAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 export function of<TSource extends any[]>(
   ...args: TSource
 ): AsyncIterableX<TSource[number & keyof TSource]> {
-  return new OfAsyncIterable<TSource[number & keyof TSource]>(args);
+  return new OfAsyncIterable(args);
 }

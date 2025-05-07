@@ -26,12 +26,14 @@ export class DistinctAsyncIterable<TSource, TKey = TSource> extends AsyncIterabl
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const set = [] as TKey[];
+    const set: TKey[] = [];
 
     for await (const item of wrapWithAbort(this._source, signal)) {
       const key = await this._keySelector(item, signal);
+
       if ((await arrayIndexOfAsync(set, key, this._comparer)) === -1) {
         set.push(key);
+
         yield item;
       }
     }
@@ -49,11 +51,10 @@ export class DistinctAsyncIterable<TSource, TKey = TSource> extends AsyncIterabl
 export function distinct<TSource, TKey = TSource>(
   options?: DistinctOptions<TSource, TKey>
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function distinctOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
+  return function distinctOperatorFunction(source) {
     const { ['keySelector']: keySelector = identityAsync, ['comparer']: comparer = comparerAsync } =
       options || {};
-    return new DistinctAsyncIterable<TSource, TKey>(source, keySelector, comparer);
+
+    return new DistinctAsyncIterable(source, keySelector, comparer);
   };
 }

@@ -7,35 +7,38 @@ import { throwIfAborted } from '../aborterror.js';
  * single element in the result sequence. The seed value, if specified, is used as the initial accumulator value.
  * For aggregation behavior with incremental intermediate results, scan.
  *
- * @template T The type of the elements in the source sequence.
- * @template R The type of the result of the aggregation.
- * @param {AsyncIterable<T>} source An async-iterable sequence to aggregate over.
- * @param {ReduceOptions<T, R>} options The options which contains a callback, with optional seedn and an optional abort signal for cancellation.
- * @returns {Promise<R>} A promise with the final accumulator value.
+ * @template TSource The type of the elements in the source sequence.
+ * @template TResult The type of the result of the aggregation.
+ * @param {AsyncIterable<TSource>} source An async-iterable sequence to aggregate over.
+ * @param {ReduceOptions<TSource, TResult>} options The options which contains a callback, with optional seed and an optional abort signal for cancellation.
+ * @returns {Promise<TResult>} A promise with the final accumulator value.
  */
-export async function reduce<T, R = T>(
-  source: AsyncIterable<T>,
-  options: ReduceOptions<T, R>
-): Promise<R> {
+export async function reduce<TSource, TResult = TSource>(
+  source: AsyncIterable<TSource>,
+  options: ReduceOptions<TSource, TResult>
+): Promise<TResult> {
   const { ['seed']: seed, ['signal']: signal, ['callback']: callback } = options;
-  const hasSeed = options.hasOwnProperty('seed');
+
   throwIfAborted(signal);
+
+  let hasValue = options.hasOwnProperty('seed');
+  let acc = seed;
+
   let i = 0;
-  let hasValue = false;
-  let acc = seed as T | R;
   for await (const item of wrapWithAbort(source, signal)) {
-    if (hasValue || (hasValue = hasSeed)) {
-      acc = await callback(<R>acc, item, i++, signal);
-    } else {
-      acc = item;
+    if (!hasValue) {
+      acc = (item as unknown) as TResult;
       hasValue = true;
-      i++;
+    } else {
+      acc = await callback(acc as TResult, item, i, signal);
     }
+
+    i++;
   }
 
-  if (!(hasSeed || hasValue)) {
+  if (!hasValue) {
     throw new Error('Sequence contains no elements');
   }
 
-  return acc as R;
+  return acc as TResult;
 }

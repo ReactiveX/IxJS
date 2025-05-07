@@ -1,4 +1,3 @@
-import { AsyncIterableX } from '../asynciterablex.js';
 import { repeatValue } from '../../iterable/repeatvalue.js';
 import { CatchAllAsyncIterable } from '../catcherror.js';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
@@ -12,7 +11,7 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
  * given sequence repeatedly until it terminates successfully.
  */
 export function retry<TSource>(count = -1): MonoTypeOperatorAsyncFunction<TSource> {
-  return function retryOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new CatchAllAsyncIterable<TSource>(repeatValue<AsyncIterable<TSource>>(source, count));
+  return function retryOperatorFunction(source) {
+    return new CatchAllAsyncIterable(repeatValue(source, count));
   };
 }

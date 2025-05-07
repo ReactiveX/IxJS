@@ -1,4 +1,3 @@
-import { AsyncIterableX } from '../asynciterablex.js';
 import { concat } from '../concat.js';
 import { whileDo } from '../whiledo.js';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
@@ -14,7 +13,7 @@ import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
 export function doWhile<TSource>(
   condition: (signal?: AbortSignal) => boolean | Promise<boolean>
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function doWhileOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
+  return function doWhileOperatorFunction(source) {
     return concat(source, whileDo(source, condition));
   };
 }

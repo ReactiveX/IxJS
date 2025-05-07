@@ -14,14 +14,17 @@ export class PairwiseAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let value: TSource | undefined;
     let hasValue = false;
+
     for await (const item of wrapWithAbort(this._source, signal)) {
       if (!hasValue) {
         hasValue = true;
       } else {
         yield [value!, item];
       }
+
       value = item;
     }
   }
@@ -35,9 +38,7 @@ export class PairwiseAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
  * @returns {OperatorAsyncFunction<TSource, TSource[]>} The result sequence.
  */
 export function pairwise<TSource>(): OperatorAsyncFunction<TSource, TSource[]> {
-  return function pairwiseOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource[]> {
-    return new PairwiseAsyncIterable<TSource>(source);
+  return function pairwiseOperatorFunction(source) {
+    return new PairwiseAsyncIterable(source);
   };
 }

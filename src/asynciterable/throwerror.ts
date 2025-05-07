@@ -11,6 +11,7 @@ class ThrowAsyncIterable extends AsyncIterableX<never> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterator<never> {
     throwIfAborted(signal);
+
     throw this._error;
   }
 }

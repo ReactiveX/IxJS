@@ -16,12 +16,14 @@ export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    let currentTime;
-    let previousTime;
+
+    let last = -Infinity;
+
     for await (const item of wrapWithAbort(this._source, signal)) {
-      currentTime = Date.now();
-      if (!previousTime || currentTime - previousTime > this._time) {
-        previousTime = currentTime;
+      const now = Date.now();
+
+      if (now - last > this._time) {
+        last = now;
         yield item;
       }
     }
@@ -36,9 +38,7 @@ export class ThrottleAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} The source sequence throttled by the given timeframe.
  */
 export function throttle<TSource>(time: number): MonoTypeOperatorAsyncFunction<TSource> {
-  return function throttleOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new ThrottleAsyncIterable<TSource>(source, time);
+  return function throttleOperatorFunction(source) {
+    return new ThrottleAsyncIterable(source, time);
   };
 }

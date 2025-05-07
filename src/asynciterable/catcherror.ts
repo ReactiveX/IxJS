@@ -1,5 +1,4 @@
 import { AsyncIterableX } from './asynciterablex.js';
-import { returnAsyncIterator } from '../util/returniterator.js';
 import { wrapWithAbort } from './operators/withabort.js';
 import { throwIfAborted } from '../aborterror.js';
 
@@ -19,29 +18,16 @@ export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     let hasError = false;
 
     for (const source of this._source) {
-      const it = wrapWithAbort(source, signal)[Symbol.asyncIterator]();
-
       error = null;
       hasError = false;
 
-      while (1) {
-        let c = <TSource>{};
-
-        try {
-          const { done, value } = await it.next();
-          if (done) {
-            await returnAsyncIterator(it);
-            break;
-          }
-          c = value;
-        } catch (e) {
-          error = e;
-          hasError = true;
-          await returnAsyncIterator(it);
-          break;
+      try {
+        for await (const item of wrapWithAbort(source, signal)) {
+          yield item;
         }
-
-        yield c;
+      } catch (e) {
+        error = e;
+        hasError = true;
       }
 
       if (!hasError) {
@@ -64,7 +50,7 @@ export class CatchAllAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * sequences until a source sequence terminates successfully.
  */
 export function catchAll<T>(source: Iterable<AsyncIterable<T>>): AsyncIterableX<T> {
-  return new CatchAllAsyncIterable<T>(source);
+  return new CatchAllAsyncIterable(source);
 }
 
 /**
@@ -76,5 +62,5 @@ export function catchAll<T>(source: Iterable<AsyncIterable<T>>): AsyncIterableX<
  * sequences until a source sequence terminates successfully.
  */
 export function catchError<T>(...args: AsyncIterable<T>[]): AsyncIterableX<T> {
-  return new CatchAllAsyncIterable<T>(args);
+  return new CatchAllAsyncIterable(args);
 }

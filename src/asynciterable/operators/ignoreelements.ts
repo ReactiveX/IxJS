@@ -28,9 +28,7 @@ export class IgnoreElementsAsyncIterable<TSource> extends AsyncIterableX<TSource
  * that signals termination, successful or exceptional, of the source sequence.
  */
 export function ignoreElements<TSource>(): MonoTypeOperatorAsyncFunction<TSource> {
-  return function ignoreElementsOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new IgnoreElementsAsyncIterable<TSource>(source);
+  return function ignoreElementsOperatorFunction(source) {
+    return new IgnoreElementsAsyncIterable(source);
   };
 }

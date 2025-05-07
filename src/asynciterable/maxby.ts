@@ -20,5 +20,6 @@ export function maxBy<TSource, TKey>(
     ['selector']: selector,
     ['signal']: signal,
   } = options || {};
+
   return extremaBy(source, selector!, comparer, signal);
 }

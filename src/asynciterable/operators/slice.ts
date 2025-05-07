@@ -7,33 +7,34 @@ import { throwIfAborted } from '../../aborterror.js';
 export class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   private _source: AsyncIterable<TSource>;
   private _begin: number;
-  private _end: number;
+  private _count: number;
 
-  constructor(source: AsyncIterable<TSource>, begin: number, end: number) {
+  constructor(source: AsyncIterable<TSource>, begin: number, count: number) {
     super();
     this._source = source;
     this._begin = begin;
-    this._end = end;
+    this._count = count;
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const source = wrapWithAbort(this._source, signal);
-    const it = source[Symbol.asyncIterator]();
-    let begin = this._begin;
-    let next;
-    while (begin > 0 && !(next = await it.next()).done) {
-      begin--;
-    }
 
-    let end = this._end;
-    if (end > 0) {
-      while (!(next = await it.next()).done) {
-        yield next.value;
-        if (--end === 0) {
-          break;
-        }
+    const source = wrapWithAbort(this._source, signal);
+
+    let i = 0;
+    for await (const item of source) {
+      if (i < this._begin) {
+        i++;
+        continue;
       }
+
+      if (i >= this._begin + this._count) {
+        break;
+      }
+
+      yield item;
+
+      i++;
     }
   }
 }
@@ -42,15 +43,15 @@ export class SliceAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * Returns the elements from the source async-iterable sequence only after the function that returns a promise produces an element.
  *
  * @template TSource The type of elements in the source sequence.
- * @param {number} begin Zero-based index at which to begin extraction.
- * @param {number} [end=Infinity] Zero-based index before which to end extraction.
+ * @param {number} begin Zero-based index at which to begin extraction (inclusive).
+ * @param {number} [count=Infinity] The number of items to extract.
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} An async-iterable containing the extracted elements.
  */
 export function slice<TSource>(
   begin: number,
-  end = Infinity
+  count = Infinity
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function sliceOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new SliceAsyncIterable<TSource>(source, begin, end);
+  return function sliceOperatorFunction(source) {
+    return new SliceAsyncIterable(source, begin, count);
   };
 }

@@ -290,8 +290,7 @@ export class FromPromiseIterable<TSource, TResult = TSource> extends AsyncIterab
   }
 
   async *[Symbol.asyncIterator]() {
-    const item = await this._source;
-    yield await this._selector(item, 0);
+    yield await this._selector(await this._source, 0);
   }
 }
 

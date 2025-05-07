@@ -24,7 +24,8 @@ export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const map = [] as TSource[];
+
+    const map: TSource[] = [];
     for await (const secondItem of wrapWithAbort(this._second, signal)) {
       map.push(secondItem);
     }
@@ -32,6 +33,7 @@ export class ExceptAsyncIterable<TSource> extends AsyncIterableX<TSource> {
     for await (const firstItem of wrapWithAbort(this._first, signal)) {
       if ((await arrayIndexOfAsync(map, firstItem, this._comparer)) === -1) {
         map.push(firstItem);
+
         yield firstItem;
       }
     }
@@ -52,7 +54,7 @@ export function except<TSource>(
   second: AsyncIterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function exceptOperatorFunction(first: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new ExceptAsyncIterable<TSource>(first, second, comparer);
+  return function exceptOperatorFunction(first) {
+    return new ExceptAsyncIterable(first, second, comparer);
   };
 }
