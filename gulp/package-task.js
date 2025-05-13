@@ -4,6 +4,8 @@ import gulp from 'gulp';
 import { memoizeTask } from './memoize-task.js';
 import { EMPTY as ObservableEmpty, forkJoin as ObservableForkJoin } from 'rxjs';
 import gulpJsonTransform from 'gulp-json-transform';
+import { sync as globSync } from 'glob';
+import path from 'node:path';
 
 export const packageTask = ((cache) => memoizeTask(cache, function bundle(target, format) {
     if (target === `src`) return ObservableEmpty();
@@ -19,6 +21,27 @@ export const packageTask = ((cache) => memoizeTask(cache, function bundle(target
 }))({});
 
 export default packageTask;
+
+function createSideEffectsList() {
+    const patterns = ['add/**/*.ts', 'asynciterable/todomstream.ts'];
+
+    const tsFilePaths = globSync(patterns.map((p) => `./src/${p}`));
+
+    // Generate .mjs and .js paths for each .ts file
+    const sideEffectPaths = [];
+    for (const filePath of tsFilePaths) {
+        // Get the relative path from srcDir to the file
+        const relativePath = path.relative('./src', filePath);
+        // Normalize path separators to forward slashes
+        const normalizedPath = relativePath.replace(/\\/g, '/');
+        // Remove the .ts extension and add .mjs and .js
+        const basePath = normalizedPath.replace(/\.ts$/, '');
+        sideEffectPaths.push(`./${basePath}.mjs`);
+        sideEffectPaths.push(`./${basePath}.js`);
+    }
+
+    return sideEffectPaths;
+}
 
 const createMainPackageJson = (target, format) => (orig) => ({
     ...createTypeScriptPackageJson(target, format)(orig),
@@ -48,7 +71,7 @@ const createMainPackageJson = (target, format) => (orig) => ({
         },
         './*': createDualExport('*'),
     },
-    sideEffects: false,
+    sideEffects: createSideEffectsList(),
     esm: { mode: `all`, sourceMap: true }
 });
 
@@ -60,7 +83,7 @@ const createTypeScriptPackageJson = (target, format) => (orig) => ({
     types: `node.ts`,
     browser: `dom.ts`,
     type: 'module',
-    sideEffects: false,
+    sideEffects: createSideEffectsList(),
     esm: { mode: `auto`, sourceMap: true },
     dependencies: {
         '@types/node': '*',
@@ -88,7 +111,7 @@ const createScopedPackageJSON = (target, format) => (({ name, ...orig }) =>
             // set "module" if building scoped ESM target
             module: format === 'esm' || format === 'cls' ? `node.js` : undefined,
             // set "sideEffects" to false as a hint to Webpack that it's safe to tree-shake the ESM target
-            sideEffects: format === 'esm' || format === 'cls' ? false : undefined,
+            sideEffects: format === 'esm' || format === 'cls' ? createSideEffectsList() : undefined,
             // include "esm" settings for https://www.npmjs.com/package/esm if building scoped ESM target
             esm: format === `esm` ? { mode: `auto`, sourceMap: true } : undefined,
             // set "types" to "dom" if building scoped UMD target, otherwise "node"
