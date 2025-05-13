@@ -3,6 +3,7 @@ import { AsyncIterableX, interval, concat, of } from '../index.js';
 import { map } from './map.js';
 import { merge } from '../merge.js';
 import { wrapWithAbort } from './withabort.js';
+import type { bufferCountWithDebounce } from './buffercountwithdebounce.js'; // Used only in jsdoc
 
 const timerEvent = {};
 const ended = {};
@@ -44,6 +45,8 @@ class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
 /**
  * Projects each element of an async-iterable sequence into consecutive buffers
  * which are emitted when either the threshold count or time is met.
+ *
+ * @see https://github.com/ReactiveX/IxJS/pull/380 for the difference between {@link bufferCountOrTime} and {@link bufferCountWithDebounce}.
  *
  * @template TSource The type of elements in the source sequence.
  * @param {number} count The size of the buffer.

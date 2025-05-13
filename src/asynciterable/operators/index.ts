@@ -1,6 +1,7 @@
 export * from './batch.js';
 export * from './buffer.js';
 export * from './buffercountortime.js';
+export * from './buffercountwithdebounce.js';
 export * from './catcherror.js';
 export * from './combinelatestwith.js';
 export * from './concatall.js';
