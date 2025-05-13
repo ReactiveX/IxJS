@@ -8,7 +8,7 @@ export function mergeAllProto<T>(
   this: AsyncIterableX<AsyncIterable<T>>,
   concurrent = Infinity
 ): AsyncIterableX<T> {
-  return mergeAll(concurrent)(this);
+  return mergeAll<T>(concurrent)(this);
 }
 
 AsyncIterableX.prototype.mergeAll = mergeAllProto;

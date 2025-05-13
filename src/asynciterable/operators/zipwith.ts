@@ -10,6 +10,7 @@ import { ZipAsyncIterable } from '../zip.js';
  * @returns {OperatorAsyncFunction<T, [T, T2]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
  */
 export function zipWith<T, T2>(source2: AsyncIterable<T2>): OperatorAsyncFunction<T, [T, T2]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
@@ -24,6 +25,7 @@ export function zipWith<T, T2, T3>(
   source2: AsyncIterable<T2>,
   source3: AsyncIterable<T3>
 ): OperatorAsyncFunction<T, [T, T2, T3]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
@@ -41,6 +43,7 @@ export function zipWith<T, T2, T3, T4>(
   source3: AsyncIterable<T3>,
   source4: AsyncIterable<T4>
 ): OperatorAsyncFunction<T, [T, T2, T3, T4]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
@@ -62,6 +65,7 @@ export function zipWith<T, T2, T3, T4, T5>(
   source4: AsyncIterable<T4>,
   source5: AsyncIterable<T5>
 ): OperatorAsyncFunction<T, [T, T2, T3, T4, T5]>;
+
 /**
  * Merges multiple async-iterable sequences into one async-iterable sequence by combining their elements in a pairwise fashion.
  *
@@ -95,8 +99,8 @@ export function zipWith<T, T2, T3, T4, T5, T6>(
  * @returns {AsyncIterableX<T[]>} Async iterable with an array of each element from the source sequences in a pairwise fashion.
  */
 export function zipWith<T>(...sources: AsyncIterable<T>[]): OperatorAsyncFunction<T, T[]>;
-export function zipWith<T>(...sources: any[]): OperatorAsyncFunction<T, T[]> {
-  return function zipWithOperatorFunction(source: AsyncIterable<T>) {
-    return new ZipAsyncIterable<T>([source, ...sources]);
+export function zipWith<T>(...sources: AsyncIterable<T>[]): OperatorAsyncFunction<T, T[]> {
+  return function zipWithOperatorFunction(source) {
+    return new ZipAsyncIterable([source, ...sources]);
   };
 }

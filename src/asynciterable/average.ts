@@ -42,9 +42,12 @@ export async function average(
     ['signal']: signal,
     ['thisArg']: thisArg,
   } = options || {};
+
   throwIfAborted(signal);
+
   let sum = 0;
   let count = 0;
+
   for await (const item of wrapWithAbort(source, signal)) {
     sum += await selector.call(thisArg, item, signal);
     count++;

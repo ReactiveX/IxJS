@@ -1,4 +1,3 @@
-import { AsyncIterableX } from '../asynciterablex.js';
 import { map } from './map.js';
 import { OperatorAsyncFunction } from '../../interfaces.js';
 
@@ -30,9 +29,7 @@ function plucker(props: string[], length: number): (x: any) => any {
 export function pluck<TSource, TResult>(
   ...args: string[]
 ): OperatorAsyncFunction<TSource, TResult> {
-  return function pluckOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TResult> {
-    return map<TSource, TResult>(
-      (plucker(args, args.length) as any) as (value: TSource) => TResult
-    )(source);
+  return function pluckOperatorFunction(source) {
+    return map(plucker(args, args.length) as (value: TSource) => TResult)(source);
   };
 }

@@ -1,4 +1,3 @@
-import { AsyncIterableX } from '../asynciterablex.js';
 import { RefCountList } from '../../iterable/operators/_refcountlist.js';
 import { create } from '../create.js';
 import { OperatorAsyncFunction } from '../../interfaces.js';
@@ -14,6 +13,7 @@ class PublishedAsyncBuffer<T> extends MemoizeAsyncBuffer<T> {
 
   [Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     this._buffer.readerCount++;
     return this._getIterable(this._buffer.count)[Symbol.asyncIterator]();
   }
@@ -28,6 +28,7 @@ class PublishedAsyncBuffer<T> extends MemoizeAsyncBuffer<T> {
  * the shared source sequence, starting from the index at the point of obtaining the enumerator.
  */
 export function publish<TSource>(): OperatorAsyncFunction<TSource, TSource>;
+
 /**
  * Buffer enabling each iterator to retrieve elements from the shared source sequence, starting from the
  * index at the point of obtaining the iterator.
@@ -42,6 +43,7 @@ export function publish<TSource>(): OperatorAsyncFunction<TSource, TSource>;
 export function publish<TSource, TResult>(
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TResult>;
+
 /**
  * Buffer enabling each iterator to retrieve elements from the shared source sequence, starting from the
  * index at the point of obtaining the iterator.
@@ -56,11 +58,9 @@ export function publish<TSource, TResult>(
 export function publish<TSource, TResult>(
   selector?: (value: AsyncIterable<TSource>) => AsyncIterable<TResult>
 ): OperatorAsyncFunction<TSource, TSource | TResult> {
-  return function publishOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource | TResult> {
+  return function publishOperatorFunction(source) {
     return selector
       ? create(async () => selector(publish<TSource>()(source))[Symbol.asyncIterator]())
-      : new PublishedAsyncBuffer<TSource>(source[Symbol.asyncIterator]());
+      : new PublishedAsyncBuffer(source[Symbol.asyncIterator]());
   };
 }

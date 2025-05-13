@@ -14,6 +14,7 @@ class IntervalAsyncIterable extends AsyncIterableX<number> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let i = 0;
     while (1) {
       await sleep(this._dueTime, signal, this._unref);

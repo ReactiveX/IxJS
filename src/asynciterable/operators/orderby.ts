@@ -15,6 +15,7 @@ export abstract class OrderedAsyncIterableBaseX<TSource> extends AsyncIterableX<
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     const array = await toArray(this._source, signal);
     const len = array.length;
     const indices = new Array<number>(len);
@@ -182,14 +183,8 @@ export function thenByDescending<TKey, TSource>(
   keySelector: (item: TSource) => TKey,
   comparer: (fst: TKey, snd: TKey) => number = defaultSorter
 ): UnaryFunction<AsyncIterable<TSource>, OrderedAsyncIterableX<TKey, TSource>> {
-  return function thenByDescendingOperatorFunction(source: AsyncIterable<TSource>) {
-    const orderSource = <OrderedAsyncIterableBaseX<TSource>>source;
-    return new OrderedAsyncIterableX<TKey, TSource>(
-      orderSource._source,
-      keySelector,
-      comparer,
-      true,
-      orderSource
-    );
+  return function thenByDescendingOperatorFunction(source) {
+    const orderSource = source as OrderedAsyncIterableBaseX<TSource>;
+    return new OrderedAsyncIterableX(orderSource._source, keySelector, comparer, true, orderSource);
   };
 }

@@ -1,7 +1,7 @@
 import { wrapWithAbort } from './operators/withabort.js';
 import { AsyncIterableX } from './asynciterablex.js';
-import { returnAsyncIterator } from '../util/returniterator.js';
 import { throwIfAborted } from '../aborterror.js';
+import { returnAsyncIterators } from '../util/returniterator.js';
 
 /** @ignore */
 export class ZipAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
@@ -15,19 +15,25 @@ export class ZipAsyncIterable<TSource> extends AsyncIterableX<TSource[]> {
   // eslint-disable-next-line consistent-return
   async *[Symbol.asyncIterator](signal?: AbortSignal): AsyncIterableIterator<TSource[]> {
     throwIfAborted(signal);
-    const sourcesLength = this._sources.length;
-    const its = this._sources.map((x) => wrapWithAbort(x, signal)[Symbol.asyncIterator]());
-    while (sourcesLength > 0) {
-      const values = new Array(sourcesLength);
-      for (let i = -1; ++i < sourcesLength; ) {
-        const { value, done } = await its[i].next();
-        if (done) {
-          await Promise.all(its.map(returnAsyncIterator));
-          return undefined;
+
+    if (this._sources.length === 0) {
+      return;
+    }
+
+    const iterators = this._sources.map((x) => wrapWithAbort(x, signal)[Symbol.asyncIterator]());
+
+    try {
+      while (1) {
+        const results = await Promise.all(iterators.map((x) => x.next()));
+
+        if (results.some(({ done }) => done)) {
+          return;
         }
-        values[i] = value;
+
+        yield results.map(({ value }) => value);
       }
-      yield values;
+    } finally {
+      await returnAsyncIterators(iterators);
     }
   }
 }
@@ -137,5 +143,5 @@ export function zip<T, T2, T3, T4, T5, T6>(
  */
 export function zip<T>(...sources: AsyncIterable<T>[]): AsyncIterableX<T[]>;
 export function zip<T>(...sources: any[]): AsyncIterableX<T[]> {
-  return new ZipAsyncIterable<T>(sources);
+  return new ZipAsyncIterable(sources);
 }

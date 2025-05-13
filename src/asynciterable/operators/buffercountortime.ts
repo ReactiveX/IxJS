@@ -27,9 +27,11 @@ class BufferCountOrTime<TSource> extends AsyncIterableX<TSource[]> {
       if (item === ended) {
         break;
       }
+
       if (item !== timerEvent) {
         buffer.push(item as TSource);
       }
+
       if (buffer.length >= this.bufferSize || (buffer.length && item === timerEvent)) {
         yield buffer.slice();
         buffer.length = 0;
@@ -58,9 +60,7 @@ export function bufferCountOrTime<TSource>(
   count: number,
   time: number
 ): OperatorAsyncFunction<TSource, TSource[]> {
-  return function bufferOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource[]> {
-    return new BufferCountOrTime<TSource>(source, count, time);
+  return function bufferOperatorFunction(source) {
+    return new BufferCountOrTime(source, count, time);
   };
 }

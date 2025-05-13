@@ -14,9 +14,11 @@ export async function toSet<TSource>(
   signal?: AbortSignal
 ): Promise<Set<TSource>> {
   throwIfAborted(signal);
+
   const set = new Set<TSource>();
   for await (const item of wrapWithAbort(source, signal)) {
     set.add(item);
   }
+
   return set;
 }

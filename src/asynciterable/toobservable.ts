@@ -65,5 +65,5 @@ class AsyncIterableObservable<TSource> implements Observable<TSource> {
  * @returns {Observable<TSource>} The observable containing the elements from the async-iterable.
  */
 export function toObservable<TSource>(source: AsyncIterable<TSource>): Observable<TSource> {
-  return new AsyncIterableObservable<TSource>(source);
+  return new AsyncIterableObservable(source);
 }

@@ -27,17 +27,17 @@ export class DistinctUntilChangedAsyncIterable<TSource, TKey = TSource> extends 
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     let currentKey: TKey | undefined;
     let hasCurrentKey = false;
+
     for await (const item of wrapWithAbort(this._source, signal)) {
       const key = await this._keySelector(item, signal);
-      let comparerEquals = false;
-      if (hasCurrentKey) {
-        comparerEquals = await this._comparer(currentKey!, key);
-      }
-      if (!hasCurrentKey || !comparerEquals) {
+
+      if (!hasCurrentKey || !(await this._comparer(currentKey as TKey, key))) {
         hasCurrentKey = true;
         currentKey = key;
+
         yield item;
       }
     }
@@ -55,11 +55,10 @@ export class DistinctUntilChangedAsyncIterable<TSource, TKey = TSource> extends 
 export function distinctUntilChanged<TSource, TKey = TSource>(
   options?: DistinctOptions<TSource, TKey>
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function distinctUntilChangedOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
+  return function distinctUntilChangedOperatorFunction(source) {
     const { ['keySelector']: keySelector = identityAsync, ['comparer']: comparer = comparerAsync } =
       options || {};
-    return new DistinctUntilChangedAsyncIterable<TSource, TKey>(source, keySelector, comparer);
+
+    return new DistinctUntilChangedAsyncIterable(source, keySelector, comparer);
   };
 }

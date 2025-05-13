@@ -14,11 +14,16 @@ export class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const results = [] as TSource[];
+
+    const results: TSource[] = [];
+
     for await (const item of wrapWithAbort(this._source, signal)) {
       results.unshift(item);
     }
-    yield* results;
+
+    for await (const item of results) {
+      yield item;
+    }
   }
 }
 
@@ -29,7 +34,7 @@ export class ReverseAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @returns {MonoTypeOperatorAsyncFunction<TSource>} The async-iterable in reversed sequence.
  */
 export function reverse<TSource>(): MonoTypeOperatorAsyncFunction<TSource> {
-  return function reverseOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new ReverseAsyncIterable<TSource>(source);
+  return function reverseOperatorFunction(source) {
+    return new ReverseAsyncIterable(source);
   };
 }

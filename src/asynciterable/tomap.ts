@@ -17,12 +17,14 @@ export interface ToMapOptions<TSource, TKey, TElement> {
    * @memberof ToMapOptions
    */
   keySelector: (item: TSource, signal?: AbortSignal) => TKey | Promise<TKey>;
+
   /**
    * The selector used to get the element for the Map.
    *
    * @memberof ToMapOptions
    */
   elementSelector?: (item: TSource, signal?: AbortSignal) => TElement | Promise<TElement>;
+
   /**
    * An optional abort signal to cancel the operation at any time.
    *
@@ -48,15 +50,18 @@ export async function toMap<TSource, TKey, TElement = TSource>(
 ): Promise<Map<TKey, TElement | TSource>> {
   const {
     ['signal']: signal,
-    ['elementSelector']: elementSelector = identityAsync as any,
-    ['keySelector']: keySelector = identityAsync as any,
+    ['elementSelector']: elementSelector = identityAsync,
+    ['keySelector']: keySelector = identityAsync,
   } = options || {};
+
   throwIfAborted(signal);
+
   const map = new Map<TKey, TElement | TSource>();
   for await (const item of wrapWithAbort(source, signal)) {
-    const value = await elementSelector!(item, signal);
+    const value = await elementSelector(item, signal);
     const key = await keySelector(item, signal);
     map.set(key, value);
   }
+
   return map;
 }

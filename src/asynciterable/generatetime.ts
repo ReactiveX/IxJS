@@ -26,6 +26,7 @@ class GenerateTimeAsyncIterable<TState, TResult> extends AsyncIterableX<TResult>
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     for (
       let i = this._initialState;
       await this._condition(i, signal);
@@ -58,7 +59,7 @@ export function generateTime<TState, TResult>(
   resultSelector: (value: TState, signal?: AbortSignal) => TResult | Promise<TResult>,
   timeSelector: (value: TState, signal?: AbortSignal) => number | Promise<number>
 ): AsyncIterableX<TResult> {
-  return new GenerateTimeAsyncIterable<TState, TResult>(
+  return new GenerateTimeAsyncIterable(
     initialState,
     condition,
     iterate,

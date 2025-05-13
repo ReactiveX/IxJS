@@ -12,11 +12,13 @@ async function arrayRemove<T>(
   signal?: AbortSignal
 ): Promise<boolean> {
   throwIfAborted(signal);
+
   const idx = await arrayIndexOfAsync(array, item, comparer);
   if (idx === -1) {
     return false;
   }
   array.splice(idx, 1);
+
   return true;
 }
 
@@ -38,7 +40,8 @@ export class IntersectAsyncIterable<TSource> extends AsyncIterableX<TSource> {
   }
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
-    const map = [] as TSource[];
+    const map: TSource[] = [];
+
     for await (const secondItem of wrapWithAbort(this._second, signal)) {
       map.push(secondItem);
     }
@@ -65,9 +68,7 @@ export function intersect<TSource>(
   second: AsyncIterable<TSource>,
   comparer: (x: TSource, y: TSource) => boolean | Promise<boolean> = comparerAsync
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function intersectOperatorFunction(
-    first: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new IntersectAsyncIterable<TSource>(first, second, comparer);
+  return function intersectOperatorFunction(first) {
+    return new IntersectAsyncIterable(first, second, comparer);
   };
 }

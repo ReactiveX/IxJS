@@ -18,7 +18,8 @@ export class GroupedAsyncIterable<TKey, TValue> extends AsyncIterableX<TValue> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    for (const item of this._source) {
+
+    for await (const item of this._source) {
       yield item;
     }
   }
@@ -45,14 +46,16 @@ export class GroupByAsyncIterable<TSource, TKey, TValue> extends AsyncIterableX<
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     const map = await createGrouping(
       this._source,
       this._keySelector,
       this._elementSelector,
       signal
     );
+
     for (const [key, values] of map) {
-      yield new GroupedAsyncIterable<TKey, TValue>(key, values);
+      yield new GroupedAsyncIterable(key, values);
     }
   }
 }
@@ -85,9 +88,7 @@ export function groupBy<TSource, TKey, TValue>(
     signal?: AbortSignal
   ) => TValue | Promise<TValue> = identityAsync
 ): OperatorAsyncFunction<TSource, GroupedAsyncIterable<TKey, TValue>> {
-  return function groupByOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<GroupedAsyncIterable<TKey, TValue>> {
-    return new GroupByAsyncIterable<TSource, TKey, TValue>(source, keySelector, elementSelector);
+  return function groupByOperatorFunction(source) {
+    return new GroupByAsyncIterable(source, keySelector, elementSelector);
   };
 }

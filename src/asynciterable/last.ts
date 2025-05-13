@@ -18,11 +18,13 @@ export async function last<T>(
 ): Promise<T | undefined> {
   const { ['signal']: signal, ['thisArg']: thisArg, ['predicate']: predicate = async () => true } =
     options || {};
+
   throwIfAborted(signal);
+
   let i = 0;
   let result: T | undefined;
   for await (const item of wrapWithAbort(source, signal)) {
-    if (await predicate!.call(thisArg, item, i++, signal)) {
+    if (await predicate.call(thisArg, item, i++, signal)) {
       result = item;
     }
   }

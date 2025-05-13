@@ -11,8 +11,10 @@ import { throwIfAborted } from '../aborterror.js';
  */
 export async function isEmpty<T>(source: AsyncIterable<T>, signal?: AbortSignal): Promise<boolean> {
   throwIfAborted(signal);
+
   for await (const _ of wrapWithAbort(source, signal)) {
     return false;
   }
+
   return true;
 }

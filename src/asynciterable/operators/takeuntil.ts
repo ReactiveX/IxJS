@@ -2,9 +2,9 @@ import { AsyncIterableX } from '../asynciterablex.js';
 import { MonoTypeOperatorAsyncFunction } from '../../interfaces.js';
 import { wrapWithAbort } from './withabort.js';
 import { throwIfAborted } from '../../aborterror.js';
-import { safeRace } from '../../util/safeRace.js';
+import { merge } from '../merge.js';
 
-const DONE_PROMISE_VALUE = undefined;
+const doneEvent = {};
 
 /** @ignore */
 export class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
@@ -19,15 +19,17 @@ export class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const donePromise = this._other(signal).then(() => DONE_PROMISE_VALUE);
-    const itemsAsyncIterator = wrapWithAbort(this._source, signal)[Symbol.asyncIterator]();
-    for (;;) {
-      const itemPromise = itemsAsyncIterator.next();
-      const result = await safeRace([donePromise, itemPromise]);
-      if (result === DONE_PROMISE_VALUE || result.done) {
+
+    const done = AsyncIterableX.as(this._other(signal).then(() => doneEvent));
+    const source = wrapWithAbort(this._source, signal);
+    const merged = merge(source, done);
+
+    for await (const item of merged) {
+      if (item === doneEvent) {
         break;
       }
-      yield result.value;
+
+      yield item as TSource;
     }
   }
 }
@@ -45,9 +47,7 @@ export class TakeUntilAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 export function takeUntil<TSource>(
   other: (signal?: AbortSignal) => Promise<any>
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function takeUntilOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new TakeUntilAsyncIterable<TSource>(source, other);
+  return function takeUntilOperatorFunction(source) {
+    return new TakeUntilAsyncIterable(source, other);
   };
 }

@@ -15,8 +15,9 @@ export class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    for (const x of this._args) {
-      yield x;
+
+    for await (const item of this._args) {
+      yield item;
     }
     for await (const item of wrapWithAbort(this._source, signal)) {
       yield item;
@@ -31,10 +32,12 @@ export class StartWithAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * @param {...TSource[]} args Elements to prepend to the specified sequence.
  * @returns The source sequence prepended with the specified values.
  */
-export function startWith<TSource extends any[]>(...args: TSource) {
-  return function startWithOperatorFunction<TInput>(
-    source: AsyncIterable<TInput>
-  ): AsyncIterableX<TInput | TSource[number & keyof TSource]> {
-    return new StartWithAsyncIterable<TInput | TSource[number & keyof TSource]>(source, args);
+export function startWith<TSource extends any[]>(
+  ...args: TSource
+): <TInput>(
+  source: AsyncIterable<TInput>
+) => AsyncIterableX<TInput | TSource[number & keyof TSource]> {
+  return function startWithOperatorFunction(source) {
+    return new StartWithAsyncIterable(source, args);
   };
 }

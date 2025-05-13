@@ -25,9 +25,11 @@ export class ExpandAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     const q = [this._source];
     while (q.length > 0) {
       const src = q.shift();
+
       for await (const item of wrapWithAbort(src!, signal)) {
         const items = await this._selector(item, signal);
         q.push(items);
@@ -54,7 +56,7 @@ export function expand<TSource>(
     signal?: AbortSignal
   ) => AsyncIterable<TSource> | Promise<AsyncIterable<TSource>>
 ): MonoTypeOperatorAsyncFunction<TSource> {
-  return function expandOperatorFunction(source: AsyncIterable<TSource>): AsyncIterableX<TSource> {
-    return new ExpandAsyncIterable<TSource>(source, selector);
+  return function expandOperatorFunction(source) {
+    return new ExpandAsyncIterable(source, selector);
   };
 }

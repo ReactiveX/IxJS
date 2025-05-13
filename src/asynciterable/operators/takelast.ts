@@ -16,12 +16,15 @@ export class TakeLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
+
     if (this._count > 0) {
-      const q = [] as TSource[];
+      const q: TSource[] = [];
+
       for await (const item of wrapWithAbort(this._source, signal)) {
         if (q.length >= this._count) {
           q.shift();
         }
+
         q.push(item);
       }
 
@@ -41,9 +44,7 @@ export class TakeLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * number of elements from the end of the source sequence.
  */
 export function takeLast<TSource>(count: number): MonoTypeOperatorAsyncFunction<TSource> {
-  return function takeLastOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new TakeLastAsyncIterable<TSource>(source, count);
+  return function takeLastOperatorFunction(source) {
+    return new TakeLastAsyncIterable(source, count);
   };
 }

@@ -16,9 +16,11 @@ export class SkipLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    const q = [] as TSource[];
+
+    const q: TSource[] = [];
     for await (const item of wrapWithAbort(this._source, signal)) {
       q.push(item);
+
       if (q.length > this._count) {
         yield q.shift()!;
       }
@@ -35,9 +37,7 @@ export class SkipLastAsyncIterable<TSource> extends AsyncIterableX<TSource> {
  * source sequence elements except for the bypassed ones at the end.
  */
 export function skipLast<TSource>(count: number): MonoTypeOperatorAsyncFunction<TSource> {
-  return function skipLastOperatorFunction(
-    source: AsyncIterable<TSource>
-  ): AsyncIterableX<TSource> {
-    return new SkipLastAsyncIterable<TSource>(source, count);
+  return function skipLastOperatorFunction(source) {
+    return new SkipLastAsyncIterable(source, count);
   };
 }

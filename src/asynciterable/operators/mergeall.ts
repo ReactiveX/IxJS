@@ -1,3 +1,4 @@
+import { OperatorAsyncFunction } from '../../interfaces.js';
 import { FlattenConcurrentAsyncIterable } from './_flatten.js';
 
 /**
@@ -6,8 +7,10 @@ import { FlattenConcurrentAsyncIterable } from './_flatten.js';
  * @template TSource The type of the elements in the source sequences.
  * @returns {OperatorAsyncFunction<AsyncIterable<TSource>, TSource>} The async-iterable sequence that merges the elements of the inner sequences.
  */
-export function mergeAll(concurrent = Infinity) {
-  return function mergeAllOperatorFunction<TSource>(source: AsyncIterable<AsyncIterable<TSource>>) {
+export function mergeAll<TSource>(
+  concurrent = Infinity
+): OperatorAsyncFunction<AsyncIterable<TSource>, TSource> {
+  return function mergeAllOperatorFunction(source) {
     return new FlattenConcurrentAsyncIterable(source, (s) => s, concurrent, false);
   };
 }

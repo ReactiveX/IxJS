@@ -36,7 +36,9 @@ export async function sum(source: AsyncIterable<any>, options?: MathOptions<any>
     ['signal']: signal,
     ['thisArg']: thisArg,
   } = options || {};
+
   throwIfAborted(signal);
+
   let value = 0;
   for await (const item of wrapWithAbort(source, signal)) {
     value += await selector.call(thisArg, item, signal);

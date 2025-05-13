@@ -16,12 +16,14 @@ export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource
 
   async *[Symbol.asyncIterator](signal?: AbortSignal) {
     throwIfAborted(signal);
-    let state = 1;
+
+    let hasValue = false;
     for await (const item of wrapWithAbort(this._source, signal)) {
-      state = 2;
+      hasValue = true;
       yield item;
     }
-    if (state === 1) {
+
+    if (!hasValue) {
       yield this._defaultValue;
     }
   }
@@ -36,7 +38,7 @@ export class DefaultIfEmptyAsyncIterable<TSource> extends AsyncIterableX<TSource
  * @returns {MonoTypeOperatorAsyncFunction<T>} An operator which returns the elements of the source sequence or the default value as a singleton.
  */
 export function defaultIfEmpty<T>(defaultValue: T): MonoTypeOperatorAsyncFunction<T> {
-  return function defaultIfEmptyOperatorFunction(source: AsyncIterable<T>): AsyncIterableX<T> {
-    return new DefaultIfEmptyAsyncIterable<T>(source, defaultValue);
+  return function defaultIfEmptyOperatorFunction(source) {
+    return new DefaultIfEmptyAsyncIterable(source, defaultValue);
   };
 }
